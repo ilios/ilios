@@ -19,19 +19,17 @@ use App\Repository\CurriculumInventoryAcademicLevelRepository;
 
 /**
  * Class CurriculumInventoryAcademicLevel
- *
- * @ORM\Table(name="curriculum_inventory_academic_level",
  *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="report_id_level", columns={"report_id", "level"})
  *   },
  *   indexes={
- *     @ORM\Index(name="IDX_B4D3296D4BD2A4C0", columns={"report_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass=CurriculumInventoryAcademicLevelRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_academic_level')]
+#[ORM\UniqueConstraint(name: 'report_id_level', columns: ['report_id', 'level'])]
+#[ORM\Index(name: 'IDX_B4D3296D4BD2A4C0', columns: ['report_id'])]
+#[ORM\Entity(repositoryClass: CurriculumInventoryAcademicLevelRepository::class)]
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
     use IdentifiableEntity;
@@ -39,93 +37,68 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     use DescribableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(name="academic_level_id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Id]
+    #[ORM\Column(name: 'academic_level_id', type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=50)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 50
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-     *
-    */
+     */
+    #[ORM\Column(type: 'string', length: 50)]
     protected $name;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="level", type="integer")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'level', type: 'integer')]
     protected $level;
-
     /**
      * @var CurriculumInventoryReportInterface
-     *
-     * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="academicLevels")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="cascade")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'academicLevels')]
+    #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
     protected $report;
-
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="academicLevel")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'academicLevel')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
-
     /**
      * Constructor
      */
@@ -133,7 +106,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     {
         $this->sequenceBlocks = new ArrayCollection();
     }
-
     /**
      * @param int $level
      */
@@ -141,7 +113,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     {
         $this->level = $level;
     }
-
     /**
      * @return int
      */
@@ -149,7 +120,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     {
         return $this->level;
     }
-
     /**
      * @param CurriculumInventoryReportInterface $report
      */
@@ -157,7 +127,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     {
         $this->report = $report;
     }
-
     /**
      * @return CurriculumInventoryReportInterface
      */

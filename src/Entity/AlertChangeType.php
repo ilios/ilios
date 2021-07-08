@@ -18,62 +18,49 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class Alert
- *
- * @ORM\Table(name="alert_change_type")
- * @ORM\Entity(repositoryClass=AlertChangeTypeRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'alert_change_type')]
+#[ORM\Entity(repositoryClass: AlertChangeTypeRepository::class)]
 class AlertChangeType implements AlertChangeTypeInterface
 {
     use TitledEntity;
     use StringableIdEntity;
     use IdentifiableEntity;
     use AlertableEntity;
-
     /**
      * @deprecated Replace with trait in 3.x
      * @var int
-     *
-     * @ORM\Column(name="alert_change_type_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'alert_change_type_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
-     * @ORM\Column(type="string", length=60)
      * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 60)]
     protected $title;
-
     /**
      * @var ArrayCollection|AlertInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Alert", mappedBy="changeTypes")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'changeTypes')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $alerts;
-
     /**
      * Constructor
      */
@@ -81,7 +68,6 @@ class AlertChangeType implements AlertChangeTypeInterface
     {
         $this->alerts = new ArrayCollection();
     }
-
     /**
      * @inheritdoc
      */
@@ -92,7 +78,6 @@ class AlertChangeType implements AlertChangeTypeInterface
             $alert->addChangeType($this);
         }
     }
-
     /**
      * @inheritdoc
      */

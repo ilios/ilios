@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class AamcPcrsDTO
  * Data transfer object for a aamcPcrs
- *
  * @IS\DTO("aamcPcrses")
  */
 class AamcPcrsDTO
@@ -24,7 +23,6 @@ class AamcPcrsDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
     public string $description;
 

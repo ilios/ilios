@@ -19,20 +19,12 @@ use App\Repository\CurriculumInventoryReportRepository;
 
 /**
  * Class CurriculumInventoryReport
- *
- * @ORM\Table(
- *   name="curriculum_inventory_report",
- *   indexes={
- *     @ORM\Index(name="IDX_6E31899E3EB8070A", columns={"program_id"})
- *   },
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="idx_ci_report_token_unique", columns={"token"})
- *   }
- * )
- * @ORM\Entity(repositoryClass=CurriculumInventoryReportRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_report')]
+#[ORM\Index(name: 'IDX_6E31899E3EB8070A', columns: ['program_id'])]
+#[ORM\UniqueConstraint(name: 'idx_ci_report_token_unique', columns: ['token'])]
+#[ORM\Entity(repositoryClass: CurriculumInventoryReportRepository::class)]
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
     use IdentifiableEntity;
@@ -41,178 +33,126 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     use StringableIdEntity;
     use SequenceBlocksEntity;
     use AdministratorsEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="report_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'report_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=200, nullable=true)
-    *
-    * @Assert\Type(type="string")
-    * @Assert\AtLeastOneOf({
-    *     @Assert\Blank,
-    *     @Assert\Length(min=1,max=200)
-    * })
-    *
-    * @IS\Expose
-    * @IS\Type("string")
-    */
+     * @var string
+     * @Assert\Type(type="string")
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=200)
+     * })
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    #[ORM\Column(type: 'string', length: 200, nullable: true)]
     protected $name;
-
     /**
-    * @var string
-    *
-    * @ORM\Column(name="description", type="text", nullable=true)
-    *
-    * @Assert\Type(type="string")
+     * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-    *
-    * @IS\Expose
-    * @IS\Type("string")
-    */
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="year", type="smallint")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'year', type: 'smallint')]
     protected $year;
-
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="date", name="start_date")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(type: 'date', name: 'start_date')]
     protected $startDate;
-
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="date", name="end_date")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(type: 'date', name: 'end_date')]
     protected $endDate;
-
     /**
      * @var CurriculumInventoryExportInterface
-     *
-     * @ORM\OneToOne(targetEntity="CurriculumInventoryExport", mappedBy="report")
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryExport', mappedBy: 'report')]
     protected $export;
-
     /**
      * @var CurriculumInventorySequenceInterface
-     *
-     * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", mappedBy="report")
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'CurriculumInventorySequence', mappedBy: 'report')]
     protected $sequence;
-
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock",mappedBy="report")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'report')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
-
     /**
      * @var ProgramInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Program", inversedBy="curriculumInventoryReports")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'curriculumInventoryReports')]
+    #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     protected $program;
-
     /**
      * @var CurriculumInventoryAcademicLevelInterface
-     *
-     * @ORM\OneToMany(targetEntity="CurriculumInventoryAcademicLevel", mappedBy="report")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'CurriculumInventoryAcademicLevel', mappedBy: 'report')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $academicLevels;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="token", type="string", length=64, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=64)
      * })
      */
+    #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     protected $token;
-
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredCurriculumInventoryReports"))
-     * @ORM\JoinTable(name="curriculum_inventory_report_administrator",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredCurriculumInventoryReports')]
+    #[ORM\JoinTable(name: 'curriculum_inventory_report_administrator')]
+    #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administrators;
-
     /**
      * Constructor
      */
@@ -222,7 +162,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->sequenceBlocks = new ArrayCollection();
         $this->administrators = new ArrayCollection();
     }
-
     /**
      * @param int $year
      */
@@ -230,7 +169,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->year = $year;
     }
-
     /**
      * @return int
      */
@@ -238,7 +176,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->year;
     }
-
     /**
      * @param \DateTime $startDate
      */
@@ -246,7 +183,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->startDate = $startDate;
     }
-
     /**
      * @return \DateTime
      */
@@ -254,7 +190,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->startDate;
     }
-
     /**
      * @param \DateTime $endDate
      */
@@ -262,7 +197,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->endDate = $endDate;
     }
-
     /**
      * @return \DateTime
      */
@@ -270,7 +204,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->endDate;
     }
-
     /**
      * @param CurriculumInventoryExportInterface|null $export
      */
@@ -278,7 +211,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->export = $export;
     }
-
     /**
      * @return CurriculumInventoryExportInterface
      */
@@ -286,7 +218,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->export;
     }
-
     /**
      * @param CurriculumInventorySequenceInterface|null $sequence
      */
@@ -294,7 +225,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->sequence = $sequence;
     }
-
     /**
      * @return CurriculumInventorySequenceInterface
      */
@@ -302,7 +232,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->sequence;
     }
-
     /**
      * @param ProgramInterface $program
      */
@@ -310,7 +239,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->program = $program;
     }
-
     /**
      * @return ProgramInterface
      */
@@ -318,7 +246,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->program;
     }
-
     /**
      * @param Collection $academicLevels
      */
@@ -332,7 +259,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $this->addAcademicLevel($academicLevel);
         }
     }
-
     /**
      * @param CurriculumInventoryAcademicLevelInterface $academicLevel
      */
@@ -342,7 +268,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $this->academicLevels->add($academicLevel);
         }
     }
-
     /**
      * @param CurriculumInventoryAcademicLevelInterface $academicLevel
      */
@@ -350,7 +275,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         $this->academicLevels->removeElement($academicLevel);
     }
-
     /**
      * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
      */
@@ -358,7 +282,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->academicLevels;
     }
-
     /**
      * @inheritdoc
      */
@@ -369,7 +292,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
         return null;
     }
-
     /**
      * @return string
      */
@@ -377,7 +299,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     {
         return $this->token;
     }
-
     /**
      * @inheritdoc
      */
@@ -392,7 +313,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         // hash the string to give consistent length and URL safe characters
         $this->token = hash('sha256', $key);
     }
-
     /**
      * @inheritdoc
      */
@@ -403,7 +323,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $administrator->addAdministeredCurriculumInventoryReport($this);
         }
     }
-
     /**
      * @inheritdoc
      */

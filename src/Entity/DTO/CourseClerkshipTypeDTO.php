@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class CourseClerkshipTypeDTO
  * Data transfer object for a course clerkship types
- *
  * @IS\DTO("courseClerkshipTypes")
  */
 class CourseClerkshipTypeDTO

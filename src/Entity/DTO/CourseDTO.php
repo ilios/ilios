@@ -10,7 +10,6 @@ use DateTime;
 /**
  * Class CourseDTO
  * Data transfer object for a course
- *
  * @IS\DTO("courses")
  */
 class CourseDTO

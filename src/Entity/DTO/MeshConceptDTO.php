@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * Class MeshConceptDTO
- *
  * @IS\DTO("meshConcepts")
  */
 class MeshConceptDTO

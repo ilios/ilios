@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class CurriculumInventoryInstitutionDTO
- *
  * @IS\DTO("curriculumInventoryInstitutions")
  */
 class CurriculumInventoryInstitutionDTO

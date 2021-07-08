@@ -10,7 +10,6 @@ use DateTime;
 /**
  * Class OfferingDTO
  * Data transfer object for a offering
- *
  * @IS\DTO("offerings")
  */
 class OfferingDTO

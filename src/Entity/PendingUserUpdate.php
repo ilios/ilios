@@ -13,97 +13,74 @@ use App\Repository\PendingUserUpdateRepository;
 
 /**
  * Class PendingUserUpdate
- *
- * @ORM\Table(name="pending_user_update")
- * @ORM\Entity(repositoryClass=PendingUserUpdateRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'pending_user_update')]
+#[ORM\Entity(repositoryClass: PendingUserUpdateRepository::class)]
 class PendingUserUpdate implements PendingUserUpdateInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="exception_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'exception_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=32)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 32
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 32)]
     protected $type;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=32, nullable=true)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 32
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 32, nullable: true)]
     protected $property;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 255
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     protected $value;
-
     /**
      * @var UserInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="pendingUserUpdates")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'pendingUserUpdates')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     protected $user;
-
     /**
      * @param string $type
      */
@@ -111,7 +88,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->type = $type;
     }
-
     /**
      * @return string
      */
@@ -119,7 +95,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         return $this->type;
     }
-
     /**
      * Set property
      *
@@ -129,7 +104,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->property = $property;
     }
-
     /**
      * Get property
      *
@@ -139,7 +113,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         return $this->property;
     }
-
     /**
      * Set value
      *
@@ -149,7 +122,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->value = $value;
     }
-
     /**
      * Get value
      *
@@ -159,7 +131,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         return $this->value;
     }
-
     /**
      * @param UserInterface $user
      */
@@ -167,7 +138,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     {
         $this->user = $user;
     }
-
     /**
      * @return UserInterface
      */

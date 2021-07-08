@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class UserRoleDTO
- *
  * @IS\DTO("userRoles")
  */
 class UserRoleDTO

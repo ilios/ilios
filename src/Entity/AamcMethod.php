@@ -17,12 +17,10 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class AamcMethod
- *
- * @ORM\Table(name="aamc_method")
- * @ORM\Entity(repositoryClass=AamcMethodRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'aamc_method')]
+#[ORM\Entity(repositoryClass: AamcMethodRepository::class)]
 class AamcMethod implements AamcMethodInterface
 {
     use IdentifiableEntity;
@@ -30,66 +28,51 @@ class AamcMethod implements AamcMethodInterface
     use StringableIdEntity;
     use SessionTypesEntity;
     use ActivatableEntity;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="method_id", type="string", length=10)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 10
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
-
     /**
-    * @ORM\Column(name="description", type="text")
-    * @var string
-    *
-    * @Assert\NotBlank()
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 65000
-    * )
-    *
-    * @IS\Expose
-    * @IS\Type("string")
-    */
+     * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    #[ORM\Column(name: 'description', type: 'text')]
     protected $description;
-
     /**
      * @var ArrayCollection|SessionTypeInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="SessionType", mappedBy="aamcMethods")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'SessionType', mappedBy: 'aamcMethods')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionTypes;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $active;
-
     /**
      * Constructor
      */
@@ -98,7 +81,6 @@ class AamcMethod implements AamcMethodInterface
         $this->sessionTypes = new ArrayCollection();
         $this->active = true;
     }
-
     /**
      * @inheritdoc
      */
@@ -109,7 +91,6 @@ class AamcMethod implements AamcMethodInterface
             $sessionType->addAamcMethod($this);
         }
     }
-
     /**
      * @param SessionTypeInterface $sessionType
      */

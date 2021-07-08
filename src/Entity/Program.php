@@ -20,12 +20,10 @@ use App\Repository\ProgramRepository;
 
 /**
  * Class Program
- *
- * @ORM\Table(name="program")
- * @ORM\Entity(repositoryClass=ProgramRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'program')]
+#[ORM\Entity(repositoryClass: ProgramRepository::class)]
 class Program implements ProgramInterface
 {
     use TitledEntity;
@@ -34,124 +32,89 @@ class Program implements ProgramInterface
     use ProgramYearsEntity;
     use SchoolEntity;
     use DirectorsEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="program_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'program_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
-     * @ORM\Column(type="string", length=200, nullable=false)
      * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $title;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="short_title", type="string", length=10, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=10)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'short_title', type: 'string', length: 10, nullable: true)]
     protected $shortTitle;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="duration", type="smallint")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'duration', type: 'smallint')]
     protected $duration;
-
     /**
      * @var SchoolInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="School", inversedBy="programs")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'programs')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     protected $school;
-
     /**
      * @var ArrayCollection|ProgramYearInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="ProgramYear", mappedBy="program")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'ProgramYear', mappedBy: 'program')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYears;
-
     /**
      * @var ArrayCollection|CurriculumInventoryReportInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="CurriculumInventoryReport", mappedBy="program")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'program')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $curriculumInventoryReports;
-
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="directedPrograms"))
-     * @ORM\JoinTable(name="program_director",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="program_id", referencedColumnName="program_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedPrograms')]
+    #[ORM\JoinTable(name: 'program_director')]
+    #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directors;
-
-        /**
+    /**
      * Constructor
      */
     public function __construct()
@@ -160,7 +123,6 @@ class Program implements ProgramInterface
         $this->curriculumInventoryReports = new ArrayCollection();
         $this->directors = new ArrayCollection();
     }
-
     /**
      * @param string $shortTitle
      */
@@ -168,7 +130,6 @@ class Program implements ProgramInterface
     {
         $this->shortTitle = $shortTitle;
     }
-
     /**
      * @return string
      */
@@ -176,7 +137,6 @@ class Program implements ProgramInterface
     {
         return $this->shortTitle;
     }
-
     /**
      * @param int $duration
      */
@@ -184,7 +144,6 @@ class Program implements ProgramInterface
     {
         $this->duration = $duration;
     }
-
     /**
      * @return int
      */
@@ -192,10 +151,9 @@ class Program implements ProgramInterface
     {
         return $this->duration;
     }
-
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function setCurriculumInventoryReports(Collection $reports)
     {
         $this->curriculumInventoryReports = new ArrayCollection();
@@ -204,35 +162,31 @@ class Program implements ProgramInterface
             $this->addCurriculumInventoryReport($report);
         }
     }
-
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
         if (!$this->curriculumInventoryReports->contains($report)) {
             $this->curriculumInventoryReports->add($report);
         }
     }
-
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
         if ($this->curriculumInventoryReports->contains($report)) {
             $this->curriculumInventoryReports->removeElement($report);
         }
     }
-
     /**
-    * {@inheritdoc}
-    */
+     * {@inheritdoc}
+     */
     public function getCurriculumInventoryReports()
     {
         return $this->curriculumInventoryReports;
     }
-
     /**
      * @inheritdoc
      */
@@ -243,7 +197,6 @@ class Program implements ProgramInterface
             $director->addDirectedProgram($this);
         }
     }
-
     /**
      * @inheritdoc
      */

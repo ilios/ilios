@@ -26,19 +26,16 @@ use App\Repository\SessionRepository;
 
 /**
  * Class Session
- *
- * @ORM\Table(name="session",
  *   indexes={
- *     @ORM\Index(name="session_type_id_k", columns={"session_type_id"}),
- *     @ORM\Index(name="course_id_k", columns={"course_id"}),
- *     @ORM\Index(name="session_course_type_title_k", columns={"session_id", "course_id", "session_type_id", "title"}),
  *   }
  * )
- *
- * @ORM\Entity(repositoryClass=SessionRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'session')]
+#[ORM\Index(name: 'session_type_id_k', columns: ['session_type_id'])]
+#[ORM\Index(name: 'course_id_k', columns: ['course_id'])]
+#[ORM\Index(name: 'session_course_type_title_k', columns: ['session_id', 'course_id', 'session_type_id', 'title'])]
+#[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session implements SessionInterface
 {
     use IdentifiableEntity;
@@ -53,350 +50,238 @@ class Session implements SessionInterface
     use AdministratorsEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="session_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'session_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=200, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 200, nullable: true)]
     protected $title;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="attire_required", type="boolean", nullable=true)
-     *
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'attire_required', type: 'boolean', nullable: true)]
     protected $attireRequired;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="equipment_required", type="boolean", nullable=true)
-     *
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'equipment_required', type: 'boolean', nullable: true)]
     protected $equipmentRequired;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="supplemental", type="boolean", nullable=true)
-     *
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'supplemental', type: 'boolean', nullable: true)]
     protected $supplemental;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="attendance_required", type="boolean", nullable=true)
-     *
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'attendance_required', type: 'boolean', nullable: true)]
     protected $attendanceRequired;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="published_as_tbd", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'published_as_tbd', type: 'boolean')]
     protected $publishedAsTbd;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $published;
-
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="last_updated_on", type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     protected $updatedAt;
-
     /**
-     *
-     * @ORM\Column(name="instructionalNotes", type="text", nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      * @IS\RemoveMarkup
-     *
      */
+    #[ORM\Column(name: 'instructionalNotes', type: 'text', nullable: true)]
     protected $instructionalNotes;
-
     /**
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      * @IS\RemoveMarkup
-     *
      */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
-
     /**
      * @var SessionTypeInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="SessionType", inversedBy="sessions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_type_id", referencedColumnName="session_type_id", nullable=false)
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'SessionType', inversedBy: 'sessions')]
+    #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id', nullable: false)]
     protected $sessionType;
-
     /**
      * @var CourseInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="sessions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", nullable=false, onDelete="CASCADE")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sessions')]
+    #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', nullable: false, onDelete: 'CASCADE')]
     protected $course;
-
     /**
      * @var IlmSessionInterface
-     *
-     * @ORM\OneToOne(targetEntity="IlmSession", mappedBy="session")
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'IlmSession', mappedBy: 'session')]
     protected $ilmSession;
-
     /**
      * @var ArrayCollection|TermInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Term", inversedBy="sessions")
-     * @ORM\JoinTable(name="session_x_term",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'sessions')]
+    #[ORM\JoinTable(name: 'session_x_term')]
+    #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
-
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="SessionObjective", mappedBy="session")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'session')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $sessionObjectives;
-
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="sessions")
-     * @ORM\JoinTable(name="session_x_mesh",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessions')]
+    #[ORM\JoinTable(name: 'session_x_mesh')]
+    #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
-
     /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="session")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'session')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
-
     /**
      * @var ArrayCollection|OfferingInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Offering", mappedBy="session")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'Offering', mappedBy: 'session')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $offerings;
-
     /**
      * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="sessions")
-     * @ORM\OrderBy({"id" = "ASC"})
      */
+    #[ORM\ManyToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'sessions')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
-
     /**
      * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="excludedSessions")
-     * @ORM\OrderBy({"id" = "ASC"})
      */
+    #[ORM\ManyToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'excludedSessions')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $excludedSequenceBlocks;
-
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredSessions"))
-     * @ORM\JoinTable(name="session_administrator",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredSessions')]
+    #[ORM\JoinTable(name: 'session_administrator')]
+    #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administrators;
-
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="studentAdvisedSessions"))
-     * @ORM\JoinTable(name="session_student_advisor",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'studentAdvisedSessions')]
+    #[ORM\JoinTable(name: 'session_student_advisor')]
+    #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $studentAdvisors;
-
     /**
      * @var SessionInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Session", inversedBy="prerequisites")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="postrequisite_id", referencedColumnName="session_id", onDelete="SET NULL")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'prerequisites')]
+    #[ORM\JoinColumn(name: 'postrequisite_id', referencedColumnName: 'session_id', onDelete: 'SET NULL')]
     protected $postrequisite;
-
     /**
      * @var SessionInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Session", mappedBy="postrequisite")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'postrequisite')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $prerequisites;
-
     /**
      * Constructor
      */
@@ -420,7 +305,6 @@ class Session implements SessionInterface
         $this->prerequisites = new ArrayCollection();
         $this->updatedAt = new DateTime();
     }
-
     /**
      * @param bool $attireRequired
      */
@@ -428,7 +312,6 @@ class Session implements SessionInterface
     {
         $this->attireRequired = $attireRequired;
     }
-
     /**
      * @return bool
      */
@@ -436,7 +319,6 @@ class Session implements SessionInterface
     {
         return $this->attireRequired;
     }
-
     /**
      * @param bool $equipmentRequired
      */
@@ -444,7 +326,6 @@ class Session implements SessionInterface
     {
         $this->equipmentRequired = $equipmentRequired;
     }
-
     /**
      * @return bool
      */
@@ -452,7 +333,6 @@ class Session implements SessionInterface
     {
         return $this->equipmentRequired;
     }
-
     /**
      * @param bool $supplemental
      */
@@ -460,7 +340,6 @@ class Session implements SessionInterface
     {
         $this->supplemental = $supplemental;
     }
-
     /**
      * @return bool
      */
@@ -468,7 +347,6 @@ class Session implements SessionInterface
     {
         return $this->supplemental;
     }
-
     /**
      * @param bool $attendanceRequired
      */
@@ -476,7 +354,6 @@ class Session implements SessionInterface
     {
         $this->attendanceRequired = $attendanceRequired;
     }
-
     /**
      * @return bool
      */
@@ -484,7 +361,6 @@ class Session implements SessionInterface
     {
         return $this->attendanceRequired;
     }
-
     /**
      * @inheritdoc
      */
@@ -492,7 +368,6 @@ class Session implements SessionInterface
     {
         return $this->instructionalNotes;
     }
-
     /**
      * @inheritdoc
      */
@@ -500,7 +375,6 @@ class Session implements SessionInterface
     {
         $this->instructionalNotes = $instructionalNotes;
     }
-
     /**
      * @param SessionTypeInterface $sessionType
      */
@@ -508,7 +382,6 @@ class Session implements SessionInterface
     {
         $this->sessionType = $sessionType;
     }
-
     /**
      * @return SessionTypeInterface
      */
@@ -516,7 +389,6 @@ class Session implements SessionInterface
     {
         return $this->sessionType;
     }
-
     /**
      * @param CourseInterface $course
      */
@@ -524,7 +396,6 @@ class Session implements SessionInterface
     {
         $this->course = $course;
     }
-
     /**
      * @inheritdoc
      */
@@ -532,7 +403,6 @@ class Session implements SessionInterface
     {
         return $this->course;
     }
-
     /**
      * @param IlmSessionInterface $ilmSession
      */
@@ -543,7 +413,6 @@ class Session implements SessionInterface
             $ilmSession->setSession($this);
         }
     }
-
     /**
      * @return IlmSessionInterface
      */
@@ -551,7 +420,6 @@ class Session implements SessionInterface
     {
         return $this->ilmSession;
     }
-
     /**
      * @param Collection $learningMaterials
      */
@@ -566,7 +434,6 @@ class Session implements SessionInterface
             $this->addLearningMaterial($learningMaterial);
         }
     }
-
     /**
      * @param SessionLearningMaterialInterface $learningMaterial
      */
@@ -576,7 +443,6 @@ class Session implements SessionInterface
             $this->learningMaterials->add($learningMaterial);
         }
     }
-
     /**
      * @param SessionLearningMaterialInterface $learningMaterial
      */
@@ -584,7 +450,6 @@ class Session implements SessionInterface
     {
         $this->learningMaterials->removeElement($learningMaterial);
     }
-
     /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
@@ -592,7 +457,6 @@ class Session implements SessionInterface
     {
         return $this->learningMaterials;
     }
-
     /**
      * @inheritdoc
      */
@@ -603,7 +467,6 @@ class Session implements SessionInterface
         }
         return null;
     }
-
     /**
      * @inheritdoc
      */
@@ -614,7 +477,6 @@ class Session implements SessionInterface
             $administrator->addAdministeredSession($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -625,7 +487,6 @@ class Session implements SessionInterface
             $administrator->removeAdministeredSession($this);
         }
     }
-
     public function addStudentAdvisor(UserInterface $studentAdvisor)
     {
         if (!$this->studentAdvisors->contains($studentAdvisor)) {
@@ -633,7 +494,6 @@ class Session implements SessionInterface
             $studentAdvisor->addStudentAdvisedSession($this);
         }
     }
-
     public function removeStudentAdvisor(UserInterface $studentAdvisor)
     {
         if ($this->studentAdvisors->contains($studentAdvisor)) {
@@ -641,7 +501,6 @@ class Session implements SessionInterface
             $studentAdvisor->removeStudentAdvisedSession($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -653,7 +512,6 @@ class Session implements SessionInterface
             $this->addExcludedSequenceBlock($sequenceBlock);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -663,7 +521,6 @@ class Session implements SessionInterface
             $this->excludedSequenceBlocks->add($sequenceBlock);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -671,7 +528,6 @@ class Session implements SessionInterface
     {
         $this->excludedSequenceBlocks->removeElement($sequenceBlock);
     }
-
     /**
      * @inheritdoc
      */
@@ -679,7 +535,6 @@ class Session implements SessionInterface
     {
         return $this->excludedSequenceBlocks;
     }
-
     /**
      * @inheritdoc
      */
@@ -687,7 +542,6 @@ class Session implements SessionInterface
     {
         $this->postrequisite = $postrequisite;
     }
-
     /**
      * @inheritdoc
      */
@@ -695,7 +549,6 @@ class Session implements SessionInterface
     {
         return $this->postrequisite;
     }
-
     /**
      * @inheritdoc
      */
@@ -707,7 +560,6 @@ class Session implements SessionInterface
             $this->addPrerequisite($prerequisite);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -718,7 +570,6 @@ class Session implements SessionInterface
             $prerequisite->setPostrequisite($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -726,7 +577,6 @@ class Session implements SessionInterface
     {
         $this->prerequisites->removeElement($prerequisite);
     }
-
     /**
      * @inheritdoc
      */
@@ -734,7 +584,6 @@ class Session implements SessionInterface
     {
         return $this->prerequisites;
     }
-
     /**
      * @inheritDoc
      */
@@ -742,7 +591,6 @@ class Session implements SessionInterface
     {
         return [$this->course];
     }
-
     /**
      * @inheritdoc
      */
@@ -750,7 +598,6 @@ class Session implements SessionInterface
     {
         $this->description = $description;
     }
-
     /**
      * @inheritdoc
      */

@@ -19,17 +19,11 @@ use App\Repository\CohortRepository;
 
 /**
  * Class Cohort
- *
- * @ORM\Entity(repositoryClass=CohortRepository::class)
- * @ORM\Table(
- *  name="cohort",
- *  indexes={
- *      @ORM\Index(name="whole_k", columns={"program_year_id", "cohort_id", "title"})
- *  }
- * )
- *
  * @IS\Entity
  */
+#[ORM\Entity(repositoryClass: CohortRepository::class)]
+#[ORM\Table(name: 'cohort')]
+#[ORM\Index(name: 'whole_k', columns: ['program_year_id', 'cohort_id', 'title'])]
 class Cohort implements CohortInterface
 {
     use IdentifiableEntity;
@@ -38,83 +32,62 @@ class Cohort implements CohortInterface
     use CoursesEntity;
     use LearnerGroupsEntity;
     use UsersEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="cohort_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'cohort_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
-     * @ORM\Column(type="string", length=60)
      * @var string
-     *
      * @IS\Expose
      * @IS\Type("string")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
      * )
-     *
      */
+    #[ORM\Column(type: 'string', length: 60)]
     protected $title;
-
     /**
      * @var ProgramYearInterface
-     *
-     * @ORM\OneToOne(targetEntity="ProgramYear", inversedBy="cohort")
-     * @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", unique=true, onDelete="cascade")
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'ProgramYear', inversedBy: 'cohort')]
+    #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', unique: true, onDelete: 'cascade')]
     protected $programYear;
-
     /**
      * @var ArrayCollection|CourseInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="cohorts")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'cohorts')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
-
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="cohort")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'cohort')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
-
-   /**
-    * @var Collection
-    *
-    * @ORM\ManyToMany(targetEntity="User", mappedBy="cohorts")
-    * @ORM\OrderBy({"id" = "ASC"})
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+    /**
+     * @var Collection
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'cohorts')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $users;
-
     /**
      * Constructor
      */
@@ -124,7 +97,6 @@ class Cohort implements CohortInterface
         $this->learnerGroups = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
-
     /**
      * @param ProgramYearInterface $programYear
      */
@@ -132,7 +104,6 @@ class Cohort implements CohortInterface
     {
         $this->programYear = $programYear;
     }
-
     /**
      * @return ProgramYearInterface
      */
@@ -140,7 +111,6 @@ class Cohort implements CohortInterface
     {
         return $this->programYear;
     }
-
     /**
      * @inheritdoc
      */
@@ -151,7 +121,6 @@ class Cohort implements CohortInterface
             $course->addCohort($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -162,7 +131,6 @@ class Cohort implements CohortInterface
             $course->removeCohort($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -173,7 +141,6 @@ class Cohort implements CohortInterface
             $user->addCohort($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -182,7 +149,6 @@ class Cohort implements CohortInterface
         $this->users->removeElement($user);
         $user->removeCohort($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -193,7 +159,6 @@ class Cohort implements CohortInterface
         }
         return null;
     }
-
     /**
      * @inheritdoc
      */

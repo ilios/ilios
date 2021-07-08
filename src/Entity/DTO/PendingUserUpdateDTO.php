@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class PendingUserUpdateDTO
- *
  * @IS\DTO("pendingUserUpdates")
  */
 class PendingUserUpdateDTO

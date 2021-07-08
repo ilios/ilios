@@ -10,7 +10,6 @@ use DateTime;
 /**
  * Class SessionDTO
  * Data transfer object for a session.
- *
  * @IS\DTO("sessions")
  */
 class SessionDTO

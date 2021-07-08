@@ -18,12 +18,10 @@ use App\Repository\MeshConceptRepository;
 
 /**
  * Class MeshConcept
- *
- * @ORM\Table(name="mesh_concept")
- * @ORM\Entity(repositoryClass=MeshConceptRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'mesh_concept')]
+#[ORM\Entity(repositoryClass: MeshConceptRepository::class)]
 class MeshConcept implements MeshConceptInterface
 {
     use IdentifiableEntity;
@@ -31,148 +29,107 @@ class MeshConcept implements MeshConceptInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use CreatedAtEntity;
-
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="mesh_concept_uid", type="string", length=12)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     *
      * @Assert\Type(type="string")
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'mesh_concept_uid', type: 'string', length: 12)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 255
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 255)]
     protected $name;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="preferred", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'preferred', type: 'boolean')]
     protected $preferred;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="scope_note", type="text", nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'scope_note', type: 'text', nullable: true)]
     protected $scopeNote;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="casn_1_name", type="string", length=512, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=512)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'casn_1_name', type: 'string', length: 512, nullable: true)]
     protected $casn1Name;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="registry_number", type="string", length=30, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=30)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'registry_number', type: 'string', length: 30, nullable: true)]
     protected $registryNumber;
-
     /**
      * @var ArrayCollection|MeshTermInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="MeshTerm", mappedBy="concepts")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshTerm', mappedBy: 'concepts')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
-
     /**
-     * @ORM\Column(name="created_at", type="datetime")
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     protected $createdAt;
-
     /**
-     * @ORM\Column(name="updated_at", type="datetime")
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'updated_at', type: 'datetime')]
     protected $updatedAt;
-
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="concepts")
-     * @ORM\JoinTable(name="mesh_descriptor_x_concept",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="mesh_concept_uid", referencedColumnName="mesh_concept_uid")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'concepts')]
+    #[ORM\JoinTable(name: 'mesh_descriptor_x_concept')]
+    #[ORM\JoinColumn(name: 'mesh_concept_uid', referencedColumnName: 'mesh_concept_uid')]
+    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descriptors;
-
     /**
      * Constructor
      */
@@ -184,7 +141,6 @@ class MeshConcept implements MeshConceptInterface
         $this->terms = new ArrayCollection();
         $this->descriptors = new ArrayCollection();
     }
-
     /**
      * @param bool $preferred
      */
@@ -192,7 +148,6 @@ class MeshConcept implements MeshConceptInterface
     {
         $this->preferred = $preferred;
     }
-
     /**
      * @return bool
      */
@@ -200,7 +155,6 @@ class MeshConcept implements MeshConceptInterface
     {
         return $this->preferred;
     }
-
     /**
      * @param string $scopeNote
      */
@@ -208,7 +162,6 @@ class MeshConcept implements MeshConceptInterface
     {
         $this->scopeNote = $scopeNote;
     }
-
     /**
      * @return string
      */
@@ -216,7 +169,6 @@ class MeshConcept implements MeshConceptInterface
     {
         return $this->scopeNote;
     }
-
     /**
      * @param string $casn1Name
      */
@@ -224,7 +176,6 @@ class MeshConcept implements MeshConceptInterface
     {
         $this->casn1Name = $casn1Name;
     }
-
     /**
      * @return string
      */
@@ -232,7 +183,6 @@ class MeshConcept implements MeshConceptInterface
     {
         return $this->casn1Name;
     }
-
     /**
      * @param string $registryNumber
      */
@@ -240,7 +190,6 @@ class MeshConcept implements MeshConceptInterface
     {
         $this->registryNumber = $registryNumber;
     }
-
     /**
      * @return string
      */
@@ -248,7 +197,6 @@ class MeshConcept implements MeshConceptInterface
     {
         return $this->registryNumber;
     }
-
     /**
      * @param Collection $terms
      */
@@ -260,7 +208,6 @@ class MeshConcept implements MeshConceptInterface
             $this->addTerm($term);
         }
     }
-
     /**
      * @param MeshTermInterface $term
      */
@@ -271,7 +218,6 @@ class MeshConcept implements MeshConceptInterface
             $term->addConcept($this);
         }
     }
-
     /**
      * @param MeshTermInterface $term
      */
@@ -282,7 +228,6 @@ class MeshConcept implements MeshConceptInterface
             $term->removeConcept($this);
         }
     }
-
     /**
      * @return ArrayCollection|MeshTermInterface[]
      */
@@ -290,7 +235,6 @@ class MeshConcept implements MeshConceptInterface
     {
         return $this->terms;
     }
-
     /**
      * @param Collection $descriptors
      */
@@ -302,7 +246,6 @@ class MeshConcept implements MeshConceptInterface
             $this->addDescriptor($descriptor);
         }
     }
-
     /**
      * @param MeshDescriptorInterface $descriptor
      */
@@ -312,7 +255,6 @@ class MeshConcept implements MeshConceptInterface
             $this->descriptors->add($descriptor);
         }
     }
-
     /**
      * @param MeshDescriptorInterface $descriptor
      */
@@ -320,7 +262,6 @@ class MeshConcept implements MeshConceptInterface
     {
         $this->descriptors->removeElement($descriptor);
     }
-
     /**
      * @return ArrayCollection|MeshDescriptorInterface[]
      */

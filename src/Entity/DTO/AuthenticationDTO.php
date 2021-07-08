@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class Authentication
- *
  * @IS\DTO("authentications")
  */
 class AuthenticationDTO
@@ -18,13 +17,13 @@ class AuthenticationDTO
      * @IS\Expose
      * @IS\Related("users")
      * @IS\Type("integer")
-    */
+     */
     public int $user;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
     public ?string $username;
 
     public function __construct(

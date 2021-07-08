@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class CompetencyDTO
  * Data transfer object for a competency
- *
  * @IS\DTO("competencies")
  */
 class CompetencyDTO
@@ -76,7 +75,6 @@ class CompetencyDTO
     /**
      * @IS\Expose
      * @IS\Type("boolean")
-     *
      */
     public bool $active;
 

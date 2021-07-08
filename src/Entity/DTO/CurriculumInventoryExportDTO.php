@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * Class CurriculumInventoryExport
- *
  * @IS\DTO("curriculumInventoryExports")
  */
 class CurriculumInventoryExportDTO

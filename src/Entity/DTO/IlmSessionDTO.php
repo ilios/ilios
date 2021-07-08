@@ -10,7 +10,6 @@ use DateTime;
 /**
  * Class IlmSessionDTO
  * Data transfer object for a ilmSession
- *
  * @IS\DTO("ilmSessions")
  */
 class IlmSessionDTO

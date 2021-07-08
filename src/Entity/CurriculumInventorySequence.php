@@ -14,40 +14,29 @@ use App\Repository\CurriculumInventorySequenceRepository;
 
 /**
  * Class CurriculumInventorySequence
- *
- * @ORM\Table(name="curriculum_inventory_sequence")
- * @ORM\Entity(repositoryClass=CurriculumInventorySequenceRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_sequence')]
+#[ORM\Entity(repositoryClass: CurriculumInventorySequenceRepository::class)]
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
     use IdentifiableEntity;
     use DescribableEntity;
     use StringableIdEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="sequence_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'sequence_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var CurriculumInventoryReportInterface
      * @Assert\NotNull()
-     *
-     * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequence")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(
      *     name="report_id",
      *     referencedColumnName="report_id",
      *     unique=true,
@@ -55,27 +44,30 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *     onDelete="cascade"
      *   )
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequence')]
+    #[ORM\JoinColumn(
+        name: 'report_id',
+        referencedColumnName: 'report_id',
+        unique: true,
+        nullable: false,
+        onDelete: 'cascade'
+    )]
     protected $report;
-
     /**
-     * @ORM\Column(name="description", type="text", nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
-
     /**
      * @param CurriculumInventoryReportInterface $report
      */
@@ -83,7 +75,6 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     {
         $this->report = $report;
     }
-
     /**
      * @return CurriculumInventoryReportInterface
      */

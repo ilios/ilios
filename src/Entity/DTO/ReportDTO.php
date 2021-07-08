@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * Class ReportDTO
- *
  * @IS\DTO("reports")
  */
 class ReportDTO

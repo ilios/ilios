@@ -20,15 +20,14 @@ use App\Repository\CourseObjectiveRepository;
 
 /**
  * Class CourseObjective
- *
- * @ORM\Table(name="course_x_objective",
  *   indexes={
- *     @ORM\Index(name="IDX_3B37B1AD591CC992", columns={"course_id"})
  *   }
  * )
- * @ORM\Entity(repositoryClass=CourseObjectiveRepository::class)
  * @IS\Entity
  */
+#[ORM\Table(name: 'course_x_objective')]
+#[ORM\Index(name: 'IDX_3B37B1AD591CC992', columns: ['course_id'])]
+#[ORM\Entity(repositoryClass: CourseObjectiveRepository::class)]
 class CourseObjective implements CourseObjectiveInterface
 {
     use IdentifiableEntity;
@@ -38,176 +37,128 @@ class CourseObjective implements CourseObjectiveInterface
     use ActivatableEntity;
     use CategorizableEntity;
     use SortableEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="course_objective_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'course_objective_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var CourseInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="courseObjectives")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'courseObjectives')]
+    #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     protected $course;
-
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
-     * @ORM\Column(name="position", type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
-
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Term", inversedBy="courseObjectives")
-     * @ORM\JoinTable(name="course_objective_x_term",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'courseObjectives')]
+    #[ORM\JoinTable(name: 'course_objective_x_term')]
+    #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
-
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="text")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      * @IS\RemoveMarkup
      */
+    #[ORM\Column(type: 'text')]
     protected $title;
-
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ProgramYearObjective", inversedBy="courseObjectives")
-     * @ORM\JoinTable("course_objective_x_program_year_objective",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id", onDelete="CASCADE")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(
      *       name="program_year_objective_id", referencedColumnName="program_year_objective_id", onDelete="CASCADE"
      *     )
      *   },
      * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', inversedBy: 'courseObjectives')]
+    #[ORM\JoinTable('course_objective_x_program_year_objective')]
+    #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'program_year_objective_id',
+        referencedColumnName: 'program_year_objective_id',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYearObjectives;
-
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="SessionObjective", mappedBy="courseObjectives")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'courseObjectives')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionObjectives;
-
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courseObjectives")
-     * @ORM\JoinTable(name="course_objective_x_mesh",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseObjectives')]
+    #[ORM\JoinTable(name: 'course_objective_x_mesh')]
+    #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
-
     /**
      * @var CourseObjectiveInterface
-     *
-     * @ORM\ManyToOne(targetEntity="CourseObjective", inversedBy="descendants")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="course_objective_id")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'CourseObjective', inversedBy: 'descendants')]
+    #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'course_objective_id')]
     protected $ancestor;
-
     /**
      * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CourseObjective", mappedBy="ancestor")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'CourseObjective', mappedBy: 'ancestor')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $active;
-
     /**
      * Constructor
      */
@@ -221,7 +172,6 @@ class CourseObjective implements CourseObjectiveInterface
         $this->meshDescriptors = new ArrayCollection();
         $this->descendants = new ArrayCollection();
     }
-
     /**
      * @inheritdoc
      */
@@ -229,7 +179,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->course = $course;
     }
-
     /**
      * @inheritdoc
      */
@@ -237,7 +186,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->course;
     }
-
     /**
      * @inheritDoc
      */
@@ -245,7 +193,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return [$this->getCourse()];
     }
-
     /**
      * @inheritdoc
      */
@@ -257,7 +204,6 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addProgramYearObjective($programYearObjective);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -267,7 +213,6 @@ class CourseObjective implements CourseObjectiveInterface
             $this->programYearObjectives->add($programYearObjective);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -275,7 +220,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->programYearObjectives->removeElement($programYearObjective);
     }
-
     /**
      * @inheritdoc
      */
@@ -283,7 +227,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->programYearObjectives;
     }
-
     /**
      * @inheritdoc
      */
@@ -295,7 +238,6 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addSessionObjective($sessionObjective);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -306,7 +248,6 @@ class CourseObjective implements CourseObjectiveInterface
             $sessionObjective->addCourseObjective($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -317,7 +258,6 @@ class CourseObjective implements CourseObjectiveInterface
             $sessionObjective->removeCourseObjective($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -325,7 +265,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->sessionObjectives;
     }
-
     /**
      * @inheritdoc
      */
@@ -333,7 +272,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->ancestor = $ancestor;
     }
-
     /**
      * @inheritdoc
      */
@@ -341,7 +279,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->ancestor;
     }
-
     /**
      * @inheritdoc
      */
@@ -351,7 +288,6 @@ class CourseObjective implements CourseObjectiveInterface
 
         return $ancestor ? $ancestor : $this;
     }
-
     /**
      * @inheritdoc
      */
@@ -363,7 +299,6 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addDescendant($descendant);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -373,7 +308,6 @@ class CourseObjective implements CourseObjectiveInterface
             $this->descendants->add($descendant);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -381,7 +315,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->descendants->removeElement($descendant);
     }
-
     /**
      * @inheritdoc
      */
@@ -389,7 +322,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         return $this->descendants;
     }
-
     /**
      * @inheritdoc
      */
@@ -397,7 +329,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->title = $title;
     }
-
     /**
      * @inheritdoc
      */
@@ -405,7 +336,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->position = $position;
     }
-
     /**
      * @inheritdoc
      */
@@ -413,7 +343,6 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->active = $active;
     }
-
     /**
      * @inheritdoc
      */
@@ -425,7 +354,6 @@ class CourseObjective implements CourseObjectiveInterface
             $this->addMeshDescriptor($meshDescriptor);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -435,7 +363,6 @@ class CourseObjective implements CourseObjectiveInterface
             $this->meshDescriptors->add($meshDescriptor);
         }
     }
-
     /**
      * @inheritdoc
      */

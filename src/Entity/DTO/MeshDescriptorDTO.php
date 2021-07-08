@@ -10,7 +10,6 @@ use DateTime;
 /**
  * Class MeshDescriptorDTO
  * Data transfer object for a MeSH descriptor.
- *
  * @IS\DTO("meshDescriptors")
  */
 class MeshDescriptorDTO

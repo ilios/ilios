@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class ProgramDTO
  * Data transfer object for a Program
- *
  * @IS\DTO("programs")
  */
 class ProgramDTO
@@ -43,7 +42,6 @@ class ProgramDTO
      * @IS\Expose
      * @IS\Related("schools")
      * @IS\Type("integer")
-     *
      */
     public int $school;
 

@@ -10,7 +10,6 @@ use App\Entity\CompetencyInterface;
 /**
  * Class ProgramYearDTO
  * Data transfer object for a programYear
- *
  * @IS\DTO("programYears")
  */
 class ProgramYearDTO
@@ -20,7 +19,7 @@ class ProgramYearDTO
      * @IS\Id
      * @IS\Expose
      * @IS\Type("integer")
-    */
+     */
     public int $id;
 
     /**
@@ -53,7 +52,7 @@ class ProgramYearDTO
      * @IS\Expose
      * @IS\Related("cohorts")
      * @IS\Type("integer")
-    */
+     */
     public int $cohort;
 
     /**

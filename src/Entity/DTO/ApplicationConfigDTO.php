@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class ApplicationConfigDTO
  * Data transfer object for an applicationConfig
- *
  * @IS\DTO("applicationConfigs")
  */
 class ApplicationConfigDTO

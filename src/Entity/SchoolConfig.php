@@ -15,84 +15,65 @@ use App\Repository\SchoolConfigRepository;
 
 /**
  * Class SchoolConfig
- *
- * @ORM\Table(name="school_config",
  *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="school_conf_uniq", columns={"school_id", "name"})
  *   }
  * )
- * @ORM\Entity(repositoryClass=SchoolConfigRepository::class)
  * @IS\Entity
  */
+#[ORM\Table(name: 'school_config')]
+#[ORM\UniqueConstraint(name: 'school_conf_uniq', columns: ['school_id', 'name'])]
+#[ORM\Entity(repositoryClass: SchoolConfigRepository::class)]
 class SchoolConfig implements SchoolConfigInterface
 {
     use SchoolEntity;
     use NameableEntity;
     use IdentifiableEntity;
     use StringableIdEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=200, nullable=false)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $name;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="value", type="text", nullable=false)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     protected $value;
-
     /**
      * @var SchoolInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="School", inversedBy="configurations")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'configurations')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
-
     /**
      * @inheritdoc
      */
@@ -100,7 +81,6 @@ class SchoolConfig implements SchoolConfigInterface
     {
         return $this->value;
     }
-
     /**
      * @inheritdoc
      */

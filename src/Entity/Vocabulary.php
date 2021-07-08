@@ -19,16 +19,14 @@ use App\Repository\VocabularyRepository;
 
 /**
  * Class Vocabulary
- *
- * @ORM\Table(name="vocabulary",
  *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_vocabulary_title", columns={"school_id", "title"})
  *   }
  * )
- * @ORM\Entity(repositoryClass=VocabularyRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'vocabulary')]
+#[ORM\UniqueConstraint(name: 'unique_vocabulary_title', columns: ['school_id', 'title'])]
+#[ORM\Entity(repositoryClass: VocabularyRepository::class)]
 class Vocabulary implements VocabularyInterface
 {
     use IdentifiableEntity;
@@ -37,78 +35,57 @@ class Vocabulary implements VocabularyInterface
     use TitledEntity;
     use CategorizableEntity;
     use ActivatableEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="vocabulary_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'vocabulary_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=200, nullable=false)
-     *
      * @Assert\NotBlank
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $title;
-
     /**
      * @var SchoolInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="School", inversedBy="vocabularies")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'vocabularies')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     protected $school;
-
     /**
      * @var ArrayCollection|TermInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Term", mappedBy="vocabulary")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'Term', mappedBy: 'vocabulary')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $active;
-
     /**
      * Constructor.
      */
@@ -117,7 +94,6 @@ class Vocabulary implements VocabularyInterface
         $this->terms = new ArrayCollection();
         $this->active = true;
     }
-
     /**
      * @inheritDoc
      */

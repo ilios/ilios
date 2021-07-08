@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class MeshTreeDTO
- *
  * @IS\DTO("meshTrees")
  */
 class MeshTreeDTO

@@ -15,166 +15,127 @@ use App\Repository\CurriculumInventoryInstitutionRepository;
 
 /**
  * Class CurriculumInventoryInstitution
- *
- * @ORM\Table(name="curriculum_inventory_institution")
- * @ORM\Entity(repositoryClass=CurriculumInventoryInstitutionRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_institution')]
+#[ORM\Entity(repositoryClass: CurriculumInventoryInstitutionRepository::class)]
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
     use NameableEntity;
     use IdentifiableEntity;
     use StringableIdEntity;
     use SchoolEntity;
-
     /**
      * @var int
-     *
-     * @ORM\Column(name="institution_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'institution_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=100)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 100
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 100)]
     protected $name;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="aamc_code", type="string", length=10)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 10
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'aamc_code', type: 'string', length: 10)]
     protected $aamcCode;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=100, name="address_street")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 100
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 100, name: 'address_street')]
     protected $addressStreet;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=100, name="address_city")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 100
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 100, name: 'address_city')]
     protected $addressCity;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=50, name="address_state_or_province")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 50
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 50, name: 'address_state_or_province')]
     protected $addressStateOrProvince;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=10, name="address_zipcode")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 10
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 10, name: 'address_zipcode')]
     protected $addressZipCode;
-
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=2, name="address_country_code")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 2
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 2, name: 'address_country_code')]
     protected $addressCountryCode;
-
     /**
      * @var SchoolInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\OneToOne(targetEntity="School", inversedBy="curriculumInventoryInstitution")
-     * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", unique=true, nullable=false)
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'School', inversedBy: 'curriculumInventoryInstitution')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', unique: true, nullable: false)]
     protected $school;
-
     /**
      * @param string $aamcCode
      */
@@ -182,7 +143,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         $this->aamcCode = $aamcCode;
     }
-
     /**
      * @return string
      */
@@ -190,7 +150,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         return $this->aamcCode;
     }
-
     /**
      * @param string $addressStreet
      */
@@ -198,7 +157,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         $this->addressStreet = $addressStreet;
     }
-
     /**
      * @return string
      */
@@ -206,7 +164,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         return $this->addressStreet;
     }
-
     /**
      * @param string $addressCity
      */
@@ -214,7 +171,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         $this->addressCity = $addressCity;
     }
-
     /**
      * @return string
      */
@@ -222,7 +178,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         return $this->addressCity;
     }
-
     /**
      * @param string $addressStateOrProvince
      */
@@ -230,7 +185,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         $this->addressStateOrProvince = $addressStateOrProvince;
     }
-
     /**
      * @return string
      */
@@ -238,7 +192,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         return $this->addressStateOrProvince;
     }
-
     /**
      * @param string $addressZipCode
      */
@@ -246,7 +199,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         $this->addressZipCode = $addressZipCode;
     }
-
     /**
      * @return string
      */
@@ -254,7 +206,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         return $this->addressZipCode;
     }
-
     /**
      * @param string $addressCountryCode
      */
@@ -262,7 +213,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     {
         $this->addressCountryCode = $addressCountryCode;
     }
-
     /**
      * @return string
      */

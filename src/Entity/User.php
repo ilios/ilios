@@ -23,12 +23,11 @@ use App\Repository\UserRepository;
 
 /**
  * Class User
- *
- * @ORM\Table(name="user", indexes={@ORM\Index(name="fkey_user_school", columns={"school_id"})})
- * @ORM\Entity(repositoryClass=UserRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'user')]
+#[ORM\Index(columns: ["school_id"], name: "fkey_user_school")]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface
 {
     use IdentifiableEntity;
@@ -41,61 +40,46 @@ class User implements UserInterface
     use CohortsEntity;
     use InstructorGroupsEntity;
     use LearningMaterialsEntity;
-
+    
     /**
      * @var int
-     *
-     * @ORM\Column(name="user_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'user_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=50)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 50
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'last_name', type: 'string', length: 50)]
     protected $lastName;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=50)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 50
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'first_name', type: 'string', length: 50)]
     protected $firstName;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="middle_name", type="string", length=20, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
@@ -104,498 +88,359 @@ class User implements UserInterface
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'middle_name', type: 'string', length: 20, nullable: true)]
     protected $middleName;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="display_name", type="string", length=200, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=200)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'display_name', type: 'string', length: 200, nullable: true)]
     protected $displayName;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="phone", type="string", length=30, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=30)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'phone', type: 'string', length: 30, nullable: true)]
     protected $phone;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=100)
-     *
      * @Assert\Email
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 100
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'email', type: 'string', length: 100)]
     protected $email;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="preferred_email", type="string", length=100, nullable=true)
-     *
      * @Assert\Email
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'preferred_email', type: 'string', length: 100, nullable: true)]
     protected $preferredEmail;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="added_via_ilios", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'added_via_ilios', type: 'boolean')]
     protected $addedViaIlios;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="enabled", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'enabled', type: 'boolean')]
     protected $enabled;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="uc_uid", type="string", length=16, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=16)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'uc_uid', type: 'string', length: 16, nullable: true)]
     protected $campusId;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="other_id", type="string", length=16, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=16)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'other_id', type: 'string', length: 16, nullable: true)]
     protected $otherId;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="examined", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'examined', type: 'boolean')]
     protected $examined;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="user_sync_ignore", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'user_sync_ignore', type: 'boolean')]
     protected $userSyncIgnore;
-
     /**
      * @var string
-     *
-     * @ORM\Column(name="ics_feed_key", type="string", length=64, unique=true)
-     *
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 64,
      *      max = 64
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'ics_feed_key', type: 'string', length: 64, unique: true)]
     protected $icsFeedKey;
-
     /**
      * @var AuthenticationInterface
-     *
-     * @ORM\OneToOne(targetEntity="Authentication", mappedBy="user")
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'Authentication', mappedBy: 'user')]
     protected $authentication;
-
     /**
      * @var ArrayCollection|AuditLogInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="AuditLog", mappedBy="user")
-     * @ORM\OrderBy({"id" = "ASC"})
      */
+    #[ORM\OneToMany(targetEntity: 'AuditLog', mappedBy: 'user')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $auditLogs;
-
     /**
      * @var ArrayCollection|LearningMaterialInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="owningUser")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * Don't put learningMaterials in the user API it takes forever to load them all
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'owningUser')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
-
     /**
      * @var ArrayCollection|ReportInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Report", mappedBy="user")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'Report', mappedBy: 'user')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $reports;
-
     /**
      * @var SchoolInterface
-     *
-     * @ORM\ManyToOne(targetEntity="School")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", nullable=false)
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'School')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     protected $school;
-
     /**
      * @var ArrayCollection|CourseInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="directors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'directors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directedCourses;
-
     /**
      * @var ArrayCollection|CourseInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="administrators")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'administrators')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administeredCourses;
-
     /**
      * @var ArrayCollection|CourseInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="studentAdvisors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'studentAdvisors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $studentAdvisedCourses;
-
     /**
      * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Session", mappedBy="administrators")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'administrators')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administeredSessions;
-
     /**
      * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Session", mappedBy="studentAdvisors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'studentAdvisors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $studentAdvisedSessions;
-
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="users")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'users')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
-
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructedLearnerGroups;
-
     /**
-    * @var ArrayCollection|InstructorGroupInterface[]
-    *
-    * @ORM\ManyToMany(targetEntity="InstructorGroup", mappedBy="users")
-     * @ORM\OrderBy({"id" = "ASC"})
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+     * @var ArrayCollection|InstructorGroupInterface[]
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    #[ORM\ManyToMany(targetEntity: 'InstructorGroup', mappedBy: 'users')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
-
     /**
      * @var ArrayCollection|IlmSessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorIlmSessions;
-
     /**
      * @var ArrayCollection|IlmSessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learners")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learners')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerIlmSessions;
-
     /**
      * @var ArrayCollection|OfferingInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learners")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learners')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $offerings;
-
     /**
      * @var ArrayCollection|OfferingInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructedOfferings;
-
     /**
      * @var ArrayCollection|ProgramYearInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="directors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'directors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYears;
-
     /**
      * @var ArrayCollection|AlertInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Alert", mappedBy="instigators")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * Don't put alerts in the user API it takes forever to load them all
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'instigators')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $alerts;
-
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="UserRole", inversedBy="users")
-     * @ORM\JoinTable(name="user_x_user_role",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_role_id", referencedColumnName="user_role_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'UserRole', inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_x_user_role')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_role_id', referencedColumnName: 'user_role_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $roles;
-
-   /**
-    * @var Collection
-    *
-    * @ORM\ManyToMany(targetEntity="Cohort", inversedBy="users")
-    * @ORM\JoinTable(name="user_x_cohort",
-    *   joinColumns={
-    *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-    *   },
-    *   inverseJoinColumns={
-    *     @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id")
-    *   }
-    * )
-    * @ORM\OrderBy({"id" = "ASC"})
-    *
-    * @IS\Expose
-    * @IS\Type("entityCollection")
-    */
+    /**
+     * @var Collection
+     * @IS\Expose
+     * @IS\Type("entityCollection")
+     */
+    #[ORM\ManyToMany(targetEntity: 'Cohort', inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_x_cohort')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    #[ORM\InverseJoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $cohorts;
-
     /**
      * @var CohortInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Cohort")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="primary_cohort_id", referencedColumnName="cohort_id")
      * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Cohort')]
+    #[ORM\JoinColumn(name: 'primary_cohort_id', referencedColumnName: 'cohort_id')]
     protected $primaryCohort;
-
     /**
      * @var ArrayCollection|PendingUserUpdateInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="PendingUserUpdate", mappedBy="user")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'PendingUserUpdate', mappedBy: 'user')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $pendingUserUpdates;
-
     /**
      * @var ArrayCollection|SchoolInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="School", mappedBy="directors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'School', mappedBy: 'directors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directedSchools;
-
     /**
      * @var ArrayCollection|SchoolInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="School", mappedBy="administrators")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'School', mappedBy: 'administrators')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administeredSchools;
-
     /**
      * @var ArrayCollection|ProgramInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Program", mappedBy="directors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Program', mappedBy: 'directors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directedPrograms;
-
     /**
      * @var bool
-     *
-     * @ORM\Column(name="root", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'root', type: 'boolean')]
     protected $root;
-
     /**
      * @var ArrayCollection|CurriculumInventoryReportInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="CurriculumInventoryReport", mappedBy="administrators")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'administrators')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administeredCurriculumInventoryReports;
-
     /**
      * Constructor
      */
@@ -633,7 +478,6 @@ class User implements UserInterface
 
         $this->generateIcsFeedKey();
     }
-
     /**
      * @param string $lastName
      */
@@ -641,7 +485,6 @@ class User implements UserInterface
     {
         $this->lastName = $lastName;
     }
-
     /**
      * @return string
      */
@@ -649,7 +492,6 @@ class User implements UserInterface
     {
         return $this->lastName;
     }
-
     /**
      * @param string $firstName
      */
@@ -657,7 +499,6 @@ class User implements UserInterface
     {
         $this->firstName = $firstName;
     }
-
     /**
      * @return string
      */
@@ -665,7 +506,6 @@ class User implements UserInterface
     {
         return $this->firstName;
     }
-
     /**
      * @param string $middleName
      */
@@ -673,7 +513,6 @@ class User implements UserInterface
     {
         $this->middleName = $middleName;
     }
-
     /**
      * @return string
      */
@@ -681,7 +520,6 @@ class User implements UserInterface
     {
         return $this->middleName;
     }
-
     /**
      * @inheritdoc
      */
@@ -689,7 +527,6 @@ class User implements UserInterface
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
-
     /**
      * @inheritdoc
      */
@@ -697,7 +534,6 @@ class User implements UserInterface
     {
         $this->displayName = $displayName;
     }
-
     /**
      * @inheritdoc
      */
@@ -705,7 +541,6 @@ class User implements UserInterface
     {
         return $this->displayName;
     }
-
     /**
      * @param string $phone
      */
@@ -713,7 +548,6 @@ class User implements UserInterface
     {
         $this->phone = $phone;
     }
-
     /**
      * @return string
      */
@@ -721,7 +555,6 @@ class User implements UserInterface
     {
         return $this->phone;
     }
-
     /**
      * @param string $email
      */
@@ -729,7 +562,6 @@ class User implements UserInterface
     {
         $this->email = $email;
     }
-
     /**
      * @return string
      */
@@ -737,7 +569,6 @@ class User implements UserInterface
     {
         return $this->email;
     }
-
     /**
      * @param string $email
      */
@@ -745,7 +576,6 @@ class User implements UserInterface
     {
         $this->preferredEmail = $email;
     }
-
     /**
      * @return string
      */
@@ -753,7 +583,6 @@ class User implements UserInterface
     {
         return $this->preferredEmail;
     }
-
     /**
      * @param bool $addedViaIlios
      */
@@ -761,7 +590,6 @@ class User implements UserInterface
     {
         $this->addedViaIlios = $addedViaIlios;
     }
-
     /**
      * @return bool
      */
@@ -769,7 +597,6 @@ class User implements UserInterface
     {
         return $this->addedViaIlios;
     }
-
     /**
      * @param bool $enabled
      */
@@ -777,7 +604,6 @@ class User implements UserInterface
     {
         $this->enabled = $enabled;
     }
-
     /**
      * @return bool
      */
@@ -785,7 +611,6 @@ class User implements UserInterface
     {
         return $this->enabled;
     }
-
     /**
      * @param string $campusId
      */
@@ -793,7 +618,6 @@ class User implements UserInterface
     {
         $this->campusId = $campusId;
     }
-
     /**
      * @return string
      */
@@ -801,7 +625,6 @@ class User implements UserInterface
     {
         return $this->campusId;
     }
-
     /**
      * @param string $otherId
      */
@@ -809,7 +632,6 @@ class User implements UserInterface
     {
         $this->otherId = $otherId;
     }
-
     /**
      * @return string
      */
@@ -817,7 +639,6 @@ class User implements UserInterface
     {
         return $this->otherId;
     }
-
     /**
      * @param bool $examined
      */
@@ -825,7 +646,6 @@ class User implements UserInterface
     {
         $this->examined = $examined;
     }
-
     /**
      * @return bool
      */
@@ -833,7 +653,6 @@ class User implements UserInterface
     {
         return $this->examined;
     }
-
     /**
      * @param bool $userSyncIgnore
      */
@@ -841,7 +660,6 @@ class User implements UserInterface
     {
         $this->userSyncIgnore = $userSyncIgnore;
     }
-
     /**
      * @return bool
      */
@@ -849,7 +667,6 @@ class User implements UserInterface
     {
         return $this->userSyncIgnore;
     }
-
     /**
      * @inheritdoc
      */
@@ -863,7 +680,6 @@ class User implements UserInterface
         // hash the string to give consistent length and URL safe characters
         $this->icsFeedKey = hash('sha256', $key);
     }
-
     /**
      * @inheritdoc
      */
@@ -871,7 +687,6 @@ class User implements UserInterface
     {
         $this->icsFeedKey = $icsFeedKey;
     }
-
     /**
      * @inheritdoc
      */
@@ -879,7 +694,6 @@ class User implements UserInterface
     {
         return $this->icsFeedKey;
     }
-
     /**
      * @param Collection $courses
      */
@@ -891,7 +705,6 @@ class User implements UserInterface
             $this->addDirectedCourse($course);
         }
     }
-
     /**
      * @param CourseInterface $course
      */
@@ -902,7 +715,6 @@ class User implements UserInterface
             $course->addDirector($this);
         }
     }
-
     /**
      * @param CourseInterface $course
      */
@@ -911,7 +723,6 @@ class User implements UserInterface
         $this->directedCourses->removeElement($course);
         $course->removeDirector($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -919,7 +730,6 @@ class User implements UserInterface
     {
         return $this->directedCourses;
     }
-
     /**
      * @param Collection $courses
      */
@@ -931,7 +741,6 @@ class User implements UserInterface
             $this->addAdministeredCourse($course);
         }
     }
-
     /**
      * @param CourseInterface $course
      */
@@ -942,7 +751,6 @@ class User implements UserInterface
             $course->addAdministrator($this);
         }
     }
-
     /**
      * @param CourseInterface $course
      */
@@ -951,7 +759,6 @@ class User implements UserInterface
         $this->administeredCourses->removeElement($course);
         $course->removeAdministrator($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -959,7 +766,6 @@ class User implements UserInterface
     {
         return $this->administeredCourses;
     }
-
     /**
      * @param Collection $courses
      */
@@ -971,7 +777,6 @@ class User implements UserInterface
             $this->addStudentAdvisedCourse($course);
         }
     }
-
     /**
      * @param CourseInterface $course
      */
@@ -982,7 +787,6 @@ class User implements UserInterface
             $course->addStudentAdvisor($this);
         }
     }
-
     /**
      * @param CourseInterface $course
      */
@@ -991,7 +795,6 @@ class User implements UserInterface
         $this->studentAdvisedCourses->removeElement($course);
         $course->removeStudentAdvisor($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -999,7 +802,6 @@ class User implements UserInterface
     {
         return $this->studentAdvisedCourses;
     }
-
     /**
      * @param Collection $sessions
      */
@@ -1011,7 +813,6 @@ class User implements UserInterface
             $this->addAdministeredSession($session);
         }
     }
-
     /**
      * @param SessionInterface $session
      */
@@ -1022,7 +823,6 @@ class User implements UserInterface
             $session->addAdministrator($this);
         }
     }
-
     /**
      * @param SessionInterface $session
      */
@@ -1031,7 +831,6 @@ class User implements UserInterface
         $this->administeredSessions->removeElement($session);
         $session->removeAdministrator($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -1039,7 +838,6 @@ class User implements UserInterface
     {
         return $this->administeredSessions;
     }
-
     /**
      * @param Collection $sessions
      */
@@ -1051,7 +849,6 @@ class User implements UserInterface
             $this->addStudentAdvisedSession($session);
         }
     }
-
     /**
      * @param SessionInterface $session
      */
@@ -1062,7 +859,6 @@ class User implements UserInterface
             $session->addStudentAdvisor($this);
         }
     }
-
     /**
      * @param SessionInterface $session
      */
@@ -1071,7 +867,6 @@ class User implements UserInterface
         $this->studentAdvisedSessions->removeElement($session);
         $session->removeStudentAdvisor($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -1079,7 +874,6 @@ class User implements UserInterface
     {
         return $this->studentAdvisedSessions;
     }
-
     /**
      * @inheritdoc
      */
@@ -1089,7 +883,6 @@ class User implements UserInterface
             return $course->getId();
         })->contains($courseId);
     }
-
     /**
      * @param LearnerGroupInterface $learnerGroup
      */
@@ -1100,7 +893,6 @@ class User implements UserInterface
             $learnerGroup->addUser($this);
         }
     }
-
     /**
      * @param LearnerGroupInterface $learnerGroup
      */
@@ -1111,7 +903,6 @@ class User implements UserInterface
             $learnerGroup->removeUser($this);
         }
     }
-
     /**
      * @param Collection $instructedLearnerGroups
      */
@@ -1123,7 +914,6 @@ class User implements UserInterface
             $this->addInstructedLearnerGroup($instructedLearnerGroup);
         }
     }
-
     /**
      * @param LearnerGroupInterface $instructedLearnerGroup
      */
@@ -1134,7 +924,6 @@ class User implements UserInterface
             $instructedLearnerGroup->addInstructor($this);
         }
     }
-
     /**
      * @param LearnerGroupInterface $instructedLearnerGroup
      */
@@ -1143,7 +932,6 @@ class User implements UserInterface
         $this->instructedLearnerGroups->removeElement($instructedLearnerGroup);
         $instructedLearnerGroup->removeInstructor($this);
     }
-
     /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
@@ -1151,7 +939,6 @@ class User implements UserInterface
     {
         return $this->instructedLearnerGroups;
     }
-
     /**
      * @param InstructorGroupInterface $instructorGroup
      */
@@ -1162,7 +949,6 @@ class User implements UserInterface
             $instructorGroup->addUser($this);
         }
     }
-
     /**
      * @param InstructorGroupInterface $instructorGroup
      */
@@ -1171,7 +957,6 @@ class User implements UserInterface
         $this->instructorGroups->removeElement($instructorGroup);
         $instructorGroup->removeUser($this);
     }
-
     /**
      * @param Collection $sessions
      */
@@ -1183,7 +968,6 @@ class User implements UserInterface
             $this->addInstructorIlmSession($session);
         }
     }
-
     /**
      * @param IlmSessionInterface $session
      */
@@ -1194,7 +978,6 @@ class User implements UserInterface
             $session->addInstructor($this);
         }
     }
-
     /**
      * @param IlmSessionInterface $session
      */
@@ -1203,7 +986,6 @@ class User implements UserInterface
         $this->instructorIlmSessions->removeElement($session);
         $session->removeInstructor($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -1211,7 +993,6 @@ class User implements UserInterface
     {
         return $this->instructorIlmSessions;
     }
-
     /**
      * @param Collection $sessions
      */
@@ -1223,7 +1004,6 @@ class User implements UserInterface
             $this->addLearnerIlmSession($session);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -1234,7 +1014,6 @@ class User implements UserInterface
             $session->addLearner($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -1245,7 +1024,6 @@ class User implements UserInterface
             $session->removeLearner($this);
         }
     }
-
     /**
      * @return ArrayCollection|IlmSessionInterface[]
      */
@@ -1253,7 +1031,6 @@ class User implements UserInterface
     {
         return $this->learnerIlmSessions;
     }
-
     /**
      * @param AlertInterface $alert
      */
@@ -1264,7 +1041,6 @@ class User implements UserInterface
             $alert->addInstigator($this);
         }
     }
-
     /**
      * @param AlertInterface $alert
      */
@@ -1273,7 +1049,6 @@ class User implements UserInterface
         $this->alerts->removeElement($alert);
         $alert->removeInstigator($this);
     }
-
     /**
      * @param Collection $roles
      */
@@ -1285,7 +1060,6 @@ class User implements UserInterface
             $this->addRole($role);
         }
     }
-
     /**
      * @param UserRoleInterface $role
      */
@@ -1295,7 +1069,6 @@ class User implements UserInterface
             $this->roles->add($role);
         }
     }
-
     /**
      * @param UserRoleInterface $role
      */
@@ -1303,7 +1076,6 @@ class User implements UserInterface
     {
         $this->roles->removeElement($role);
     }
-
     /**
      * @return ArrayCollection|UserRoleInterface[]
      */
@@ -1311,7 +1083,6 @@ class User implements UserInterface
     {
         return $this->roles;
     }
-
     /**
      * @param Collection $reports
      */
@@ -1323,7 +1094,6 @@ class User implements UserInterface
             $this->addReport($report);
         }
     }
-
     /**
      * @param ReportInterface $report
      */
@@ -1333,7 +1103,6 @@ class User implements UserInterface
             $this->reports->add($report);
         }
     }
-
     /**
      * @param ReportInterface $report
      */
@@ -1341,7 +1110,6 @@ class User implements UserInterface
     {
         $this->reports->removeElement($report);
     }
-
     /**
      * @inheritdoc
      */
@@ -1349,7 +1117,6 @@ class User implements UserInterface
     {
         return $this->reports;
     }
-
     /**
      * Remove Primary cohort if it is no longer a cohorts
      * @inheritdoc
@@ -1364,7 +1131,6 @@ class User implements UserInterface
             $this->setPrimaryCohort(null);
         }
     }
-
     /**
      * Remove Primary cohort if it is no longer a cohorts
      * @inheritdoc
@@ -1377,7 +1143,6 @@ class User implements UserInterface
             $this->setPrimaryCohort(null);
         }
     }
-
     /**
      * @param CohortInterface $primaryCohort
      */
@@ -1388,7 +1153,6 @@ class User implements UserInterface
         }
         $this->primaryCohort = $primaryCohort;
     }
-
     /**
      * @return CohortInterface
      */
@@ -1396,7 +1160,6 @@ class User implements UserInterface
     {
         return $this->primaryCohort;
     }
-
     /**
      * @param Collection $instructedOfferings
      */
@@ -1408,7 +1171,6 @@ class User implements UserInterface
             $this->addInstructedOffering($instructedOffering);
         }
     }
-
     /**
      * @param Offering $instructedOffering
      */
@@ -1419,7 +1181,6 @@ class User implements UserInterface
             $instructedOffering->addInstructor($this);
         }
     }
-
     /**
      * @param Offering $instructedOffering
      */
@@ -1428,7 +1189,6 @@ class User implements UserInterface
         $this->instructedOfferings->removeElement($instructedOffering);
         $instructedOffering->removeInstructor($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -1436,7 +1196,6 @@ class User implements UserInterface
     {
         return $this->instructedOfferings;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -1448,7 +1207,6 @@ class User implements UserInterface
             $authentication->setUser($this);
         }
     }
-
     /**
      * {@inheritdoc}
      */
@@ -1456,7 +1214,6 @@ class User implements UserInterface
     {
         return $this->authentication;
     }
-
     /**
      * @param Collection $auditLogs
      */
@@ -1468,7 +1225,6 @@ class User implements UserInterface
             $this->addAuditLog($auditLog);
         }
     }
-
     /**
      * @param AuditLogInterface $auditLog
      */
@@ -1478,7 +1234,6 @@ class User implements UserInterface
             $this->auditLogs->add($auditLog);
         }
     }
-
     /**
      * @param AuditLogInterface $auditLog
      */
@@ -1486,7 +1241,6 @@ class User implements UserInterface
     {
         $this->auditLogs->removeElement($auditLog);
     }
-
     /**
      * @return ArrayCollection[AuditLogInterface]
      */
@@ -1494,7 +1248,6 @@ class User implements UserInterface
     {
         return $this->auditLogs;
     }
-
     /**
      * @param Collection $pendingUserUpdates
      */
@@ -1506,7 +1259,6 @@ class User implements UserInterface
             $this->addPendingUserUpdate($pendingUserUpdate);
         }
     }
-
     /**
      * @param PendingUserUpdateInterface $pendingUserUpdate
      */
@@ -1516,7 +1268,6 @@ class User implements UserInterface
             $this->pendingUserUpdates->add($pendingUserUpdate);
         }
     }
-
     /**
      * @param PendingUserUpdateInterface $pendingUserUpdate
      */
@@ -1524,7 +1275,6 @@ class User implements UserInterface
     {
         $this->pendingUserUpdates->removeElement($pendingUserUpdate);
     }
-
     /**
      * @return ArrayCollection|PendingUserUpdateInterface[]
      */
@@ -1532,7 +1282,6 @@ class User implements UserInterface
     {
         return $this->pendingUserUpdates;
     }
-
     /**
      * @inheritdoc
      */
@@ -1543,7 +1292,6 @@ class User implements UserInterface
             $programYear->addDirector($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -1554,7 +1302,6 @@ class User implements UserInterface
             $programYear->removeDirector($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -1565,7 +1312,6 @@ class User implements UserInterface
             $offering->addLearner($this);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -1576,7 +1322,6 @@ class User implements UserInterface
             $offering->removeLearner($this);
         }
     }
-
     /**
      * @param Collection $schools
      */
@@ -1588,7 +1333,6 @@ class User implements UserInterface
             $this->addDirectedSchool($school);
         }
     }
-
     /**
      * @param SchoolInterface $school
      */
@@ -1599,7 +1343,6 @@ class User implements UserInterface
             $school->addDirector($this);
         }
     }
-
     /**
      * @param SchoolInterface $school
      */
@@ -1608,7 +1351,6 @@ class User implements UserInterface
         $this->directedSchools->removeElement($school);
         $school->removeDirector($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -1616,7 +1358,6 @@ class User implements UserInterface
     {
         return $this->directedSchools;
     }
-
     /**
      * @param Collection $schools
      */
@@ -1628,7 +1369,6 @@ class User implements UserInterface
             $this->addAdministeredSchool($school);
         }
     }
-
     /**
      * @param SchoolInterface $school
      */
@@ -1639,7 +1379,6 @@ class User implements UserInterface
             $school->addAdministrator($this);
         }
     }
-
     /**
      * @param SchoolInterface $school
      */
@@ -1648,7 +1387,6 @@ class User implements UserInterface
         $this->administeredSchools->removeElement($school);
         $school->removeAdministrator($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -1656,7 +1394,6 @@ class User implements UserInterface
     {
         return $this->administeredSchools;
     }
-
     /**
      * @param Collection $programs
      */
@@ -1668,7 +1405,6 @@ class User implements UserInterface
             $this->addDirectedProgram($program);
         }
     }
-
     /**
      * @param ProgramInterface $program
      */
@@ -1679,7 +1415,6 @@ class User implements UserInterface
             $program->addDirector($this);
         }
     }
-
     /**
      * @param ProgramInterface $program
      */
@@ -1688,7 +1423,6 @@ class User implements UserInterface
         $this->directedPrograms->removeElement($program);
         $program->removeDirector($this);
     }
-
     /**
      * @inheritdoc
      */
@@ -1696,7 +1430,6 @@ class User implements UserInterface
     {
         return $this->directedPrograms;
     }
-
     /**
      * Get all the schools an user is affiliated with so we can match
      * permissions.
@@ -1745,7 +1478,6 @@ class User implements UserInterface
 
         return $schools;
     }
-
     /**
      * @inheritdoc
      */
@@ -1753,7 +1485,6 @@ class User implements UserInterface
     {
         return $this->root;
     }
-
     /**
      * @inheritdoc
      */
@@ -1761,7 +1492,6 @@ class User implements UserInterface
     {
         $this->root = $root;
     }
-
     /**
      * @inheritdoc
      */
@@ -1769,7 +1499,6 @@ class User implements UserInterface
     {
         return $this->administeredCurriculumInventoryReports;
     }
-
     /**
      * @inheritdoc
      */
@@ -1781,7 +1510,6 @@ class User implements UserInterface
             $this->addAdministeredCurriculumInventoryReport($report);
         }
     }
-
     /**
      * @inheritdoc
      */
@@ -1792,7 +1520,6 @@ class User implements UserInterface
             $report->addAdministrator($this);
         }
     }
-
     /**
      * @inheritdoc
      */

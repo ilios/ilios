@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class SchoolDTO
  * Data transfer object for a school.
- *
  * @IS\DTO("schools")
  */
 class SchoolDTO

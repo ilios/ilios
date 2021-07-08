@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class CurriculumInventoryAcademicLevelDTO
- *
  * @IS\DTO("curriculumInventoryAcademicLevels")
  */
 class CurriculumInventoryAcademicLevelDTO
@@ -23,14 +22,13 @@ class CurriculumInventoryAcademicLevelDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
-    */
+     */
     public string $name;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
     public ?string $description;
 
     /**
@@ -47,11 +45,11 @@ class CurriculumInventoryAcademicLevelDTO
     public int $report;
 
     /**
-    * @var int[]
-    * @IS\Expose
-    * @IS\Related("curriculumInventorySequenceBlocks")
-    * @IS\Type("array<string>")
-    */
+     * @var int[]
+     * @IS\Expose
+     * @IS\Related("curriculumInventorySequenceBlocks")
+     * @IS\Type("array<string>")
+     */
     public array $sequenceBlocks = [];
 
     /**

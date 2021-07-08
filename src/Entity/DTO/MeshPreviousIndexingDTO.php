@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class MeshPreviousIndexingDTO
  * Data transfer object for a MeSH descriptor.
- *
  * @IS\DTO("meshPreviousIndexings")
  */
 class MeshPreviousIndexingDTO

@@ -15,69 +15,53 @@ use DateTimeInterface;
 
 /**
  * Class Authentication
- *
- * @ORM\Table(name="authentication")
- * @ORM\Entity(repositoryClass=AuthenticationRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'authentication')]
+#[ORM\Entity(repositoryClass: AuthenticationRepository::class)]
 class Authentication implements AuthenticationInterface
 {
     /**
      * @var UserInterface
-     *
-     * @ORM\Id
-     * @ORM\OneToOne(targetEntity="User", inversedBy="authentication")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="person_id", referencedColumnName="user_id", onDelete="CASCADE")
      * })
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Type("entity")
      * @IS\Expose
-    */
+     */
+    #[ORM\Id]
+    #[ORM\OneToOne(targetEntity: 'User', inversedBy: 'authentication')]
+    #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     protected $user;
-
     /**
-     * @ORM\Column(name="username", type="string", unique=true, length=100, nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'username', type: 'string', unique: true, length: 100, nullable: true)]
     private $username;
-
     /**
-     * @ORM\Column(name="password_hash", type="string", nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
      * })
-     *
      */
+    #[ORM\Column(name: 'password_hash', type: 'string', nullable: true)]
     private $passwordHash;
-
     /**
-     * @ORM\Column(name="invalidate_token_issued_before", type="datetime", nullable=true)
-     *
      * @Assert\Type(DateTimeInterface::class)
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]
     protected $invalidateTokenIssuedBefore;
-
     /**
      * @inheritdoc
      */
@@ -85,7 +69,6 @@ class Authentication implements AuthenticationInterface
     {
         $this->username = $username;
     }
-
     /**
      * @inheritdoc
      */
@@ -93,7 +76,6 @@ class Authentication implements AuthenticationInterface
     {
         return $this->username;
     }
-
     /**
      * @inheritdoc
      */
@@ -101,7 +83,6 @@ class Authentication implements AuthenticationInterface
     {
         $this->passwordHash = $passwordHash;
     }
-
     /**
      * @inheritdoc
      */
@@ -109,7 +90,6 @@ class Authentication implements AuthenticationInterface
     {
         return $this->passwordHash;
     }
-
     /**
      * @inheritDoc
      */
@@ -117,8 +97,6 @@ class Authentication implements AuthenticationInterface
     {
         return $this->getPasswordHash();
     }
-
-
     /**
      * @inheritdoc
      */
@@ -126,7 +104,6 @@ class Authentication implements AuthenticationInterface
     {
         $this->user = $user;
     }
-
     /**
      * @inheritdoc
      */
@@ -134,7 +111,6 @@ class Authentication implements AuthenticationInterface
     {
         return $this->user;
     }
-
     /**
      * @inheritdoc
      */
@@ -142,7 +118,6 @@ class Authentication implements AuthenticationInterface
     {
         $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
     }
-
     /**
      * @inheritdoc
      */
@@ -150,10 +125,9 @@ class Authentication implements AuthenticationInterface
     {
         return $this->invalidateTokenIssuedBefore;
     }
-
     /**
-    * @inheritdoc
-    */
+     * @inheritdoc
+     */
     public function __toString()
     {
         return (string) $this->user;

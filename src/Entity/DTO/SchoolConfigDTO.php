@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class SchoolConfigDTO
- *
  * @IS\DTO("schoolConfigs")
  */
 class SchoolConfigDTO
