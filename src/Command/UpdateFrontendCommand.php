@@ -187,6 +187,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         } catch (Exception $e) {
             print "\n\n**Warning: Unable to load frontend. Please run ilios:maintenance:update-frontend again.**\n\n\n";
         }
+
+        return [];
     }
 
     /**
