@@ -15,15 +15,11 @@ use App\Repository\CurriculumInventoryExportRepository;
 
 /**
  * Class CurriculumInventoryExport
- *
- * @ORM\Table(name="curriculum_inventory_export",
- *   indexes={
- *     @ORM\Index(name="fkey_curriculum_inventory_export_user_id", columns={"created_by"})
- *   }
- * )
- * @ORM\Entity(repositoryClass=CurriculumInventoryExportRepository::class)
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_export')]
+#[ORM\Index(columns: ['created_by'], name: 'fkey_curriculum_inventory_export_user_id')]
+#[ORM\Entity(repositoryClass: CurriculumInventoryExportRepository::class)]
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
     use IdentifiableEntity;
@@ -31,37 +27,27 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="export_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'export_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var CurriculumInventoryReportInterface
-     *
-     * @ORM\OneToOne(targetEntity="CurriculumInventoryReport", inversedBy="export")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", unique=true, nullable=false)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(inversedBy: 'export', targetEntity: 'CurriculumInventoryReport')]
+    #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', unique: true, nullable: false)]
     protected $report;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="document", type="text")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
@@ -70,36 +56,28 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      * )
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'document', type: 'text')]
     protected $document;
 
     /**
      * @var UserInterface
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="created_by", referencedColumnName="user_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'user_id')]
     protected $createdBy;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="created_on", type="datetime")
-     *
      * @Assert\NotBlank()
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'created_on', type: 'datetime')]
     protected $createdAt;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->createdAt = new \DateTime();

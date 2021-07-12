@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class LearnerGroupDTO
  * Data transfer object for a learner group
- *
  * @IS\DTO("learnerGroups")
  */
 class LearnerGroupDTO

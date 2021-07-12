@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * Class MeshQualifierDTO
- *
  * @IS\DTO("meshQualifiers")
  */
 class MeshQualifierDTO

@@ -20,12 +20,10 @@ use App\Repository\IlmSessionRepository;
 
 /**
  * Class IlmSession
- *
- * @ORM\Table(name="ilm_session_facet")
- * @ORM\Entity(repositoryClass=IlmSessionRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'ilm_session_facet')]
+#[ORM\Entity(repositoryClass: IlmSessionRepository::class)]
 class IlmSession implements IlmSessionInterface
 {
     use IdentifiableEntity;
@@ -38,147 +36,107 @@ class IlmSession implements IlmSessionInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="ilm_session_facet_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'ilm_session_facet_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var Session
-     *
-     * @ORM\OneToOne(targetEntity="Session", inversedBy="ilmSession")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(
-     *      name="session_id",
-     *      referencedColumnName="session_id",
-     *      nullable=false,
-     *      unique=true,
-     *      onDelete="CASCADE"
-     *   )
-     * })
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'Session', inversedBy: 'ilmSession')]
+    #[ORM\JoinColumn(
+        name: 'session_id',
+        referencedColumnName: 'session_id',
+        unique: true,
+        nullable: false,
+        onDelete: 'CASCADE'
+    )]
     protected $session;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="hours", type="decimal", precision=6, scale=2)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="numeric")
      * @Assert\Length(
      *      min = 0,
      *      max = 10000
      * )
-     *
      * @IS\Expose
      * @IS\Type("float")
      */
+    #[ORM\Column(name: 'hours', type: 'decimal', precision: 6, scale: 2)]
     protected $hours;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="due_date", type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'due_date', type: 'datetime')]
     protected $dueDate;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="ilmSessions")
-     * @ORM\JoinTable(name="ilm_session_facet_x_group",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'ilmSessions')]
+    #[ORM\JoinTable(name: 'ilm_session_facet_x_group')]
+    #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="ilmSessions")
-     * @ORM\JoinTable(name="ilm_session_facet_x_instructor_group",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'ilmSessions')]
+    #[ORM\JoinTable(name: 'ilm_session_facet_x_instructor_group')]
+    #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'instructor_group_id',
+        referencedColumnName: 'instructor_group_id',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructorIlmSessions")
-     * @ORM\JoinTable(name="ilm_session_facet_x_instructor",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructorIlmSessions')]
+    #[ORM\JoinTable(name: 'ilm_session_facet_x_instructor')]
+    #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructors;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="learnerIlmSessions")
-     * @ORM\JoinTable(name="ilm_session_facet_x_learner",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="ilm_session_facet_id", referencedColumnName="ilm_session_facet_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerIlmSessions')]
+    #[ORM\JoinTable(name: 'ilm_session_facet_x_learner')]
+    #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learners;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->learnerGroups = new ArrayCollection();
@@ -239,7 +197,6 @@ class IlmSession implements IlmSessionInterface
     {
         $this->session = $session;
     }
-
 
     /**
      * @inheritdoc

@@ -13,12 +13,10 @@ use App\Repository\IngestionExceptionRepository;
 
 /**
  * Class IngestionException
- *
- * @ORM\Entity(repositoryClass=IngestionExceptionRepository::class)
- * @ORM\Table(name="ingestion_exception")
- *
  * @IS\Entity
  */
+#[ORM\Entity(repositoryClass: IngestionExceptionRepository::class)]
+#[ORM\Table(name: 'ingestion_exception')]
 class IngestionException implements IngestionExceptionInterface
 {
     use IdentifiableEntity;
@@ -26,51 +24,49 @@ class IngestionException implements IngestionExceptionInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="ingestion_exception_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'ingestion_exception_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
+
     /**
      * @var string
-     *
-     * @ORM\Column(name="ingested_wide_uid", type="string", length=32)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 32
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'ingested_wide_uid', type: 'string', length: 32)]
     protected $uid;
 
     /**
      * @var UserInterface
-     *
-     * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(
      *      name="user_id",
      *      referencedColumnName="user_id",
      *      onDelete="CASCADE",
      *      unique=true,
      *      nullable=false
      * )})
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(
+        name: 'user_id',
+        referencedColumnName: 'user_id',
+        unique: true,
+        nullable: false,
+        onDelete: 'CASCADE'
+    )]
     protected $user;
 
     /**

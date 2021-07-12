@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class SessionObjectiveDTO
- *
  * @IS\DTO("sessionObjectives")
  */
 class SessionObjectiveDTO
@@ -98,7 +97,6 @@ class SessionObjectiveDTO
      * @IS\Expose
      * @IS\Related("sessionObjectives")
      * @IS\Type("integer")
-     *
      */
     public ?int $ancestor = null;
 

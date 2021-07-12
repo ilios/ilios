@@ -13,15 +13,11 @@ use App\Repository\MeshPreviousIndexingRepository;
 
 /**
  * Class MeshPreviousIndexing
- *
- * @ORM\Table(name="mesh_previous_indexing",
- *  uniqueConstraints={
- *      @ORM\UniqueConstraint(name="descriptor_previous", columns={"mesh_descriptor_uid"})
- *  })
- * @ORM\Entity(repositoryClass=MeshPreviousIndexingRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'mesh_previous_indexing')]
+#[ORM\UniqueConstraint(name: 'descriptor_previous', columns: ['mesh_descriptor_uid'])]
+#[ORM\Entity(repositoryClass: MeshPreviousIndexingRepository::class)]
 class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 {
     use IdentifiableEntity;
@@ -29,47 +25,37 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="mesh_previous_indexing_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'mesh_previous_indexing_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var MeshDescriptorInterface
-     *
-     * @ORM\OneToOne(targetEntity="MeshDescriptor", inversedBy="previousIndexing")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", unique=true)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(inversedBy: 'previousIndexing', targetEntity: 'MeshDescriptor')]
+    #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', unique: true)]
     protected $descriptor;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="previous_indexing", type="text")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'previous_indexing', type: 'text')]
     protected $previousIndexing;
 
     /**

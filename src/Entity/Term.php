@@ -24,16 +24,11 @@ use App\Repository\TermRepository;
 
 /**
  * Class Term
- *
- * @ORM\Table(name="term",
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="unique_term_title", columns={"vocabulary_id", "title", "parent_term_id"})
- *   }
- * )
- * @ORM\Entity(repositoryClass=TermRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'term')]
+#[ORM\UniqueConstraint(name: 'unique_term_title', columns: ['vocabulary_id', 'title', 'parent_term_id'])]
+#[ORM\Entity(repositoryClass: TermRepository::class)]
 class Term implements TermInterface
 {
     use CoursesEntity;
@@ -50,193 +45,147 @@ class Term implements TermInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="term_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'term_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var ArrayCollection|CourseInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="terms")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'terms')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
 
     /**
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
 
     /**
      * @var TermInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Term", inversedBy="children")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_term_id", referencedColumnName="term_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Term', inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'parent_term_id', referencedColumnName: 'term_id')]
     protected $parent;
 
     /**
      * @var ArrayCollection|TermInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Term", mappedBy="parent")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Term')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
 
     /**
      * @var ArrayCollection|ProgramYearInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="ProgramYear", mappedBy="terms")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'terms')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $programYears;
 
     /**
      * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Session", mappedBy="terms")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'terms')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
 
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="SessionObjective", mappedBy="terms")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'terms')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $sessionObjectives;
 
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="CourseObjective", mappedBy="terms")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'terms')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $courseObjectives;
 
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="ProgramYearObjective", mappedBy="terms")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'terms')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $programYearObjectives;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=200, nullable=false)
-     *
      * @Assert\NotBlank
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $title;
 
     /**
      * @var VocabularyInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Vocabulary", inversedBy="terms")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="vocabulary_id", referencedColumnName="vocabulary_id", nullable=false)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Vocabulary', inversedBy: 'terms')]
+    #[ORM\JoinColumn(name: 'vocabulary_id', referencedColumnName: 'vocabulary_id', nullable: false)]
     protected $vocabulary;
 
     /**
      * @var ArrayCollection|AamcResourceTypeInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="AamcResourceType", inversedBy="terms")
-     * @ORM\JoinTable(name="term_x_aamc_resource_type",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="resource_type_id", referencedColumnName="resource_type_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'AamcResourceType', inversedBy: 'terms')]
+    #[ORM\JoinTable(name: 'term_x_aamc_resource_type')]
+    #[ORM\JoinColumn(name: 'term_id', referencedColumnName: 'term_id')]
+    #[ORM\InverseJoinColumn(name: 'resource_type_id', referencedColumnName: 'resource_type_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $aamcResourceTypes;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $active;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->aamcResourceTypes = new ArrayCollection();

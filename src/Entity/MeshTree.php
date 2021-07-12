@@ -15,12 +15,10 @@ use App\Repository\MeshTreeRepository;
 
 /**
  * Class MeshTree
- *
- * @ORM\Table(name="mesh_tree")
- * @ORM\Entity(repositoryClass=MeshTreeRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'mesh_tree')]
+#[ORM\Entity(repositoryClass: MeshTreeRepository::class)]
 class MeshTree implements MeshTreeInterface
 {
     use IdentifiableEntity;
@@ -28,49 +26,38 @@ class MeshTree implements MeshTreeInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="mesh_tree_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'mesh_tree_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="tree_number", type="string", length=80)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 80
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'tree_number', type: 'string', length: 80)]
     protected $treeNumber;
 
     /**
      * @var MeshDescriptorInterface
-     *
-     * @ORM\ManyToOne(targetEntity="MeshDescriptor", inversedBy="trees")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'MeshDescriptor', inversedBy: 'trees')]
+    #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
     protected $descriptor;
-
 
     /**
      * Set treeNumber

@@ -17,12 +17,10 @@ use App\Repository\CourseClerkshipTypeRepository;
 
 /**
  * Class CourseClerkshipType
- *
- * @ORM\Table(name="course_clerkship_type")
- * @ORM\Entity(repositoryClass=CourseClerkshipTypeRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'course_clerkship_type')]
+#[ORM\Entity(repositoryClass: CourseClerkshipTypeRepository::class)]
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
     use IdentifiableEntity;
@@ -32,24 +30,18 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="course_clerkship_type_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'course_clerkship_type_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=20)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
@@ -59,17 +51,16 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 20)]
     protected $title;
 
     /**
      * @var ArrayCollection|CourseInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="Course", mappedBy="clerkshipType")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'clerkshipType', targetEntity: 'Course')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
 
     public function __construct()

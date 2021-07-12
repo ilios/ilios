@@ -19,20 +19,12 @@ use App\Repository\CurriculumInventoryReportRepository;
 
 /**
  * Class CurriculumInventoryReport
- *
- * @ORM\Table(
- *   name="curriculum_inventory_report",
- *   indexes={
- *     @ORM\Index(name="IDX_6E31899E3EB8070A", columns={"program_id"})
- *   },
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="idx_ci_report_token_unique", columns={"token"})
- *   }
- * )
- * @ORM\Entity(repositoryClass=CurriculumInventoryReportRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_report')]
+#[ORM\Index(columns: ['program_id'], name: 'IDX_6E31899E3EB8070A')]
+#[ORM\UniqueConstraint(name: 'idx_ci_report_token_unique', columns: ['token'])]
+#[ORM\Entity(repositoryClass: CurriculumInventoryReportRepository::class)]
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
     use IdentifiableEntity;
@@ -44,178 +36,136 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="report_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'report_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=200, nullable=true)
-    *
-    * @Assert\Type(type="string")
-    * @Assert\AtLeastOneOf({
-    *     @Assert\Blank,
-    *     @Assert\Length(min=1,max=200)
-    * })
-    *
-    * @IS\Expose
-    * @IS\Type("string")
-    */
+     * @var string
+     * @Assert\Type(type="string")
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Blank,
+     *     @Assert\Length(min=1,max=200)
+     * })
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    #[ORM\Column(type: 'string', length: 200, nullable: true)]
     protected $name;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="description", type="text", nullable=true)
-    *
-    * @Assert\Type(type="string")
+     * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-    *
-    * @IS\Expose
-    * @IS\Type("string")
-    */
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="year", type="smallint")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'year', type: 'smallint')]
     protected $year;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="date", name="start_date")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'start_date', type: 'date')]
     protected $startDate;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(type="date", name="end_date")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'end_date', type: 'date')]
     protected $endDate;
 
     /**
      * @var CurriculumInventoryExportInterface
-     *
-     * @ORM\OneToOne(targetEntity="CurriculumInventoryExport", mappedBy="report")
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventoryExport')]
     protected $export;
 
     /**
      * @var CurriculumInventorySequenceInterface
-     *
-     * @ORM\OneToOne(targetEntity="CurriculumInventorySequence", mappedBy="report")
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventorySequence')]
     protected $sequence;
 
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock",mappedBy="report")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sequenceBlocks;
 
     /**
      * @var ProgramInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Program", inversedBy="curriculumInventoryReports")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'curriculumInventoryReports')]
+    #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     protected $program;
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
-     *
-     * @ORM\OneToMany(targetEntity="CurriculumInventoryAcademicLevel", mappedBy="report")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $academicLevels;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="token", type="string", length=64, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=64)
      * })
      */
+    #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     protected $token;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="administeredCurriculumInventoryReports"))
-     * @ORM\JoinTable(name="curriculum_inventory_report_administrator",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredCurriculumInventoryReports')]
+    #[ORM\JoinTable(name: 'curriculum_inventory_report_administrator')]
+    #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $administrators;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->academicLevels = new ArrayCollection();

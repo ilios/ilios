@@ -25,12 +25,10 @@ use App\Repository\MeshDescriptorRepository;
 
 /**
  * Class MeshDescriptor
- *
- * @ORM\Table(name="mesh_descriptor")
- * @ORM\Entity(repositoryClass=MeshDescriptorRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'mesh_descriptor')]
+#[ORM\Entity(repositoryClass: MeshDescriptorRepository::class)]
 class MeshDescriptor implements MeshDescriptorInterface
 {
     use IdentifiableEntity;
@@ -47,207 +45,170 @@ class MeshDescriptor implements MeshDescriptorInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="mesh_descriptor_uid", type="string", length=12)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=12)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'mesh_descriptor_uid', type: 'string', length: 12)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=192)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=192)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 192)]
     protected $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="annotation", type="text", nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'annotation', type: 'text', nullable: true)]
     protected $annotation;
 
     /**
      * @var DateTime
-     * @ORM\Column(name="created_at", type="datetime")
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
     protected $createdAt;
 
     /**
      * @var DateTime
-     * @ORM\Column(name="updated_at", type="datetime")
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'updated_at', type: 'datetime')]
     protected $updatedAt;
 
     /**
      * @var bool
-     * @ORM\Column(name="deleted", type="boolean")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'deleted', type: 'boolean')]
     protected $deleted;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Course", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'meshDescriptors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courses;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Session", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'meshDescriptors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="MeshConcept", mappedBy="descriptors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshConcept', mappedBy: 'descriptors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $concepts;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="MeshQualifier", mappedBy="descriptors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshQualifier', mappedBy: 'descriptors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $qualifiers;
 
     /**
      * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="MeshTree", mappedBy="descriptor")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'descriptor', targetEntity: 'MeshTree')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $trees;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="SessionLearningMaterial", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'meshDescriptors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionLearningMaterials;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="CourseLearningMaterial", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'meshDescriptors')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseLearningMaterials;
 
     /**
      * @var MeshPreviousIndexingInterface
-     *
-     * @ORM\OneToOne(targetEntity="MeshPreviousIndexing", mappedBy="descriptor")
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(targetEntity: 'MeshPreviousIndexing', mappedBy: 'descriptor')]
     protected $previousIndexing;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="SessionObjective", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'meshDescriptors')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $sessionObjectives;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="CourseObjective", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'meshDescriptors')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $courseObjectives;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="ProgramYearObjective", mappedBy="meshDescriptors")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'meshDescriptors')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $programYearObjectives;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->courses = new ArrayCollection();

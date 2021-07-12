@@ -15,12 +15,10 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class Alert
- *
- * @ORM\Table(name="alert")
- * @ORM\Entity(repositoryClass=AlertRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'alert')]
+#[ORM\Entity(repositoryClass: AlertRepository::class)]
 class Alert implements AlertInterface
 {
     use IdentifiableEntity;
@@ -28,138 +26,99 @@ class Alert implements AlertInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="alert_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'alert_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="table_row_id", type="integer")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'table_row_id', type: 'integer')]
     protected $tableRowId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="table_name", type="string", length=30)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 30
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'table_name', type: 'string', length: 30)]
     protected $tableName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="additional_text", type="text", nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'additional_text', type: 'text', nullable: true)]
     protected $additionalText;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="dispatched", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'dispatched', type: 'boolean')]
     protected $dispatched;
 
     /**
      * @var ArrayCollection|AlertChangeTypeInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="AlertChangeType", inversedBy="alerts")
-     * @ORM\JoinTable(name="alert_change",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="alert_change_type_id", referencedColumnName="alert_change_type_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'AlertChangeType', inversedBy: 'alerts')]
+    #[ORM\JoinTable(name: 'alert_change')]
+    #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'alert_change_type_id', referencedColumnName: 'alert_change_type_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $changeTypes;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="alerts")
-     * @ORM\JoinTable(name="alert_instigator",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'alerts')]
+    #[ORM\JoinTable(name: 'alert_instigator')]
+    #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instigators;
 
     /**
      * @var ArrayCollection|SchoolInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="School", inversedBy="alerts")
-     * @ORM\JoinTable(name="alert_recipient",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="alert_id", referencedColumnName="alert_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'School', inversedBy: 'alerts')]
+    #[ORM\JoinTable(name: 'alert_recipient')]
+    #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $recipients;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->changeTypes = new ArrayCollection();

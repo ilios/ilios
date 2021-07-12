@@ -20,12 +20,10 @@ use App\Repository\ProgramYearRepository;
 
 /**
  * Class ProgramYear
- *
- * @ORM\Table(name="program_year")
- * @ORM\Entity(repositoryClass=ProgramYearRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'program_year')]
+#[ORM\Entity(repositoryClass: ProgramYearRepository::class)]
 class ProgramYear implements ProgramYearInterface
 {
     use IdentifiableEntity;
@@ -38,154 +36,110 @@ class ProgramYear implements ProgramYearInterface
     use CompetenciesEntity;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="program_year_id", type="integer")
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="IDENTITY")
-    *
-    * @Assert\Type(type="integer")
-    *
-    * @IS\Expose
-    * @IS\Type("integer")
+     * @var int
+     * @Assert\Type(type="integer")
+     * @IS\Expose
+     * @IS\Type("integer")
      * @IS\ReadOnly
-    */
+     */
+    #[ORM\Column(name: 'program_year_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var int
-     *
      * @IS\Expose
      * @IS\Type("integer")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
-     * @ORM\Column(name="start_year", type="smallint")
      */
+    #[ORM\Column(name: 'start_year', type: 'smallint')]
     protected $startYear;
 
     /**
      * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
-     * @ORM\Column(name="locked", type="boolean")
      */
+    #[ORM\Column(name: 'locked', type: 'boolean')]
     protected $locked;
 
     /**
      * @var bool
-     *
      * @IS\Expose
      * @IS\Type("boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
-     * @ORM\Column(name="archived", type="boolean")
      */
+    #[ORM\Column(name: 'archived', type: 'boolean')]
     protected $archived;
 
     /**
      * @var ProgramInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Program", inversedBy="programYears")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="program_id", referencedColumnName="program_id")
-     * })
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'programYears')]
+    #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     protected $program;
 
     /**
-    * @var CohortInterface
-    *
-    * @ORM\OneToOne(targetEntity="Cohort", mappedBy="programYear")
-    *
-    * @IS\Expose
-    * @IS\Type("entity")
-    */
+     * @var CohortInterface
+     * @IS\Expose
+     * @IS\Type("entity")
+     */
+    #[ORM\OneToOne(targetEntity: 'Cohort', mappedBy: 'programYear')]
     protected $cohort;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="programYears")
-     * @ORM\JoinTable(name="program_year_director",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'programYears')]
+    #[ORM\JoinTable(name: 'program_year_director')]
+    #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $directors;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Competency", inversedBy="programYears")
-     * @ORM\JoinTable(name="program_year_x_competency",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="competency_id", referencedColumnName="competency_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Competency', inversedBy: 'programYears')]
+    #[ORM\JoinTable(name: 'program_year_x_competency')]
+    #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'competency_id', referencedColumnName: 'competency_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $competencies;
 
     /**
      * @var ArrayCollection|TermInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Term", inversedBy="programYears")
-     * @ORM\JoinTable(name="program_year_x_term",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="program_year_id", referencedColumnName="program_year_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYears')]
+    #[ORM\JoinTable(name: 'program_year_x_term')]
+    #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
 
     /**
      * @var ArrayCollection|ProgramYearObjective[]
-     *
-     * @ORM\OneToMany(targetEntity="ProgramYearObjective", mappedBy="programYear")
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'programYear')]
+    #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     protected $programYearObjectives;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->archived = false;

@@ -15,12 +15,10 @@ use App\Repository\CurriculumInventoryInstitutionRepository;
 
 /**
  * Class CurriculumInventoryInstitution
- *
- * @ORM\Table(name="curriculum_inventory_institution")
- * @ORM\Entity(repositoryClass=CurriculumInventoryInstitutionRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_institution')]
+#[ORM\Entity(repositoryClass: CurriculumInventoryInstitutionRepository::class)]
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
     use NameableEntity;
@@ -30,149 +28,122 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="institution_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'institution_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=100)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 100
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 100)]
     protected $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="aamc_code", type="string", length=10)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 10
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'aamc_code', type: 'string', length: 10)]
     protected $aamcCode;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=100, name="address_street")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 100
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'address_street', type: 'string', length: 100)]
     protected $addressStreet;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=100, name="address_city")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 100
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'address_city', type: 'string', length: 100)]
     protected $addressCity;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=50, name="address_state_or_province")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 50
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'address_state_or_province', type: 'string', length: 50)]
     protected $addressStateOrProvince;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=10, name="address_zipcode")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 10
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'address_zipcode', type: 'string', length: 10)]
     protected $addressZipCode;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=2, name="address_country_code")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 2
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'address_country_code', type: 'string', length: 2)]
     protected $addressCountryCode;
 
     /**
      * @var SchoolInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\OneToOne(targetEntity="School", inversedBy="curriculumInventoryInstitution")
-     * @ORM\JoinColumn(name="school_id", referencedColumnName="school_id", unique=true, nullable=false)
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\OneToOne(inversedBy: 'curriculumInventoryInstitution', targetEntity: 'School')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', unique: true, nullable: false)]
     protected $school;
 
     /**

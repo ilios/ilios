@@ -17,12 +17,10 @@ use App\Repository\LearningMaterialUserRoleRepository;
 
 /**
  * Class LearningMaterialUserRole
- *
- * @ORM\Table(name="learning_material_user_role")
- * @ORM\Entity(repositoryClass=LearningMaterialUserRoleRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'learning_material_user_role')]
+#[ORM\Entity(repositoryClass: LearningMaterialUserRoleRepository::class)]
 class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
     use IdentifiableEntity;
@@ -32,47 +30,37 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="learning_material_user_role_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'learning_material_user_role_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
      * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 60)]
     protected $title;
 
     /**
      * @var ArrayCollection|LearningMaterialInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="LearningMaterial", mappedBy="userRole")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      */
+    #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'userRole')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learningMaterials;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();

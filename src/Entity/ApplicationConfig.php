@@ -14,15 +14,11 @@ use App\Traits\NameableEntity;
 
 /**
  * Class ApplicationConfig
- *
- * @ORM\Table(name="application_config",
- *   uniqueConstraints={
- *     @ORM\UniqueConstraint(name="app_conf_uniq", columns={"name"})
- *   }
- * )
- * @ORM\Entity(repositoryClass=ApplicationConfigRepository::class)
  * @IS\Entity
  */
+#[ORM\Table(name: 'application_config')]
+#[ORM\UniqueConstraint(name: 'app_conf_uniq', columns: ['name'])]
+#[ORM\Entity(repositoryClass: ApplicationConfigRepository::class)]
 class ApplicationConfig implements ApplicationConfigInterface
 {
     use IdentifiableEntity;
@@ -31,51 +27,42 @@ class ApplicationConfig implements ApplicationConfigInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=200, nullable=false)
-     *
      * @Assert\Type(type="string")
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 200, nullable: false)]
     protected $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="value", type="text", nullable=false)
-     *
      * @Assert\Type(type="string")
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     protected $value;
 
     /**

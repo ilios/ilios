@@ -14,12 +14,10 @@ use App\Repository\ReportRepository;
 
 /**
  * Class Report
- *
- * @ORM\Table(name="report")
- * @ORM\Entity(repositoryClass=ReportRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'report')]
+#[ORM\Entity(repositoryClass: ReportRepository::class)]
 class Report implements ReportInterface
 {
     use IdentifiableEntity;
@@ -28,123 +26,96 @@ class Report implements ReportInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="report_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'report_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=240, nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=240)
      * })
-     *
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 240, nullable: true)]
     protected $title;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="creation_date", type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'creation_date', type: 'datetime')]
     protected $createdAt;
 
     /**
      * @var SchoolInterface
-     *
-     * @ORM\ManyToOne(targetEntity="School")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'School')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="subject", type="string", length=32)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 32
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'subject', type: 'string', length: 32)]
     protected $subject;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="prepositional_object", type="string", length=32, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=32)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'prepositional_object', type: 'string', length: 32, nullable: true)]
     protected $prepositionalObject;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="prepositional_object_table_row_id", type="string", length=14, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=14)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'prepositional_object_table_row_id', type: 'string', length: 14, nullable: true)]
     protected $prepositionalObjectTableRowId;
 
     /**
      * @var UserInterface $user
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="reports")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="cascade", nullable=false)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'reports')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'cascade', nullable: false)]
     protected $user;
 
     /**

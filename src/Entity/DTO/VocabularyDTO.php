@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class VocabularyDTO
- *
  * @IS\DTO("vocabularies")
  */
 class VocabularyDTO

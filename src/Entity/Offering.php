@@ -21,17 +21,12 @@ use App\Repository\OfferingRepository;
 
 /**
  * Class Offering
- *
- * @ORM\Table(name="offering",
- *   indexes={
- *     @ORM\Index(name="session_id_k", columns={"session_id"}),
- *     @ORM\Index(name="offering_dates_session_k", columns={"offering_id", "session_id", "start_date", "end_date"})
- *   }
- * )
- * @ORM\Entity(repositoryClass=OfferingRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'offering')]
+#[ORM\Index(columns: ['session_id'], name: 'session_id_k')]
+#[ORM\Index(columns: ['offering_id', 'session_id', 'start_date', 'end_date'], name: 'offering_dates_session_k')]
+#[ORM\Entity(repositoryClass: OfferingRepository::class)]
 class Offering implements OfferingInterface
 {
     use IdentifiableEntity;
@@ -45,197 +40,141 @@ class Offering implements OfferingInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="offering_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'offering_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="room", type="string", length=255, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'room', type: 'string', length: 255, nullable: true)]
     protected $room;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="site", type="string", length=255, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'site', type: 'string', length: 255, nullable: true)]
     protected $site;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=2000, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      max = 2000,
      * )
      * @Assert\Url
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     protected $url;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="start_date", type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'start_date', type: 'datetime')]
     protected $startDate;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="end_date", type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'end_date', type: 'datetime')]
     protected $endDate;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="last_updated_on", type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     protected $updatedAt;
 
     /**
      * @var Session
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Session", inversedBy="offerings")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'offerings')]
+    #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     protected $session;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="LearnerGroup", inversedBy="offerings")
-     * @ORM\JoinTable(name="offering_x_group",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'offerings')]
+    #[ORM\JoinTable(name: 'offering_x_group')]
+    #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="offerings")
-     * @ORM\JoinTable(name="offering_x_instructor_group",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'offerings')]
+    #[ORM\JoinTable(name: 'offering_x_instructor_group')]
+    #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="offerings")
-     * @ORM\JoinTable(name="offering_x_learner",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'offerings')]
+    #[ORM\JoinTable(name: 'offering_x_learner')]
+    #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learners;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedOfferings")
-     * @ORM\JoinTable(name="offering_x_instructor",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="offering_id", referencedColumnName="offering_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedOfferings')]
+    #[ORM\JoinTable(name: 'offering_x_instructor')]
+    #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructors;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->updatedAt = new DateTime();
@@ -244,12 +183,10 @@ class Offering implements OfferingInterface
         $this->learners = new ArrayCollection();
         $this->instructors = new ArrayCollection();
     }
-
     public function setRoom(?string $room)
     {
         $this->room = $room;
     }
-
     public function getRoom(): ?string
     {
         return $this->room;
@@ -270,12 +207,10 @@ class Offering implements OfferingInterface
     {
         return $this->site;
     }
-
     public function setUrl(?string $url)
     {
         $this->url = $url;
     }
-
     public function getUrl(): ?string
     {
         return $this->url;

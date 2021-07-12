@@ -19,16 +19,11 @@ use App\Repository\LearningMaterialRepository;
  * Class LearningMaterial
  * Learning materials are not serialized like other entities.  They are decorated by the controller and
  * then sent as plain php objects in order to insert the absolute path to the file
- *
- *
- * @ORM\Entity(repositoryClass=LearningMaterialRepository::class)
- * @ORM\Table(
- *  name="learning_material",
- *  uniqueConstraints={@ORM\UniqueConstraint(name="idx_learning_material_token_unique", columns={"token"})}
- * )
- *
  * @IS\Entity
  */
+#[ORM\Entity(repositoryClass: LearningMaterialRepository::class)]
+#[ORM\Table(name: 'learning_material')]
+#[ORM\UniqueConstraint(name: 'idx_learning_material_token_unique', columns: ['token'])]
 class LearningMaterial implements LearningMaterialInterface
 {
     use IdentifiableEntity;
@@ -38,41 +33,32 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="learning_material_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'learning_material_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=120)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 120
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 120)]
     protected $title;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
@@ -82,145 +68,118 @@ class LearningMaterial implements LearningMaterialInterface
      * @IS\Type("string")
      * @IS\RemoveMarkup
      */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="upload_date", type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      * @IS\Expose
      * @IS\ReadOnly
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'upload_date', type: 'datetime')]
     protected $uploadDate;
 
     /**
      * renamed Asset Creator
      * @var string
-     *
-     * @ORM\Column(name="asset_creator", type="string", length=80, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=80)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'asset_creator', type: 'string', length: 80, nullable: true)]
     protected $originalAuthor;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="token", type="string", length=64, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=64)
      * })
      */
+    #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     protected $token;
 
     /**
      * @var LearningMaterialUserRoleInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="LearningMaterialUserRole", inversedBy="learningMaterials")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(
-     *     name="learning_material_user_role_id",
-     *     referencedColumnName="learning_material_user_role_id",
-     *     nullable=false)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'LearningMaterialUserRole', inversedBy: 'learningMaterials')]
+    #[ORM\JoinColumn(
+        name: 'learning_material_user_role_id',
+        referencedColumnName: 'learning_material_user_role_id',
+        nullable: false
+    )]
     protected $userRole;
 
     /**
      * @var LearningMaterialStatusInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="LearningMaterialStatus", inversedBy="learningMaterials")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(
-     *     name="learning_material_status_id",
-     *     referencedColumnName="learning_material_status_id",
-     *     nullable=false)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'LearningMaterialStatus', inversedBy: 'learningMaterials')]
+    #[ORM\JoinColumn(
+        name: 'learning_material_status_id',
+        referencedColumnName: 'learning_material_status_id',
+        nullable: false
+    )]
     protected $status;
 
     /**
      * @var UserInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="learningMaterials")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="owning_user_id", referencedColumnName="user_id", nullable=false)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'learningMaterials')]
+    #[ORM\JoinColumn(name: 'owning_user_id', referencedColumnName: 'user_id', nullable: false)]
     protected $owningUser;
 
     /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="SessionLearningMaterial", mappedBy="learningMaterial")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'SessionLearningMaterial')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionLearningMaterials;
 
     /**
      * @var ArrayCollection|CourseLearningMaterialInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="CourseLearningMaterial",mappedBy="learningMaterial")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'CourseLearningMaterial')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseLearningMaterials;
 
     /**
      * renamed from citation
      * @var string
-     *
-     * @ORM\Column(name="citation", type="string", length=512, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 512,
      *      groups={"citation"}
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'citation', type: 'string', length: 512, nullable: true)]
     protected $citation;
 
     /**
      * @var string
      * renamed from relative_file_system_location
-     *
-     * @ORM\Column(name="relative_file_system_location", type="string", length=128, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\NotBlank(groups={"file"})
      * @Assert\Length(
@@ -229,105 +188,85 @@ class LearningMaterial implements LearningMaterialInterface
      *      groups={"file"}
      * )
      */
+    #[ORM\Column(name: 'relative_file_system_location', type: 'string', length: 128, nullable: true)]
     protected $relativePath;
 
     /**
      * renamed copyrightownership
      * @var bool
-     *
-     * @ORM\Column(name="copyright_ownership", type="boolean", nullable=true)
-     *
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'copyright_ownership', type: 'boolean', nullable: true)]
     protected $copyrightPermission;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="copyright_rationale", type="text", nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'copyright_rationale', type: 'text', nullable: true)]
     protected $copyrightRationale;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 255,
      *     groups={"file"}
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
     protected $filename;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="mime_type", type="string", length=96, nullable=true)
-    *
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 96,
-    *      groups={"file"}
-    * )
-     *
+     * @var string
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 96,
+     *      groups={"file"}
+     * )
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(name: 'mime_type', type: 'string', length: 96, nullable: true)]
     protected $mimetype;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="filesize", type="integer", nullable=true, options={"unsigned"=true})
-    *
-    * @Assert\Type(type="integer")
-     *
+     * @var string
+     * @Assert\Type(type="integer")
      * @IS\Expose
      * @IS\Type("integer")
-    */
+     */
+    #[ORM\Column(name: 'filesize', type: 'integer', nullable: true, options: [
+        'unsigned' => true,
+    ])]
     protected $filesize;
-
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="web_link", type="string", length=256, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 256,
      *      groups={"link"}
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'web_link', type: 'string', length: 256, nullable: true)]
     protected $link;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->uploadDate = new \DateTime();
@@ -429,7 +368,6 @@ class LearningMaterial implements LearningMaterialInterface
     {
         return $this->uploadDate;
     }
-
 
     /**
      * @param string $citation

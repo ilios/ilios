@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class SessionTypeDTO
  * Data transfer object for a session type
- *
  * @IS\DTO("sessionTypes")
  */
 class SessionTypeDTO
@@ -24,25 +23,25 @@ class SessionTypeDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
     public string $title;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
     public string $calendarColor;
 
     /**
      * @IS\Expose
      * @IS\Type("boolean")
-    */
+     */
     public bool $active;
 
     /**
      * @IS\Expose
      * @IS\Type("boolean")
-    */
+     */
     public bool $assessment;
 
     /**

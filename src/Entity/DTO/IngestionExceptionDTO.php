@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class IngestionExceptionDTO
  * Data transfer object for an ingestionException
- *
  * @IS\DTO("ingestionExceptions")
  */
 class IngestionExceptionDTO

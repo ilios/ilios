@@ -12,7 +12,6 @@ use DateTime;
 
 /**
  * Class CurriculumInventoryReport
- *
  * @IS\DTO("curriculumInventoryReports")
  */
 class CurriculumInventoryReportDTO

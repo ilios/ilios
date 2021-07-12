@@ -16,12 +16,10 @@ use App\Repository\UserRoleRepository;
 
 /**
  * Class UserRole
- *
- * @ORM\Table(name="user_role")
- * @ORM\Entity(repositoryClass=UserRoleRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'user_role')]
+#[ORM\Entity(repositoryClass: UserRoleRepository::class)]
 class UserRole implements UserRoleInterface
 {
     use TitledEntity;
@@ -31,48 +29,38 @@ class UserRole implements UserRoleInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="user_role_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'user_role_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
      * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 60
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 60)]
     protected $title;
 
-     /**
-      * @var ArrayCollection|UserInterface[]
-      *
-      * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
-      * @ORM\OrderBy({"id" = "ASC"})
-      *
-      * Don't put users in the UserRole API it takes too long to load
-      * @IS\Type("entityCollection")
-      */
+    /**
+     * @var ArrayCollection|UserInterface[]
+     * Don't put users in the UserRole API it takes too long to load
+     * @IS\Type("entityCollection")
+     */
+    #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'roles')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $users;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->users = new ArrayCollection();

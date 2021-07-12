@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class CohortDTO
  * Data transfer object for a cohort
- *
  * @IS\DTO("cohorts")
  */
 class CohortDTO
@@ -24,7 +23,6 @@ class CohortDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
     public string $title;
 

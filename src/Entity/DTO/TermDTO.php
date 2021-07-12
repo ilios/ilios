@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class TermDTO
  * Data transfer object for a session.
- *
  * @IS\DTO("terms")
  */
 class TermDTO

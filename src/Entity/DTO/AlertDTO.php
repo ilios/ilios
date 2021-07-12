@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class AlertDTO
  * Data transfer object for an alert
- *
  * @IS\DTO("alerts")
  */
 class AlertDTO

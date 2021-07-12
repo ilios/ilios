@@ -18,12 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class AamcResourceType
- *
- * @ORM\Entity(repositoryClass=AamcResourceTypeRepository::class)
- * @ORM\Table(name="aamc_resource_type")
- *
  * @IS\Entity
  */
+#[ORM\Entity(repositoryClass: AamcResourceTypeRepository::class)]
+#[ORM\Table(name: 'aamc_resource_type')]
 class AamcResourceType implements AamcResourceTypeInterface
 {
     use IdentifiableEntity;
@@ -34,67 +32,56 @@ class AamcResourceType implements AamcResourceTypeInterface
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="resource_type_id", type="string", length=21)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 21
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'NONE')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=200)
-
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 200)]
     protected $title;
 
     /**
-     * @ORM\Column(name="description", type="text")
      * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'description', type: 'text')]
     protected $description;
 
     /**
      * @var ArrayCollection|TermInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Term", mappedBy="aamcResourceTypes")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Term', mappedBy: 'aamcResourceTypes')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
-
 
     public function __construct()
     {

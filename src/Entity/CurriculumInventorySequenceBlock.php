@@ -18,12 +18,10 @@ use App\Repository\CurriculumInventorySequenceBlockRepository;
 
 /**
  * Class CurriculumInventorySequenceBlock
- *
- * @ORM\Table(name="curriculum_inventory_sequence_block")
- * @ORM\Entity(repositoryClass=CurriculumInventorySequenceBlockRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'curriculum_inventory_sequence_block')]
+#[ORM\Entity(repositoryClass: CurriculumInventorySequenceBlockRepository::class)]
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
     use IdentifiableEntity;
@@ -34,279 +32,213 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="sequence_block_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=200)
      * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 200
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 200)]
     protected $title;
 
     /**
-     * @ORM\Column(name="description", type="text", nullable=true)
      * @var string
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="required", type="integer")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="integer")
-     *
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'required', type: 'integer')]
     protected $required;
 
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      * @Assert\Range(
      *      min = 1,
      *      max = 3,
      * )
-     *
-     * @ORM\Column(name="child_sequence_order", type="smallint")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'child_sequence_order', type: 'smallint')]
     protected $childSequenceOrder;
 
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
-     * @ORM\Column(name="order_in_sequence", type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'order_in_sequence', type: 'integer')]
     protected $orderInSequence;
 
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
-     * @ORM\Column(name="minimum", type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'minimum', type: 'integer')]
     protected $minimum;
 
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
-     * @ORM\Column(name="maximum", type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'maximum', type: 'integer')]
     protected $maximum;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="track", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
-     *
      * this field is currently tinyint data type in the db but used like a boolean
      */
+    #[ORM\Column(name: 'track', type: 'boolean')]
     protected $track;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="start_date", type="date", nullable=true)
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'start_date', type: 'date', nullable: true)]
     protected $startDate;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="end_date", type="date", nullable=true)
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'end_date', type: 'date', nullable: true)]
     protected $endDate;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="duration", type="integer")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'duration', type: 'integer')]
     protected $duration;
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
-     *
-     * @ORM\ManyToOne(targetEntity="CurriculumInventoryAcademicLevel", inversedBy="sequenceBlocks")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(
-     *     name="academic_level_id",
-     *     referencedColumnName="academic_level_id",
-     *     nullable=false,
-     *     onDelete="cascade"
-     *   )
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'sequenceBlocks')]
+    #[ORM\JoinColumn(
+        name: 'academic_level_id',
+        referencedColumnName: 'academic_level_id',
+        nullable: false,
+        onDelete: 'cascade'
+    )]
     protected $academicLevel;
 
     /**
      * @var CourseInterface
-     *
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="sequenceBlocks")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sequenceBlocks')]
+    #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     protected $course;
 
     /**
      * @var CurriculumInventorySequenceBlockInterface
-     *
-     * @ORM\ManyToOne(targetEntity="CurriculumInventorySequenceBlock", inversedBy="children")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(
-     *     name="parent_sequence_block_id",
-     *     referencedColumnName="sequence_block_id",
-     *     onDelete="cascade"
-     *   )
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'CurriculumInventorySequenceBlock', inversedBy: 'children')]
+    #[ORM\JoinColumn(
+        name: 'parent_sequence_block_id',
+        referencedColumnName: 'sequence_block_id',
+        onDelete: 'cascade'
+    )]
     protected $parent;
 
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="CurriculumInventorySequenceBlock", mappedBy="parent")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
 
     /**
      * @var CurriculumInventoryReportInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="CurriculumInventoryReport", inversedBy="sequenceBlocks")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="report_id", referencedColumnName="report_id", onDelete="cascade")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequenceBlocks')]
+    #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
     protected $report;
 
     /**
      * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Session", inversedBy="sequenceBlocks")
-     * @ORM\JoinTable("curriculum_inventory_sequence_block_x_session",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="sequence_block_id", referencedColumnName="sequence_block_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'sequenceBlocks')]
+    #[ORM\JoinTable('curriculum_inventory_sequence_block_x_session')]
+    #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessions;
-
 
     /**
      * @var ArrayCollection|SessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Session", inversedBy="excludedSequenceBlocks")
-     * @ORM\JoinTable("curriculum_inventory_sequence_block_x_excluded_session",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="sequence_block_id", referencedColumnName="sequence_block_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'excludedSequenceBlocks')]
+    #[ORM\JoinTable('curriculum_inventory_sequence_block_x_excluded_session')]
+    #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $excludedSessions;
+
 
     public function __construct()
     {

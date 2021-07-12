@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * Class SessionLearningMaterialDTO
- *
  * @IS\DTO("sessionLearningMaterials")
  */
 class SessionLearningMaterialDTO

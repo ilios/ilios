@@ -21,15 +21,11 @@ use App\Repository\SessionObjectiveRepository;
 
 /**
  * Class SessionObjective
- *
- * @ORM\Table(name="session_x_objective",
- *   indexes={
- *     @ORM\Index(name="IDX_FA74B40B613FECDF", columns={"session_id"})
- *   }
- * )
- * @ORM\Entity(repositoryClass=SessionObjectiveRepository::class)
  * @IS\Entity
  */
+#[ORM\Table(name: 'session_x_objective')]
+#[ORM\Index(columns: ['session_id'], name: 'IDX_FA74B40B613FECDF')]
+#[ORM\Entity(repositoryClass: SessionObjectiveRepository::class)]
 class SessionObjective implements SessionObjectiveInterface
 {
     use IdentifiableEntity;
@@ -43,162 +39,123 @@ class SessionObjective implements SessionObjectiveInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="session_objective_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'session_objective_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var SessionInterface
-     *
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Session", inversedBy="sessionObjectives")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="session_id", referencedColumnName="session_id", onDelete="CASCADE")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'sessionObjectives')]
+    #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     protected $session;
 
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
-     * @ORM\Column(name="position", type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Term", inversedBy="sessionObjectives")
-     * @ORM\JoinTable(name="session_objective_x_term",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="term_id", referencedColumnName="term_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'sessionObjectives')]
+    #[ORM\JoinTable(name: 'session_objective_x_term')]
+    #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $terms;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text")
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      * @IS\RemoveMarkup
      */
+    #[ORM\Column(type: 'text')]
     protected $title;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="CourseObjective", inversedBy="sessionObjectives")
-     * @ORM\JoinTable("session_objective_x_course_objective",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="course_objective_id", referencedColumnName="course_objective_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'CourseObjective', inversedBy: 'sessionObjectives')]
+    #[ORM\JoinTable('session_objective_x_course_objective')]
+    #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'course_objective_id',
+        referencedColumnName: 'course_objective_id',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $courseObjectives;
 
     /**
      * @var Collection
-     *
-     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="sessionObjectives")
-     * @ORM\JoinTable(name="session_objective_x_mesh",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="session_objective_id", referencedColumnName="session_objective_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionObjectives')]
+    #[ORM\JoinTable(name: 'session_objective_x_mesh')]
+    #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 
     /**
      * @var SessionObjectiveInterface
-     *
-     * @ORM\ManyToOne(targetEntity="SessionObjective", inversedBy="descendants")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="session_objective_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'SessionObjective', inversedBy: 'descendants')]
+    #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'session_objective_id')]
     protected $ancestor;
 
     /**
      * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="SessionObjective", mappedBy="ancestor")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'ancestor')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     protected $active;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->position = 0;

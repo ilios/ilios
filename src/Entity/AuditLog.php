@@ -13,11 +13,9 @@ use App\Repository\AuditLogRepository;
 
 /**
  * Class AuditLog
- *
- * @ORM\Table(name="audit_log")
- * @ORM\Entity(repositoryClass=AuditLogRepository::class)
- *
  */
+#[ORM\Table(name: 'audit_log')]
+#[ORM\Entity(repositoryClass: AuditLogRepository::class)]
 class AuditLog implements AuditLogInterface
 {
     use IdentifiableEntity;
@@ -25,92 +23,71 @@ class AuditLog implements AuditLogInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=16)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 16
      * )
-     *
      */
+    #[ORM\Column(type: 'string', length: 16)]
     protected $action;
 
     /**
      * @var DateTime
-     * @ORM\Column(type="datetime")
-     *
      * @Assert\NotBlank()
-     *
      */
+    #[ORM\Column(type: 'datetime')]
     protected $createdAt;
 
     /**
      * @var int
-     *
-     * @ORM\Column(type="string", length=255)
-     *
      * @Assert\Type(type="string")
      * @Assert\NotBlank()
      */
+    #[ORM\Column(type: 'string', length: 255)]
     protected $objectId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=255)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 255
      * )
-     *
      */
+    #[ORM\Column(type: 'string', length: 255)]
     protected $objectClass;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="text", length=1000)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 1000
      * )
-     *
      */
+    #[ORM\Column(type: 'text', length: 1000)]
     protected $valuesChanged;
 
     /**
      * @var UserInterface
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="auditLogs")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     * })
      */
+    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'auditLogs')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     protected $user;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->createdAt = new DateTime();

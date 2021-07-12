@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class LearningMaterialStatusDTO
  * Data transfer object for a learning material status
- *
  * @IS\DTO("learningMaterialStatuses")
  */
 class LearningMaterialStatusDTO

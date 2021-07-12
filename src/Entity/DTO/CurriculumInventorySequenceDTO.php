@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class CurriculumInventorySequenceBlockDTO
- *
  * @IS\DTO("curriculumInventorySequences")
  */
 class CurriculumInventorySequenceDTO

@@ -21,12 +21,10 @@ use App\Repository\InstructorGroupRepository;
 
 /**
  * Class InstructorGroup
- *
- * @ORM\Table(name="instructor_group")
- * @ORM\Entity(repositoryClass=InstructorGroupRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'instructor_group')]
+#[ORM\Entity(repositoryClass: InstructorGroupRepository::class)]
 class InstructorGroup implements InstructorGroupInterface
 {
     use IdentifiableEntity;
@@ -40,104 +38,79 @@ class InstructorGroup implements InstructorGroupInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="instructor_group_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
      * @var string
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
-    */
+     */
+    #[ORM\Column(type: 'string', length: 60)]
     protected $title;
 
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="School", inversedBy="instructorGroups")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="school_id", referencedColumnName="school_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'instructorGroups')]
+    #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     protected $school;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="LearnerGroup", mappedBy="instructorGroups")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructorGroups')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $learnerGroups;
 
     /**
      * @var ArrayCollection|IlmSession[]
-     *
-     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="instructorGroups")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructorGroups')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $ilmSessions;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructorGroups")
-     * @ORM\JoinTable(name="instructor_group_x_user",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructorGroups')]
+    #[ORM\JoinTable(name: 'instructor_group_x_user')]
+    #[ORM\JoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $users;
 
     /**
      * @var ArrayCollection|OfferingInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="instructorGroups")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructorGroups')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $offerings;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->learnerGroups = new ArrayCollection();

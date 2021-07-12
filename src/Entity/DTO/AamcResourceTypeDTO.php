@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class AamcResourceTypeDTO
  * Data transfer object for a aamcResourceType
- *
  * @IS\DTO("aamcResourceTypes")
  */
 class AamcResourceTypeDTO
@@ -24,14 +23,12 @@ class AamcResourceTypeDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
     public string $title;
 
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
     public string $description;
 

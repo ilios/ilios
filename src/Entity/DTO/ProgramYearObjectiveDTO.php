@@ -8,7 +8,6 @@ use App\Annotation as IS;
 
 /**
  * Class ProgramYearObjectiveDTO
- *
  * @IS\DTO("programYearObjectives")
  */
 class ProgramYearObjectiveDTO

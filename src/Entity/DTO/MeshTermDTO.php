@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * Class MeshTermDTO
- *
  * @IS\DTO("meshTerms")
  */
 class MeshTermDTO
@@ -71,7 +70,6 @@ class MeshTermDTO
 
     /**
      * @var string[]
-     *
      * @IS\Expose
      * @IS\Related("meshConcepts")
      * @IS\Type("array<string>")

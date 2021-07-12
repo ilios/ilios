@@ -21,12 +21,10 @@ use App\Repository\LearnerGroupRepository;
 
 /**
  * Class LearnerGroup
- *
- * @ORM\Table(name="`group`")
- * @ORM\Entity(repositoryClass=LearnerGroupRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: '`group`')]
+#[ORM\Entity(repositoryClass: LearnerGroupRepository::class)]
 class LearnerGroup implements LearnerGroupInterface
 {
     use IdentifiableEntity;
@@ -40,222 +38,168 @@ class LearnerGroup implements LearnerGroupInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="group_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'group_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", length=60)
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      min = 1,
      *      max = 60
      * )
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(type: 'string', length: 60)]
     protected $title;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="location", type="string", length=100, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'location', type: 'string', length: 100, nullable: true)]
     protected $location;
 
     /**
-     * @ORM\Column(name="url", type="string", length=2000, nullable=true)
-     *
      * @Assert\Type(type="string")
      * @Assert\Length(
      *      max = 2000,
      * )
      * @Assert\Url
-     *
      * @IS\Expose
      * @IS\Type("string")
      */
+    #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     protected ?string $url;
 
-
     /**
-     * @ORM\Column(name="needs_accommodation", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'needs_accommodation', type: 'boolean')]
     protected bool $needsAccommodation;
 
     /**
      * @var CohortInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Cohort", inversedBy="learnerGroups")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cohort_id", referencedColumnName="cohort_id", onDelete="CASCADE", nullable=false)
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Cohort', inversedBy: 'learnerGroups')]
+    #[ORM\JoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', nullable: false, onDelete: 'CASCADE')]
     protected $cohort;
 
     /**
      * @var LearnerGroupInterface
-     *
-     * @ORM\ManyToOne(targetEntity="LearnerGroup", inversedBy="children")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_group_id", referencedColumnName="group_id", onDelete="CASCADE")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     protected $parent;
 
     /**
      * @var LearnerGroupInterface
-     *
-     * @ORM\ManyToOne(targetEntity="LearnerGroup", inversedBy="descendants")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ancestor_id", referencedColumnName="group_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'descendants')]
+    #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'group_id')]
     protected $ancestor;
 
     /**
      * @var LearnerGroupInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="ancestor")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $descendants;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="LearnerGroup", mappedBy="parent")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'LearnerGroup')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $children;
 
     /**
      * @var ArrayCollection|IlmSessionInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="IlmSession", mappedBy="learnerGroups")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learnerGroups')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $ilmSessions;
 
     /**
      * @var ArrayCollection|OfferingInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="Offering", mappedBy="learnerGroups")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learnerGroups')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $offerings;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="InstructorGroup", inversedBy="learnerGroups")
-     * @ORM\JoinTable(name="group_x_instructor_group",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="instructor_group_id", referencedColumnName="instructor_group_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'learnerGroups')]
+    #[ORM\JoinTable(name: 'group_x_instructor_group')]
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(
+        name: 'instructor_group_id',
+        referencedColumnName: 'instructor_group_id',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructorGroups;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="learnerGroups")
-     * @ORM\JoinTable(name="group_x_user",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerGroups')]
+    #[ORM\JoinTable(name: 'group_x_user')]
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $users;
 
     /**
      * @var UserInterface
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="instructedLearnerGroups")
-     * @ORM\JoinTable(name="group_x_instructor",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="group_id", referencedColumnName="group_id", onDelete="CASCADE")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="user_id", onDelete="CASCADE")
-     *   }
-     * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedLearnerGroups')]
+    #[ORM\JoinTable(name: 'group_x_instructor')]
+    #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $instructors;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->users            = new ArrayCollection();

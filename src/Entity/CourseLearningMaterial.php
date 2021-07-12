@@ -17,12 +17,10 @@ use App\Repository\CourseLearningMaterialRepository;
 
 /**
  * Class CourseLearningMaterial
- *
- * @ORM\Table(name="course_learning_material")
- * @ORM\Entity(repositoryClass=CourseLearningMaterialRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'course_learning_material')]
+#[ORM\Entity(repositoryClass: CourseLearningMaterialRepository::class)]
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
     use IdentifiableEntity;
@@ -33,150 +31,125 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="course_learning_material_id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Column(name: 'course_learning_material_id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     protected $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="notes", type="text", nullable=true)
-     *
-     *
      * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     *
      * @IS\Expose
      * @IS\Type("string")
      * @IS\RemoveMarkup
      */
+    #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     protected $notes;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="required", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'required', type: 'boolean')]
     protected $required;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="notes_are_public", type="boolean")
-     *
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     *
      * @IS\Expose
      * @IS\Type("boolean")
      */
+    #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
     protected $publicNotes;
 
     /**
      * @var CourseInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="Course", inversedBy="learningMaterials")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="course_id", referencedColumnName="course_id", onDelete="CASCADE")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'learningMaterials')]
+    #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     protected $course;
 
     /**
      * @var LearningMaterialInterface
      * @Assert\NotNull()
-     *
-     * @ORM\ManyToOne(targetEntity="LearningMaterial", inversedBy="courseLearningMaterials")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="learning_material_id", referencedColumnName="learning_material_id")
-     * })
-     *
      * @IS\Expose
      * @IS\Type("entity")
      */
+    #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'courseLearningMaterials')]
+    #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id')]
     protected $learningMaterial;
 
     /**
      * @var ArrayCollection|MeshDescriptor[]
-     *
-     * @ORM\ManyToMany(targetEntity="MeshDescriptor", inversedBy="courseLearningMaterials")
-     * @ORM\JoinTable(name="course_learning_material_x_mesh",
      *   joinColumns={
-     *     @ORM\JoinColumn(
      *       name="course_learning_material_id",
      *       referencedColumnName="course_learning_material_id",
      *       onDelete="CASCADE"
      *     )
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="mesh_descriptor_uid", referencedColumnName="mesh_descriptor_uid", onDelete="CASCADE")
      *   }
      * )
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseLearningMaterials')]
+    #[ORM\JoinTable(name: 'course_learning_material_x_mesh')]
+    #[ORM\JoinColumn(
+        name: 'course_learning_material_id',
+        referencedColumnName: 'course_learning_material_id',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\InverseJoinColumn(
+        name: 'mesh_descriptor_uid',
+        referencedColumnName: 'mesh_descriptor_uid',
+        onDelete: 'CASCADE'
+    )]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $meshDescriptors;
 
     /**
      * @var int
-     *
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     *
-     * @ORM\Column(name="position", type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      */
+    #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="start_date", type="datetime", nullable=true)
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     protected $startDate;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="end_date", type="datetime", nullable=true)
-     *
      * @IS\Expose
      * @IS\Type("dateTime")
      */
+    #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     protected $endDate;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->meshDescriptors = new ArrayCollection();

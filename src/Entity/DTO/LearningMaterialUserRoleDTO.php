@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class LearningMaterialUserRoleDTO
  * Data transfer object for a learning material user role
- *
  * @IS\DTO("learningMaterialUserRoles")
  */
 class LearningMaterialUserRoleDTO

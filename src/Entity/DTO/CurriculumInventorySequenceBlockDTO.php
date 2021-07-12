@@ -9,7 +9,6 @@ use DateTime;
 
 /**
  * Class CurriculumInventorySequenceBlockDTO
- *
  * @IS\DTO("curriculumInventorySequenceBlocks")
  */
 class CurriculumInventorySequenceBlockDTO
@@ -141,7 +140,6 @@ class CurriculumInventorySequenceBlockDTO
 
     /**
      * Needed for voting not exposed in the API
-     *
      */
     public int $school;
 

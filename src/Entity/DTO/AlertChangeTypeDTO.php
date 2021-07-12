@@ -9,7 +9,6 @@ use App\Annotation as IS;
 /**
  * Class AlertChangeTypeDTO
  * Data transfer object for a alertChangeType
- *
  * @IS\DTO("alertChangeTypes")
  */
 class AlertChangeTypeDTO
@@ -24,7 +23,6 @@ class AlertChangeTypeDTO
     /**
      * @IS\Expose
      * @IS\Type("string")
-     *
      */
     public string $title;
 

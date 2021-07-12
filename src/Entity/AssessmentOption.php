@@ -17,12 +17,11 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class AssessmentOption
- *
- * @ORM\Table(name="assessment_option",uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"})})
- * @ORM\Entity(repositoryClass=AssessmentOptionRepository::class)
- *
  * @IS\Entity
  */
+#[ORM\Table(name: 'assessment_option')]
+#[ORM\UniqueConstraint(name: 'name', columns: ['name'])]
+#[ORM\Entity(repositoryClass: AssessmentOptionRepository::class)]
 class AssessmentOption implements AssessmentOptionInterface
 {
     use IdentifiableEntity;
@@ -31,52 +30,40 @@ class AssessmentOption implements AssessmentOptionInterface
     use SessionTypesEntity;
 
     /**
-     * @deprecated To be removed in 3.1, replaced by ID by enabling trait.
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer", length=10, name="assessment_option_id")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
      * @Assert\Type(type="integer")
-     *
      * @IS\Expose
      * @IS\Type("integer")
      * @IS\ReadOnly
      */
+    #[ORM\Id]
+    #[ORM\Column(name: 'assessment_option_id', type: 'integer', length: 10)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected $id;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(type="string", length=20)
-    *
-    * @Assert\NotBlank()
-    * @Assert\Type(type="string")
-    * @Assert\Length(
-    *      min = 1,
-    *      max = 18
-    * )
-    *
-    * @IS\Expose
-    * @IS\Type("string")
-    */
+     * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 18
+     * )
+     * @IS\Expose
+     * @IS\Type("string")
+     */
+    #[ORM\Column(type: 'string', length: 20)]
     protected $name;
 
     /**
      * @var ArrayCollection|SessionTypeInterface[]
-     *
-     * @ORM\OneToMany(targetEntity="SessionType", mappedBy="assessmentOption")
-     * @ORM\OrderBy({"id" = "ASC"})
-     *
      * @IS\Expose
      * @IS\Type("entityCollection")
      */
+    #[ORM\OneToMany(mappedBy: 'assessmentOption', targetEntity: 'SessionType')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     protected $sessionTypes;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->sessionTypes = new ArrayCollection();
