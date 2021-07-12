@@ -132,16 +132,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.185.6",
+            "version": "3.185.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "35310302912fdc3b4a0e829b84424c41e3fd9727"
+                "reference": "667a83e4a18cb75db3ce74162efc97123da96261"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/35310302912fdc3b4a0e829b84424c41e3fd9727",
-                "reference": "35310302912fdc3b4a0e829b84424c41e3fd9727",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/667a83e4a18cb75db3ce74162efc97123da96261",
+                "reference": "667a83e4a18cb75db3ce74162efc97123da96261",
                 "shasum": ""
             },
             "require": {
@@ -216,9 +216,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.185.6"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.185.10"
             },
-            "time": "2021-07-02T18:13:18+00:00"
+            "time": "2021-07-09T19:21:22+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -2937,16 +2937,16 @@
         },
         {
             "name": "laminas/laminas-code",
-            "version": "4.4.0",
+            "version": "4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-code.git",
-                "reference": "2b0bb59ade31a045fd3ff0097dc558bb896f6596"
+                "reference": "54251ab2b16c41c6980387839496b235f5f6e10b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/2b0bb59ade31a045fd3ff0097dc558bb896f6596",
-                "reference": "2b0bb59ade31a045fd3ff0097dc558bb896f6596",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/54251ab2b16c41c6980387839496b235f5f6e10b",
+                "reference": "54251ab2b16c41c6980387839496b235f5f6e10b",
                 "shasum": ""
             },
             "require": {
@@ -3000,20 +3000,20 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-06-17T13:39:43+00:00"
+            "time": "2021-07-09T11:58:40+00:00"
         },
         {
             "name": "laminas/laminas-diagnostics",
-            "version": "1.8.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diagnostics.git",
-                "reference": "9a634ebdc6af7e92ae3b13712b22c88121709ca9"
+                "reference": "cda82d226bcc9e2008b0ddf0199c24c465bc36c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/9a634ebdc6af7e92ae3b13712b22c88121709ca9",
-                "reference": "9a634ebdc6af7e92ae3b13712b22c88121709ca9",
+                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/cda82d226bcc9e2008b0ddf0199c24c465bc36c7",
+                "reference": "cda82d226bcc9e2008b0ddf0199c24c465bc36c7",
                 "shasum": ""
             },
             "require": {
@@ -3028,25 +3028,27 @@
             },
             "require-dev": {
                 "doctrine/migrations": "^2.0 || ^3.0",
+                "enlightn/security-checker": "^1.2",
                 "guzzlehttp/guzzle": "^5.3.3 || ^6.3.3",
                 "laminas/laminas-coding-standard": "~1.0.0",
                 "laminas/laminas-loader": "^2.0",
                 "mikey179/vfsstream": "dev-master#08a798577d677436f4f4ea3d0b3c949f64655548 as 1.6.9",
-                "php-amqplib/php-amqplib": "^2.0",
+                "php-amqplib/php-amqplib": "^2.0 || ^3.0",
                 "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.4.1",
+                "phpunit/phpunit": "^9.5",
                 "predis/predis": "^1.0",
-                "sensiolabs/security-checker": "^5.0 || ^6.0.3",
-                "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0"
+                "psalm/plugin-phpunit": "^0.15.1",
+                "symfony/yaml": "^2.7 || ^3.0 || ^4.0 || ^5.0",
+                "vimeo/psalm": "^4.7"
             },
             "suggest": {
                 "doctrine/migrations": "Required by Check\\DoctrineMigration",
+                "enlightn/security-checker": "Required by Check\\SecurityAdvisory",
                 "ext-bcmath": "Required by Check\\CpuPerformance",
                 "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
+                "php-amqplib/php-amqplib": "Required by Check\\RabbitMQ",
                 "predis/predis": "Required by Check\\Redis",
-                "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
-                "symfony/yaml": "Required by Check\\YamlFile",
-                "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
+                "symfony/yaml": "Required by Check\\YamlFile"
             },
             "type": "library",
             "extra": {
@@ -3089,7 +3091,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-01-26T12:53:05+00:00"
+            "time": "2021-07-10T15:59:13+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
@@ -3491,16 +3493,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.16.0",
+            "version": "2.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "5610d20786bf53d02f6506e18d22331f0cda5b81"
+                "reference": "24165da52bd648c0c847d3b5b676c3452b303ca2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/5610d20786bf53d02f6506e18d22331f0cda5b81",
-                "reference": "5610d20786bf53d02f6506e18d22331f0cda5b81",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/24165da52bd648c0c847d3b5b676c3452b303ca2",
+                "reference": "24165da52bd648c0c847d3b5b676c3452b303ca2",
                 "shasum": ""
             },
             "require": {
@@ -3512,6 +3514,7 @@
                 "doctrine/doctrine-migrations-bundle": "^2.0 || ^3.0",
                 "doctrine/migrations": "^2.0 || ^3.0",
                 "doctrine/persistence": "^1.3.3 || ^2.0",
+                "enlightn/security-checker": "^1.2",
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3 || ^7.0.1",
                 "matthiasnoback/symfony-dependency-injection-test": "^3.0 || ^4.0",
@@ -3571,9 +3574,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipMonitorBundle/issues",
-                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.16.0"
+                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.16.1"
             },
-            "time": "2021-01-28T19:48:33+00:00"
+            "time": "2021-07-09T13:12:00+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -11135,16 +11138,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "2.0.0-alpha5",
+            "version": "2.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "5ffd76bcc4d85cbd5a3df6233ab7001e8cd313bc"
+                "reference": "8894a6debf22df1ad2251207818f17c54acc18d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/5ffd76bcc4d85cbd5a3df6233ab7001e8cd313bc",
-                "reference": "5ffd76bcc4d85cbd5a3df6233ab7001e8cd313bc",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/8894a6debf22df1ad2251207818f17c54acc18d7",
+                "reference": "8894a6debf22df1ad2251207818f17c54acc18d7",
                 "shasum": ""
             },
             "require": {
@@ -11211,9 +11214,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.0-alpha5"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.0-beta1"
             },
-            "time": "2021-06-21T23:28:03+00:00"
+            "time": "2021-06-30T08:42:31+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -11688,16 +11691,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.91",
+            "version": "0.12.92",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "8226701cd228a0d63c2df995de7ab6070c69ac6a"
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8226701cd228a0d63c2df995de7ab6070c69ac6a",
-                "reference": "8226701cd228a0d63c2df995de7ab6070c69ac6a",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/64d4c5dc8ea96972bc18432d137a330239a5d2b2",
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2",
                 "shasum": ""
             },
             "require": {
@@ -11728,7 +11731,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.91"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.92"
             },
             "funding": [
                 {
@@ -11748,7 +11751,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-04T15:31:48+00:00"
+            "time": "2021-07-10T13:53:49+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",

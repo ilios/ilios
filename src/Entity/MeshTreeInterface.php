@@ -19,8 +19,6 @@ interface MeshTreeInterface extends
      * Set treeNumber
      *
      * @param string $treeNumber
-     *
-     * @return MeshTree
      */
     public function setTreeNumber($treeNumber);
 
