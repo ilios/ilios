@@ -76,8 +76,6 @@ class MeshTree implements MeshTreeInterface
      * Set treeNumber
      *
      * @param string $treeNumber
-     *
-     * @return MeshTree
      */
     public function setTreeNumber($treeNumber)
     {
