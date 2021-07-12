@@ -4,76 +4,58 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class MeshTermDTO
- * @IS\DTO("meshTerms")
  */
+#[IA\DTO('meshTerms')]
 class MeshTermDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $meshTermUid;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $name;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $lexicalTag;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $conceptPreferred;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $recordPreferred;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public ?bool $permuted;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $createdAt;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $updatedAt;
 
     /**
      * @var string[]
-     * @IS\Expose
-     * @IS\Related("meshConcepts")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('meshConcepts')]
+    #[IA\Type('array<string>')]
     public array $concepts = [];
 
     public function __construct(

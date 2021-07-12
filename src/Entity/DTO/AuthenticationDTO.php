@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class Authentication
- * @IS\DTO("authentications")
  */
+#[IA\DTO('authentications')]
 class AuthenticationDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('integer')]
     public int $user;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $username;
 
     public function __construct(

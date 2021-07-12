@@ -4,72 +4,63 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class IlmSessionDTO
- * Data transfer object for a ilmSession
- * @IS\DTO("ilmSessions")
  */
+#[IA\DTO('ilmSessions')]
 class IlmSessionDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("sessions")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('integer')]
     public int $session;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("float")
-     */
+    #[IA\Expose]
+    #[IA\Type('float')]
     public float $hours;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $dueDate;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $learnerGroups = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $instructorGroups = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $instructors = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("users")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('users')]
+    #[IA\Type('array<string>')]
     public array $learners = [];
 
     /**

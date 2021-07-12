@@ -4,53 +4,45 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class CourseObjectiveDTO
- * @IS\DTO("courseObjectives")
  */
+#[IA\DTO('courseObjectives')]
 class CourseObjectiveDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
     /**
      * @var string
-     * @IS\Expose
-     * @IS\Type("string")
      */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $active;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $position;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $terms = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("courses")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('courses')]
+    #[IA\Type('integer')]
     public int $course;
 
     /**
@@ -70,41 +62,39 @@ class CourseObjectiveDTO
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("programYearObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('programYearObjectives')]
+    #[IA\Type('array<string>')]
     public array $programYearObjectives = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("sessionObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('sessionObjectives')]
+    #[IA\Type('array<string>')]
     public array $sessionObjectives = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $meshDescriptors = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("courseObjectives")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('courseObjectives')]
+    #[IA\Type('integer')]
     public ?int $ancestor = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("courseObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('courseObjectives')]
+    #[IA\Type('array<string>')]
     public array $descendants = [];
 
     public function __construct(int $id, string $title, int $position, bool $active)

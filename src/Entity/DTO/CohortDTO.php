@@ -4,57 +4,51 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class CohortDTO
  * Data transfer object for a cohort
- * @IS\DTO("cohorts")
  */
+#[IA\DTO('cohorts')]
 class CohortDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("programYears")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('programYears')]
+    #[IA\Type('integer')]
     public int $programYear;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $courses = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $learnerGroups = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $users = [];
 
     /**

@@ -4,78 +4,68 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class CompetencyDTO
  * Data transfer object for a competency
- * @IS\DTO("competencies")
  */
+#[IA\DTO('competencies')]
 class CompetencyDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $title;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("schools")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('schools')]
+    #[IA\Type('integer')]
     public int $school;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("programYearObjectives")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('programYearObjectives')]
+    #[IA\Type('array<string>')]
     public array $programYearObjectives = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Related("competencies")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('competencies')]
+    #[IA\Type('integer')]
     public ?int $parent = null;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("competencies")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('competencies')]
+    #[IA\Type('array<string>')]
     public array $children = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $aamcPcrses = [];
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $programYears = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $active;
 
     public function __construct(

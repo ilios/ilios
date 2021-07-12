@@ -4,107 +4,89 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class SessionLearningMaterialDTO
- * @IS\DTO("sessionLearningMaterials")
  */
+#[IA\DTO('sessionLearningMaterials')]
 class SessionLearningMaterialDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $notes;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $required;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $publicNotes;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $session;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("learningMaterials")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('learningMaterials')]
+    #[IA\Type('integer')]
     public int $learningMaterial;
 
     /**
      * @var string[]
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $meshDescriptors = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $position;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("integer")
      */
+    #[IA\Type('integer')]
     public int $course;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("integer")
      */
+    #[IA\Type('integer')]
     public int $school;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("integer")
      */
+    #[IA\Type('integer')]
     public int $status;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("boolean")
      */
+    #[IA\Type('boolean')]
     public bool $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
-     * @IS\Type("boolean")
      */
+    #[IA\Type('boolean')]
     public bool $courseIsArchived;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public ?DateTime $startDate;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public ?DateTime $endDate;
 
     public function __construct(

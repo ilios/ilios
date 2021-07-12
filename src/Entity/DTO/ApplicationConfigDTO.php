@@ -4,32 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class ApplicationConfigDTO
  * Data transfer object for an applicationConfig
- * @IS\DTO("applicationConfigs")
  */
+#[IA\DTO('applicationConfigs')]
 class ApplicationConfigDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $name;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $value;
 
     public function __construct(int $id, string $name, string $value)

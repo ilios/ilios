@@ -4,65 +4,46 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
-/**
- * Class CourseLearningMaterialDTO
- * @IS\DTO("courseLearningMaterials")
- */
+#[IA\DTO('courseLearningMaterials')]
 class CourseLearningMaterialDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $notes;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $required;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $publicNotes;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("courses")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('courses')]
+    #[IA\Type('integer')]
     public int $course;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("learningMaterials")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('learningMaterials')]
+    #[IA\Type('integer')]
     public int $learningMaterial;
 
-    /**
-     * @IS\Expose
-     * @IS\Related
-     * @IS\Type("array<string>")
-     */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
     public array $meshDescriptors = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $position;
 
     /**
@@ -85,16 +66,12 @@ class CourseLearningMaterialDTO
      */
     public bool $courseIsArchived;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public ?DateTime $startDate;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public ?DateTime $endDate;
 
     public function __construct(

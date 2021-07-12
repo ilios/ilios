@@ -4,32 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class CurriculumInventorySequenceBlockDTO
- * @IS\DTO("curriculumInventorySequences")
  */
+#[IA\DTO('curriculumInventorySequences')]
 class CurriculumInventorySequenceDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Related("curriculumInventoryReport")
-     * @IS\Type("integer")
-     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryReport')]
+    #[IA\Type('integer')]
     public int $report;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $description;
 
     /**

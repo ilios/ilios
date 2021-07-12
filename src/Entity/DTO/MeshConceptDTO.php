@@ -4,78 +4,62 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class MeshConceptDTO
- * @IS\DTO("meshConcepts")
  */
+#[IA\DTO('meshConcepts')]
 class MeshConceptDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $name;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     public bool $preferred;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $scopeNote;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $casn1Name;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $registryNumber;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("meshTerms")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('meshTerms')]
+    #[IA\Type('array<string>')]
     public array $terms = [];
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $createdAt;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     public DateTime $updatedAt;
 
     /**
      * @var int[]
-     * @IS\Expose
-     * @IS\Related("meshDescriptors")
-     * @IS\Type("array<string>")
      */
+    #[IA\Expose]
+    #[IA\Related('meshDescriptors')]
+    #[IA\Type('array<string>')]
     public array $descriptors = [];
 
     public function __construct(

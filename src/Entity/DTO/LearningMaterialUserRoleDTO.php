@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class LearningMaterialUserRoleDTO
  * Data transfer object for a learning material user role
- * @IS\DTO("learningMaterialUserRoles")
  */
+#[IA\DTO('learningMaterialUserRoles')]
 class LearningMaterialUserRoleDTO
 {
-    /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @IS\Expose
-     * @IS\Type("string")
-     */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
 
     public function __construct(int $id, string $title)
