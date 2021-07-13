@@ -42,9 +42,7 @@ class LoadCompetencyData extends AbstractFixture implements DependentFixtureInte
 
     /**
      * @param CompetencyInterface $entity
-     * @param array $data
      * @return CompetencyInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

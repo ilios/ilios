@@ -38,8 +38,7 @@ class DataimportFileLocator
      */
     public function getDataFilePath($fileName)
     {
-        $path = $this->fileLocator->locate($this->getDirectoryPath() . DIRECTORY_SEPARATOR . basename($fileName));
-        return $path;
+        return $this->fileLocator->locate($this->getDirectoryPath() . DIRECTORY_SEPARATOR . basename($fileName));
     }
 
     /**

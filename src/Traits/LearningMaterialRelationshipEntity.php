@@ -62,9 +62,6 @@ trait LearningMaterialRelationshipEntity
         return $this->publicNotes;
     }
 
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
     public function setLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
         $this->learningMaterial = $learningMaterial;

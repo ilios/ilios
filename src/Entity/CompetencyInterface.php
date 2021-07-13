@@ -24,9 +24,6 @@ interface CompetencyInterface extends
     ActivatableEntityInterface,
     ProgramYearObjectivesEntityInterface
 {
-    /**
-     * @param CompetencyInterface $parent
-     */
     public function setParent(CompetencyInterface $parent);
 
     /**
@@ -34,19 +31,10 @@ interface CompetencyInterface extends
      */
     public function getParent();
 
-    /**
-     * @param Collection $children
-     */
     public function setChildren(Collection $children);
 
-    /**
-     * @param CompetencyInterface $child
-     */
     public function addChild(CompetencyInterface $child);
 
-    /**
-     * @param CompetencyInterface $child
-     */
     public function removeChild(CompetencyInterface $child);
 
     /**
@@ -59,19 +47,10 @@ interface CompetencyInterface extends
      */
     public function hasChildren();
 
-    /**
-     * @param Collection $aamcPcrses
-     */
     public function setAamcPcrses(Collection $aamcPcrses);
 
-    /**
-     * @param AamcPcrsInterface $aamcPcrs
-     */
     public function addAamcPcrs(AamcPcrsInterface $aamcPcrs);
 
-    /**
-     * @param AamcPcrsInterface $aamcPcrs
-     */
     public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs);
 
     /**

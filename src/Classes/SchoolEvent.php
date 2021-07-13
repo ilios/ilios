@@ -17,8 +17,6 @@ class SchoolEvent extends CalendarEvent
     /**
      * Creates a new school event from a given school id and a given calendar event.
      * @param int $schoolId
-     * @param CalendarEvent $event
-     * @return SchoolEvent
      */
     public static function createFromCalendarEvent(CalendarEvent $event): SchoolEvent
     {

@@ -13,19 +13,10 @@ use App\Entity\MeshConceptInterface;
  */
 interface ConceptsEntityInterface
 {
-    /**
-     * @param Collection $concepts
-     */
     public function setConcepts(Collection $concepts);
 
-    /**
-     * @param MeshConceptInterface $concept
-     */
     public function addConcept(MeshConceptInterface $concept);
 
-    /**
-     * @param MeshConceptInterface $concept
-     */
     public function removeConcept(MeshConceptInterface $concept);
 
     /**

@@ -44,7 +44,6 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
     /**
      * @param string $key
      * @param bool $storeReference
-     * @param DataimportFileLocator $dataimportFileLocator
      */
     public function __construct(
         DataimportFileLocator $dataimportFileLocator,
@@ -137,7 +136,6 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
      * Note that data persistence is not in scope for this method.
      *
      * @param mixed $entity
-     * @param array $data
      * @return IdentifiableEntityInterface
      */
     abstract protected function populateEntity($entity, array $data);

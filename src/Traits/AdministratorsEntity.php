@@ -13,9 +13,6 @@ use App\Entity\UserInterface;
  */
 trait AdministratorsEntity
 {
-    /**
-     * @param Collection $administrators
-     */
     public function setAdministrators(Collection $administrators)
     {
         $this->administrators = new ArrayCollection();
@@ -25,9 +22,6 @@ trait AdministratorsEntity
         }
     }
 
-    /**
-     * @param UserInterface $administrator
-     */
     public function addAdministrator(UserInterface $administrator)
     {
         if (!$this->administrators->contains($administrator)) {
@@ -35,9 +29,6 @@ trait AdministratorsEntity
         }
     }
 
-    /**
-     * @param UserInterface $administrator
-     */
     public function removeAdministrator(UserInterface $administrator)
     {
         $this->administrators->removeElement($administrator);

@@ -182,9 +182,6 @@ class Report implements ReportInterface
         return $this->prepositionalObjectTableRowId;
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user)
     {
         $this->user = $user;

@@ -32,7 +32,6 @@ interface MeshTreeInterface extends
     /**
      * Set meshDescriptor
      *
-     * @param MeshDescriptorInterface $descriptor
      *
      * @return MeshTree
      */

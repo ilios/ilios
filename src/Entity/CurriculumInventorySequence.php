@@ -65,9 +65,6 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     protected $description;
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;

@@ -153,9 +153,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         $this->position = 0;
     }
 
-    /**
-     * @param SessionInterface $session
-     */
     public function setSession(SessionInterface $session)
     {
         $this->session = $session;

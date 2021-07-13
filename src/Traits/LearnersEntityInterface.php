@@ -13,19 +13,10 @@ use App\Entity\UserInterface;
  */
 interface LearnersEntityInterface
 {
-    /**
-     * @param Collection $learners
-     */
     public function setLearners(Collection $learners);
 
-    /**
-     * @param UserInterface $learner
-     */
     public function addLearner(UserInterface $learner);
 
-    /**
-     * @param UserInterface $learner
-     */
     public function removeLearner(UserInterface $learner);
 
     /**

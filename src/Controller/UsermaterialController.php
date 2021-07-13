@@ -29,11 +29,6 @@ class UsermaterialController extends AbstractController
      *
      * @param string $version
      * @param int $id of the user
-     * @param Request $request
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param UserRepository $userRepository
-     * @param SerializerInterface $serializer
-     * @param TokenStorageInterface $tokenStorage
      *
      * @return Response
      */
@@ -97,7 +92,6 @@ class UsermaterialController extends AbstractController
 
     /**
      * @param UserMaterial[] $materials
-     * @param \DateTime $dateTime
      */
     protected function clearTimedMaterials(array $materials, \DateTime $dateTime)
     {

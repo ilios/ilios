@@ -13,9 +13,6 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
  */
 trait SequenceBlocksEntity
 {
-    /**
-     * @param Collection $sequenceBlocks
-     */
     public function setSequenceBlocks(Collection $sequenceBlocks)
     {
         $this->sequenceBlocks = new ArrayCollection();
@@ -25,9 +22,6 @@ trait SequenceBlocksEntity
         }
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function addSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ) {
@@ -36,9 +30,6 @@ trait SequenceBlocksEntity
         }
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function removeSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ) {

@@ -24,8 +24,6 @@ class UserEvent extends CalendarEvent
     /**
      * Creates a new user event from a given user id and a given calendar event.
      * @param int $userId
-     * @param CalendarEvent $event
-     * @return UserEvent
      */
     public static function createFromCalendarEvent($userId, CalendarEvent $event): UserEvent
     {
@@ -39,7 +37,6 @@ class UserEvent extends CalendarEvent
 
     /**
      * This information is not available to un-privileged users
-     * @param DateTime $dateTime
      */
     public function clearDataForUnprivilegedUsers(DateTime $dateTime)
     {
@@ -49,9 +46,6 @@ class UserEvent extends CalendarEvent
         $this->clearTimedMaterials($dateTime);
     }
 
-    /**
-     * @param DateTime $dateTime
-     */
     protected function clearTimedMaterials(DateTime $dateTime)
     {
         /** @var UserMaterial $lm */

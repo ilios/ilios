@@ -41,9 +41,7 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements 
 
     /**
      * @param CurriculumInventoryInstitutionInterface $entity
-     * @param array $data
      * @return CurriculumInventoryInstitutionInterface
-     *
      * AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

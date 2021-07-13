@@ -40,9 +40,6 @@ class EntityMetadata
      * Build and cache all of the entity and dto class names so
      * we don't have to constantly run expensive class_exists
      * and annotation inspection tasks
-     *
-     * @param Cache $cache
-     * @param KernelInterface $kernel
      */
     public function __construct(Cache $cache, KernelInterface $kernel)
     {
@@ -376,7 +373,6 @@ class EntityMetadata
      * then use that list to discover those which have the
      * correct annotation
      *
-     * @param KernelInterface $kernel
      *
      * @return array
      */
@@ -406,7 +402,6 @@ class EntityMetadata
      * Load classes by scanning directories then use
      * that list to discover classes which have the DTO annotation
      *
-     * @param KernelInterface $kernel
      *
      * @return array
      */

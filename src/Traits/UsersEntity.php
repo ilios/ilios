@@ -13,9 +13,6 @@ use App\Entity\UserInterface;
  */
 trait UsersEntity
 {
-    /**
-     * @param Collection $users
-     */
     public function setUsers(Collection $users)
     {
         $this->users = new ArrayCollection();
@@ -25,9 +22,6 @@ trait UsersEntity
         }
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function addUser(UserInterface $user)
     {
         if (!$this->users->contains($user)) {
@@ -35,9 +29,6 @@ trait UsersEntity
         }
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function removeUser(UserInterface $user)
     {
         $this->users->removeElement($user);

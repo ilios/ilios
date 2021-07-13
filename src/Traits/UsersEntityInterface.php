@@ -13,19 +13,10 @@ use App\Entity\UserInterface;
  */
 interface UsersEntityInterface
 {
-    /**
-     * @param Collection $users
-     */
     public function setUsers(Collection $users);
 
-    /**
-     * @param UserInterface $user
-     */
     public function addUser(UserInterface $user);
 
-    /**
-     * @param UserInterface $user
-     */
     public function removeUser(UserInterface $user);
 
     /**

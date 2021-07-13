@@ -13,19 +13,10 @@ use App\Entity\MeshDescriptorInterface;
  */
 interface MeshDescriptorsEntityInterface
 {
-    /**
-     * @param Collection $meshDescriptors
-     */
     public function setMeshDescriptors(Collection $meshDescriptors);
 
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
 
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
 
     /**

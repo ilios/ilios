@@ -142,9 +142,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
         return $this->value;
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user)
     {
         $this->user = $user;

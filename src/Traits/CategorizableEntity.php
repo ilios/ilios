@@ -29,9 +29,6 @@ trait CategorizableEntity
         }
     }
 
-    /**
-     * @param TermInterface $term
-     */
     public function addTerm(TermInterface $term)
     {
         if (!$this->terms->contains($term)) {
@@ -39,9 +36,6 @@ trait CategorizableEntity
         }
     }
 
-    /**
-     * @param TermInterface $term
-     */
     public function removeTerm(TermInterface $term)
     {
         $this->terms->removeElement($term);

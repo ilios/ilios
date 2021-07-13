@@ -183,10 +183,6 @@ class CourseRollover
         return $newCourse;
     }
 
-    /**
-     * @param CourseInterface $newCourse
-     * @param CourseInterface $origCourse
-     */
     protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $origCourse)
     {
         /* @var CourseLearningMaterialInterface[] $origCourseLearningMaterials */
@@ -208,8 +204,6 @@ class CourseRollover
     }
 
     /**
-     * @param CourseInterface $newCourse
-     * @param CourseInterface $origCourse
      * @param int $daysOffset
      * @param array $options
      * @param CourseObjectiveInterface[] $newCourseObjectives
@@ -286,10 +280,6 @@ class CourseRollover
     }
 
 
-    /**
-     * @param SessionInterface $newSession
-     * @param SessionInterface $origCourseSession
-     */
     protected function rolloverSessionLearningMaterials(
         SessionInterface $newSession,
         SessionInterface $origCourseSession
@@ -313,8 +303,6 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface $newSession
-     * @param SessionInterface $origCourseSession
      * @param $daysOffset
      * @param $options
      * @throws Exception
@@ -361,9 +349,6 @@ class CourseRollover
     }
 
     /**
-     * @param DateTime $origCourseStartDate
-     * @param int $origAcademicYear
-     * @param int $newAcademicYear
      * @param DateTime|null $newCourseStartDate
      * @return int
      * @throws Exception
@@ -435,8 +420,6 @@ class CourseRollover
     }
 
     /**
-     * @param CourseInterface $newCourse
-     * @param CourseInterface $origCourse
      * @return CourseObjectiveInterface[]
      */
     protected function rolloverCourseObjectives(
@@ -466,11 +449,6 @@ class CourseRollover
         return $newCourseObjectives;
     }
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     * @param CourseObjectiveInterface $newCourseObjective
-     * @param CohortInterface $cohort
-     */
     protected function reLinkCourseObjectiveToProgramYearObjectives(
         CourseObjectiveInterface $courseObjective,
         CourseObjectiveInterface $newCourseObjective,
@@ -494,8 +472,6 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface $newSession
-     * @param SessionInterface $origSession
      * @param CourseObjectiveInterface[] $newCourseObjectives
      */
     protected function rolloverSessionObjectives(
@@ -535,8 +511,6 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface $newSession
-     * @param SessionInterface $origSession
      * @param $daysOffset
      * @throws Exception
      */

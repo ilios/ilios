@@ -37,9 +37,6 @@ interface AuditLogInterface extends
     public function getCreatedAt();
 
 
-    /**
-     * @param \DateTime $createdAt
-     */
     public function setCreatedAt(\DateTime $createdAt);
 
     /**
@@ -70,9 +67,6 @@ interface AuditLogInterface extends
      */
     public function getObjectClass();
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user);
 
     /**

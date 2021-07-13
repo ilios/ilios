@@ -53,12 +53,7 @@ class IndexEntityChanges
     protected $bus;
 
     /**
-     * @param Curriculum $curriculumIndex
-     * @param LearningMaterials $learningMaterialsIndex
-     * @param Mesh $meshIndex
-     * @param Users $usersIndex
      * ACHTUNG!!! Do NOT change the name of $dispatchBus it tells the dependency injection system what bus to inject!!!
-     * @param MessageBusInterface $dispatchBus
      */
     public function __construct(
         Curriculum $curriculumIndex,
@@ -118,7 +113,6 @@ class IndexEntityChanges
     /**
      * We have to do this work in preRemove because in postRemove we no longer
      * have access to the entity ID
-     * @param LifecycleEventArgs $args
      */
     public function preRemove(LifecycleEventArgs $args)
     {

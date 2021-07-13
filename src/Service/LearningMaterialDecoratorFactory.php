@@ -18,9 +18,6 @@ class LearningMaterialDecoratorFactory
      */
     protected $router;
 
-    /**
-     * @param RouterInterface $router
-     */
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;
@@ -45,7 +42,6 @@ class LearningMaterialDecoratorFactory
     }
 
     /**
-     * @param LearningMaterialInterface $learningMaterial
      * @return LearningMaterialDTO
      */
     protected function entityToDto(LearningMaterialInterface $learningMaterial)
@@ -82,7 +78,6 @@ class LearningMaterialDecoratorFactory
     }
 
     /**
-     * @param LearningMaterialDTO $learningMaterialDTO
      * @return LearningMaterialDTO
      */
     protected function decorateDto(LearningMaterialDTO $learningMaterialDTO)

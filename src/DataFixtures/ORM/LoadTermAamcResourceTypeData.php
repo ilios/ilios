@@ -43,9 +43,7 @@ class LoadTermAamcResourceTypeData extends AbstractFixture implements DependentF
 
     /**
      * @param TermInterface $entity
-     * @param array $data
      * @return TermInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

@@ -14,10 +14,6 @@ use League\Csv\Writer;
 class CsvWriter
 {
     /**
-     * @param array $header
-     * @param array $data
-     * @param string $path
-     * @param string $openMode
      * @throws Exception
      */
     public function writeToFile(array $header, array $data, string $path, string $openMode = 'w+'): void

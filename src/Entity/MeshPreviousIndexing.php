@@ -58,9 +58,6 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[ORM\Column(name: 'previous_indexing', type: 'text')]
     protected $previousIndexing;
 
-    /**
-     * @param MeshDescriptorInterface $descriptor
-     */
     public function setDescriptor(MeshDescriptorInterface $descriptor)
     {
         $this->descriptor = $descriptor;

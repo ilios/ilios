@@ -49,9 +49,6 @@ interface LearningMaterialRelationshipInterface extends
      */
     public function hasPublicNotes();
 
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
     public function setLearningMaterial(LearningMaterialInterface $learningMaterial);
 
     /**

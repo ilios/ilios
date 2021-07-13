@@ -166,9 +166,6 @@ class ProgramYear implements ProgramYearInterface
         return $this->startYear;
     }
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function setProgram(ProgramInterface $program)
     {
         $this->program = $program;

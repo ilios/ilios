@@ -13,7 +13,6 @@ interface AuthenticationInterface
 {
     /**
      * Login a user based on a Request and return a valid token or false on failure
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -21,7 +20,6 @@ interface AuthenticationInterface
 
     /**
      * Logout a user based on a Request and return some status
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -30,7 +28,6 @@ interface AuthenticationInterface
     /**
      * Get public configuration information for this authentication type
      *
-     * @param Request $request
      *
      * @return array
      */
@@ -40,9 +37,7 @@ interface AuthenticationInterface
      * Attempt to authenticate the user and send either an empty Response
      * or a redirect response for SSO auth.
      *
-     * @param Request $request
      *
-     * @return Response
      */
     public function createAuthenticationResponse(Request $request): Response;
 }

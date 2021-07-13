@@ -62,11 +62,6 @@ class InstallFirstUserCommand extends Command
 
     /**
      * Constructor.
-     * @param UserRepository $userRepository
-     * @param SchoolRepository $schoolRepository
-     * @param AuthenticationRepository $authenticationRepository
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         UserRepository $userRepository,

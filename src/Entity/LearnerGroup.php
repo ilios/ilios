@@ -228,9 +228,6 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->location;
     }
 
-    /**
-     * @param CohortInterface $cohort
-     */
     public function setCohort(CohortInterface $cohort)
     {
         $this->cohort = $cohort;
@@ -244,9 +241,6 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->cohort;
     }
 
-    /**
-     * @param IlmSessionInterface $ilmSession
-     */
     public function addIlmSession(IlmSessionInterface $ilmSession)
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
@@ -255,9 +249,6 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @param IlmSessionInterface $ilmSession
-     */
     public function removeIlmSession(IlmSessionInterface $ilmSession)
     {
         if ($this->ilmSessions->contains($ilmSession)) {
@@ -266,9 +257,6 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @param LearnerGroupInterface $parent
-     */
     public function setParent(LearnerGroupInterface $parent = null)
     {
         $this->parent = $parent;
@@ -282,9 +270,6 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->parent;
     }
 
-    /**
-     * @param LearnerGroupInterface $ancestor
-     */
     public function setAncestor(LearnerGroupInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
@@ -310,9 +295,6 @@ class LearnerGroup implements LearnerGroupInterface
         return $ancestor ? $ancestor : $this;
     }
 
-    /**
-     * @param Collection $descendants
-     */
     public function setDescendants(Collection $descendants)
     {
         $this->descendants = new ArrayCollection();
@@ -322,9 +304,6 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @param LearnerGroupInterface $descendant
-     */
     public function addDescendant(LearnerGroupInterface $descendant)
     {
         if (!$this->descendants->contains($descendant)) {
@@ -333,9 +312,6 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @param LearnerGroupInterface $descendant
-     */
     public function removeDescendant(LearnerGroupInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
@@ -349,9 +325,6 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->descendants;
     }
 
-    /**
-     * @param Collection $children
-     */
     public function setChildren(Collection $children = null)
     {
         $this->children = new ArrayCollection();
@@ -364,9 +337,6 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @param LearnerGroupInterface $child
-     */
     public function addChild(LearnerGroupInterface $child)
     {
         if (!$this->children->contains($child)) {
@@ -374,9 +344,6 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @param LearnerGroupInterface $child
-     */
     public function removeChild(LearnerGroupInterface $child)
     {
         $this->children->removeElement($child);

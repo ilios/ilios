@@ -39,9 +39,6 @@ interface LearnerGroupInterface extends
      */
     public function getLocation();
 
-    /**
-     * @param CohortInterface $cohort
-     */
     public function setCohort(CohortInterface $cohort);
 
     /**
@@ -49,9 +46,6 @@ interface LearnerGroupInterface extends
      */
     public function getCohort();
 
-    /**
-     * @param LearnerGroupInterface $parent
-     */
     public function setParent(LearnerGroupInterface $parent = null);
 
     /**
@@ -59,19 +53,10 @@ interface LearnerGroupInterface extends
      */
     public function getParent();
 
-    /**
-     * @param Collection $children
-     */
     public function setChildren(Collection $children);
 
-    /**
-     * @param LearnerGroupInterface $child
-     */
     public function addChild(LearnerGroupInterface $child);
 
-    /**
-     * @param LearnerGroupInterface $child
-     */
     public function removeChild(LearnerGroupInterface $child);
 
     /**
@@ -97,9 +82,6 @@ interface LearnerGroupInterface extends
      */
     public function getProgramYear();
 
-    /**
-     * @param LearnerGroupInterface $ancestor
-     */
     public function setAncestor(LearnerGroupInterface $ancestor);
 
     /**
@@ -112,19 +94,10 @@ interface LearnerGroupInterface extends
      */
     public function getAncestorOrSelf();
 
-    /**
-     * @param Collection $children
-     */
     public function setDescendants(Collection $children);
 
-    /**
-     * @param LearnerGroupInterface $child
-     */
     public function addDescendant(LearnerGroupInterface $child);
 
-    /**
-     * @param LearnerGroupInterface $child
-     */
     public function removeDescendant(LearnerGroupInterface $child);
 
     /**
@@ -132,14 +105,8 @@ interface LearnerGroupInterface extends
      */
     public function getDescendants();
 
-    /**
-     * @param bool $needsAccommodation
-     */
     public function setNeedsAccommodation(bool $needsAccommodation): void;
 
-    /**
-     * @return bool
-     */
     public function getNeedsAccommodation(): bool;
 
     /**
@@ -147,8 +114,5 @@ interface LearnerGroupInterface extends
      */
     public function setUrl(?string $url): void;
 
-    /**
-     * @return string|null
-     */
     public function getUrl(): ?string;
 }

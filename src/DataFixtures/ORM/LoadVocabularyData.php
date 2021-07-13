@@ -41,9 +41,7 @@ class LoadVocabularyData extends AbstractFixture implements DependentFixtureInte
 
     /**
      * @param VocabularyInterface $entity
-     * @param array $data
      * @return VocabularyInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

@@ -13,9 +13,6 @@ use App\Entity\UserInterface;
  */
 trait InstructorsEntity
 {
-    /**
-     * @param Collection $instructors
-     */
     public function setInstructors(Collection $instructors)
     {
         $this->instructors = new ArrayCollection();
@@ -25,9 +22,6 @@ trait InstructorsEntity
         }
     }
 
-    /**
-     * @param UserInterface $instructor
-     */
     public function addInstructor(UserInterface $instructor)
     {
         if (!$this->instructors->contains($instructor)) {
@@ -35,9 +29,6 @@ trait InstructorsEntity
         }
     }
 
-    /**
-     * @param UserInterface $instructor
-     */
     public function removeInstructor(UserInterface $instructor)
     {
         $this->instructors->removeElement($instructor);

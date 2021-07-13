@@ -86,14 +86,8 @@ interface SessionInterface extends
      */
     public function getInstructionalNotes(): ?string;
 
-    /**
-     * @param string $instructionalNotes
-     */
     public function setInstructionalNotes(string $instructionalNotes = null): void;
 
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
     public function setSessionType(SessionTypeInterface $sessionType);
 
     /**
@@ -101,9 +95,6 @@ interface SessionInterface extends
      */
     public function getSessionType();
 
-    /**
-     * @param CourseInterface $course
-     */
     public function setCourse(CourseInterface $course);
 
     /**
@@ -111,9 +102,6 @@ interface SessionInterface extends
      */
     public function getCourse();
 
-    /**
-     * @param IlmSessionInterface $ilmSession
-     */
     public function setIlmSession(IlmSessionInterface $ilmSession = null);
 
     /**
@@ -121,19 +109,10 @@ interface SessionInterface extends
      */
     public function getIlmSession();
 
-    /**
-     * @param Collection $learningMaterials
-     */
     public function setLearningMaterials(Collection $learningMaterials = null);
 
-    /**
-     * @param SessionLearningMaterialInterface $learningMaterial
-     */
     public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
 
-    /**
-     * @param SessionLearningMaterialInterface $learningMaterial
-     */
     public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
 
     /**
@@ -146,19 +125,10 @@ interface SessionInterface extends
      */
     public function getSchool();
 
-    /**
-     * @param Collection $sequenceBlocks
-     */
     public function setExcludedSequenceBlocks(Collection $sequenceBlocks);
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function addExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
     /**
@@ -166,9 +136,6 @@ interface SessionInterface extends
      */
     public function getExcludedSequenceBlocks();
 
-    /**
-     * @param SessionInterface $ancestor
-     */
     public function setPostrequisite(SessionInterface $ancestor);
 
     /**
@@ -176,19 +143,10 @@ interface SessionInterface extends
      */
     public function getPostrequisite();
 
-    /**
-     * @param Collection $children
-     */
     public function setPrerequisites(Collection $children);
 
-    /**
-     * @param SessionInterface $child
-     */
     public function addPrerequisite(SessionInterface $child);
 
-    /**
-     * @param SessionInterface $child
-     */
     public function removePrerequisite(SessionInterface $child);
 
     /**

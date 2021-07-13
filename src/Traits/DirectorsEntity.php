@@ -13,9 +13,6 @@ use App\Entity\UserInterface;
  */
 trait DirectorsEntity
 {
-    /**
-     * @param Collection $directors
-     */
     public function setDirectors(Collection $directors)
     {
         $this->directors = new ArrayCollection();
@@ -25,9 +22,6 @@ trait DirectorsEntity
         }
     }
 
-    /**
-     * @param UserInterface $director
-     */
     public function addDirector(UserInterface $director)
     {
         if (!$this->directors->contains($director)) {
@@ -35,9 +29,6 @@ trait DirectorsEntity
         }
     }
 
-    /**
-     * @param UserInterface $director
-     */
     public function removeDirector(UserInterface $director)
     {
         $this->directors->removeElement($director);

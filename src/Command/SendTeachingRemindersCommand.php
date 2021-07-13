@@ -46,15 +46,6 @@ class SendTeachingRemindersCommand extends Command
 
     protected string $kernelProjectDir;
 
-    /**
-     * @param OfferingRepository $offeringRepository
-     * @param SchoolRepository $schoolRepository
-     * @param Environment $twig
-     * @param MailerInterface $mailer
-     * @param Config $config
-     * @param Filesystem $fs
-     * @param string $kernelProjectDir
-     */
     public function __construct(
         OfferingRepository $offeringRepository,
         SchoolRepository $schoolRepository,
@@ -225,7 +216,6 @@ class SendTeachingRemindersCommand extends Command
 
     /**
      * Locates the applicable message template for a given school and returns its path.
-     * @param SchoolInterface $school
      * @return string The template path.
      */
     protected function getTemplatePath(SchoolInterface $school)
@@ -244,7 +234,6 @@ class SendTeachingRemindersCommand extends Command
     /**
      * Validates user input.
      *
-     * @param InputInterface $input
      * @return array A list of validation error message. Empty if no validation errors occurred.
      */
     protected function validateInput(InputInterface $input)

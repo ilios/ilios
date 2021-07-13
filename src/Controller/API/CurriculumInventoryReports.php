@@ -141,11 +141,6 @@ class CurriculumInventoryReports extends ReadWriteController
     /**
      * Build and send the verification preview tables for CI
      * @Route("/{id}/verificationpreview", methods={"GET"})
-     * @param string $version
-     * @param int $id
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param VerificationPreviewBuilder $previewBuilder
-     * @return Response
      * @throws Exception
      */
     public function verificationPreview(

@@ -13,9 +13,6 @@ use App\Entity\MeshDescriptorInterface;
  */
 trait MeshDescriptorsEntity
 {
-    /**
-     * @param Collection $meshDescriptors
-     */
     public function setMeshDescriptors(Collection $meshDescriptors)
     {
         $this->meshDescriptors = new ArrayCollection();
@@ -25,9 +22,6 @@ trait MeshDescriptorsEntity
         }
     }
 
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
@@ -35,9 +29,6 @@ trait MeshDescriptorsEntity
         }
     }
 
-    /**
-     * @param MeshDescriptorInterface $meshDescriptor
-     */
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
         $this->meshDescriptors->removeElement($meshDescriptor);

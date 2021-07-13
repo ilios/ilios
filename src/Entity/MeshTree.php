@@ -82,7 +82,6 @@ class MeshTree implements MeshTreeInterface
     /**
      * Set meshDescriptor
      *
-     * @param MeshDescriptorInterface $descriptor
      *
      * @return MeshTree
      */

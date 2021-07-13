@@ -23,7 +23,6 @@ class SetConfigValueCommand extends Command
 
     /**
      * SetConfigValueCommand constructor.
-     * @param ApplicationConfigRepository $applicationConfigRepository
      */
     public function __construct(ApplicationConfigRepository $applicationConfigRepository)
     {

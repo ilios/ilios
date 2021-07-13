@@ -43,9 +43,6 @@ interface LearningMaterialInterface extends
      */
     public function generateToken();
 
-    /**
-     * @param LearningMaterialStatusInterface $status
-     */
     public function setStatus(LearningMaterialStatusInterface $status);
 
     /**
@@ -53,9 +50,6 @@ interface LearningMaterialInterface extends
      */
     public function getStatus();
 
-    /**
-     * @param LearningMaterialUserRoleInterface $userRole
-     */
     public function setUserRole(LearningMaterialUserRoleInterface $userRole);
 
     /**
@@ -63,9 +57,6 @@ interface LearningMaterialInterface extends
      */
     public function getUserRole();
 
-    /**
-     * @param UserInterface $user
-     */
     public function setOwningUser(UserInterface $user);
 
     /**
@@ -159,19 +150,10 @@ interface LearningMaterialInterface extends
      */
     public function getFilename();
 
-    /**
-     * @param Collection $courseLearningMaterials
-     */
     public function setCourseLearningMaterials(Collection $courseLearningMaterials = null);
 
-    /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
-     */
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
 
-    /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
-     */
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
 
     /**
@@ -179,19 +161,10 @@ interface LearningMaterialInterface extends
      */
     public function getCourseLearningMaterials();
 
-    /**
-     * @param Collection $sessionLearningMaterials
-     */
     public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null);
 
-    /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
-     */
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
 
-    /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
-     */
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
 
     /**

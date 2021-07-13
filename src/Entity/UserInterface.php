@@ -195,19 +195,10 @@ interface UserInterface extends
      */
     public function getIcsFeedKey();
 
-    /**
-     * @param Collection $courses
-     */
     public function setDirectedCourses(Collection $courses);
 
-    /**
-     * @param CourseInterface $course
-     */
     public function addDirectedCourse(CourseInterface $course);
 
-    /**
-     * @param CourseInterface $course
-     */
     public function removeDirectedCourse(CourseInterface $course);
 
     /**
@@ -215,19 +206,10 @@ interface UserInterface extends
      */
     public function getDirectedCourses();
 
-    /**
-     * @param Collection $administeredCourses
-     */
     public function setAdministeredCourses(Collection $administeredCourses);
 
-    /**
-     * @param CourseInterface $administeredCourse
-     */
     public function addAdministeredCourse(CourseInterface $administeredCourse);
 
-    /**
-     * @param CourseInterface $administeredCourse
-     */
     public function removeAdministeredCourse(CourseInterface $administeredCourse);
 
     /**
@@ -263,19 +245,10 @@ interface UserInterface extends
      */
     public function isDirectingCourse($courseId);
 
-    /**
-     * @param Collection $instructedLearnerGroups
-     */
     public function setInstructedLearnerGroups(Collection $instructedLearnerGroups);
 
-    /**
-     * @param LearnerGroupInterface $instructedLearnerGroup
-     */
     public function addInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup);
 
-    /**
-     * @param LearnerGroupInterface $instructedLearnerGroup
-     */
     public function removeInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup);
 
     /**
@@ -283,19 +256,10 @@ interface UserInterface extends
      */
     public function getInstructedLearnerGroups();
 
-    /**
-     * @param Collection $roles
-     */
     public function setRoles(Collection $roles);
 
-    /**
-     * @param UserRoleInterface $role
-     */
     public function addRole(UserRoleInterface $role);
 
-    /**
-     * @param UserRoleInterface $role
-     */
     public function removeRole(UserRoleInterface $role);
 
     /**
@@ -303,19 +267,10 @@ interface UserInterface extends
      */
     public function getRoles();
 
-    /**
-     * @param Collection $reports
-     */
     public function setReports(Collection $reports);
 
-    /**
-     * @param ReportInterface $report
-     */
     public function addReport(ReportInterface $report);
 
-    /**
-     * @param ReportInterface $report
-     */
     public function removeReport(ReportInterface $report);
 
     /**
@@ -323,19 +278,10 @@ interface UserInterface extends
      */
     public function getReports();
 
-    /**
-     * @param Collection $pendingUserUpdates
-     */
     public function setPendingUserUpdates(Collection $pendingUserUpdates);
 
-    /**
-     * @param PendingUserUpdateInterface $pendingUserUpdate
-     */
     public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate);
 
-    /**
-     * @param PendingUserUpdateInterface $pendingUserUpdate
-     */
     public function removePendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate);
 
     /**
@@ -348,19 +294,10 @@ interface UserInterface extends
      */
     public function getAllSchools();
 
-    /**
-     * @param Collection $auditLogs
-     */
     public function setAuditLogs(Collection $auditLogs);
 
-    /**
-     * @param AuditLogInterface $auditLog
-     */
     public function addAuditLog(AuditLogInterface $auditLog);
 
-    /**
-     * @param AuditLogInterface $auditLog
-     */
     public function removeAuditLog(AuditLogInterface $auditLog);
 
     /**
@@ -368,19 +305,10 @@ interface UserInterface extends
      */
     public function getAuditLogs();
 
-    /**
-     * @param Collection $alerts
-     */
     public function setAlerts(Collection $alerts);
 
-    /**
-     * @param AlertInterface $alert
-     */
     public function addAlert(AlertInterface $alert);
 
-    /**
-     * @param AlertInterface $alert
-     */
     public function removeAlert(AlertInterface $alert);
 
     /**
@@ -388,19 +316,10 @@ interface UserInterface extends
      */
     public function getAlerts();
 
-    /**
-     * @param Collection $administeredSessions
-     */
     public function setAdministeredSessions(Collection $administeredSessions);
 
-    /**
-     * @param SessionInterface $administeredSession
-     */
     public function addAdministeredSession(SessionInterface $administeredSession);
 
-    /**
-     * @param SessionInterface $administeredSession
-     */
     public function removeAdministeredSession(SessionInterface $administeredSession);
 
     /**
@@ -408,19 +327,10 @@ interface UserInterface extends
      */
     public function getAdministeredSessions();
 
-    /**
-     * @param Collection $learnerIlmSessions
-     */
     public function setLearnerIlmSessions(Collection $learnerIlmSessions);
 
-    /**
-     * @param IlmSessionInterface $learnerIlmSession
-     */
     public function addLearnerIlmSession(IlmSessionInterface $learnerIlmSession);
 
-    /**
-     * @param IlmSessionInterface $learnerIlmSession
-     */
     public function removeLearnerIlmSession(IlmSessionInterface $learnerIlmSession);
 
     /**
@@ -428,19 +338,10 @@ interface UserInterface extends
      */
     public function getLearnerIlmSessions();
 
-    /**
-     * @param Collection $schools
-     */
     public function setDirectedSchools(Collection $schools);
 
-    /**
-     * @param SchoolInterface $school
-     */
     public function addDirectedSchool(SchoolInterface $school);
 
-    /**
-     * @param SchoolInterface $school
-     */
     public function removeDirectedSchool(SchoolInterface $school);
 
     /**
@@ -448,19 +349,10 @@ interface UserInterface extends
      */
     public function getDirectedSchools();
 
-    /**
-     * @param Collection $administeredSchools
-     */
     public function setAdministeredSchools(Collection $administeredSchools);
 
-    /**
-     * @param SchoolInterface $administeredSchool
-     */
     public function addAdministeredSchool(SchoolInterface $administeredSchool);
 
-    /**
-     * @param SchoolInterface $administeredSchool
-     */
     public function removeAdministeredSchool(SchoolInterface $administeredSchool);
 
     /**
@@ -468,19 +360,10 @@ interface UserInterface extends
      */
     public function getAdministeredSchools();
 
-    /**
-     * @param Collection $programs
-     */
     public function setDirectedPrograms(Collection $programs);
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function addDirectedProgram(ProgramInterface $program);
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function removeDirectedProgram(ProgramInterface $program);
 
     /**
@@ -503,18 +386,9 @@ interface UserInterface extends
      */
     public function getAdministeredCurriculumInventoryReports();
 
-    /**
-     * @param Collection $reports
-     */
     public function setAdministeredCurriculumInventoryReports(Collection $reports);
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
 }

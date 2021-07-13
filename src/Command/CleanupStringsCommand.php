@@ -151,7 +151,6 @@ class CleanupStringsCommand extends Command
 
     /**
      * Purify objective titles
-     * @param OutputInterface $output
      * @throws Exception
      */
     protected function purifyObjectiveTitle(OutputInterface $output)
@@ -200,7 +199,6 @@ class CleanupStringsCommand extends Command
 
     /**
      * Purify learning material description
-     * @param OutputInterface $output
      */
     protected function purifyLearnignMaterialDescription(OutputInterface $output)
     {
@@ -237,7 +235,6 @@ class CleanupStringsCommand extends Command
 
     /**
      * Purify course learning material note
-     * @param OutputInterface $output
      */
     protected function purifyCourseLearningMaterialNote(OutputInterface $output)
     {
@@ -273,7 +270,6 @@ class CleanupStringsCommand extends Command
 
     /**
      * Purify session learning material note
-     * @param OutputInterface $output
      */
     protected function purifySessionLearningMaterialNote(OutputInterface $output)
     {
@@ -309,7 +305,6 @@ class CleanupStringsCommand extends Command
 
     /**
      * Purify session description
-     * @param OutputInterface $output
      */
     protected function purifySessionDescription(OutputInterface $output)
     {
@@ -343,9 +338,6 @@ class CleanupStringsCommand extends Command
         $output->writeln("<info>{$cleaned} Session Descriptions updated.</info>");
     }
 
-    /**
-     * @param OutputInterface $output
-     */
     public function correctLearningMaterialLinks(OutputInterface $output): void
     {
         $cleaned = 0;
@@ -395,8 +387,6 @@ class CleanupStringsCommand extends Command
     }
 
     /**
-     * @param string $link
-     * @return string|null
      * @throws TransportExceptionInterface
      */
     protected function fixLink(string $link): ?string

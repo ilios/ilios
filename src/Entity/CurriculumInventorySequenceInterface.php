@@ -14,9 +14,6 @@ interface CurriculumInventorySequenceInterface extends
     DescribableEntityInterface,
     LoggableEntityInterface
 {
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report);
 
     /**

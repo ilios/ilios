@@ -24,10 +24,6 @@ class Exporter
     protected Aggregator $aggregator;
     protected XmlPrinter $printer;
 
-    /**
-     * @param Aggregator $aggregator
-     * @param XmlPrinter $printer
-     */
     public function __construct(Aggregator $aggregator, XmlPrinter $printer)
     {
         $this->aggregator = $aggregator;

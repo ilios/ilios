@@ -37,12 +37,10 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
     /**
      * Find and hydrate as DTOs
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
      *
-     * @return array
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -84,12 +82,10 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
 
 
     /**
-     * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
      * @param int $limit
      * @param int $offset
-     *
      * @return QueryBuilder
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)

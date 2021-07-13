@@ -28,7 +28,6 @@ class TimestampEntityChanges
 
     /**
      * TimestampEntityChanges constructor.
-     * @param Timestamper $timeStamper
      */
     public function __construct(Timestamper $timeStamper)
     {
@@ -36,8 +35,6 @@ class TimestampEntityChanges
     }
 
     /**
-     * @param LifecycleEventArgs $args
-     *
      * @throws Exception
      */
     public function postUpdate(LifecycleEventArgs $args)
@@ -46,8 +43,6 @@ class TimestampEntityChanges
     }
 
     /**
-     * @param LifecycleEventArgs $args
-     *
      * @throws Exception
      */
     public function postRemove(LifecycleEventArgs $args)
@@ -56,8 +51,6 @@ class TimestampEntityChanges
     }
 
     /**
-     * @param LifecycleEventArgs $args
-     *
      * @throws Exception
      */
     public function postPersist(LifecycleEventArgs $args)

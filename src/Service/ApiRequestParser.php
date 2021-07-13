@@ -57,9 +57,8 @@ class ApiRequestParser
             //convert boolean/null strings to boolean/null values
             $item = $item === 'null' ? null : $item;
             $item = $item === 'false' ? false : $item;
-            $item = $item === 'true' ? true : $item;
 
-            return $item;
+            return $item === 'true' ? true : $item;
         }, $criteria);
 
         $parameters['criteria'] = $criteria;

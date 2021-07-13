@@ -17,14 +17,8 @@ interface CourseObjectivesEntityInterface
      */
     public function setCourseObjectives(Collection $courseObjectives = null): void;
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function addCourseObjective(CourseObjectiveInterface $courseObjective): void;
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void;
 
     /**

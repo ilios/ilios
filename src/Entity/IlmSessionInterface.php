@@ -34,9 +34,6 @@ interface IlmSessionInterface extends
      */
     public function getHours();
 
-    /**
-     * @param \DateTime $dueDate
-     */
     public function setDueDate(\DateTime $dueDate = null);
 
     /**
@@ -50,9 +47,6 @@ interface IlmSessionInterface extends
      */
     public function getAllInstructors();
 
-    /**
-     * @param SessionInterface $session
-     */
     public function setSession(SessionInterface $session);
 
     /**

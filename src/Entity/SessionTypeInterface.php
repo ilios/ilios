@@ -47,9 +47,6 @@ interface SessionTypeInterface extends
      */
     public function isAssessment();
 
-    /**
-     * @param AssessmentOptionInterface $assessmentOption
-     */
     public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null);
 
     /**
@@ -57,19 +54,10 @@ interface SessionTypeInterface extends
      */
     public function getAssessmentOption();
 
-    /**
-     * @param Collection $aamcMethods
-     */
     public function setAamcMethods(Collection $aamcMethods);
 
-    /**
-     * @param AamcMethodInterface $aamcMethod
-     */
     public function addAamcMethod(AamcMethodInterface $aamcMethod);
 
-    /**
-     * @param AamcMethodInterface $aamcMethod
-     */
     public function removeAamcMethod(AamcMethodInterface $aamcMethod);
 
     /**

@@ -47,12 +47,6 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationRepository $authenticationRepository
-     * @param UserRepository                 $userRepository
-     * @param UserPasswordEncoderInterface   $encoder
-     * @param TokenStorageInterface          $tokenStorage
-     * @param JsonWebTokenManager            $jwtManager
-     * @param SessionUserProvider            $sessionUserProvider
      */
     public function __construct(
         AuthenticationRepository $authenticationRepository,
@@ -72,7 +66,6 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Login a user using a username and password
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -128,7 +121,6 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Logout a user
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -141,8 +133,6 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Update users to the new password encoding when they login
-     * @param AuthenticationEntityInterface $authEntity
-     * @param SessionUserInterface $sessionUser
      * @param string $password
      */
     protected function updatePassword(

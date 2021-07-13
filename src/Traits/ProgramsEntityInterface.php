@@ -14,19 +14,10 @@ use App\Entity\ProgramInterface;
  */
 interface ProgramsEntityInterface
 {
-    /**
-     * @param Collection $programs
-     */
     public function setPrograms(Collection $programs);
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function addProgram(ProgramInterface $program);
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function removeProgram(ProgramInterface $program);
 
     /**

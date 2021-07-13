@@ -173,7 +173,6 @@ class ProgramYears extends ReadWriteController
 
     /**
      * Creates a new cohort for a new program year.
-     * @param ProgramYearInterface $programYear
      */
     protected function createCohort(ProgramYearInterface $programYear)
     {

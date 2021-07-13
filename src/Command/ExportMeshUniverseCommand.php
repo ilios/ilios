@@ -37,11 +37,6 @@ class ExportMeshUniverseCommand extends Command
      */
     protected $kernelProjectDir;
 
-    /**
-     * @param MeshDescriptorRepository $repository
-     * @param CsvWriter $writer
-     * @param string $kernelProjectDir
-     */
     public function __construct(MeshDescriptorRepository $repository, CsvWriter $writer, string $kernelProjectDir)
     {
         parent::__construct();

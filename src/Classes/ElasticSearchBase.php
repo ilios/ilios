@@ -11,15 +11,8 @@ use Exception;
 
 class ElasticSearchBase
 {
-    /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
-     * @var bool
-     */
-    protected $enabled = false;
+    protected Client $client;
+    protected bool $enabled = false;
 
     /**
      * @var int|string|null
@@ -28,8 +21,6 @@ class ElasticSearchBase
 
     /**
      * Search constructor.
-     * @param Config $config
-     * @param Client $client
      */
     public function __construct(
         Config $config,
@@ -44,9 +35,9 @@ class ElasticSearchBase
         $this->uploadLimit = $limit ?? 9000000;
     }
 
-    public function isEnabled()
+    public function isEnabled(): bool
     {
-        return (bool) $this->enabled;
+        return $this->enabled;
     }
 
     protected function doSearch(array $params): array
@@ -111,8 +102,6 @@ class ElasticSearchBase
      * front of every item. This allows bulk indexing on many types at the same time, and
      * this convenience method takes care of that for us.
      * @param $index
-     * @param array $items
-     * @return array
      */
     protected function doBulkIndex(string $index, array $items): array
     {

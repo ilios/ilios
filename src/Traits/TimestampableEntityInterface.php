@@ -8,9 +8,6 @@ use DateTime;
 
 interface TimestampableEntityInterface
 {
-    /**
-     * @return DateTime
-     */
     public function getUpdatedAt(): DateTime;
 
     public function setUpdatedAt(DateTime $updatedAt);

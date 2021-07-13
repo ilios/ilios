@@ -29,10 +29,6 @@ class ChangeAlertHandler
         $this->alertChangeTypeRepository = $alertChangeTypeRepository;
     }
 
-    /**
-     * @param OfferingInterface $offering
-     * @param UserInterface $instigator
-     */
     public function createAlertForNewOffering(OfferingInterface $offering, UserInterface $instigator)
     {
         // create new alert for this offering
@@ -46,11 +42,6 @@ class ChangeAlertHandler
         $this->alertRepository->update($alert, false);
     }
 
-    /**
-     * @param OfferingInterface $offering
-     * @param UserInterface $instigator
-     * @param array $originalProperties
-     */
     public function createOrUpdateAlertForUpdatedOffering(
         OfferingInterface $offering,
         UserInterface $instigator,

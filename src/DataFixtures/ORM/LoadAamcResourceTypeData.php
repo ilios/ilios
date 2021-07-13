@@ -31,9 +31,7 @@ class LoadAamcResourceTypeData extends AbstractFixture
 
     /**
      * @param AamcResourceTypeInterface $entity
-     * @param array $data
      * @return IdentifiableEntityInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

@@ -407,9 +407,6 @@ class Session implements SessionInterface
         $this->instructionalNotes = $instructionalNotes;
     }
 
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
     public function setSessionType(SessionTypeInterface $sessionType)
     {
         $this->sessionType = $sessionType;
@@ -423,9 +420,6 @@ class Session implements SessionInterface
         return $this->sessionType;
     }
 
-    /**
-     * @param CourseInterface $course
-     */
     public function setCourse(CourseInterface $course)
     {
         $this->course = $course;
@@ -439,9 +433,6 @@ class Session implements SessionInterface
         return $this->course;
     }
 
-    /**
-     * @param IlmSessionInterface $ilmSession
-     */
     public function setIlmSession(IlmSessionInterface $ilmSession = null)
     {
         $this->ilmSession = $ilmSession;
@@ -458,9 +449,6 @@ class Session implements SessionInterface
         return $this->ilmSession;
     }
 
-    /**
-     * @param Collection $learningMaterials
-     */
     public function setLearningMaterials(Collection $learningMaterials = null)
     {
         $this->learningMaterials = new ArrayCollection();
@@ -473,9 +461,6 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @param SessionLearningMaterialInterface $learningMaterial
-     */
     public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial)
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
@@ -483,9 +468,6 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @param SessionLearningMaterialInterface $learningMaterial
-     */
     public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial)
     {
         $this->learningMaterials->removeElement($learningMaterial);

@@ -13,9 +13,6 @@ use App\Entity\CourseObjectiveInterface;
  */
 trait CourseObjectivesEntity
 {
-    /**
-     * @param Collection $courseObjectives
-     */
     public function setCourseObjectives(Collection $courseObjectives = null): void
     {
         $this->courseObjectives = new ArrayCollection();
@@ -28,9 +25,6 @@ trait CourseObjectivesEntity
         }
     }
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if (!$this->courseObjectives->contains($courseObjective)) {
@@ -38,9 +32,6 @@ trait CourseObjectivesEntity
         }
     }
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         $this->courseObjectives->removeElement($courseObjective);

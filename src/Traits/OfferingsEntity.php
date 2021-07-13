@@ -14,9 +14,6 @@ use App\Entity\OfferingInterface;
  */
 trait OfferingsEntity
 {
-    /**
-     * @param Collection $offerings
-     */
     public function setOfferings(Collection $offerings)
     {
         $this->offerings = new ArrayCollection();
@@ -26,9 +23,6 @@ trait OfferingsEntity
         }
     }
 
-    /**
-     * @param OfferingInterface $offering
-     */
     public function addOffering(OfferingInterface $offering)
     {
         if (!$this->offerings->contains($offering)) {
@@ -36,9 +30,6 @@ trait OfferingsEntity
         }
     }
 
-    /**
-     * @param OfferingInterface $offering
-     */
     public function removeOffering(OfferingInterface $offering)
     {
         $this->offerings->removeElement($offering);

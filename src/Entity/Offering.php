@@ -216,9 +216,6 @@ class Offering implements OfferingInterface
         return $this->url;
     }
 
-    /**
-     * @param DateTime $startDate
-     */
     public function setStartDate(DateTime $startDate = null)
     {
         $this->startDate = $startDate;
@@ -232,9 +229,6 @@ class Offering implements OfferingInterface
         return $this->startDate;
     }
 
-    /**
-     * @param DateTime $endDate
-     */
     public function setEndDate(DateTime $endDate = null)
     {
         $this->endDate = $endDate;
@@ -248,9 +242,6 @@ class Offering implements OfferingInterface
         return $this->endDate;
     }
 
-    /**
-     * @param SessionInterface $session
-     */
     public function setSession(SessionInterface $session)
     {
         $this->session = $session;

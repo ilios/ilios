@@ -94,14 +94,10 @@ class VerificationPreviewBuilder
     /**
      * @var null|array
      */
-    protected $methodMaps = null;
+    protected $methodMaps;
 
     /**
      * CurriculumInventoryVerificationReportBuilder constructor.
-     *
-     * @param Aggregator $aggregator
-     * @param AamcMethodRepository $methodManager
-     * @param AamcPcrsRepository $pcrsRepository
      */
     public function __construct(
         Aggregator $aggregator,
@@ -114,8 +110,6 @@ class VerificationPreviewBuilder
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
-     * @return array
      * @throws Exception
      */
     public function build(CurriculumInventoryReportInterface $report): array
@@ -151,9 +145,7 @@ class VerificationPreviewBuilder
      * school program expectations in aggregate. A single Program Expectation can be related to multiple PCRS, and
      * a single PCRS can be related to multiple Program Expectations.
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getProgramExpectationsMappedToPcrs(array $data): array
     {
@@ -221,9 +213,7 @@ class VerificationPreviewBuilder
      * lecture as the primary instructional method, the full 2.5 hours of the event will be attributed to lecture
      * in the Number of Formal Instructional Hours Per Course section of the table below.
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
     {
@@ -312,9 +302,7 @@ class VerificationPreviewBuilder
      * both instructional methods and assessment methods.
      * It does not include events that are tagged with only assessment methods (i.e., Assessment Events).
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getNonClerkshipSequenceBlockInstructionalTime(array $data): array
     {
@@ -336,9 +324,7 @@ class VerificationPreviewBuilder
      * both instructional methods and assessment methods.
      * It does not include events that are tagged with only assessment methods (i.e., Assessment Events).
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getClerkshipSequenceBlockInstructionalTime(array $data): array
     {
@@ -358,9 +344,7 @@ class VerificationPreviewBuilder
      * If an instructional method is tagged more than once as non-primary to a given event, each occurrence of the
      * instructional method is counted.
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getInstructionalMethodCounts(array $data): array
     {
@@ -406,9 +390,7 @@ class VerificationPreviewBuilder
      * If at least one event in the Sequence Block contains AM010, Narrative Assessment Narrative Assessment (Y/N)
      * will get a Y.
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
@@ -433,9 +415,7 @@ class VerificationPreviewBuilder
      * If at least one event in the Sequence Block contains AM010, Narrative Assessment, the Narrative Assessment (Y/N)
      * will get a Y.
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
@@ -455,9 +435,7 @@ class VerificationPreviewBuilder
      * as summative in your curriculum; the Number of Formative Assessments, when summed, represents the total number
      * of assessment methods tagged as formative in your curriculum.
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(array $data): array
     {
@@ -494,9 +472,7 @@ class VerificationPreviewBuilder
      * All resources tagged in each event are counted, including multiple occurrences of the same resource within a
      * single event.
      *
-     * @param array $data
      *
-     * @return array
      */
     public function getAllResourceTypes(array $data): array
     {
@@ -521,10 +497,6 @@ class VerificationPreviewBuilder
         return $resources;
     }
 
-    /**
-     * @param array $map
-     * @return array
-     */
     protected function getReverseLookupMap(array $map): array
     {
         $reverseMap = [];
@@ -540,11 +512,8 @@ class VerificationPreviewBuilder
     }
 
     /**
-     * @param array $data
-     * @param array $map
      * @param bool $clerkships
      *
-     * @return array
      */
     protected function getSequenceBlockAssessmentMethods(array $data, array $map, $clerkships = false): array
     {
@@ -620,9 +589,6 @@ class VerificationPreviewBuilder
         return ['methods' => $methods, 'rows' => $rows];
     }
 
-    /**
-     * @return array
-     */
     protected function getMethodMaps(): array
     {
         if (! is_null($this->methodMaps)) {
@@ -646,10 +612,8 @@ class VerificationPreviewBuilder
     }
 
     /**
-     * @param array $data
      * @param bool $clerkships
      *
-     * @return array
      */
     protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
     {

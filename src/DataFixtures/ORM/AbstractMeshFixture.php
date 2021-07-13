@@ -39,8 +39,6 @@ abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInte
     private $dataimportFileLocator;
 
     /**
-     * @param MeshDescriptorRepository $meshDescriptorRepository
-     * @param DataimportFileLocator $dataimportFileLocator
      * @param string $filename The name of the data file to import.
      * @param string $type The type of MeSH data to import.
      */

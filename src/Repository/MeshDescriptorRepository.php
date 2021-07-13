@@ -45,10 +45,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     /**
      * Find by a string query.
      *
-     * @param string $q
-     * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
      * @return MeshDescriptorDTO[]|array
      */
     public function findDTOsByQ(
@@ -77,11 +73,9 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     /**
      * Custom findBy so we can filter by related entities
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     *
      * @return array
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
@@ -98,12 +92,10 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     /**
      * Find and hydrate as DTOs
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
      *
-     * @return array
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -115,7 +107,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 
     /**
      * Hydrate as DTOs
-     * @param AbstractQuery $query
      * @return MeshDescriptorDTO[]
      */
     protected function createDTOs(AbstractQuery $query): array
@@ -178,9 +169,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         return array_filter($terms, 'strlen');
     }
     /**
-     * @param array $terms
-     * @param array|null $orderBy
-     * @param int|null $offset
      * @return Query
      */
     protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset)
@@ -223,8 +211,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @param array $data
-     * @param string $now
      * @throws DBALException
      */
     public function importMeshConcept(array $data, string $now)
@@ -242,7 +228,6 @@ EOL;
     }
 
     /**
-     * @param array $data
      * @throws DBALException
      */
     public function importMeshConceptTerm(array $data)
@@ -257,8 +242,6 @@ EOL;
     }
 
     /**
-     * @param array $data
-     * @param string $now
      * @throws DBALException
      */
     public function importMeshDescriptor(array $data, string $now)
@@ -275,7 +258,6 @@ EOL;
     }
 
     /**
-     * @param array $data
      * @throws DBALException
      */
     public function importMeshDescriptorConcept(array $data)
@@ -292,7 +274,6 @@ EOL;
     }
 
     /**
-     * @param array $data
      * @throws DBALException
      */
     public function importMeshDescriptorQualifier(array $data)
@@ -307,7 +288,6 @@ EOL;
     }
 
     /**
-     * @param array $data
      * @throws DBALException
      */
     public function importMeshPreviousIndexing(array $data)
@@ -322,8 +302,6 @@ EOL;
     }
 
     /**
-     * @param array $data
-     * @param string $now
      * @throws DBALException
      */
     public function importMeshQualifier(array $data, string $now)
@@ -341,8 +319,6 @@ EOL;
     }
 
     /**
-     * @param array $data
-     * @param string $now
      * @throws DBALException
      */
     public function importMeshTerm(array $data, string $now)
@@ -360,7 +336,6 @@ EOL;
     }
 
     /**
-     * @param array $data
      * @throws DBALException
      */
     public function importMeshTree(array $data)
@@ -375,12 +350,10 @@ EOL;
     }
 
     /**
-     * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
      * @param int $limit
      * @param int $offset
-     *
      * @return QueryBuilder
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
@@ -796,8 +769,6 @@ EOL;
 
     /**
      * Get all the IDs
-     *
-     * @return array
      */
     public function getIds(): array
     {
@@ -814,7 +785,6 @@ EOL;
      *
      * @todo these are not complete, they only have the information needed for the search Index
      *
-     * @param array $ids
      * @return Descriptor[]
      */
     public function getIliosMeshDescriptorsById(array $ids): array
@@ -892,9 +862,6 @@ EOL;
         }, $fullDescriptors);
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshDescriptors(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -904,9 +871,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshTrees(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -917,9 +881,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshConcepts(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -929,9 +890,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshTerms(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -941,9 +899,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshQualifiers(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -954,9 +909,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshPreviousIndexings(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -967,9 +919,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshConceptTerms(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -981,9 +930,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshDescriptorQualifiers(): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -995,9 +941,6 @@ EOL;
         return $qb->getQuery()->getScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function exportMeshDescriptorConcepts(): array
     {
         $qb = $this->_em->createQueryBuilder();

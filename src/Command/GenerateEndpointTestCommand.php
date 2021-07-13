@@ -40,12 +40,6 @@ class GenerateEndpointTestCommand extends Command
      */
     protected $inflector;
 
-    /**
-     *
-     * @param Environment $twig
-     * @param ManagerRegistry $registry
-     * @param EntityMetadata $entityMetadata
-     */
     public function __construct(
         Environment $twig,
         ManagerRegistry $registry,

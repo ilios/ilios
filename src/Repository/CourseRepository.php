@@ -30,11 +30,9 @@ class CourseRepository extends ServiceEntityRepository implements
     /**
      * Custom findBy so we can filter by related entities
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     *
      * @return array
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
@@ -50,12 +48,10 @@ class CourseRepository extends ServiceEntityRepository implements
     /**
      * Find and hydrate as DTOs
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
      *
-     * @return array
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -193,7 +189,6 @@ EOL;
      * A user can be associated as either course director, learner or instructor with a given course.
      *
      * @param int $userId
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
@@ -231,11 +226,9 @@ EOL;
 
     /**
      * @param int $userId
-     * @param array $criteria
      * @param array|null $orderBy
      * @param int $limit
      * @param int $offset
-     * @return array
      * @throws DBALException
      */
     protected function findMyCourses(
@@ -403,10 +396,6 @@ EOL;
         return $rows;
     }
 
-    /**
-     * @param array $courseDTOs
-     * @return array
-     */
     protected function attachAssociationsToDTOs(array $courseDTOs): array
     {
         $courseIds = array_keys($courseDTOs);
@@ -459,12 +448,10 @@ EOL;
     /**
      * Custom findBy so we can filter by related entities
      *
-     * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
      * @param int $limit
      * @param int $offset
-     *
      * @return QueryBuilder
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
@@ -651,7 +638,6 @@ EOL;
     /**
      * Create course index objects for a set of courses
      *
-     * @param array $courseIds
      *
      * @return IndexableCourse[]
      */
@@ -788,10 +774,6 @@ EOL;
     }
 
     /**
-     * @param string $from
-     * @param string $rel
-     * @param string $select
-     * @param array $ids
      *
      * @return array
      */
@@ -812,9 +794,6 @@ EOL;
     }
 
     /**
-     * @param string $from
-     * @param string $select
-     * @param array $ids
      *
      * @return array
      */
@@ -835,8 +814,6 @@ EOL;
     }
 
     /**
-     * @param array $sessionIds
-     *
      * @return IndexableSession[]
      */
     protected function sessionDataForIndex(array $sessionIds)

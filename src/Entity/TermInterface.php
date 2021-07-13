@@ -37,9 +37,6 @@ interface TermInterface extends
     CourseObjectivesEntityInterface,
     ProgramYearObjectivesEntityInterface
 {
-    /**
-     * @param VocabularyInterface $vocabulary
-     */
     public function setVocabulary(VocabularyInterface $vocabulary);
 
     /**
@@ -47,9 +44,6 @@ interface TermInterface extends
      */
     public function getVocabulary();
 
-    /**
-     * @param TermInterface $parent
-     */
     public function setParent(TermInterface $parent = null);
 
     /**
@@ -57,19 +51,10 @@ interface TermInterface extends
      */
     public function getParent();
 
-    /**
-     * @param Collection $children
-     */
     public function setChildren(Collection $children);
 
-    /**
-     * @param TermInterface $child
-     */
     public function addChild(TermInterface $child);
 
-    /**
-     * @param TermInterface $child
-     */
     public function removeChild(TermInterface $child);
 
     /**
@@ -82,19 +67,10 @@ interface TermInterface extends
      */
     public function hasChildren();
 
-    /**
-     * @param Collection $aamcResourceTypes
-     */
     public function setAamcResourceTypes(Collection $aamcResourceTypes);
 
-    /**
-     * @param AamcResourceTypeInterface $aamcResourceType
-     */
     public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType);
 
-    /**
-     * @param AamcResourceTypeInterface $aamcResourceType
-     */
     public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType);
 
     /**

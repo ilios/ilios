@@ -59,7 +59,6 @@ class IliosFileSystem
     /**
      *
      * Store a learning material file and return the relativePath
-     * @param File $file
      * @return string $relativePath
      */
     public function storeLearningMaterialFile(File $file): string
@@ -74,7 +73,6 @@ class IliosFileSystem
 
     /**
      * Store a learning material file and return the relativePath
-     * @param File $file
      * @return string $relativePath
      */
     public function getLearningMaterialFilePath(File $file): string
@@ -86,7 +84,6 @@ class IliosFileSystem
 
     /**
      * Remove a file from the filesystem by hash
-     * @param  string $relativePath
      */
     public function removeFile(string $relativePath): void
     {
@@ -96,7 +93,6 @@ class IliosFileSystem
 
     /**
      * Get a File from a hash
-     * @param  string $relativePath
      * @return string | bool
      */
     public function getFileContents(string $relativePath)
@@ -110,9 +106,7 @@ class IliosFileSystem
 
     /**
      * Get if a learning material has a valid file path
-     * @param LearningMaterialInterface $lm
      *
-     * @return bool
      */
     public function checkLearningMaterialFilePath(LearningMaterialInterface $lm): bool
     {
@@ -122,8 +116,6 @@ class IliosFileSystem
 
     /**
      * Get if a learning material file path is valid
-     * @param string $path
-     * @return bool
      */
     public function checkLearningMaterialRelativePath(string $path): bool
     {
@@ -132,7 +124,6 @@ class IliosFileSystem
 
     /**
      * Get the path for a lock file
-     * @param string $name
      * @return string $relativePath
      */
     protected function getLockFilePath(string $name): string
@@ -143,7 +134,6 @@ class IliosFileSystem
 
     /**
      * Create a lock file
-     * @param string $name
      */
     public function createLock(string $name): void
     {
@@ -158,7 +148,6 @@ class IliosFileSystem
 
     /**
      * Remove a lock file
-     * @param string $name
      */
     public function releaseLock(string $name): void
     {
@@ -173,8 +162,6 @@ class IliosFileSystem
 
     /**
      * Check if a lock file exists
-     * @param string $name
-     * @return bool
      */
     public function hasLock(string $name): bool
     {
@@ -185,7 +172,6 @@ class IliosFileSystem
 
     /**
      * Wait for and then acquire a lock
-     * @param string $name
      */
     public function waitForLock(string $name): void
     {

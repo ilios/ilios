@@ -21,29 +21,14 @@ interface CourseObjectiveInterface extends
     MeshDescriptorsEntityInterface,
     ActivatableEntityInterface
 {
-    /**
-     * @param CourseInterface $course
-     */
     public function setCourse(CourseInterface $course): void;
 
-    /**
-     * @return CourseInterface
-     */
     public function getCourse(): CourseInterface;
 
-    /**
-     * @param Collection $programYearObjectives
-     */
     public function setProgramYearObjectives(Collection $programYearObjectives);
 
-    /**
-     * @param ProgramYearObjectiveInterface $programYearObjective
-     */
     public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective);
 
-    /**
-     * @param ProgramYearObjectiveInterface $programYearObjective
-     */
     public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective);
 
     /**
@@ -51,19 +36,10 @@ interface CourseObjectiveInterface extends
      */
     public function getProgramYearObjectives();
 
-    /**
-     * @param Collection $sessionObjectives
-     */
     public function setSessionObjectives(Collection $sessionObjectives);
 
-    /**
-     * @param SessionObjectiveInterface $sessionObjective
-     */
     public function addSessionObjective(SessionObjectiveInterface $sessionObjective);
 
-    /**
-     * @param SessionObjectiveInterface $sessionObjective
-     */
     public function removeSessionObjective(SessionObjectiveInterface $sessionObjective);
 
     /**
@@ -71,9 +47,6 @@ interface CourseObjectiveInterface extends
      */
     public function getSessionObjectives();
 
-    /**
-     * @param CourseObjectiveInterface $ancestor
-     */
     public function setAncestor(CourseObjectiveInterface $ancestor);
 
     /**
@@ -86,19 +59,10 @@ interface CourseObjectiveInterface extends
      */
     public function getAncestorOrSelf();
 
-    /**
-     * @param Collection $children
-     */
     public function setDescendants(Collection $children);
 
-    /**
-     * @param CourseObjectiveInterface $child
-     */
     public function addDescendant(CourseObjectiveInterface $child);
 
-    /**
-     * @param CourseObjectiveInterface $child
-     */
     public function removeDescendant(CourseObjectiveInterface $child);
 
     /**

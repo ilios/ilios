@@ -52,9 +52,6 @@ interface ReportInterface extends
      */
     public function getPrepositionalObjectTableRowId();
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user);
 
     /**
@@ -62,9 +59,6 @@ interface ReportInterface extends
      */
     public function getUser();
 
-    /**
-     * @return SchoolInterface|null
-     */
     public function getSchool(): ?SchoolInterface;
 
     /**

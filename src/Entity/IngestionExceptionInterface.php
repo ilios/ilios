@@ -11,9 +11,6 @@ use App\Traits\IdentifiableEntityInterface;
  */
 interface IngestionExceptionInterface extends IdentifiableEntityInterface
 {
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user);
 
     /**

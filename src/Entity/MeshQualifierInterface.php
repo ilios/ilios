@@ -20,19 +20,10 @@ interface MeshQualifierInterface extends
     CreatedAtEntityInterface
 {
 
-    /**
-     * @param Collection $descriptors
-     */
     public function setDescriptors(Collection $descriptors);
 
-    /**
-     * @param MeshDescriptorInterface $descriptor
-     */
     public function addDescriptor(MeshDescriptorInterface $descriptor);
 
-    /**
-     * @param MeshDescriptorInterface $descriptor
-     */
     public function removeDescriptor(MeshDescriptorInterface $descriptor);
 
     /**

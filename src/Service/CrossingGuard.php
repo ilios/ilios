@@ -14,8 +14,6 @@ class CrossingGuard
 
     /**
      * CrossingGuard constructor.
-     *
-     * @param IliosFileSystem $fs
      */
     public function __construct(IliosFileSystem $fs)
     {
@@ -43,14 +41,11 @@ class CrossingGuard
 
     /**
      * Listen to all requests and, if they are stopped, wait
-     * @param RequestEvent $event
      */
     public function onKernelRequest(RequestEvent $event)
     {
         while ($this->isStopped()) {
             sleep(1);
         }
-
-        return;
     }
 }

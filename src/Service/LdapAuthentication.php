@@ -41,12 +41,6 @@ class LdapAuthentication implements AuthenticationInterface
      */
     protected $sessionUserProvider;
 
-    /**
-     * @param AuthenticationRepository $authenticationRepository
-     * @param JsonWebTokenManager $jwtManager
-     * @param Config $config
-     * @param SessionUserProvider $sessionUserProvider
-     */
     public function __construct(
         AuthenticationRepository $authenticationRepository,
         JsonWebTokenManager $jwtManager,
@@ -64,7 +58,6 @@ class LdapAuthentication implements AuthenticationInterface
     /**
      * Login a user using a username and password
      * to bind against an LDAP server
-     * @param Request $request
      *
      * @return JsonResponse
      */
@@ -119,7 +112,6 @@ class LdapAuthentication implements AuthenticationInterface
 
     /**
      * Logout a user
-     * @param Request $request
      *
      * @return JsonResponse
      */

@@ -18,8 +18,6 @@ class ExceptionController
     /**
      * Uses the message for InvalidInputWithSafeUserMessageException exceptions
      * otherwise it uses the default HTTP status message for the code
-     * @param Throwable $exception
-     * @return Response
      */
     public function __invoke(Throwable $exception): Response
     {

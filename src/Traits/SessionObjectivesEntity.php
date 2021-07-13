@@ -13,9 +13,6 @@ use App\Entity\SessionObjectiveInterface;
  */
 trait SessionObjectivesEntity
 {
-    /**
-     * @param Collection $sessionObjectives
-     */
     public function setSessionObjectives(Collection $sessionObjectives = null): void
     {
         $this->sessionObjectives = new ArrayCollection();
@@ -28,9 +25,6 @@ trait SessionObjectivesEntity
         }
     }
 
-    /**
-     * @param SessionObjectiveInterface $sessionObjective
-     */
     public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void
     {
         if (!$this->sessionObjectives->contains($sessionObjective)) {
@@ -38,9 +32,6 @@ trait SessionObjectivesEntity
         }
     }
 
-    /**
-     * @param SessionObjectiveInterface $sessionObjective
-     */
     public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void
     {
         $this->sessionObjectives->removeElement($sessionObjective);

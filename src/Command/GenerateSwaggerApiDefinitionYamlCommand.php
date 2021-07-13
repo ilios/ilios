@@ -34,12 +34,6 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
      */
     protected $entityMetadata;
 
-    /**
-     *
-     * @param Environment $twig
-     * @param ManagerRegistry $registry
-     * @param EntityMetadata $entityMetadata
-     */
     public function __construct(
         Environment $twig,
         ManagerRegistry $registry,

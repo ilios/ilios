@@ -22,11 +22,6 @@ class Aggregator
     protected CurriculumInventoryInstitutionRepository $institutionRepository;
     protected Config $config;
 
-    /**
-     * @param Manager $manager
-     * @param CurriculumInventoryInstitutionRepository $institutionRepository
-     * @param Config $config
-     */
     public function __construct(
         Manager $manager,
         CurriculumInventoryInstitutionRepository $institutionRepository,
@@ -281,7 +276,6 @@ class Aggregator
      * Returns a lookup map that matches objectives to their most recent siblings, or most recent descendant,
      * within their ancestry tree,
      * excluding the most recent siblings (we don't need to look them up)
-     * @param array $objectives
      * @return array An associative array with objective ids as keys, and the id of their most recent sibling as value.
      */
     public static function getConsolidatedObjectivesMap(array $objectives): array

@@ -13,9 +13,6 @@ use App\Entity\MeshConceptInterface;
  */
 trait ConceptsEntity
 {
-    /**
-     * @param Collection $concepts
-     */
     public function setConcepts(Collection $concepts)
     {
         $this->concepts = new ArrayCollection();
@@ -25,9 +22,6 @@ trait ConceptsEntity
         }
     }
 
-    /**
-     * @param MeshConceptInterface $concept
-     */
     public function addConcept(MeshConceptInterface $concept)
     {
         if (!$this->concepts->contains($concept)) {
@@ -35,9 +29,6 @@ trait ConceptsEntity
         }
     }
 
-    /**
-     * @param MeshConceptInterface $concept
-     */
     public function removeConcept(MeshConceptInterface $concept)
     {
         $this->concepts->removeElement($concept);

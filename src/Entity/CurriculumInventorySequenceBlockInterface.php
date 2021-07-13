@@ -109,9 +109,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function hasTrack();
 
-    /**
-     * @param \DateTime $startDate
-     */
     public function setStartDate(\DateTime $startDate = null);
 
     /**
@@ -119,9 +116,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getStartDate();
 
-    /**
-     * @param \DateTime $endDate
-     */
     public function setEndDate(\DateTime $endDate = null);
 
     /**
@@ -139,9 +133,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getDuration();
 
-    /**
-     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
-     */
     public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
     /**
@@ -159,19 +150,10 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getCourse();
 
-    /**
-     * @param Collection $children
-     */
     public function setChildren(Collection $children);
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $child
-     */
     public function addChild(CurriculumInventorySequenceBlockInterface $child);
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $child
-     */
     public function removeChild(CurriculumInventorySequenceBlockInterface $child);
 
     /**
@@ -179,9 +161,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getChildren();
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report);
 
     /**
@@ -189,9 +168,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getReport();
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $parent
-     */
     public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
 
     /**
@@ -205,19 +181,10 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getChildrenAsSortedList();
 
-    /**
-     * @param Collection $sessions
-     */
     public function setExcludedSessions(Collection $sessions);
 
-    /**
-     * @param SessionInterface $session
-     */
     public function addExcludedSession(SessionInterface $session);
 
-    /**
-     * @param SessionInterface $session
-     */
     public function removeExcludedSession(SessionInterface $session);
 
     /**

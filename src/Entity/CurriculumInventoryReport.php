@@ -253,9 +253,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->sequence;
     }
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function setProgram(ProgramInterface $program = null)
     {
         $this->program = $program;
@@ -269,9 +266,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->program;
     }
 
-    /**
-     * @param Collection $academicLevels
-     */
     public function setAcademicLevels(Collection $academicLevels = null)
     {
         $this->academicLevels = new ArrayCollection();
@@ -283,9 +277,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    /**
-     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
-     */
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
     {
         if (!$this->academicLevels->contains($academicLevel)) {
@@ -293,9 +284,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    /**
-     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
-     */
     public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
     {
         $this->academicLevels->removeElement($academicLevel);

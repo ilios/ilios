@@ -50,9 +50,6 @@ interface PendingUserUpdateInterface extends
      */
     public function getValue();
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user);
 
     /**

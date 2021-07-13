@@ -40,9 +40,6 @@ class EndpointResponseNamer
     /**
      * EndpointResponseNamer constructor.
      * Extracts the entity path from the Kernel
-     * @param KernelInterface $kernel
-     * @param Inflector $inflector
-     * @param CacheInterface $appCache
      */
     public function __construct(KernelInterface $kernel, Inflector $inflector, CacheInterface $appCache)
     {

@@ -23,9 +23,6 @@ class Timestamper
      */
     protected $registry;
 
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry   = $registry;
@@ -34,8 +31,6 @@ class Timestamper
 
     /**
      * Add an entity to be time stamped
-     * @param TimestampableEntityInterface $entity
-     * @param DateTime $timestamp
      * @throws Exception
      */
     public function add(TimestampableEntityInterface $entity, DateTime $timestamp)

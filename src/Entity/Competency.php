@@ -137,9 +137,6 @@ class Competency implements CompetencyInterface
         $this->active = true;
     }
 
-    /**
-     * @param CompetencyInterface $parent
-     */
     public function setParent(CompetencyInterface $parent = null)
     {
         $this->parent = $parent;
@@ -153,9 +150,6 @@ class Competency implements CompetencyInterface
         return $this->parent;
     }
 
-    /**
-     * @param Collection $children
-     */
     public function setChildren(Collection $children)
     {
         $this->children = new ArrayCollection();
@@ -165,9 +159,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @param CompetencyInterface $child
-     */
     public function addChild(CompetencyInterface $child)
     {
         if (!$this->children->contains($child)) {
@@ -175,9 +166,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @param CompetencyInterface $child
-     */
     public function removeChild(CompetencyInterface $child)
     {
         $this->children->removeElement($child);
@@ -200,9 +188,6 @@ class Competency implements CompetencyInterface
         return (!$this->children->isEmpty()) ? true : false;
     }
 
-    /**
-     * @param Collection $aamcPcrses
-     */
     public function setAamcPcrses(Collection $aamcPcrses)
     {
         $this->aamcPcrses = new ArrayCollection();
@@ -212,9 +197,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @param AamcPcrsInterface $aamcPcrs
-     */
     public function addAamcPcrs(AamcPcrsInterface $aamcPcrs)
     {
         if (!$this->aamcPcrses->contains($aamcPcrs)) {

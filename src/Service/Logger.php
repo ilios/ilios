@@ -33,10 +33,6 @@ class Logger
 
     /**
      * Set the userId from injected security context
-     *
-     * @param TokenStorageInterface $securityTokenStorage
-     * @param AuditLogRepository $auditLogRepository
-     * @param LoggerInterface $logger
      */
     public function __construct(
         TokenStorageInterface $securityTokenStorage,

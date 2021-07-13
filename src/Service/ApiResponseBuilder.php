@@ -102,7 +102,6 @@ class ApiResponseBuilder
         int $status,
         Request $request
     ): Response {
-        $contentTypes = $request->getAcceptableContentTypes();
         return $this->buildJsonResponse(
             [ $this->endpointResponseNamer->getSingularName($object) => $value],
             $status

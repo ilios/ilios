@@ -39,10 +39,6 @@ class IcsController extends AbstractController
 
     /**
      * IcsController constructor.
-     * @param RouterInterface $router
-     * @param UserRepository $userRepository
-     * @param OfferingRepository $offeringRepository
-     * @param IlmSessionRepository $ilmSessionRepository
      */
     public function __construct(
         RouterInterface $router,
@@ -123,8 +119,6 @@ class IcsController extends AbstractController
     }
 
     /**
-     * @param UserEvent $event
-     *
      * @return string
      */
     protected function getDescriptionForEvent(UserEvent $event)
