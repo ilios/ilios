@@ -35,7 +35,7 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
 
     public function normalize($object, string $format = null, array $context = [])
     {
-        $class = get_class($object);
+        $class = $object::class;
         switch ($class) {
             case LearningMaterial::class:
             case LearningMaterialDTO::class:
@@ -71,7 +71,7 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
             LearningMaterialDTO::class,
             CurriculumInventoryReportDTO::class,
         ];
-        $class = is_object($classNameOrObject) ? get_class($classNameOrObject) : $classNameOrObject;
+        $class = is_object($classNameOrObject) ? $classNameOrObject::class : $classNameOrObject;
         return in_array($class, $decoratedTypes);
     }
 }

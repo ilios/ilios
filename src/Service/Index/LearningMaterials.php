@@ -53,7 +53,7 @@ class LearningMaterials extends ElasticSearchBase
                     sprintf(
                         '$materials must be an array of %s. %s found',
                         LearningMaterialDTO::class,
-                        get_class($material)
+                        $material::class
                     )
                 );
             }

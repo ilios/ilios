@@ -51,7 +51,7 @@ trait ManagerRepository
         $this->getEntityManager()->persist($entity);
 
         if ($forceId) {
-            $metadata = $this->getEntityManager()->getClassMetaData(get_class($entity));
+            $metadata = $this->getEntityManager()->getClassMetaData($entity::class);
             $metadata->setIdGenerator(new AssignedGenerator());
         }
 

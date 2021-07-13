@@ -88,7 +88,7 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
             throw new InvalidArgumentException(
                 sprintf(
                     'The user provider must be an instance of SessionUserProvider (%s was given).',
-                    get_class($userProvider)
+                    $userProvider::class
                 )
             );
         }

@@ -25,7 +25,7 @@ class Users extends ElasticSearchBase
                     sprintf(
                         '$users must be an array of %s. %s found',
                         UserDTO::class,
-                        get_class($user)
+                        $user::class
                     )
                 );
             }

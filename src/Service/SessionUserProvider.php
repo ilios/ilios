@@ -70,7 +70,7 @@ class SessionUserProvider implements UserProviderInterface
     {
         if (!$user instanceof SessionUser) {
             throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
+                sprintf('Instances of "%s" are not supported.', $user::class)
             );
         }
 

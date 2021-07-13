@@ -41,7 +41,7 @@ class EntityBase extends TestCase
         $errorCount = count($errors);
         $parsedErrors = [];
         foreach ($errors as $error) {
-            $constraintClass = get_class($error->getConstraint());
+            $constraintClass = $error->getConstraint()::class;
             //remove the namespace info
             $arr = explode('\\', $constraintClass);
             $parsedErrors[$error->getPropertyPath()] = array_pop($arr);

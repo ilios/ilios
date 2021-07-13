@@ -34,7 +34,7 @@ class LearningMaterialDecoratorFactory
     {
         if (!$object instanceof LearningMaterialInterface && !$object instanceof LearningMaterialDTO) {
             throw new \InvalidArgumentException(
-                "Object must by a learning material entity or DTO got " . get_class($object)
+                "Object must by a learning material entity or DTO got " . $object::class
             );
         }
         if ($object instanceof LearningMaterialInterface) {

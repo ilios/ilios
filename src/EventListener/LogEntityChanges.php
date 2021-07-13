@@ -42,7 +42,7 @@ class LogEntityChanges
             foreach ($entities as $entity) {
                 if ($entity instanceof LoggableEntityInterface) {
                     $changes = $uow->getEntityChangeSet($entity);
-                    $updates[get_class($entity)] = [
+                    $updates[$entity::class] = [
                         'entity' => $entity,
                         'action' => $action,
                         'changes' => array_keys($changes)
@@ -57,7 +57,7 @@ class LogEntityChanges
             $entity = $col->getOwner();
             $change = $col->getTypeClass()->name;
             if ($entity instanceof LoggableEntityInterface) {
-                $entityClass = get_class($entity);
+                $entityClass = $entity::class;
                 if (!array_key_exists($entityClass, $updates)) {
                     $updates[$entityClass] = [
                         'entity' => $entity,
@@ -75,7 +75,7 @@ class LogEntityChanges
             $entity = $col->getOwner();
             $change = $col->getTypeClass()->name;
             if ($entity instanceof LoggableEntityInterface) {
-                $entityClass = get_class($entity);
+                $entityClass = $entity::class;
                 if (!array_key_exists($entityClass, $updates)) {
                     $updates[$entityClass] = [
                         'entity' => $entity,
@@ -90,7 +90,7 @@ class LogEntityChanges
         $loggerQueue = $this->container->get(LoggerQueue::class);
         foreach ($updates as $arr) {
             $valuesChanged = implode(',', $arr['changes']);
-            $entityName = $entityManager->getMetadataFactory()->getMetadataFor(get_class($arr['entity']))->getName();
+            $entityName = $entityManager->getMetadataFactory()->getMetadataFor($arr['entity']::class)->getName();
             $loggerQueue->add($arr['action'], $arr['entity'], $entityName, $valuesChanged);
         }
     }

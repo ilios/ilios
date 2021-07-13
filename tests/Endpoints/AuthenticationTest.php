@@ -333,7 +333,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
         if (array_key_exists($key, $data) and $data[$key] == $value) {
             $this->fail(
                 "This value is already set for {$key}. " .
-                "Modify " . get_class($this) . '::putsToTest'
+                "Modify " . $this::class . '::putsToTest'
             );
         }
         unset($data['passwordHash']);
@@ -542,7 +542,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
             if (array_key_exists($key, $data) and $data[$key] == $value) {
                 $this->fail(
                     "This value is already set for {$key}. " .
-                    "Modify " . get_class($this) . '::readOnlyPropertiesToTest'
+                    "Modify " . $this::class . '::readOnlyPropertiesToTest'
                 );
             }
             unset($data['passwordHash']);

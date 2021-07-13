@@ -89,7 +89,7 @@ class Curriculum extends ElasticSearchBase
                     sprintf(
                         '$courses must be an array of %s. %s found',
                         IndexableCourse::class,
-                        get_class($course)
+                        $course::class
                     )
                 );
             }
