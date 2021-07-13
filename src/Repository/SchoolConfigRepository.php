@@ -86,7 +86,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
 
         try {
             $result = $qb->getQuery()->getSingleScalarResult();
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             $result = null;
         }
 

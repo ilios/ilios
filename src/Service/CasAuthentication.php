@@ -96,7 +96,7 @@ class CasAuthentication implements AuthenticationInterface
             try {
                 $this->jwtManager->getUserIdFromToken($jwt);
                 return $this->createSuccessResponseFromJWT($jwt);
-            } catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException) {
                 //JWT could not be validated, move on
             }
         }

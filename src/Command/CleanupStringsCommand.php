@@ -415,7 +415,7 @@ class CleanupStringsCommand extends Command
         $url = 'https://' . $fixed;
         try {
             $this->httpClient->request('HEAD', $url);
-        } catch (Exception $e) {
+        } catch (Exception) {
             // fallback - try getting a response over plain HTTP.
             $url = 'http://' . $fixed;
             $this->httpClient->request('HEAD', $url);

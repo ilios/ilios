@@ -54,7 +54,7 @@ class LoggerQueue
                 $this->logger->log($action, $objectId, $item['className'], $changes, false);
             }
             $this->logger->flush(); // explicitly flush the logger.
-        } catch (Exception $e) {
+        } catch (Exception) {
             // eat this exception.
         }
     }

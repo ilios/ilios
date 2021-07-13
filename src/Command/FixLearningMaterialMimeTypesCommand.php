@@ -96,7 +96,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
                             } else {
                                 try {
                                     $newMimeType = $file->getMimeType();
-                                } catch (\ErrorException $e) {
+                                } catch (\ErrorException) {
                                     $fileName = $lm->getFilename();
                                     $newMimeType = $this->getMimetypeForFileName($fileName);
                                 }

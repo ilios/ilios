@@ -163,7 +163,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             $output->writeln("<info>Frontend updated successfully${message}!</info>");
 
             return 0;
-        } catch (Exception $e) {
+        } catch (Exception) {
             $output->writeln("<error>No matching frontend found${message}!</error>");
 
             return 1;
@@ -184,7 +184,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             }
             $this->downloadAndExtractArchive(self::PRODUCTION, $version);
             $this->copyStaticFilesIntoPublicDirectory();
-        } catch (Exception $e) {
+        } catch (Exception) {
             print "\n\n**Warning: Unable to load frontend. Please run ilios:maintenance:update-frontend again.**\n\n\n";
         }
 

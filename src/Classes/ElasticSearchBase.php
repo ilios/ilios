@@ -81,7 +81,7 @@ class ElasticSearchBase
         }
         try {
             return $this->client->delete($params);
-        } catch (Missing404Exception $e) {
+        } catch (Missing404Exception) {
             return ['result' => 'deleted'];
         }
     }
@@ -93,7 +93,7 @@ class ElasticSearchBase
         }
         try {
             return $this->client->deleteByQuery($params);
-        } catch (Missing404Exception $e) {
+        } catch (Missing404Exception) {
             return ['failures' => []];
         }
     }
