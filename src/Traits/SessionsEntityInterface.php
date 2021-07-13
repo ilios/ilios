@@ -14,19 +14,10 @@ use App\Entity\SessionInterface;
  */
 interface SessionsEntityInterface
 {
-    /**
-     * @param Collection $sessions
-     */
     public function setSessions(Collection $sessions);
 
-    /**
-     * @param SessionInterface $session
-     */
     public function addSession(SessionInterface $session);
 
-    /**
-     * @param SessionInterface $session
-     */
     public function removeSession(SessionInterface $session);
 
     /**

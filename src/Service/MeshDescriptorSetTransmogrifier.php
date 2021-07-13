@@ -17,8 +17,6 @@ class MeshDescriptorSetTransmogrifier
      * Transforms a given MeSH descriptors set into a nested array structure as a pre-processing step for
      * database updates/insertions.
      *
-     * @param DescriptorSet $descriptors
-     * @param array $existingDescriptorIds
      * @return array
      */
     public function transmogrify(DescriptorSet $descriptors, array $existingDescriptorIds)
@@ -88,7 +86,6 @@ class MeshDescriptorSetTransmogrifier
 
     /**
      * Creates a MD5 hash from all relevant properties of a given MeSH term.
-     * @param Term $term
      * @return string
      */
     public function hashTerm(Term $term)

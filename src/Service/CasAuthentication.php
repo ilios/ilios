@@ -57,12 +57,6 @@ class CasAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationRepository $authenticationRepository
-     * @param JsonWebTokenManager $jwtManager
-     * @param LoggerInterface $logger
-     * @param RouterInterface $router
-     * @param CasManager $casManager
-     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         AuthenticationRepository $authenticationRepository,

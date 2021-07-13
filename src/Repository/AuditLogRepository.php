@@ -26,8 +26,6 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
     /**
      * Returns all audit log entries in a given date/time range.
      *
-     * @param \DateTime $from
-     * @param \DateTime $to
      * @return array
      */
     public function findInRange(\DateTime $from, \DateTime $to)
@@ -64,9 +62,6 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
 
     /**
      * Deletes all audit log entries in a given date/time range.
-     *
-     * @param \DateTime $from
-     * @param \DateTime $to
      */
     public function deleteInRange(\DateTime $from, \DateTime $to)
     {
@@ -96,7 +91,6 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
      * We use the DBAL layer here so we can insert with the userId and
      * do not need to access the user entity
      *
-     * @param array $entries
      *
      * @throws \Exception where there are issues with the passed data
      */

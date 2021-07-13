@@ -13,9 +13,6 @@ use App\Entity\LearnerGroupInterface;
  */
 trait LearnerGroupsEntity
 {
-    /**
-     * @param Collection $learnerGroups
-     */
     public function setLearnerGroups(Collection $learnerGroups)
     {
         $this->learnerGroups = new ArrayCollection();
@@ -25,9 +22,6 @@ trait LearnerGroupsEntity
         }
     }
 
-    /**
-     * @param LearnerGroupInterface $learnerGroup
-     */
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
         if (!$this->learnerGroups->contains($learnerGroup)) {
@@ -35,9 +29,6 @@ trait LearnerGroupsEntity
         }
     }
 
-    /**
-     * @param LearnerGroupInterface $learnerGroup
-     */
     public function removeLearnerGroup(LearnerGroupInterface $learnerGroup)
     {
         $this->learnerGroups->removeElement($learnerGroup);

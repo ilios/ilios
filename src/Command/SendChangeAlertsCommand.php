@@ -45,16 +45,6 @@ class SendChangeAlertsCommand extends Command
 
     protected string $kernelProjectDir;
 
-    /**
-     * @param AlertRepository $alertRepository
-     * @param AuditLogRepository $auditLogRepository
-     * @param OfferingRepository $offeringRepository
-     * @param Environment $twig
-     * @param MailerInterface $mailer
-     * @param Config $config
-     * @param Filesystem $fs
-     * @param string $kernelProjectDir
-     */
     public function __construct(
         AlertRepository $alertRepository,
         AuditLogRepository $auditLogRepository,
@@ -210,7 +200,6 @@ class SendChangeAlertsCommand extends Command
 
     /**
      * Locates the applicable message template for a given school and returns its path.
-     * @param SchoolInterface $school
      * @return string The template path.
      */
     protected function getTemplatePath(SchoolInterface $school)

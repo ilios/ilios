@@ -16,9 +16,6 @@ class Kernel extends BaseKernel
     /**
      * Hook into creation and __wakeup of the symfony kernel in order to
      * make our own customizations.
-     *
-     * @param string $environment
-     * @param bool $debug
      */
     public function __construct(string $environment, bool $debug)
     {

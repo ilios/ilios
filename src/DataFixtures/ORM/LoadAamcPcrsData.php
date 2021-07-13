@@ -30,9 +30,7 @@ class LoadAamcPcrsData extends AbstractFixture
 
     /**
      * @param AamcPcrsInterface $entity
-     * @param array $data
      * @return AamcPcrsInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

@@ -345,9 +345,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->track;
     }
 
-    /**
-     * @param \DateTime $startDate
-     */
     public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
@@ -361,9 +358,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->startDate;
     }
 
-    /**
-     * @param \DateTime $endDate
-     */
     public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
@@ -393,9 +387,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->duration;
     }
 
-    /**
-     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
-     */
     public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
     {
         $this->academicLevel = $academicLevel;
@@ -425,9 +416,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->course;
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $parent
-     */
     public function setParent(CurriculumInventorySequenceBlockInterface $parent = null)
     {
         $this->parent = $parent;
@@ -441,9 +429,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->parent;
     }
 
-    /**
-     * @param Collection $children
-     */
     public function setChildren(Collection $children)
     {
         $this->children = new ArrayCollection();
@@ -453,9 +438,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $child
-     */
     public function addChild(CurriculumInventorySequenceBlockInterface $child)
     {
         if (!$this->children->contains($child)) {
@@ -463,9 +445,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $child
-     */
     public function removeChild(CurriculumInventorySequenceBlockInterface $child)
     {
         $this->children->removeElement($child);
@@ -479,9 +458,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->children;
     }
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
@@ -519,8 +495,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * Callback function for comparing sequence blocks.
      * The applied criterion for comparison is the </pre>"orderInSequence</pre> property.
      *
-     * @param CurriculumInventorySequenceBlockInterface $a
-     * @param CurriculumInventorySequenceBlockInterface $b
      * @return int One of -1, 0, 1.
      */
     public static function compareSequenceBlocksWithOrderedStrategy(
@@ -545,8 +519,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      * 4. "sequence block id"
      *    A last resort. Numeric sort, ascending.
      *
-     * @param CurriculumInventorySequenceBlockInterface $a
-     * @param CurriculumInventorySequenceBlockInterface $b
      * @return int One of -1, 0, 1.
      */
     public static function compareSequenceBlocksWithDefaultStrategy(

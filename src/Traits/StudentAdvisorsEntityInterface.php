@@ -10,19 +10,10 @@ use App\Entity\UserInterface;
 
 interface StudentAdvisorsEntityInterface
 {
-    /**
-     * @param Collection $studentAdvisors
-     */
     public function setStudentAdvisors(Collection $studentAdvisors);
 
-    /**
-     * @param UserInterface $studentAdvisor
-     */
     public function addStudentAdvisor(UserInterface $studentAdvisor);
 
-    /**
-     * @param UserInterface $studentAdvisor
-     */
     public function removeStudentAdvisor(UserInterface $studentAdvisor);
 
     /**

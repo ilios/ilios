@@ -18,8 +18,6 @@ class Directory
 
     /**
      * Constructor
-     * @param LdapManager $ldapManager
-     * @param Config $config
      */
     public function __construct(LdapManager $ldapManager, Config $config)
     {
@@ -48,7 +46,6 @@ class Directory
 
     /**
      * Get directory information for a list of users
-     * @param  array $campusIds
      *
      * @return array | false
      */
@@ -79,7 +76,6 @@ class Directory
 
     /**
      * Find everyone in the directory matching these terms
-     * @param  array $searchTerms
      *
      * @return array | false
      */

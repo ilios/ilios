@@ -23,9 +23,6 @@ interface CohortInterface extends
     LearnerGroupsEntityInterface,
     UsersEntityInterface
 {
-    /**
-     * @param ProgramYearInterface $programYear
-     */
     public function setProgramYear(ProgramYearInterface $programYear = null);
 
     /**

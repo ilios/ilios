@@ -35,9 +35,6 @@ interface ProgramYearInterface extends
      */
     public function getStartYear();
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function setProgram(ProgramInterface $program);
 
     /**
@@ -51,9 +48,6 @@ interface ProgramYearInterface extends
      */
     public function getSchool();
 
-    /**
-     * @param CohortInterface $cohort
-     */
     public function setCohort(CohortInterface $cohort);
 
     /**

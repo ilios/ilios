@@ -55,9 +55,6 @@ interface CurriculumInventoryReportInterface extends
      */
     public function getEndDate();
 
-    /**
-     * @param CurriculumInventoryExportInterface $export
-     */
     public function setExport(CurriculumInventoryExportInterface $export = null);
 
     /**
@@ -65,9 +62,6 @@ interface CurriculumInventoryReportInterface extends
      */
     public function getExport();
 
-    /**
-     * @param CurriculumInventorySequenceInterface $sequence
-     */
     public function setSequence(CurriculumInventorySequenceInterface $sequence = null);
 
     /**
@@ -75,28 +69,16 @@ interface CurriculumInventoryReportInterface extends
      */
     public function getSequence();
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function setProgram(ProgramInterface $program = null);
 
     /**
      * @return ProgramInterface
      */
     public function getProgram();
-    /**
-     * @param Collection $academicLevels
-     */
     public function setAcademicLevels(Collection $academicLevels = null);
 
-    /**
-     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
-     */
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
-    /**
-     * @param CurriculumInventoryAcademicLevelInterface $academicLevel
-     */
     public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
     /**

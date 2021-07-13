@@ -24,29 +24,14 @@ interface SessionObjectiveInterface extends
     ActivatableEntityInterface,
     CategorizableEntityInterface
 {
-    /**
-     * @param SessionInterface $session
-     */
     public function setSession(SessionInterface $session): void;
 
-    /**
-     * @return SessionInterface
-     */
     public function getSession(): SessionInterface;
 
-    /**
-     * @param Collection $courseObjectives
-     */
     public function setCourseObjectives(Collection $courseObjectives);
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function addCourseObjective(CourseObjectiveInterface $courseObjective);
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective);
 
     /**
@@ -54,9 +39,6 @@ interface SessionObjectiveInterface extends
      */
     public function getCourseObjectives();
 
-    /**
-     * @param SessionObjectiveInterface $ancestor
-     */
     public function setAncestor(SessionObjectiveInterface $ancestor);
 
     /**
@@ -69,19 +51,10 @@ interface SessionObjectiveInterface extends
      */
     public function getAncestorOrSelf();
 
-    /**
-     * @param Collection $children
-     */
     public function setDescendants(Collection $children);
 
-    /**
-     * @param SessionObjectiveInterface $child
-     */
     public function addDescendant(SessionObjectiveInterface $child);
 
-    /**
-     * @param SessionObjectiveInterface $child
-     */
     public function removeDescendant(SessionObjectiveInterface $child);
 
     /**

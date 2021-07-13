@@ -14,9 +14,6 @@ use App\Entity\ProgramInterface;
  */
 trait ProgramsEntity
 {
-    /**
-     * @param Collection $programs
-     */
     public function setPrograms(Collection $programs)
     {
         $this->programs = new ArrayCollection();
@@ -26,9 +23,6 @@ trait ProgramsEntity
         }
     }
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function addProgram(ProgramInterface $program)
     {
         if (!$this->programs->contains($program)) {
@@ -36,9 +30,6 @@ trait ProgramsEntity
         }
     }
 
-    /**
-     * @param ProgramInterface $program
-     */
     public function removeProgram(ProgramInterface $program)
     {
         $this->programs->removeElement($program);

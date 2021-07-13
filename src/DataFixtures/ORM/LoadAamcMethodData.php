@@ -15,7 +15,6 @@ class LoadAamcMethodData extends AbstractFixture
 {
     /**
      * LoadAamcMethodData constructor.
-     * @param DataimportFileLocator $dataimportFileLocator
      */
     public function __construct(DataimportFileLocator $dataimportFileLocator)
     {
@@ -34,9 +33,7 @@ class LoadAamcMethodData extends AbstractFixture
 
     /**
      * @param AamcMethodInterface $entity
-     * @param array $data
      * @return AamcMethodInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

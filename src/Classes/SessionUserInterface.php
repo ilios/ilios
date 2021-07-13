@@ -58,7 +58,6 @@ interface SessionUserInterface extends UserInterface, EquatableInterface
     /**
      * Check if the passed user is our session user by id
      *
-     * @param IliosUserInterface $user
      * @return bool
      */
     public function isTheUser(IliosUserInterface $user);
@@ -66,7 +65,6 @@ interface SessionUserInterface extends UserInterface, EquatableInterface
     /**
      * Check if the passed school is our user's primary school by id
      *
-     * @param SchoolInterface $school
      * @return bool
      */
     public function isThePrimarySchool(SchoolInterface $school);
@@ -143,89 +141,40 @@ interface SessionUserInterface extends UserInterface, EquatableInterface
     /**
      * Checks if this user is performing any non-student function in the system,
      * such as teaching, directing or administering courses, programs, etc.
-     * @return bool
      */
     public function performsNonLearnerFunction(): bool;
 
-    /**
-     * @return array
-     */
     public function getDirectedCourseIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredCourseIds(): array;
 
-    /**
-     * @return array
-     */
     public function getDirectedSchoolIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredSchoolIds(): array;
 
-    /**
-     * @return array
-     */
     public function getDirectedCourseSchoolIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredCourseSchoolIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredSessionSchoolIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredSessionCourseIds(): array;
 
 
-    /**
-     * @return array
-     */
     public function getTaughtCourseIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredSessionIds(): array;
 
-    /**
-     * @return array
-     */
     public function getInstructedSessionIds(): array;
 
-    /**
-     * @return array
-     */
     public function getInstructedIlmIds(): array;
 
-    /**
-     * @return array
-     */
     public function getInstructedOfferingIds(): array;
 
-    /**
-     * @return array
-     */
     public function getTaughtCourseSchoolIds(): array;
 
-    /**
-     * @return array
-     */
     public function getDirectedProgramIds(): array;
 
-    /**
-     * @return array
-     */
     public function getDirectedProgramSchoolIds(): array;
 
     /**
@@ -233,35 +182,15 @@ interface SessionUserInterface extends UserInterface, EquatableInterface
      */
     public function getDirectedProgramYearIds(): array;
 
-    /**
-     * @return array
-     */
     public function getDirectedProgramYearProgramIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredCurriculumInventoryReportIds(): array;
 
-    /**
-     * @return array
-     */
     public function getAdministeredCurriculumInventoryReportSchoolIds(): array;
 
-    /**
-     * @param int $learnerGroupId
-     * @return bool
-     */
     public function isInLearnerGroup(int $learnerGroupId): bool;
 
-    /**
-     * @return array
-     */
     public function getCourseIdsLinkedToProgramsDirectedByUser(): array;
 
-    /**
-     * @param int $courseId
-     * @return bool
-     */
     public function isDirectingProgramLinkedToCourse(int $courseId): bool;
 }

@@ -31,9 +31,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
 
     /**
      * GenerateCurriculumInventoryVerificationPreviewCommand constructor.
-     *
-     * @param CurriculumInventoryReportRepository $reportRepository
-     * @param VerificationPreviewBuilder $builder
      */
     public function __construct(
         CurriculumInventoryReportRepository $reportRepository,
@@ -103,10 +100,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             ->addArgument('reportId', InputArgument::REQUIRED, 'The ID of the CI report to preview.');
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printAllResourceTypesTable(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 8: All Resource Types');
@@ -117,10 +110,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printInstructionalMethodCounts(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 4: Instructional Method Counts');
@@ -147,10 +136,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printAllEventsWithAssessmentsTaggedAsFormativeOrSummative(
         OutputInterface $output,
         array $data
@@ -179,10 +164,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printProgramExpectationsMappedToPcrs(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 1: Program Expectations Mapped to PCRS');
@@ -219,10 +200,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printPrimaryInstructionalMethodsByNonClerkshipSequenceBlocks(
         OutputInterface $output,
         array $data
@@ -288,10 +265,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printNonClerkshipSequenceBlockInstructionalTime(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 3-A: Non-Clerkship Sequence Block Instructional Time');
@@ -307,10 +280,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printClerkshipSequenceBlockInstructionalTime(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 3-B: Clerkship Sequence Block Instructional Time');
@@ -326,10 +295,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printNonClerkshipSequenceBlockAssessmentMethods(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 5: Non-Clerkship Sequence Block Assessment Methods');
@@ -362,10 +327,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param array $data
-     */
     protected function printClerkshipSequenceBlockAssessmentMethods(OutputInterface $output, array $data): void
     {
         $this->printTableHeadline($output, 'Table 6: Clerkship Sequence Block Assessment Methods');
@@ -398,7 +359,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
     }
 
     /**
-     * @param OutputInterface $output
      * @param $title
      */
     protected function printTableHeadline(OutputInterface $output, $title): void

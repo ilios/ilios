@@ -26,11 +26,9 @@ class ProgramRepository extends ServiceEntityRepository implements
     /**
      * Custom findBy so we can filter by related entities
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     *
      * @return array
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
@@ -63,12 +61,10 @@ class ProgramRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
      * @param int $limit
      * @param int $offset
-     *
      * @return QueryBuilder
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
@@ -141,10 +137,6 @@ class ProgramRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @param array $programDTOs
-     * @return array
-     */
     protected function attachAssociationsToDTOs(array $programDTOs): array
     {
         $programIds = array_keys($programDTOs);

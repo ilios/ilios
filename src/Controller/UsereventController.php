@@ -33,12 +33,6 @@ class UsereventController extends AbstractController
      *
      * @param string $version
      * @param int $id of the user
-     * @param Request $request
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param UserRepository $repository
-     * @param SessionRepository $sessionRepository
-     * @param SerializerInterface $serializer
-     * @param TokenStorageInterface $tokenStorage
      *
      * @return Response
      * @throws \Exception
@@ -94,7 +88,7 @@ class UsereventController extends AbstractController
             }
         ));
         /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $tokenStorage->getToken()->getUser();
+        $tokenStorage->getToken()->getUser();
 
         $events = $repository->addPreAndPostRequisites($user->getId(), $events);
 

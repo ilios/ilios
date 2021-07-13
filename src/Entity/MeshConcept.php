@@ -214,9 +214,6 @@ class MeshConcept implements MeshConceptInterface
         return $this->registryNumber;
     }
 
-    /**
-     * @param Collection $terms
-     */
     public function setTerms(Collection $terms)
     {
         $this->terms = new ArrayCollection();
@@ -226,9 +223,6 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    /**
-     * @param MeshTermInterface $term
-     */
     public function addTerm(MeshTermInterface $term)
     {
         if (!$this->terms->contains($term)) {
@@ -237,9 +231,6 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    /**
-     * @param MeshTermInterface $term
-     */
     public function removeTerm(MeshTermInterface $term)
     {
         if ($this->terms->contains($term)) {
@@ -256,9 +247,6 @@ class MeshConcept implements MeshConceptInterface
         return $this->terms;
     }
 
-    /**
-     * @param Collection $descriptors
-     */
     public function setDescriptors(Collection $descriptors)
     {
         $this->descriptors = new ArrayCollection();
@@ -268,9 +256,6 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    /**
-     * @param MeshDescriptorInterface $descriptor
-     */
     public function addDescriptor(MeshDescriptorInterface $descriptor)
     {
         if (!$this->descriptors->contains($descriptor)) {
@@ -278,9 +263,6 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    /**
-     * @param MeshDescriptorInterface $descriptor
-     */
     public function removeDescriptor(MeshDescriptorInterface $descriptor)
     {
         $this->descriptors->removeElement($descriptor);

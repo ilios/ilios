@@ -13,9 +13,6 @@ use App\Entity\LearningMaterialInterface;
  */
 trait LearningMaterialsEntity
 {
-    /**
-     * @param Collection $learningMaterials
-     */
     public function setLearningMaterials(Collection $learningMaterials)
     {
         $this->learningMaterials = new ArrayCollection();
@@ -25,9 +22,6 @@ trait LearningMaterialsEntity
         }
     }
 
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
     public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
@@ -35,9 +29,6 @@ trait LearningMaterialsEntity
         }
     }
 
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
     public function removeLearningMaterial(LearningMaterialInterface $learningMaterial)
     {
         $this->learningMaterials->removeElement($learningMaterial);

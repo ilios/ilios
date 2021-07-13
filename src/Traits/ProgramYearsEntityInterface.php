@@ -14,19 +14,10 @@ use App\Entity\ProgramYearInterface;
  */
 interface ProgramYearsEntityInterface
 {
-    /**
-     * @param Collection $programYears
-     */
     public function setProgramYears(Collection $programYears);
 
-    /**
-     * @param ProgramYearInterface $programYear
-     */
     public function addProgramYear(ProgramYearInterface $programYear);
 
-    /**
-     * @param ProgramYearInterface $programYear
-     */
     public function removeProgramYear(ProgramYearInterface $programYear);
 
     /**

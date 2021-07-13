@@ -66,9 +66,6 @@ class UserRole implements UserRoleInterface
         $this->users = new ArrayCollection();
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function addUser(UserInterface $user)
     {
         if (!$this->users->contains($user)) {
@@ -77,9 +74,6 @@ class UserRole implements UserRoleInterface
         }
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function removeUser(UserInterface $user)
     {
         if ($this->users->contains($user)) {

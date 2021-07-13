@@ -10,9 +10,6 @@ use App\Entity\UserInterface;
 
 trait StudentAdvisorsEntity
 {
-    /**
-     * @param Collection $studentAdvisors
-     */
     public function setStudentAdvisors(Collection $studentAdvisors)
     {
         $this->studentAdvisors = new ArrayCollection();

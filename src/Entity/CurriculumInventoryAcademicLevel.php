@@ -121,9 +121,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         return $this->level;
     }
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;

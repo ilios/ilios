@@ -66,9 +66,6 @@ interface CourseInterface extends
      */
     public function getYear();
 
-    /**
-     * @param DateTime $startDate
-     */
     public function setStartDate(DateTime $startDate);
 
     /**
@@ -76,9 +73,6 @@ interface CourseInterface extends
      */
     public function getStartDate();
 
-    /**
-     * @param DateTime $endDate
-     */
     public function setEndDate(DateTime $endDate);
 
     /**
@@ -98,9 +92,6 @@ interface CourseInterface extends
      */
     public function getExternalId();
 
-    /**
-     * @param CourseClerkshipTypeInterface $clerkshipType
-     */
     public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType);
 
     /**
@@ -108,19 +99,10 @@ interface CourseInterface extends
      */
     public function getClerkshipType();
 
-    /**
-     * @param Collection $learningMaterials
-     */
     public function setLearningMaterials(Collection $learningMaterials = null);
 
-    /**
-     * @param CourseLearningMaterialInterface $learningMaterial
-     */
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
 
-    /**
-     * @param CourseLearningMaterialInterface $learningMaterial
-     */
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
 
     /**
@@ -128,9 +110,6 @@ interface CourseInterface extends
      */
     public function getLearningMaterials();
 
-    /**
-     * @param CourseInterface $ancestor
-     */
     public function setAncestor(CourseInterface $ancestor);
 
     /**
@@ -143,19 +122,10 @@ interface CourseInterface extends
      */
     public function getAncestorOrSelf();
 
-    /**
-     * @param Collection $children
-     */
     public function setDescendants(Collection $children);
 
-    /**
-     * @param CourseInterface $child
-     */
     public function addDescendant(CourseInterface $child);
 
-    /**
-     * @param CourseInterface $child
-     */
     public function removeDescendant(CourseInterface $child);
 
     /**
@@ -163,19 +133,10 @@ interface CourseInterface extends
      */
     public function getDescendants();
 
-    /**
-     * @param Collection $sequenceBlocks
-     */
     public function setSequenceBlocks(Collection $sequenceBlocks);
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
     /**

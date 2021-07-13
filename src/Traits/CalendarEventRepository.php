@@ -23,7 +23,6 @@ trait CalendarEventRepository
 {
     /**
      * Convert offerings into CalendarEvent() objects
-     * @param array $results
      *
      * @return CalendarEvent[]
      */
@@ -35,7 +34,6 @@ trait CalendarEventRepository
     }
 
     /**
-     * @param array $arr
      * @return CalendarEvent
      */
     protected function createEventObjectForOffering(array $arr)
@@ -159,7 +157,6 @@ trait CalendarEventRepository
      * Retrieves a list of instructors associated with given ILM sessions.
      *
      * @param array $ids A list of ILM session ids.
-     * @param EntityManager $em
      * @return array A map of instructor lists, keyed off by ILM sessions ids.
      */
     protected function getInstructorsForIlmSessions(array $ids, EntityManager $em)
@@ -205,7 +202,6 @@ trait CalendarEventRepository
     /**
      * Adds instructors to a given list of events.
      * @param array $events A list of events
-     * @param EntityManager $em
      * @return array The events list with instructors added.
      */
     public function attachInstructorsToEvents(array $events, EntityManager $em)
@@ -246,7 +242,6 @@ trait CalendarEventRepository
     /**
      * Adds course and session data to a given list of events.
      * @param array $events A list of events
-     * @param EntityManager $em
      * @return array The events list with objectives and competencies added.
      */
     public function attachSessionDataToEvents(array $events, EntityManager $em)
@@ -428,8 +423,6 @@ trait CalendarEventRepository
      * Finds and adds learning materials to a given list of calendar events.
      *
      * @param CalendarEvent[] $events
-     * @param UserMaterialFactory $factory
-     * @param EntityManager $em
      * @return CalendarEvent[]
      */
     public function attachMaterialsToEvents(array $events, UserMaterialFactory $factory, EntityManager $em)
@@ -497,9 +490,7 @@ trait CalendarEventRepository
     /**
      * Get a set of learning materials based on published session
      *
-     * @param array $sessionIds
      *
-     * @param EntityManager $em
      * @return array
      */
     protected function getSessionLearningMaterialsForPublishedSessions(
@@ -518,9 +509,7 @@ trait CalendarEventRepository
     /**
      * Get a set of learning materials based on session
      *
-     * @param array $sessionIds
      *
-     * @param EntityManager $em
      * @return array
      */
     protected function getSessionLearningMaterials(
@@ -532,8 +521,6 @@ trait CalendarEventRepository
     }
 
     /**
-     * @param array $sessionIds
-     * @param EntityManager $em
      * @return QueryBuilder
      */
     protected function sessionLmQuery(
@@ -563,9 +550,7 @@ trait CalendarEventRepository
     /**
      * Get a set of course learning materials
      *
-     * @param array $sessionIds
      *
-     * @param EntityManager $em
      * @return array
      */
     protected function getCourseLearningMaterials(
@@ -580,9 +565,7 @@ trait CalendarEventRepository
     /**
      * Get a set of course learning materials for published sessions
      *
-     * @param array $sessionIds
      *
-     * @param EntityManager $em
      * @return array
      */
     protected function getCourseLearningMaterialsForPublishedSessions(
@@ -597,8 +580,6 @@ trait CalendarEventRepository
     }
 
     /**
-     * @param array $sessionIds
-     * @param EntityManager $em
      * @return QueryBuilder
      */
     protected function courseLmQuery(

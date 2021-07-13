@@ -25,8 +25,6 @@ interface RepositoryInterface
     public function flush();
 
     /**
-     * @param array $criteria
-     *
      * @return object|null The entity instance or NULL if the entity can not be found.
      */
     public function findOneBy(
@@ -42,14 +40,11 @@ interface RepositoryInterface
     /**
      * Searches the data store for a single object by given criteria and sort order.
      *
-     * @param array $criteria
      * @return object|bool The first found object, or FALSE if none could be found.
      */
     public function findDTOBy(array $criteria);
 
     /**
-     * @param array $criteria
-     * @param array $orderBy
      * @param int $limit
      * @param int $offset
      *
@@ -64,8 +59,6 @@ interface RepositoryInterface
 
     /**
      * Searches the data store for all objects matching the given criteria.
-     * @param array $criteria
-     * @param array $orderBy
      * @param int $limit
      * @param int $offset
      *

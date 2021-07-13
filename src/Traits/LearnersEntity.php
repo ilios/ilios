@@ -13,9 +13,6 @@ use App\Entity\UserInterface;
  */
 trait LearnersEntity
 {
-    /**
-     * @param Collection $learners
-     */
     public function setLearners(Collection $learners)
     {
         $this->learners = new ArrayCollection();
@@ -25,9 +22,6 @@ trait LearnersEntity
         }
     }
 
-    /**
-     * @param UserInterface $learner
-     */
     public function addLearner(UserInterface $learner)
     {
         if (!$this->learners->contains($learner)) {
@@ -35,9 +29,6 @@ trait LearnersEntity
         }
     }
 
-    /**
-     * @param UserInterface $learner
-     */
     public function removeLearner(UserInterface $learner)
     {
         $this->learners->removeElement($learner);

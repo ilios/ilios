@@ -195,9 +195,6 @@ class AuditLog implements AuditLogInterface
         return $this->valuesChanged;
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user = null)
     {
         $this->user = $user;

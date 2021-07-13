@@ -14,9 +14,6 @@ interface MeshPreviousIndexingInterface extends
     IdentifiableEntityInterface,
     StringableEntityInterface
 {
-    /**
-     * @param MeshDescriptorInterface $descriptor
-     */
     public function setDescriptor(MeshDescriptorInterface $descriptor);
 
     /**

@@ -26,10 +26,6 @@ class RolloverCurriculumInventoryReportCommand extends Command
      */
     protected $service;
 
-    /**
-     * @param CurriculumInventoryReportRepository $reportRepository
-     * @param ReportRollover $service
-     */
     public function __construct(CurriculumInventoryReportRepository $reportRepository, ReportRollover $service)
     {
         $this->reportRepository = $reportRepository;

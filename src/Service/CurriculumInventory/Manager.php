@@ -27,7 +27,6 @@ class Manager
      * Retrieves a list of events (derived from published sessions/offerings and independent learning sessions)
      * in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      * @throws Exception
      */
@@ -55,7 +54,6 @@ class Manager
     /**
      * Retrieves AAMC resource types associated with given events (sessions) in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array An array of assoc. arrays, each sub-array representing a resource type.
      * @throws Exception
@@ -69,7 +67,6 @@ class Manager
      * Retrieves keywords (MeSH descriptors) associated with events (sessions)
      * in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array An array of assoc. arrays, each sub-array representing a keyword.
      * @throws Exception
@@ -82,10 +79,7 @@ class Manager
     /**
      * Retrieves a lookup map of given events ('sessions') in a given curriculum inventory report,
      * grouped and keyed off by sequence block id.
-
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
-     * @return array
      * @throws Exception
      */
     public function getEventReferencesForSequenceBlocks(
@@ -108,7 +102,6 @@ class Manager
     /**
      * Retrieves all program objectives in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @return array An associative array of arrays, keyed off by objective id.
      *   Each item is an associative array, containing
      *   the objective's id, title and its ancestor's id.
@@ -123,7 +116,6 @@ class Manager
     /**
      * Retrieves all session objectives for given sessions in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $sessionIds
      * @return array An associative array of arrays, keyed off by objective id.
      *   Each item is an associative array, containing
@@ -138,7 +130,6 @@ class Manager
     /**
      * Retrieves all course objectives in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @return array an associative array of arrays, keyed off by objective id.
      *   Each item is an associative array, containing
      *   the objective's id and title (keys: "objective_id" and "title").
@@ -152,7 +143,6 @@ class Manager
     /**
      * Retrieves all PCRS linked to sequence blocks (via objectives and competencies) in a given inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @return array A nested array of associative arrays, keyed off by 'pcrs_id'. Each sub-array represents a PCRS
      *    and is itself an associative array with values being keyed off by 'pcrs_id' and 'description'.
      * @throws Exception
@@ -165,7 +155,6 @@ class Manager
     /**
      * Retrieves all the competency object references per sequence block in a given report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $consolidatedProgramObjectivesMap
      * @return array An associative array of arrays, keyed off by sequence block id.
      *     Each sub-array is in turn a two item map, containing a list of course objectives ids
@@ -221,7 +210,6 @@ class Manager
     /**
      * Retrieves all the competency object references per given event (session) in a given report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $consolidatedProgramObjectivesMap
      * @param array|int[] $eventIds
      * @return array An associative array of arrays, keyed off by event id.
@@ -295,7 +283,6 @@ class Manager
      *
      * @param array|int[] $sessionObjectiveIds
      * @param array|int[] $courseObjectiveIds
-     * @return array
      * @throws Exception
      */
     public function getSessionObjectivesToCourseObjectivesRelations(
@@ -334,7 +321,6 @@ class Manager
      * @param array|int[] $courseObjectiveIds
      * @param array|int[] $programObjectiveIds
      * @param array|int[] $consolidatedProgramObjectivesMap
-     * @return array
      * @throws Exception
      */
     public function getCourseObjectivesToProgramObjectivesRelations(
@@ -384,7 +370,6 @@ class Manager
      * @param array|int[] $programObjectiveIds
      * @param array|int[] $pcrsIds
      * @param array|int[] $consolidatedProgramObjectivesMap
-     * @return array
      * @throws Exception
      */
     public function getProgramObjectivesToPcrsRelations(
@@ -430,7 +415,6 @@ class Manager
      * Retrieves a list of events (derived from published sessions/offerings)
      * in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array $sessionIds The ids of sessions that are flagged to have their offerings counted as one.
      * @param array $excludedSessionIds The ids of sessions that are flagged to be excluded from this report.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
@@ -477,7 +461,6 @@ class Manager
     /**
      * Retrieves a list of events derived from independent learning sessions in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array $excludedSessionIds The ids of sessions that are flagged to be excluded from this report.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.
      * @throws Exception
@@ -502,7 +485,6 @@ class Manager
      * Retrieves a list of events (derived from published ILM sessions with offerings)
      * in a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
      * @param array $sessionIds The ids of sessions that are flagged to have their offerings counted as one.
      * @param array $excludedSessionIds The ids of sessions that are flagged to be excluded from this report.
      * @return array An assoc. array of assoc. arrays, each item representing an event, keyed off by event id.

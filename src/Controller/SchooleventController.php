@@ -31,12 +31,6 @@ class SchooleventController extends AbstractController
     /**
      * @param string $version of the API requested
      * @param string $id of the school
-     * @param Request $request
-     * @param SchoolRepository $schoolRepository
-     * @param SessionRepository $sessionRepository
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param TokenStorageInterface $tokenStorage
-     * @param SerializerInterface $serializer
      *
      * @return Response
      * @throws \Exception

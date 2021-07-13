@@ -23,10 +23,8 @@ class LogEntityChanges
     use ContainerAwareTrait;
 
     /**
-    * Get all the entities that have changed and create log entries for them
-    *
-    * @param OnFlushEventArgs $eventArgs
-    */
+     * Get all the entities that have changed and create log entries for them
+     */
     public function onFlush(OnFlushEventArgs $eventArgs)
     {
         $entityManager = $eventArgs->getEntityManager();

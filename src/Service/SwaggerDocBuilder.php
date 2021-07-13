@@ -113,7 +113,6 @@ class SwaggerDocBuilder
     /**
      * Get the information swagger loads at the top of the document
      *
-     * @param Request $request
      *
      * @return array
      */

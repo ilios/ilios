@@ -17,14 +17,8 @@ interface SessionObjectivesEntityInterface
      */
     public function setSessionObjectives(Collection $sessionObjectives = null): void;
 
-    /**
-     * @param SessionObjectiveInterface $sessionObjective
-     */
     public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void;
 
-    /**
-     * @param SessionObjectiveInterface $sessionObjective
-     */
     public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void;
 
     /**

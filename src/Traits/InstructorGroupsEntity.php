@@ -13,9 +13,6 @@ use App\Entity\InstructorGroupInterface;
  */
 trait InstructorGroupsEntity
 {
-    /**
-     * @param Collection $instructorGroups
-     */
     public function setInstructorGroups(Collection $instructorGroups)
     {
         $this->instructorGroups = new ArrayCollection();
@@ -25,9 +22,6 @@ trait InstructorGroupsEntity
         }
     }
 
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
         if (!$this->instructorGroups->contains($instructorGroup)) {
@@ -35,9 +29,6 @@ trait InstructorGroupsEntity
         }
     }
 
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
     public function removeInstructorGroup(InstructorGroupInterface $instructorGroup)
     {
         $this->instructorGroups->removeElement($instructorGroup);

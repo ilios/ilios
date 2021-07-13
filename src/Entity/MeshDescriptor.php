@@ -390,9 +390,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @param MeshTreeInterface $tree
-     */
     public function removeTree(MeshTreeInterface $tree)
     {
         if ($this->trees->contains($tree)) {

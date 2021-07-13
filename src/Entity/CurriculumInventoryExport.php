@@ -83,9 +83,6 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->createdAt = new \DateTime();
     }
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report)
     {
         $this->report = $report;
@@ -115,9 +112,6 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         return $this->document;
     }
 
-    /**
-     * @param UserInterface $createdBy
-     */
     public function setCreatedBy(UserInterface $createdBy)
     {
         $this->createdBy = $createdBy;

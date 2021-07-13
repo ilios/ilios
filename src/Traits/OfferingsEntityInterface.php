@@ -14,19 +14,10 @@ use App\Entity\OfferingInterface;
  */
 interface OfferingsEntityInterface
 {
-    /**
-     * @param Collection $offerings
-     */
     public function setOfferings(Collection $offerings);
 
-    /**
-     * @param OfferingInterface $offering
-     */
     public function addOffering(OfferingInterface $offering);
 
-    /**
-     * @param OfferingInterface $offering
-     */
     public function removeOffering(OfferingInterface $offering);
 
     /**

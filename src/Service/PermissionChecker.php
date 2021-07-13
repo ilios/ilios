@@ -1143,7 +1143,6 @@ class PermissionChecker
 
     /**
      * Checks if a given user can create CI reports in any of its schools.
-     * @param SessionUserInterface $sessionUser
      * @return bool
      */
     public function canCreateCurriculumInventoryReportInAnySchool(SessionUserInterface $sessionUser)
@@ -1355,7 +1354,6 @@ class PermissionChecker
 
     /**
      * Checks if a given user can create users in any of its schools.
-     * @param SessionUserInterface $sessionUser
      * @return bool
      */
     public function canCreateUsersInAnySchool(SessionUserInterface $sessionUser)
@@ -1378,7 +1376,6 @@ class PermissionChecker
 
     /**
      * Checks if a given user can create users in any of its schools.
-     * @param SessionUserInterface $sessionUser
      * @return bool
      */
     public function canCreateOrUpdateUsersInAnySchool(SessionUserInterface $sessionUser)
@@ -1408,9 +1405,6 @@ class PermissionChecker
 
     /**
      * Checks if the given user can view the given learner group.
-     * @param SessionUserInterface $sessionUser
-     * @param int $learnerGroupId
-     * @return bool
      */
     public function canViewLearnerGroup(SessionUserInterface $sessionUser, int $learnerGroupId): bool
     {
@@ -1419,8 +1413,6 @@ class PermissionChecker
 
     /**
      * Checks if the given user can search the curriculum
-     * @param SessionUserInterface $sessionUser
-     * @return bool
      */
     public function canSearchCurriculum(SessionUserInterface $sessionUser): bool
     {
@@ -1429,8 +1421,6 @@ class PermissionChecker
 
     /**
      * Checks if the given user can search for users
-     * @param SessionUserInterface $sessionUser
-     * @return bool
      */
     public function canSearchUsers(SessionUserInterface $sessionUser): bool
     {

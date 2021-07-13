@@ -72,8 +72,6 @@ class PhpConfiguration implements CheckInterface
     /**
      * Can't believe there isn't a builtin for this.
      * I stole this from https://stackoverflow.com/a/44767616/796999 thanks!
-     * @param string $value
-     * @return int
      */
     protected function valueToBytes(string $value): int
     {

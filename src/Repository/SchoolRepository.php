@@ -37,11 +37,9 @@ class SchoolRepository extends ServiceEntityRepository implements
     /**
      * Custom findBy so we can filter by related entities
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     *
      * @return array
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
@@ -77,8 +75,6 @@ class SchoolRepository extends ServiceEntityRepository implements
 
     /**
      * Find all of the events for a school by session
-     * @param int $schoolId
-     * @param int $sessionId
      * @return SchoolEvent[]
      */
     public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
@@ -107,8 +103,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Find all of the events for a user id between two dates.
      *
      * @param int $id
-     * @param DateTime $from
-     * @param DateTime $to
      *
      * @return SchoolEvent[]
      */
@@ -162,8 +156,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Use the query builder to get a set of offering based school events.
      *
      * @param int $id
-     * @param DateTime $from
-     * @param DateTime $to
      *
      * @return CalendarEvent[]
      */
@@ -208,8 +200,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Use the query builder to get a set of ILMSession based user events.
      *
      * @param int $id
-     * @param DateTime $from
-     * @param DateTime $to
      *
      * @return CalendarEvent[]
      */
@@ -548,12 +538,10 @@ class SchoolRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
      * @param int $limit
      * @param int $offset
-     *
      * @return QueryBuilder
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
@@ -587,10 +575,6 @@ class SchoolRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @param array $schoolDTOs
-     * @return array
-     */
     protected function attachAssociationsToDTOs(array $schoolDTOs): array
     {
         $schoolIds = array_keys($schoolDTOs);

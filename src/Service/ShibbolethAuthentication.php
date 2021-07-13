@@ -53,11 +53,6 @@ class ShibbolethAuthentication implements AuthenticationInterface
 
     /**
      * Constructor
-     * @param AuthenticationRepository $authenticationRepository
-     * @param JsonWebTokenManager $jwtManager
-     * @param LoggerInterface $logger
-     * @param Config $config
-     * @param SessionUserProvider $sessionUserProvider
      */
     public function __construct(
         AuthenticationRepository $authenticationRepository,
@@ -81,7 +76,6 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * If the user is not yet logged in send a redirect Request
      * If the user is logged in, but no account exists send an error
      * If the user is authenticated send a JWT
-     * @param Request $request
      *
      * @throws \Exception when the shibboleth attributes do not contain a value for the configured user id attribute
      * @return JsonResponse
@@ -143,7 +137,6 @@ class ShibbolethAuthentication implements AuthenticationInterface
 
     /**
      * Logout a user
-     * @param Request $request
      *
      * @return JsonResponse
      */

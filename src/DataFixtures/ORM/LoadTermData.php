@@ -41,9 +41,7 @@ class LoadTermData extends AbstractFixture implements DependentFixtureInterface
 
     /**
      * @param TermInterface $entity
-     * @param array $data
      * @return TermInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

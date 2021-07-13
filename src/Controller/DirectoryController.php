@@ -42,10 +42,6 @@ class DirectoryController extends AbstractController
 
     /**
      * DirectoryController constructor.
-     * @param TokenStorageInterface $tokenStorage
-     * @param UserRepository $userRepository
-     * @param Directory $directory
-     * @param PermissionChecker $permissionChecker
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,

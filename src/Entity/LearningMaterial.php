@@ -313,9 +313,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->token = hash('sha256', $key);
     }
 
-    /**
-     * @param LearningMaterialStatusInterface $status
-     */
     public function setStatus(LearningMaterialStatusInterface $status)
     {
         $this->status = $status;
@@ -329,9 +326,6 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->status;
     }
 
-    /**
-     * @param UserInterface $user
-     */
     public function setOwningUser(UserInterface $user)
     {
         $this->owningUser = $user;
@@ -345,9 +339,6 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->owningUser;
     }
 
-    /**
-     * @param LearningMaterialUserRoleInterface $userRole
-     */
     public function setUserRole(LearningMaterialUserRoleInterface $userRole)
     {
         $this->userRole = $userRole;
@@ -503,9 +494,6 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->link;
     }
 
-    /**
-     * @param Collection $courseLearningMaterials
-     */
     public function setCourseLearningMaterials(Collection $courseLearningMaterials = null)
     {
         $this->courseLearningMaterials = new ArrayCollection();
@@ -518,9 +506,6 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
-     */
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
         if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
@@ -528,9 +513,6 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    /**
-     * @param CourseLearningMaterialInterface $courseLearningMaterial
-     */
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
         $this->courseLearningMaterials->removeElement($courseLearningMaterial);
@@ -544,9 +526,6 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->courseLearningMaterials;
     }
 
-    /**
-     * @param Collection $sessionLearningMaterials
-     */
     public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null)
     {
         $this->sessionLearningMaterials = new ArrayCollection();
@@ -559,9 +538,6 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
-     */
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
         if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
@@ -569,9 +545,6 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    /**
-     * @param SessionLearningMaterialInterface $sessionLearningMaterial
-     */
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
         $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
@@ -605,9 +578,8 @@ class LearningMaterial implements LearningMaterialInterface
         foreach ($this->getSessionLearningMaterials() as $sessionLearningMaterial) {
             $sessions = array_merge($sessions, $sessionLearningMaterial->getSessions());
         }
-        $sessions = array_unique($sessions);
 
-        return $sessions;
+        return array_unique($sessions);
     }
 
     /**

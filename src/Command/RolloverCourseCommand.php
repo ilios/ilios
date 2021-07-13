@@ -25,7 +25,6 @@ class RolloverCourseCommand extends Command
 
     /**
      * RolloverCourseCommand constructor.
-     * @param CourseRollover $service
      */
     public function __construct(CourseRollover $service)
     {

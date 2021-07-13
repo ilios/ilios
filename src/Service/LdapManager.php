@@ -14,7 +14,6 @@ class LdapManager
 
     /**
      * Constructor
-     * @param Config $config
      */
     public function __construct(Config $config)
     {

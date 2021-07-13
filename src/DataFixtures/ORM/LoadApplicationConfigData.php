@@ -31,9 +31,7 @@ class LoadApplicationConfigData extends AbstractFixture
 
     /**
      * @param ApplicationConfigInterface $entity
-     * @param array $data
      * @return ApplicationConfigInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

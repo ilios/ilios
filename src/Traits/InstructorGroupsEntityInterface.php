@@ -13,19 +13,10 @@ use App\Entity\InstructorGroupInterface;
  */
 interface InstructorGroupsEntityInterface
 {
-    /**
-     * @param Collection $instructorGroups
-     */
     public function setInstructorGroups(Collection $instructorGroups);
 
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup);
 
-    /**
-     * @param InstructorGroupInterface $instructorGroup
-     */
     public function removeInstructorGroup(InstructorGroupInterface $instructorGroup);
 
     /**

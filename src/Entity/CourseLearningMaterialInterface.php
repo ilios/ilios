@@ -13,9 +13,6 @@ interface CourseLearningMaterialInterface extends
     LearningMaterialRelationshipInterface,
     IndexableCoursesEntityInterface
 {
-    /**
-     * @param CourseInterface $course
-     */
     public function setCourse(CourseInterface $course);
 
     /**

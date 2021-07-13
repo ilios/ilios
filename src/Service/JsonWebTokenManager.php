@@ -32,8 +32,6 @@ class JsonWebTokenManager
 
     /**
      * Constructor
-     * @param PermissionChecker $permissionChecker
-     * @param SessionUserProvider $sessionUserProvider
      * @param string $kernelSecret injected kernel secret key
      */
     public function __construct(
@@ -91,7 +89,6 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a user
-     * @param  SessionUserInterface $sessionUser
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
      * @return string
      * @throws \Exception
@@ -129,7 +126,6 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a user
-     * @param  UserInterface $user
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
      * @return string
      */

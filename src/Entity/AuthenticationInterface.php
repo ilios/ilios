@@ -36,9 +36,6 @@ interface AuthenticationInterface extends LoggableEntityInterface
      */
     public function getPassword();
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user);
 
     /**
@@ -47,9 +44,6 @@ interface AuthenticationInterface extends LoggableEntityInterface
     public function getUser();
 
 
-    /**
-     * @param \DateTime $invalidateTokenIssuedBefore
-     */
     public function setInvalidateTokenIssuedBefore(\DateTime $invalidateTokenIssuedBefore = null);
 
 

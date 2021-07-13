@@ -22,9 +22,6 @@ class CurriculumInventoryDownloadController extends AbstractController
      * Downloads the curriculum inventory report document for a given report.
      *
      * @param $token
-     * @param CurriculumInventoryReportRepository $reportRepository
-     * @param CurriculumInventoryExportRepository $exportManager
-     * @param Exporter $exporter
      *
      * @return Response
      */
@@ -67,9 +64,6 @@ class CurriculumInventoryDownloadController extends AbstractController
     /**
      * Retrieves the report document for a given curriculum inventory report.
      *
-     * @param CurriculumInventoryReportInterface $report
-     * @param CurriculumInventoryExportRepository $repository
-     * @param Exporter $exporter
      * @return string
      */
     protected function getExportedDocument(

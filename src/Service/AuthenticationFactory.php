@@ -58,16 +58,12 @@ class AuthenticationFactory
         switch ($authenticationType) {
             case 'form':
                 return $this->formAuthentication;
-                break;
             case 'shibboleth':
                 return $this->shibbolethAuthentication;
-                break;
             case 'ldap':
                 return $this->ldapAuthentication;
-                break;
             case 'cas':
                 return $this->casAuthentication;
-                break;
         }
 
         throw new \Exception("{$authenticationType} is not a valid ilios authenticator");

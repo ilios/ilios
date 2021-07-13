@@ -13,9 +13,6 @@ use App\Entity\CompetencyInterface;
  */
 trait CompetenciesEntity
 {
-    /**
-     * @param Collection $competencies
-     */
     public function setCompetencies(Collection $competencies)
     {
         $this->competencies = new ArrayCollection();
@@ -25,9 +22,6 @@ trait CompetenciesEntity
         }
     }
 
-    /**
-     * @param CompetencyInterface $competency
-     */
     public function addCompetency(CompetencyInterface $competency)
     {
         if (!$this->competencies->contains($competency)) {
@@ -35,9 +29,6 @@ trait CompetenciesEntity
         }
     }
 
-    /**
-     * @param CompetencyInterface $competency
-     */
     public function removeCompetency(CompetencyInterface $competency)
     {
         if ($this->competencies->contains($competency)) {

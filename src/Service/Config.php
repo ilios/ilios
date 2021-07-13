@@ -26,7 +26,6 @@ class Config
 
     /**
      * Config constructor.
-     * @param ApplicationConfigRepository $applicationConfigRepository
      *
      * @throws \Exception
      */

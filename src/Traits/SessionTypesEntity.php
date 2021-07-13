@@ -13,9 +13,6 @@ use App\Entity\SessionTypeInterface;
  */
 trait SessionTypesEntity
 {
-    /**
-     * @param Collection $sessionTypes
-     */
     public function setSessionTypes(Collection $sessionTypes)
     {
         $this->sessionTypes = new ArrayCollection();
@@ -25,9 +22,6 @@ trait SessionTypesEntity
         }
     }
 
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
     public function addSessionType(SessionTypeInterface $sessionType)
     {
         if (!$this->sessionTypes->contains($sessionType)) {
@@ -35,9 +29,6 @@ trait SessionTypesEntity
         }
     }
 
-    /**
-     * @param SessionTypeInterface $sessionType
-     */
     public function removeSessionType(SessionTypeInterface $sessionType)
     {
         $this->sessionTypes->removeElement($sessionType);

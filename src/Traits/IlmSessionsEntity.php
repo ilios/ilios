@@ -13,9 +13,6 @@ use App\Entity\IlmSessionInterface;
  */
 trait IlmSessionsEntity
 {
-    /**
-     * @param Collection $ilmSessions
-     */
     public function setIlmSessions(Collection $ilmSessions)
     {
         $this->ilmSessions = new ArrayCollection();
@@ -25,9 +22,6 @@ trait IlmSessionsEntity
         }
     }
 
-    /**
-     * @param IlmSessionInterface $ilmSession
-     */
     public function addIlmSession(IlmSessionInterface $ilmSession)
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
@@ -35,9 +29,6 @@ trait IlmSessionsEntity
         }
     }
 
-    /**
-     * @param IlmSessionInterface $ilmSession
-     */
     public function removeIlmSession(IlmSessionInterface $ilmSession)
     {
         $this->ilmSessions->removeElement($ilmSession);

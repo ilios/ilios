@@ -19,7 +19,6 @@ class SessionUserProvider implements UserProviderInterface
 
     /**
      * SessionUserProvider constructor.
-     * @param UserRepository $userRepository
      */
     public function __construct(
         UserRepository $userRepository
@@ -27,19 +26,11 @@ class SessionUserProvider implements UserProviderInterface
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * @param IliosUser $user
-     * @return SessionUserInterface
-     */
     public function createSessionUserFromUser(IliosUser $user): SessionUserInterface
     {
         return new SessionUser($user, $this->userRepository);
     }
 
-    /**
-     * @param int $userId
-     * @return SessionUserInterface
-     */
     public function createSessionUserFromUserId(int $userId): SessionUserInterface
     {
         /** @var IliosUser $user */

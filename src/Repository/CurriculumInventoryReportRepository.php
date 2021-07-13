@@ -45,12 +45,10 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     /**
      * Find and hydrate as DTOs
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
      *
-     * @return array
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -116,12 +114,10 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
 
     /**
-     * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
      * @param int $limit
      * @param int $offset
-     *
      * @return QueryBuilder
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
@@ -173,7 +169,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array
      */
@@ -201,7 +196,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array
      */
@@ -248,7 +242,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $eventIds
      * @return array
      */
@@ -275,7 +268,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @return array
      */
     public function getProgramObjectives(CurriculumInventoryReportInterface $report)
@@ -307,7 +299,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @return array
      */
     public function getCourseObjectives(CurriculumInventoryReportInterface $report)
@@ -332,7 +323,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @param array|int[] $sessionIds
      * @return array
      */
@@ -367,8 +357,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
-     * @param array $eventIds
      * @return array
      */
     public function getCompetencyObjectReferencesForEvents(
@@ -402,7 +390,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @return array
      */
     public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report)
@@ -424,8 +411,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param array $programObjectivesId
-     * @param array $pcrsIds
      * @return array
      */
     public function getProgramObjectivesToPcrsRelations(array $programObjectivesId, array $pcrsIds)
@@ -448,8 +433,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
     /**
-     * @param array $courseObjectiveIds
-     * @param array $programObjectiveIds
      * @return array
      */
     public function getCourseObjectivesToProgramObjectivesRelations(
@@ -474,8 +457,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param array $sessionObjectiveIds
-     * @param array $courseObjectiveIds
      * @return array
      */
     public function getSessionObjectivesToCourseObjectivesRelations(
@@ -500,7 +481,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
      * @return array
      */
     public function getPcrs(CurriculumInventoryReportInterface $report)
@@ -554,8 +534,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
-     * @param array $excludedSessionIds
      * @return array
      */
     public function getEventsFromIlmOnlySessions(
@@ -595,8 +573,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
-     * @param array $excludedSessionIds
      * @return array
      */
     public function getEventsFromOfferingsOnlySessions(
@@ -631,8 +607,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     }
 
     /**
-     * @param CurriculumInventoryReportInterface $report
-     * @param array $excludedSessionIds
      * @return array
      */
     public function getEventsFromIlmSessionsWithOfferings(
@@ -667,7 +641,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
     /**
      * Get all ids of sessions that are flagged to have their offerings counted as one in the given report.
-     * @param CurriculumInventoryReportInterface $report
      * @return array|int[]
      */
     public function getCountForOneOfferingSessionIds(CurriculumInventoryReportInterface $report)
@@ -687,7 +660,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
     /**
      * Get all ids of sessions that are flagged to be excluded from the given report.
-     * @param CurriculumInventoryReportInterface $report
      * @return array|int[]
      */
     public function getExcludedSessionIds(CurriculumInventoryReportInterface $report)

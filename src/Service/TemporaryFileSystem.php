@@ -37,7 +37,6 @@ class TemporaryFileSystem
 
     /**
      * Store a file and return the hash
-     * @param  File $file
      * @return string $hash
      */
     public function storeFile(File $file)
@@ -55,8 +54,6 @@ class TemporaryFileSystem
 
     /**
      * Create a temporary file from a string
-     * @param  string $contents
-     * @return File
      */
     public function createFile(string $contents): File
     {

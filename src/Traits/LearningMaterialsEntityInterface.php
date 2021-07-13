@@ -13,19 +13,10 @@ use App\Entity\LearningMaterialInterface;
  */
 interface LearningMaterialsEntityInterface
 {
-    /**
-     * @param Collection $learningMaterials
-     */
     public function setLearningMaterials(Collection $learningMaterials);
 
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
     public function addLearningMaterial(LearningMaterialInterface $learningMaterial);
 
-    /**
-     * @param LearningMaterialInterface $learningMaterial
-     */
     public function removeLearningMaterial(LearningMaterialInterface $learningMaterial);
 
     /**

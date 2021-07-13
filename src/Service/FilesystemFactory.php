@@ -74,7 +74,6 @@ class FilesystemFactory
 
     /**
      * Get a filesystem for the local S3 cache
-     * @return FilesystemInterface
      */
     public function getS3LocalFilesystemCache(): FilesystemInterface
     {

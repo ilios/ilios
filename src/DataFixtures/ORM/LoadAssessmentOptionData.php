@@ -30,9 +30,7 @@ class LoadAssessmentOptionData extends AbstractFixture
 
     /**
      * @param AssessmentOptionInterface $entity
-     * @param array $data
      * @return AssessmentOptionInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

@@ -30,9 +30,7 @@ class LoadCourseClerkshipTypeData extends AbstractFixture
 
     /**
      * @param CourseClerkshipTypeInterface $entity
-     * @param array $data
      * @return CourseClerkshipTypeInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

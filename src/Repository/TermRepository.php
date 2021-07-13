@@ -27,11 +27,9 @@ class TermRepository extends ServiceEntityRepository implements
     /**
      * Custom findBy so we can filter by related entities
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     *
      * @return TermInterface[]
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
@@ -48,11 +46,9 @@ class TermRepository extends ServiceEntityRepository implements
     /**
      * Find and hydrate as DTOs
      *
-     * @param array $criteria
      * @param array|null $orderBy
      * @param null $limit
      * @param null $offset
-     *
      * @return TermDTO[]
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
@@ -73,10 +69,6 @@ class TermRepository extends ServiceEntityRepository implements
         return $this->attachAssociationsToDTOs($termDTOs);
     }
 
-    /**
-     * @param array $termDTOs
-     * @return array
-     */
     protected function attachAssociationsToDTOs(array $termDTOs): array
     {
         $termIds = array_keys($termDTOs);
@@ -126,12 +118,10 @@ class TermRepository extends ServiceEntityRepository implements
     /**
      * Custom findBy so we can filter by related entities
      *
-     * @param QueryBuilder $qb
      * @param array $criteria
      * @param array $orderBy
      * @param int $limit
      * @param int $offset
-     *
      * @return QueryBuilder
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)

@@ -17,19 +17,10 @@ interface ProgramYearObjectiveInterface extends
     MeshDescriptorsEntityInterface,
     ActivatableEntityInterface
 {
-    /**
-     * @param ProgramYearInterface $programYear
-     */
     public function setProgramYear(ProgramYearInterface $programYear): void;
 
-    /**
-     * @return ProgramYearInterface
-     */
     public function getProgramYear(): ProgramYearInterface;
 
-    /**
-     * @param CompetencyInterface $competency
-     */
     public function setCompetency(CompetencyInterface $competency);
 
     /**
@@ -37,19 +28,10 @@ interface ProgramYearObjectiveInterface extends
      */
     public function getCompetency();
 
-    /**
-     * @param Collection $courseObjectives
-     */
     public function setCourseObjectives(Collection $courseObjectives);
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function addCourseObjective(CourseObjectiveInterface $courseObjective);
 
-    /**
-     * @param CourseObjectiveInterface $courseObjective
-     */
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective);
 
     /**
@@ -57,9 +39,6 @@ interface ProgramYearObjectiveInterface extends
      */
     public function getCourseObjectives();
 
-    /**
-     * @param ProgramYearObjectiveInterface $ancestor
-     */
     public function setAncestor(ProgramYearObjectiveInterface $ancestor);
 
     /**
@@ -72,19 +51,10 @@ interface ProgramYearObjectiveInterface extends
      */
     public function getAncestorOrSelf();
 
-    /**
-     * @param Collection $children
-     */
     public function setDescendants(Collection $children);
 
-    /**
-     * @param ProgramYearObjectiveInterface $child
-     */
     public function addDescendant(ProgramYearObjectiveInterface $child);
 
-    /**
-     * @param ProgramYearObjectiveInterface $child
-     */
     public function removeDescendant(ProgramYearObjectiveInterface $child);
 
     /**

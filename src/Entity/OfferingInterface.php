@@ -47,9 +47,6 @@ interface OfferingInterface extends
 
     public function getUrl(): ?string;
 
-    /**
-     * @param DateTime $startDate
-     */
     public function setStartDate(DateTime $startDate);
 
     /**
@@ -57,9 +54,6 @@ interface OfferingInterface extends
      */
     public function getStartDate();
 
-    /**
-     * @param DateTime $endDate
-     */
     public function setEndDate(DateTime $endDate);
 
     /**
@@ -67,9 +61,6 @@ interface OfferingInterface extends
      */
     public function getEndDate();
 
-    /**
-     * @param SessionInterface $session
-     */
     public function setSession(SessionInterface $session);
 
     /**

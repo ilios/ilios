@@ -183,8 +183,6 @@ class UserMaterial
      * Blanks out properties of timed learning materials that are outside their given
      * timed-release window (relative to the given date-time).
      * And sets the isBlanked flag to TRUE, as applicable.
-     *
-     * @param \DateTime $dateTime
      */
     public function clearTimedMaterial(\DateTime $dateTime)
     {

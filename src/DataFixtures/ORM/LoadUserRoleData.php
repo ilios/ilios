@@ -30,9 +30,7 @@ class LoadUserRoleData extends AbstractFixture
 
     /**
      * @param UserRoleInterface $entity
-     * @param array $data
      * @return UserRoleInterface
-     *
      * @see AbstractFixture::createEntity()
      */
     protected function populateEntity($entity, array $data)

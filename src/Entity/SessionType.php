@@ -178,9 +178,6 @@ class SessionType implements SessionTypeInterface
         return $this->assessment;
     }
 
-    /**
-     * @param AssessmentOptionInterface $assessmentOption
-     */
     public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null)
     {
         $this->assessmentOption = $assessmentOption;
@@ -194,9 +191,6 @@ class SessionType implements SessionTypeInterface
         return $this->assessmentOption;
     }
 
-    /**
-     * @param Collection $aamcMethods
-     */
     public function setAamcMethods(Collection $aamcMethods)
     {
         $this->aamcMethods = new ArrayCollection();
@@ -206,9 +200,6 @@ class SessionType implements SessionTypeInterface
         }
     }
 
-    /**
-     * @param AamcMethodInterface $aamcMethod
-     */
     public function addAamcMethod(AamcMethodInterface $aamcMethod)
     {
         if (!$this->aamcMethods->contains($aamcMethod)) {
@@ -216,9 +207,6 @@ class SessionType implements SessionTypeInterface
         }
     }
 
-    /**
-     * @param AamcMethodInterface $aamcMethod
-     */
     public function removeAamcMethod(AamcMethodInterface $aamcMethod)
     {
         $this->aamcMethods->removeElement($aamcMethod);

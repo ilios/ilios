@@ -13,9 +13,6 @@ use App\Entity\CohortInterface;
  */
 trait CohortsEntity
 {
-    /**
-     * @param Collection $cohorts
-     */
     public function setCohorts(Collection $cohorts)
     {
         $this->cohorts = new ArrayCollection();
@@ -25,9 +22,6 @@ trait CohortsEntity
         }
     }
 
-    /**
-     * @param CohortInterface $cohort
-     */
     public function addCohort(CohortInterface $cohort)
     {
         if (!$this->cohorts->contains($cohort)) {
@@ -35,9 +29,6 @@ trait CohortsEntity
         }
     }
 
-    /**
-     * @param CohortInterface $cohort
-     */
     public function removeCohort(CohortInterface $cohort)
     {
         $this->cohorts->removeElement($cohort);

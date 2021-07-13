@@ -13,9 +13,6 @@ class CurriculumInventoryReportDecoratorFactory
 {
     protected RouterInterface $router;
 
-    /**
-     * @param RouterInterface $router
-     */
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;

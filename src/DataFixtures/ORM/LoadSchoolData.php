@@ -31,9 +31,7 @@ class LoadSchoolData extends AbstractFixture
 
     /**
      * @param SchoolInterface $entity
-     * @param array $data
      * @return SchoolInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

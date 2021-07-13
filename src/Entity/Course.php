@@ -655,7 +655,6 @@ class Course implements CourseInterface
     /**
      * When and objective is removed from a course it needs to remove any relationships
      * to children that belong to sessions in that course
-     * @param CourseObjectiveInterface $courseObjective
      */
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
@@ -671,9 +670,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @param Collection $sequenceBlocks
-     */
     public function setSequenceBlocks(Collection $sequenceBlocks)
     {
         $this->sequenceBlocks = new ArrayCollection();
@@ -683,9 +679,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
     {
         if (!$this->sequenceBlocks->contains($sequenceBlock)) {
@@ -693,9 +686,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
     {
         $this->sequenceBlocks->removeElement($sequenceBlock);

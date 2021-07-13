@@ -15,16 +15,12 @@ class UserMaterialFactory
      */
     protected $router;
 
-    /**
-     * @param RouterInterface $router
-     */
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
 
     /**
-     * @param array $material
      * @return UserMaterial
      */
     public function create(array $material)

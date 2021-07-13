@@ -46,12 +46,6 @@ class ReportRollover
     protected CurriculumInventorySequenceRepository $sequenceRepository;
     protected CurriculumInventorySequenceBlockRepository $sequenceBlockRepository;
 
-    /**
-     * @param CurriculumInventoryReportRepository $reportRepository
-     * @param CurriculumInventoryAcademicLevelRepository $academicLevelRepository
-     * @param CurriculumInventorySequenceRepository $sequenceManager
-     * @param CurriculumInventorySequenceBlockRepository $sequenceBlockManager
-     */
     public function __construct(
         CurriculumInventoryReportRepository $reportRepository,
         CurriculumInventoryAcademicLevelRepository $academicLevelRepository,

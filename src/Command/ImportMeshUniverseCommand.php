@@ -43,11 +43,6 @@ class ImportMeshUniverseCommand extends Command
      */
     protected $meshIndex;
 
-    /**
-     * @param Parser $parser
-     * @param MeshDescriptorRepository $repository
-     * @param Mesh $meshIndex
-     */
     public function __construct(
         Parser $parser,
         MeshDescriptorRepository $repository,
@@ -141,7 +136,6 @@ class ImportMeshUniverseCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
      * @return string
      */
     private function getUri(InputInterface $input)

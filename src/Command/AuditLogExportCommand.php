@@ -30,10 +30,6 @@ class AuditLogExportCommand extends Command
 
     protected AuditLogRepository $auditLogRepository;
 
-    /**
-     * @param LoggerInterface $logger
-     * @param AuditLogRepository $auditLogRepository
-     */
     public function __construct(LoggerInterface $logger, AuditLogRepository $auditLogRepository)
     {
         $this->logger = $logger;

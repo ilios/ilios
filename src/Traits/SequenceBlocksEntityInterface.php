@@ -13,21 +13,12 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
  */
 interface SequenceBlocksEntityInterface
 {
-    /**
-     * @param Collection $sequenceBlocks
-     */
     public function setSequenceBlocks(Collection $sequenceBlocks);
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function addSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     );
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     */
     public function removeSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     );

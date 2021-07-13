@@ -26,8 +26,6 @@ class SetSchoolConfigValueCommand extends Command
 
     /**
      * SetSchoolConfigValueCommand constructor.
-     * @param SchoolRepository $schoolRepository
-     * @param SchoolConfigRepository $schoolConfigRepository
      */
     public function __construct(SchoolRepository $schoolRepository, SchoolConfigRepository $schoolConfigRepository)
     {

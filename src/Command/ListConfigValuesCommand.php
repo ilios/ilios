@@ -27,7 +27,6 @@ class ListConfigValuesCommand extends Command
 
     /**
      * RolloverCourseCommand constructor.
-     * @param ApplicationConfigRepository $applicationConfigRepository
      * @param $environment
      * @param $kernelSecret
      * @param $databaseUrl

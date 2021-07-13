@@ -844,7 +844,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getDirectedProgramYearProgramAndSchoolIds(): array
@@ -871,7 +870,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getInstructedOfferingIlmSessionCourseAndSchoolIds(): array
@@ -884,7 +882,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getDirectedProgramAndSchoolIds(): array
@@ -896,7 +893,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser(): array
@@ -910,7 +906,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getAdministeredSessionCourseAndSchoolIds(): array
@@ -923,7 +918,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getStudentAdvisedSessionAndCourseIds(): array
@@ -936,7 +930,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getLearnerIlmAndOfferingIds(): array
@@ -949,7 +942,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getAdministeredCourseAndSchoolIds(): array
@@ -963,7 +955,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getDirectedCourseAndSchoolIds(): array
@@ -975,7 +966,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      * @see UserRepository::getInstructedLearnerGroupSchoolIds()
      */
@@ -989,7 +979,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      * @see UserRepository::getInstructorGroupSchoolIds()
      */
@@ -1003,7 +992,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      * @see UserRepository::getLearnerGroupIds()
      */
@@ -1017,7 +1005,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      * @see UserRepository::getInstructorGroupIds()
      */

@@ -19,9 +19,6 @@ trait SchoolEntity
         return $this->school;
     }
 
-    /**
-     * @param SchoolInterface $school
-     */
     public function setSchool(SchoolInterface $school)
     {
         $this->school = $school;

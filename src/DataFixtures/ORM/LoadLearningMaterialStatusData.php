@@ -30,9 +30,7 @@ class LoadLearningMaterialStatusData extends AbstractFixture
 
     /**
      * @param LearningMaterialStatusInterface $entity
-     * @param array $data
      * @return LearningMaterialStatusInterface
-     *
      * @see AbstractInterface::populateEntity
      */
     protected function populateEntity($entity, array $data)

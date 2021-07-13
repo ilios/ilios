@@ -11,9 +11,6 @@ use App\Entity\UserInterface;
  */
 interface BlameableEntityInterface
 {
-    /**
-     * @param  UserInterface $createdBy
-     */
     public function setCreatedBy(UserInterface $createdBy);
 
     /**
@@ -23,9 +20,6 @@ interface BlameableEntityInterface
      */
     public function getCreatedBy();
 
-    /**
-     * @param  UserInterface $updatedBy
-     */
     public function setUpdatedBy(UserInterface $updatedBy);
 
     /**

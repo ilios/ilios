@@ -16,9 +16,6 @@ trait CreatedAtEntity
         return $this->createdAt;
     }
 
-    /**
-     * @param DateTime $createdAt
-     */
     public function setCreatedAt(DateTime $createdAt)
     {
         $this->createdAt = $createdAt;

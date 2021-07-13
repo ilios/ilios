@@ -67,19 +67,10 @@ interface SchoolInterface extends
      */
     public function getChangeAlertRecipients();
 
-    /**
-     * @param Collection $vocabularies
-     */
     public function setVocabularies(Collection $vocabularies);
 
-    /**
-     * @param VocabularyInterface $vocabulary
-     */
     public function addVocabulary(VocabularyInterface $vocabulary);
 
-    /**
-     * @param VocabularyInterface $vocabulary
-     */
     public function removeVocabulary(VocabularyInterface $vocabulary);
 
     /**
@@ -87,19 +78,10 @@ interface SchoolInterface extends
      */
     public function getVocabularies();
 
-    /**
-     * @param SchoolConfigInterface $config
-     */
     public function addConfiguration(SchoolConfigInterface $config);
 
-    /**
-     * @param SchoolConfigInterface $config
-     */
     public function removeConfiguration(SchoolConfigInterface $config);
 
-    /**
-     * @param Collection $configs
-     */
     public function setConfigurations(Collection $configs);
 
     /**

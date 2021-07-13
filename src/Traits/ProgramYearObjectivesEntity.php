@@ -13,9 +13,6 @@ use App\Entity\ProgramYearObjectiveInterface;
  */
 trait ProgramYearObjectivesEntity
 {
-    /**
-     * @param Collection $programYearObjectives
-     */
     public function setProgramYearObjectives(Collection $programYearObjectives = null): void
     {
         $this->programYearObjectives = new ArrayCollection();
@@ -28,9 +25,6 @@ trait ProgramYearObjectivesEntity
         }
     }
 
-    /**
-     * @param ProgramYearObjectiveInterface $programYearObjective
-     */
     public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
     {
         if (!$this->programYearObjectives->contains($programYearObjective)) {
@@ -38,9 +32,6 @@ trait ProgramYearObjectivesEntity
         }
     }
 
-    /**
-     * @param ProgramYearObjectiveInterface $programYearObjective
-     */
     public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
     {
         $this->programYearObjectives->removeElement($programYearObjective);

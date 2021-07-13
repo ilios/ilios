@@ -35,8 +35,6 @@ class RedirectInsecureConnections implements EventSubscriberInterface
     /**
      * If we are enforcing a secure connection redirect any users who land
      * here accidentally.
-     *
-     * @param RequestEvent $event
      */
     public function checkAndRedirect(RequestEvent $event)
     {

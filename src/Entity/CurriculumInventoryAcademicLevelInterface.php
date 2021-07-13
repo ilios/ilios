@@ -30,9 +30,6 @@ interface CurriculumInventoryAcademicLevelInterface extends
      */
     public function getLevel();
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report);
 
     /**

@@ -161,9 +161,6 @@ class IlmSession implements IlmSessionInterface
         return $this->hours;
     }
 
-    /**
-     * @param DateTime $dueDate
-     */
     public function setDueDate(DateTime $dueDate = null)
     {
         $this->dueDate = $dueDate;
@@ -190,9 +187,6 @@ class IlmSession implements IlmSessionInterface
         return new ArrayCollection($instructors);
     }
 
-    /**
-     * @param SessionInterface $session
-     */
     public function setSession(SessionInterface $session)
     {
         $this->session = $session;

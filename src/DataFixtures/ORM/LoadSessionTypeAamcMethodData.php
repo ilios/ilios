@@ -42,9 +42,7 @@ class LoadSessionTypeAamcMethodData extends AbstractFixture implements Dependent
 
     /**
      * @param SessionTypeInterface $entity
-     * @param array $data
      * @return SessionTypeInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

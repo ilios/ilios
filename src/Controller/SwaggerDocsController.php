@@ -39,7 +39,6 @@ class SwaggerDocsController extends AbstractController
     /**
      * Get a single YAML file which documents our endpoints
      *
-     * @param Request $request
      * @return Response
      */
     public function indexAction(Request $request)
@@ -55,7 +54,6 @@ class SwaggerDocsController extends AbstractController
     /**
      * Fetch the swagger-ui from vendor and send its contents as the response
      *
-     * @param Request $request
      * @return Response
      */
     public function uiAction(Request $request, $fileName)
@@ -82,19 +80,16 @@ class SwaggerDocsController extends AbstractController
     /**
      * Get a single YAML file which documents our endpoints
      *
-     * @param Request $request
      * @return Response
      */
     public function yamlAction(Request $request)
     {
         $yaml = $this->builder->getDocs($request);
 
-        $response = new Response(
+        return new Response(
             $yaml,
             Response::HTTP_OK,
             ['Content-type' => 'application/x-yaml']
         );
-
-        return $response;
     }
 }

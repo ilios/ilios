@@ -28,8 +28,6 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * Constructor
-     * @param JsonWebTokenManager $jwtManager
-     * @param RouterInterface $router
      */
     public function __construct(JsonWebTokenManager $jwtManager, RouterInterface $router)
     {

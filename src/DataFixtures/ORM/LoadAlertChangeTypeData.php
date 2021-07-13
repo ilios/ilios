@@ -30,9 +30,7 @@ class LoadAlertChangeTypeData extends AbstractFixture
 
     /**
      * @param AlertChangeTypeInterface $entity
-     * @param array $data
      * @return AlertChangeTypeInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

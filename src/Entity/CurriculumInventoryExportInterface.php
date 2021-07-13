@@ -25,9 +25,6 @@ interface CurriculumInventoryExportInterface extends
      */
     public function getDocument();
 
-    /**
-     * @param CurriculumInventoryReportInterface $report
-     */
     public function setReport(CurriculumInventoryReportInterface $report);
 
     /**
@@ -35,9 +32,6 @@ interface CurriculumInventoryExportInterface extends
      */
     public function getReport();
 
-    /**
-     * @param UserInterface $createdBy
-     */
     public function setCreatedBy(UserInterface $createdBy);
 
     /**

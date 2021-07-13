@@ -18,14 +18,8 @@ interface CategorizableEntityInterface
      */
     public function setTerms(Collection $terms = null);
 
-    /**
-     * @param TermInterface $term
-     */
     public function addTerm(TermInterface $term);
 
-    /**
-     * @param TermInterface $term
-     */
     public function removeTerm(TermInterface $term);
 
     /**

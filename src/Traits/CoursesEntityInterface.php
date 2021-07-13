@@ -13,19 +13,10 @@ use App\Entity\CourseInterface;
  */
 interface CoursesEntityInterface
 {
-    /**
-     * @param Collection $courses
-     */
     public function setCourses(Collection $courses);
 
-    /**
-     * @param CourseInterface $course
-     */
     public function addCourse(CourseInterface $course);
 
-    /**
-     * @param CourseInterface $course
-     */
     public function removeCourse(CourseInterface $course);
 
     /**

@@ -30,9 +30,7 @@ class LoadLearningMaterialUserRoleData extends AbstractFixture
 
     /**
      * @param LearningMaterialUserRoleInterface $entity
-     * @param array $data
      * @return LearningMaterialUserRoleInterface
-     *
      * @see AbstractFixture::populateEntity()
      */
     protected function populateEntity($entity, array $data)

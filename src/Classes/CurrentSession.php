@@ -25,7 +25,6 @@ class CurrentSession
 
     /**
      * Constructor
-     * @param  SessionUserInterface $user
      */
     public function __construct(SessionUserInterface $user)
     {

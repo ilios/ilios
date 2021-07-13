@@ -69,9 +69,6 @@ class IngestionException implements IngestionExceptionInterface
     )]
     protected $user;
 
-    /**
-     * @param UserInterface $user
-     */
     public function setUser(UserInterface $user)
     {
         $this->user = $user;
