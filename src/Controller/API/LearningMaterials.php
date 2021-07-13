@@ -245,7 +245,7 @@ class LearningMaterials
         unset($data->filesize);
 
         $json = json_encode($data);
-        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
+        $serializer->deserialize($json, $entity::class, 'json', ['object_to_populate' => $entity]);
         $this->validateLmEntity($entity, $validator);
         if (! $authorizationChecker->isGranted($permission, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -295,7 +295,7 @@ class LearningMaterials
         unset($data->filesize);
 
         $json = json_encode($data);
-        $serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
+        $serializer->deserialize($json, $entity::class, 'json', ['object_to_populate' => $entity]);
 
         $this->validateLmEntity($entity, $validator);
         if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {

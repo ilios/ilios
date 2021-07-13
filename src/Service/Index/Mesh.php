@@ -54,7 +54,7 @@ class Mesh extends ElasticSearchBase
                     sprintf(
                         '$descriptors must be an array of %s. %s found',
                         Descriptor::class,
-                        get_class($descriptor)
+                        $descriptor::class
                     )
                 );
             }

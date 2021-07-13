@@ -216,6 +216,6 @@ class ApiRequestParser
         }
         $json = json_encode($data);
 
-        return $this->serializer->deserialize($json, get_class($entity), 'json', ['object_to_populate' => $entity]);
+        return $this->serializer->deserialize($json, $entity::class, 'json', ['object_to_populate' => $entity]);
     }
 }

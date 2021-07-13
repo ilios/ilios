@@ -207,7 +207,7 @@ class Authentications
         $json = json_encode($authObject);
         $this->serializer->deserialize(
             $json,
-            get_class($entity),
+            $entity::class,
             'json',
             ['object_to_populate' => $entity]
         );
@@ -262,7 +262,7 @@ class Authentications
         $json = json_encode($authObject);
         $this->serializer->deserialize(
             $json,
-            get_class($entity),
+            $entity::class,
             'json',
             ['object_to_populate' => $entity]
         );

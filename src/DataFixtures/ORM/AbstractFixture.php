@@ -82,7 +82,7 @@ abstract class AbstractFixture extends DataFixture implements ORMFixtureInterfac
         // honor the given entity identifiers.
         // @link http://www.ens.ro/2012/07/03/symfony2-doctrine-force-entity-id-on-persist/
         $manager
-          ->getClassMetadata(get_class($this->createEntity()))
+          ->getClassMetadata($this->createEntity()::class)
           ->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
 
         $i = 0;
