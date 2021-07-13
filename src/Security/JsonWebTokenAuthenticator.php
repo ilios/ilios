@@ -97,7 +97,7 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
             $username = $this->jwtManager->getUserIdFromToken($jwt);
         } catch (UnexpectedValueException $e) {
             throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token: ' . $e->getMessage());
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token');
         }
 

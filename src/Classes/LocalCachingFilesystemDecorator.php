@@ -72,7 +72,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
         try {
             //cleanup any existing test file
             $this->cacheFileSystem->delete($path);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             //ignore this one we don't always have files in the cache
         }
     }
@@ -86,7 +86,7 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
         try {
             //cleanup any existing test file
             $this->cacheFileSystem->deleteDir($dirname);
-        } catch (FileNotFoundException $e) {
+        } catch (FileNotFoundException) {
             //ignore this one we don't always have files in the cache
         }
     }
