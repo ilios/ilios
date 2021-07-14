@@ -156,7 +156,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     {
         $responses = $this->getAllTest();
         foreach ($responses as $response) {
-            $uri = array_key_exists('absoluteFileUri', $response) ? $response['absoluteFileUri'] : null;
+            $uri = $response['absoluteFileUri'] ?? null;
             if ($uri) {
                 $this->kernelBrowser->request(
                     'GET',
@@ -342,7 +342,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         unset($data['fileHash']);
         $response = $this->postTest($data, $postData);
 
-        $uri = array_key_exists('absoluteFileUri', $response) ? $response['absoluteFileUri'] : null;
+        $uri = $response['absoluteFileUri'] ?? null;
         $this->kernelBrowser->request(
             'GET',
             $uri
