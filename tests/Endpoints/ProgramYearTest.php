@@ -313,13 +313,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
      */
     public function testDownloadCourseObjectivesReport()
     {
-        $parameters = array_merge(
-            [
-                'version' => $this->apiVersion,
-                'object' => $this->getPluralName(),
-                'id' => 1,
-            ]
-        );
+        $parameters = ['version' => $this->apiVersion, 'object' => $this->getPluralName(), 'id' => 1];
 
         $this->createJsonRequest(
             'GET',
