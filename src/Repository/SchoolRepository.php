@@ -131,7 +131,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             }
         }
 
-        $events = array_merge($events, $uniqueIlmEvents);
+        $events = [...$events, ...$uniqueIlmEvents];
 
         //cast calendar events into school events
         $schoolEvents = array_map(fn(CalendarEvent $event) => SchoolEvent::createFromCalendarEvent($event), $events);

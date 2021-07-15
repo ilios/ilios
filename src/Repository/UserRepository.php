@@ -190,7 +190,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             }
         }
 
-        $events = array_merge($events, $uniqueIlmEvents);
+        $events = [...$events, ...$uniqueIlmEvents];
 
         //turn calendar events into user events
         $userEvents = array_map(fn(CalendarEvent $event) => UserEvent::createFromCalendarEvent($id, $event), $events);
