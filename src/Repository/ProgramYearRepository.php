@@ -163,7 +163,7 @@ class ProgramYearRepository extends ServiceEntityRepository implements
         unset($criteria['terms']);
         unset($criteria['startYears']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("p.{$key}", ":{$key}"));

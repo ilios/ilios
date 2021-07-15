@@ -99,7 +99,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("a.{$key}", ":{$key}"));

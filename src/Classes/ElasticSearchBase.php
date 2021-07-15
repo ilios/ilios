@@ -123,7 +123,7 @@ class ElasticSearchBase
                 $chunk[] = $item;
                 $i++;
                 $chunkSize += $itemSize;
-            } elseif (count($chunk)) {
+            } elseif ($chunk !== []) {
                 //we've reached a point where adding another item is too much
                 //instead we'll just save what we have and start again
                 $chunks[] = $chunk;

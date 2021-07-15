@@ -96,7 +96,7 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         //cleanup all the possible relationship filters
         unset($criteria['courses']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));

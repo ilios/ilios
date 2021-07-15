@@ -492,7 +492,7 @@ EOL;
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("m.{$key}", ":{$key}"));

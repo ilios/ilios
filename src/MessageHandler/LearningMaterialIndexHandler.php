@@ -42,7 +42,7 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
             $dtos,
             fn(LearningMaterialDTO $dto) => $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath)
         );
-        if (count($filteredDtos)) {
+        if ($filteredDtos !== []) {
             $this->learningMaterialsIndex->index($filteredDtos);
         }
     }

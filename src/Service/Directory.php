@@ -37,7 +37,7 @@ class Directory
 
         $filter = "({$ldapCampusIdProperty}={$campusId})";
         $users = $this->ldapManager->search($filter);
-        if (count($users)) {
+        if ($users !== []) {
             return $users[0];
         }
 
@@ -65,7 +65,7 @@ class Directory
             $users = array_merge($users, $this->ldapManager->search($filter));
         }
 
-        if (count($users)) {
+        if ($users !== []) {
             return $users;
         }
 
@@ -88,7 +88,7 @@ class Directory
         $filter = "(&{$filterTermsString})";
         $users = $this->ldapManager->search($filter);
 
-        if (count($users)) {
+        if ($users !== []) {
             return $users;
         }
 
@@ -104,7 +104,7 @@ class Directory
     public function findByLdapFilter($filter)
     {
         $users = $this->ldapManager->search($filter);
-        if (count($users)) {
+        if ($users !== []) {
             return $users;
         }
 

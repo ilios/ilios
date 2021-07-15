@@ -131,7 +131,7 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
                 $ids = array_diff($ids, [null]);
                 $qb->andWhere('l.parent IS NULL');
             }
-            if (count($ids)) {
+            if ($ids !== []) {
                 $qb->join('l.parent', 'l_parent');
                 $qb->andWhere($qb->expr()->in('l_parent.id', ':parents'));
                 $qb->setParameter(':parents', $ids);
@@ -166,7 +166,7 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
         unset($criteria['parents']);
         unset($criteria['terms']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("l.{$key}", ":{$key}"));

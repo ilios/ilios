@@ -140,7 +140,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
                 $msg = "<comment>{$skipped} learning materials did not need to be fixed.</comment>";
                 $output->writeln($msg);
             }
-            if (count($errors)) {
+            if ($errors !== []) {
                 foreach ($errors as $message) {
                     $output->writeln("<error>${message}</error>");
                 }

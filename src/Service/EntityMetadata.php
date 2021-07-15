@@ -139,7 +139,7 @@ class EntityMetadata
             $properties = $reflection->getProperties();
             $exposed =  array_filter($properties, function (ReflectionProperty $property) {
                 $attributes = $property->getAttributes(\App\Attribute\Expose::class);
-                if (count($attributes)) {
+                if ($attributes !== []) {
                     return true;
                 } else {
                     $annotation = $this->annotationReader->getPropertyAnnotation(
@@ -173,7 +173,7 @@ class EntityMetadata
 
             $ids = array_filter($properties, function (ReflectionProperty $property) {
                 $attributes = $property->getAttributes(\App\Attribute\Id::class);
-                if (count($attributes)) {
+                if ($attributes !== []) {
                     return true;
                 }
                 $annotation = $this->annotationReader->getPropertyAnnotation(
@@ -207,8 +207,8 @@ class EntityMetadata
             foreach ($properties as $property) {
                 $related = $property->getAttributes(\App\Attribute\Related::class);
                 $exposed = $property->getAttributes(\App\Attribute\Expose::class);
-                if (count($related)) {
-                    if (count($exposed)) {
+                if ($related !== []) {
+                    if ($exposed !== []) {
                         $arguments = $related[0]->getArguments();
                         $value = count($arguments) ? $arguments[0] : $property->getName();
                         $relatedProperties[$property->getName()] = $value;
@@ -244,9 +244,9 @@ class EntityMetadata
         $className = $reflection->getName();
         if (!array_key_exists($className, $this->typeForClasses)) {
             $attributes = $reflection->getAttributes(\App\Attribute\DTO::class);
-            if (count($attributes)) {
+            if ($attributes !== []) {
                 $arguments = $attributes[0]->getArguments();
-                if (!count($arguments)) {
+                if ($arguments === []) {
                     throw new \Exception(
                         "Missing Type argument on {$className} DTO Attribute"
                     );
@@ -304,9 +304,9 @@ class EntityMetadata
 
         if (!array_key_exists($key, $this->typeForProperties)) {
             $attributes = $property->getAttributes(\App\Attribute\Type::class);
-            if (count($attributes)) {
+            if ($attributes !== []) {
                 $arguments = $attributes[0]->getArguments();
-                if (!count($arguments)) {
+                if ($arguments === []) {
                     throw new \Exception(
                         "Missing Type argument on {$className}::{$propertyName}"
                     );
@@ -339,7 +339,7 @@ class EntityMetadata
     public function isPropertyReadOnly(ReflectionProperty $property): bool
     {
         $attributes = $property->getAttributes(\App\Attribute\ReadOnly::class);
-        if (count($attributes)) {
+        if ($attributes !== []) {
             return true;
         }
 
@@ -358,7 +358,7 @@ class EntityMetadata
     public function isPropertyRemoveMarkup(ReflectionProperty $property): bool
     {
         $attributes = $property->getAttributes(\App\Attribute\RemoveMarkup::class);
-        if (count($attributes)) {
+        if ($attributes !== []) {
             return true;
         }
         /** @var ReadOnly $annotation */
@@ -419,7 +419,7 @@ class EntityMetadata
             $class = 'App\\Entity\\DTO' . '\\' . $file->getBasename('.php');
             $refl = new ReflectionClass($class);
             $attributes = $refl->getAttributes(\App\Attribute\DTO::class);
-            if (count($attributes)) {
+            if ($attributes !== []) {
                 $list[] = $class;
             } else {
                 $annotation = $this->annotationReader->getClassAnnotation(

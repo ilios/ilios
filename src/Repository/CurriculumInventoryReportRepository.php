@@ -139,7 +139,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         unset($criteria['sequenceBlocks']);
         unset($criteria['academicLevels']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
@@ -415,7 +415,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
      */
     public function getProgramObjectivesToPcrsRelations(array $programObjectivesId, array $pcrsIds)
     {
-        if (! count($programObjectivesId) || ! count($pcrsIds)) {
+        if ($programObjectivesId === [] || $pcrsIds === []) {
             return [];
         }
 
@@ -439,7 +439,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         array $courseObjectiveIds,
         array $programObjectiveIds
     ) {
-        if (! count($courseObjectiveIds) || ! count($programObjectiveIds)) {
+        if ($courseObjectiveIds === [] || $programObjectiveIds === []) {
             return [];
         }
 
@@ -463,7 +463,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         array $sessionObjectiveIds,
         array $courseObjectiveIds
     ) {
-        if (! count($sessionObjectiveIds) || ! count($courseObjectiveIds)) {
+        if ($sessionObjectiveIds === [] || $courseObjectiveIds === []) {
             return [];
         }
 

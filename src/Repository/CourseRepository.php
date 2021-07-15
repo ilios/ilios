@@ -340,7 +340,7 @@ EOL;
                 $sqlFragments[] = "{$column} = {$label}";
             }
         }
-        if (count($sqlFragments)) {
+        if ($sqlFragments !== []) {
             $sql .= ' WHERE ' . implode(' AND ', $sqlFragments);
         }
 
@@ -601,7 +601,7 @@ EOL;
         unset($criteria['meshDescriptors']);
         unset($criteria['ancestors']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("c.{$key}", ":{$key}"));

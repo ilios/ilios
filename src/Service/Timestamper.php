@@ -51,7 +51,7 @@ class Timestamper
 
     public function flush()
     {
-        if (count($this->entities)) {
+        if ($this->entities !== []) {
             /** @var EntityManager $om */
             $om = $this->registry->getManager();
             foreach ($this->entities as $timestamp => $entities) {
