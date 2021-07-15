@@ -145,7 +145,7 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
         unset($criteria['schools']);
         unset($criteria['startYears']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("c.{$key}", ":{$key}"));

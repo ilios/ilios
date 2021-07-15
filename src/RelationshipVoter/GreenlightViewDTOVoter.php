@@ -53,7 +53,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return (
-            in_array($attribute, [self::VIEW]) && (
+            $attribute === self::VIEW && (
                 $subject instanceof AamcMethodDTO
                 || $subject instanceof AamcPcrsDTO
                 || $subject instanceof AamcResourceTypeDTO

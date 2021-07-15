@@ -17,7 +17,7 @@ class IliosFileSystem extends Voter
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof FileSystem && in_array($attribute, [self::CREATE_TEMPORARY_FILE]);
+        return $subject instanceof FileSystem && $attribute == self::CREATE_TEMPORARY_FILE;
     }
 
     /**

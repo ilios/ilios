@@ -351,7 +351,7 @@ class LearningMaterials
             $message = $violation->getMessage();
             $errors[] = "Error in *${property}*: ${message}";
         }
-        if (count($errors)) {
+        if ($errors !== []) {
             $errorsString = implode("\n", $errors);
             throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
         }

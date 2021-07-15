@@ -162,7 +162,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         // Remove empty relationships as they won't be present in JSON:API
         foreach ($expected as $key => $value) {
-            if (is_array($value) && empty($value)) {
+            if ($value === []) {
                 unset($expected[$key]);
             }
         }

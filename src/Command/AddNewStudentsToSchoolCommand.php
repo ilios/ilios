@@ -97,7 +97,7 @@ class AddNewStudentsToSchoolCommand extends Command
 
         $newStudents = array_filter($students, fn(array $arr) => !in_array($arr['campusId'], $campusIds));
 
-        if (!count($newStudents) > 0) {
+        if ($newStudents === []) {
             $output->writeln("<info>There are no new students to add.</info>");
             return 0;
         }

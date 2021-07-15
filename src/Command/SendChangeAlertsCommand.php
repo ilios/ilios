@@ -91,7 +91,7 @@ class SendChangeAlertsCommand extends Command
         $isDryRun = $input->getOption('dry-run');
 
         $alerts = $this->alertRepository->findBy(['dispatched' => false, 'tableName' => 'offering']);
-        if (! count($alerts)) {
+        if ($alerts === []) {
             $output->writeln("<info>No undispatched offering alerts found.</info>");
             return 0;
         }

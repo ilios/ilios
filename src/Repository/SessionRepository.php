@@ -258,7 +258,7 @@ class SessionRepository extends ServiceEntityRepository implements
         unset($criteria['competencies']);
         unset($criteria['meshDescriptors']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("s.{$key}", ":{$key}"));

@@ -329,7 +329,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         unset($criteria['sessionTypes']);
         unset($criteria['fullCourses']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));

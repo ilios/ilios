@@ -20,7 +20,7 @@ class UserDTOVoter extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, [self::VIEW]) && $subject instanceof UserDTO;
+        return $attribute === self::VIEW && $subject instanceof UserDTO;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

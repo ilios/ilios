@@ -131,7 +131,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             }
         }
 
-        $events = array_merge($events, $uniqueIlmEvents);
+        $events = [...$events, ...$uniqueIlmEvents];
 
         //cast calendar events into school events
         $schoolEvents = array_map(fn(CalendarEvent $event) => SchoolEvent::createFromCalendarEvent($event), $events);
@@ -542,7 +542,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      */
     protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
     {
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("s.{$key}", ":{$key}"));

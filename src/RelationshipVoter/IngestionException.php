@@ -13,7 +13,7 @@ class IngestionException extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return $subject instanceof IngestionExceptionInterface
-            && in_array($attribute, [self::VIEW]);
+            && $attribute === self::VIEW;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

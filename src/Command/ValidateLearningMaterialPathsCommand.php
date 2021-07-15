@@ -85,7 +85,7 @@ class ValidateLearningMaterialPathsCommand extends Command
         $output->writeln('');
 
         $output->writeln("<info>Validated {$valid} learning materials file path.</info>");
-        if (count($broken)) {
+        if ($broken !== []) {
             $msg = "<error>Unable to find the files for " . count($broken) . ' learning material.</error>';
             $output->writeln($msg);
             $rows = array_map(fn($arr) => [

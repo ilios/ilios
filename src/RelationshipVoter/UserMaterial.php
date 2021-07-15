@@ -19,7 +19,7 @@ class UserMaterial extends AbstractVoter
      */
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof Material && in_array($attribute, [self::VIEW]);
+        return $subject instanceof Material && $attribute === self::VIEW;
     }
 
     /**

@@ -154,7 +154,7 @@ class JsonApiData
             $ids = array_keys($candidates);
             $alreadyIncluded = $this->getIncludedIdsByType();
             $newIds = array_key_exists($type, $alreadyIncluded) ? array_diff($ids, $alreadyIncluded[$type]) : $ids;
-            if (count($newIds)) {
+            if ($newIds !== []) {
                 $manager = $this->entityRepositoryLookup->getRepositoryForEndpoint($type);
                 $dtos = $manager->findDTOsBy(['id' => $newIds]);
                 foreach ($dtos as $dto) {
@@ -170,7 +170,7 @@ class JsonApiData
                 }
             }
         }
-        if (count($this->sideLoadCandidates)) {
+        if ($this->sideLoadCandidates !== []) {
             $this->executeSideLoad();
         }
     }

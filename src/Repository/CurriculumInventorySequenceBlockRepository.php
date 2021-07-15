@@ -142,7 +142,7 @@ class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository
         unset($criteria['children']);
         unset($criteria['sessions']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));

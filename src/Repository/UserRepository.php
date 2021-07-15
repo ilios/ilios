@@ -190,7 +190,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             }
         }
 
-        $events = array_merge($events, $uniqueIlmEvents);
+        $events = [...$events, ...$uniqueIlmEvents];
 
         //turn calendar events into user events
         $userEvents = array_map(fn(CalendarEvent $event) => UserEvent::createFromCalendarEvent($id, $event), $events);
@@ -872,7 +872,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
                 $ids = array_diff($ids, [null]);
                 $qb->andWhere('u.cohorts IS EMPTY');
             }
-            if (count($ids)) {
+            if ($ids !== []) {
                 $qb->join('u.cohorts', 'c_cohorts');
                 $qb->andWhere($qb->expr()->in('c_cohorts.id', ':cohorts'));
                 $qb->setParameter(':cohorts', $ids);
@@ -913,7 +913,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         unset($criteria['instructorGroups']);
         unset($criteria['learnerSessions']);
 
-        if (count($criteria)) {
+        if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
                 $qb->andWhere($qb->expr()->in("u.{$key}", ":{$key}"));

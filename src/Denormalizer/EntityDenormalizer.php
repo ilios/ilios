@@ -104,7 +104,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             }
         }
 
-        if (count($data)) {
+        if ($data !== []) {
             $extraFields = array_keys($data);
             $writableFields = array_column($writableProperties, "name");
             throw new InvalidInputWithSafeUserMessageException(

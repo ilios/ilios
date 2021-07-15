@@ -14,7 +14,7 @@ class ApplicationConfig extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return (
-            ($subject instanceof ApplicationConfigDTO && in_array($attribute, [self::VIEW])) or
+            ($subject instanceof ApplicationConfigDTO && $attribute === self::VIEW) or
             ($subject instanceof ApplicationConfigInterface && in_array($attribute, [
                     self::CREATE, self::VIEW, self::EDIT, self::DELETE
                 ]))

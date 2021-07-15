@@ -152,7 +152,7 @@ class SendTeachingRemindersCommand extends Command
         // get all applicable offerings.
         $offerings = $this->offeringRepository->getOfferingsForTeachingReminders($daysInAdvance, $schoolIds);
 
-        if (!count($offerings)) {
+        if ($offerings === []) {
             $output->writeln('<info>No offerings with pending teaching reminders found.</info>');
             return 0;
         }

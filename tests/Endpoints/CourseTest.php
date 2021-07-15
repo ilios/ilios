@@ -368,13 +368,12 @@ class CourseTest extends ReadWriteEndpointTest
         $course['year'] = 2001; // most definitely yesteryear
         $newCourseTitle = 'Does not matter';
 
-        $parameters = array_merge([
+        $parameters = [
             'version' => $this->apiVersion,
-        ], [
             'id' => $course['id'],
             'year' => $course['year'],
             'newCourseTitle' => $newCourseTitle
-        ]);
+        ];
 
         $this->createJsonRequest(
             'POST',
