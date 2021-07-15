@@ -66,9 +66,7 @@ class DownloadControllerTest extends WebTestCase
         $learningMaterials = $this->kernelBrowser->getContainer()
             ->get(LearningMaterialData::class)
             ->getAll();
-        $fileLearningMaterials = array_filter($learningMaterials, function ($arr) {
-            return !empty($arr['filesize']);
-        });
+        $fileLearningMaterials = array_filter($learningMaterials, fn($arr) => !empty($arr['filesize']));
         $learningMaterial = array_values($fileLearningMaterials)[0];
         $this->makeJsonRequest(
             $this->kernelBrowser,

@@ -109,9 +109,7 @@ class CourseRepository extends ServiceEntityRepository implements
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('x.id')->from(Course::class, 'x');
 
-        return array_map(function (array $arr) {
-            return $arr['id'];
-        }, $qb->getQuery()->getScalarResult());
+        return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
     }
 
     /**
@@ -334,9 +332,7 @@ EOL;
             $column = $meta->getColumnName($name);
             $label = ':param' . $i;
             if (is_array($value)) {
-                $labels = array_map(function ($j) use ($label) {
-                    return "${label}_${j}";
-                }, range(0, count($value) - 1));
+                $labels = array_map(fn($j) => "${label}_${j}", range(0, count($value) - 1));
                 $params[$name] = $labels;
                 $sqlFragments[] = "{$column} IN (" . implode(', ', $labels) . ")";
             } else {
@@ -758,9 +754,11 @@ EOL;
             $courseIds
         );
 
-        $sessionIds = array_reduce($arr, function (array $carry, array $item) {
-            return array_merge($carry, array_column($item, 'sessionId'));
-        }, []);
+        $sessionIds = array_reduce(
+            $arr,
+            fn(array $carry, array $item) => array_merge($carry, array_column($item, 'sessionId')),
+            []
+        );
 
         $chunks = array_chunk(array_unique($sessionIds), 500);
         foreach ($chunks as $ids) {

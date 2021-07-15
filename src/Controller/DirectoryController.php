@@ -76,9 +76,7 @@ class DirectoryController extends AbstractController
         $limit = $request->query->has('limit') ? (int) $request->query->all()['limit'] : count($results);
         $results = array_slice($results, $offset, $limit);
 
-        $campusIds = array_map(function ($arr) {
-            return $arr['campusId'];
-        }, $results);
+        $campusIds = array_map(fn($arr) => $arr['campusId'], $results);
         $dtos = $this->userRepository->findAllMatchingDTOsByCampusIds($campusIds);
 
         $usersIdsByCampusId = [];

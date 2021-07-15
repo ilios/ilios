@@ -158,9 +158,7 @@ class IndexEntityChanges
     protected function indexCourses(array $courses): void
     {
         if ($this->curriculumIndex->isEnabled()) {
-            $courseIds = array_map(function (CourseInterface $course) {
-                return $course->getId();
-            }, $courses);
+            $courseIds = array_map(fn(CourseInterface $course) => $course->getId(), $courses);
             $chunks = array_chunk($courseIds, CourseIndexRequest::MAX_COURSES);
             foreach ($chunks as $ids) {
                 $this->bus->dispatch(new CourseIndexRequest($ids));

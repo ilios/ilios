@@ -71,9 +71,10 @@ class Users extends ReadWriteController
                 $parameters['criteria'],
             );
 
-            $filteredResults = array_filter($dtos, function ($object) use ($authorizationChecker) {
-                return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);
-            });
+            $filteredResults = array_filter(
+                $dtos,
+                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+            );
 
             //Re-index numerically index the array
             $values = array_values($filteredResults);

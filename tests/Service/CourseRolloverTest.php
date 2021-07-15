@@ -274,10 +274,9 @@ class CourseRolloverTest extends TestCase
                 $newSessionObjective->shouldReceive('setPosition')->with($sessionObjective->getPosition())->once();
                 $newSessionObjective->shouldReceive('setSession')->with($newSession)->once();
                 $newSessionObjective->shouldReceive('setTerms')->with($sessionObjective->getTerms())->once();
-                $newSessionObjective->shouldReceive('setCourseObjectives')
-                    ->with(m::on(function (Collection $collection) use ($sessionObjective) {
-                        return count($collection) === count($sessionObjective->getCourseObjectives());
-                    }))->once();
+                $newSessionObjective->shouldReceive('setCourseObjectives')->with(m::on(
+                    fn(Collection $collection) => count($collection) === count($sessionObjective->getCourseObjectives())
+                ))->once();
                 $ancestor = $sessionObjective->getAncestor();
                 if ($ancestor) {
                     $newSessionObjective->shouldReceive('setAncestor')->with($ancestor)->once();
@@ -781,10 +780,9 @@ class CourseRolloverTest extends TestCase
                     ->with($sessionObjective->getAncestorOrSelf())->once();
                 $newSessionObjective->shouldReceive('setTerms')->with($sessionObjective->getTerms())->once();
 
-                $newSessionObjective->shouldReceive('setCourseObjectives')
-                    ->with(m::on(function (Collection $collection) use ($sessionObjective) {
-                        return count($collection) === count($sessionObjective->getCourseObjectives());
-                    }))->once();
+                $newSessionObjective->shouldReceive('setCourseObjectives')->with(m::on(
+                    fn(Collection $collection) => count($collection) === count($sessionObjective->getCourseObjectives())
+                ))->once();
 
                 $this->sessionObjectiveRepository->shouldReceive('create')->once()->andReturn($newSessionObjective);
                 $this->sessionObjectiveRepository->shouldReceive('update')

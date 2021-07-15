@@ -56,16 +56,14 @@ class ListRootUsersCommand extends Command
             return 0;
         }
 
-        $rows = array_map(function ($dto) {
-            return [
-                $dto->id,
-                $dto->firstName,
-                $dto->lastName,
-                $dto->email,
-                $dto->phone,
-                ($dto->enabled ? 'Yes' : 'No')
-            ];
-        }, $users);
+        $rows = array_map(fn($dto) => [
+            $dto->id,
+            $dto->firstName,
+            $dto->lastName,
+            $dto->email,
+            $dto->phone,
+            ($dto->enabled ? 'Yes' : 'No')
+        ], $users);
 
         $table = new Table($output);
         $table

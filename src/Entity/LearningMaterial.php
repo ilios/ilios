@@ -602,14 +602,10 @@ class LearningMaterial implements LearningMaterialInterface
     public function getIndexableCourses(): array
     {
         $directCourses = $this->courseLearningMaterials
-            ->map(function (CourseLearningMaterialInterface $clm) {
-                return $clm->getCourse();
-            });
+            ->map(fn(CourseLearningMaterialInterface $clm) => $clm->getCourse());
 
         $sessionCourses = $this->sessionLearningMaterials
-            ->map(function (SessionLearningMaterialInterface $slm) {
-                return $slm->getSession()->getCourse();
-            });
+            ->map(fn(SessionLearningMaterialInterface $slm) => $slm->getSession()->getCourse());
 
         return array_merge(
             $directCourses->toArray(),

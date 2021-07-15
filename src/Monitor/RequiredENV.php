@@ -27,9 +27,7 @@ class RequiredENV implements CheckInterface
      */
     public function check()
     {
-        $missingVariables = array_filter(self::REQUIRED_ENV, function ($name) {
-            return !getenv($name) && !isset($_ENV[$name]);
-        });
+        $missingVariables = array_filter(self::REQUIRED_ENV, fn($name) => !getenv($name) && !isset($_ENV[$name]));
 
         if (count($missingVariables)) {
             $missing = implode("\n", $missingVariables);

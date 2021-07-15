@@ -923,9 +923,7 @@ class User implements UserInterface
      */
     public function isDirectingCourse($courseId)
     {
-        return $this->directedCourses->map(function (CourseInterface $course) {
-            return $course->getId();
-        })->contains($courseId);
+        return $this->directedCourses->map(fn(CourseInterface $course) => $course->getId())->contains($courseId);
     }
 
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
@@ -1429,29 +1427,19 @@ class User implements UserInterface
      */
     public function getAllSchools()
     {
-        $cohortSchools = $this->getCohorts()->map(function (CohortInterface $cohort) {
-            return $cohort->getSchool();
-        });
+        $cohortSchools = $this->getCohorts()->map(fn(CohortInterface $cohort) => $cohort->getSchool());
 
-        $directedCourseSchools = $this->getDirectedCourses()->map(function (CourseInterface $course) {
-            return $course->getSchool();
-        });
+        $directedCourseSchools = $this->getDirectedCourses()->map(fn(CourseInterface $course) => $course->getSchool());
 
-        $learnerGroupSchools = $this->getLearnerGroups()->map(function (LearnerGroupInterface $lg) {
-            return $lg->getSchool();
-        });
+        $learnerGroupSchools = $this->getLearnerGroups()->map(fn(LearnerGroupInterface $lg) => $lg->getSchool());
 
-        $instructedLgSchools = $this->getInstructedLearnerGroups()->map(function (LearnerGroupInterface $lg) {
-            return $lg->getSchool();
-        });
+        $instructedLgSchools = $this->getInstructedLearnerGroups()->map(
+            fn(LearnerGroupInterface $lg) => $lg->getSchool()
+        );
 
-        $instGroupSchools = $this->getInstructorGroups()->map(function (InstructorGroupInterface $ig) {
-            return $ig->getSchool();
-        });
+        $instGroupSchools = $this->getInstructorGroups()->map(fn(InstructorGroupInterface $ig) => $ig->getSchool());
 
-        $insIlmSchools = $this->getInstructorIlmSessions()->map(function (IlmSessionInterface $ilm) {
-            return $ilm->getSchool();
-        });
+        $insIlmSchools = $this->getInstructorIlmSessions()->map(fn(IlmSessionInterface $ilm) => $ilm->getSchool());
 
         $allSchools = array_merge(
             $cohortSchools->toArray(),

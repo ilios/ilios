@@ -38,9 +38,10 @@ class LearningMaterialIndexHandler implements MessageHandlerInterface
     public function __invoke(LearningMaterialIndexRequest $message)
     {
         $dtos = $this->repository->findDTOsBy(['id' => $message->getId()]);
-        $filteredDtos = array_filter($dtos, function (LearningMaterialDTO $dto) {
-            return $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath);
-        });
+        $filteredDtos = array_filter(
+            $dtos,
+            fn(LearningMaterialDTO $dto) => $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath)
+        );
         if (count($filteredDtos)) {
             $this->learningMaterialsIndex->index($filteredDtos);
         }

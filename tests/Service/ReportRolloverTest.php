@@ -68,21 +68,17 @@ class ReportRolloverTest extends TestCase
             $this->sequenceBlockRepository
         );
 
-        $this->reportRepository->shouldReceive('create')->andReturnUsing(function () {
-            return new CurriculumInventoryReport();
-        });
+        $this->reportRepository->shouldReceive('create')->andReturnUsing(fn() => new CurriculumInventoryReport());
         $this->reportRepository->shouldReceive('update');
-        $this->sequenceRepository->shouldReceive('create')->andReturnUsing(function () {
-            return new CurriculumInventorySequence();
-        });
+        $this->sequenceRepository->shouldReceive('create')->andReturnUsing(fn() => new CurriculumInventorySequence());
         $this->sequenceRepository->shouldReceive('update');
-        $this->academicLevelRepository->shouldReceive('create')->andReturnUsing(function () {
-            return new CurriculumInventoryAcademicLevel();
-        });
+        $this->academicLevelRepository->shouldReceive('create')->andReturnUsing(
+            fn() => new CurriculumInventoryAcademicLevel()
+        );
         $this->academicLevelRepository->shouldReceive('update');
-        $this->sequenceBlockRepository->shouldReceive('create')->andReturnUsing(function () {
-            return new CurriculumInventorySequenceBlock();
-        });
+        $this->sequenceBlockRepository->shouldReceive('create')->andReturnUsing(
+            fn() => new CurriculumInventorySequenceBlock()
+        );
         $this->sequenceBlockRepository->shouldReceive('update');
     }
 
@@ -205,9 +201,7 @@ class ReportRolloverTest extends TestCase
         $sequenceBlocks = $report->getSequenceBlocks()->toArray();
         $newSequenceBlocks = $newReport->getSequenceBlocks()->toArray();
         $this->assertEquals(count($sequenceBlocks), count($newSequenceBlocks));
-        $topLevelFilterFn = function (CurriculumInventorySequenceBlock $block) {
-            return !$block->getParent();
-        };
+        $topLevelFilterFn = fn(CurriculumInventorySequenceBlock $block) => !$block->getParent();
 
         $topLevelBlocks = array_values(array_filter($sequenceBlocks, $topLevelFilterFn));
         $newTopLevelBlocks = array_values(array_filter($newSequenceBlocks, $topLevelFilterFn));

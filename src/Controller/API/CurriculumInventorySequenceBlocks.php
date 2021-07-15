@@ -158,10 +158,10 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
         $siblings = $parent->getChildren()->toArray();
         /* @var CurriculumInventorySequenceBlockInterface[] $siblingsWithHigherSortOrder */
-        $siblingsWithHigherSortOrder = array_values(array_filter($siblings, function ($sibling) use ($block) {
-            /* @var CurriculumInventorySequenceBlockInterface $sibling */
-            return ($sibling->getOrderInSequence() > $block->getOrderInSequence());
-        }));
+        $siblingsWithHigherSortOrder = array_values(array_filter(
+            $siblings,
+            fn($sibling) => $sibling->getOrderInSequence() > $block->getOrderInSequence()
+        ));
         for ($i = 0, $n = count($siblingsWithHigherSortOrder); $i < $n; $i++) {
             $orderInSequence = $siblingsWithHigherSortOrder[$i]->getOrderInSequence();
             $siblingsWithHigherSortOrder[$i]->setOrderInSequence($orderInSequence - 1);
@@ -229,9 +229,10 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
         $blocks = $parent->getChildrenAsSortedList();
 
-        $blocks = array_filter($blocks, function (CurriculumInventorySequenceBlockInterface $sibling) use ($block) {
-            return $sibling->getId() !== $block->getId();
-        });
+        $blocks = array_filter(
+            $blocks,
+            fn(CurriculumInventorySequenceBlockInterface $sibling) => $sibling->getId() !== $block->getId()
+        );
         $blocks = array_values($blocks);
 
         $minRange = 1;

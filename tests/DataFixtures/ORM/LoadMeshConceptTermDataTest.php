@@ -50,9 +50,7 @@ class LoadMeshConceptTermDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         // find the term
         $termId = (int) $data[1];
-        $term = $entity->getTerms()->filter(function (MeshTermInterface $term) use ($termId) {
-            return $term->getId() === $termId;
-        })->first();
+        $term = $entity->getTerms()->filter(fn(MeshTermInterface $term) => $term->getId() === $termId)->first();
         $this->assertNotEmpty($term);
     }
 }

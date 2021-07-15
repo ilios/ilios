@@ -461,9 +461,7 @@ class CourseRollover
         foreach ($courseObjective->getProgramYearObjectives() as $programYearObjective) {
             $ancestorId = $programYearObjective->getAncestorOrSelf()->getId();
             $newProgramYearObjectives = $programYearObjectives->filter(
-                function (ProgramYearObjectiveInterface $py) use ($ancestorId) {
-                    return $py->getAncestorOrSelf()->getId() === $ancestorId;
-                }
+                fn(ProgramYearObjectiveInterface $py) => $py->getAncestorOrSelf()->getId() === $ancestorId
             );
             if ($newProgramYearObjectives->count() > 0) {
                 $newCourseObjective->addProgramYearObjective($newProgramYearObjectives->first());
@@ -500,9 +498,7 @@ class CourseRollover
                                 }
                                 return null;
                             }
-                        )->filter(function ($value) {
-                            return !empty($value);
-                        });
+                        )->filter(fn($value) => !empty($value));
 
                     $newSessionObjective->setCourseObjectives($courseObjectives);
                     $this->sessionObjectiveRepository->update($newSessionObjective, false, false);

@@ -75,14 +75,10 @@ class SyncFormerStudentsCommand extends Command
         }
         $output->writeln('<info>Found ' . count($formerStudents) . ' former students in the directory.</info>');
 
-        $formerStudentsCampusIds = array_map(function (array $arr) {
-            return $arr['campusId'];
-        }, $formerStudents);
+        $formerStudentsCampusIds = array_map(fn(array $arr) => $arr['campusId'], $formerStudents);
 
         $notFormerStudents = $this->userRepository->findUsersWhoAreNotFormerStudents($formerStudentsCampusIds);
-        $usersToUpdate = $notFormerStudents->filter(function (UserInterface $user) {
-            return !$user->isUserSyncIgnore();
-        });
+        $usersToUpdate = $notFormerStudents->filter(fn(UserInterface $user) => !$user->isUserSyncIgnore());
         if (!$usersToUpdate->count() > 0) {
             $output->writeln("<info>There are no students to update.</info>");
             return 0;
@@ -92,14 +88,12 @@ class SyncFormerStudentsCommand extends Command
             $usersToUpdate->count() .
             ' students in Ilios who will be marked as a Former Student.</info>'
         );
-        $rows = $usersToUpdate->map(function (UserInterface $user) {
-            return [
-                $user->getCampusId(),
-                $user->getFirstName(),
-                $user->getLastName(),
-                $user->getEmail(),
-            ];
-        })->toArray();
+        $rows = $usersToUpdate->map(fn(UserInterface $user) => [
+            $user->getCampusId(),
+            $user->getFirstName(),
+            $user->getLastName(),
+            $user->getEmail(),
+        ])->toArray();
         $table = new Table($output);
         $table->setHeaders(['Campus ID', 'First', 'Last', 'Email'])->setRows($rows);
         $table->render();

@@ -59,15 +59,13 @@ class FindUserCommand extends Command
             return 0;
         }
 
-        $rows = array_map(function ($arr) {
-            return [
-                $arr['campusId'],
-                $arr['firstName'],
-                $arr['lastName'],
-                $arr['email'],
-                $arr['telephoneNumber']
-            ];
-        }, $userRecords);
+        $rows = array_map(fn($arr) => [
+            $arr['campusId'],
+            $arr['firstName'],
+            $arr['lastName'],
+            $arr['email'],
+            $arr['telephoneNumber']
+        ], $userRecords);
         $table = new Table($output);
         $table
             ->setHeaders(['Campus ID', 'First', 'Last', 'Email', 'Phone Number'])

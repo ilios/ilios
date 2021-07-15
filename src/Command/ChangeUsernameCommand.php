@@ -60,9 +60,10 @@ class ChangeUsernameCommand extends Command
                 "No user with id #{$userId} was found."
             );
         }
-        $allUsernames = array_map(function (string $username) {
-            return strtolower($username);
-        }, $this->authenticationRepository->getUsernames());
+        $allUsernames = array_map(
+            fn(string $username) => strtolower($username),
+            $this->authenticationRepository->getUsernames()
+        );
 
         $question = new Question("New Username: ");
         $question->setValidator(function ($answer) use ($allUsernames) {

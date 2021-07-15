@@ -109,9 +109,10 @@ class LearningMaterials
             );
         }
 
-        $filteredResults = array_filter($dtos, function (LearningMaterialDTO $dto) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto);
-        });
+        $filteredResults = array_filter(
+            $dtos,
+            fn(LearningMaterialDTO $dto) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto)
+        );
 
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();

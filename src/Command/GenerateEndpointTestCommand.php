@@ -85,12 +85,10 @@ class GenerateEndpointTestCommand extends Command
         $entity = $reflection->getShortName();
 
 
-        $mapProperties = function (\ReflectionProperty $property) {
-            return [
-                'name' => $property->getName(),
-                'type' => $this->entityMetadata->getTypeOfProperty($property)
-            ];
-        };
+        $mapProperties = fn(\ReflectionProperty $property) => [
+            'name' => $property->getName(),
+            'type' => $this->entityMetadata->getTypeOfProperty($property)
+        ];
 
         $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
         $puts = array_map($mapProperties, $writableProperties);

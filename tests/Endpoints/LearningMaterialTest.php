@@ -187,9 +187,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
         $filters = ['q' => $q];
         $this->filterTest($filters, $expectedData);
     }
@@ -201,9 +199,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
         $filters = ['q' => $q];
         $this->jsonApiFilterTest($filters, $expectedData);
     }
@@ -406,9 +402,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
             '3',
             'learningMaterials.learningMaterial'
         );
-        $lms = array_filter($includes, function (object $obj) use ($id) {
-            return $obj->id === $id && $obj->type === 'learningMaterials';
-        });
+        $lms = array_filter($includes, fn(object $obj) => $obj->id === $id && $obj->type === 'learningMaterials');
         $lm = array_shift($lms);
         $this->assertEquals('thirdlm', $lm->attributes->title);
         $this->assertObjectHasAttribute('absoluteFileUri', $lm->attributes);

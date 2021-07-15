@@ -30,21 +30,19 @@ class Users extends ElasticSearchBase
                 );
             }
         }
-        $input = array_map(function (UserDTO $user) {
-            return [
-                'id' => $user->id,
-                'firstName' => $user->firstName,
-                'lastName' => $user->lastName,
-                'middleName' => $user->middleName,
-                'displayName' => $user->displayName,
-                'email' => $user->email,
-                'campusId' => $user->campusId,
-                'username' => $user->username,
-                'enabled' => $user->enabled,
-                'fullName' => $user->firstName . ' ' . $user->middleName . ' ' . $user->lastName,
-                'fullNameLastFirst' => $user->lastName . ', ' . $user->firstName . ' ' . $user->middleName,
-            ];
-        }, $users);
+        $input = array_map(fn(UserDTO $user) => [
+            'id' => $user->id,
+            'firstName' => $user->firstName,
+            'lastName' => $user->lastName,
+            'middleName' => $user->middleName,
+            'displayName' => $user->displayName,
+            'email' => $user->email,
+            'campusId' => $user->campusId,
+            'username' => $user->username,
+            'enabled' => $user->enabled,
+            'fullName' => $user->firstName . ' ' . $user->middleName . ' ' . $user->lastName,
+            'fullNameLastFirst' => $user->lastName . ', ' . $user->firstName . ' ' . $user->middleName,
+        ], $users);
 
         $result = $this->doBulkIndex(self::INDEX, $input);
 
@@ -139,9 +137,7 @@ class Users extends ElasticSearchBase
         $autocompleteSuggestions = array_reduce(
             $results['suggest'],
             function (array $carry, array $item) {
-                $options = array_map(function (array $arr) {
-                    return $arr['text'];
-                }, $item[0]['options']);
+                $options = array_map(fn(array $arr) => $arr['text'], $item[0]['options']);
 
                 return array_unique(array_merge($carry, $options));
             },

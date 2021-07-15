@@ -50,9 +50,9 @@ class LoadMeshDescriptorConceptDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[1], $entity->getId());
         // find the concept
         $conceptId = $data[0];
-        $concept = $entity->getConcepts()->filter(function (MeshConceptInterface $concept) use ($conceptId) {
-            return $concept->getId() === $conceptId;
-        })->first();
+        $concept = $entity->getConcepts()->filter(
+            fn(MeshConceptInterface $concept) => $concept->getId() === $conceptId
+        )->first();
         $this->assertNotEmpty($concept);
     }
 

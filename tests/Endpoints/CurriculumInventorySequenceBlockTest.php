@@ -479,12 +479,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             );
         }
 
-        $filteredOldSequence = array_values(array_filter($childrenBeforeMove, function ($block) use ($blockId) {
-            return $block['id'] !== $blockId;
-        }));
-        $filteredNewSequence = array_values(array_filter($childrenAfterMove, function ($block) use ($blockId) {
-            return $block['id'] !== $blockId;
-        }));
+        $filteredOldSequence = array_values(array_filter($childrenBeforeMove, fn($block) => $block['id'] !== $blockId));
+        $filteredNewSequence = array_values(array_filter($childrenAfterMove, fn($block) => $block['id'] !== $blockId));
 
         for ($i = 0, $n = count($filteredNewSequence); $i < $n; $i++) {
             $this->assertEquals(
@@ -697,9 +693,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     protected function sortOrderedSequence(array $sequence)
     {
         $sortedSequence = array_values($sequence); // cheap-o way of copying the array
-        usort($sortedSequence, function ($a, $b) {
-            return ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1;
-        });
+        usort($sortedSequence, fn($a, $b) => ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1);
         return $sortedSequence;
     }
 }

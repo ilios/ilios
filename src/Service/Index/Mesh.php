@@ -37,9 +37,7 @@ class Mesh extends ElasticSearchBase
             ]
         ];
         $results = $this->doSearch($params);
-        return array_map(function (array $arr) {
-            return $arr['_id'];
-        }, $results['hits']['hits']);
+        return array_map(fn(array $arr) => $arr['_id'], $results['hits']['hits']);
     }
 
     /**

@@ -176,9 +176,7 @@ class Aggregator
         $expectations = [];
         $expectations['program_objectives'] = array_filter(
             array_values($programObjectives),
-            function ($objective) use ($consolidatedProgramObjectivesMap) {
-                return ! array_key_exists($objective['id'], $consolidatedProgramObjectivesMap);
-            }
+            fn($objective) => ! array_key_exists($objective['id'], $consolidatedProgramObjectivesMap)
         );
 
         $expectations['session_objectives'] = $sessionObjectives;
@@ -283,9 +281,7 @@ class Aggregator
         $objectives = array_values($objectives);
 
         // filter out any objectives without ancestors
-        $objectivesWithAncestors = array_filter($objectives, function ($objective) {
-            return ! empty($objective['ancestor_id']);
-        });
+        $objectivesWithAncestors = array_filter($objectives, fn($objective) => ! empty($objective['ancestor_id']));
 
         // sort objectives by ancestor id and by objective id descending,
         // effectively grouping them by ancestor and putting the newest objective in each group on top

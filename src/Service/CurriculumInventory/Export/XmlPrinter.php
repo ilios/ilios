@@ -263,9 +263,9 @@ class XmlPrinter
         //
         // Academic Levels
         //
-        $levels = $report->getAcademicLevels()->filter(function (CurriculumInventoryAcademicLevelInterface $level) {
-            return $level->getSequenceBlocks()->count() > 0;
-        });
+        $levels = $report->getAcademicLevels()->filter(
+            fn(CurriculumInventoryAcademicLevelInterface $level) => $level->getSequenceBlocks()->count() > 0
+        );
 
         $xw->startElement('AcademicLevels');
         $xw->writeElement('LevelsInProgram', (string) $levels->count());

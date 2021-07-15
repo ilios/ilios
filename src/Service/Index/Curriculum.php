@@ -280,12 +280,10 @@ class Curriculum extends ElasticSearchBase
             'sessionLearningMaterialAttachments',
         ];
 
-        $mustMatch = array_map(function ($field) use ($query) {
-            return [ 'match' => [ $field => [
-                'query' => $query,
-                '_name' => $field,
-            ] ] ];
-        }, $mustFields);
+        $mustMatch = array_map(fn($field) => [ 'match' => [ $field => [
+            'query' => $query,
+            '_name' => $field,
+        ] ] ], $mustFields);
 
         /**
          * At least one of the mustMatch queries has to be a match
@@ -327,9 +325,7 @@ class Curriculum extends ElasticSearchBase
         $autocompleteSuggestions = array_reduce(
             $results['suggest'],
             function (array $carry, array $item) {
-                $options = array_map(function (array $arr) {
-                    return $arr['text'];
-                }, $item[0]['options']);
+                $options = array_map(fn(array $arr) => $arr['text'], $item[0]['options']);
 
                 return array_unique(array_merge($carry, $options));
             },
@@ -337,12 +333,14 @@ class Curriculum extends ElasticSearchBase
         );
 
         $mappedResults = array_map(function (array $arr) {
-            $courseMatches = array_filter($arr['matched_queries'], function (string $match) {
-                return strpos($match, 'course') === 0;
-            });
-            $sessionMatches = array_filter($arr['matched_queries'], function (string $match) {
-                return strpos($match, 'session') === 0;
-            });
+            $courseMatches = array_filter(
+                $arr['matched_queries'],
+                fn(string $match) => str_starts_with($match, 'course')
+            );
+            $sessionMatches = array_filter(
+                $arr['matched_queries'],
+                fn(string $match) => str_starts_with($match, 'session')
+            );
             $rhett = $arr['_source'];
             $rhett['score'] = $arr['_score'];
             $rhett['courseMatches'] = $courseMatches;
@@ -404,9 +402,7 @@ class Curriculum extends ElasticSearchBase
             return $carry;
         }, []);
 
-        usort($courses, function ($a, $b) {
-            return $b['bestScore'] <=> $a['bestScore'];
-        });
+        usort($courses, fn($a, $b) => $b['bestScore'] <=> $a['bestScore']);
 
         return [
             'autocomplete' => $autocompleteSuggestions,

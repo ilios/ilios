@@ -216,9 +216,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $responseData = $this->postMany($endpoint, $responseKey, $data);
-        $ids = array_map(function (array $arr) {
-            return $arr['id'];
-        }, $responseData);
+        $ids = array_map(fn(array $arr) => $arr['id'], $responseData);
         $filters = [
             'filters[id]' => $ids,
             'limit' => count($ids)
@@ -226,9 +224,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
-        usort($fetchedResponseData, function ($a, $b) {
-            return $a['id'] <=> $b['id'];
-        });
+        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
 
         foreach ($data as $i => $datum) {
             $response = $fetchedResponseData[$i];
@@ -264,9 +260,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
-        usort($fetchedResponseData, function ($a, $b) {
-            return $a['id'] <=> $b['id'];
-        });
+        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
 
         foreach ($data as $i => $datum) {
             $response = $fetchedResponseData[$i];
@@ -317,9 +311,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $changeValue = $firstPut[1];
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $nonExportedReports = array_filter($all, function ($report) {
-            return !array_key_exists('export', $report);
-        });
+        $nonExportedReports = array_filter($all, fn($report) => !array_key_exists('export', $report));
         foreach ($nonExportedReports as $data) {
             $data[$changeKey] = $changeValue;
 
@@ -336,9 +328,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $changeValue = $firstPut[1];
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $nonExportedReports = array_filter($all, function ($report) {
-            return !array_key_exists('export', $report);
-        });
+        $nonExportedReports = array_filter($all, fn($report) => !array_key_exists('export', $report));
         foreach ($nonExportedReports as $data) {
             $data[$changeKey] = $changeValue;
             $jsonApiData = $dataLoader->createJsonApi($data);
