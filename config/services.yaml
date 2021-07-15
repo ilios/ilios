@@ -149,6 +149,8 @@ services:
         $sentryDSN: '%sentry_dsn%'
       tags:
         - { name: kernel.event_listener, event: kernel.exception }
+        - { name: kernel.event_listener, event: kernel.request }
+        - { name: kernel.event_listener, event: kernel.terminate }
 
     Symfony\Component\Serializer\SerializerInterface:
       factory:   ['App\Service\SerializerFactory', createSerializer]
