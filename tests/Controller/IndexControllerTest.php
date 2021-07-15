@@ -37,7 +37,7 @@ class IndexControllerTest extends WebTestCase
     /**
      * @var array
      */
-    protected $testFiles;
+    protected $testFiles = [];
 
     public function setUp(): void
     {
