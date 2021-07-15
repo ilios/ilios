@@ -84,15 +84,6 @@ services:
         - { name: doctrine.event_listener, event: postUpdate }
         - { name: doctrine.event_listener, event: postRemove }
 
-    doctrine.annotation_cache_provider:
-      class: Symfony\Component\Cache\DoctrineProvider
-      arguments:
-      - '@doctrine.annotation_cache_pool'
-
-    App\Service\EntityMetadata:
-      arguments:
-        $cache: '@doctrine.annotation_cache_provider'
-
     App\Service\Config:
       public: true
 

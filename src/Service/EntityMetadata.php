@@ -4,28 +4,26 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Annotation\DTO;
-use App\Annotation\Expose;
-use App\Annotation\Id;
-use App\Annotation\Related;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Cache\Cache;
+use App\Attribute\DTO;
+use App\Attribute\Entity;
+use App\Attribute\Expose;
+use App\Attribute\Id;
+use App\Attribute\ReadOnly;
+use App\Attribute\Related;
+use App\Attribute\RemoveMarkup;
+use App\Attribute\Type;
 use Doctrine\Persistence\Proxy;
-use App\Annotation\ReadOnly;
-use App\Annotation\Type;
+use Exception;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
 use ReflectionClass;
 use ReflectionProperty;
-use is_null;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class EntityMetadata
 {
     private const CACHE_KEY_PREFIX = 'ilios-entity-metadata-';
-    private Reader $annotationReader;
     private array $exposedPropertiesForClass;
     private array $typeForClasses;
     private array $typeForProperties;
@@ -41,7 +39,7 @@ class EntityMetadata
      * we don't have to constantly run expensive class_exists
      * and annotation inspection tasks
      */
-    public function __construct(Cache $cache, KernelInterface $kernel)
+    public function __construct(CacheInterface $appCache, KernelInterface $kernel)
     {
         $this->exposedPropertiesForClass = [];
         $this->typeForClasses = [];
@@ -49,27 +47,15 @@ class EntityMetadata
         $this->idForClasses = [];
         $this->relatedForClass = [];
 
-        $this->annotationReader = new CachedReader(
-            new AnnotationReader(),
-            $cache,
-            $kernel->getEnvironment() !== 'prod'
+        $this->iliosEntities = $appCache->get(
+            self::CACHE_KEY_PREFIX . 'entities',
+            fn () => $this->findIliosEntities($kernel)
         );
 
-        $entityKey = self::CACHE_KEY_PREFIX . 'entities';
-        if (!$cache->contains($entityKey) || !$entities = $cache->fetch($entityKey)) {
-            $entities = $this->findIliosEntities($kernel);
-            $cache->save($entityKey, $entities);
-        }
-
-        $this->iliosEntities = $entities;
-
-        $dtoKey = self::CACHE_KEY_PREFIX . 'dtos';
-        if (!$cache->contains($dtoKey) || !$dtos = $cache->fetch($dtoKey)) {
-            $dtos = $this->findIliosDtos($kernel);
-            $cache->save($dtoKey, $dtos);
-        }
-
-        $this->iliosDtos = $dtos;
+        $this->iliosDtos = $appCache->get(
+            self::CACHE_KEY_PREFIX . 'dtos',
+            fn () => $this->findIliosDtos($kernel)
+        );
     }
 
     /**
@@ -136,20 +122,10 @@ class EntityMetadata
     {
         $className = $reflection->getName();
         if (!array_key_exists($className, $this->exposedPropertiesForClass)) {
-            $properties = $reflection->getProperties();
-            $exposed =  array_filter($properties, function (ReflectionProperty $property) {
-                $attributes = $property->getAttributes(\App\Attribute\Expose::class);
-                if ($attributes !== []) {
-                    return true;
-                } else {
-                    $annotation = $this->annotationReader->getPropertyAnnotation(
-                        $property,
-                        Expose::class
-                    );
-
-                    return !is_null($annotation);
-                }
-            });
+            $exposed =  array_filter(
+                $reflection->getProperties(),
+                fn (ReflectionProperty $property) => $property->getAttributes(Expose::class) !== []
+            );
 
             $exposedProperties = [];
             foreach ($exposed as $property) {
@@ -169,22 +145,12 @@ class EntityMetadata
     {
         $className = $reflection->getName();
         if (!array_key_exists($className, $this->idForClasses)) {
-            $properties = $reflection->getProperties();
-
-            $ids = array_filter($properties, function (ReflectionProperty $property) {
-                $attributes = $property->getAttributes(\App\Attribute\Id::class);
-                if ($attributes !== []) {
-                    return true;
-                }
-                $annotation = $this->annotationReader->getPropertyAnnotation(
-                    $property,
-                    Id::class
-                );
-
-                return !is_null($annotation);
-            });
+            $ids = array_filter(
+                $reflection->getProperties(),
+                fn (ReflectionProperty $property) => $property->getAttributes(Id::class) !== []
+            );
             if (!$ids) {
-                throw new \Exception("${className} has no property annotated with @Id");
+                throw new Exception("${className} has no property annotated with @Id");
             }
 
             $this->idForClasses[$className] = array_values($ids)[0]->getName();
@@ -205,28 +171,12 @@ class EntityMetadata
             $relatedProperties = [];
 
             foreach ($properties as $property) {
-                $related = $property->getAttributes(\App\Attribute\Related::class);
-                $exposed = $property->getAttributes(\App\Attribute\Expose::class);
-                if ($related !== []) {
-                    if ($exposed !== []) {
-                        $arguments = $related[0]->getArguments();
-                        $value = count($arguments) ? $arguments[0] : $property->getName();
-                        $relatedProperties[$property->getName()] = $value;
-                    }
-                } else {
-                    $related = $this->annotationReader->getPropertyAnnotation(
-                        $property,
-                        Related::class
-                    );
-                    $exposed = $this->annotationReader->getPropertyAnnotation(
-                        $property,
-                        Expose::class
-                    );
-
-                    if ($related && $exposed) {
-                        $relatedProperties[$property->getName()] =
-                            $related->value ? $related->value : $property->getName();
-                    }
+                $related = $property->getAttributes(Related::class);
+                $exposed = $property->getAttributes(Expose::class);
+                if ($related !== [] && $exposed !== []) {
+                    $arguments = $related[0]->getArguments();
+                    $value = $arguments[0] ?? $property->getName();
+                    $relatedProperties[$property->getName()] = $value;
                 }
             }
 
@@ -243,22 +193,19 @@ class EntityMetadata
     {
         $className = $reflection->getName();
         if (!array_key_exists($className, $this->typeForClasses)) {
-            $attributes = $reflection->getAttributes(\App\Attribute\DTO::class);
-            if ($attributes !== []) {
-                $arguments = $attributes[0]->getArguments();
-                if ($arguments === []) {
-                    throw new \Exception(
-                        "Missing Type argument on {$className} DTO Attribute"
-                    );
-                }
-                $type = $arguments[0];
-            } else {
-                $annotation = $this->annotationReader->getClassAnnotation(
-                    $reflection,
-                    DTO::class
+            $attributes = $reflection->getAttributes(DTO::class);
+            if ($attributes === []) {
+                throw new Exception(
+                    "Missing Type attribute ${className} DTO Attribute"
                 );
-                $type = $annotation->value;
             }
+            $arguments = $attributes[0]->getArguments();
+            if ($arguments === []) {
+                throw new Exception(
+                    "Missing Type argument on ${className} DTO Attribute"
+                );
+            }
+            $type = $arguments[0];
 
             $this->typeForClasses[$className] = $type;
         }
@@ -303,31 +250,19 @@ class EntityMetadata
         $key = $className . $propertyName;
 
         if (!array_key_exists($key, $this->typeForProperties)) {
-            $attributes = $property->getAttributes(\App\Attribute\Type::class);
-            if ($attributes !== []) {
-                $arguments = $attributes[0]->getArguments();
-                if ($arguments === []) {
-                    throw new \Exception(
-                        "Missing Type argument on {$className}::{$propertyName}"
-                    );
-                }
-                $type = $arguments[0];
-            } else {
-                /** @var Type $typeAnnotation */
-                $typeAnnotation = $this->annotationReader->getPropertyAnnotation(
-                    $property,
-                    Type::class
-                );
-                $type = $typeAnnotation?->value;
-            }
-
-            if (!isset($type)) {
-                throw new \Exception(
-                    "Missing Type annotation on {$className}::{$propertyName}"
+            $attributes = $property->getAttributes(Type::class);
+            if ($attributes === []) {
+                throw new Exception(
+                    "Missing Type attribute on ${className}::${propertyName}"
                 );
             }
-
-            $this->typeForProperties[$key] = $type;
+            $arguments = $attributes[0]->getArguments();
+            if ($arguments === []) {
+                throw new Exception(
+                    "Missing Type argument on ${className}::${$propertyName}"
+                );
+            }
+            $this->typeForProperties[$key] = $arguments[0];
         }
 
         return $this->typeForProperties[$key];
@@ -338,18 +273,7 @@ class EntityMetadata
      */
     public function isPropertyReadOnly(ReflectionProperty $property): bool
     {
-        $attributes = $property->getAttributes(\App\Attribute\ReadOnly::class);
-        if ($attributes !== []) {
-            return true;
-        }
-
-        /** @var ReadOnly $annotation */
-        $annotation = $this->annotationReader->getPropertyAnnotation(
-            $property,
-            ReadOnly::class
-        );
-
-        return !is_null($annotation);
+        return $property->getAttributes(ReadOnly::class) !== [];
     }
 
     /**
@@ -357,97 +281,55 @@ class EntityMetadata
      */
     public function isPropertyRemoveMarkup(ReflectionProperty $property): bool
     {
-        $attributes = $property->getAttributes(\App\Attribute\RemoveMarkup::class);
-        if ($attributes !== []) {
-            return true;
-        }
-        /** @var ReadOnly $annotation */
-        $annotation = $this->annotationReader->getPropertyAnnotation(
-            $property,
-            'App\Annotation\RemoveMarkup'
+        return $property->getAttributes(RemoveMarkup::class) !== [];
+    }
+
+    /**
+     * Scan filesystem for classes matching an attribute
+     */
+    protected function findByAttribute(Finder $files, string $namespace, string $attribute): array
+    {
+        $classNames = array_map(
+            fn(SplFileInfo $file) => $namespace . '\\' . $file->getBasename('.php'),
+            array_values(iterator_to_array($files))
         );
 
-        return !is_null($annotation);
+        return array_filter($classNames, function (string $name) use ($attribute) {
+            $reflection = new ReflectionClass($name);
+            $attributes = $reflection->getAttributes($attribute);
+            return $attributes !== [];
+        });
     }
 
     /**
      * Load Entities by scanning the file system
      * then use that list to discover those which have the
      * correct annotation
-     *
-     *
-     * @return array
      */
-    protected function findIliosEntities(KernelInterface $kernel)
+    protected function findIliosEntities(KernelInterface $kernel): array
     {
         $path = $kernel->getProjectDir() . '/src/Entity';
         $finder = new Finder();
         $files = $finder->in($path)->files()->depth("== 0")->notName('*Interface.php')->sortByName();
-
-        $list = [];
-        /** @var SplFileInfo $file */
-        foreach ($files as $file) {
-            $class = 'App\\Entity' . '\\' . $file->getBasename('.php');
-            $annotation = $this->annotationReader->getClassAnnotation(
-                new ReflectionClass($class),
-                'App\Annotation\Entity'
-            );
-            if (null !== $annotation) {
-                $list[] = $class;
-            }
-        }
-
-        return $list;
+        return $this->findByAttribute($files, 'App\\Entity', Entity::class);
     }
 
     /**
      * Load classes by scanning directories then use
      * that list to discover classes which have the DTO annotation
-     *
-     *
-     * @return array
      */
-    protected function findIliosDtos(KernelInterface $kernel)
+    protected function findIliosDtos(KernelInterface $kernel): array
     {
         $dtoPath = $kernel->getProjectDir() . '/src/Entity/DTO';
         $finder = new Finder();
         $files = $finder->in($dtoPath)->files()->depth("== 0")->sortByName();
-
-        $list = [];
-        /** @var SplFileInfo $file */
-        foreach ($files as $file) {
-            $class = 'App\\Entity\\DTO' . '\\' . $file->getBasename('.php');
-            $refl = new ReflectionClass($class);
-            $attributes = $refl->getAttributes(\App\Attribute\DTO::class);
-            if ($attributes !== []) {
-                $list[] = $class;
-            } else {
-                $annotation = $this->annotationReader->getClassAnnotation(
-                    $refl,
-                    DTO::class
-                );
-                if (null !== $annotation) {
-                    $list[] = $class;
-                }
-            }
-        }
+        $dtos = $this->findByAttribute($files, 'App\\Entity\\DTO', DTO::class);
 
         $classPath = $kernel->getProjectDir() . '/src/Classes';
         $finder = new Finder();
         $files = $finder->in($classPath)->files()->depth("== 0")->sortByName();
+        $classes = $this->findByAttribute($files, 'App\\Classes', DTO::class);
 
-        /** @var SplFileInfo $file */
-        foreach ($files as $file) {
-            $class = 'App\\Classes' . '\\' . $file->getBasename('.php');
-            $annotation = $this->annotationReader->getClassAnnotation(
-                new ReflectionClass($class),
-                'App\Annotation\DTO'
-            );
-            if (null !== $annotation) {
-                $list[] = $class;
-            }
-        }
-
-        return $list;
+        return [...$dtos, ...$classes];
     }
 }
