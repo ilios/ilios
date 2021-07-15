@@ -4,29 +4,25 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class AcademicYear
- *
- * @IS\DTO("academicYears")
  */
-
+#[IA\DTO('academicYears')]
 class AcademicYear
 {
     /**
-     * @IS\Id
-     * @IS\Expose
-     * @IS\Type("string")
      */
+    #[IA\Id]
+    #[IA\Expose]
+    #[IA\Type('string')]
     public int $id;
-
     /**
-     * @IS\Expose
-     * @IS\Type("string")
      */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public string $title;
-
     public function __construct(int $year, string $title)
     {
         $this->id = $year;

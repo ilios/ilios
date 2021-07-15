@@ -6,23 +6,20 @@ namespace App\Classes;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface;
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Class CurrentSession
- *
- * @IS\DTO
  */
+#[IA\DTO]
 class CurrentSession
 {
     /**
      * @var int
-     *
-     * @IS\Expose
-     * @IS\Type("string")
      */
+    #[IA\Expose]
+    #[IA\Type('string')]
     public $userId;
-
     /**
      * Constructor
      */
