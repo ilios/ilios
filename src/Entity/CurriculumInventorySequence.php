@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\StringableIdEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
@@ -14,10 +14,10 @@ use App\Repository\CurriculumInventorySequenceRepository;
 
 /**
  * Class CurriculumInventorySequence
- * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_sequence')]
 #[ORM\Entity(repositoryClass: CurriculumInventorySequenceRepository::class)]
+#[IA\Entity]
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
     use IdentifiableEntity;
@@ -27,20 +27,18 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'sequence_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var CurriculumInventoryReportInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(inversedBy: 'sequence', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(
@@ -50,6 +48,8 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
         nullable: false,
         onDelete: 'cascade'
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $report;
 
     /**
@@ -59,10 +59,10 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     public function setReport(CurriculumInventoryReportInterface $report)

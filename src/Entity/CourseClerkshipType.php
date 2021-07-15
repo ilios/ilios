@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
@@ -17,10 +17,10 @@ use App\Repository\CourseClerkshipTypeRepository;
 
 /**
  * Class CourseClerkshipType
- * @IS\Entity
  */
 #[ORM\Table(name: 'course_clerkship_type')]
 #[ORM\Entity(repositoryClass: CourseClerkshipTypeRepository::class)]
+#[IA\Entity]
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
     use IdentifiableEntity;
@@ -31,13 +31,13 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'course_clerkship_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -48,19 +48,19 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
      *      min = 1,
      *      max = 20
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 20)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var ArrayCollection|CourseInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'clerkshipType', targetEntity: 'Course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courses;
 
     public function __construct()

@@ -8,18 +8,18 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\SchoolEntity;
 use App\Repository\SchoolConfigRepository;
 
 /**
  * Class SchoolConfig
- * @IS\Entity
  */
 #[ORM\Table(name: 'school_config')]
 #[ORM\UniqueConstraint(name: 'school_conf_uniq', columns: ['school_id', 'name'])]
 #[ORM\Entity(repositoryClass: SchoolConfigRepository::class)]
+#[IA\Entity]
 class SchoolConfig implements SchoolConfigInterface
 {
     use SchoolEntity;
@@ -30,13 +30,13 @@ class SchoolConfig implements SchoolConfigInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -46,10 +46,10 @@ class SchoolConfig implements SchoolConfigInterface
      *      min = 1,
      *      max = 200
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $name;
 
     /**
@@ -59,20 +59,20 @@ class SchoolConfig implements SchoolConfigInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'value', type: 'text', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $value;
 
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'configurations')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $school;
 
     /**

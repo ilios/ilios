@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SessionsEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,10 +18,10 @@ use App\Repository\CurriculumInventorySequenceBlockRepository;
 
 /**
  * Class CurriculumInventorySequenceBlock
- * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_sequence_block')]
 #[ORM\Entity(repositoryClass: CurriculumInventorySequenceBlockRepository::class)]
+#[IA\Entity]
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
     use IdentifiableEntity;
@@ -33,13 +33,13 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -50,10 +50,10 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *      min = 1,
      *      max = 200
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
@@ -63,20 +63,20 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     /**
      * @var int
      * @Assert\NotNull()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'required', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $required;
 
     /**
@@ -87,83 +87,81 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *      min = 1,
      *      max = 3,
      * )
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'child_sequence_order', type: 'smallint')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $childSequenceOrder;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'order_in_sequence', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $orderInSequence;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'minimum', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $minimum;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'maximum', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $maximum;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      * this field is currently tinyint data type in the db but used like a boolean
      */
     #[ORM\Column(name: 'track', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $track;
 
     /**
      * @var \DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'start_date', type: 'date', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $startDate;
 
     /**
      * @var \DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'end_date', type: 'date', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $endDate;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'duration', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $duration;
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(
@@ -172,21 +170,21 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         nullable: false,
         onDelete: 'cascade'
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $academicLevel;
 
     /**
      * @var CourseInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $course;
 
     /**
      * @var CurriculumInventorySequenceBlockInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventorySequenceBlock', inversedBy: 'children')]
     #[ORM\JoinColumn(
@@ -194,49 +192,51 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         referencedColumnName: 'sequence_block_id',
         onDelete: 'cascade'
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $parent;
 
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $children;
 
     /**
      * @var CurriculumInventoryReportInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $report;
 
     /**
      * @var ArrayCollection|SessionInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinTable('curriculum_inventory_sequence_block_x_session')]
     #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessions;
 
     /**
      * @var ArrayCollection|SessionInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'excludedSequenceBlocks')]
     #[ORM\JoinTable('curriculum_inventory_sequence_block_x_excluded_session')]
     #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $excludedSessions;
 
 

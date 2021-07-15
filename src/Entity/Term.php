@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ActivatableEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\CoursesEntity;
 use App\Traits\DescribableEntity;
@@ -24,11 +24,11 @@ use App\Repository\TermRepository;
 
 /**
  * Class Term
- * @IS\Entity
  */
 #[ORM\Table(name: 'term')]
 #[ORM\UniqueConstraint(name: 'unique_term_title', columns: ['vocabulary_id', 'title', 'parent_term_id'])]
 #[ORM\Entity(repositoryClass: TermRepository::class)]
+#[IA\Entity]
 class Term implements TermInterface
 {
     use CoursesEntity;
@@ -46,22 +46,22 @@ class Term implements TermInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'term_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var ArrayCollection|CourseInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courses;
 
     /**
@@ -71,73 +71,73 @@ class Term implements TermInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     /**
      * @var TermInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Term', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_term_id', referencedColumnName: 'term_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $parent;
 
     /**
      * @var ArrayCollection|TermInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Term')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $children;
 
     /**
      * @var ArrayCollection|ProgramYearInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $programYears;
 
     /**
      * @var ArrayCollection|SessionInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessions;
 
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessionObjectives;
 
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courseObjectives;
 
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $programYearObjectives;
 
     /**
@@ -148,42 +148,42 @@ class Term implements TermInterface
      *      min = 1,
      *      max = 200
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var VocabularyInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Vocabulary', inversedBy: 'terms')]
     #[ORM\JoinColumn(name: 'vocabulary_id', referencedColumnName: 'vocabulary_id', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $vocabulary;
 
     /**
      * @var ArrayCollection|AamcResourceTypeInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'AamcResourceType', inversedBy: 'terms')]
     #[ORM\JoinTable(name: 'term_x_aamc_resource_type')]
     #[ORM\JoinColumn(name: 'term_id', referencedColumnName: 'term_id')]
     #[ORM\InverseJoinColumn(name: 'resource_type_id', referencedColumnName: 'resource_type_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $aamcResourceTypes;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $active;
 
     public function __construct()

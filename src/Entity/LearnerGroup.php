@@ -9,7 +9,7 @@ use App\Traits\IlmSessionsEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\InstructorsEntity;
 use App\Traits\UsersEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,10 +21,10 @@ use App\Repository\LearnerGroupRepository;
 
 /**
  * Class LearnerGroup
- * @IS\Entity
  */
 #[ORM\Table(name: '`group`')]
 #[ORM\Entity(repositoryClass: LearnerGroupRepository::class)]
+#[IA\Entity]
 class LearnerGroup implements LearnerGroupInterface
 {
     use IdentifiableEntity;
@@ -39,13 +39,13 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'group_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -56,10 +56,10 @@ class LearnerGroup implements LearnerGroupInterface
      *      min = 1,
      *      max = 60
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 60)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
@@ -69,10 +69,10 @@ class LearnerGroup implements LearnerGroupInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'location', type: 'string', length: 100, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $location;
 
     /**
@@ -81,89 +81,87 @@ class LearnerGroup implements LearnerGroupInterface
      *      max = 2000,
      * )
      * @Assert\Url
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected ?string $url;
 
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'needs_accommodation', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected bool $needsAccommodation;
 
     /**
      * @var CohortInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Cohort', inversedBy: 'learnerGroups')]
     #[ORM\JoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', nullable: false, onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $cohort;
 
     /**
      * @var LearnerGroupInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $parent;
 
     /**
      * @var LearnerGroupInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'group_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $ancestor;
 
     /**
      * @var LearnerGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $descendants;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $children;
 
     /**
      * @var ArrayCollection|IlmSessionInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $ilmSessions;
 
     /**
      * @var ArrayCollection|OfferingInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $offerings;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'learnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor_group')]
@@ -174,30 +172,32 @@ class LearnerGroup implements LearnerGroupInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instructorGroups;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerGroups')]
     #[ORM\JoinTable(name: 'group_x_user')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $users;
 
     /**
      * @var UserInterface
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedLearnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instructors;
 
     public function __construct()

@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SessionTypesEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ActivatableEntity;
@@ -17,10 +17,10 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class AamcMethod
- * @IS\Entity
  */
 #[ORM\Table(name: 'aamc_method')]
 #[ORM\Entity(repositoryClass: AamcMethodRepository::class)]
+#[IA\Entity]
 class AamcMethod implements AamcMethodInterface
 {
     use IdentifiableEntity;
@@ -37,12 +37,12 @@ class AamcMethod implements AamcMethodInterface
      *      min = 1,
      *      max = 10
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $id;
 
     /**
@@ -53,29 +53,29 @@ class AamcMethod implements AamcMethodInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     /**
      * @var ArrayCollection|SessionTypeInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'SessionType', mappedBy: 'aamcMethods')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessionTypes;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $active;
 
     public function __construct()

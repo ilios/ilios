@@ -12,18 +12,18 @@ use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Repository\LearningMaterialRepository;
 
 /**
  * Class LearningMaterial
  * Learning materials are not serialized like other entities.  They are decorated by the controller and
  * then sent as plain php objects in order to insert the absolute path to the file
- * @IS\Entity
  */
 #[ORM\Entity(repositoryClass: LearningMaterialRepository::class)]
 #[ORM\Table(name: 'learning_material')]
 #[ORM\UniqueConstraint(name: 'idx_learning_material_token_unique', columns: ['token'])]
+#[IA\Entity]
 class LearningMaterial implements LearningMaterialInterface
 {
     use IdentifiableEntity;
@@ -34,13 +34,13 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -51,10 +51,10 @@ class LearningMaterial implements LearningMaterialInterface
      *      min = 1,
      *      max = 120
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 120)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
@@ -64,21 +64,21 @@ class LearningMaterial implements LearningMaterialInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
-     * @IS\RemoveMarkup
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     protected $description;
 
     /**
      * @var \DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'upload_date', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $uploadDate;
 
     /**
@@ -89,10 +89,10 @@ class LearningMaterial implements LearningMaterialInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=80)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'asset_creator', type: 'string', length: 80, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $originalAuthor;
 
     /**
@@ -109,8 +109,6 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @var LearningMaterialUserRoleInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterialUserRole', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
@@ -118,13 +116,13 @@ class LearningMaterial implements LearningMaterialInterface
         referencedColumnName: 'learning_material_user_role_id',
         nullable: false
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $userRole;
 
     /**
      * @var LearningMaterialStatusInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterialStatus', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
@@ -132,34 +130,36 @@ class LearningMaterial implements LearningMaterialInterface
         referencedColumnName: 'learning_material_status_id',
         nullable: false
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $status;
 
     /**
      * @var UserInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'owning_user_id', referencedColumnName: 'user_id', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $owningUser;
 
     /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'SessionLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessionLearningMaterials;
 
     /**
      * @var ArrayCollection|CourseLearningMaterialInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'CourseLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courseLearningMaterials;
 
     /**
@@ -171,10 +171,10 @@ class LearningMaterial implements LearningMaterialInterface
      *      max = 512,
      *      groups={"citation"}
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'citation', type: 'string', length: 512, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $citation;
 
     /**
@@ -195,10 +195,10 @@ class LearningMaterial implements LearningMaterialInterface
      * renamed copyrightownership
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'copyright_ownership', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $copyrightPermission;
 
     /**
@@ -208,10 +208,10 @@ class LearningMaterial implements LearningMaterialInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'copyright_rationale', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $copyrightRationale;
 
     /**
@@ -222,10 +222,10 @@ class LearningMaterial implements LearningMaterialInterface
      *      max = 255,
      *     groups={"file"}
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $filename;
 
     /**
@@ -236,21 +236,21 @@ class LearningMaterial implements LearningMaterialInterface
      *      max = 96,
      *      groups={"file"}
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'mime_type', type: 'string', length: 96, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $mimetype;
 
     /**
      * @var string
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'filesize', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $filesize;
 
     /**
@@ -261,10 +261,10 @@ class LearningMaterial implements LearningMaterialInterface
      *      max = 256,
      *      groups={"link"}
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'web_link', type: 'string', length: 256, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $link;
 
     public function __construct()

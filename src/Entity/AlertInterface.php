@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Traits\IdentifiableEntityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Annotation as IS;
+use App\Attribute as IA;
 
 /**
  * Interface AlertInterface

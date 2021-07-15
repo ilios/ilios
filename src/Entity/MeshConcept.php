@@ -8,7 +8,7 @@ use App\Traits\CreatedAtEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
@@ -18,10 +18,10 @@ use App\Repository\MeshConceptRepository;
 
 /**
  * Class MeshConcept
- * @IS\Entity
  */
 #[ORM\Table(name: 'mesh_concept')]
 #[ORM\Entity(repositoryClass: MeshConceptRepository::class)]
+#[IA\Entity]
 class MeshConcept implements MeshConceptInterface
 {
     use IdentifiableEntity;
@@ -33,12 +33,12 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @var string
      * @Assert\Type(type="string")
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'mesh_concept_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $id;
 
     /**
@@ -49,20 +49,20 @@ class MeshConcept implements MeshConceptInterface
      *      min = 1,
      *      max = 255
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 255)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $name;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'preferred', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $preferred;
 
     /**
@@ -72,10 +72,10 @@ class MeshConcept implements MeshConceptInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'scope_note', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $scopeNote;
 
     /**
@@ -85,10 +85,10 @@ class MeshConcept implements MeshConceptInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=512)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'casn_1_name', type: 'string', length: 512, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $casn1Name;
 
     /**
@@ -98,47 +98,47 @@ class MeshConcept implements MeshConceptInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=30)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'registry_number', type: 'string', length: 30, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $registryNumber;
 
     /**
      * @var ArrayCollection|MeshTermInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshTerm', mappedBy: 'concepts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $terms;
 
     /**
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'created_at', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $createdAt;
 
     /**
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $updatedAt;
 
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'concepts')]
     #[ORM\JoinTable(name: 'mesh_descriptor_x_concept')]
     #[ORM\JoinColumn(name: 'mesh_concept_uid', referencedColumnName: 'mesh_concept_uid')]
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $descriptors;
 
     public function __construct()

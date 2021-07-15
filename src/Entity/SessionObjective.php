@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\IdentifiableEntity;
@@ -21,11 +21,11 @@ use App\Repository\SessionObjectiveRepository;
 
 /**
  * Class SessionObjective
- * @IS\Entity
  */
 #[ORM\Table(name: 'session_x_objective')]
 #[ORM\Index(columns: ['session_id'], name: 'IDX_FA74B40B613FECDF')]
 #[ORM\Entity(repositoryClass: SessionObjectiveRepository::class)]
+#[IA\Entity]
 class SessionObjective implements SessionObjectiveInterface
 {
     use IdentifiableEntity;
@@ -40,45 +40,45 @@ class SessionObjective implements SessionObjectiveInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'session_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var SessionInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'sessionObjectives')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $session;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $position;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable(name: 'session_objective_x_term')]
     #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $terms;
 
     /**
@@ -89,17 +89,15 @@ class SessionObjective implements SessionObjectiveInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
-     * @IS\RemoveMarkup
      */
     #[ORM\Column(type: 'text')]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     protected $title;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable('session_objective_x_course_objective')]
@@ -110,12 +108,12 @@ class SessionObjective implements SessionObjectiveInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courseObjectives;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable(name: 'session_objective_x_mesh')]
@@ -126,34 +124,36 @@ class SessionObjective implements SessionObjectiveInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $meshDescriptors;
 
     /**
      * @var SessionObjectiveInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'SessionObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'session_objective_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $ancestor;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $descendants;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $active;
 
     public function __construct()

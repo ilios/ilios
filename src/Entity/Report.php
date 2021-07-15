@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\IdentifiableEntity;
@@ -14,10 +14,10 @@ use App\Repository\ReportRepository;
 
 /**
  * Class Report
- * @IS\Entity
  */
 #[ORM\Table(name: 'report')]
 #[ORM\Entity(repositoryClass: ReportRepository::class)]
+#[IA\Entity]
 class Report implements ReportInterface
 {
     use IdentifiableEntity;
@@ -27,13 +27,13 @@ class Report implements ReportInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -43,29 +43,29 @@ class Report implements ReportInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=240)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 240, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var \DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'creation_date', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $createdAt;
 
     /**
      * @var SchoolInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'School')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $school;
 
     /**
@@ -76,10 +76,10 @@ class Report implements ReportInterface
      *      min = 1,
      *      max = 32
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'subject', type: 'string', length: 32)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $subject;
 
     /**
@@ -89,10 +89,10 @@ class Report implements ReportInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=32)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'prepositional_object', type: 'string', length: 32, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $prepositionalObject;
 
     /**
@@ -102,20 +102,20 @@ class Report implements ReportInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=14)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'prepositional_object_table_row_id', type: 'string', length: 14, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $prepositionalObjectTableRowId;
 
     /**
      * @var UserInterface $user
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'reports')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'cascade', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $user;
 
     /**

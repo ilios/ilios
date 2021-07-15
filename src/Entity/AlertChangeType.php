@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AlertableEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Repository\AlertChangeTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,10 +18,10 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class Alert
- * @IS\Entity
  */
 #[ORM\Table(name: 'alert_change_type')]
 #[ORM\Entity(repositoryClass: AlertChangeTypeRepository::class)]
+#[IA\Entity]
 class AlertChangeType implements AlertChangeTypeInterface
 {
     use TitledEntity;
@@ -32,13 +32,13 @@ class AlertChangeType implements AlertChangeTypeInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'alert_change_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -49,19 +49,19 @@ class AlertChangeType implements AlertChangeTypeInterface
      *      min = 1,
      *      max = 60
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 60)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var ArrayCollection|AlertInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'changeTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $alerts;
 
     public function __construct()

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
@@ -13,10 +13,10 @@ use App\Repository\PendingUserUpdateRepository;
 
 /**
  * Class PendingUserUpdate
- * @IS\Entity
  */
 #[ORM\Table(name: 'pending_user_update')]
 #[ORM\Entity(repositoryClass: PendingUserUpdateRepository::class)]
+#[IA\Entity]
 class PendingUserUpdate implements PendingUserUpdateInterface
 {
     use IdentifiableEntity;
@@ -25,13 +25,13 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'exception_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -42,10 +42,10 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      *      min = 1,
      *      max = 32
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 32)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $type;
 
     /**
@@ -56,10 +56,10 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      *      min = 1,
      *      max = 32
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 32, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $property;
 
     /**
@@ -70,20 +70,20 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      *      min = 1,
      *      max = 255
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $value;
 
     /**
      * @var UserInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'pendingUserUpdates')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $user;
 
     /**

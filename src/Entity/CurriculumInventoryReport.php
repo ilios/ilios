@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
 use App\Traits\SequenceBlocksEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
@@ -19,12 +19,12 @@ use App\Repository\CurriculumInventoryReportRepository;
 
 /**
  * Class CurriculumInventoryReport
- * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_report')]
 #[ORM\Index(columns: ['program_id'], name: 'IDX_6E31899E3EB8070A')]
 #[ORM\UniqueConstraint(name: 'idx_ci_report_token_unique', columns: ['token'])]
 #[ORM\Entity(repositoryClass: CurriculumInventoryReportRepository::class)]
+#[IA\Entity]
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
     use IdentifiableEntity;
@@ -37,13 +37,13 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -53,10 +53,10 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=200)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $name;
 
     /**
@@ -66,81 +66,81 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'year', type: 'smallint')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $year;
 
     /**
      * @var \DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'start_date', type: 'date')]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $startDate;
 
     /**
      * @var \DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'end_date', type: 'date')]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $endDate;
 
     /**
      * @var CurriculumInventoryExportInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventoryExport')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $export;
 
     /**
      * @var CurriculumInventorySequenceInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventorySequence')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $sequence;
 
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sequenceBlocks;
 
     /**
      * @var ProgramInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'curriculumInventoryReports')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $program;
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $academicLevels;
 
     /**
@@ -156,14 +156,14 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredCurriculumInventoryReports')]
     #[ORM\JoinTable(name: 'curriculum_inventory_report_administrator')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $administrators;
 
     public function __construct()

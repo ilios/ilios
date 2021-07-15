@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\UserInterface;
@@ -15,11 +15,11 @@ use App\Repository\CurriculumInventoryExportRepository;
 
 /**
  * Class CurriculumInventoryExport
- * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_export')]
 #[ORM\Index(columns: ['created_by'], name: 'fkey_curriculum_inventory_export_user_id')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryExportRepository::class)]
+#[IA\Entity]
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
     use IdentifiableEntity;
@@ -28,22 +28,22 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'export_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var CurriculumInventoryReportInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(inversedBy: 'export', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', unique: true, nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $report;
 
     /**
@@ -54,28 +54,28 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      *      min = 1,
      *      max = 16000000
      * )
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'document', type: 'text')]
+    #[IA\Type('string')]
     protected $document;
 
     /**
      * @var UserInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'user_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $createdBy;
 
     /**
      * @var \DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'created_on', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $createdAt;
 
     public function __construct()

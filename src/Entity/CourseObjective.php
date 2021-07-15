@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\IdentifiableEntity;
@@ -20,11 +20,11 @@ use App\Repository\CourseObjectiveRepository;
 
 /**
  * Class CourseObjective
- * @IS\Entity
  */
 #[ORM\Table(name: 'course_x_objective')]
 #[ORM\Index(columns: ['course_id'], name: 'IDX_3B37B1AD591CC992')]
 #[ORM\Entity(repositoryClass: CourseObjectiveRepository::class)]
+#[IA\Entity]
 class CourseObjective implements CourseObjectiveInterface
 {
     use IdentifiableEntity;
@@ -38,45 +38,45 @@ class CourseObjective implements CourseObjectiveInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'course_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var CourseInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'courseObjectives')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $course;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $position;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'courseObjectives')]
     #[ORM\JoinTable(name: 'course_objective_x_term')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $terms;
 
     /**
@@ -87,17 +87,15 @@ class CourseObjective implements CourseObjectiveInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
-     * @IS\RemoveMarkup
      */
     #[ORM\Column(type: 'text')]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     protected $title;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', inversedBy: 'courseObjectives')]
     #[ORM\JoinTable('course_objective_x_program_year_objective')]
@@ -108,21 +106,21 @@ class CourseObjective implements CourseObjectiveInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $programYearObjectives;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'courseObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessionObjectives;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseObjectives')]
     #[ORM\JoinTable(name: 'course_objective_x_mesh')]
@@ -133,34 +131,36 @@ class CourseObjective implements CourseObjectiveInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $meshDescriptors;
 
     /**
      * @var CourseObjectiveInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'CourseObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'course_objective_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $ancestor;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'CourseObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $descendants;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $active;
 
     public function __construct()

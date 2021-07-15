@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Repository\AlertRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,10 +15,10 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class Alert
- * @IS\Entity
  */
 #[ORM\Table(name: 'alert')]
 #[ORM\Entity(repositoryClass: AlertRepository::class)]
+#[IA\Entity]
 class Alert implements AlertInterface
 {
     use IdentifiableEntity;
@@ -27,23 +27,23 @@ class Alert implements AlertInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'alert_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'table_row_id', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $tableRowId;
 
     /**
@@ -54,10 +54,10 @@ class Alert implements AlertInterface
      *      min = 1,
      *      max = 30
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'table_name', type: 'string', length: 30)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $tableName;
 
     /**
@@ -67,56 +67,56 @@ class Alert implements AlertInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'additional_text', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $additionalText;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'dispatched', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $dispatched;
 
     /**
      * @var ArrayCollection|AlertChangeTypeInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'AlertChangeType', inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_change')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'alert_change_type_id', referencedColumnName: 'alert_change_type_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $changeTypes;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_instigator')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instigators;
 
     /**
      * @var ArrayCollection|SchoolInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'School', inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_recipient')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $recipients;
 
     public function __construct()

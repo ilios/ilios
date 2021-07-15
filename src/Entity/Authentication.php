@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,21 +15,21 @@ use DateTimeInterface;
 
 /**
  * Class Authentication
- * @IS\Entity
  */
 #[ORM\Table(name: 'authentication')]
 #[ORM\Entity(repositoryClass: AuthenticationRepository::class)]
+#[IA\Entity]
 class Authentication implements AuthenticationInterface
 {
     /**
      * @var UserInterface
      * @Assert\NotBlank()
-     * @IS\Type("entity")
-     * @IS\Expose
      */
     #[ORM\Id]
     #[ORM\OneToOne(inversedBy: 'authentication', targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
+    #[IA\Type('entity')]
+    #[IA\Expose]
     protected $user;
 
     /**
@@ -39,10 +39,10 @@ class Authentication implements AuthenticationInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'username', type: 'string', length: 100, unique: true, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     private $username;
 
     /**
@@ -58,11 +58,11 @@ class Authentication implements AuthenticationInterface
 
     /**
      * @Assert\Type(DateTimeInterface::class)
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $invalidateTokenIssuedBefore;
 
     /**

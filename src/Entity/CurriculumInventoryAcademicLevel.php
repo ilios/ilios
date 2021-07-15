@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SequenceBlocksEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,12 +19,12 @@ use App\Repository\CurriculumInventoryAcademicLevelRepository;
 
 /**
  * Class CurriculumInventoryAcademicLevel
- * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_academic_level')]
 #[ORM\UniqueConstraint(name: 'report_id_level', columns: ['report_id', 'level'])]
 #[ORM\Index(columns: ['report_id'], name: 'IDX_B4D3296D4BD2A4C0')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryAcademicLevelRepository::class)]
+#[IA\Entity]
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
     use IdentifiableEntity;
@@ -36,13 +36,13 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Id]
     #[ORM\Column(name: 'academic_level_id', type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -53,10 +53,10 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *      min = 1,
      *      max = 50
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 50)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $name;
 
     /**
@@ -66,38 +66,38 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'level', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $level;
 
     /**
      * @var CurriculumInventoryReportInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'academicLevels')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $report;
 
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'academicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sequenceBlocks;
 
     public function __construct()

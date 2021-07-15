@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
@@ -13,11 +13,11 @@ use App\Repository\MeshPreviousIndexingRepository;
 
 /**
  * Class MeshPreviousIndexing
- * @IS\Entity
  */
 #[ORM\Table(name: 'mesh_previous_indexing')]
 #[ORM\UniqueConstraint(name: 'descriptor_previous', columns: ['mesh_descriptor_uid'])]
 #[ORM\Entity(repositoryClass: MeshPreviousIndexingRepository::class)]
+#[IA\Entity]
 class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 {
     use IdentifiableEntity;
@@ -26,22 +26,22 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'mesh_previous_indexing_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var MeshDescriptorInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(inversedBy: 'previousIndexing', targetEntity: 'MeshDescriptor')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', unique: true)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $descriptor;
 
     /**
@@ -52,10 +52,10 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'previous_indexing', type: 'text')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $previousIndexing;
 
     public function setDescriptor(MeshDescriptorInterface $descriptor)

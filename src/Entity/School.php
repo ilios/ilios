@@ -13,7 +13,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\SessionTypesEntity;
 use App\Traits\StringableIdEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,11 +24,11 @@ use App\Repository\SchoolRepository;
 
 /**
  * Class School
- * @IS\Entity
  */
 #[ORM\Table(name: 'school')]
 #[ORM\UniqueConstraint(name: 'template_prefix', columns: ['template_prefix'])]
 #[ORM\Entity(repositoryClass: SchoolRepository::class)]
+#[IA\Entity]
 class School implements SchoolInterface
 {
     use IdentifiableEntity;
@@ -46,13 +46,13 @@ class School implements SchoolInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -63,10 +63,10 @@ class School implements SchoolInterface
      *      min = 1,
      *      max = 60
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 60, unique: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
@@ -76,10 +76,10 @@ class School implements SchoolInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=8)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'template_prefix', type: 'string', length: 8, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $templatePrefix;
 
     /**
@@ -90,123 +90,123 @@ class School implements SchoolInterface
      *      min = 1,
      *      max = 100
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'ilios_administrator_email', type: 'string', length: 100)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $iliosAdministratorEmail;
 
     /**
      * @todo: Normalize later. Collection of email addresses. (Add email entity, etc)
      * @var string
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'change_alert_recipients', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $changeAlertRecipients;
 
     /**
      * @var ArrayCollection|AlertInterface[]
      * Don't put alerts in the school API it takes forever to load them all
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'recipients')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Type('entityCollection')]
     protected $alerts;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $competencies;
 
     /**
      * @var ArrayCollection|CourseInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courses;
 
     /**
      * @var ArrayCollection|ProgramInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $programs;
 
     /**
      * @var ArrayCollection|VocabularyInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Vocabulary')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $vocabularies;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'InstructorGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instructorGroups;
 
     /**
      * @var CurriculumInventoryInstitutionInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(mappedBy: 'school', targetEntity: 'CurriculumInventoryInstitution')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $curriculumInventoryInstitution;
 
     /**
      * @var ArrayCollection|SessionTypeInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessionTypes;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedSchools')]
     #[ORM\JoinTable(name: 'school_director')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $directors;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredSchools')]
     #[ORM\JoinTable(name: 'school_administrator')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $administrators;
 
     /**
      * @var ArrayCollection|SchoolConfigInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(targetEntity: 'SchoolConfig', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $configurations;
 
     public function __construct()

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\IdentifiableEntity;
@@ -20,11 +20,11 @@ use App\Repository\ProgramYearObjectiveRepository;
 
 /**
  * Class ProgramYearObjective
- * @IS\Entity
  */
 #[ORM\Table(name: 'program_year_x_objective')]
 #[ORM\Index(columns: ['program_year_id'], name: 'IDX_7A16FDD6CB2B0673')]
 #[ORM\Entity(repositoryClass: ProgramYearObjectiveRepository::class)]
+#[IA\Entity]
 class ProgramYearObjective implements ProgramYearObjectiveInterface
 {
     use IdentifiableEntity;
@@ -38,39 +38,37 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'program_year_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var ProgramYearInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'ProgramYear', inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $programYear;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $position;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_term')]
@@ -81,6 +79,8 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     )]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $terms;
 
     /**
@@ -91,35 +91,33 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
-     * @IS\RemoveMarkup
      */
     #[ORM\Column(type: 'text')]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     protected $title;
 
     /**
      * @var CompetencyInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'competency_id', referencedColumnName: 'competency_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $competency;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'programYearObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courseObjectives;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_mesh')]
@@ -134,34 +132,36 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $meshDescriptors;
 
     /**
      * @var ProgramYearObjectiveInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'ProgramYearObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'program_year_objective_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $ancestor;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $descendants;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $active;
 
     public function __construct()

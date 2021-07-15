@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ActivatableEntity;
 use App\Traits\StringableIdEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,12 +19,12 @@ use App\Repository\SessionTypeRepository;
 
 /**
  * SessionType
- * @IS\Entity
  */
 #[ORM\Table(name: 'session_type')]
 #[ORM\Index(columns: ['school_id'], name: 'school_id')]
 #[ORM\Index(columns: ['assessment_option_id'], name: 'assessment_option_fkey')]
 #[ORM\Entity(repositoryClass: SessionTypeRepository::class)]
+#[IA\Entity]
 class SessionType implements SessionTypeInterface
 {
     use IdentifiableEntity;
@@ -37,13 +37,13 @@ class SessionType implements SessionTypeInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -54,10 +54,10 @@ class SessionType implements SessionTypeInterface
      *      min = 1,
      *      max = 100
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 100)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
@@ -68,70 +68,70 @@ class SessionType implements SessionTypeInterface
      *     pattern = "/^#[0-9a-fA-F]{6}$/",
      *     message = "This not a valid HTML hex color code. Eg #aaa of #a1B2C3"
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'calendar_color', type: 'string', length: 7, nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $calendarColor;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $active;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'assessment', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $assessment;
 
     /**
      * @var AssessmentOptionInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'AssessmentOption', inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'assessment_option_id', referencedColumnName: 'assessment_option_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $assessmentOption;
 
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $school;
 
     /**
      * @var ArrayCollection|AamcMethodInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'AamcMethod', inversedBy: 'sessionTypes')]
     #[ORM\JoinTable(name: 'session_type_x_aamc_method')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id')]
     #[ORM\InverseJoinColumn(name: 'method_id', referencedColumnName: 'method_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $aamcMethods;
 
     /**
      * @var ArrayCollection|SessionInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'sessionType', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessions;
 
     public function __construct()
