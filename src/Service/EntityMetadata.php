@@ -274,9 +274,10 @@ class EntityMetadata
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
-        return array_filter($exposedProperties, function (ReflectionProperty $property) {
-            return !$this->isPropertyReadOnly($property);
-        });
+        return array_filter(
+            $exposedProperties,
+            fn(ReflectionProperty $property) => !$this->isPropertyReadOnly($property)
+        );
     }
 
     /**
@@ -286,9 +287,10 @@ class EntityMetadata
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
-        return array_filter($exposedProperties, function (ReflectionProperty $property) {
-            return $this->isPropertyReadOnly($property);
-        });
+        return array_filter(
+            $exposedProperties,
+            fn(ReflectionProperty $property) => $this->isPropertyReadOnly($property)
+        );
     }
 
     /**

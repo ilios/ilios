@@ -108,18 +108,18 @@ class IndexController extends AbstractController
         $contents = $this->fs->readFile($path);
         $json = json_decode($contents);
 
-        $filteredMetas = array_filter($json->meta, function ($obj) {
-            return !property_exists($obj, 'name') or !(strncmp($obj->name, "iliosconfig", 11) === 0);
-        });
+        $filteredMetas = array_filter(
+            $json->meta,
+            fn($obj) =>
+                !property_exists($obj, 'name') || !(strncmp($obj->name, "iliosconfig", 11) === 0)
+        );
 
-        $metas = array_map(function ($obj) {
-            return [
-                'charset' => property_exists($obj, 'charset') ? $obj->charset : null,
-                'httpequiv' => property_exists($obj, 'http-equiv') ? $obj->{'http-equiv'} : null,
-                'name' => property_exists($obj, 'name') ? $obj->name : null,
-                'content' => property_exists($obj, 'content') ? $obj->content : null,
-            ];
-        }, $filteredMetas);
+        $metas = array_map(fn($obj) => [
+            'charset' => property_exists($obj, 'charset') ? $obj->charset : null,
+            'httpequiv' => property_exists($obj, 'http-equiv') ? $obj->{'http-equiv'} : null,
+            'name' => property_exists($obj, 'name') ? $obj->name : null,
+            'content' => property_exists($obj, 'content') ? $obj->content : null,
+        ], $filteredMetas);
 
         $stylesheets = [];
         $preloadLinks = [];
@@ -148,33 +148,25 @@ class IndexController extends AbstractController
             }
         }
 
-        $scripts = array_map(function ($obj) {
-            return [
-                'src' => property_exists($obj, 'src') ? $obj->src : null,
-                'content' => property_exists($obj, 'content') ? $obj->content : null,
-            ];
-        }, $json->script);
+        $scripts = array_map(fn($obj) => [
+            'src' => property_exists($obj, 'src') ? $obj->src : null,
+            'content' => property_exists($obj, 'content') ? $obj->content : null,
+        ], $json->script);
 
-        $styles = array_map(function ($obj) {
-            return [
-                'type' => $obj->type,
-                'content' => $obj->content,
-            ];
-        }, $json->style);
+        $styles = array_map(fn($obj) => [
+            'type' => $obj->type,
+            'content' => $obj->content,
+        ], $json->style);
 
-        $noScripts = array_map(function ($obj) {
-            return [
-                'htmlContent' => $obj->htmlContent,
-            ];
-        }, $json->noScript);
+        $noScripts = array_map(fn($obj) => [
+            'htmlContent' => $obj->htmlContent,
+        ], $json->noScript);
 
-        $divs = array_map(function ($obj) {
-            return [
-                'id' => $obj->id,
-                'class' => $obj->class,
-                'htmlContent' => $obj->htmlContent,
-            ];
-        }, $json->div);
+        $divs = array_map(fn($obj) => [
+            'id' => $obj->id,
+            'class' => $obj->class,
+            'htmlContent' => $obj->htmlContent,
+        ], $json->div);
 
         return [
             'metas' => $metas,

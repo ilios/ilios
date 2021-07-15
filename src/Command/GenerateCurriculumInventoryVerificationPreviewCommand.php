@@ -255,9 +255,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->addRow(
             array_merge(
                 ['<options=bold>TOTAL</>', ''],
-                array_map(function ($total) {
-                    return "<options=bold>${total}</>";
-                }, $totals),
+                array_map(fn($total) => "<options=bold>${total}</>", $totals),
                 [ "<options=bold>${sumTotal}</>" ]
             )
         );
@@ -319,9 +317,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
                 $row['has_formative_assessments'] ? 'Y' : '',
                 $row['has_narrative_assessments'] ? 'Y' : '',
                 $row['num_exams'] ?: '',
-            ], array_map(function ($method) {
-                return $method ? 'X' : '';
-            }, $row['methods'])));
+            ], array_map(fn($method) => $method ? 'X' : '', $row['methods'])));
         }
 
         $table->render();
@@ -350,9 +346,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
                 $row['level'],
                 $row['has_formative_assessments'] ? 'Y' : '',
                 $row['has_narrative_assessments'] ? 'Y' : '',
-            ], array_map(function ($method) {
-                return $method ? 'X' : '';
-            }, $row['methods'])));
+            ], array_map(fn($method) => $method ? 'X' : '', $row['methods'])));
         }
 
         $table->render();

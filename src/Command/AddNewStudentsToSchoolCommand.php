@@ -95,9 +95,7 @@ class AddNewStudentsToSchoolCommand extends Command
 
         $campusIds = $this->userRepository->getAllCampusIds();
 
-        $newStudents = array_filter($students, function (array $arr) use ($campusIds) {
-            return !in_array($arr['campusId'], $campusIds);
-        });
+        $newStudents = array_filter($students, fn(array $arr) => !in_array($arr['campusId'], $campusIds));
 
         if (!count($newStudents) > 0) {
             $output->writeln("<info>There are no new students to add.</info>");
@@ -110,14 +108,12 @@ class AddNewStudentsToSchoolCommand extends Command
             $school->getTitle() .
             '.</info>'
         );
-        $rows = array_map(function (array $arr) {
-            return [
-                $arr['campusId'],
-                $arr['firstName'],
-                $arr['lastName'],
-                $arr['email']
-            ];
-        }, $newStudents);
+        $rows = array_map(fn(array $arr) => [
+            $arr['campusId'],
+            $arr['firstName'],
+            $arr['lastName'],
+            $arr['email']
+        ], $newStudents);
         $table = new Table($output);
         $table->setHeaders(['Campus ID', 'First', 'Last', 'Email'])->setRows($rows);
         $table->render();

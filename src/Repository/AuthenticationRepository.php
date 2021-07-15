@@ -60,9 +60,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('a.username')->from(Authentication::class, 'a');
 
-        return array_map(function (array $arr) {
-            return $arr['username'];
-        }, $qb->getQuery()->getScalarResult());
+        return array_map(fn(array $arr) => $arr['username'], $qb->getQuery()->getScalarResult());
     }
 
     /**

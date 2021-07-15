@@ -64,9 +64,10 @@ class UsermaterialController extends AbstractController
 
         $materials = $userRepository->findMaterialsForUser($user->getId(), $criteria);
 
-        $materials = array_filter($materials, function ($entity) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity);
-        });
+        $materials = array_filter(
+            $materials,
+            fn($entity) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity)
+        );
 
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();

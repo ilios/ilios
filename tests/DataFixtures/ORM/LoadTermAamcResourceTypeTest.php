@@ -50,9 +50,7 @@ class LoadTermAamcResourceTypeTest extends AbstractDataFixtureTest
         // find the AAMC resource type
         $resourceId = $data[1];
         $method = $entity->getAamcResourceTypes()->filter(
-            function (AamcResourceTypeInterface $resourceType) use ($resourceId) {
-                return $resourceType->getId() === $resourceId;
-            }
+            fn(AamcResourceTypeInterface $resourceType) => $resourceType->getId() === $resourceId
         )->first();
         $this->assertNotEmpty($method);
     }

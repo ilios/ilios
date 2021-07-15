@@ -116,9 +116,7 @@ class ReportRollover
         // recursively rollover sequence blocks.
         $topLevelBlocks = $report
             ->getSequenceBlocks()
-            ->filter(function (CurriculumInventorySequenceBlockInterface $block) {
-                return is_null($block->getParent());
-            });
+            ->filter(fn(CurriculumInventorySequenceBlockInterface $block) => is_null($block->getParent()));
 
         foreach ($topLevelBlocks as $block) {
             $this->rolloverSequenceBlock($block, $newReport, $newLevels, null);

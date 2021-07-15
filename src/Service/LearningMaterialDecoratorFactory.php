@@ -66,13 +66,11 @@ class LearningMaterialDecoratorFactory
         $dto->owningUser = $learningMaterial->getOwningUser()->getId();
         $dto->status = $learningMaterial->getStatus()->getId();
         $dto->courseLearningMaterials = $learningMaterial->getCourseLearningMaterials()
-            ->map(function (StringableEntityInterface $courseLearningMaterial) {
-                return (string) $courseLearningMaterial;
-            })->toArray();
+            ->map(fn(StringableEntityInterface $courseLearningMaterial) => (string) $courseLearningMaterial)->toArray();
         $dto->sessionLearningMaterials = $learningMaterial->getSessionLearningMaterials()
-            ->map(function (StringableEntityInterface $sessionLearningMaterial) {
-                return (string) $sessionLearningMaterial;
-            })->toArray();
+            ->map(
+                fn(StringableEntityInterface $sessionLearningMaterial) => (string) $sessionLearningMaterial
+            )->toArray();
 
         return $dto;
     }

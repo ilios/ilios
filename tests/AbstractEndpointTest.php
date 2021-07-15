@@ -618,9 +618,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $responseData = $this->postMany($endpoint, $responseKey, $data);
-        $ids = array_map(function (array $arr) {
-            return $arr['id'];
-        }, $responseData);
+        $ids = array_map(fn(array $arr) => $arr['id'], $responseData);
         $filters = [
             'filters[id]' => $ids,
             'limit' => count($ids)

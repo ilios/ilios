@@ -71,10 +71,9 @@ class ListSchoolConfigValuesCommand extends Command
             $output->writeln('<error>There are no configuration values in the database.</error>');
         } else {
             $table = new Table($output);
-            $table->setHeaders(['Name', 'Value'])
-                ->setRows(array_map(function (SchoolConfigInterface $config) {
-                    return [$config->getName(), $config->getValue()];
-                }, $configs));
+            $table->setHeaders(['Name', 'Value'])->setRows(
+                array_map(fn(SchoolConfigInterface $config) => [$config->getName(), $config->getValue()], $configs)
+            );
             $table->render();
         }
 

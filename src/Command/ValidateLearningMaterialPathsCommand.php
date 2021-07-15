@@ -88,12 +88,10 @@ class ValidateLearningMaterialPathsCommand extends Command
         if (count($broken)) {
             $msg = "<error>Unable to find the files for " . count($broken) . ' learning material.</error>';
             $output->writeln($msg);
-            $rows = array_map(function ($arr) {
-                return [
-                    $arr['id'],
-                    $arr['path']
-                ];
-            }, $broken);
+            $rows = array_map(fn($arr) => [
+                $arr['id'],
+                $arr['path']
+            ], $broken);
             $table = new Table($output);
             $table
                 ->setHeaders(['Learning Material ID', 'Relative Path'])

@@ -53,9 +53,7 @@ trait GetEndpointTestable
         }
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
         $filters = [];
         foreach ($filterParts as $key => $value) {
             $filters["filters[{$key}]"] = $value;

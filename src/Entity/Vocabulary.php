@@ -102,9 +102,7 @@ class Vocabulary implements VocabularyInterface
      */
     public function getIndexableCourses(): array
     {
-        $termCourses = $this->terms->map(function (TermInterface $term) {
-            return $term->getIndexableCourses();
-        });
+        $termCourses = $this->terms->map(fn(TermInterface $term) => $term->getIndexableCourses());
 
         return count($termCourses) ? array_merge(...$termCourses) : [];
     }

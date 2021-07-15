@@ -94,9 +94,7 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
 
         if ($type === 'entityCollection') {
             /** @var ArrayCollection $value $ids */
-            $ids = $value->map(function ($entity) {
-                return $entity ? (string) $entity : null;
-            })->toArray();
+            $ids = $value->map(fn($entity) => $entity ? (string) $entity : null)->toArray();
 
             return array_values($ids);
         }

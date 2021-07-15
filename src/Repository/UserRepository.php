@@ -193,9 +193,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $events = array_merge($events, $uniqueIlmEvents);
 
         //turn calendar events into user events
-        $userEvents = array_map(function (CalendarEvent $event) use ($id) {
-            return UserEvent::createFromCalendarEvent($id, $event);
-        }, $events);
+        $userEvents = array_map(fn(CalendarEvent $event) => UserEvent::createFromCalendarEvent($id, $event), $events);
 
         //sort events by startDate and endDate for consistency
         usort($userEvents, function ($a, $b) {
@@ -230,9 +228,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $from = array_shift($startDates);
         $to = array_pop($endDates);
         $events = $this->findEventsForUser($userId, $from, $to);
-        return array_filter($events, function (UserEvent $event) use ($sessionId) {
-            return $event->session === $sessionId;
-        });
+        return array_filter($events, fn(UserEvent $event) => $event->session === $sessionId);
     }
 
     /**
@@ -249,9 +245,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             ->setParameter('fs_role_title', 'Former Student')
             ->getQuery()
             ->getScalarResult();
-        $formerStudentUserIds = array_map(function (array $arr) {
-            return $arr['id'];
-        }, $formerStudents);
+        $formerStudentUserIds = array_map(fn(array $arr) => $arr['id'], $formerStudents);
 
         $qb2 = $this->_em->createQueryBuilder();
         $qb2->addSelect('u')
@@ -287,9 +281,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->andWhere('u.userSyncIgnore=0');
         }
 
-        return array_map(function (array $arr) {
-            return $arr['id'];
-        }, $qb->getQuery()->getScalarResult());
+        return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
     }
 
     /**
@@ -311,9 +303,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->andWhere('u.userSyncIgnore=0');
         }
 
-        return array_map(function (array $arr) {
-            return $arr['campusId'];
-        }, $qb->getQuery()->getScalarResult());
+        return array_map(fn(array $arr) => $arr['campusId'], $qb->getQuery()->getScalarResult());
     }
 
     /**
@@ -414,12 +404,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         $results = $qb->getQuery()->getArrayResult();
 
-        return array_map(function (CalendarEvent $event) use ($id) {
-            return UserEvent::createFromCalendarEvent(
-                $id,
-                $event
-            );
-        }, $this->createEventObjectsForIlmSessions($results));
+        return array_map(fn(CalendarEvent $event) => UserEvent::createFromCalendarEvent(
+            $id,
+            $event
+        ), $this->createEventObjectsForIlmSessions($results));
     }
 
     /**
@@ -1105,12 +1093,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $qb->setParameter('user_id', $id);
 
         $ilmSessions = $qb->getQuery()->getArrayResult();
-        $offeringIds = array_map(function (array $arr) {
-            return $arr['offeringId'];
-        }, $offeringSessions);
-        $ilmIds = array_map(function (array $arr) {
-            return $arr['ilmId'];
-        }, $ilmSessions);
+        $offeringIds = array_map(fn(array $arr) => $arr['offeringId'], $offeringSessions);
+        $ilmIds = array_map(fn(array $arr) => $arr['ilmId'], $ilmSessions);
         $offeringInstructors = $this->getInstructorsForOfferings($offeringIds, $this->_em);
         $ilmInstructors = $this->getInstructorsForIlmSessions($ilmIds, $this->_em);
 
@@ -1156,16 +1140,12 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         $courseMaterials = $this->getCourseLearningMaterialsForPublishedSessions($sessionIds, $this->_em);
 
-        $courseUserMaterials = array_map(function (array $arr) use ($factory) {
-            return $factory->create($arr);
-        }, $courseMaterials);
+        $courseUserMaterials = array_map(fn(array $arr) => $factory->create($arr), $courseMaterials);
 
 
         $userMaterials = array_merge($sessionUserMaterials, $courseUserMaterials);
         //sort materials by id for consistency
-        usort($userMaterials, function (UserMaterial $a, UserMaterial $b) {
-            return $a->id - $b->id;
-        });
+        usort($userMaterials, fn(UserMaterial $a, UserMaterial $b) => $a->id - $b->id);
 
         return $userMaterials;
     }

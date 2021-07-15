@@ -409,14 +409,10 @@ class CourseTest extends ReadWriteEndpointTest
 
         $newSessionData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessionIds]);
 
-        $newSessionsWithILMs = array_filter($newSessionData, function (array $session) {
-            return !empty($session['ilmSession']);
-        });
+        $newSessionsWithILMs = array_filter($newSessionData, fn(array $session) => !empty($session['ilmSession']));
         $this->assertEquals(4, count($newSessionsWithILMs));
 
-        $newIlmIds = array_map(function (array $session) {
-            return $session['ilmSession'];
-        }, $newSessionsWithILMs);
+        $newIlmIds = array_map(fn(array $session) => $session['ilmSession'], $newSessionsWithILMs);
         $newIlmIds = array_values($newIlmIds);
 
         $ilms = self::getContainer()->get(IlmSessionData::class)->getAll();
@@ -702,9 +698,7 @@ class CourseTest extends ReadWriteEndpointTest
             'terms.vocabulary',
             'meshDescriptors.trees',
         ];
-        $sessionIncludes = array_reduce($sessionRelationships, function ($carry, $item) {
-            return "${carry}sessions.${item},";
-        }, '');
+        $sessionIncludes = array_reduce($sessionRelationships, fn($carry, $item) => "${carry}sessions.${item},", '');
 
         $includes = $this->getJsonApiIncludes(
             'courses',

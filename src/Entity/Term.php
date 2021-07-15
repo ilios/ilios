@@ -386,9 +386,7 @@ class Term implements TermInterface
      */
     public function getIndexableCourses(): array
     {
-        $sessionCourses = $this->sessions->map(function (SessionInterface $session) {
-            return $session->getCourse();
-        });
+        $sessionCourses = $this->sessions->map(fn(SessionInterface $session) => $session->getCourse());
 
         return array_merge(
             $this->courses->toArray(),

@@ -155,12 +155,8 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
                 if (count($result) !== count($value)) {
                     $identifier = $metaData->getSingleIdentifierFieldName();
                     $method = 'get' . ucfirst($identifier);
-                    $foundIds = array_map(function ($entity) use ($method) {
-                        return $entity->$method();
-                    }, $result);
-                    $missingIds = array_filter($value, function ($id) use ($foundIds) {
-                        return  !in_array($id, $foundIds);
-                    });
+                    $foundIds = array_map(fn($entity) => $entity->$method(), $result);
+                    $missingIds = array_filter($value, fn($id) => !in_array($id, $foundIds));
                     throw new InvalidInputWithSafeUserMessageException(
                         sprintf(
                             "Unable to resolve %s[%s] for %s",

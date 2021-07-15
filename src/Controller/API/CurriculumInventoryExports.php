@@ -69,9 +69,7 @@ class CurriculumInventoryExports
 
         $repository->flush();
 
-        $ids = array_map(function ($entity) {
-            return $entity->getId();
-        }, $entities);
+        $ids = array_map(fn($entity) => $entity->getId(), $entities);
 
         $dtos = $repository->findDTOsBy(['id' => $ids]);
 

@@ -81,9 +81,7 @@ class LearningMaterials extends ElasticSearchBase
             return $this->client->index($params);
         }, $extractedMaterials);
 
-        $errors = array_filter($results, function ($result) {
-            return $result['result'] === 'error';
-        });
+        $errors = array_filter($results, fn($result) => $result['result'] === 'error');
 
         return empty($errors);
     }

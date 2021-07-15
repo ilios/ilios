@@ -119,9 +119,7 @@ class ApiResponseBuilderTest extends TestCase
             'terms.vocabulary',
             'meshDescriptors.trees',
         ];
-        $input = array_reduce($sessionRelationships, function ($carry, $item) {
-            return "${carry}sessions.${item},";
-        }, '');
+        $input = array_reduce($sessionRelationships, fn($carry, $item) => "${carry}sessions.${item},", '');
 
         $tree = $this->obj->extractJsonApiSideLoadFields($input);
         $expected = [

@@ -86,9 +86,7 @@ class JsonApiData
         if (array_key_exists('id', $data)) {
             return [$data['id']];
         }
-        return array_map(function ($item) {
-            return $item['id'];
-        }, $data);
+        return array_map(fn($item) => $item['id'], $data);
     }
 
     protected function extractSideLoadData(array $relationships, array $sideLoadFields): void

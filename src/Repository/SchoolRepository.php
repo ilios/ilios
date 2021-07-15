@@ -94,9 +94,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         $from = array_shift($startDates);
         $to = array_pop($endDates);
         $events = $this->findEventsForSchool($schoolId, $from, $to);
-        return array_filter($events, function (SchoolEvent $event) use ($sessionId) {
-            return $event->session === $sessionId;
-        });
+        return array_filter($events, fn(SchoolEvent $event) => $event->session === $sessionId);
     }
 
     /**
@@ -136,9 +134,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         $events = array_merge($events, $uniqueIlmEvents);
 
         //cast calendar events into school events
-        $schoolEvents = array_map(function (CalendarEvent $event) {
-            return SchoolEvent::createFromCalendarEvent($event);
-        }, $events);
+        $schoolEvents = array_map(fn(CalendarEvent $event) => SchoolEvent::createFromCalendarEvent($event), $events);
 
         //sort events by startDate and endDate for consistency
         usort($schoolEvents, function ($a, $b) {

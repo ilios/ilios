@@ -89,12 +89,8 @@ class Authentications
         $class = $this->repository->getClass() . '[]';
         $arr = $requestParser->extractPostDataFromRequest($request, 'authentications');
 
-        $needingHashedPassword = array_filter($arr, function ($obj) {
-            return (!empty($obj->password) && !empty($obj->user));
-        });
-        $userIdsForHashing = array_map(function ($obj) {
-            return $obj->user;
-        }, $needingHashedPassword);
+        $needingHashedPassword = array_filter($arr, fn($obj) => !empty($obj->password) && !empty($obj->user));
+        $userIdsForHashing = array_map(fn($obj) => $obj->user, $needingHashedPassword);
         //prefetch all the users we need for hashing
         $users = [];
         /** @var UserInterface $user */
@@ -159,9 +155,10 @@ class Authentications
             $parameters['offset']
         );
 
-        $filteredResults = array_filter($dtos, function ($object) use ($authorizationChecker) {
-            return $authorizationChecker->isGranted(AbstractVoter::VIEW, $object);
-        });
+        $filteredResults = array_filter(
+            $dtos,
+            fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+        );
 
         //Re-index numerically index the array
         $values = array_values($filteredResults);
@@ -308,9 +305,7 @@ class Authentications
 
     protected function fetchDtosForEntities(array $entities): array
     {
-        $ids = array_map(function (Authentication $entity) {
-            return $entity->getUser()->getId();
-        }, $entities);
+        $ids = array_map(fn(Authentication $entity) => $entity->getUser()->getId(), $entities);
 
         return $this->repository->findDTOsBy(['user' => $ids]);
     }

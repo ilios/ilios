@@ -53,9 +53,7 @@ class Directory
     {
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
         $campusIds = array_unique($campusIds);
-        $filterTerms = array_map(function ($campusId) use ($ldapCampusIdProperty) {
-            return "({$ldapCampusIdProperty}={$campusId})";
-        }, $campusIds);
+        $filterTerms = array_map(fn($campusId) => "({$ldapCampusIdProperty}={$campusId})", $campusIds);
 
         $users = [];
 

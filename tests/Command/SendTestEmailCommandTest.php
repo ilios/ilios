@@ -60,12 +60,8 @@ class SendTestEmailCommandTest extends KernelTestCase
     {
         $this->mailer->shouldReceive('send')
             ->with(m::on(function (Email $message) {
-                $to = array_map(function (Address $address) {
-                    return $address->getAddress();
-                }, $message->getTo());
-                $from = array_map(function (Address $address) {
-                    return $address->getAddress();
-                }, $message->getFrom());
+                $to = array_map(fn(Address $address) => $address->getAddress(), $message->getTo());
+                $from = array_map(fn(Address $address) => $address->getAddress(), $message->getFrom());
                 $subject = $message->getSubject();
                 $body = $message->getTextBody();
 

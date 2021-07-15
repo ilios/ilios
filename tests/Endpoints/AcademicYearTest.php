@@ -127,17 +127,13 @@ class AcademicYearTest extends ReadEndpointTest
     {
         $loader = self::getContainer()->get(CourseData::class);
         $data = $loader->getAll();
-        $academicYears = array_map(function ($arr) {
-            return $arr['year'];
-        }, $data);
+        $academicYears = array_map(fn($arr) => $arr['year'], $data);
         $academicYears = array_unique($academicYears);
         sort($academicYears);
-        $academicYears = array_map(function ($year) {
-            return [
-                'id' => $year,
-                'title' => $year
-            ];
-        }, $academicYears);
+        $academicYears = array_map(fn($year) => [
+            'id' => $year,
+            'title' => $year
+        ], $academicYears);
 
         return $academicYears;
     }

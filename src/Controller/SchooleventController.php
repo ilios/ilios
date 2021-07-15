@@ -78,9 +78,7 @@ class SchooleventController extends AbstractController
 
         $events = array_values(array_filter(
             $events,
-            function ($event) use ($authorizationChecker) {
-                return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
-            }
+            fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
         ));
 
         /** @var SessionUserInterface $sessionUser */
@@ -95,17 +93,13 @@ class SchooleventController extends AbstractController
             $event->prerequisites = array_values(
                 array_filter(
                     $event->prerequisites,
-                    function ($event) use ($authorizationChecker) {
-                        return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
-                    }
+                    fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
                 )
             );
             $event->postrequisites = array_values(
                 array_filter(
                     $event->postrequisites,
-                    function ($event) use ($authorizationChecker) {
-                        return $authorizationChecker->isGranted(AbstractVoter::VIEW, $event);
-                    }
+                    fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
                 )
             );
         }

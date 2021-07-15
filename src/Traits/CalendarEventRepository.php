@@ -28,9 +28,7 @@ trait CalendarEventRepository
      */
     protected function createEventObjectsForOfferings(array $results)
     {
-        return array_map(function ($arr) {
-            return $this->createEventObjectForOffering($arr);
-        }, $results);
+        return array_map(fn($arr) => $this->createEventObjectForOffering($arr), $results);
     }
 
     /**
@@ -72,9 +70,7 @@ trait CalendarEventRepository
      */
     protected function createEventObjectsForIlmSessions(array $results): array
     {
-        return array_map(function ($arr) {
-            return $this->createEventObjectForIlmSession($arr);
-        }, $results);
+        return array_map(fn($arr) => $this->createEventObjectForIlmSession($arr), $results);
     }
 
     protected function createEventObjectForIlmSession(array $arr): CalendarEvent
@@ -206,17 +202,9 @@ trait CalendarEventRepository
      */
     public function attachInstructorsToEvents(array $events, EntityManager $em)
     {
-        $offeringIds = array_map(function ($event) {
-            return $event->offering;
-        }, array_filter($events, function ($event) {
-            return $event->offering;
-        }));
+        $offeringIds = array_map(fn($event) => $event->offering, array_filter($events, fn($event) => $event->offering));
 
-        $ilmIds = array_map(function ($event) {
-            return $event->ilmSession;
-        }, array_filter($events, function ($event) {
-            return $event->ilmSession;
-        }));
+        $ilmIds = array_map(fn($event) => $event->ilmSession, array_filter($events, fn($event) => $event->ilmSession));
 
         // array-filtering throws off the array index.
         // set this right again.
@@ -427,30 +415,22 @@ trait CalendarEventRepository
      */
     public function attachMaterialsToEvents(array $events, UserMaterialFactory $factory, EntityManager $em)
     {
-        $sessionIds = array_map(function (CalendarEvent $event) {
-            return $event->session;
-        }, $events);
+        $sessionIds = array_map(fn(CalendarEvent $event) => $event->session, $events);
 
         $sessionIds = array_values(array_unique($sessionIds));
 
         $sessionMaterials = $this->getSessionLearningMaterials($sessionIds, $em);
 
-        $sessionUserMaterials = array_map(function (array $arr) use ($factory) {
-            return $factory->create($arr);
-        }, $sessionMaterials);
+        $sessionUserMaterials = array_map(fn(array $arr) => $factory->create($arr), $sessionMaterials);
 
         $courseMaterials = $this->getCourseLearningMaterials($sessionIds, $em);
 
-        $courseUserMaterials = array_map(function (array $arr) use ($factory) {
-            return $factory->create($arr);
-        }, $courseMaterials);
+        $courseUserMaterials = array_map(fn(array $arr) => $factory->create($arr), $courseMaterials);
 
 
 
         //sort materials by id for consistency
-        $sortFn = function (UserMaterial $a, UserMaterial $b) {
-            return $a->id - $b->id;
-        };
+        $sortFn = fn(UserMaterial $a, UserMaterial $b) => $a->id - $b->id;
 
         usort($sessionUserMaterials, $sortFn);
         usort($courseUserMaterials, $sortFn);

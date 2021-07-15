@@ -156,9 +156,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         $responseKey = $this->getCamelCasedPluralName();
         $responseData = $this->postMany($endpoint, $responseKey, $data);
         $ids = array_map(
-            function (array $arr) {
-                return $arr['id'];
-            },
+            fn(array $arr) => $arr['id'],
             $responseData
         );
         $filters = [
@@ -168,9 +166,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
-        usort($fetchedResponseData, function ($a, $b) {
-            return $a['id'] <=> $b['id'];
-        });
+        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
 
         $program = $this->getOne('programs', 'programs', $data[0]['program']);
         foreach ($data as $i => $datum) {
@@ -202,9 +198,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
 
-        usort($fetchedResponseData, function ($a, $b) {
-            return $a['id'] <=> $b['id'];
-        });
+        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
 
         $program = $this->getOne('programs', 'programs', $data[0]['program']);
         foreach ($data as $i => $datum) {

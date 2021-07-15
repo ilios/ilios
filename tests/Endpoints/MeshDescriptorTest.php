@@ -102,9 +102,7 @@ class MeshDescriptorTest extends AbstractMeshTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
         $filters = ['q' => $q];
         $this->filterTest($filters, $expectedData);
     }
@@ -116,9 +114,7 @@ class MeshDescriptorTest extends AbstractMeshTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $expectedData = array_map(function ($i) use ($all) {
-            return $all[$i];
-        }, $dataKeys);
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
         $filters = ['q' => $q];
         $this->jsonApiFilterTest($filters, $expectedData);
     }

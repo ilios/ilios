@@ -45,9 +45,7 @@ class LoadCompetencyAamcPcrsDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         // find the PCRS
         $pcrsId = $data[1];
-        $pcrs = $entity->getAamcPcrses()->filter(function (AamcPcrsInterface $pcrs) use ($pcrsId) {
-            return $pcrs->getId() === $pcrsId;
-        })->first();
+        $pcrs = $entity->getAamcPcrses()->filter(fn(AamcPcrsInterface $pcrs) => $pcrs->getId() === $pcrsId)->first();
         $this->assertNotEmpty($pcrs);
     }
 }

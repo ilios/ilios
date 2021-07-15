@@ -775,9 +775,7 @@ EOL;
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('x.id')->from(MeshDescriptor::class, 'x');
 
-        return array_map(function (array $arr) {
-            return $arr['id'];
-        }, $qb->getQuery()->getScalarResult());
+        return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
     }
 
     /**
@@ -797,9 +795,7 @@ EOL;
             ->andWhere($qb->expr()->in('d.id', ':ids'))
             ->setParameter('ids', $ids);
         $descriptors = $qb->getQuery()->getArrayResult();
-        $unDeletedIds = array_map(function (array $arr) {
-            return $arr['id'];
-        }, $descriptors);
+        $unDeletedIds = array_map(fn(array $arr) => $arr['id'], $descriptors);
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('d.id as descriptorId, c.id, c.name, c.scopeNote, c.casn1Name')
@@ -808,9 +804,7 @@ EOL;
             ->andWhere($qb->expr()->in('d.id', ':ids'))
             ->setParameter('ids', $unDeletedIds);
         $concepts = $qb->getQuery()->getArrayResult();
-        $conceptIds = array_map(function (array $arr) {
-            return $arr['id'];
-        }, $concepts);
+        $conceptIds = array_map(fn(array $arr) => $arr['id'], $concepts);
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('c.id as conceptId, t.id, t.name')
@@ -822,18 +816,17 @@ EOL;
 
         $fullConcepts = array_map(function (array $concept) use ($terms) {
             $conceptId = $concept['id'];
-            $concept['terms'] = array_filter($terms, function (array $term) use ($conceptId) {
-                return $term['conceptId'] == $conceptId;
-            });
+            $concept['terms'] = array_filter($terms, fn(array $term) => $term['conceptId'] == $conceptId);
 
             return $concept;
         }, $concepts);
 
         $fullDescriptors = array_map(function (array $descriptor) use ($fullConcepts) {
             $descriptorId = $descriptor['id'];
-            $descriptor['concepts'] = array_filter($fullConcepts, function (array $concept) use ($descriptorId) {
-                return $concept['descriptorId'] == $descriptorId;
-            });
+            $descriptor['concepts'] = array_filter(
+                $fullConcepts,
+                fn(array $concept) => $concept['descriptorId'] == $descriptorId
+            );
 
             return $descriptor;
         }, $descriptors);

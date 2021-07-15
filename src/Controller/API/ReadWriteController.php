@@ -154,9 +154,7 @@ abstract class ReadWriteController extends ReadOnlyController
         //read and deliver DTOs instead of Entities
         $idField = $this->repository->getIdField();
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $ids = array_map(function ($entity) use ($idField, $propertyAccessor) {
-            return $propertyAccessor->getValue($entity, $idField);
-        }, $entities);
+        $ids = array_map(fn($entity) => $propertyAccessor->getValue($entity, $idField), $entities);
 
         return $this->repository->findDTOsBy(['id' => $ids]);
     }

@@ -50,9 +50,9 @@ class LoadMeshDescriptorQualifierDataTest extends AbstractDataFixtureTest
         $this->assertEquals($data[0], $entity->getId());
         // find the qualifier
         $qualifierId = $data[1];
-        $qualifier = $entity->getQualifiers()->filter(function (MeshQualifierInterface $qualifier) use ($qualifierId) {
-            return $qualifier->getId() === $qualifierId;
-        })->first();
+        $qualifier = $entity->getQualifiers()->filter(
+            fn(MeshQualifierInterface $qualifier) => $qualifier->getId() === $qualifierId
+        )->first();
         $this->assertNotEmpty($qualifier);
     }
 }

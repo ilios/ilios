@@ -450,9 +450,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $responseData = $this->postMany($endpoint, $responseKey, $data);
-        $ids = array_map(function (array $arr) {
-            return $arr['user'];
-        }, $responseData);
+        $ids = array_map(fn(array $arr) => $arr['user'], $responseData);
         $filters = [
             'filters[user]' => $ids,
             'limit' => count($ids)

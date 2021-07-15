@@ -310,8 +310,11 @@ class CalendarEvent
      */
     protected function removeMaterialsInDraft()
     {
-        $this->learningMaterials = array_values(array_filter($this->learningMaterials, function (UserMaterial $lm) {
-            return $lm->status !== LearningMaterialStatusInterface::IN_DRAFT;
-        }));
+        $this->learningMaterials = array_values(
+            array_filter(
+                $this->learningMaterials,
+                fn(UserMaterial $lm) => $lm->status !== LearningMaterialStatusInterface::IN_DRAFT
+            )
+        );
     }
 }
