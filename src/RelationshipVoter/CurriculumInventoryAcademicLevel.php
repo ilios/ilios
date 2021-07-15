@@ -12,7 +12,7 @@ class CurriculumInventoryAcademicLevel extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return $subject instanceof CurriculumInventoryAcademicLevelInterface && in_array($attribute, [self::VIEW]);
+        return $subject instanceof CurriculumInventoryAcademicLevelInterface && $attribute === self::VIEW;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

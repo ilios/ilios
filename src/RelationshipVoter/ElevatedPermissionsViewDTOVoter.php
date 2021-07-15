@@ -28,7 +28,7 @@ class ElevatedPermissionsViewDTOVoter extends AbstractVoter
     protected function supports($attribute, $subject)
     {
         return (
-            in_array($attribute, [self::VIEW]) && (
+            $attribute === self::VIEW && (
                 $subject instanceof AuthenticationDTO
                 || $subject instanceof CourseLearningMaterialDTO
                 || $subject instanceof IngestionExceptionDTO

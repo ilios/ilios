@@ -20,7 +20,7 @@ class LearnerGroupDTOVoter extends AbstractVoter
 {
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, [self::VIEW]) && $subject instanceof LearnerGroupDTO;
+        return $attribute === self::VIEW && $subject instanceof LearnerGroupDTO;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
