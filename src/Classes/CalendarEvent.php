@@ -56,11 +56,11 @@ class CalendarEvent
 
     #[IA\Expose]
     #[IA\Type('boolean')]
-    public bool $isPublished;
+    public bool $isPublished = false;
 
     #[IA\Expose]
     #[IA\Type('boolean')]
-    public bool $isScheduled;
+    public bool $isScheduled = false;
 
     #[IA\Expose]
     #[IA\Type('array<string>')]
