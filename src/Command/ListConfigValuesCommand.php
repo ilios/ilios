@@ -85,7 +85,7 @@ class ListConfigValuesCommand extends Command
           ['Database URL', $this->databaseUrl],
         ];
         foreach ($_ENV as $key => $value) {
-            if (strpos($key, "ILIOS_") === 0) {
+            if (str_starts_with($key, "ILIOS_")) {
                 $rows[] = [$key, $value];
             }
         }

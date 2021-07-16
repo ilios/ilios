@@ -6,10 +6,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Annotation as IS;
-use App\Classes\SessionUser;
-use App\Classes\SessionUserInterface;
+use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use DateTimeInterface;
 
@@ -19,7 +17,7 @@ use DateTimeInterface;
  */
 #[ORM\Table(name: 'authentication')]
 #[ORM\Entity(repositoryClass: AuthenticationRepository::class)]
-class Authentication implements AuthenticationInterface
+class Authentication implements AuthenticationInterface, Stringable
 {
     /**
      * @var UserInterface
@@ -140,7 +138,7 @@ class Authentication implements AuthenticationInterface
     /**
      * @inheritdoc
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->user;
     }
