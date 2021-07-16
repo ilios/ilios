@@ -10,7 +10,7 @@ use DateTime;
 /**
  * Class UserMaterial
  */
-#[IA\DTO]
+#[IA\DTO('userMaterial')]
 class UserMaterial
 {
     /**

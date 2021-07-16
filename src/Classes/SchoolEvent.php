@@ -10,7 +10,7 @@ use DateTime;
 /**
  * Class SchoolEvent
  */
-#[IA\DTO]
+#[IA\DTO('schoolEvent')]
 class SchoolEvent extends CalendarEvent
 {
     /**
