@@ -69,7 +69,7 @@ class UserEventTest extends TestCase
         $calendarEvent->attendanceRequired = false;
         $calendarEvent->attireRequired = true;
         $calendarEvent->color = '#fff';
-        $calendarEvent->courseExternalId = 12;
+        $calendarEvent->courseExternalId = '12';
         $calendarEvent->course = 17;
         $calendarEvent->courseTitle = 'Test Event';
         $calendarEvent->endDate = new \DateTime();
