@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\UsersEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
@@ -16,10 +16,10 @@ use App\Repository\UserRoleRepository;
 
 /**
  * Class UserRole
- * @IS\Entity
  */
 #[ORM\Table(name: 'user_role')]
 #[ORM\Entity(repositoryClass: UserRoleRepository::class)]
+#[IA\Entity]
 class UserRole implements UserRoleInterface
 {
     use TitledEntity;
@@ -30,13 +30,13 @@ class UserRole implements UserRoleInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'user_role_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -46,19 +46,19 @@ class UserRole implements UserRoleInterface
      *      min = 1,
      *      max = 60
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 60)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var ArrayCollection|UserInterface[]
      * Don't put users in the UserRole API it takes too long to load
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'roles')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Type('entityCollection')]
     protected $users;
 
     public function __construct()

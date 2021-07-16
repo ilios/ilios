@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
 /**
  * Class SchoolEvent
- *
- * @IS\DTO
  */
+#[IA\DTO('schoolEvent')]
 class SchoolEvent extends CalendarEvent
 {
     /**
@@ -26,7 +25,6 @@ class SchoolEvent extends CalendarEvent
         }
         return $schoolEvent;
     }
-
     /**
      * Clear out all draft and schedule events as well as all materials
      */
@@ -39,7 +37,6 @@ class SchoolEvent extends CalendarEvent
             $lm->clearMaterial();
         });
     }
-
     /**
      * Clear out all draft and schedule events as well as LMs based on time
      */

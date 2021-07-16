@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
 use App\Traits\IdentifiableEntity;
@@ -15,10 +15,10 @@ use App\Repository\CurriculumInventoryInstitutionRepository;
 
 /**
  * Class CurriculumInventoryInstitution
- * @IS\Entity
  */
 #[ORM\Table(name: 'curriculum_inventory_institution')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryInstitutionRepository::class)]
+#[IA\Entity]
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
     use NameableEntity;
@@ -29,13 +29,13 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'institution_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -46,10 +46,10 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      min = 1,
      *      max = 100
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 100)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $name;
 
     /**
@@ -60,10 +60,10 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      min = 1,
      *      max = 10
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'aamc_code', type: 'string', length: 10)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $aamcCode;
 
     /**
@@ -74,10 +74,10 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      min = 1,
      *      max = 100
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'address_street', type: 'string', length: 100)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $addressStreet;
 
     /**
@@ -88,10 +88,10 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      min = 1,
      *      max = 100
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'address_city', type: 'string', length: 100)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $addressCity;
 
     /**
@@ -102,10 +102,10 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      min = 1,
      *      max = 50
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'address_state_or_province', type: 'string', length: 50)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $addressStateOrProvince;
 
     /**
@@ -116,10 +116,10 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      min = 1,
      *      max = 10
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'address_zipcode', type: 'string', length: 10)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $addressZipCode;
 
     /**
@@ -130,20 +130,20 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
      *      min = 1,
      *      max = 2
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'address_country_code', type: 'string', length: 2)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $addressCountryCode;
 
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(inversedBy: 'curriculumInventoryInstitution', targetEntity: 'School')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', unique: true, nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $school;
 
     /**

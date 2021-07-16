@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\CompetenciesEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Repository\AamcPcrsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableEntity;
@@ -18,10 +18,10 @@ use App\Traits\StringableIdEntity;
 
 /**
  * Class AamcPcrs
- * @IS\Entity
  */
 #[ORM\Entity(repositoryClass: AamcPcrsRepository::class)]
 #[ORM\Table(name: 'aamc_pcrs')]
+#[IA\Entity]
 class AamcPcrs implements AamcPcrsInterface
 {
     use IdentifiableEntity;
@@ -37,12 +37,12 @@ class AamcPcrs implements AamcPcrsInterface
      *      min = 1,
      *      max = 21
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'pcrs_id', type: 'string', length: 21)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $id;
 
     /**
@@ -53,19 +53,19 @@ class AamcPcrs implements AamcPcrsInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     /**
      * @var ArrayCollection|CompetencyInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Competency', mappedBy: 'aamcPcrses')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $competencies;
 
     public function __construct()

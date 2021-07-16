@@ -16,7 +16,7 @@ use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
@@ -26,13 +26,13 @@ use App\Repository\SessionRepository;
 
 /**
  * Class Session
- * @IS\Entity
  */
 #[ORM\Table(name: 'session')]
 #[ORM\Index(columns: ['session_type_id'], name: 'session_type_id_k')]
 #[ORM\Index(columns: ['course_id'], name: 'course_id_k')]
 #[ORM\Index(columns: ['session_id', 'course_id', 'session_type_id', 'title'], name: 'session_course_type_title_k')]
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
+#[IA\Entity]
 class Session implements SessionInterface
 {
     use IdentifiableEntity;
@@ -51,13 +51,13 @@ class Session implements SessionInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -67,76 +67,76 @@ class Session implements SessionInterface
      *      min = 1,
      *      max = 200
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'attire_required', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $attireRequired;
 
     /**
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'equipment_required', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $equipmentRequired;
 
     /**
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'supplemental', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $supplemental;
 
     /**
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'attendance_required', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $attendanceRequired;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'published_as_tbd', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $publishedAsTbd;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $published;
 
     /**
      * @var DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $updatedAt;
 
     /**
@@ -146,11 +146,11 @@ class Session implements SessionInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
-     * @IS\RemoveMarkup
      */
     #[ORM\Column(name: 'instructionalNotes', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     protected $instructionalNotes;
 
     /**
@@ -160,66 +160,64 @@ class Session implements SessionInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
-     * @IS\RemoveMarkup
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     protected $description;
 
     /**
      * @var SessionTypeInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'SessionType', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $sessionType;
 
     /**
      * @var CourseInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', nullable: false, onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $course;
 
     /**
      * @var IlmSessionInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(mappedBy: 'session', targetEntity: 'IlmSession')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $ilmSession;
 
     /**
      * @var ArrayCollection|TermInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'sessions')]
     #[ORM\JoinTable(name: 'session_x_term')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $terms;
 
     /**
      * @var ArrayCollection|SessionObjectiveInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionObjective')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $sessionObjectives;
 
     /**
      * @var ArrayCollection|MeshDescriptorInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessions')]
     #[ORM\JoinTable(name: 'session_x_mesh')]
@@ -230,24 +228,26 @@ class Session implements SessionInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $meshDescriptors;
 
     /**
      * @var ArrayCollection|SessionLearningMaterialInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $learningMaterials;
 
     /**
      * @var ArrayCollection|OfferingInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'Offering')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $offerings;
 
     /**
@@ -266,44 +266,44 @@ class Session implements SessionInterface
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredSessions')]
     #[ORM\JoinTable(name: 'session_administrator')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $administrators;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'studentAdvisedSessions')]
     #[ORM\JoinTable(name: 'session_student_advisor')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $studentAdvisors;
 
     /**
      * @var SessionInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'prerequisites')]
     #[ORM\JoinColumn(name: 'postrequisite_id', referencedColumnName: 'session_id', onDelete: 'SET NULL')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $postrequisite;
 
     /**
      * @var SessionInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'postrequisite', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $prerequisites;
 
     public function __construct()

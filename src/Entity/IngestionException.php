@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
@@ -13,10 +13,10 @@ use App\Repository\IngestionExceptionRepository;
 
 /**
  * Class IngestionException
- * @IS\Entity
  */
 #[ORM\Entity(repositoryClass: IngestionExceptionRepository::class)]
 #[ORM\Table(name: 'ingestion_exception')]
+#[IA\Entity]
 class IngestionException implements IngestionExceptionInterface
 {
     use IdentifiableEntity;
@@ -25,13 +25,13 @@ class IngestionException implements IngestionExceptionInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'ingestion_exception_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -42,10 +42,10 @@ class IngestionException implements IngestionExceptionInterface
      *      min = 1,
      *      max = 32
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'ingested_wide_uid', type: 'string', length: 32)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $uid;
 
     /**
@@ -56,8 +56,6 @@ class IngestionException implements IngestionExceptionInterface
      *      unique=true,
      *      nullable=false
      * )})
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(targetEntity: 'User')]
     #[ORM\JoinColumn(
@@ -67,6 +65,8 @@ class IngestionException implements IngestionExceptionInterface
         nullable: false,
         onDelete: 'CASCADE'
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $user;
 
     public function setUser(UserInterface $user)

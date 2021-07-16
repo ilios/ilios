@@ -9,7 +9,7 @@ use App\Traits\LearningMaterialRelationshipEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
@@ -18,13 +18,13 @@ use App\Repository\SessionLearningMaterialRepository;
 
 /**
  * Class SessionLearningMaterial
- * @IS\Entity
  */
 #[ORM\Table(name: 'session_learning_material')]
 #[ORM\Index(columns: ['session_id', 'learning_material_id'], name: 'session_lm_k')]
 #[ORM\Index(columns: ['learning_material_id'], name: 'learning_material_id_k')]
 #[ORM\Index(columns: ['session_id'], name: 'IDX_9BE2AF8D613FECDF')]
 #[ORM\Entity(repositoryClass: SessionLearningMaterialRepository::class)]
+#[IA\Entity]
 class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
     use IdentifiableEntity;
@@ -37,13 +37,13 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'session_learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -53,57 +53,55 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
-     * @IS\RemoveMarkup
      */
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     protected $notes;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'required', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $required;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $publicNotes;
 
     /**
      * @var SessionInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $session;
 
     /**
      * @var LearningMaterialInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $learningMaterial;
 
     /**
      * @var MeshDescriptorInterface
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinTable(name: 'session_learning_material_x_mesh')]
@@ -118,32 +116,34 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $meshDescriptors;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $position;
 
     /**
      * @var \DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $startDate;
 
     /**
      * @var \DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $endDate;
 
     public function __construct()

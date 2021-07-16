@@ -7,9 +7,6 @@ namespace App\Attribute;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class DTO
+class Entity
 {
-    public function __construct(public string $value)
-    {
-    }
 }

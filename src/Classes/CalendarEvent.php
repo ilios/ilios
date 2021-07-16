@@ -4,270 +4,159 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Annotation as IS;
-use App\Entity\LearningMaterialInterface;
+use App\Attribute as IA;
 use App\Entity\LearningMaterialStatusInterface;
 use DateTime;
 
 /**
  * Class CalendarEvent
- *
- *@IS\DTO
  */
 class CalendarEvent
 {
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     **/
-    public $name;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     **/
-    public $courseTitle;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public string $name = '';
 
-    /**
-     * @var DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     **/
-    public $startDate;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $courseTitle = null;
 
-    /**
-     * @var DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     **/
-    public $endDate;
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
+    public DateTime $startDate;
 
-    /**
-     * @var Integer
-     * @IS\Expose
-     * @IS\Type("integer")
-     **/
-    public $offering;
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
+    public DateTime $endDate;
 
-    /**
-     * @var Integer
-     * @IS\Expose
-     * @IS\Type("integer")
-     **/
-    public $ilmSession;
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public ?int $offering = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     **/
-    public $color;
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public ?int $ilmSession = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     **/
-    public $location;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $color = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     **/
-    public $url;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $location = null;
 
-    /**
-     * @var DateTime
-     * @IS\Expose
-     * @IS\Type("dateTime")
-     */
-    public $lastModified;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $url = null;
 
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $isPublished;
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
+    public DateTime $lastModified;
 
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $isScheduled;
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public bool $isPublished = false;
 
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array<string>")
-     */
-    public $instructors = [];
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public bool $isScheduled = false;
 
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array<dto>")
-     */
-    public $learningMaterials = [];
+    #[IA\Expose]
+    #[IA\Type('array<string>')]
+    public array $instructors = [];
 
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $attireRequired;
+    #[IA\Expose]
+    #[IA\Type('array<dto>')]
+    public array $learningMaterials = [];
 
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $equipmentRequired;
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public ?bool $attireRequired = null;
 
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $supplemental;
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public ?bool $equipmentRequired = null;
 
-    /**
-     * @var bool
-     * @IS\Expose
-     * @IS\Type("boolean")
-     */
-    public $attendanceRequired;
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public ?bool $supplemental = null;
 
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
-    public $session;
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public ?bool $attendanceRequired = null;
 
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
-    public $course;
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public ?int $session = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $courseExternalId;
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public ?int $course = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $sessionTitle;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $courseExternalId = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $sessionDescription;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $sessionTitle = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $instructionalNotes;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $sessionDescription = null;
 
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
-    public $sessionTypeId;
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $instructionalNotes = null;
 
-    /**
-     * @var string
-     * @IS\Expose
-     * @IS\Type("string")
-     */
-    public $sessionTypeTitle;
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public ?int $sessionTypeId = null;
 
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array")
-     */
-    public $sessionObjectives = [];
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $sessionTypeTitle = null;
 
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array")
-     */
-    public $courseObjectives = [];
+    #[IA\Expose]
+    #[IA\Type('array')]
+    public array $sessionObjectives = [];
 
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array")
-     */
-    public $competencies = [];
+    #[IA\Expose]
+    #[IA\Type('array')]
+    public array $courseObjectives = [];
 
-    /**
-     * @var []
-     * @IS\Expose
-     * @IS\Type("array<dto>")
-     */
-    public $postrequisites = [];
+    #[IA\Expose]
+    #[IA\Type('array')]
+    public array $competencies = [];
 
-    /**
-     * @var []
-     * @IS\Expose
-     * @IS\Type("array")
-     */
-    public $cohorts = [];
+    #[IA\Expose]
+    #[IA\Type('array<dto>')]
+    public array $postrequisites = [];
 
-    /**
-     * @var []
-     * @IS\Expose
-     * @IS\Type("array<dto>")
-     */
-    public $prerequisites = [];
+    #[IA\Expose]
+    #[IA\Type('array')]
+    public array $cohorts = [];
 
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("integer")
-     **/
-    public $school;
+    #[IA\Expose]
+    #[IA\Type('array<dto>')]
+    public array $prerequisites = [];
 
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
-    public $courseLevel;
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public int $school;
 
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array")
-     */
-    public $sessionTerms = [];
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public ?int $courseLevel = null;
 
-    /**
-     * @var array
-     * @IS\Expose
-     * @IS\Type("array")
-     */
-    public $courseTerms = [];
+    #[IA\Expose]
+    #[IA\Type('array')]
+    public array $sessionTerms = [];
 
+    #[IA\Expose]
+    #[IA\Type('array')]
+    public array $courseTerms = [];
     /**
      * Clean out all the data for draft or scheduled events
      *
@@ -304,7 +193,6 @@ class CalendarEvent
             $this->courseTerms = [];
         }
     }
-
     /**
      * Removes any materials that are in draft mode.
      */

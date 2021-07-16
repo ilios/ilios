@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,10 +15,10 @@ use App\Repository\MeshTreeRepository;
 
 /**
  * Class MeshTree
- * @IS\Entity
  */
 #[ORM\Table(name: 'mesh_tree')]
 #[ORM\Entity(repositoryClass: MeshTreeRepository::class)]
+#[IA\Entity]
 class MeshTree implements MeshTreeInterface
 {
     use IdentifiableEntity;
@@ -27,13 +27,13 @@ class MeshTree implements MeshTreeInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'mesh_tree_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -44,19 +44,19 @@ class MeshTree implements MeshTreeInterface
      *      min = 1,
      *      max = 80
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'tree_number', type: 'string', length: 80)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $treeNumber;
 
     /**
      * @var MeshDescriptorInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'MeshDescriptor', inversedBy: 'trees')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $descriptor;
 
     /**

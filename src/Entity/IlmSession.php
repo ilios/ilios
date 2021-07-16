@@ -10,7 +10,7 @@ use App\Traits\InstructorsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearnersEntity;
 use App\Traits\SessionConsolidationEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
@@ -20,10 +20,10 @@ use App\Repository\IlmSessionRepository;
 
 /**
  * Class IlmSession
- * @IS\Entity
  */
 #[ORM\Table(name: 'ilm_session_facet')]
 #[ORM\Entity(repositoryClass: IlmSessionRepository::class)]
+#[IA\Entity]
 class IlmSession implements IlmSessionInterface
 {
     use IdentifiableEntity;
@@ -37,20 +37,18 @@ class IlmSession implements IlmSessionInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'ilm_session_facet_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var Session
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(targetEntity: 'Session', inversedBy: 'ilmSession')]
     #[ORM\JoinColumn(
@@ -60,6 +58,8 @@ class IlmSession implements IlmSessionInterface
         nullable: false,
         onDelete: 'CASCADE'
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $session;
 
     /**
@@ -70,37 +70,35 @@ class IlmSession implements IlmSessionInterface
      *      min = 0,
      *      max = 10000
      * )
-     * @IS\Expose
-     * @IS\Type("float")
      */
     #[ORM\Column(name: 'hours', type: 'decimal', precision: 6, scale: 2)]
+    #[IA\Expose]
+    #[IA\Type('float')]
     protected $hours;
 
     /**
      * @var DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'due_date', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $dueDate;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'ilmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_group')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $learnerGroups;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'ilmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_instructor_group')]
@@ -111,30 +109,32 @@ class IlmSession implements IlmSessionInterface
         onDelete: 'CASCADE'
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instructorGroups;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructorIlmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_instructor')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instructors;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerIlmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_learner')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $learners;
 
     public function __construct()

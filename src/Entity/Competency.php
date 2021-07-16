@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ActivatableEntity;
 use App\Traits\StringableIdEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
@@ -20,11 +20,11 @@ use App\Repository\CompetencyRepository;
 
 /**
  * Class Competency
- * @IS\Entity
  */
 #[ORM\Table(name: 'competency')]
 #[ORM\Index(columns: ['parent_competency_id'], name: 'parent_competency_id_k')]
 #[ORM\Entity(repositoryClass: CompetencyRepository::class)]
+#[IA\Entity]
 class Competency implements CompetencyInterface
 {
     use IdentifiableEntity;
@@ -38,13 +38,13 @@ class Competency implements CompetencyInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'competency_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -54,78 +54,78 @@ class Competency implements CompetencyInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=200)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'competencies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $school;
 
     /**
      * @var CompetencyInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_competency_id', referencedColumnName: 'competency_id')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $parent;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $children;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'AamcPcrs', inversedBy: 'competencies')]
     #[ORM\JoinTable(name: 'competency_x_aamc_pcrs')]
     #[ORM\JoinColumn(name: 'competency_id', referencedColumnName: 'competency_id')]
     #[ORM\InverseJoinColumn(name: 'pcrs_id', referencedColumnName: 'pcrs_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $aamcPcrses;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'competencies')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $programYears;
 
     /**
      * @var bool
      * @Assert\NotNull()
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(type: 'boolean')]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $active;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'competency', targetEntity: 'ProgramYearObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $programYearObjectives;
 
     public function __construct()

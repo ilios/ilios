@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\UsersEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\IdentifiableEntity;
@@ -19,11 +19,11 @@ use App\Repository\CohortRepository;
 
 /**
  * Class Cohort
- * @IS\Entity
  */
 #[ORM\Entity(repositoryClass: CohortRepository::class)]
 #[ORM\Table(name: 'cohort')]
 #[ORM\Index(columns: ['program_year_id', 'cohort_id', 'title'], name: 'whole_k')]
+#[IA\Entity]
 class Cohort implements CohortInterface
 {
     use IdentifiableEntity;
@@ -36,19 +36,17 @@ class Cohort implements CohortInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
      * @var string
-     * @IS\Expose
-     * @IS\Type("string")
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      * @Assert\Length(
@@ -57,12 +55,12 @@ class Cohort implements CohortInterface
      * )
      */
     #[ORM\Column(type: 'string', length: 60)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
      * @var ProgramYearInterface
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\OneToOne(targetEntity: 'ProgramYear', inversedBy: 'cohort')]
     #[ORM\JoinColumn(
@@ -71,33 +69,35 @@ class Cohort implements CohortInterface
         unique: true,
         onDelete: 'cascade'
     )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $programYear;
 
     /**
      * @var ArrayCollection|CourseInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $courses;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(mappedBy: 'cohort', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $learnerGroups;
 
     /**
      * @var Collection
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $users;
 
     public function __construct()

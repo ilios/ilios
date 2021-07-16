@@ -12,16 +12,16 @@ use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class AamcResourceType
- * @IS\Entity
  */
 #[ORM\Entity(repositoryClass: AamcResourceTypeRepository::class)]
 #[ORM\Table(name: 'aamc_resource_type')]
+#[IA\Entity]
 class AamcResourceType implements AamcResourceTypeInterface
 {
     use IdentifiableEntity;
@@ -38,12 +38,12 @@ class AamcResourceType implements AamcResourceTypeInterface
      *      min = 1,
      *      max = 21
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $id;
 
     /**
@@ -54,10 +54,10 @@ class AamcResourceType implements AamcResourceTypeInterface
      *      min = 1,
      *      max = 200
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
@@ -68,19 +68,19 @@ class AamcResourceType implements AamcResourceTypeInterface
      *      min = 1,
      *      max = 65000
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'description', type: 'text')]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $description;
 
     /**
      * @var ArrayCollection|TermInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'Term', mappedBy: 'aamcResourceTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $terms;
 
     public function __construct()

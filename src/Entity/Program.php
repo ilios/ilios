@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Traits\DirectorsEntity;
 use App\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
@@ -20,10 +20,10 @@ use App\Repository\ProgramRepository;
 
 /**
  * Class Program
- * @IS\Entity
  */
 #[ORM\Table(name: 'program')]
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
+#[IA\Entity]
 class Program implements ProgramInterface
 {
     use TitledEntity;
@@ -36,13 +36,13 @@ class Program implements ProgramInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -53,10 +53,10 @@ class Program implements ProgramInterface
      *      min = 1,
      *      max = 200
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $title;
 
     /**
@@ -66,60 +66,60 @@ class Program implements ProgramInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=10)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'short_title', type: 'string', length: 10, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $shortTitle;
 
     /**
      * @var int
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
      */
     #[ORM\Column(name: 'duration', type: 'smallint')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
     protected $duration;
 
     /**
      * @var SchoolInterface
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'programs')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $school;
 
     /**
      * @var ArrayCollection|ProgramYearInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(targetEntity: 'ProgramYear', mappedBy: 'program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $programYears;
 
     /**
      * @var ArrayCollection|CurriculumInventoryReportInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\OneToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $curriculumInventoryReports;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedPrograms')]
     #[ORM\JoinTable(name: 'program_director')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $directors;
 
     public function __construct()

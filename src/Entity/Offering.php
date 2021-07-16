@@ -11,7 +11,7 @@ use App\Traits\InstructorsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearnersEntity;
 use App\Traits\SessionConsolidationEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
@@ -21,12 +21,12 @@ use App\Repository\OfferingRepository;
 
 /**
  * Class Offering
- * @IS\Entity
  */
 #[ORM\Table(name: 'offering')]
 #[ORM\Index(columns: ['session_id'], name: 'session_id_k')]
 #[ORM\Index(columns: ['offering_id', 'session_id', 'start_date', 'end_date'], name: 'offering_dates_session_k')]
 #[ORM\Entity(repositoryClass: OfferingRepository::class)]
+#[IA\Entity]
 class Offering implements OfferingInterface
 {
     use IdentifiableEntity;
@@ -41,13 +41,13 @@ class Offering implements OfferingInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'offering_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -57,10 +57,10 @@ class Offering implements OfferingInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'room', type: 'string', length: 255, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $room;
 
     /**
@@ -70,10 +70,10 @@ class Offering implements OfferingInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'site', type: 'string', length: 255, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $site;
 
     /**
@@ -83,96 +83,96 @@ class Offering implements OfferingInterface
      *      max = 2000,
      * )
      * @Assert\Url
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $url;
 
     /**
      * @var DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'start_date', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $startDate;
 
     /**
      * @var DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'end_date', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
     protected $endDate;
 
     /**
      * @var DateTime
      * @Assert\NotBlank()
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $updatedAt;
 
     /**
      * @var Session
      * @Assert\NotNull()
-     * @IS\Expose
-     * @IS\Type("entity")
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'offerings')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
+    #[IA\Expose]
+    #[IA\Type('entity')]
     protected $session;
 
     /**
      * @var ArrayCollection|LearnerGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_group')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $learnerGroups;
 
     /**
      * @var ArrayCollection|InstructorGroupInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_instructor_group')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instructorGroups;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_learner')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $learners;
 
     /**
      * @var ArrayCollection|UserInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedOfferings')]
     #[ORM\JoinTable(name: 'offering_x_instructor')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $instructors;
 
     public function __construct()

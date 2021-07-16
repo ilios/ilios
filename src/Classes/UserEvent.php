@@ -4,28 +4,17 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Annotation as IS;
+use App\Attribute as IA;
 use DateTime;
 
-/**
- * Class UserEvent
- *
- * @IS\DTO
- */
+#[IA\DTO('userEvent')]
 class UserEvent extends CalendarEvent
 {
-    /**
-     * @var int
-     * @IS\Expose
-     * @IS\Type("integer")
-     */
-    public $user;
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    public int $user;
 
-    /**
-     * Creates a new user event from a given user id and a given calendar event.
-     * @param int $userId
-     */
-    public static function createFromCalendarEvent($userId, CalendarEvent $event): UserEvent
+    public static function createFromCalendarEvent(int $userId, CalendarEvent $event): UserEvent
     {
         $userEvent = new UserEvent();
         $userEvent->user = $userId;
@@ -34,7 +23,6 @@ class UserEvent extends CalendarEvent
         }
         return $userEvent;
     }
-
     /**
      * This information is not available to un-privileged users
      */
@@ -45,7 +33,6 @@ class UserEvent extends CalendarEvent
         $this->removeMaterialsInDraft();
         $this->clearTimedMaterials($dateTime);
     }
-
     protected function clearTimedMaterials(DateTime $dateTime)
     {
         /** @var UserMaterial $lm */

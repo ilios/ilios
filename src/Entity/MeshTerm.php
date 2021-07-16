@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Traits\CreatedAtEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ConceptsEntity;
-use App\Annotation as IS;
+use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,11 +19,11 @@ use App\Repository\MeshTermRepository;
 
 /**
  * Class MeshTerm
- * @IS\Entity
  */
 #[ORM\Table(name: 'mesh_term')]
 #[ORM\UniqueConstraint(name: 'mesh_term_uid_name', columns: ['mesh_term_uid', 'name'])]
 #[ORM\Entity(repositoryClass: MeshTermRepository::class)]
+#[IA\Entity]
 class MeshTerm implements MeshTermInterface
 {
     use IdentifiableEntity;
@@ -36,13 +36,13 @@ class MeshTerm implements MeshTermInterface
     /**
      * @var int
      * @Assert\Type(type="integer")
-     * @IS\Expose
-     * @IS\Type("integer")
-     * @IS\ReadOnly
      */
     #[ORM\Column(name: 'mesh_term_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\ReadOnly]
     protected $id;
 
     /**
@@ -53,10 +53,10 @@ class MeshTerm implements MeshTermInterface
      *      min = 1,
      *      max = 12
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'mesh_term_uid', type: 'string', length: 12)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $meshTermUid;
 
     /**
@@ -67,10 +67,10 @@ class MeshTerm implements MeshTermInterface
      *      min = 1,
      *      max = 255
      * )
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(type: 'string', length: 255)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $name;
 
     /**
@@ -80,65 +80,65 @@ class MeshTerm implements MeshTermInterface
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=12)
      * })
-     * @IS\Expose
-     * @IS\Type("string")
      */
     #[ORM\Column(name: 'lexical_tag', type: 'string', length: 12, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
     protected $lexicalTag;
 
     /**
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'concept_preferred', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $conceptPreferred;
 
     /**
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'record_preferred', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $recordPreferred;
 
     /**
      * @var bool
      * @Assert\Type(type="bool")
-     * @IS\Expose
-     * @IS\Type("boolean")
      */
     #[ORM\Column(name: 'permuted', type: 'boolean', nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
     protected $permuted;
 
     /**
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'created_at', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $createdAt;
 
     /**
-     * @IS\Expose
-     * @IS\ReadOnly
-     * @IS\Type("dateTime")
      */
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
+    #[IA\Expose]
+    #[IA\ReadOnly]
+    #[IA\Type('dateTime')]
     protected $updatedAt;
 
     /**
      * @var ArrayCollection|MeshConceptInterface[]
-     * @IS\Expose
-     * @IS\Type("entityCollection")
      */
     #[ORM\ManyToMany(targetEntity: 'MeshConcept', inversedBy: 'terms')]
     #[ORM\JoinTable(name: 'mesh_concept_x_term')]
     #[ORM\JoinColumn(name: 'mesh_term_id', referencedColumnName: 'mesh_term_id')]
     #[ORM\InverseJoinColumn(name: 'mesh_concept_uid', referencedColumnName: 'mesh_concept_uid')]
     #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
     protected $concepts;
 
     public function __construct()
