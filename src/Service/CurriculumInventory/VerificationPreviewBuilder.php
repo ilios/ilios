@@ -253,7 +253,7 @@ class VerificationPreviewBuilder
             foreach ($eventRefs[$blockId] as $eventRef) {
                 $event = $events[$eventRef['event_id']];
                 $methodId = $event['method_id'];
-                if (0 === strpos($methodId, 'IM')) {
+                if (str_starts_with($methodId, 'IM')) {
                     $groups = $methodsToGroups[$methodId];
                     foreach ($groups as $group) {
                         if (! array_key_exists($group, $row['instructional_methods'])) {
@@ -553,7 +553,7 @@ class VerificationPreviewBuilder
                 foreach ($eventRefs[$blockId] as $eventRef) {
                     $event = $events[$eventRef['event_id']];
                     $methodId = $event['method_id'];
-                    if (0 === strpos($methodId, 'AM')) {
+                    if (str_starts_with($methodId, 'AM')) {
                         $hasAssessmentMethods = true;
 
                         if ('formative' === $event['assessment_option_name']) {
@@ -602,7 +602,7 @@ class VerificationPreviewBuilder
 
         $dtos = $this->methodRepository->findDTOsBy([]);
         foreach ($dtos as $dto) {
-            if (0 === strpos($dto->id, 'IM')) {
+            if (str_starts_with($dto->id, 'IM')) {
                 $this->methodMaps['instructional_methods'][$dto->id] = $dto;
             } else {
                 $this->methodMaps['assessment_methods'][$dto->id] = $dto;
@@ -647,7 +647,7 @@ class VerificationPreviewBuilder
                 foreach ($eventRefs[$blockId] as $eventRef) {
                     $event = $events[$eventRef['event_id']];
                     $methodId = $event['method_id'];
-                    if (0 === strpos($methodId, 'IM')) {
+                    if (str_starts_with($methodId, 'IM')) {
                         $time += $event['duration'];
                     }
                 }
