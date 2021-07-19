@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DataFixtures\ORM;
+namespace App\Service\DataLoader;
 
 use App\Entity\LearningMaterialUserRole;
 use App\Entity\LearningMaterialUserRoleInterface;
