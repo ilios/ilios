@@ -14,7 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -123,5 +124,21 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

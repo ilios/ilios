@@ -12,7 +12,10 @@ use App\Entity\AamcPcrs;
 use App\Entity\DTO\AamcPcrsDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcPcrsRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AamcPcrsRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -118,5 +121,21 @@ class AamcPcrsRepository extends ServiceEntityRepository implements DTORepositor
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

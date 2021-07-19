@@ -14,7 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -120,5 +121,21 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

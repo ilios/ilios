@@ -15,7 +15,8 @@ use App\Entity\TermInterface;
 
 class TermRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -373,5 +374,21 @@ class TermRepository extends ServiceEntityRepository implements
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

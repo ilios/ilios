@@ -12,7 +12,10 @@ use App\Entity\UserRole;
 use App\Entity\DTO\UserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class UserRoleRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class UserRoleRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -113,5 +116,21 @@ class UserRoleRepository extends ServiceEntityRepository implements DTORepositor
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

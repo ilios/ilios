@@ -12,7 +12,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcMethodDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcMethodRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AamcMethodRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -119,5 +122,21 @@ class AamcMethodRepository extends ServiceEntityRepository implements DTOReposit
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

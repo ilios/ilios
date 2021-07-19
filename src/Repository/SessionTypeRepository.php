@@ -12,7 +12,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\SessionTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class SessionTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class SessionTypeRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -282,5 +285,21 @@ class SessionTypeRepository extends ServiceEntityRepository implements DTOReposi
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

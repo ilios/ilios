@@ -12,7 +12,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AssessmentOptionDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AssessmentOptionRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AssessmentOptionRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -118,5 +121,21 @@ class AssessmentOptionRepository extends ServiceEntityRepository implements DTOR
         }
 
         return $qb;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

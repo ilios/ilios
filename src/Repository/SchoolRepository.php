@@ -21,7 +21,8 @@ use App\Traits\CalendarEventRepository;
 
 class SchoolRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;
@@ -610,5 +611,21 @@ class SchoolRepository extends ServiceEntityRepository implements
         }
 
         return array_values($schoolDTOs);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(array $data, string $type = null, string $now = null): void
+    {
+        // TODO: Implement import() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 }

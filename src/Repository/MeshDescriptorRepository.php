@@ -30,7 +30,8 @@ use PDO;
 
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -557,14 +558,10 @@ EOL;
     }
 
     /**
-     * Single entry point for importing a given MeSH record into its corresponding database table.
-     *
-     * @param array $data An associative array containing a MeSH record.
-     * @param string $type The type of MeSH data that's being imported.
-     * @param string|null $now The current time and date as an ANSI SQL compatible string representation.
-     * @throws Exception on unsupported type.
+     * @inheritdoc
+     * @throws DBALException
      */
-    public function import(array $data, string $type, string $now = null)
+    public function import(array $data, string $type = null, string $now = null): void
     {
         switch ($type) {
             case 'MeshDescriptor':
@@ -597,6 +594,14 @@ EOL;
             default:
                 throw new Exception("Unsupported type ${type}.");
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasData(): bool
+    {
+        // TODO: Implement hasData() method.
     }
 
     /**
