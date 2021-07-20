@@ -30,9 +30,7 @@ class DefaultDataLoader
         string $filename,
         string $type = null
     ) {
-        if ($repository->hasData()) {
-            throw new Exception($repository::class . ": underlying database table(s) already contain records.");
-        }
+        $repository->clearData();
         $path = $this->dataImportFileLocator->getDataFilePath($filename);
         $now = (new DateTime())->format('Y-m-d H:i:s');
         $i = 0;
