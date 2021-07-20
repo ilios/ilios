@@ -134,8 +134,8 @@ class AamcPcrsRepository extends ServiceEntityRepository implements
     /**
      * @inheritdoc
      */
-    public function hasData(): bool
+    public function clearData(): void
     {
-        // TODO: Implement hasData() method.
+        // TODO: Implement clearData() method.
     }
 }

@@ -22,8 +22,7 @@ interface DataImportRepositoryInterface
     public function import(array $data, string $type = null, string $now = null): void;
 
     /**
-     * Checks whether the targeted database table(s) contain data or not.
-     * @return bool
+     * Empties target database table(s).
      */
-    public function hasData(): bool;
+    public function clearData(): void;
 }

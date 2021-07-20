@@ -597,14 +597,6 @@ EOL;
     }
 
     /**
-     * @inheritdoc
-     */
-    public function hasData(): bool
-    {
-        // TODO: Implement hasData() method.
-    }
-
-    /**
      * @param array $data
      * @throws Exception
      */
@@ -945,5 +937,13 @@ EOL;
             ->orderBy('c.id')
             ->addOrderBy('d.id');
         return $qb->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function clearData(): void
+    {
+        // TODO: Implement clearData() method.
     }
 }

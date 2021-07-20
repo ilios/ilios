@@ -111,10 +111,10 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function hasData(): bool
+    public function clearData(): void
     {
-        // TODO: Implement hasData() method.
+        // TODO: Implement clearData() method.
     }
 }

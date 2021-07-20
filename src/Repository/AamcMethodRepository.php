@@ -129,14 +129,16 @@ class AamcMethodRepository extends ServiceEntityRepository implements
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        $sql = "INSERT INTO aamc_method (method_id, description, active) VALUES (?, ?, ?)";
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 
     /**
      * @inheritdoc
      */
-    public function hasData(): bool
+    public function clearData(): void
     {
-        // TODO: Implement hasData() method.
+        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
     }
 }
