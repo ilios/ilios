@@ -125,11 +125,13 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        $sql = "INSERT INTO aamc_resource_type (resource_type_id, title, description) VALUES (?, ?, ?)";
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -137,6 +139,6 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
      */
     public function clearData(): void
     {
-        // TODO: Implement clearData() method.
+        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
     }
 }

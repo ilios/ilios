@@ -131,11 +131,13 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        $sql = "INSERT INTO application_config(id, name, value) VALUES (?, ?, ?)";
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -143,6 +145,6 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
      */
     public function clearData(): void
     {
-        // TODO: Implement clearData() method.
+        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
     }
 }

@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Repository\AamcMethodRepository;
+use App\Repository\AamcPcrsRepository;
+use App\Repository\AamcResourceTypeRepository;
+use App\Repository\AlertChangeTypeRepository;
+use App\Repository\ApplicationConfigRepository;
 use App\Service\DefaultDataLoader;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +23,11 @@ class ImportDefaultDataCommand extends Command
 
     public function __construct(
         protected DefaultDataLoader $dataLoader,
-        protected AamcMethodRepository $aamcMethodRepository
+        protected AamcMethodRepository $aamcMethodRepository,
+        protected AamcPcrsRepository $aamcPcrsRepository,
+        protected AamcResourceTypeRepository $aamcResourceTypeRepository,
+        protected AlertChangeTypeRepository $alertChangeTypeRepository,
+        protected ApplicationConfigRepository $applicationConfigRepository,
     ) {
         parent::__construct();
     }
@@ -58,6 +66,10 @@ class ImportDefaultDataCommand extends Command
         $output->writeln('Started data import, this may take a while...');
         try {
             $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method.csv');
+            $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs.csv');
+            $this->dataLoader->import($this->aamcResourceTypeRepository, 'aamc_resource_type.csv');
+            $this->dataLoader->import($this->alertChangeTypeRepository, 'alert_change_type.csv');
+            $this->dataLoader->import($this->applicationConfigRepository, 'application_config.csv');
         } catch (Exception $e) {
             $output->writeln("<error>An error occurred during data import:</error>");
             $output->write("<error>{$e->getMessage()}</error>");

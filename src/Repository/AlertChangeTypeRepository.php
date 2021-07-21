@@ -124,11 +124,13 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        $sql = "INSERT INTO alert_change_type (alert_change_type_id, title) VALUES (?, ?)";
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -136,6 +138,6 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
      */
     public function clearData(): void
     {
-        // TODO: Implement clearData() method.
+        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
     }
 }
