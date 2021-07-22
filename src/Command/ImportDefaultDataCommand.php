@@ -11,7 +11,16 @@ use App\Repository\AlertChangeTypeRepository;
 use App\Repository\ApplicationConfigRepository;
 use App\Repository\AssessmentOptionRepository;
 use App\Repository\CompetencyRepository;
+use App\Repository\CourseClerkshipTypeRepository;
+use App\Repository\CurriculumInventoryInstitutionRepository;
+use App\Repository\LearningMaterialStatusRepository;
+use App\Repository\LearningMaterialUserRoleRepository;
+use App\Repository\MeshDescriptorRepository;
 use App\Repository\SchoolRepository;
+use App\Repository\SessionTypeRepository;
+use App\Repository\TermRepository;
+use App\Repository\UserRoleRepository;
+use App\Repository\VocabularyRepository;
 use App\Service\DefaultDataLoader;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -32,8 +41,17 @@ class ImportDefaultDataCommand extends Command
         protected AlertChangeTypeRepository $alertChangeTypeRepository,
         protected ApplicationConfigRepository $applicationConfigRepository,
         protected AssessmentOptionRepository $assessmentOptionRepository,
+        protected CompetencyRepository $competencyRepository,
+        protected CourseClerkshipTypeRepository $courseClerkshipTypeRepository,
+        protected CurriculumInventoryInstitutionRepository $curriculumInventoryInstitutionRepository,
+        protected LearningMaterialStatusRepository $learningMaterialStatusRepository,
+        protected LearningMaterialUserRoleRepository $learningMaterialUserRoleRepository,
+        protected MeshDescriptorRepository $meshDescriptorRepository,
         protected SchoolRepository $schoolRepository,
-        protected CompetencyRepository $competencyRepository
+        protected SessionTypeRepository $sessionTypeRepository,
+        protected TermRepository $termRepository,
+        protected UserRoleRepository $userRoleRepository,
+        protected VocabularyRepository $vocabularyRepository
     ) {
         parent::__construct();
     }
@@ -78,6 +96,16 @@ class ImportDefaultDataCommand extends Command
             $this->dataLoader->import($this->alertChangeTypeRepository, 'alert_change_type.csv');
             $this->dataLoader->import($this->applicationConfigRepository, 'application_config.csv');
             $this->dataLoader->import($this->assessmentOptionRepository, 'assessment_option.csv');
+            $this->dataLoader->import($this->courseClerkshipTypeRepository, 'course_clerkship_type.csv');
+            $this->dataLoader->import(
+                $this->curriculumInventoryInstitutionRepository,
+                'curriculum_inventory_institution.csv'
+            );
+            $this->dataLoader->import($this->learningMaterialStatusRepository, 'learning_material_status.csv');
+            $this->dataLoader->import(
+                $this->learningMaterialUserRoleRepository,
+                'learning_material_user_role.csv'
+            );
             $this->dataLoader->import($this->schoolRepository, 'school.csv');
             $this->dataLoader->import($this->competencyRepository, 'competency.csv', 'competency');
             $this->dataLoader->import(
@@ -85,6 +113,7 @@ class ImportDefaultDataCommand extends Command
                 'competency_x_aamc_pcrs.csv',
                 'competency_x_aamc_pcrs'
             );
+            // @todo call the remaining import routines here [ST 2021/07/22]
         } catch (Exception $e) {
             $output->writeln("<error>An error occurred during data import:</error>");
             $output->write("<error>{$e->getMessage()}</error>");
