@@ -30,7 +30,6 @@ class DefaultDataLoader
         string $filename,
         string $type = null
     ) {
-        $repository->clearData();
         $path = $this->dataImportFileLocator->getDataFilePath($filename);
         $now = (new DateTime())->format('Y-m-d H:i:s');
         $i = 0;

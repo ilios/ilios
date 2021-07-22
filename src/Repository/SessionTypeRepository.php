@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\SessionType;
+use App\Traits\ClearableRepository;
+use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class SessionTypeRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface
+    DataImportRepositoryInterface,
+    ClearableRepositoryInterface
 {
     use ManagerRepository;
+    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -293,13 +297,5 @@ class SessionTypeRepository extends ServiceEntityRepository implements
     public function import(array $data, string $type = null, string $now = null): void
     {
         // TODO: Implement import() method.
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function clearData(): void
-    {
-        // TODO: Implement clearData() method.
     }
 }

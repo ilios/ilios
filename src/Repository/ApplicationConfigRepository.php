@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\ClearableRepository;
+use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class ApplicationConfigRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface
+    DataImportRepositoryInterface,
+    ClearableRepositoryInterface
 {
     use ManagerRepository;
+    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry, protected bool $cacheEnabled)
     {
@@ -138,13 +142,5 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
         $sql = "INSERT INTO application_config(id, name, value) VALUES (?, ?, ?)";
         $connection = $this->_em->getConnection();
         $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function clearData(): void
-    {
-        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
     }
 }

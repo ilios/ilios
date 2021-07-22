@@ -9,6 +9,9 @@ use App\Repository\AamcPcrsRepository;
 use App\Repository\AamcResourceTypeRepository;
 use App\Repository\AlertChangeTypeRepository;
 use App\Repository\ApplicationConfigRepository;
+use App\Repository\AssessmentOptionRepository;
+use App\Repository\CompetencyRepository;
+use App\Repository\SchoolRepository;
 use App\Service\DefaultDataLoader;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -28,6 +31,9 @@ class ImportDefaultDataCommand extends Command
         protected AamcResourceTypeRepository $aamcResourceTypeRepository,
         protected AlertChangeTypeRepository $alertChangeTypeRepository,
         protected ApplicationConfigRepository $applicationConfigRepository,
+        protected AssessmentOptionRepository $assessmentOptionRepository,
+        protected SchoolRepository $schoolRepository,
+        protected CompetencyRepository $competencyRepository
     ) {
         parent::__construct();
     }
@@ -65,11 +71,30 @@ class ImportDefaultDataCommand extends Command
 
         $output->writeln('Started data import, this may take a while...');
         try {
+            // clear data
+            $this->aamcMethodRepository->clearData();
+            $this->aamcPcrsRepository->clearData();
+            $this->aamcResourceTypeRepository->clearData();
+            $this->alertChangeTypeRepository->clearData();
+            $this->applicationConfigRepository->clearData();
+            $this->assessmentOptionRepository->clearData();
+            $this->competencyRepository->clearData();
+            $this->schoolRepository->clearData();
+
+            // import data
             $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method.csv');
             $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs.csv');
             $this->dataLoader->import($this->aamcResourceTypeRepository, 'aamc_resource_type.csv');
             $this->dataLoader->import($this->alertChangeTypeRepository, 'alert_change_type.csv');
             $this->dataLoader->import($this->applicationConfigRepository, 'application_config.csv');
+            $this->dataLoader->import($this->assessmentOptionRepository, 'assessment_option.csv');
+            $this->dataLoader->import($this->schoolRepository, 'school.csv');
+            $this->dataLoader->import($this->competencyRepository, 'competency.csv', 'competency');
+            $this->dataLoader->import(
+                $this->competencyRepository,
+                'competency_x_aamc_pcrs.csv',
+                'competency_x_aamc_pcrs'
+            );
         } catch (Exception $e) {
             $output->writeln("<error>An error occurred during data import:</error>");
             $output->write("<error>{$e->getMessage()}</error>");

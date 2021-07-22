@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AamcMethod;
+use App\Traits\ClearableRepository;
+use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class AamcMethodRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface
+    DataImportRepositoryInterface,
+    ClearableRepositoryInterface
 {
     use ManagerRepository;
+    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -132,13 +136,5 @@ class AamcMethodRepository extends ServiceEntityRepository implements
         $sql = "INSERT INTO aamc_method (method_id, description, active) VALUES (?, ?, ?)";
         $connection = $this->_em->getConnection();
         $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function clearData(): void
-    {
-        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
     }
 }

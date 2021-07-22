@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AssessmentOption;
+use App\Traits\ClearableRepository;
+use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class AssessmentOptionRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface
+    DataImportRepositoryInterface,
+    ClearableRepositoryInterface
 {
     use ManagerRepository;
+    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -124,18 +128,12 @@ class AssessmentOptionRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function clearData(): void
-    {
-        // TODO: Implement clearData() method.
+        $sql = "INSERT INTO assessment_option(assessment_option_id, name) VALUES (?, ?)";
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 }

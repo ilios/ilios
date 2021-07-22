@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Term;
+use App\Traits\ClearableRepository;
+use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -16,9 +18,11 @@ use App\Entity\TermInterface;
 class TermRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface
+    DataImportRepositoryInterface,
+    ClearableRepositoryInterface
 {
     use ManagerRepository;
+    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -382,13 +386,5 @@ class TermRepository extends ServiceEntityRepository implements
     public function import(array $data, string $type = null, string $now = null): void
     {
         // TODO: Implement import() method.
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function clearData(): void
-    {
-        // TODO: Implement clearData() method.
     }
 }

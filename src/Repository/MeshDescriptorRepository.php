@@ -11,6 +11,7 @@ use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
 use App\Service\MeshDescriptorSetTransmogrifier;
+use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
@@ -31,7 +32,8 @@ use PDO;
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface
+    DataImportRepositoryInterface,
+    ClearableRepositoryInterface
 {
     use ManagerRepository;
 
@@ -944,6 +946,6 @@ EOL;
      */
     public function clearData(): void
     {
-        // TODO: Implement clearData() method.
+        // @todo implement [ST 2021/07/21]
     }
 }

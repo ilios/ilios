@@ -20,9 +20,4 @@ interface DataImportRepositoryInterface
      * @param string|null $now The current time and date as an ANSI SQL compatible string representation.
      */
     public function import(array $data, string $type = null, string $now = null): void;
-
-    /**
-     * Empties target database table(s).
-     */
-    public function clearData(): void;
 }

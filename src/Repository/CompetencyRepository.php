@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Competency;
+use App\Traits\ClearableRepository;
+use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
 class CompetencyRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface
+    DataImportRepositoryInterface,
+    ClearableRepositoryInterface
 {
     use ManagerRepository;
+    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -234,14 +238,25 @@ class CompetencyRepository extends ServiceEntityRepository implements
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        match ($type) {
+            'competency' => $this->importCompetencies($data),
+            'competency_x_aamc_pcrs' => $this->importCompetenciesPcrsMapping($data),
+        };
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function clearData(): void
+    protected function importCompetencies(array $data): void
     {
-        // TODO: Implement clearData() method.
+        $data[2] = $data[2] ?: null;
+        $sql = 'INSERT INTO competency(competency_id, title, parent_competency_id, school_id, active)'
+            . ' VALUES (?, ?, ?, ?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
+    }
+
+    protected function importCompetenciesPcrsMapping($data): void
+    {
+        $sql = 'INSERT INTO competency_x_aamc_pcrs (competency_id, pcrs_id) VALUES (?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 }
