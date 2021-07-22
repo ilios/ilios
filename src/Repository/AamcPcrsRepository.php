@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Traits\ClearableRepository;
-use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -17,11 +15,9 @@ use Doctrine\Persistence\ManagerRegistry;
 class AamcPcrsRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface,
-    ClearableRepositoryInterface
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
-    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

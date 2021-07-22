@@ -60,10 +60,10 @@ class ImportDefaultDataCommand extends Command
         }
 
         $output->writeln(
-            "<comment>Importing default data may wipe out any pre-existing records from your database.</comment>"
+            "<comment>Do not run this against an Ilios instance that already contains data!</comment>"
         );
         $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('Continue?', false);
+        $question = new ConfirmationQuestion('Continue? ', false);
 
         if (!$helper->ask($input, $output, $question)) {
             return Command::SUCCESS;
@@ -71,16 +71,6 @@ class ImportDefaultDataCommand extends Command
 
         $output->writeln('Started data import, this may take a while...');
         try {
-            // clear data
-            $this->aamcMethodRepository->clearData();
-            $this->aamcPcrsRepository->clearData();
-            $this->aamcResourceTypeRepository->clearData();
-            $this->alertChangeTypeRepository->clearData();
-            $this->applicationConfigRepository->clearData();
-            $this->assessmentOptionRepository->clearData();
-            $this->competencyRepository->clearData();
-            $this->schoolRepository->clearData();
-
             // import data
             $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method.csv');
             $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs.csv');

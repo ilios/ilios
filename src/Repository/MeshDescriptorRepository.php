@@ -11,7 +11,6 @@ use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
 use App\Service\MeshDescriptorSetTransmogrifier;
-use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
@@ -32,8 +31,7 @@ use PDO;
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface,
-    ClearableRepositoryInterface
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
 
@@ -939,13 +937,5 @@ EOL;
             ->orderBy('c.id')
             ->addOrderBy('d.id');
         return $qb->getQuery()->getScalarResult();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function clearData(): void
-    {
-        // @todo implement [ST 2021/07/21]
     }
 }

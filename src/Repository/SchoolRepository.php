@@ -6,8 +6,6 @@ namespace App\Repository;
 
 use App\Entity\School;
 use App\Entity\Session;
-use App\Traits\ClearableRepository;
-use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -24,12 +22,10 @@ use App\Traits\CalendarEventRepository;
 class SchoolRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface,
-    ClearableRepositoryInterface
+    DataImportRepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;
-    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $userMaterialFactory)
     {

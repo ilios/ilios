@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Term;
-use App\Traits\ClearableRepository;
-use App\Traits\ClearableRepositoryInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -18,11 +16,9 @@ use App\Entity\TermInterface;
 class TermRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
-    DataImportRepositoryInterface,
-    ClearableRepositoryInterface
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
-    use ClearableRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
