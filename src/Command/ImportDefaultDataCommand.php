@@ -28,6 +28,7 @@ use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportDefaultDataCommand extends Command
 {
@@ -72,14 +73,15 @@ class ImportDefaultDataCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         if (!$this->lock()) {
-            $output->writeln('The command is already running in another process.');
+            $io->error('The command is already running in another process.');
             return 0;
         }
 
-        $output->writeln(
-            "<comment>Do not run this against an Ilios instance that already contains data!</comment>"
-        );
+        $io->warning('Do not run this against an Ilios instance that already contains data!');
+
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Continue? ', false);
 
@@ -87,9 +89,8 @@ class ImportDefaultDataCommand extends Command
             return Command::SUCCESS;
         }
 
-        $output->writeln('Started data import, this may take a while...');
+        $io->info('Started data import, this may take a while...');
         try {
-            // import data
             $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method.csv');
             $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs.csv');
             $this->dataLoader->import($this->aamcResourceTypeRepository, 'aamc_resource_type.csv');
@@ -115,11 +116,13 @@ class ImportDefaultDataCommand extends Command
             );
             // @todo call the remaining import routines here [ST 2021/07/22]
         } catch (Exception $e) {
-            $output->writeln("<error>An error occurred during data import:</error>");
-            $output->write("<error>{$e->getMessage()}</error>");
+            $io->error([
+                'An error occurred during data import:',
+                $e->getMessage()
+            ]);
             return Command::FAILURE;
         }
-        $output->write('Completed data import.');
+        $io->text('Completed data import.');
         $this->release();
 
         return Command::SUCCESS;
