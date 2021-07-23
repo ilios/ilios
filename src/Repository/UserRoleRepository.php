@@ -16,7 +16,6 @@ class UserRoleRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
-
 {
     use ManagerRepository;
 
