@@ -129,7 +129,7 @@ class AamcMethodRepository extends ServiceEntityRepository implements
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = "INSERT INTO aamc_method (method_id, description, active) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO aamc_method (method_id, description, `active`) VALUES (?, ?, ?)";
         $connection = $this->_em->getConnection();
         $connection->executeStatement($sql, $data);
     }

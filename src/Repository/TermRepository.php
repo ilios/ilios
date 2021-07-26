@@ -390,7 +390,7 @@ class TermRepository extends ServiceEntityRepository implements
     protected function importTerms(array $data): void
     {
         $data[2] = $data[2] ?: null;
-        $sql = 'INSERT INTO term (term_id, title, parent_term_id, description, vocabulary_id, active)'
+        $sql = 'INSERT INTO term (term_id, title, parent_term_id, description, vocabulary_id, `active`)'
             . ' VALUES (?, ?, ?, ?, ?, ?)';
         $connection = $this->_em->getConnection();
         $connection->executeStatement($sql, $data);

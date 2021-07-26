@@ -243,7 +243,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
     protected function importCompetencies(array $data): void
     {
         $data[2] = $data[2] ?: null;
-        $sql = 'INSERT INTO competency(competency_id, title, parent_competency_id, school_id, active)'
+        $sql = 'INSERT INTO competency(competency_id, title, parent_competency_id, school_id, `active`)'
             . ' VALUES (?, ?, ?, ?, ?)';
         $connection = $this->_em->getConnection();
         $connection->executeStatement($sql, $data);
