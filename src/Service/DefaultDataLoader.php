@@ -22,15 +22,12 @@ class DefaultDataLoader
     /**
      * @param DataImportRepositoryInterface $repository
      * @param string $filename
-     * @param string|null $type
      * @throws Exception
      */
-    public function import(
-        DataImportRepositoryInterface $repository,
-        string $filename,
-        string $type = null
-    ) {
+    public function import(DataImportRepositoryInterface $repository, string $filename): void
+    {
         $path = $this->dataImportFileLocator->getDataFilePath($filename);
+        $type = basename($filename, '.csv');
         $now = (new DateTime())->format('Y-m-d H:i:s');
         $i = 0;
 

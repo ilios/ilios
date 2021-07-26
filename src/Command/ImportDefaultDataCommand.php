@@ -109,25 +109,13 @@ class ImportDefaultDataCommand extends Command
                 $this->curriculumInventoryInstitutionRepository,
                 'curriculum_inventory_institution.csv'
             );
-            $this->dataLoader->import($this->competencyRepository, 'competency.csv', 'competency');
-            $this->dataLoader->import(
-                $this->competencyRepository,
-                'competency_x_aamc_pcrs.csv',
-                'competency_x_aamc_pcrs'
-            );
-            $this->dataLoader->import($this->sessionTypeRepository, 'session_type.csv', 'session_type');
-            $this->dataLoader->import(
-                $this->sessionTypeRepository,
-                'session_type_x_aamc_method.csv',
-                'session_type_x_aamc_method'
-            );
+            $this->dataLoader->import($this->competencyRepository, 'competency.csv');
+            $this->dataLoader->import($this->competencyRepository, 'competency_x_aamc_pcrs.csv');
+            $this->dataLoader->import($this->sessionTypeRepository, 'session_type.csv');
+            $this->dataLoader->import($this->sessionTypeRepository, 'session_type_x_aamc_method.csv');
             $this->dataLoader->import($this->vocabularyRepository, 'vocabulary.csv');
-            $this->dataLoader->import($this->termRepository, 'term.csv', 'term');
-            $this->dataLoader->import(
-                $this->termRepository,
-                'term_x_aamc_resource_type.csv',
-                'term_x_aamc_resource_type'
-            );
+            $this->dataLoader->import($this->termRepository, 'term.csv');
+            $this->dataLoader->import($this->termRepository, 'term_x_aamc_resource_type.csv');
         } catch (Exception $e) {
             $io->error([
                 'An error occurred during data import:',
