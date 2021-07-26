@@ -381,6 +381,25 @@ class TermRepository extends ServiceEntityRepository implements
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        match ($type) {
+            'term' => $this->importTerms($data),
+            'term_x_aamc_resource_type' => $this->importTermsResourceTypeMapping($data),
+        };
+    }
+
+    protected function importTerms(array $data): void
+    {
+        $data[2] = $data[2] ?: null;
+        $sql = 'INSERT INTO term (term_id, title, parent_term_id, description, vocabulary_id, active)'
+            . ' VALUES (?, ?, ?, ?, ?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
+    }
+
+    protected function importTermsResourceTypeMapping(array $data): void
+    {
+        $sql = 'INSERT INTO term_x_aamc_resource_type (term_id, resource_type_id) VALUES (?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 }

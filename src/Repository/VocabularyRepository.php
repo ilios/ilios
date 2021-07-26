@@ -153,6 +153,8 @@ class VocabularyRepository extends ServiceEntityRepository implements
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        $sql = 'INSERT INTO vocabulary (vocabulary_id, title, school_id, active) VALUES (?, ?, ?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 }

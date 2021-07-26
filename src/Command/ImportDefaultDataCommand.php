@@ -103,6 +103,7 @@ class ImportDefaultDataCommand extends Command
                 $this->learningMaterialUserRoleRepository,
                 'learning_material_user_role.csv'
             );
+            $this->dataLoader->import($this->userRoleRepository, 'user_role.csv');
             $this->dataLoader->import($this->schoolRepository, 'school.csv');
             $this->dataLoader->import(
                 $this->curriculumInventoryInstitutionRepository,
@@ -119,6 +120,13 @@ class ImportDefaultDataCommand extends Command
                 $this->sessionTypeRepository,
                 'session_type_x_aamc_method.csv',
                 'session_type_x_aamc_method'
+            );
+            $this->dataLoader->import($this->vocabularyRepository, 'vocabulary.csv');
+            $this->dataLoader->import($this->termRepository, 'term.csv', 'term');
+            $this->dataLoader->import(
+                $this->termRepository,
+                'term_x_aamc_resource_type.csv',
+                'term_x_aamc_resource_type'
             );
         } catch (Exception $e) {
             $io->error([
