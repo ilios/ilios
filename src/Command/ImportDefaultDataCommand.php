@@ -98,23 +98,28 @@ class ImportDefaultDataCommand extends Command
             $this->dataLoader->import($this->applicationConfigRepository, 'application_config.csv');
             $this->dataLoader->import($this->assessmentOptionRepository, 'assessment_option.csv');
             $this->dataLoader->import($this->courseClerkshipTypeRepository, 'course_clerkship_type.csv');
-            $this->dataLoader->import(
-                $this->curriculumInventoryInstitutionRepository,
-                'curriculum_inventory_institution.csv'
-            );
             $this->dataLoader->import($this->learningMaterialStatusRepository, 'learning_material_status.csv');
             $this->dataLoader->import(
                 $this->learningMaterialUserRoleRepository,
                 'learning_material_user_role.csv'
             );
             $this->dataLoader->import($this->schoolRepository, 'school.csv');
+            $this->dataLoader->import(
+                $this->curriculumInventoryInstitutionRepository,
+                'curriculum_inventory_institution.csv'
+            );
             $this->dataLoader->import($this->competencyRepository, 'competency.csv', 'competency');
             $this->dataLoader->import(
                 $this->competencyRepository,
                 'competency_x_aamc_pcrs.csv',
                 'competency_x_aamc_pcrs'
             );
-            // @todo call the remaining import routines here [ST 2021/07/22]
+            $this->dataLoader->import($this->sessionTypeRepository, 'session_type.csv', 'session_type');
+            $this->dataLoader->import(
+                $this->sessionTypeRepository,
+                'session_type_x_aamc_method.csv',
+                'session_type_x_aamc_method'
+            );
         } catch (Exception $e) {
             $io->error([
                 'An error occurred during data import:',

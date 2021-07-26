@@ -128,6 +128,11 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        $sql = 'INSERT INTO curriculum_inventory_institution ('
+            . ' school_id, name, aamc_code, address_street, address_city, address_state_or_province'
+            . ', address_zipcode, address_country_code, institution_id'
+            . ') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 }

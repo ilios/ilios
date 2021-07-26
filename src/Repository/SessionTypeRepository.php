@@ -290,8 +290,27 @@ class SessionTypeRepository extends ServiceEntityRepository implements
     /**
      * @inheritDoc
      */
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type = null, $now = null): void
     {
-        // TODO: Implement import() method.
+        match ($type) {
+            'session_type' => $this->importSessionTypes($data),
+            'session_type_x_aamc_method' => $this->importSessionTypesMethodMapping($data),
+        };
+    }
+
+    protected function importSessionTypes(array $data): void
+    {
+        $sql = 'INSERT INTO session_type ('
+            . 'session_type_id, title, school_id, calendar_color, assessment, assessment_option_id , active'
+            . ') VALUES (?, ?, ?, ?, ?, ?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
+    }
+
+    protected function importSessionTypesMethodMapping(array $data): void
+    {
+        $sql = 'INSERT INTO session_type_x_aamc_method (session_type_id, method_id) VALUES (?, ?)';
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 }

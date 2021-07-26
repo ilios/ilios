@@ -249,7 +249,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
         $connection->executeStatement($sql, $data);
     }
 
-    protected function importCompetenciesPcrsMapping($data): void
+    protected function importCompetenciesPcrsMapping(array $data): void
     {
         $sql = 'INSERT INTO competency_x_aamc_pcrs (competency_id, pcrs_id) VALUES (?, ?)';
         $connection = $this->_em->getConnection();
