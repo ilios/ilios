@@ -74,13 +74,13 @@ class ImportDefaultDataCommand extends Command
 
         if (!$this->lock()) {
             $io->error('The command is already running in another process.');
-            return 0;
+            return Command::FAILURE;
         }
 
         $school = $this->schoolRepository->findDTOBy([]);
         if ($school) {
             $io->error('Your database already contains data. Aborting import process.');
-            return 1;
+            return Command::FAILURE;
         }
 
         $io->info('Started data import, this may take a while...');
