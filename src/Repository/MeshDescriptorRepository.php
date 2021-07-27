@@ -211,7 +211,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     /**
      * @throws DBALException
      */
-    public function importMeshConcept(array $data, string $now)
+    public function importMeshConcept(array $data, string $now): void
     {
         $sql = <<<EOL
 INSERT INTO mesh_concept (
@@ -228,7 +228,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshConceptTerm(array $data)
+    public function importMeshConceptTerm(array $data): void
     {
         $sql = <<<EOL
 INSERT INTO mesh_concept_x_term (
@@ -242,7 +242,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshDescriptor(array $data, string $now)
+    public function importMeshDescriptor(array $data, string $now): void
     {
         $sql = <<<EOL
 INSERT INTO mesh_descriptor (
@@ -258,7 +258,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshDescriptorConcept(array $data)
+    public function importMeshDescriptorConcept(array $data): void
     {
         {
             $sql = <<<EOL
@@ -274,7 +274,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshDescriptorQualifier(array $data)
+    public function importMeshDescriptorQualifier(array $data): void
     {
         $sql = <<<EOL
 INSERT INTO mesh_descriptor_x_qualifier (
@@ -288,7 +288,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshPreviousIndexing(array $data)
+    public function importMeshPreviousIndexing(array $data): void
     {
         $sql = <<<EOL
 INSERT INTO mesh_previous_indexing (
@@ -302,7 +302,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshQualifier(array $data, string $now)
+    public function importMeshQualifier(array $data, string $now): void
     {
 
         $sql = <<<EOL
@@ -319,7 +319,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshTerm(array $data, string $now)
+    public function importMeshTerm(array $data, string $now): void
     {
         $sql = <<<EOL
 INSERT INTO mesh_term (
@@ -336,7 +336,7 @@ EOL;
     /**
      * @throws DBALException
      */
-    public function importMeshTree(array $data)
+    public function importMeshTree(array $data): void
     {
         $sql = <<<EOL
 INSERT INTO mesh_tree (
@@ -563,37 +563,17 @@ EOL;
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        switch ($type) {
-            case 'MeshDescriptor':
-                $this->importMeshDescriptor($data, $now);
-                break;
-            case 'MeshTree':
-                $this->importMeshTree($data);
-                break;
-            case 'MeshConcept':
-                $this->importMeshConcept($data, $now);
-                break;
-            case 'MeshTerm':
-                $this->importMeshTerm($data, $now);
-                break;
-            case 'MeshQualifier':
-                $this->importMeshQualifier($data, $now);
-                break;
-            case 'MeshPreviousIndexing':
-                $this->importMeshPreviousIndexing($data);
-                break;
-            case 'MeshConceptTerm':
-                $this->importMeshConceptTerm($data);
-                break;
-            case 'MeshDescriptorQualifier':
-                $this->importMeshDescriptorQualifier($data);
-                break;
-            case 'MeshDescriptorConcept':
-                $this->importMeshDescriptorConcept($data);
-                break;
-            default:
-                throw new Exception("Unsupported type ${type}.");
-        }
+        match ($type) {
+            'mesh_descriptor' => $this->importMeshDescriptor($data, $now),
+            'mesh_tree' => $this->importMeshTree($data),
+            'mesh_concept' => $this->importMeshConcept($data, $now),
+            'mesh_term' => $this->importMeshTerm($data, $now),
+            'mesh_qualifier' => $this->importMeshQualifier($data, $now),
+            'mesh_previous_indexing' => $this->importMeshPreviousIndexing($data),
+            'mesh_concept_x_term' => $this->importMeshConceptTerm($data),
+            'mesh_descriptor_x_qualifier' => $this->importMeshDescriptorQualifier($data),
+            'mesh_descriptor_x_concept' => $this->importMeshDescriptorConcept($data),
+        };
     }
 
     /**

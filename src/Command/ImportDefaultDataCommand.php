@@ -113,6 +113,16 @@ class ImportDefaultDataCommand extends Command
             $this->dataLoader->import($this->vocabularyRepository, 'vocabulary.csv');
             $this->dataLoader->import($this->termRepository, 'term.csv');
             $this->dataLoader->import($this->termRepository, 'term_x_aamc_resource_type.csv');
+
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_descriptor.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_concept.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_qualifier.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_tree.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_term.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_previous_indexing.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_descriptor_x_qualifier.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_descriptor_x_concept.csv');
+            $this->dataLoader->import($this->meshDescriptorRepository, 'mesh_concept_x_term.csv');
         } catch (Exception $e) {
             $io->error([
                 'An error occurred during data import:',
