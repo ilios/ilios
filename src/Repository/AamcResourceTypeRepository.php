@@ -24,9 +24,6 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
         parent::__construct($registry, AamcResourceType::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -124,9 +121,6 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = "INSERT INTO aamc_resource_type (resource_type_id, title, description) VALUES (?, ?, ?)";

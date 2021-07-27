@@ -23,9 +23,6 @@ class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository
         parent::__construct($registry, CurriculumInventorySequenceBlock::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

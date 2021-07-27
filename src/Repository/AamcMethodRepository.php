@@ -24,9 +24,6 @@ class AamcMethodRepository extends ServiceEntityRepository implements
         parent::__construct($registry, AamcMethod::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder();
@@ -124,9 +121,6 @@ class AamcMethodRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = "INSERT INTO aamc_method (method_id, description, `active`) VALUES (?, ?, ?)";

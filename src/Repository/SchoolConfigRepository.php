@@ -22,9 +22,6 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
         parent::__construct($registry, SchoolConfig::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

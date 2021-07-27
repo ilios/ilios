@@ -24,9 +24,6 @@ class AssessmentOptionRepository extends ServiceEntityRepository implements
         parent::__construct($registry, AssessmentOption::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -123,9 +120,6 @@ class AssessmentOptionRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = "INSERT INTO assessment_option(assessment_option_id, name) VALUES (?, ?)";

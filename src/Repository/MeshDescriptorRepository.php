@@ -558,7 +558,6 @@ EOL;
     }
 
     /**
-     * @inheritdoc
      * @throws DBALException
      */
     public function import(array $data, string $type = null, string $now = null): void

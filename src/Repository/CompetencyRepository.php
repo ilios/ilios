@@ -24,9 +24,6 @@ class CompetencyRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Competency::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -229,9 +226,6 @@ class CompetencyRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         match ($type) {

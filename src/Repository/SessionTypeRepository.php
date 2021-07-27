@@ -24,10 +24,6 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         parent::__construct($registry, SessionType::class);
     }
 
-
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -287,9 +283,6 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function import(array $data, string $type = null, $now = null): void
     {
         match ($type) {

@@ -24,9 +24,6 @@ class VocabularyRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Vocabulary::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -148,9 +145,6 @@ class VocabularyRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = 'INSERT INTO vocabulary (vocabulary_id, title, school_id, `active`) VALUES (?, ?, ?, ?)';

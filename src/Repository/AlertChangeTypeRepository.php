@@ -24,9 +24,6 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
         parent::__construct($registry, AlertChangeType::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -123,9 +120,6 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = "INSERT INTO alert_change_type (alert_change_type_id, title) VALUES (?, ?)";

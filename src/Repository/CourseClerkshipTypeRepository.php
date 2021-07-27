@@ -24,9 +24,6 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         parent::__construct($registry, CourseClerkshipType::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -126,9 +123,6 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = "INSERT INTO course_clerkship_type (course_clerkship_type_id, title) VALUES (?, ?)";

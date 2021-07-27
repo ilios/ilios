@@ -50,9 +50,6 @@ class SchoolRepository extends ServiceEntityRepository implements
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
@@ -613,9 +610,6 @@ class SchoolRepository extends ServiceEntityRepository implements
         return array_values($schoolDTOs);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = 'INSERT INTO school(school_id, template_prefix, title, ilios_administrator_email,'

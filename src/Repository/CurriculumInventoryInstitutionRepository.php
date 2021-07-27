@@ -24,9 +24,6 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         parent::__construct($registry, CurriculumInventoryInstitution::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -123,9 +120,6 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = 'INSERT INTO curriculum_inventory_institution ('

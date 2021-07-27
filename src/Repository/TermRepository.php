@@ -376,9 +376,6 @@ class TermRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         match ($type) {

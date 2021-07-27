@@ -24,9 +24,6 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
         parent::__construct($registry, LearningMaterialStatus::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -102,9 +99,6 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = "INSERT INTO learning_material_status (learning_material_status_id, title) VALUES (?, ?)";

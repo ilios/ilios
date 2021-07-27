@@ -21,9 +21,6 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
         parent::__construct($registry, Cohort::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

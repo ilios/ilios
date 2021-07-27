@@ -24,9 +24,6 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
         parent::__construct($registry, LearningMaterialUserRole::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -102,9 +99,6 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
         return $qb;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function import(array $data, string $type = null, string $now = null): void
     {
         $sql = "INSERT INTO learning_material_user_role (learning_material_user_role_id, title) VALUES (?, ?)";
