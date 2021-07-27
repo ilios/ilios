@@ -107,6 +107,8 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
      */
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // TODO: Implement import() method.
+        $sql = "INSERT INTO learning_material_user_role (learning_material_user_role_id, title) VALUES (?, ?)";
+        $connection = $this->_em->getConnection();
+        $connection->executeStatement($sql, $data);
     }
 }

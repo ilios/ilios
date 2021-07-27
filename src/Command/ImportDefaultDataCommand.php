@@ -99,10 +99,7 @@ class ImportDefaultDataCommand extends Command
             $this->dataLoader->import($this->assessmentOptionRepository, 'assessment_option.csv');
             $this->dataLoader->import($this->courseClerkshipTypeRepository, 'course_clerkship_type.csv');
             $this->dataLoader->import($this->learningMaterialStatusRepository, 'learning_material_status.csv');
-            $this->dataLoader->import(
-                $this->learningMaterialUserRoleRepository,
-                'learning_material_user_role.csv'
-            );
+            $this->dataLoader->import($this->learningMaterialUserRoleRepository, 'learning_material_user_role.csv');
             $this->dataLoader->import($this->userRoleRepository, 'user_role.csv');
             $this->dataLoader->import($this->schoolRepository, 'school.csv');
             $this->dataLoader->import(
