@@ -89,6 +89,12 @@ bin/console ilios:import-default-data --env=prod
 
 This will create your database schema, with all tables and constraints, and will also load in all the default lookup table data, like competencies and topics --- which you can modify once you're done with setup --- but it won't have any course data or any other unique data about your specific school or curriculum until you log in and add some.
 
+As a follow-up step to importing the default application data, you may now import the [Medical Subject Headings (MeSH)](https://www.nlm.nih.gov/mesh/meshhome.html) data set.
+
+```bash
+bin/console ilios:import-mesh-universe --env-prod
+```
+
 ## Check your setup
 There are a number of automated health checks which will ensure that your system is configured optimally and point to any issues. Run them as:
 ```bash
