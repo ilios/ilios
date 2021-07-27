@@ -13,7 +13,6 @@ use App\Entity\MeshTree;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Traits\ManagerRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -30,8 +29,7 @@ use PDO;
 
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+    RepositoryInterface
 {
     use ManagerRepository;
 
@@ -206,145 +204,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         $query = $qb->getQuery();
         $query->enableResultCache(3600);
         return $query;
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshConcept(array $data, string $now): void
-    {
-        $sql = <<<EOL
-INSERT INTO mesh_concept (
-    mesh_concept_uid, name, preferred, scope_note,
-    casn_1_name, registry_number, created_at, updated_at
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-EOL;
-        $data[] = $now;
-        $data[] = $now;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshConceptTerm(array $data): void
-    {
-        $sql = <<<EOL
-INSERT INTO mesh_concept_x_term (
-    mesh_concept_uid, mesh_term_id
-) VALUES (?, ?)
-EOL;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshDescriptor(array $data, string $now): void
-    {
-        $sql = <<<EOL
-INSERT INTO mesh_descriptor (
-    mesh_descriptor_uid, name, annotation, deleted, created_at, updated_at
-) VALUES (?, ?, ?, ?, ?, ?)
-EOL;
-        $data[] = $now;
-        $data[] = $now;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshDescriptorConcept(array $data): void
-    {
-        {
-            $sql = <<<EOL
-INSERT INTO mesh_descriptor_x_concept (
-    mesh_concept_uid, mesh_descriptor_uid
-) VALUES (?, ?)
-EOL;
-            $connection = $this->_em->getConnection();
-            $connection->executeStatement($sql, $data);
-        }
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshDescriptorQualifier(array $data): void
-    {
-        $sql = <<<EOL
-INSERT INTO mesh_descriptor_x_qualifier (
-    mesh_descriptor_uid, mesh_qualifier_uid
-) VALUES (?, ?)
-EOL;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshPreviousIndexing(array $data): void
-    {
-        $sql = <<<EOL
-INSERT INTO mesh_previous_indexing (
-    mesh_descriptor_uid, previous_indexing, mesh_previous_indexing_id
-) VALUES (?, ?, ?)
-EOL;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshQualifier(array $data, string $now): void
-    {
-
-        $sql = <<<EOL
-INSERT INTO mesh_qualifier (
-    mesh_qualifier_uid, name, created_at, updated_at
-) VALUES (?, ?, ?, ?)
-EOL;
-        $data[] = $now;
-        $data[] = $now;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshTerm(array $data, string $now): void
-    {
-        $sql = <<<EOL
-INSERT INTO mesh_term (
-    mesh_term_uid, name, lexical_tag, concept_preferred, record_preferred, permuted,
-    mesh_term_id, created_at, updated_at
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-EOL;
-        $data[] = $now;
-        $data[] = $now;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function importMeshTree(array $data): void
-    {
-        $sql = <<<EOL
-INSERT INTO mesh_tree (
-    tree_number, mesh_descriptor_uid, mesh_tree_id
-) VALUES (?, ?, ?)
-EOL;
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
     }
 
     /**
@@ -555,24 +414,6 @@ EOL;
             $conn->rollBack();
             throw $e;
         }
-    }
-
-    /**
-     * @throws DBALException
-     */
-    public function import(array $data, string $type = null, string $now = null): void
-    {
-        match ($type) {
-            'mesh_descriptor' => $this->importMeshDescriptor($data, $now),
-            'mesh_tree' => $this->importMeshTree($data),
-            'mesh_concept' => $this->importMeshConcept($data, $now),
-            'mesh_term' => $this->importMeshTerm($data, $now),
-            'mesh_qualifier' => $this->importMeshQualifier($data, $now),
-            'mesh_previous_indexing' => $this->importMeshPreviousIndexing($data),
-            'mesh_concept_x_term' => $this->importMeshConceptTerm($data),
-            'mesh_descriptor_x_qualifier' => $this->importMeshDescriptorQualifier($data),
-            'mesh_descriptor_x_concept' => $this->importMeshDescriptorConcept($data),
-        };
     }
 
     /**
