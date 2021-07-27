@@ -20,20 +20,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class SwaggerDocsController extends AbstractController
 {
-    /**
-     * @var SwaggerDocBuilder
-     */
-    protected $builder;
-
-    /**
-     * @var string
-     */
-    protected $kernelProjectDir;
-
-    public function __construct(SwaggerDocBuilder $builder, string $kernelProjectDir)
+    public function __construct(protected SwaggerDocBuilder $builder, protected string $kernelProjectDir)
     {
-        $this->builder = $builder;
-        $this->kernelProjectDir = $kernelProjectDir;
     }
 
     /**

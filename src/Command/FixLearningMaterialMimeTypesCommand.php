@@ -19,27 +19,11 @@ use App\Service\IliosFileSystem;
  */
 class FixLearningMaterialMimeTypesCommand extends Command
 {
-    /**
-     * @var IliosFileSystem
-     */
-    protected $iliosFileSystem;
-
-    protected LearningMaterialRepository $learningMaterialRepository;
-
-    /**
-     * @var TemporaryFileSystem
-     */
-    private $temporaryFileSystem;
-
     public function __construct(
-        IliosFileSystem $iliosFileSystem,
-        TemporaryFileSystem $temporaryFileSystem,
-        LearningMaterialRepository $learningMaterialRepository
+        protected IliosFileSystem $iliosFileSystem,
+        private TemporaryFileSystem $temporaryFileSystem,
+        protected LearningMaterialRepository $learningMaterialRepository
     ) {
-        $this->iliosFileSystem = $iliosFileSystem;
-        $this->temporaryFileSystem = $temporaryFileSystem;
-        $this->learningMaterialRepository = $learningMaterialRepository;
-
         parent::__construct();
     }
 

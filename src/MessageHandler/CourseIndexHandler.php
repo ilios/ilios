@@ -11,20 +11,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CourseIndexHandler implements MessageHandlerInterface
 {
-    /**
-     * @var Curriculum
-     */
-    private $curriculumIndex;
-
-    /**
-     * @var CourseRepository
-     */
-    private $courseRepository;
-
-    public function __construct(Curriculum $curriculumIndex, CourseRepository $courseRepository)
-    {
-        $this->curriculumIndex = $curriculumIndex;
-        $this->courseRepository = $courseRepository;
+    public function __construct(
+        private Curriculum $curriculumIndex,
+        private CourseRepository $courseRepository
+    ) {
     }
 
     public function __invoke(CourseIndexRequest $message)

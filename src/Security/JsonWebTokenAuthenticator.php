@@ -23,16 +23,11 @@ use UnexpectedValueException;
 
 class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
 {
-    protected JsonWebTokenManager $jwtManager;
-    protected RouterInterface $router;
-
     /**
      * Constructor
      */
-    public function __construct(JsonWebTokenManager $jwtManager, RouterInterface $router)
+    public function __construct(protected JsonWebTokenManager $jwtManager, protected RouterInterface $router)
     {
-        $this->jwtManager = $jwtManager;
-        $this->router = $router;
     }
 
     /**

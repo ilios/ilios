@@ -21,27 +21,16 @@ class IndexController extends AbstractController
 {
     private const DEFAULT_TEMPLATE_NAME = 'index/webindex.html.twig';
 
-    protected Filesystem $fs;
-    protected Environment $twig;
-    protected string $kernelCacheDir;
-    private AuthenticationInterface $authentication;
-    private Config $config;
-
     /**
      * IndexController constructor.
      */
     public function __construct(
-        Filesystem $fs,
-        Environment $twig,
-        AuthenticationInterface $authentication,
-        Config $config,
-        string $kernelCacheDir
+        protected Filesystem $fs,
+        protected Environment $twig,
+        private AuthenticationInterface $authentication,
+        private Config $config,
+        protected string $kernelCacheDir
     ) {
-        $this->fs = $fs;
-        $this->twig = $twig;
-        $this->authentication = $authentication;
-        $this->config = $config;
-        $this->kernelCacheDir = $kernelCacheDir;
     }
 
     /**

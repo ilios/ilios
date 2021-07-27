@@ -18,15 +18,10 @@ use App\Repository\AlertRepository;
  */
 class ChangeAlertHandler
 {
-    protected AlertRepository $alertRepository;
-    protected AlertChangeTypeRepository $alertChangeTypeRepository;
-
     public function __construct(
-        AlertRepository $alertRepository,
-        AlertChangeTypeRepository $alertChangeTypeRepository
+        protected AlertRepository $alertRepository,
+        protected AlertChangeTypeRepository $alertChangeTypeRepository
     ) {
-        $this->alertRepository = $alertRepository;
-        $this->alertChangeTypeRepository = $alertChangeTypeRepository;
     }
 
     public function createAlertForNewOffering(OfferingInterface $offering, UserInterface $instigator)

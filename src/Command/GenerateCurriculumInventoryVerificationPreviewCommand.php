@@ -23,22 +23,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
 {
     /**
-     * @var VerificationPreviewBuilder
-     */
-    protected $builder;
-
-    protected CurriculumInventoryReportRepository $reportRepository;
-
-    /**
      * GenerateCurriculumInventoryVerificationPreviewCommand constructor.
      */
     public function __construct(
-        CurriculumInventoryReportRepository $reportRepository,
-        VerificationPreviewBuilder $builder
+        protected CurriculumInventoryReportRepository $reportRepository,
+        protected VerificationPreviewBuilder $builder
     ) {
         parent::__construct();
-        $this->reportRepository = $reportRepository;
-        $this->builder = $builder;
     }
 
     /**

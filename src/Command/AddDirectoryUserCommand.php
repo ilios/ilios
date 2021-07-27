@@ -22,26 +22,12 @@ use App\Service\Directory;
  */
 class AddDirectoryUserCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected AuthenticationRepository $authenticationRepository;
-    protected SchoolRepository $schoolRepository;
-
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
     public function __construct(
-        UserRepository $userRepository,
-        AuthenticationRepository $authenticationRepository,
-        SchoolRepository $schoolRepository,
-        Directory $directory
+        protected UserRepository $userRepository,
+        protected AuthenticationRepository $authenticationRepository,
+        protected SchoolRepository $schoolRepository,
+        protected Directory $directory
     ) {
-        $this->userRepository = $userRepository;
-        $this->authenticationRepository = $authenticationRepository;
-        $this->schoolRepository = $schoolRepository;
-        $this->directory = $directory;
-
         parent::__construct();
     }
 

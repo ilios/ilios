@@ -39,74 +39,20 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     private const STAGING = 'stage';
     private const PRODUCTION = 'prod';
 
-    /**
-     * @var Fetch
-     */
-    protected $fetch;
-
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
-
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @var string
-     */
-    protected $cacheDir;
-
-    /**
-     * @var Archive
-     */
-    private $archive;
-
-    /**
-     * @var string
-     */
-    protected $productionTemporaryFileStore;
-
-    /**
-     * @var string
-     */
-    protected $stagingTemporaryFileStore;
-
-    /**
-     * @var string
-     */
-    protected $apiVersion;
-
-    /**
-     * @var string
-     */
-    protected $environment;
-
-    /**
-     * @var string
-     */
-    protected $publicDirectory;
+    protected string $productionTemporaryFileStore;
+    protected string $stagingTemporaryFileStore;
+    protected string $publicDirectory;
 
     public function __construct(
-        Fetch $fetch,
-        Filesystem $fs,
-        Config $config,
-        Archive $archive,
-        $kernelCacheDir,
-        $kernelProjectDir,
-        $apiVersion,
-        $environment
+        protected Fetch $fetch,
+        protected Filesystem $fs,
+        protected Config $config,
+        private Archive $archive,
+        protected string $cacheDir,
+        string $kernelProjectDir,
+        protected string $apiVersion,
+        protected string $environment
     ) {
-        $this->fetch = $fetch;
-        $this->fs = $fs;
-        $this->config = $config;
-        $this->archive = $archive;
-        $this->cacheDir = $kernelCacheDir;
-        $this->apiVersion = $apiVersion;
-        $this->environment = $environment;
-
         $temporaryFileStorePath = $kernelProjectDir . '/var/tmp/frontend-update-files';
         $this->fs->mkdir($temporaryFileStorePath);
         $this->productionTemporaryFileStore = $temporaryFileStorePath . '/prod';

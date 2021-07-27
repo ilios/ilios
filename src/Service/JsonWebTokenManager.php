@@ -15,32 +15,13 @@ class JsonWebTokenManager
     private const TOKEN_ISS = 'ilios';
     private const TOKEN_AUD = 'ilios';
 
-    /**
-     * @var string
-     */
-    protected $jwtKey;
+    protected string $jwtKey;
 
-    /**
-     * @var PermissionChecker
-     */
-    protected $permissionChecker;
-
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
-    /**
-     * Constructor
-     * @param string $kernelSecret injected kernel secret key
-     */
     public function __construct(
-        PermissionChecker $permissionChecker,
-        SessionUserProvider $sessionUserProvider,
-        $kernelSecret
+        protected PermissionChecker $permissionChecker,
+        protected SessionUserProvider $sessionUserProvider,
+        string $kernelSecret
     ) {
-        $this->permissionChecker = $permissionChecker;
-        $this->sessionUserProvider = $sessionUserProvider;
         $this->jwtKey = self::PREPEND_KEY . $kernelSecret;
         JWT::$leeway = 5;
     }

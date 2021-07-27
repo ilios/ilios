@@ -24,39 +24,14 @@ class UpdateCommand extends Command
 {
     public const COMMAND_NAME = 'ilios:index:update';
 
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * @var CourseRepository
-     */
-    protected $courseRepository;
-
-    protected MeshDescriptorRepository $descriptorRepository;
-
-    protected LearningMaterialRepository $learningMaterialRepository;
-
-    /**
-     * @var MessageBusInterface
-     */
-    protected $bus;
-
     public function __construct(
-        UserRepository $userRepository,
-        CourseRepository $courseRepository,
-        MeshDescriptorRepository $descriptorRepository,
-        LearningMaterialRepository $learningMaterialRepository,
-        MessageBusInterface $bus
+        protected UserRepository $userRepository,
+        protected CourseRepository $courseRepository,
+        protected MeshDescriptorRepository $descriptorRepository,
+        protected LearningMaterialRepository $learningMaterialRepository,
+        protected MessageBusInterface $bus
     ) {
         parent::__construct();
-
-        $this->userRepository = $userRepository;
-        $this->courseRepository = $courseRepository;
-        $this->descriptorRepository = $descriptorRepository;
-        $this->learningMaterialRepository = $learningMaterialRepository;
-        $this->bus = $bus;
     }
 
     /**

@@ -50,15 +50,9 @@ abstract class AbstractVoter extends SymfonyVoter
     public const ROLLOVER = 'rollover';
 
     /**
-     * @var PermissionChecker
-     */
-    protected $permissionChecker;
-
-    /**
      * @param PermissionChecker $permissionChecker
      */
-    public function __construct(PermissionChecker $permissionChecker)
+    public function __construct(protected PermissionChecker $permissionChecker)
     {
-        $this->permissionChecker = $permissionChecker;
     }
 }

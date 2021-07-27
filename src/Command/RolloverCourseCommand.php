@@ -19,16 +19,10 @@ use Symfony\Component\Console\Input\InputArgument;
 class RolloverCourseCommand extends Command
 {
     /**
-     * @var CourseRollover
-     */
-    protected $service;
-
-    /**
      * RolloverCourseCommand constructor.
      */
-    public function __construct(CourseRollover $service)
+    public function __construct(protected CourseRollover $service)
     {
-        $this->service = $service;
         parent::__construct();
     }
 

@@ -23,33 +23,12 @@ class IcsController extends AbstractController
     private const LOOK_BACK = '-4 months';
     private const LOOK_FORWARD = '+2 months';
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-    private OfferingRepository $offeringRepository;
-    /**
-     * @var IlmSessionRepository
-     */
-    private $ilmSessionRepository;
-
-    /**
-     * IcsController constructor.
-     */
     public function __construct(
-        RouterInterface $router,
-        UserRepository $userRepository,
-        OfferingRepository $offeringRepository,
-        IlmSessionRepository $ilmSessionRepository
+        private RouterInterface $router,
+        private UserRepository $userRepository,
+        private OfferingRepository $offeringRepository,
+        private IlmSessionRepository $ilmSessionRepository
     ) {
-        $this->router = $router;
-        $this->userRepository = $userRepository;
-        $this->offeringRepository = $offeringRepository;
-        $this->ilmSessionRepository = $ilmSessionRepository;
     }
 
     public function indexAction(Request $request, $key)

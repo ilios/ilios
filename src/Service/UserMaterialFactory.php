@@ -10,14 +10,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UserMaterialFactory
 {
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    public function __construct(RouterInterface $router)
+    public function __construct(protected RouterInterface $router)
     {
-        $this->router = $router;
     }
 
     /**

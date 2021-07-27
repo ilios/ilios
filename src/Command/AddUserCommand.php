@@ -27,32 +27,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class AddUserCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected AuthenticationRepository $authenticationRepository;
-    protected SchoolRepository $schoolRepository;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $encoder;
-
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
     public function __construct(
-        UserRepository $userRepository,
-        AuthenticationRepository $authenticationRepository,
-        SchoolRepository $schoolRepository,
-        UserPasswordEncoderInterface $encoder,
-        SessionUserProvider $sessionUserProvider
+        protected UserRepository $userRepository,
+        protected AuthenticationRepository $authenticationRepository,
+        protected SchoolRepository $schoolRepository,
+        protected UserPasswordEncoderInterface $encoder,
+        protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->userRepository = $userRepository;
-        $this->authenticationRepository = $authenticationRepository;
-        $this->schoolRepository = $schoolRepository;
-        $this->encoder = $encoder;
-        $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
     }
 

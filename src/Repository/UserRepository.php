@@ -29,12 +29,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     use CalendarEventRepository;
     use ManagerRepository;
 
-    protected UserMaterialFactory $factory;
-
-    public function __construct(ManagerRegistry $registry, UserMaterialFactory $factory)
+    public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $factory)
     {
         parent::__construct($registry, User::class);
-        $this->factory = $factory;
     }
 
     /**

@@ -22,16 +22,10 @@ use Exception;
 class TimestampEntityChanges
 {
     /**
-     * @var Timestamper
-     */
-    protected $timeStamper;
-
-    /**
      * TimestampEntityChanges constructor.
      */
-    public function __construct(Timestamper $timeStamper)
+    public function __construct(protected Timestamper $timeStamper)
     {
-        $this->timeStamper = $timeStamper;
     }
 
     /**

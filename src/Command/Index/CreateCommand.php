@@ -15,17 +15,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateCommand extends Command
 {
     public const COMMAND_NAME = 'ilios:index:create';
-    /**
-     * @var Manager
-     */
-    protected $indexManager;
 
     public function __construct(
-        Manager $manager
+        protected Manager $indexManager
     ) {
         parent::__construct();
-
-        $this->indexManager = $manager;
     }
 
     /**

@@ -12,28 +12,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ApiRequestParser
 {
 
-    /**
-     * @var EndpointResponseNamer
-     */
-    protected $endpointResponseNamer;
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
-
-    /**
-     * @var JsonApiDataShaper
-     */
-    protected $dataShaper;
-
     public function __construct(
-        EndpointResponseNamer $endpointResponseNamer,
-        SerializerInterface $serializer,
-        JsonApiDataShaper $dataShaper
+        protected EndpointResponseNamer $endpointResponseNamer,
+        protected SerializerInterface $serializer,
+        protected JsonApiDataShaper $dataShaper
     ) {
-        $this->endpointResponseNamer = $endpointResponseNamer;
-        $this->serializer = $serializer;
-        $this->dataShaper = $dataShaper;
     }
 
     /**

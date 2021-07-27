@@ -11,11 +11,8 @@ use Laminas\Diagnostics\Result\Success;
 
 class Frontend implements CheckInterface
 {
-    private $cacheDir;
-
-    public function __construct($kernelCacheDir)
+    public function __construct(private string $cacheDir)
     {
-        $this->cacheDir = $kernelCacheDir;
     }
 
     /**

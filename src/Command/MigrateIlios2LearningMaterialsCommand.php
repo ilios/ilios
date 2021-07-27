@@ -22,27 +22,11 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class MigrateIlios2LearningMaterialsCommand extends Command
 {
-    /**
-     * @var SymfonyFileSystem
-     */
-    protected $symfonyFileSystem;
-
-    /**
-     * @var IliosFileSystem
-     */
-    protected $iliosFileSystem;
-
-    protected LearningMaterialRepository $learningMaterialRepository;
-
     public function __construct(
-        SymfonyFileSystem $symfonyFileSystem,
-        IliosFileSystem $iliosFileSystem,
-        LearningMaterialRepository $learningMaterialRepository
+        protected SymfonyFileSystem $symfonyFileSystem,
+        protected IliosFileSystem $iliosFileSystem,
+        protected LearningMaterialRepository $learningMaterialRepository
     ) {
-        $this->symfonyFileSystem = $symfonyFileSystem;
-        $this->iliosFileSystem = $iliosFileSystem;
-        $this->learningMaterialRepository = $learningMaterialRepository;
-
         parent::__construct();
     }
 

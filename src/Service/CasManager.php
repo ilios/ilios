@@ -32,18 +32,12 @@ class CasManager
      */
     protected $casCertificatePath;
 
-    /**
-     * @var Fetch
-     */
-    protected $fetch;
-
-    public function __construct(Config $config, Fetch $fetch)
+    public function __construct(Config $config, protected Fetch $fetch)
     {
         $this->casServer = $config->get('cas_authentication_server');
         $this->casVersion = $config->get('cas_authentication_version');
         $this->casVerifySSL = $config->get('cas_authentication_verify_ssl');
         $this->casCertificatePath = $config->get('cas_authentication_certificate_path');
-        $this->fetch = $fetch;
     }
 
     public function getLoginUrl(): string

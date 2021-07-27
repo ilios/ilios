@@ -18,23 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CheckS3PermissionsCommand extends Command
 {
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @var IliosFileSystem
-     */
-    protected $iliosFileSystem;
-
     public function __construct(
-        Config $config,
-        IliosFileSystem $iliosFileSystem
+        protected Config $config,
+        protected IliosFileSystem $iliosFileSystem
     ) {
         parent::__construct();
-        $this->config = $config;
-        $this->iliosFileSystem = $iliosFileSystem;
     }
 
     /**

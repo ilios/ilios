@@ -28,45 +28,15 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class IndexEntityChanges
 {
     /**
-     * @var Curriculum
-     */
-    protected $curriculumIndex;
-
-    /**
-     * @var LearningMaterials
-     */
-    protected $learningMaterialsIndex;
-
-    /**
-     * @var Mesh
-     */
-    protected $meshIndex;
-
-    /**
-     * @var Users
-     */
-    protected $usersIndex;
-
-    /**
-     * @var MessageBusInterface
-     */
-    protected $bus;
-
-    /**
      * ACHTUNG!!! Do NOT change the name of $dispatchBus it tells the dependency injection system what bus to inject!!!
      */
     public function __construct(
-        Curriculum $curriculumIndex,
-        LearningMaterials $learningMaterialsIndex,
-        Mesh $meshIndex,
-        Users $usersIndex,
-        MessageBusInterface $dispatchBus
+        protected Curriculum $curriculumIndex,
+        protected LearningMaterials $learningMaterialsIndex,
+        protected Mesh $meshIndex,
+        protected Users $usersIndex,
+        protected MessageBusInterface $bus
     ) {
-        $this->bus = $dispatchBus;
-        $this->curriculumIndex = $curriculumIndex;
-        $this->meshIndex = $meshIndex;
-        $this->usersIndex = $usersIndex;
-        $this->learningMaterialsIndex = $learningMaterialsIndex;
     }
 
     public function postPersist(LifecycleEventArgs $args)

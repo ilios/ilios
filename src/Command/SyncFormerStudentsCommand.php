@@ -23,23 +23,11 @@ use App\Service\Directory;
  */
 class SyncFormerStudentsCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected UserRoleRepository $userRoleRepository;
-
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
     public function __construct(
-        UserRepository $userRepository,
-        UserRoleRepository $userRoleRepository,
-        Directory $directory
+        protected UserRepository $userRepository,
+        protected UserRoleRepository $userRoleRepository,
+        protected Directory $directory
     ) {
-        $this->userRepository = $userRepository;
-        $this->userRoleRepository = $userRoleRepository;
-        $this->directory = $directory;
-
         parent::__construct();
     }
 

@@ -25,12 +25,11 @@ use function Sentry\startTransaction;
 class SentryCaptureListener
 {
     protected bool $errorCaptureEnabled;
-    protected TokenStorageInterface $tokenStorage;
     protected Transaction $transaction;
 
     public function __construct(
         Config $config,
-        TokenStorageInterface $tokenStorage,
+        protected TokenStorageInterface $tokenStorage,
         string $sentryDSN
     ) {
         $this->errorCaptureEnabled = (bool) $config->get('errorCaptureEnabled');
@@ -40,7 +39,6 @@ class SentryCaptureListener
                 'traces_sample_rate' => 0.1,
             ]);
         }
-        $this->tokenStorage = $tokenStorage;
     }
 
     public function onKernelException(ExceptionEvent $event)

@@ -13,15 +13,8 @@ use DateTime;
 class JsonApiDTONormalizer implements NormalizerInterface
 {
 
-    /**
-     * @var EntityMetadata
-     */
-    protected $entityMetadata;
-
-    public function __construct(
-        EntityMetadata $entityMetadata
-    ) {
-        $this->entityMetadata = $entityMetadata;
+    public function __construct(protected EntityMetadata $entityMetadata)
+    {
     }
 
     public function normalize($object, string $format = null, array $context = [])

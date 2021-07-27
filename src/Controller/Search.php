@@ -21,36 +21,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class Search extends AbstractController
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
-
-    /**
-     * @var PermissionChecker
-     */
-    protected $permissionChecker;
-
-    /**
-     * @var Users
-     */
-    protected $userIndex;
-
-    /**
-     * @var Curriculum
-     */
-    protected $curriculumIndex;
-
     public function __construct(
-        Curriculum $curriculumIndex,
-        Users $userIndex,
-        TokenStorageInterface $tokenStorage,
-        PermissionChecker $permissionChecker
+        protected Curriculum $curriculumIndex,
+        protected Users $userIndex,
+        protected TokenStorageInterface $tokenStorage,
+        protected PermissionChecker $permissionChecker
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->permissionChecker = $permissionChecker;
-        $this->userIndex = $userIndex;
-        $this->curriculumIndex = $curriculumIndex;
     }
 
     public function curriculumSearch(Request $request)

@@ -18,12 +18,9 @@ use Symfony\Component\Mime\Email;
  */
 class SendTestEmailCommand extends Command
 {
-    protected MailerInterface $mailer;
-
-    public function __construct(MailerInterface $mailer)
+    public function __construct(protected MailerInterface $mailer)
     {
         parent::__construct();
-        $this->mailer = $mailer;
     }
 
     /**

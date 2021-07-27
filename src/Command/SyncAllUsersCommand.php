@@ -22,33 +22,13 @@ use App\Service\Directory;
  */
 class SyncAllUsersCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected AuthenticationRepository $authenticationRepository;
-    protected PendingUserUpdateRepository $pendingUserUpdateRepository;
-
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
     public function __construct(
-        UserRepository $userRepository,
-        AuthenticationRepository $authenticationRepository,
-        PendingUserUpdateRepository $pendingUserUpdateRepository,
-        Directory $directory,
-        EntityManagerInterface $em
+        protected UserRepository $userRepository,
+        protected AuthenticationRepository $authenticationRepository,
+        protected PendingUserUpdateRepository $pendingUserUpdateRepository,
+        protected Directory $directory,
+        protected EntityManagerInterface $em
     ) {
-        $this->userRepository = $userRepository;
-        $this->authenticationRepository = $authenticationRepository;
-        $this->pendingUserUpdateRepository = $pendingUserUpdateRepository;
-        $this->directory = $directory;
-        $this->em = $em;
-
         parent::__construct();
     }
 

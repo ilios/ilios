@@ -20,25 +20,13 @@ class LearningMaterials extends ElasticSearchBase
 {
     public const INDEX = 'ilios-learning-materials';
 
-    /**
-     * @var NonCachingIliosFileSystem
-     */
-    private $nonCachingIliosFileSystem;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
     public function __construct(
-        NonCachingIliosFileSystem $nonCachingIliosFileSystem,
+        private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
         Config $config,
-        LoggerInterface $logger,
+        private LoggerInterface $logger,
         Client $client = null
     ) {
         parent::__construct($config, $client);
-        $this->nonCachingIliosFileSystem = $nonCachingIliosFileSystem;
-        $this->logger = $logger;
     }
 
     /**

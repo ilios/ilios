@@ -21,43 +21,13 @@ use TypeError;
  */
 class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
 {
-    /**
-     * @var EntityMetadata
-     */
-    protected $entityMetadata;
-
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-
-    /**
-     * @var \HTMLPurifier
-     */
-    protected $purifier;
-
-    /**
-     * @var EntityRepositoryLookup
-     */
-    protected $entityRepositoryLookup;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
     public function __construct(
-        EntityMetadata $entityMetadata,
-        ManagerRegistry $managerRegistry,
-        HTMLPurifier $purifier,
-        LoggerInterface $logger,
-        EntityRepositoryLookup $entityRepositoryLookup
+        protected EntityMetadata $entityMetadata,
+        protected ManagerRegistry $managerRegistry,
+        protected HTMLPurifier $purifier,
+        protected LoggerInterface $logger,
+        protected EntityRepositoryLookup $entityRepositoryLookup
     ) {
-        $this->entityMetadata = $entityMetadata;
-        $this->managerRegistry = $managerRegistry;
-        $this->purifier = $purifier;
-        $this->entityRepositoryLookup = $entityRepositoryLookup;
-        $this->logger = $logger;
     }
 
     public function denormalize($data, string $type, string $format = null, array $context = [])

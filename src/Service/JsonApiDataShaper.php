@@ -11,12 +11,8 @@ class JsonApiDataShaper
 {
     use NormalizerAwareTrait;
 
-    protected EntityRepositoryLookup $entityRepositoryLookup;
-
-    public function __construct(
-        EntityRepositoryLookup $entityRepositoryLookup
-    ) {
-        $this->entityRepositoryLookup = $entityRepositoryLookup;
+    public function __construct(protected EntityRepositoryLookup $entityRepositoryLookup)
+    {
     }
 
     public function shapeData(array $data, array $sideLoadFields): array

@@ -20,22 +20,12 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     protected $faker;
 
-    /**
-     * @var EntityMetadata
-     */
-    protected $entityMetadata;
-
-    /**
-     * @var EntityRepositoryLookup
-     */
-    protected $entityManagerLookup;
-
-    public function __construct(EntityMetadata $entityMetadata, EntityRepositoryLookup $entityManagerLookup)
-    {
+    public function __construct(
+        protected EntityMetadata $entityMetadata,
+        protected EntityRepositoryLookup $entityManagerLookup
+    ) {
         $this->faker = FakerFactory::create();
         $this->faker->seed(1234);
-        $this->entityMetadata = $entityMetadata;
-        $this->entityManagerLookup = $entityManagerLookup;
     }
 
     /**

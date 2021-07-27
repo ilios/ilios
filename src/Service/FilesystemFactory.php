@@ -19,22 +19,8 @@ class FilesystemFactory
 {
     private const LOCAL_S3_CACHE_DIR = '/ilios/s3-cache';
 
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @var string
-     */
-    private $kernelCacheDir;
-
-    public function __construct(
-        Config $config,
-        string $kernelCacheDir
-    ) {
-        $this->config = $config;
-        $this->kernelCacheDir = $kernelCacheDir;
+    public function __construct(protected Config $config, private string $kernelCacheDir)
+    {
     }
 
     public function getFilesystem(): FilesystemInterface

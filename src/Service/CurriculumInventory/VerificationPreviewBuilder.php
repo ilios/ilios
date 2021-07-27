@@ -77,21 +77,6 @@ class VerificationPreviewBuilder
     ];
 
     /**
-     * @var Aggregator
-     */
-    protected $aggregator;
-
-    /**
-     * @var AamcMethodRepository
-     */
-    protected $methodRepository;
-
-    /**
-     * @var AamcPcrsRepository
-     */
-    protected $pcrsRepository;
-
-    /**
      * @var null|array
      */
     protected $methodMaps;
@@ -100,13 +85,10 @@ class VerificationPreviewBuilder
      * CurriculumInventoryVerificationReportBuilder constructor.
      */
     public function __construct(
-        Aggregator $aggregator,
-        AamcMethodRepository $methodManager,
-        AamcPcrsRepository $pcrsRepository
+        protected Aggregator $aggregator,
+        protected AamcMethodRepository $methodRepository,
+        protected AamcPcrsRepository $pcrsRepository
     ) {
-        $this->aggregator = $aggregator;
-        $this->methodRepository = $methodManager;
-        $this->pcrsRepository = $pcrsRepository;
     }
 
     /**

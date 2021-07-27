@@ -17,43 +17,16 @@ use Twig\Environment;
 class SwaggerDocBuilder
 {
     private const CACHE_NAME = 'swagger-doc-builder.yaml';
-    /**
-     * @var string
-     */
-    protected $swaggerDir;
-
-    /**
-     * @var string
-     */
-    protected $environment;
-
-    /**
-     * @var Environment
-     */
-    protected $twig;
-
-    /**
-     * @var string
-     */
-    protected $apiVersion;
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
+    protected string $swaggerDir;
 
     public function __construct(
-        Environment $twig,
-        RouterInterface $router,
-        $kernelProjectDir,
-        $environment,
-        $apiVersion
+        protected Environment $twig,
+        protected RouterInterface $router,
+        string $kernelProjectDir,
+        protected string $environment,
+        protected string $apiVersion
     ) {
         $this->swaggerDir = realpath($kernelProjectDir . '/config/swagger');
-        $this->environment = $environment;
-        $this->twig = $twig;
-        $this->router = $router;
-        $this->apiVersion = $apiVersion;
     }
 
     public function getDocs(Request $request)

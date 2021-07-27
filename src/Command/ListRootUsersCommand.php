@@ -22,14 +22,8 @@ class ListRootUsersCommand extends Command
      */
     public const COMMAND_NAME = 'ilios:list-root-users';
 
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(protected UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
         parent::__construct();
     }
 

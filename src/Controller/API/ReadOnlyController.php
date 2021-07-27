@@ -16,17 +16,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 abstract class ReadOnlyController
 {
-    protected RepositoryInterface $repository;
-
-    /**
-     * @var string
-     */
-    protected $endpoint;
-
-    public function __construct(RepositoryInterface $repository, string $endpoint)
+    public function __construct(protected RepositoryInterface $repository, protected string $endpoint)
     {
-        $this->repository = $repository;
-        $this->endpoint = $endpoint;
     }
 
     /**

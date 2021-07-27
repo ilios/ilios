@@ -31,27 +31,12 @@ class ImportMeshUniverseCommand extends Command
         2021 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2021.xml',
     ];
 
-    protected MeshDescriptorRepository $repository;
-
-    /**
-     * @var Parser
-     */
-    protected $parser;
-
-    /**
-     * @var Mesh
-     */
-    protected $meshIndex;
-
     public function __construct(
-        Parser $parser,
-        MeshDescriptorRepository $repository,
-        Mesh $meshIndex
+        protected Parser $parser,
+        protected MeshDescriptorRepository $repository,
+        protected Mesh $meshIndex
     ) {
         parent::__construct();
-        $this->parser = $parser;
-        $this->repository = $repository;
-        $this->meshIndex = $meshIndex;
     }
 
     /**

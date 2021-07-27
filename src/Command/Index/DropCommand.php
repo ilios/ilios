@@ -16,17 +16,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DropCommand extends Command
 {
     public const COMMAND_NAME = 'ilios:index:drop';
-    /**
-     * @var Manager
-     */
-    protected $indexManager;
 
     public function __construct(
-        Manager $manager
+        protected Manager $indexManager
     ) {
         parent::__construct();
-
-        $this->indexManager = $manager;
     }
 
     /**

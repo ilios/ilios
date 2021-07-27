@@ -22,27 +22,12 @@ class ExportMeshUniverseCommand extends Command
 {
     use LockableTrait;
 
-    /**
-     * MeshDescriptorRepository $repository
-     */
-    protected $repository;
-
-    /**
-     * @var CsvWriter
-     */
-    protected $writer;
-
-    /**
-     * @var string
-     */
-    protected $kernelProjectDir;
-
-    public function __construct(MeshDescriptorRepository $repository, CsvWriter $writer, string $kernelProjectDir)
-    {
+    public function __construct(
+        protected MeshDescriptorRepository $repository,
+        protected CsvWriter $writer,
+        protected string $kernelProjectDir
+    ) {
         parent::__construct();
-        $this->repository = $repository;
-        $this->writer = $writer;
-        $this->kernelProjectDir = $kernelProjectDir;
     }
 
     /**

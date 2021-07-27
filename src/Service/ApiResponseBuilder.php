@@ -10,22 +10,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiResponseBuilder
 {
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
-
-    /**
-     * @var EndpointResponseNamer
-     */
-    protected $endpointResponseNamer;
-
     public function __construct(
-        SerializerInterface $serializer,
-        EndpointResponseNamer $endpointResponseNamer
+        protected SerializerInterface $serializer,
+        protected EndpointResponseNamer $endpointResponseNamer
     ) {
-        $this->serializer = $serializer;
-        $this->endpointResponseNamer = $endpointResponseNamer;
     }
 
     public function buildResponseForGetOneRequest(

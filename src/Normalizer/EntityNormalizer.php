@@ -7,6 +7,7 @@ namespace App\Normalizer;
 use App\Service\EntityMetadata;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use HTMLPurifier;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
@@ -19,33 +20,12 @@ use ReflectionProperty;
  */
 class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-    /**
-     * @var EntityMetadata
-     */
-    protected $entityMetadata;
-    /**
-     * @var ManagerRegistry
-     */
-    protected $managerRegistry;
-    /**
-     * @var \HTMLPurifier
-     */
-    protected $purifier;
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
     public function __construct(
-        EntityMetadata $entityMetadata,
-        ManagerRegistry $managerRegistry,
-        \HTMLPurifier $purifier,
-        LoggerInterface $logger
+        protected EntityMetadata $entityMetadata,
+        protected ManagerRegistry $managerRegistry,
+        protected HTMLPurifier $purifier,
+        protected LoggerInterface $logger
     ) {
-        $this->entityMetadata = $entityMetadata;
-        $this->managerRegistry = $managerRegistry;
-        $this->purifier = $purifier;
-        $this->logger = $logger;
     }
 
     public function normalize($object, string $format = null, array $context = [])

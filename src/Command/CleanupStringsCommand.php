@@ -31,54 +31,23 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class CleanupStringsCommand extends Command
 {
-    protected HTMLPurifier $purifier;
-
-    protected EntityManagerInterface $em;
-
-    protected SessionObjectiveRepository $sessionObjectiveRepository;
-
-    protected CourseObjectiveRepository $courseObjectiveRepository;
-
-    protected ProgramYearObjectiveRepository $programYearObjectiveRepository;
-
-    protected LearningMaterialRepository $learningMaterialRepository;
-
-    protected CourseLearningMaterialRepository $courseLearningMaterialRepository;
-
-    protected SessionLearningMaterialRepository $sessionLearningMaterialRepository;
-
-    protected SessionRepository $sessionRepository;
-
-    protected HttpClientInterface $httpClient;
-
     /**
      * @var int where to limit each query for memory management
      */
     private const QUERY_LIMIT = 500;
 
     public function __construct(
-        HTMLPurifier $purifier,
-        EntityManagerInterface $em,
-        LearningMaterialRepository $learningMaterialRepository,
-        CourseLearningMaterialRepository $courseLearningMaterialRepository,
-        SessionLearningMaterialRepository $sessionLearningMaterialRepository,
-        SessionRepository $sessionRepository,
-        SessionObjectiveRepository $sessionObjectiveRepository,
-        CourseObjectiveRepository $courseObjectiveRepository,
-        ProgramYearObjectiveRepository $programYearObjectiveRepository,
-        HttpClientInterface $httpClient
+        protected HTMLPurifier $purifier,
+        protected EntityManagerInterface $em,
+        protected LearningMaterialRepository $learningMaterialRepository,
+        protected CourseLearningMaterialRepository $courseLearningMaterialRepository,
+        protected SessionLearningMaterialRepository $sessionLearningMaterialRepository,
+        protected SessionRepository $sessionRepository,
+        protected SessionObjectiveRepository $sessionObjectiveRepository,
+        protected CourseObjectiveRepository $courseObjectiveRepository,
+        protected ProgramYearObjectiveRepository $programYearObjectiveRepository,
+        protected HttpClientInterface $httpClient
     ) {
-        $this->purifier = $purifier;
-        $this->em = $em;
-        $this->learningMaterialRepository = $learningMaterialRepository;
-        $this->courseLearningMaterialRepository = $courseLearningMaterialRepository;
-        $this->sessionLearningMaterialRepository = $sessionLearningMaterialRepository;
-        $this->sessionRepository = $sessionRepository;
-        $this->sessionObjectiveRepository = $sessionObjectiveRepository;
-        $this->courseObjectiveRepository = $courseObjectiveRepository;
-        $this->programYearObjectiveRepository = $programYearObjectiveRepository;
-        $this->httpClient = $httpClient;
-
         parent::__construct();
     }
 

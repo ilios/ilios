@@ -22,17 +22,13 @@ class Config
         'academic_year_crosses_calendar_year_boundaries'
     ];
 
-    protected ApplicationConfigRepository $applicationConfigRepository;
-
     /**
      * Config constructor.
      *
      * @throws \Exception
      */
-    public function __construct(
-        ApplicationConfigRepository $applicationConfigRepository
-    ) {
-        $this->applicationConfigRepository = $applicationConfigRepository;
+    public function __construct(protected ApplicationConfigRepository $applicationConfigRepository)
+    {
     }
 
     /**

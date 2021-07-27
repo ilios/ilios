@@ -19,13 +19,6 @@ class Logger
      */
     protected $userId;
 
-    protected AuditLogRepository $repository;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $frameworkLogger;
-
     /**
      * @var array
      */
@@ -36,8 +29,8 @@ class Logger
      */
     public function __construct(
         TokenStorageInterface $securityTokenStorage,
-        AuditLogRepository $auditLogRepository,
-        LoggerInterface $logger
+        protected AuditLogRepository $repository,
+        protected LoggerInterface $frameworkLogger
     ) {
         if (
             null !== $securityTokenStorage &&
@@ -49,8 +42,6 @@ class Logger
                 $this->userId = $sessionUser->getId();
             }
         }
-        $this->repository = $auditLogRepository;
-        $this->frameworkLogger = $logger;
     }
 
     /**

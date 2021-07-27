@@ -41,21 +41,12 @@ class ReportRollover
      */
     private const END_DATE_MONTH = 6;
 
-    protected CurriculumInventoryReportRepository $reportRepository;
-    protected CurriculumInventoryAcademicLevelRepository $academicLevelRepository;
-    protected CurriculumInventorySequenceRepository $sequenceRepository;
-    protected CurriculumInventorySequenceBlockRepository $sequenceBlockRepository;
-
     public function __construct(
-        CurriculumInventoryReportRepository $reportRepository,
-        CurriculumInventoryAcademicLevelRepository $academicLevelRepository,
-        CurriculumInventorySequenceRepository $sequenceManager,
-        CurriculumInventorySequenceBlockRepository $sequenceBlockManager
+        protected CurriculumInventoryReportRepository $reportRepository,
+        protected CurriculumInventoryAcademicLevelRepository $academicLevelRepository,
+        protected CurriculumInventorySequenceRepository $sequenceRepository,
+        protected CurriculumInventorySequenceBlockRepository $sequenceBlockRepository
     ) {
-        $this->reportRepository = $reportRepository;
-        $this->academicLevelRepository = $academicLevelRepository;
-        $this->sequenceRepository = $sequenceManager;
-        $this->sequenceBlockRepository = $sequenceBlockManager;
     }
 
     /**

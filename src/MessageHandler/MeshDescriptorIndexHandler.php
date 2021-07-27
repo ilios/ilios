@@ -11,16 +11,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class MeshDescriptorIndexHandler implements MessageHandlerInterface
 {
-    /**
-     * @var Mesh
-     */
-    private $meshIndex;
-    private MeshDescriptorRepository $repository;
-
-    public function __construct(Mesh $index, MeshDescriptorRepository $repository)
+    public function __construct(private Mesh $meshIndex, private MeshDescriptorRepository $repository)
     {
-        $this->meshIndex = $index;
-        $this->repository = $repository;
     }
 
     public function __invoke(MeshDescriptorIndexRequest $message)

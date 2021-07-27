@@ -14,22 +14,8 @@ use Laminas\Diagnostics\Result\Warning;
 
 class IliosFileSystem implements CheckInterface
 {
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    public function __construct(
-        Config $config,
-        Filesystem $filesystem
-    ) {
-        $this->config = $config;
-        $this->filesystem = $filesystem;
+    public function __construct(protected Config $config, private Filesystem $filesystem)
+    {
     }
 
     /**

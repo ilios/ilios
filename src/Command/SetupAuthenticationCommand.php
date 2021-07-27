@@ -20,11 +20,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class SetupAuthenticationCommand extends Command
 {
-    protected ApplicationConfigRepository $applicationConfigRepository;
-
-    public function __construct(ApplicationConfigRepository $applicationConfigRepository)
+    public function __construct(protected ApplicationConfigRepository $applicationConfigRepository)
     {
-        $this->applicationConfigRepository = $applicationConfigRepository;
         parent::__construct();
     }
 

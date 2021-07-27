@@ -39,24 +39,13 @@ class Authentications
 {
     use ApiEntityValidation;
 
-    protected UserPasswordEncoderInterface $passwordEncoder;
-    protected SessionUserProvider $sessionUserProvider;
-    protected AuthenticationRepository $repository;
-    protected UserRepository $userRepository;
-    protected SerializerInterface $serializer;
-
     public function __construct(
-        UserPasswordEncoderInterface $passwordEncoder,
-        SessionUserProvider $sessionUserProvider,
-        AuthenticationRepository $repository,
-        UserRepository $userRepository,
-        SerializerInterface $serializer
+        protected UserPasswordEncoderInterface $passwordEncoder,
+        protected SessionUserProvider $sessionUserProvider,
+        protected AuthenticationRepository $repository,
+        protected UserRepository $userRepository,
+        protected SerializerInterface $serializer
     ) {
-        $this->sessionUserProvider = $sessionUserProvider;
-        $this->passwordEncoder = $passwordEncoder;
-        $this->repository = $repository;
-        $this->userRepository = $userRepository;
-        $this->serializer = $serializer;
     }
 
     /**

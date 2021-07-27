@@ -11,20 +11,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class EntityRepositoryLookup
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @var EndpointResponseNamer
-     */
-    protected $endpointResponseNamer;
-
-    public function __construct(ContainerInterface $container, EndpointResponseNamer $endpointResponseNamer)
-    {
-        $this->container = $container;
-        $this->endpointResponseNamer = $endpointResponseNamer;
+    public function __construct(
+        protected ContainerInterface $container,
+        protected EndpointResponseNamer $endpointResponseNamer
+    ) {
     }
 
     public function getRepositoryForEndpoint(string $endPoint): RepositoryInterface

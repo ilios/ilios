@@ -15,21 +15,13 @@ use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Rolls over (copies) a given curriculum inventory report.
- *
- * Class RolloverCurriculumInventoryReportCommand
  */
 class RolloverCurriculumInventoryReportCommand extends Command
 {
-    protected CurriculumInventoryReportRepository $reportRepository;
-    /**
-     * @var ReportRollover
-     */
-    protected $service;
-
-    public function __construct(CurriculumInventoryReportRepository $reportRepository, ReportRollover $service)
-    {
-        $this->reportRepository = $reportRepository;
-        $this->service = $service;
+    public function __construct(
+        protected CurriculumInventoryReportRepository $reportRepository,
+        protected ReportRollover $service
+    ) {
         parent::__construct();
     }
 

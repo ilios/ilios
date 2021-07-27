@@ -20,37 +20,13 @@ use Twig\Environment;
  */
 class GenerateEndpointTestCommand extends Command
 {
-    /**
-     * @var Environment
-     */
-    protected $twig;
-
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
-
-    /**
-     * @var EntityMetadata
-     */
-    protected $entityMetadata;
-
-    /**
-     * @var Inflector
-     */
-    protected $inflector;
-
     public function __construct(
-        Environment $twig,
-        ManagerRegistry $registry,
-        EntityMetadata $entityMetadata,
-        Inflector $inflector
+        protected Environment $twig,
+        protected ManagerRegistry $registry,
+        protected EntityMetadata $entityMetadata,
+        protected Inflector $inflector
     ) {
         parent::__construct();
-        $this->twig = $twig;
-        $this->registry   = $registry;
-        $this->entityMetadata   = $entityMetadata;
-        $this->inflector = $inflector;
     }
 
     /**

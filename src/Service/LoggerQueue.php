@@ -14,11 +14,9 @@ use Exception;
 class LoggerQueue
 {
     protected array $queue = [];
-    protected Logger $logger;
 
-    public function __construct(Logger $logger)
+    public function __construct(protected Logger $logger)
     {
-        $this->logger = $logger;
     }
 
     /**

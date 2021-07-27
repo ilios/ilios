@@ -19,15 +19,10 @@ class CrossingGuardCommand extends Command
 {
     public const ENABLED_MESSAGE = 'Crossing Guard is down - Requests will be held until further notice.';
     public const DISABLED_MESSAGE = 'Crossing Guard is up - Requests are flowing normally.';
-    /**
-     * @var CrossingGuard
-     */
-    protected $crossingGuard;
 
     public function __construct(
-        CrossingGuard $crossingGuard
+        protected CrossingGuard $crossingGuard
     ) {
-        $this->crossingGuard = $crossingGuard;
         parent::__construct();
     }
 

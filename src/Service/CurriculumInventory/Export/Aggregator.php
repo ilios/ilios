@@ -13,23 +13,14 @@ use Exception;
 
 /**
  * Data aggregator for Curriculum Inventory reporting.
- *
- * @package App\Service\CurriculumInventory\Export
  */
 class Aggregator
 {
-    protected Manager $manager;
-    protected CurriculumInventoryInstitutionRepository $institutionRepository;
-    protected Config $config;
-
     public function __construct(
-        Manager $manager,
-        CurriculumInventoryInstitutionRepository $institutionRepository,
-        Config $config
+        protected Manager $manager,
+        protected CurriculumInventoryInstitutionRepository $institutionRepository,
+        protected Config $config
     ) {
-        $this->manager = $manager;
-        $this->institutionRepository = $institutionRepository;
-        $this->config = $config;
     }
 
     /**

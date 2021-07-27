@@ -10,14 +10,11 @@ class CrossingGuard
 {
     public const GUARD = 'crossing-guard-enabled.lock';
 
-    protected $fs;
-
     /**
      * CrossingGuard constructor.
      */
-    public function __construct(IliosFileSystem $fs)
+    public function __construct(protected IliosFileSystem $fs)
     {
-        $this->fs = $fs;
     }
 
     /**
