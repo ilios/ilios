@@ -26,7 +26,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportDefaultDataCommand extends Command
@@ -78,13 +77,10 @@ class ImportDefaultDataCommand extends Command
             return 0;
         }
 
-        $io->warning('Do not run this against an Ilios instance that already contains data!');
-
-        $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('Continue? ', false);
-
-        if (!$helper->ask($input, $output, $question)) {
-            return Command::SUCCESS;
+        $school = $this->schoolRepository->findDTOBy([]);
+        if ($school) {
+            $io->error('Your database already contains data. Aborting import process.');
+            return 1;
         }
 
         $io->info('Started data import, this may take a while...');
