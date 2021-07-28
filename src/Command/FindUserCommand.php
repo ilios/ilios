@@ -18,16 +18,9 @@ use App\Service\Directory;
  */
 class FindUserCommand extends Command
 {
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
     public function __construct(
-        Directory $directory
+        protected Directory $directory
     ) {
-        $this->directory = $directory;
-
         parent::__construct();
     }
 

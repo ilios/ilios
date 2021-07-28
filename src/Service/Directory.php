@@ -7,22 +7,10 @@ namespace App\Service;
 class Directory
 {
     /**
-     * @var LdapManager
-     */
-    protected $ldapManager;
-
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
      * Constructor
      */
-    public function __construct(LdapManager $ldapManager, Config $config)
+    public function __construct(protected LdapManager $ldapManager, protected Config $config)
     {
-        $this->ldapManager = $ldapManager;
-        $this->config = $config;
     }
 
     /**

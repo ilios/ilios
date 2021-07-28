@@ -21,23 +21,10 @@ use App\Service\JsonWebTokenManager;
  */
 class CreateUserTokenCommand extends Command
 {
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * @var JsonWebTokenManager
-     */
-    protected $jwtManager;
-
     public function __construct(
-        UserRepository $userRepository,
-        JsonWebTokenManager $jwtManager
+        protected UserRepository $userRepository,
+        protected JsonWebTokenManager $jwtManager
     ) {
-        $this->userRepository = $userRepository;
-        $this->jwtManager = $jwtManager;
-
         parent::__construct();
     }
 

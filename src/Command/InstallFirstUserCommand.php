@@ -46,35 +46,16 @@ class InstallFirstUserCommand extends Command
      */
     private const LAST_NAME = 'User';
 
-    protected UserRepository $userRepository;
-    protected SchoolRepository $schoolRepository;
-    protected AuthenticationRepository $authenticationRepository;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $passwordEncoder;
-
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
     /**
      * Constructor.
      */
     public function __construct(
-        UserRepository $userRepository,
-        SchoolRepository $schoolRepository,
-        AuthenticationRepository $authenticationRepository,
-        UserPasswordEncoderInterface $passwordEncoder,
-        SessionUserProvider $sessionUserProvider
+        protected UserRepository $userRepository,
+        protected SchoolRepository $schoolRepository,
+        protected AuthenticationRepository $authenticationRepository,
+        protected UserPasswordEncoderInterface $passwordEncoder,
+        protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->userRepository = $userRepository;
-        $this->schoolRepository = $schoolRepository;
-        $this->authenticationRepository = $authenticationRepository;
-        $this->passwordEncoder = $passwordEncoder;
-        $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
     }
 

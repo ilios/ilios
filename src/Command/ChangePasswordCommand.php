@@ -23,29 +23,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class ChangePasswordCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected AuthenticationRepository $authenticationRepository;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $encoder;
-
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
     public function __construct(
-        UserRepository $userRepository,
-        AuthenticationRepository $authenticationRepository,
-        UserPasswordEncoderInterface $encoder,
-        SessionUserProvider $sessionUserProvider
+        protected UserRepository $userRepository,
+        protected AuthenticationRepository $authenticationRepository,
+        protected UserPasswordEncoderInterface $encoder,
+        protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->userRepository = $userRepository;
-        $this->authenticationRepository = $authenticationRepository;
-        $this->encoder = $encoder;
-        $this->sessionUserProvider = $sessionUserProvider;
         parent::__construct();
     }
 

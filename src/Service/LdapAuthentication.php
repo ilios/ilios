@@ -15,13 +15,6 @@ class LdapAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    protected AuthenticationRepository $authRepository;
-
-    /**
-     * @var JsonWebTokenManager
-     */
-    protected $jwtManager;
-
     /**
      * @var string
      */
@@ -36,23 +29,16 @@ class LdapAuthentication implements AuthenticationInterface
      * @var string
      */
     protected $ldapBindTemplate;
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
 
     public function __construct(
-        AuthenticationRepository $authenticationRepository,
-        JsonWebTokenManager $jwtManager,
+        protected AuthenticationRepository $authRepository,
+        protected JsonWebTokenManager $jwtManager,
         Config $config,
-        SessionUserProvider $sessionUserProvider
+        protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->authRepository = $authenticationRepository;
-        $this->jwtManager = $jwtManager;
         $this->ldapHost = $config->get('ldap_authentication_host');
         $this->ldapPort = $config->get('ldap_authentication_port');
         $this->ldapBindTemplate = $config->get('ldap_authentication_bind_template');
-        $this->sessionUserProvider = $sessionUserProvider;
     }
 
     /**

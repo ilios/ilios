@@ -29,41 +29,17 @@ class SendChangeAlertsCommand extends Command
 {
     private const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
-    protected AlertRepository $alertRepository;
-
-    protected AuditLogRepository $auditLogRepository;
-
-    protected OfferingRepository $offeringRepository;
-
-    protected Environment $twig;
-
-    protected MailerInterface $mailer;
-
-    protected Config $config;
-
-    protected Filesystem $fs;
-
-    protected string $kernelProjectDir;
-
     public function __construct(
-        AlertRepository $alertRepository,
-        AuditLogRepository $auditLogRepository,
-        OfferingRepository $offeringRepository,
-        Environment $twig,
-        MailerInterface $mailer,
-        Config $config,
-        Filesystem $fs,
-        string $kernelProjectDir
+        protected AlertRepository $alertRepository,
+        protected AuditLogRepository $auditLogRepository,
+        protected OfferingRepository $offeringRepository,
+        protected Environment $twig,
+        protected MailerInterface $mailer,
+        protected Config $config,
+        protected Filesystem $fs,
+        protected string $kernelProjectDir
     ) {
         parent::__construct();
-        $this->alertRepository = $alertRepository;
-        $this->auditLogRepository = $auditLogRepository;
-        $this->offeringRepository = $offeringRepository;
-        $this->twig = $twig;
-        $this->mailer = $mailer;
-        $this->config = $config;
-        $this->fs = $fs;
-        $this->kernelProjectDir = $kernelProjectDir;
     }
 
     /**

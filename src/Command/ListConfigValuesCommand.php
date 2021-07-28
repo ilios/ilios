@@ -20,11 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ListConfigValuesCommand extends Command
 {
-    protected ApplicationConfigRepository $applicationConfigRepository;
-    protected $kernelSecret;
-    protected $databaseUrl;
-    protected $environment;
-
     /**
      * RolloverCourseCommand constructor.
      * @param $environment
@@ -32,16 +27,11 @@ class ListConfigValuesCommand extends Command
      * @param $databaseUrl
      */
     public function __construct(
-        ApplicationConfigRepository $applicationConfigRepository,
-        $environment,
-        $kernelSecret,
-        $databaseUrl
+        protected ApplicationConfigRepository $applicationConfigRepository,
+        protected $environment,
+        protected $kernelSecret,
+        protected $databaseUrl
     ) {
-        $this->applicationConfigRepository = $applicationConfigRepository;
-        $this->environment = $environment;
-        $this->kernelSecret = $kernelSecret;
-        $this->databaseUrl = $databaseUrl;
-
         parent::__construct();
     }
 

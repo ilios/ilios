@@ -15,23 +15,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Get an application configuration value from the DB
- *
- * Class ListSchoolConfigValuesCommand
- * @package App\Command
+ * Get a school configuration value from the DB
  */
 class ListSchoolConfigValuesCommand extends Command
 {
-    protected SchoolRepository $schoolRepository;
-    protected SchoolConfigRepository $schoolConfigRepository;
-
-    /**
-     * RolloverCourseCommand constructor.
-     */
-    public function __construct(SchoolRepository $schoolRepository, SchoolConfigRepository $schoolConfigRepository)
-    {
-        $this->schoolRepository = $schoolRepository;
-        $this->schoolConfigRepository = $schoolConfigRepository;
+    public function __construct(
+        protected SchoolRepository $schoolRepository,
+        protected SchoolConfigRepository $schoolConfigRepository
+    ) {
         parent::__construct();
     }
 

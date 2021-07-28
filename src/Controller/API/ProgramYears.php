@@ -30,21 +30,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ProgramYears extends ReadWriteController
 {
-    protected CohortRepository $cohortRepository;
-
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
-
     public function __construct(
         ProgramYearRepository $repository,
-        CohortRepository $cohortRepository,
-        SerializerInterface $serializer
+        protected CohortRepository $cohortRepository,
+        protected SerializerInterface $serializer
     ) {
         parent::__construct($repository, 'programyears');
-        $this->cohortRepository = $cohortRepository;
-        $this->serializer = $serializer;
     }
 
    /**

@@ -19,18 +19,6 @@ class ShibbolethAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    protected AuthenticationRepository $authenticationRepository;
-
-    /**
-     * @var JsonWebTokenManager
-     */
-    protected $jwtManager;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
     /**
      * @var String
      */
@@ -47,27 +35,18 @@ class ShibbolethAuthentication implements AuthenticationInterface
     protected $userIdAttribute;
 
     /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
-    /**
      * Constructor
      */
     public function __construct(
-        AuthenticationRepository $authenticationRepository,
-        JsonWebTokenManager $jwtManager,
-        LoggerInterface $logger,
+        protected AuthenticationRepository $authenticationRepository,
+        protected JsonWebTokenManager $jwtManager,
+        protected LoggerInterface $logger,
         Config $config,
-        SessionUserProvider $sessionUserProvider
+        protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->authenticationRepository = $authenticationRepository;
-        $this->jwtManager = $jwtManager;
-        $this->logger = $logger;
         $this->logoutPath = $config->get('shibboleth_authentication_logout_path');
         $this->loginPath = $config->get('shibboleth_authentication_login_path');
         $this->userIdAttribute = $config->get('shibboleth_authentication_user_id_attribute');
-        $this->sessionUserProvider = $sessionUserProvider;
     }
 
     /**

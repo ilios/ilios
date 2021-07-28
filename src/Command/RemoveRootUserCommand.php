@@ -23,14 +23,8 @@ class RemoveRootUserCommand extends Command
      */
     public const COMMAND_NAME = 'ilios:remove-root-user';
 
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(protected UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
         parent::__construct();
     }
 

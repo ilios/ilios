@@ -20,39 +20,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class DirectoryController extends AbstractController
 {
 
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
-
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
-    /**
-     * @var PermissionChecker
-     */
-    protected $permissionChecker;
-
-    /**
-     * DirectoryController constructor.
-     */
     public function __construct(
-        TokenStorageInterface $tokenStorage,
-        UserRepository $userRepository,
-        Directory $directory,
-        PermissionChecker $permissionChecker
+        protected TokenStorageInterface $tokenStorage,
+        protected UserRepository $userRepository,
+        protected Directory $directory,
+        protected PermissionChecker $permissionChecker
     ) {
-        $this->tokenStorage = $tokenStorage;
-        $this->userRepository = $userRepository;
-        $this->directory = $directory;
-        $this->permissionChecker = $permissionChecker;
     }
 
     public function searchAction(Request $request)

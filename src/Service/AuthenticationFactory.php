@@ -4,47 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Service\Config;
-
 class AuthenticationFactory
 {
-    /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @var CasAuthentication
-     */
-    protected $casAuthentication;
-
-    /**
-     * @var LdapAuthentication
-     */
-    protected $ldapAuthentication;
-
-    /**
-     * @var FormAuthentication
-     */
-    protected $formAuthentication;
-
-    /**
-     * @var ShibbolethAuthentication
-     */
-    protected $shibbolethAuthentication;
-
     public function __construct(
-        Config $config,
-        CasAuthentication $casAuthentication,
-        FormAuthentication $formAuthentication,
-        LdapAuthentication $ldapAuthentication,
-        ShibbolethAuthentication $shibbolethAuthentication
+        protected Config $config,
+        protected CasAuthentication $casAuthentication,
+        protected FormAuthentication $formAuthentication,
+        protected LdapAuthentication $ldapAuthentication,
+        protected ShibbolethAuthentication $shibbolethAuthentication
     ) {
-        $this->config = $config;
-        $this->casAuthentication = $casAuthentication;
-        $this->ldapAuthentication = $ldapAuthentication;
-        $this->formAuthentication = $formAuthentication;
-        $this->shibbolethAuthentication = $shibbolethAuthentication;
     }
 
     /**

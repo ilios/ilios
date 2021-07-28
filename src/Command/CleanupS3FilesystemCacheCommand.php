@@ -29,17 +29,11 @@ class CleanupS3FilesystemCacheCommand extends Command
      */
     protected $localCacheDirectory;
 
-    /**
-     * @var DiskSpace
-     */
-    protected $diskSpace;
-
-    public function __construct(FilesystemFactory $filesystemFactory, DiskSpace $diskSpace)
+    public function __construct(FilesystemFactory $filesystemFactory, protected DiskSpace $diskSpace)
     {
         parent::__construct();
         $this->filesystem = $filesystemFactory->getS3LocalFilesystemCache();
         $this->localCacheDirectory = $filesystemFactory->getLocalS3CacheDirectory();
-        $this->diskSpace = $diskSpace;
     }
 
     /**

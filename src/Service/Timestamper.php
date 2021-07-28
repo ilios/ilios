@@ -18,14 +18,8 @@ class Timestamper
      */
     protected $entities;
 
-    /**
-     * @var ManagerRegistry
-     */
-    protected $registry;
-
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(protected ManagerRegistry $registry)
     {
-        $this->registry   = $registry;
         $this->entities   = [];
     }
 

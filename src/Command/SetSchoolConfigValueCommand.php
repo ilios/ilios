@@ -15,22 +15,13 @@ use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Set a school configuration value in the DB
- *
- * Class SetConfigValueCommand
- * @package App\Command
  */
 class SetSchoolConfigValueCommand extends Command
 {
-    protected SchoolRepository $schoolRepository;
-    protected SchoolConfigRepository $schoolConfigRepository;
-
-    /**
-     * SetSchoolConfigValueCommand constructor.
-     */
-    public function __construct(SchoolRepository $schoolRepository, SchoolConfigRepository $schoolConfigRepository)
-    {
-        $this->schoolRepository = $schoolRepository;
-        $this->schoolConfigRepository = $schoolConfigRepository;
+    public function __construct(
+        protected SchoolRepository $schoolRepository,
+        protected SchoolConfigRepository $schoolConfigRepository
+    ) {
         parent::__construct();
     }
 

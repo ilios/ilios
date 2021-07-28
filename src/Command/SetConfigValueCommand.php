@@ -19,14 +19,11 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class SetConfigValueCommand extends Command
 {
-    protected ApplicationConfigRepository $applicationConfigRepository;
-
     /**
      * SetConfigValueCommand constructor.
      */
-    public function __construct(ApplicationConfigRepository $applicationConfigRepository)
+    public function __construct(protected ApplicationConfigRepository $applicationConfigRepository)
     {
-        $this->applicationConfigRepository = $applicationConfigRepository;
         parent::__construct();
     }
 

@@ -20,20 +20,10 @@ use App\Service\IliosFileSystem;
 class ValidateLearningMaterialPathsCommand extends Command
 {
 
-    /**
-     * @var IliosFileSystem
-     */
-    protected $iliosFileSystem;
-
-    protected LearningMaterialRepository $learningMaterialRepository;
-
     public function __construct(
-        IliosFileSystem $iliosFileSystem,
-        LearningMaterialRepository $learningMaterialRepository
+        protected IliosFileSystem $iliosFileSystem,
+        protected LearningMaterialRepository $learningMaterialRepository
     ) {
-        $this->iliosFileSystem = $iliosFileSystem;
-        $this->learningMaterialRepository = $learningMaterialRepository;
-
         parent::__construct();
     }
 

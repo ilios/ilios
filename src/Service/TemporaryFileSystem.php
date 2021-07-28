@@ -13,26 +13,15 @@ use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
  */
 class TemporaryFileSystem
 {
-    /**
-     * @var string
-     */
-    protected $temporaryFileStorePath;
+    protected string $temporaryFileStorePath;
 
-    /**
-     * A filesystem object to work with
-     * @var FileSystem
-     */
-    protected $fileSystem;
-
-    public function __construct(SymfonyFileSystem $fs, $kernelProjectDir)
+    public function __construct(protected SymfonyFileSystem $fileSystem, string $kernelProjectDir)
     {
         $tmpPath = realpath($kernelProjectDir . '/var/tmp');
-        $this->fileSystem = $fs;
         $this->temporaryFileStorePath = $tmpPath . '/uploads';
-        if (!$this->fileSystem->exists($this->temporaryFileStorePath)) {
-            $this->fileSystem->mkdir($this->temporaryFileStorePath);
+        if (!$fileSystem->exists($this->temporaryFileStorePath)) {
+            $fileSystem->mkdir($this->temporaryFileStorePath);
         }
-        $this->fileSystem = $fs;
     }
 
     /**

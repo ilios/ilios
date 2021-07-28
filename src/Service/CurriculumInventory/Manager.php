@@ -16,11 +16,8 @@ use Exception;
  */
 class Manager
 {
-    protected CurriculumInventoryReportRepository $repository;
-
-    public function __construct(CurriculumInventoryReportRepository $repository)
+    public function __construct(protected CurriculumInventoryReportRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     /**

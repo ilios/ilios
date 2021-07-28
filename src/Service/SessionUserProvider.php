@@ -15,15 +15,11 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class SessionUserProvider implements UserProviderInterface
 {
-    protected UserRepository $userRepository;
-
     /**
      * SessionUserProvider constructor.
      */
-    public function __construct(
-        UserRepository $userRepository
-    ) {
-        $this->userRepository = $userRepository;
+    public function __construct(protected UserRepository $userRepository)
+    {
     }
 
     public function createSessionUserFromUser(IliosUser $user): SessionUserInterface

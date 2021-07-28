@@ -11,11 +11,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class CurriculumInventoryReportDecoratorFactory
 {
-    protected RouterInterface $router;
-
-    public function __construct(RouterInterface $router)
+    public function __construct(protected RouterInterface $router)
     {
-        $this->router = $router;
     }
 
     public function create(CurriculumInventoryReportDTO $report): CurriculumInventoryReportDTO

@@ -28,50 +28,17 @@ class CasAuthentication implements AuthenticationInterface
     protected const JWT_COOKIE = 'ilios-cas-jwt';
     protected const NO_ACCOUNT_EXISTS_COOKIE = 'ilios-cas-no-account-exists';
 
-    protected AuthenticationRepository $authenticationRepository;
-
-    /**
-     * @var JsonWebTokenManager
-     */
-    protected $jwtManager;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
-    /**
-     * @var CasManager
-     */
-    protected $casManager;
-
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
     /**
      * Constructor
      */
     public function __construct(
-        AuthenticationRepository $authenticationRepository,
-        JsonWebTokenManager $jwtManager,
-        LoggerInterface $logger,
-        RouterInterface $router,
-        CasManager $casManager,
-        SessionUserProvider $sessionUserProvider
+        protected AuthenticationRepository $authenticationRepository,
+        protected JsonWebTokenManager $jwtManager,
+        protected LoggerInterface $logger,
+        protected RouterInterface $router,
+        protected CasManager $casManager,
+        protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->authenticationRepository = $authenticationRepository;
-        $this->jwtManager = $jwtManager;
-        $this->logger = $logger;
-        $this->router = $router;
-        $this->casManager = $casManager;
-        $this->sessionUserProvider = $sessionUserProvider;
     }
 
     /**

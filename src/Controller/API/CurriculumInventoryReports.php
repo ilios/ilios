@@ -30,17 +30,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class CurriculumInventoryReports extends ReadWriteController
 {
-    protected CurriculumInventoryAcademicLevelRepository $levelManager;
-    protected CurriculumInventorySequenceRepository $sequenceManager;
-
     public function __construct(
         CurriculumInventoryReportRepository $repository,
-        CurriculumInventoryAcademicLevelRepository $levelManager,
-        CurriculumInventorySequenceRepository $sequenceManager
+        protected CurriculumInventoryAcademicLevelRepository $levelManager,
+        protected CurriculumInventorySequenceRepository $sequenceManager
     ) {
         parent::__construct($repository, 'curriculuminventoryreports');
-        $this->levelManager = $levelManager;
-        $this->sequenceManager = $sequenceManager;
     }
 
     /**

@@ -30,23 +30,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Users extends ReadWriteController
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
-
     public function __construct(
         UserRepository $repository,
-        TokenStorageInterface $tokenStorage,
-        SerializerInterface $serializer
+        protected TokenStorageInterface $tokenStorage,
+        protected SerializerInterface $serializer
     ) {
         parent::__construct($repository, 'users');
-        $this->tokenStorage = $tokenStorage;
-        $this->serializer = $serializer;
     }
 
     /**

@@ -11,20 +11,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class UserIndexHandler implements MessageHandlerInterface
 {
-    /**
-     * @var Users
-     */
-    private $usersIndex;
-
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
-
-    public function __construct(Users $index, UserRepository $userRepository)
+    public function __construct(private Users $usersIndex, private UserRepository $userRepository)
     {
-        $this->usersIndex = $index;
-        $this->userRepository = $userRepository;
     }
 
     public function __invoke(UserIndexRequest $message)

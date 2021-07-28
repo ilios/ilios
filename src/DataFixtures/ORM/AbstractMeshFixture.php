@@ -18,40 +18,12 @@ use App\Service\DataimportFileLocator;
  */
 abstract class AbstractMeshFixture extends DataFixture implements ORMFixtureInterface
 {
-    /**
-     * @var string The name of the data file to import.
-     */
-    protected $filename;
-
-    /**
-     * @var string The type of MeSH data to import.
-     */
-    protected $type;
-
-    /**
-     * @var MeshDescriptorRepository
-     */
-    private $meshDescriptorRepository;
-
-    /**
-     * @var DataimportFileLocator
-     */
-    private $dataimportFileLocator;
-
-    /**
-     * @param string $filename The name of the data file to import.
-     * @param string $type The type of MeSH data to import.
-     */
     public function __construct(
-        MeshDescriptorRepository $meshDescriptorRepository,
-        DataimportFileLocator $dataimportFileLocator,
-        $filename,
-        $type
+        private MeshDescriptorRepository $meshDescriptorRepository,
+        private DataimportFileLocator $dataimportFileLocator,
+        protected string $filename,
+        protected string $type
     ) {
-        $this->meshDescriptorRepository = $meshDescriptorRepository;
-        $this->dataimportFileLocator = $dataimportFileLocator;
-        $this->filename = $filename;
-        $this->type = $type;
     }
 
     /**

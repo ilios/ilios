@@ -45,15 +45,8 @@ class IliosFileSystem
      */
     public const TEST_FILE_ROOT = 'crud_tests';
 
-    /**
-     * A filesystem object to work with
-     * @var FilesystemInterface
-     */
-    protected $fileSystem;
-
-    public function __construct(FilesystemInterface $fileSystem)
+    public function __construct(protected FilesystemInterface $fileSystem)
     {
-        $this->fileSystem = $fileSystem;
     }
 
     /**

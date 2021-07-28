@@ -23,17 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class AuditLogExportCommand extends Command
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    protected AuditLogRepository $auditLogRepository;
-
-    public function __construct(LoggerInterface $logger, AuditLogRepository $auditLogRepository)
+    public function __construct(protected LoggerInterface $logger, protected AuditLogRepository $auditLogRepository)
     {
-        $this->logger = $logger;
-        $this->auditLogRepository = $auditLogRepository;
         parent::__construct();
     }
 

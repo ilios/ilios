@@ -23,26 +23,12 @@ use App\Service\Directory;
  */
 class SyncUserCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected AuthenticationRepository $authenticationRepository;
-    protected PendingUserUpdateRepository $pendingUserUpdateRepository;
-
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
     public function __construct(
-        UserRepository $userRepository,
-        AuthenticationRepository $authenticationRepository,
-        PendingUserUpdateRepository $pendingUserUpdateRepository,
-        Directory $directory
+        protected UserRepository $userRepository,
+        protected AuthenticationRepository $authenticationRepository,
+        protected PendingUserUpdateRepository $pendingUserUpdateRepository,
+        protected Directory $directory
     ) {
-        $this->userRepository = $userRepository;
-        $this->authenticationRepository = $authenticationRepository;
-        $this->pendingUserUpdateRepository = $pendingUserUpdateRepository;
-        $this->directory = $directory;
-
         parent::__construct();
     }
 

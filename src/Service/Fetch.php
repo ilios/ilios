@@ -19,14 +19,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class Fetch
 {
-    /**
-     * @var HttpClientInterface
-     */
-    protected $client;
-
-    public function __construct(HttpClientInterface $client)
+    public function __construct(protected HttpClientInterface $client)
     {
-        $this->client = $client;
     }
 
     /**

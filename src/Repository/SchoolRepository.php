@@ -26,12 +26,9 @@ class SchoolRepository extends ServiceEntityRepository implements
     use CalendarEventRepository;
     use ManagerRepository;
 
-    protected UserMaterialFactory $userMaterialFactory;
-
-    public function __construct(ManagerRegistry $registry, UserMaterialFactory $userMaterialFactory)
+    public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $userMaterialFactory)
     {
         parent::__construct($registry, School::class);
-        $this->userMaterialFactory = $userMaterialFactory;
     }
 
     /**

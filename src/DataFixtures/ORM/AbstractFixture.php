@@ -22,37 +22,15 @@ use App\Traits\IdentifiableEntityInterface;
 abstract class AbstractFixture extends DataFixture implements ORMFixtureInterface
 {
     /**
-     * @var int number of insert statements per batch.
+     * number of insert statements per batch.
      */
     protected const BATCH_SIZE = 200;
-    /**
-     * @var string
-     * Doubles as identifier for this fixture's data file and entity references.
-     */
-    protected $key;
 
-    /**
-     * @var bool
-     * Set to TRUE if the loaded fixture should be held on for reference.
-     */
-    protected $storeReference;
-    /**
-     * @var DataimportFileLocator
-     */
-    private $dataimportFileLocator;
-
-    /**
-     * @param string $key
-     * @param bool $storeReference
-     */
     public function __construct(
-        DataimportFileLocator $dataimportFileLocator,
-        $key,
-        $storeReference = true
+        private DataimportFileLocator $dataimportFileLocator,
+        protected string $key,
+        protected bool $storeReference = true
     ) {
-        $this->key = $key;
-        $this->storeReference = $storeReference;
-        $this->dataimportFileLocator = $dataimportFileLocator;
     }
 
     /**

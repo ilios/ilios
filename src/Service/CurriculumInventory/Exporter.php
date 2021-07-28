@@ -21,13 +21,8 @@ use Exception;
  */
 class Exporter
 {
-    protected Aggregator $aggregator;
-    protected XmlPrinter $printer;
-
-    public function __construct(Aggregator $aggregator, XmlPrinter $printer)
+    public function __construct(protected Aggregator $aggregator, protected XmlPrinter $printer)
     {
-        $this->aggregator = $aggregator;
-        $this->printer = $printer;
     }
     /**
      * Loads the curriculum inventory for a given report and exports it as XML document.

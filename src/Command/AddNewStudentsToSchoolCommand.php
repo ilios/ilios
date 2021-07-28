@@ -23,29 +23,13 @@ use App\Service\Directory;
  */
 class AddNewStudentsToSchoolCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected SchoolRepository $schoolRepository;
-    protected AuthenticationRepository $authenticationRepository;
-    protected UserRoleRepository $userRoleRepository;
-
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
     public function __construct(
-        UserRepository $userRepository,
-        SchoolRepository $schoolRepository,
-        AuthenticationRepository $authenticationRepository,
-        UserRoleRepository $userRoleRepository,
-        Directory $directory
+        protected UserRepository $userRepository,
+        protected SchoolRepository $schoolRepository,
+        protected AuthenticationRepository $authenticationRepository,
+        protected UserRoleRepository $userRoleRepository,
+        protected Directory $directory
     ) {
-        $this->userRepository = $userRepository;
-        $this->schoolRepository = $schoolRepository;
-        $this->authenticationRepository = $authenticationRepository;
-        $this->userRoleRepository = $userRoleRepository;
-        $this->directory = $directory;
-
         parent::__construct();
     }
 

@@ -22,15 +22,11 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
     use NormalizerAwareTrait;
 
     private const ALREADY_CALLED = 'FACTORY_NORMALIZER_ALREADY_CALLED';
-    protected LearningMaterialDecoratorFactory $learningMaterialDecoratorFactory;
-    protected CurriculumInventoryReportDecoratorFactory $curriculumInventoryReportDecoratorFactory;
 
     public function __construct(
-        LearningMaterialDecoratorFactory $learningMaterialDecoratorFactory,
-        CurriculumInventoryReportDecoratorFactory $curriculumInventoryReportDecoratorFactory
+        protected LearningMaterialDecoratorFactory $learningMaterialDecoratorFactory,
+        protected CurriculumInventoryReportDecoratorFactory $curriculumInventoryReportDecoratorFactory
     ) {
-        $this->learningMaterialDecoratorFactory = $learningMaterialDecoratorFactory;
-        $this->curriculumInventoryReportDecoratorFactory = $curriculumInventoryReportDecoratorFactory;
     }
 
     public function normalize($object, string $format = null, array $context = [])

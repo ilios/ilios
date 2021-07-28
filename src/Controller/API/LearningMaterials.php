@@ -39,12 +39,10 @@ use RuntimeException;
 
 class LearningMaterials
 {
-    protected LearningMaterialRepository $repository;
     protected string $endpoint;
 
-    public function __construct(LearningMaterialRepository $repository)
+    public function __construct(protected LearningMaterialRepository $repository)
     {
-        $this->repository = $repository;
         $this->endpoint = 'learningmaterials';
     }
 

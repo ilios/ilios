@@ -16,12 +16,9 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements DTO
 {
     use ManagerRepository;
 
-    protected bool $cacheEnabled;
-
-    public function __construct(ManagerRegistry $registry, bool $cacheEnabled)
+    public function __construct(ManagerRegistry $registry, protected bool $cacheEnabled)
     {
         parent::__construct($registry, ApplicationConfig::class);
-        $this->cacheEnabled = $cacheEnabled;
     }
 
     /**

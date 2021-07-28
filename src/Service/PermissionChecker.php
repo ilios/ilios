@@ -15,14 +15,8 @@ use App\Entity\SessionInterface;
 
 class PermissionChecker
 {
-    /**
-     * @var PermissionMatrixInterface
-     */
-    private $matrix;
-
-    public function __construct(PermissionMatrixInterface $matrix)
+    public function __construct(private PermissionMatrixInterface $matrix)
     {
-        $this->matrix = $matrix;
     }
 
     public function canUpdateCourse(SessionUserInterface $sessionUser, CourseInterface $course): bool

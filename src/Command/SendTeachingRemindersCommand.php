@@ -32,37 +32,16 @@ class SendTeachingRemindersCommand extends Command
 
     public const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
 
-    protected OfferingRepository $offeringRepository;
-
-    protected SchoolRepository $schoolRepository;
-
-    protected Environment $twig;
-
-    protected MailerInterface $mailer;
-
-    protected Config $config;
-
-    protected Filesystem $fs;
-
-    protected string $kernelProjectDir;
-
     public function __construct(
-        OfferingRepository $offeringRepository,
-        SchoolRepository $schoolRepository,
-        Environment $twig,
-        MailerInterface $mailer,
-        Config $config,
-        Filesystem $fs,
-        string $kernelProjectDir
+        protected OfferingRepository $offeringRepository,
+        protected SchoolRepository $schoolRepository,
+        protected Environment $twig,
+        protected MailerInterface $mailer,
+        protected Config $config,
+        protected Filesystem $fs,
+        protected string $kernelProjectDir
     ) {
         parent::__construct();
-        $this->offeringRepository = $offeringRepository;
-        $this->schoolRepository = $schoolRepository;
-        $this->twig = $twig;
-        $this->mailer = $mailer;
-        $this->config = $config;
-        $this->fs = $fs;
-        $this->kernelProjectDir = $kernelProjectDir;
     }
 
     /**

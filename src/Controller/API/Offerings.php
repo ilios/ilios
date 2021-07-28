@@ -29,20 +29,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Offerings extends ReadWriteController
 {
-    protected ChangeAlertHandler $alertHandler;
-    protected UserRepository $userRepository;
-    protected TokenStorageInterface $tokenStorage;
-
     public function __construct(
         OfferingRepository $repository,
-        ChangeAlertHandler $alertHandler,
-        UserRepository $userRepository,
-        TokenStorageInterface $tokenStorage
+        protected ChangeAlertHandler $alertHandler,
+        protected UserRepository $userRepository,
+        protected TokenStorageInterface $tokenStorage
     ) {
         parent::__construct($repository, 'offerings');
-        $this->alertHandler = $alertHandler;
-        $this->userRepository = $userRepository;
-        $this->tokenStorage = $tokenStorage;
     }
 
 

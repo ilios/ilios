@@ -18,23 +18,11 @@ use Twig\Environment;
  */
 class GenerateSwaggerApiPathYamlCommand extends Command
 {
-    /**
-     * @var Environment
-     */
-    protected $twig;
-
-    /**
-     * @var Inflector
-     */
-    protected $inflector;
-
     public function __construct(
-        Environment $twig,
-        Inflector $inflector
+        protected Environment $twig,
+        protected Inflector $inflector
     ) {
         parent::__construct();
-        $this->twig = $twig;
-        $this->inflector = $inflector;
     }
 
     /**

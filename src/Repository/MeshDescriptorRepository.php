@@ -34,12 +34,9 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
 
-    protected MeshDescriptorSetTransmogrifier $transmogrifier;
-
-    public function __construct(ManagerRegistry $registry, MeshDescriptorSetTransmogrifier $transmogrifier)
+    public function __construct(ManagerRegistry $registry, protected MeshDescriptorSetTransmogrifier $transmogrifier)
     {
         parent::__construct($registry, MeshDescriptor::class);
-        $this->transmogrifier = $transmogrifier;
     }
 
     /**

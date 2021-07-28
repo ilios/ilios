@@ -25,27 +25,18 @@ class EndpointResponseNamer
      */
     protected $pathToEntities;
 
-    /**
-     * @var Inflector
-     */
-    protected $inflector;
-
-    /**
-     * @var CacheInterface
-     */
-    protected $appCache;
-
     private const LIST_CACHE_KEY = 'endpoint-response-namer-entity-list';
 
     /**
      * EndpointResponseNamer constructor.
      * Extracts the entity path from the Kernel
      */
-    public function __construct(KernelInterface $kernel, Inflector $inflector, CacheInterface $appCache)
-    {
+    public function __construct(
+        KernelInterface $kernel,
+        protected Inflector $inflector,
+        protected CacheInterface $appCache
+    ) {
         $this->pathToEntities = $kernel->getProjectDir() . '/src/Entity';
-        $this->inflector = $inflector;
-        $this->appCache = $appCache;
     }
 
     /**

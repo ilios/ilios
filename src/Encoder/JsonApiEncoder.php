@@ -15,14 +15,8 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
 
     protected const FORMAT = 'json-api';
 
-    /**
-     * @var JsonApiDataShaper
-     */
-    protected $dataShaper;
-
-    public function __construct(JsonApiDataShaper $dataShaper)
+    public function __construct(protected JsonApiDataShaper $dataShaper)
     {
-        $this->dataShaper = $dataShaper;
     }
 
     public function decode(string $data, string $format, array $context = [])

@@ -12,16 +12,13 @@ use App\Repository\SchoolRepository;
 
 class DefaultPermissionMatrix extends PermissionMatrix
 {
-    protected SchoolRepository $schoolRepository;
-
     /**
      * @var bool
      */
     protected $hasMatrixBeenBuilt;
 
-    public function __construct(SchoolRepository $schoolRepository)
+    public function __construct(protected SchoolRepository $schoolRepository)
     {
-        $this->schoolRepository = $schoolRepository;
         $this->hasMatrixBeenBuilt = false;
     }
 

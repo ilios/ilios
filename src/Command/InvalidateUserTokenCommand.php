@@ -19,16 +19,10 @@ use DateTime;
  */
 class InvalidateUserTokenCommand extends Command
 {
-    protected UserRepository $userRepository;
-    protected AuthenticationRepository $authenticationRepository;
-
     public function __construct(
-        UserRepository $userRepository,
-        AuthenticationRepository $authenticationRepository
+        protected UserRepository $userRepository,
+        protected AuthenticationRepository $authenticationRepository
     ) {
-        $this->userRepository = $userRepository;
-        $this->authenticationRepository = $authenticationRepository;
-
         parent::__construct();
     }
 

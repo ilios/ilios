@@ -30,44 +30,21 @@ use Exception;
 
 /**
  * CourseRollover Rolls over an existing course and its components to a new Academic Year
- *
- * @category Service
  */
 class CourseRollover
 {
-    protected CourseRepository $courseRepository;
-    protected LearningMaterialRepository $learningMaterialRepository;
-    protected CourseLearningMaterialRepository $courseLearningMaterialRepository;
-    protected SessionRepository $sessionRepository;
-    protected SessionLearningMaterialRepository $sessionLearningMaterialRepository;
-    protected CourseObjectiveRepository $courseObjectiveRepository;
-    protected SessionObjectiveRepository $sessionObjectiveRepository;
-    protected OfferingRepository $offeringRepository;
-    protected IlmSessionRepository $ilmSessionRepository;
-    private CohortRepository $cohortRepository;
-
     public function __construct(
-        CourseRepository $courseRepository,
-        LearningMaterialRepository $learningMaterialRepository,
-        CourseLearningMaterialRepository $courseLearningMaterialRepository,
-        SessionRepository $sessionRepository,
-        SessionLearningMaterialRepository $sessionLearningMaterialRepository,
-        OfferingRepository $offeringRepository,
-        IlmSessionRepository $ilmSessionRepository,
-        CohortRepository $cohortRepository,
-        CourseObjectiveRepository $courseObjectiveRepository,
-        SessionObjectiveRepository $sessionObjectiveRepository
+        protected CourseRepository $courseRepository,
+        protected LearningMaterialRepository $learningMaterialRepository,
+        protected CourseLearningMaterialRepository $courseLearningMaterialRepository,
+        protected SessionRepository $sessionRepository,
+        protected SessionLearningMaterialRepository $sessionLearningMaterialRepository,
+        protected OfferingRepository $offeringRepository,
+        protected IlmSessionRepository $ilmSessionRepository,
+        private CohortRepository $cohortRepository,
+        protected CourseObjectiveRepository $courseObjectiveRepository,
+        protected SessionObjectiveRepository $sessionObjectiveRepository
     ) {
-        $this->courseRepository = $courseRepository;
-        $this->learningMaterialRepository = $learningMaterialRepository;
-        $this->courseLearningMaterialRepository = $courseLearningMaterialRepository;
-        $this->sessionRepository = $sessionRepository;
-        $this->sessionLearningMaterialRepository = $sessionLearningMaterialRepository;
-        $this->offeringRepository = $offeringRepository;
-        $this->ilmSessionRepository = $ilmSessionRepository;
-        $this->cohortRepository = $cohortRepository;
-        $this->courseObjectiveRepository = $courseObjectiveRepository;
-        $this->sessionObjectiveRepository = $sessionObjectiveRepository;
     }
 
     /**

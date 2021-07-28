@@ -19,49 +19,14 @@ class FormAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    protected AuthenticationRepository $authenticationRepository;
-
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    protected $encoder;
-    /**
-     * @var TokenStorageInterface
-     */
-    protected $tokenStorage;
-
-    /**
-     * @var JsonWebTokenManager
-     */
-    protected $jwtManager;
-
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * @var SessionUserProvider
-     */
-    protected $sessionUserProvider;
-
-    /**
-     * Constructor
-     */
     public function __construct(
-        AuthenticationRepository $authenticationRepository,
-        UserRepository $userRepository,
-        UserPasswordEncoderInterface $encoder,
-        TokenStorageInterface $tokenStorage,
-        JsonWebTokenManager $jwtManager,
-        SessionUserProvider $sessionUserProvider
+        protected AuthenticationRepository $authenticationRepository,
+        protected UserRepository $userRepository,
+        protected UserPasswordEncoderInterface $encoder,
+        protected TokenStorageInterface $tokenStorage,
+        protected JsonWebTokenManager $jwtManager,
+        protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->authenticationRepository = $authenticationRepository;
-        $this->encoder = $encoder;
-        $this->tokenStorage = $tokenStorage;
-        $this->jwtManager = $jwtManager;
-        $this->userRepository = $userRepository;
-        $this->sessionUserProvider = $sessionUserProvider;
     }
 
     /**
