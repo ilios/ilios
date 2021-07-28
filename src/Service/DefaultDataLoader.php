@@ -21,13 +21,13 @@ class DefaultDataLoader
 
     /**
      * @param DataImportRepositoryInterface $repository
-     * @param string $filename
+     * @param string $type
      * @throws Exception
      */
-    public function import(DataImportRepositoryInterface $repository, string $filename): void
+    public function import(DataImportRepositoryInterface $repository, string $type): void
     {
+        $filename = $type . '.csv';
         $path = $this->dataImportFileLocator->getDataFilePath($filename);
-        $type = basename($filename, '.csv');
         $now = (new DateTime())->format('Y-m-d H:i:s');
         $i = 0;
 
@@ -39,7 +39,7 @@ class DefaultDataLoader
                 if (1 === $i) {
                     continue;
                 }
-                $repository->import($data, $type, $now);
+                $repository->import($data, $type);
             }
 
             // clean-up

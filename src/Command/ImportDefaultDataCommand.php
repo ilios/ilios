@@ -95,28 +95,28 @@ class ImportDefaultDataCommand extends Command
             $this->applicationConfigRepository->deleteAll();
 
             // now, let's import
-            $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method.csv');
-            $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs.csv');
-            $this->dataLoader->import($this->aamcResourceTypeRepository, 'aamc_resource_type.csv');
-            $this->dataLoader->import($this->alertChangeTypeRepository, 'alert_change_type.csv');
-            $this->dataLoader->import($this->applicationConfigRepository, 'application_config.csv');
-            $this->dataLoader->import($this->assessmentOptionRepository, 'assessment_option.csv');
-            $this->dataLoader->import($this->courseClerkshipTypeRepository, 'course_clerkship_type.csv');
-            $this->dataLoader->import($this->learningMaterialStatusRepository, 'learning_material_status.csv');
-            $this->dataLoader->import($this->learningMaterialUserRoleRepository, 'learning_material_user_role.csv');
-            $this->dataLoader->import($this->userRoleRepository, 'user_role.csv');
-            $this->dataLoader->import($this->schoolRepository, 'school.csv');
+            $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method');
+            $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs');
+            $this->dataLoader->import($this->aamcResourceTypeRepository, 'aamc_resource_type');
+            $this->dataLoader->import($this->alertChangeTypeRepository, 'alert_change_type');
+            $this->dataLoader->import($this->applicationConfigRepository, 'application_config');
+            $this->dataLoader->import($this->assessmentOptionRepository, 'assessment_option');
+            $this->dataLoader->import($this->courseClerkshipTypeRepository, 'course_clerkship_type');
+            $this->dataLoader->import($this->learningMaterialStatusRepository, 'learning_material_status');
+            $this->dataLoader->import($this->learningMaterialUserRoleRepository, 'learning_material_user_role');
+            $this->dataLoader->import($this->userRoleRepository, 'user_role');
+            $this->dataLoader->import($this->schoolRepository, 'school');
             $this->dataLoader->import(
                 $this->curriculumInventoryInstitutionRepository,
-                'curriculum_inventory_institution.csv'
+                'curriculum_inventory_institution'
             );
-            $this->dataLoader->import($this->competencyRepository, 'competency.csv');
-            $this->dataLoader->import($this->competencyRepository, 'competency_x_aamc_pcrs.csv');
-            $this->dataLoader->import($this->sessionTypeRepository, 'session_type.csv');
-            $this->dataLoader->import($this->sessionTypeRepository, 'session_type_x_aamc_method.csv');
-            $this->dataLoader->import($this->vocabularyRepository, 'vocabulary.csv');
-            $this->dataLoader->import($this->termRepository, 'term.csv');
-            $this->dataLoader->import($this->termRepository, 'term_x_aamc_resource_type.csv');
+            $this->dataLoader->import($this->competencyRepository, 'competency');
+            $this->dataLoader->import($this->competencyRepository, 'competency_x_aamc_pcrs');
+            $this->dataLoader->import($this->sessionTypeRepository, 'session_type');
+            $this->dataLoader->import($this->sessionTypeRepository, 'session_type_x_aamc_method');
+            $this->dataLoader->import($this->vocabularyRepository, 'vocabulary');
+            $this->dataLoader->import($this->termRepository, 'term');
+            $this->dataLoader->import($this->termRepository, 'term_x_aamc_resource_type');
         } catch (Exception $e) {
             $io->error([
                 'An error occurred during data import:',
