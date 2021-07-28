@@ -28,7 +28,6 @@ class DefaultDataLoader
     {
         $filename = $type . '.csv';
         $path = $this->dataImportFileLocator->getDataFilePath($filename);
-        $now = (new DateTime())->format('Y-m-d H:i:s');
         $i = 0;
 
         if (($handle = fopen($path, 'r')) !== false) {
