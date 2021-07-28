@@ -48,7 +48,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         protected Filesystem $fs,
         protected Config $config,
         private Archive $archive,
-        protected string $cacheDir,
+        protected string $kernelCacheDir,
         string $kernelProjectDir,
         protected string $apiVersion,
         protected string $environment
@@ -177,14 +177,14 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fs->dumpFile($archivePath, $string);
 
         $this->archive::extract($archivePath, $archiveDir);
-        $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
+        $frontendPath = $this->kernelCacheDir . self::FRONTEND_DIRECTORY;
         $this->fs->remove($frontendPath);
         $this->fs->rename($archiveDir . self::UNPACKED_DIRECTORY, $frontendPath);
     }
 
     protected function copyStaticFilesIntoPublicDirectory(): void
     {
-        $frontendPath = $this->cacheDir . self::FRONTEND_DIRECTORY;
+        $frontendPath = $this->kernelCacheDir . self::FRONTEND_DIRECTORY;
         $filesToIgnore = ['..', '.', 'index.json', 'index.html', '_redirects'];
         $files = array_diff($this->fs->scandir($frontendPath), $filesToIgnore);
         foreach ($files as $file) {

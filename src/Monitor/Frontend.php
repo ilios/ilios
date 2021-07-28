@@ -11,7 +11,7 @@ use Laminas\Diagnostics\Result\Success;
 
 class Frontend implements CheckInterface
 {
-    public function __construct(private string $cacheDir)
+    public function __construct(private string $kernelCacheDir)
     {
     }
 
@@ -20,7 +20,7 @@ class Frontend implements CheckInterface
      */
     public function check()
     {
-        $assetsPath = $this->cacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
+        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::FRONTEND_DIRECTORY;
         $path = $assetsPath . 'index.json';
 
         if (!file_exists($path)) {
