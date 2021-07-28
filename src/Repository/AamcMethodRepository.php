@@ -121,7 +121,7 @@ class AamcMethodRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         // `method_id`,`description`,`active`
         $entity = new AamcMethod();

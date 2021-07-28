@@ -99,7 +99,7 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
         return $qb;
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         // `learning_material_user_role_id`,`title`
         $entity = new LearningMaterialUserRole();

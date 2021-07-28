@@ -99,7 +99,7 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
         return $qb;
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         // `learning_material_status_id`,`title`
         $entity = new LearningMaterialStatus();

@@ -283,7 +283,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type = null, $now = null): void
+    public function import(array $data, string $type): void
     {
         match ($type) {
             'session_type' => $this->importSessionTypes($data),

@@ -123,7 +123,7 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         // `course_clerkship_type_id`,`title`
         $entity = new CourseClerkshipType();

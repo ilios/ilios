@@ -610,7 +610,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         return array_values($schoolDTOs);
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
         $entity = new School();

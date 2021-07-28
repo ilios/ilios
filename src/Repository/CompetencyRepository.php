@@ -226,7 +226,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         match ($type) {
             'competency' => $this->importCompetencies($data),

@@ -16,8 +16,7 @@ interface DataImportRepositoryInterface
      * Imports a given set of records into their corresponding database table(s).
      *
      * @param array $data An associative array containing the data records to import.
-     * @param string|null $type The type of data that's being imported.
-     * @param string|null $now The current time and date as an ANSI SQL compatible string representation.
+     * @param string $type The type of data that's being imported.
      */
-    public function import(array $data, string $type = null, string $now = null): void;
+    public function import(array $data, string $type): void;
 }

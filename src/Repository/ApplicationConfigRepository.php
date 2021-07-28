@@ -127,7 +127,7 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         // `id`, `name`,`value`
         $entity = new ApplicationConfig();

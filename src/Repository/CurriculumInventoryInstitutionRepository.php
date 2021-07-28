@@ -120,7 +120,7 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         return $qb;
     }
 
-    public function import(array $data, string $type = null, string $now = null): void
+    public function import(array $data, string $type): void
     {
         $sql = 'INSERT INTO curriculum_inventory_institution ('
             . ' school_id, name, aamc_code, address_street, address_city, address_state_or_province'
