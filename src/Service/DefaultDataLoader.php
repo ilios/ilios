@@ -41,13 +41,8 @@ class DefaultDataLoader
                 }
                 $repository->import($data, $type);
             }
-
             // clean-up
             fclose($handle);
-        }
-
-        if (function_exists('gc_collect_cycles')) {
-            gc_collect_cycles();
         }
     }
 }
