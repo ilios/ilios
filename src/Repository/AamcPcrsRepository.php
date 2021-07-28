@@ -122,8 +122,10 @@ class AamcPcrsRepository extends ServiceEntityRepository implements
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = "INSERT INTO aamc_pcrs (pcrs_id, description) VALUES (?, ?)";
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `pcrs_id`,`description`
+        $entity = new AamcPcrs();
+        $entity->setId($data[0]);
+        $entity->setDescription($data[1]);
+        $this->update($entity, true);
     }
 }

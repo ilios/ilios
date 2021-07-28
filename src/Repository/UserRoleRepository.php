@@ -117,8 +117,10 @@ class UserRoleRepository extends ServiceEntityRepository implements
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = 'INSERT INTO user_role (user_role_id, title) VALUES (?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `user_role_id`,`title`
+        $entity = new UserRole();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->update($entity, true);
     }
 }

@@ -129,18 +129,19 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        // ACHTUNG!
-        // we MUST clear the the application config table as part of the import process.
-        // Unlike with the aamc_resource_type table, we don't have a way to prevent
-        // data from being entered in the application_config table before the data import is run.
-        // The migrations that set up the schema will fill this table with some defaults in any case,
-        // and if we leave those in place then the insert will fail due to duplicate key constraint violations.
-        // So... let's just clear all records out here first. ¯\_(ツ)_/¯
-        // [ST 2021/07/22]
-        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
+        // `id`, `name`,`value`
+        $entity = new ApplicationConfig();
+        $entity->setId($data[0]);
+        $entity->setName($data[1]);
+        $entity->setValue($data[2]);
+        $this->update($entity, true);
+    }
 
-        $sql = "INSERT INTO application_config(id, name, value) VALUES (?, ?, ?)";
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+    /**
+     * Delete all records in this table
+     */
+    public function deleteAll(): void
+    {
+        $this->createQueryBuilder('a')->delete()->getQuery()->execute();
     }
 }

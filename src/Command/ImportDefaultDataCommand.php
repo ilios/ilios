@@ -85,6 +85,16 @@ class ImportDefaultDataCommand extends Command
 
         $io->info('Started data import, this may take a while...');
         try {
+            // ACHTUNG!
+            // we MUST clear the the aamc_method and application_configs table as part of the import process,
+            // since it gets pre-populated with data in the previous step of the installation
+            // process (when migrations are running).
+            // So let's just clear all records out here first, in order to avoid data duplication issues.
+            // [ST 2021/07/28]
+            $this->aamcMethodRepository->deleteAll();
+            $this->applicationConfigRepository->deleteAll();
+
+            // now, let's import
             $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method.csv');
             $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs.csv');
             $this->dataLoader->import($this->aamcResourceTypeRepository, 'aamc_resource_type.csv');

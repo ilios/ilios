@@ -101,8 +101,10 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = "INSERT INTO learning_material_status (learning_material_status_id, title) VALUES (?, ?)";
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `learning_material_status_id`,`title`
+        $entity = new LearningMaterialStatus();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->update($entity, true);
     }
 }

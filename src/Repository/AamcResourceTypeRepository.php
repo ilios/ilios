@@ -123,8 +123,11 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = "INSERT INTO aamc_resource_type (resource_type_id, title, description) VALUES (?, ?, ?)";
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `resource_type_id`,`title`,`description`
+        $entity = new AamcResourceType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setDescription($data[2]);
+        $this->update($entity, true);
     }
 }

@@ -125,8 +125,10 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = "INSERT INTO course_clerkship_type (course_clerkship_type_id, title) VALUES (?, ?)";
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `course_clerkship_type_id`,`title`
+        $entity = new CourseClerkshipType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->update($entity, true);
     }
 }

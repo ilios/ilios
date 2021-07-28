@@ -612,9 +612,13 @@ class SchoolRepository extends ServiceEntityRepository implements
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = 'INSERT INTO school(school_id, template_prefix, title, ilios_administrator_email,'
-            . '  change_alert_recipients) VALUES (?, ?, ?, ?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
+        $entity = new School();
+        $entity->setId($data[0]);
+        $entity->setTemplatePrefix($data[1]);
+        $entity->setTitle($data[2]);
+        $entity->setIliosAdministratorEmail($data[3]);
+        $entity->setChangeAlertRecipients($data[4]);
+        $this->update($entity, true);
     }
 }

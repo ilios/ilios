@@ -122,8 +122,10 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
 
     public function import(array $data, string $type = null, string $now = null): void
     {
-        $sql = "INSERT INTO alert_change_type (alert_change_type_id, title) VALUES (?, ?)";
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `alert_change_type_id`,`title`
+        $entity = new AlertChangeType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->update($entity, true);
     }
 }
