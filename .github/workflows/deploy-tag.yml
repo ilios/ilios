@@ -53,13 +53,12 @@ jobs:
         registry: ghcr.io
         username: zorgbort
         password: ${{ secrets.ZORGBORT_TOKEN }}
-    - name: ${{ matrix.image }} to Docker Registry
+    - name: ${{ matrix.image }} to Github Registry
       uses: docker/build-push-action@v2
       with:
-        username: zorgbort
-        password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
+        push: true
   deploy-docker-containers:
     needs: tags
     name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
@@ -92,3 +91,4 @@ jobs:
       with:
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
+        push: true
