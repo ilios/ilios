@@ -120,12 +120,14 @@ class AamcPcrsRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
         // `pcrs_id`,`description`
         $entity = new AamcPcrs();
         $entity->setId($data[0]);
         $entity->setDescription($data[1]);
         $this->update($entity, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

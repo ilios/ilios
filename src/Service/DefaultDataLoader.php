@@ -22,9 +22,11 @@ class DefaultDataLoader
     /**
      * @param DataImportRepositoryInterface $repository
      * @param string $type
+     * @param array $referenceMap
+     * @return array
      * @throws Exception
      */
-    public function import(DataImportRepositoryInterface $repository, string $type): void
+    public function import(DataImportRepositoryInterface $repository, string $type, array $referenceMap): array
     {
         $filename = $type . '.csv';
         $path = $this->dataImportFileLocator->getDataFilePath($filename);
@@ -38,10 +40,12 @@ class DefaultDataLoader
                 if (1 === $i) {
                     continue;
                 }
-                $repository->import($data, $type);
+                $referenceMap = $repository->import($data, $type, $referenceMap);
             }
             // clean-up
             fclose($handle);
         }
+
+        return $referenceMap;
     }
 }

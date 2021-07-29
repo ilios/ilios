@@ -84,6 +84,7 @@ class ImportDefaultDataCommand extends Command
         }
 
         $io->info('Started data import, this may take a while...');
+        $referenceMap = [];
         try {
             // ACHTUNG!
             // we MUST clear the the aamc_method and application_configs table as part of the import process,
@@ -95,28 +96,73 @@ class ImportDefaultDataCommand extends Command
             $this->applicationConfigRepository->deleteAll();
 
             // now, let's import
-            $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method');
-            $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs');
-            $this->dataLoader->import($this->aamcResourceTypeRepository, 'aamc_resource_type');
-            $this->dataLoader->import($this->alertChangeTypeRepository, 'alert_change_type');
-            $this->dataLoader->import($this->applicationConfigRepository, 'application_config');
-            $this->dataLoader->import($this->assessmentOptionRepository, 'assessment_option');
-            $this->dataLoader->import($this->courseClerkshipTypeRepository, 'course_clerkship_type');
-            $this->dataLoader->import($this->learningMaterialStatusRepository, 'learning_material_status');
-            $this->dataLoader->import($this->learningMaterialUserRoleRepository, 'learning_material_user_role');
-            $this->dataLoader->import($this->userRoleRepository, 'user_role');
-            $this->dataLoader->import($this->schoolRepository, 'school');
-            $this->dataLoader->import(
-                $this->curriculumInventoryInstitutionRepository,
-                'curriculum_inventory_institution'
+            $referenceMap = $this->dataLoader->import($this->aamcMethodRepository, 'aamc_method', $referenceMap);
+            $referenceMap = $this->dataLoader->import($this->aamcPcrsRepository, 'aamc_pcrs', $referenceMap);
+            $referenceMap = $this->dataLoader->import(
+                $this->aamcResourceTypeRepository,
+                'aamc_resource_type',
+                $referenceMap
             );
-            $this->dataLoader->import($this->competencyRepository, 'competency');
-            $this->dataLoader->import($this->competencyRepository, 'competency_x_aamc_pcrs');
-            $this->dataLoader->import($this->sessionTypeRepository, 'session_type');
-            $this->dataLoader->import($this->sessionTypeRepository, 'session_type_x_aamc_method');
-            $this->dataLoader->import($this->vocabularyRepository, 'vocabulary');
-            $this->dataLoader->import($this->termRepository, 'term');
-            $this->dataLoader->import($this->termRepository, 'term_x_aamc_resource_type');
+            $referenceMap = $this->dataLoader->import(
+                $this->alertChangeTypeRepository,
+                'alert_change_type',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import(
+                $this->applicationConfigRepository,
+                'application_config',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import(
+                $this->assessmentOptionRepository,
+                'assessment_option',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import(
+                $this->courseClerkshipTypeRepository,
+                'course_clerkship_type',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import(
+                $this->learningMaterialStatusRepository,
+                'learning_material_status',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import(
+                $this->learningMaterialUserRoleRepository,
+                'learning_material_user_role',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import($this->userRoleRepository, 'user_role', $referenceMap);
+            $referenceMap = $this->dataLoader->import($this->schoolRepository, 'school', $referenceMap);
+            $referenceMap = $this->dataLoader->import(
+                $this->curriculumInventoryInstitutionRepository,
+                'curriculum_inventory_institution',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import($this->competencyRepository, 'competency', $referenceMap);
+            $referenceMap = $this->dataLoader->import(
+                $this->competencyRepository,
+                'competency_x_aamc_pcrs',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import(
+                $this->sessionTypeRepository,
+                'session_type',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import(
+                $this->sessionTypeRepository,
+                'session_type_x_aamc_method',
+                $referenceMap
+            );
+            $referenceMap = $this->dataLoader->import($this->vocabularyRepository, 'vocabulary', $referenceMap);
+            $referenceMap = $this->dataLoader->import($this->termRepository, 'term', $referenceMap);
+            $this->dataLoader->import(
+                $this->termRepository,
+                'term_x_aamc_resource_type',
+                $referenceMap
+            );
         } catch (Exception $e) {
             $io->error([
                 'An error occurred during data import:',

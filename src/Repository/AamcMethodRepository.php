@@ -121,7 +121,7 @@ class AamcMethodRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
         // `method_id`,`description`,`active`
         $entity = new AamcMethod();
@@ -129,6 +129,8 @@ class AamcMethodRepository extends ServiceEntityRepository implements
         $entity->setDescription($data[1]);
         $entity->setActive((bool) $data[2]);
         $this->update($entity, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 
     /**
