@@ -34,7 +34,7 @@ jobs:
     - name: ${{ matrix.image }} to Github Registry
       uses: docker/build-push-action@v2
       with:
-        tags: ilios/${{ matrix.image }}:latest
+        tags: ilios/ilios/${{ matrix.image }}:latest
         target: ${{ matrix.image }}
         push: true
   deploy-docker-containers:
