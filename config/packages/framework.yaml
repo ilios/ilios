@@ -17,6 +17,9 @@ framework:
     php_errors:
         log: true
 
+    #required to ensure load balancer terminated SSL can still generate SSL errors.
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+
 when@test:
     framework:
         test: true
