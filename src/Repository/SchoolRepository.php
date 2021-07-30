@@ -610,7 +610,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         return array_values($schoolDTOs);
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
         // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
         $entity = new School();
@@ -619,6 +619,8 @@ class SchoolRepository extends ServiceEntityRepository implements
         $entity->setTitle($data[2]);
         $entity->setIliosAdministratorEmail($data[3]);
         $entity->setChangeAlertRecipients($data[4]);
-        $this->update($entity, true);
+        $this->update($entity, true, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

@@ -283,27 +283,38 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
-        match ($type) {
-            'session_type' => $this->importSessionTypes($data),
-            'session_type_x_aamc_method' => $this->importSessionTypesMethodMapping($data),
+        return match ($type) {
+            'session_type' => $this->importSessionTypes($data, $type, $referenceMap),
+            'session_type_x_aamc_method' => $this->importSessionTypesMethodMapping($data, $referenceMap),
         };
     }
 
-    protected function importSessionTypes(array $data): void
+    protected function importSessionTypes(array $data, $type, array $referenceMap): array
     {
-        $sql = 'INSERT INTO session_type ('
-            . 'session_type_id, title, school_id, calendar_color, assessment, assessment_option_id , active'
-            . ') VALUES (?, ?, ?, ?, ?, ?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `session_type_id`,`title`,`school_id`,`calendar_color`,`assessment`,`assessment_option_id`, `active`
+        $entity = new SessionType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setSchool($referenceMap['school' . $data[2]]);
+        $entity->setCalendarColor($data[3]);
+        $entity->setAssessment((bool) $data[4]);
+        $entity->setActive((bool) $data[6]);
+        if (! empty($data[5])) {
+            $entity->setAssessmentOption($referenceMap['assessment_option' . $data[5]]);
+        }
+        $this->update($entity, true, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 
-    protected function importSessionTypesMethodMapping(array $data): void
+    protected function importSessionTypesMethodMapping(array $data, array $referenceMap): array
     {
-        $sql = 'INSERT INTO session_type_x_aamc_method (session_type_id, method_id) VALUES (?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        /* @var SessionType $entity */
+        $entity = $referenceMap['session_type' . $data[0]];
+        $entity->addAamcMethod($referenceMap['aamc_method' . $data[1]]);
+        $this->update($entity, true, true);
+        return $referenceMap;
     }
 }

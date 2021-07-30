@@ -376,27 +376,39 @@ class TermRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
-        match ($type) {
-            'term' => $this->importTerms($data),
-            'term_x_aamc_resource_type' => $this->importTermsResourceTypeMapping($data),
+        return match ($type) {
+            'term' => $this->importTerms($data, $type, $referenceMap),
+            'term_x_aamc_resource_type' => $this->importTermsResourceTypeMapping($data, $referenceMap),
         };
     }
 
-    protected function importTerms(array $data): void
+    protected function importTerms(array $data, string $type, array $referenceMap): array
     {
-        $data[2] = $data[2] ?: null;
-        $sql = 'INSERT INTO term (term_id, title, parent_term_id, description, vocabulary_id, `active`)'
-            . ' VALUES (?, ?, ?, ?, ?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `term_id`,`title`,`parent_term_id`, `description`, `vocabulary_id`, `active`
+        $entity = new Term();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        if (! empty($data[2])) {
+            $entity->setParent($referenceMap[$type . $data[2]]);
+        }
+        $entity->setDescription($data[3]);
+        $entity->setVocabulary($referenceMap['vocabulary' . $data[4]]);
+        $entity->setActive((bool) $data[5]);
+        $this->update($entity, true, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 
-    protected function importTermsResourceTypeMapping(array $data): void
+    protected function importTermsResourceTypeMapping(array $data, array $referenceMap): array
     {
-        $sql = 'INSERT INTO term_x_aamc_resource_type (term_id, resource_type_id) VALUES (?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `term_id`,`resource_type_id`
+        /* @var TermInterface $entity */
+        $entity = $referenceMap['term' . $data[0]];
+        $resourceType = $referenceMap['aamc_resource_type' . $data[1]];
+        $entity->addAamcResourceType($resourceType);
+        $this->update($entity, true, true);
+        return $referenceMap;
     }
 }

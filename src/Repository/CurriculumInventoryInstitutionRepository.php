@@ -120,13 +120,23 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
-        $sql = 'INSERT INTO curriculum_inventory_institution ('
-            . ' school_id, name, aamc_code, address_street, address_city, address_state_or_province'
-            . ', address_zipcode, address_country_code, institution_id'
-            . ') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `school_id`,`name`,`aamc_code`,`address_street`,`address_city`,
+        // `address_state_or_province`,`address_zipcode`,
+        // `address_country_code`,`institution_id`
+        $entity = new CurriculumInventoryInstitution();
+        $entity->setSchool($referenceMap['school' . $data[0]]);
+        $entity->setName($data[1]);
+        $entity->setAamcCode($data[2]);
+        $entity->setAddressStreet($data[3]);
+        $entity->setAddressCity($data[4]);
+        $entity->setAddressStateOrProvince($data[5]);
+        $entity->setAddressZipCode($data[6]);
+        $entity->setAddressCountryCode($data[7]);
+        $entity->setId($data[8]);
+        $this->update($entity, true, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

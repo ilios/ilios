@@ -145,10 +145,16 @@ class VocabularyRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
-        $sql = 'INSERT INTO vocabulary (vocabulary_id, title, school_id, `active`) VALUES (?, ?, ?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `vocabulary_id`,`title`,`school_id`, `active`
+        $entity = new Vocabulary();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setSchool($referenceMap['school' . $data[2]]);
+        $entity->setActive((bool) $data[3]);
+        $this->update($entity, true, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

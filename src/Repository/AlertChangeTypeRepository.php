@@ -120,12 +120,14 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
         // `alert_change_type_id`,`title`
         $entity = new AlertChangeType();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
-        $this->update($entity, true);
+        $this->update($entity, true, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

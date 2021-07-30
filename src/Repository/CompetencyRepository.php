@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Competency;
+use App\Entity\CompetencyInterface;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -226,27 +227,37 @@ class CompetencyRepository extends ServiceEntityRepository implements
         return $qb;
     }
 
-    public function import(array $data, string $type): void
+    public function import(array $data, string $type, array $referenceMap): array
     {
-        match ($type) {
-            'competency' => $this->importCompetencies($data),
-            'competency_x_aamc_pcrs' => $this->importCompetenciesPcrsMapping($data),
+        return match ($type) {
+            'competency' => $this->importCompetencies($data, $type, $referenceMap),
+            'competency_x_aamc_pcrs' => $this->importCompetenciesPcrsMapping($data, $referenceMap),
         };
     }
 
-    protected function importCompetencies(array $data): void
+    protected function importCompetencies(array $data, string $type, array $referenceMap): array
     {
-        $data[2] = $data[2] ?: null;
-        $sql = 'INSERT INTO competency(competency_id, title, parent_competency_id, school_id, `active`)'
-            . ' VALUES (?, ?, ?, ?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `competency_id`,`title`,`parent_competency_id`,`school_id`, `active`
+        $entity = new Competency();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        if (! empty($data[2])) {
+            $entity->setParent($referenceMap[$type . $data[2]]);
+        }
+        $entity->setSchool($referenceMap['school' . $data[3]]);
+        $entity->setActive((bool) $data[4]);
+        $this->update($entity, true, true);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 
-    protected function importCompetenciesPcrsMapping(array $data): void
+    protected function importCompetenciesPcrsMapping(array $data, array $referenceMap): array
     {
-        $sql = 'INSERT INTO competency_x_aamc_pcrs (competency_id, pcrs_id) VALUES (?, ?)';
-        $connection = $this->_em->getConnection();
-        $connection->executeStatement($sql, $data);
+        // `competency_id`,`pcrs_id`
+        /* @var Competency $entity */
+        $entity = $referenceMap['competency' . $data[0]];
+        $entity->addAamcPcrs($referenceMap['aamc_pcrs' . $data[1]]);
+        $this->update($entity, true, true);
+        return $referenceMap;
     }
 }

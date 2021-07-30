@@ -126,7 +126,7 @@ class AamcPcrsRepository extends ServiceEntityRepository implements
         $entity = new AamcPcrs();
         $entity->setId($data[0]);
         $entity->setDescription($data[1]);
-        $this->update($entity, true);
+        $this->update($entity, true, true);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
     }
