@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\School;
 use App\Entity\Session;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -26,6 +27,7 @@ class SchoolRepository extends ServiceEntityRepository implements
 {
     use CalendarEventRepository;
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $userMaterialFactory)
     {
@@ -619,7 +621,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         $entity->setTitle($data[2]);
         $entity->setIliosAdministratorEmail($data[3]);
         $entity->setChangeAlertRecipients($data[4]);
-        $this->update($entity, true, true);
+        $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
     }

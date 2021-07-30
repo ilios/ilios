@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -18,6 +19,7 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
     DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -105,7 +107,7 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
         $entity = new LearningMaterialStatus();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
-        $this->update($entity, true, true);
+        $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
     }

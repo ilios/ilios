@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AamcResourceType;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -18,6 +19,7 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
     DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -128,7 +130,7 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         $entity->setDescription($data[2]);
-        $this->update($entity, true, true);
+        $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
     }

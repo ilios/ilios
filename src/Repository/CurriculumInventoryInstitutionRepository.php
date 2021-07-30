@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -18,6 +19,7 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
     DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -135,7 +137,7 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         $entity->setAddressZipCode($data[6]);
         $entity->setAddressCountryCode($data[7]);
         $entity->setId($data[8]);
-        $this->update($entity, true, true);
+        $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
     }

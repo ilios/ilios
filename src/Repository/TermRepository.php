@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Term;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -19,6 +20,7 @@ class TermRepository extends ServiceEntityRepository implements
     DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -396,7 +398,7 @@ class TermRepository extends ServiceEntityRepository implements
         $entity->setDescription($data[3]);
         $entity->setVocabulary($referenceMap['vocabulary' . $data[4]]);
         $entity->setActive((bool) $data[5]);
-        $this->update($entity, true, true);
+        $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
     }
