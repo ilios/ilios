@@ -8,6 +8,7 @@ use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Entity\CurriculumInventorySequenceInterface;
+use App\Entity\ProgramInterface;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
@@ -52,6 +53,7 @@ class ReportRollover
     /**
      * Rolls over (clones) a given curriculum inventory report and a subset of its associated data points.
      * @param CurriculumInventoryReportInterface $report The report to roll over.
+     * @param ProgramInterface $program The program to set on the rolled-over report.
      * @param string|null $newName Name override for the rolled-over report.
      * @param string|null $newDescription Description override for the rolled-over report.
      * @param int|null $newYear Academic year override for the rolled-over report.
@@ -59,6 +61,7 @@ class ReportRollover
      */
     public function rollover(
         CurriculumInventoryReportInterface $report,
+        ProgramInterface $program,
         $newName = null,
         $newDescription = null,
         int $newYear = null
@@ -74,7 +77,7 @@ class ReportRollover
         $endDate->setDate($newYear + 1, self::END_DATE_MONTH, self::END_DATE_DAY_OF_MONTH);
         $newReport->setStartDate($startDate);
         $newReport->setEndDate($endDate);
-        $newReport->setProgram($report->getProgram());
+        $newReport->setProgram($program);
         $newReport->setAdministrators($report->getAdministrators());
         if (isset($newName)) {
             $newReport->setName($newName);

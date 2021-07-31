@@ -6,11 +6,13 @@ namespace App\Controller\API;
 
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventoryReportInterface;
+use App\Entity\ProgramInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Repository\CurriculumInventorySequenceRepository;
+use App\Repository\ProgramRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
@@ -33,7 +35,8 @@ class CurriculumInventoryReports extends ReadWriteController
     public function __construct(
         CurriculumInventoryReportRepository $repository,
         protected CurriculumInventoryAcademicLevelRepository $levelManager,
-        protected CurriculumInventorySequenceRepository $sequenceManager
+        protected CurriculumInventorySequenceRepository $sequenceManager,
+        protected ProgramRepository $programRepository,
     ) {
         parent::__construct($repository, 'curriculuminventoryreports');
     }
@@ -122,7 +125,17 @@ class CurriculumInventoryReports extends ReadWriteController
             }
         }
 
-        $newReport = $rollover->rollover($report, $name, $description, $year);
+        $programId = (int) $request->get('program');
+        if (! $programId) {
+            throw new InvalidInputWithSafeUserMessageException("program id is missing");
+        }
+        /* @var ProgramInterface $program */
+        $program = $this->programRepository->findOneById($programId);
+        if (! $program) {
+            throw new InvalidInputWithSafeUserMessageException("no program with id = ${programId} exists.");
+        }
+
+        $newReport = $rollover->rollover($report, $program, $name, $description, $year);
         $dtos = $this->fetchDtosForEntities([$newReport]);
 
         return $builder->buildResponseForPostRequest(

@@ -79,7 +79,7 @@ class RolloverCurriculumInventoryReportCommand extends Command
             );
         }
 
-        $newReport = $this->service->rollover($report, $name, $description, $year);
+        $newReport = $this->service->rollover($report, $report->getProgram(), $name, $description, $year);
 
         //output message with the new courseId on success
         $output->writeln("The given report has been rolled over. The new report id is {$newReport->getId()}.");
