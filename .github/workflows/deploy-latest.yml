@@ -39,7 +39,6 @@ jobs:
     - name: ${{ matrix.image }} to Docker Registry
       uses: docker/build-push-action@v2
       with:
-        tags: ilios/${{ matrix.image }}:latest
         tags: |
             ilios/${{ matrix.image }}:latest
             ghcr.io/ilios/${{ matrix.image }}:latest
