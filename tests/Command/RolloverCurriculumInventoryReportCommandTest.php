@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\RolloverCurriculumInventoryReportCommand;
 use App\Entity\CurriculumInventoryReport;
+use App\Entity\Program;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -80,6 +81,8 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         $newReportId = 5;
         $report = new CurriculumInventoryReport();
         $report->setId($reportId);
+        $program = new Program();
+        $report->setProgram($program);
 
         $this->service->shouldReceive('rollover')->andReturnUsing(function () use ($newReportId) {
             $report = new CurriculumInventoryReport();
@@ -96,7 +99,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 
         $this->service
             ->shouldHaveReceived('rollover')
-            ->withArgs([$report, null, null, null])
+            ->withArgs([$report, $program, null, null, null])
             ->once();
     }
 
@@ -113,6 +116,8 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         $newReportId = 5;
         $report = new CurriculumInventoryReport();
         $report->setId($reportId);
+        $program = new Program();
+        $report->setProgram($program);
 
         $this->service->shouldReceive('rollover')->andReturnUsing(function () use ($newReportId) {
             $report = new CurriculumInventoryReport();
@@ -136,7 +141,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 
         $this->service
             ->shouldHaveReceived('rollover')
-            ->withArgs([$report, $options['name'], $options['description'], $options['year']])
+            ->withArgs([$report, $program, $options['name'], $options['description'], $options['year']])
             ->once();
     }
 
@@ -144,6 +149,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
     {
         $reportId  = '1';
         $newReportId = 5;
+
         $this->service->shouldReceive('rollover')->andReturnUsing(function () use ($newReportId) {
             $report = new CurriculumInventoryReport();
             $report->setId($newReportId);
@@ -154,6 +160,8 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
             ->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturnUsing(function () use ($reportId) {
                 $report = new CurriculumInventoryReport();
                 $report->setId($reportId);
+                $program = new Program();
+                $report->setProgram($program);
                 return $report;
             });
 

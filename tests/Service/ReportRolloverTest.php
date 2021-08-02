@@ -9,6 +9,7 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventorySequence;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
+use App\Entity\Program;
 use App\Entity\User;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use App\Repository\CurriculumInventoryReportRepository;
@@ -118,6 +119,8 @@ class ReportRolloverTest extends TestCase
         $sequence = new CurriculumInventorySequence();
         $sequence->setDescription('this is a sequence');
         $report->setSequence($sequence);
+        $program = new Program();
+        $report->setProgram($program);
 
         $topLevelBlock1 = new CurriculumInventorySequenceBlock();
         $topLevelBlock1->setDuration(10);
@@ -167,8 +170,7 @@ class ReportRolloverTest extends TestCase
      */
     public function testRollover(CurriculumInventoryReport $report)
     {
-        $newReport = $this->service->rollover($report, 'new name', 'new description', 2022);
-
+        $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', 2022);
         $this->assertEquals('new name', $newReport->getName());
         $this->assertEquals('new description', $newReport->getDescription());
         $newStartDate = $newReport->getStartDate();
@@ -177,7 +179,7 @@ class ReportRolloverTest extends TestCase
         $this->assertEquals('06/30/2023', $newEndDate->format('m/d/Y'));
         $this->assertEquals(2022, $newReport->getYear());
         $this->assertEquals($report->getSequence()->getDescription(), $newReport->getSequence()->getDescription());
-
+        $this->assertEquals($report->getProgram(), $newReport->getProgram());
         $academicLevels = $report->getAcademicLevels()->toArray();
         $newAcademicLevels = $newReport->getAcademicLevels()->toArray();
         $this->assertEquals(count($academicLevels), count($newAcademicLevels));
@@ -219,7 +221,7 @@ class ReportRolloverTest extends TestCase
      */
     public function testRolloverKeepName($report)
     {
-        $newReport = $this->service->rollover($report, null, 'new description', 2022);
+        $newReport = $this->service->rollover($report, $report->getProgram(), null, 'new description', 2022);
         $this->assertEquals($report->getName(), $newReport->getName());
     }
 
@@ -230,7 +232,7 @@ class ReportRolloverTest extends TestCase
      */
     public function testRolloverKeepDescription($report)
     {
-        $newReport = $this->service->rollover($report, 'new name', null, 2022);
+        $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', null, 2022);
         $this->assertEquals($report->getDescription(), $newReport->getDescription());
     }
 
@@ -241,7 +243,7 @@ class ReportRolloverTest extends TestCase
      */
     public function testRolloverKeepYear($report)
     {
-        $newReport = $this->service->rollover($report, 'new name', 'new description', null);
+        $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', null);
         $year = $report->getYear();
         $followingYear = $year + 1;
         $this->assertEquals("07/01/${year}", $newReport->getStartDate()->format('m/d/Y'));
@@ -286,5 +288,19 @@ class ReportRolloverTest extends TestCase
                 $this->assertSequenceBlockEquals($children[$i], $newChildren[$i]);
             }
         }
+    }
+
+    /**
+     * @covers ::rollover
+     * @dataProvider reportProvider
+     * @param CurriculumInventoryReport $report
+     */
+    public function testRolloverWithDifferentProgram(CurriculumInventoryReport $report)
+    {
+        $program = new Program();
+        $program->setTitle('something else');
+        $newReport = $this->service->rollover($report, $program);
+        $this->assertNotEquals($report->getProgram(), $newReport->getProgram());
+        $this->assertEquals($program, $newReport->getProgram());
     }
 }
