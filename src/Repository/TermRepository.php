@@ -382,7 +382,7 @@ class TermRepository extends ServiceEntityRepository implements
     {
         return match ($type) {
             'term' => $this->importTerms($data, $type, $referenceMap),
-            'term_x_aamc_resource_type' => $this->importTermsResourceTypeMapping($data, $referenceMap),
+            'term_x_aamc_resource_type' => $this->importTermToResourceTypesMapping($data, $referenceMap),
         };
     }
 
@@ -403,7 +403,7 @@ class TermRepository extends ServiceEntityRepository implements
         return $referenceMap;
     }
 
-    protected function importTermsResourceTypeMapping(array $data, array $referenceMap): array
+    protected function importTermToResourceTypesMapping(array $data, array $referenceMap): array
     {
         // `term_id`,`resource_type_id`
         /* @var TermInterface $entity */

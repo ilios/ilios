@@ -289,7 +289,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
     {
         return match ($type) {
             'session_type' => $this->importSessionTypes($data, $type, $referenceMap),
-            'session_type_x_aamc_method' => $this->importSessionTypesMethodMapping($data, $referenceMap),
+            'session_type_x_aamc_method' => $this->importSessionTypeToMethodsMapping($data, $referenceMap),
         };
     }
 
@@ -311,7 +311,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         return $referenceMap;
     }
 
-    protected function importSessionTypesMethodMapping(array $data, array $referenceMap): array
+    protected function importSessionTypeToMethodsMapping(array $data, array $referenceMap): array
     {
         /* @var SessionType $entity */
         $entity = $referenceMap['session_type' . $data[0]];

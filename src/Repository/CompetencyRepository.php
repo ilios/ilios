@@ -232,7 +232,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
     {
         return match ($type) {
             'competency' => $this->importCompetencies($data, $type, $referenceMap),
-            'competency_x_aamc_pcrs' => $this->importCompetenciesPcrsMapping($data, $referenceMap),
+            'competency_x_aamc_pcrs' => $this->importCompetencyToPcrsMapping($data, $referenceMap),
         };
     }
 
@@ -252,7 +252,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
         return $referenceMap;
     }
 
-    protected function importCompetenciesPcrsMapping(array $data, array $referenceMap): array
+    protected function importCompetencyToPcrsMapping(array $data, array $referenceMap): array
     {
         // `competency_id`,`pcrs_id`
         /* @var Competency $entity */
