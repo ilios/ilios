@@ -125,14 +125,15 @@ class CurriculumInventoryReports extends ReadWriteController
             }
         }
 
+        $program = $report->getProgram();
+        // optional program override
         $programId = (int) $request->get('program');
-        if (! $programId) {
-            throw new InvalidInputWithSafeUserMessageException("program id is missing");
-        }
-        /* @var ProgramInterface $program */
-        $program = $this->programRepository->findOneById($programId);
-        if (! $program) {
-            throw new InvalidInputWithSafeUserMessageException("no program with id = ${programId} exists.");
+        if ($programId) {
+            /* @var ProgramInterface $program */
+            $program = $this->programRepository->findOneById($programId);
+            if (! $program) {
+                throw new InvalidInputWithSafeUserMessageException("no program with id = ${programId} exists.");
+            }
         }
 
         $newReport = $rollover->rollover($report, $program, $name, $description, $year);
