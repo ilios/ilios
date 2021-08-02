@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\SessionType;
+use App\Service\DefaultDataLoader;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -288,8 +289,9 @@ class SessionTypeRepository extends ServiceEntityRepository implements
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {
-            'session_type' => $this->importSessionTypes($data, $type, $referenceMap),
-            'session_type_x_aamc_method' => $this->importSessionTypeToMethodsMapping($data, $referenceMap),
+            DefaultDataLoader::SESSION_TYPE => $this->importSessionTypes($data, $type, $referenceMap),
+            DefaultDataLoader::SESSION_TYPE_X_AAMC_METHOD
+                => $this->importSessionTypeToMethodsMapping($data, $referenceMap),
         };
     }
 
@@ -299,12 +301,12 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         $entity = new SessionType();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
-        $entity->setSchool($referenceMap['school' . $data[2]]);
+        $entity->setSchool($referenceMap[DefaultDataLoader::SCHOOL . $data[2]]);
         $entity->setCalendarColor($data[3]);
         $entity->setAssessment((bool) $data[4]);
         $entity->setActive((bool) $data[6]);
         if (! empty($data[5])) {
-            $entity->setAssessmentOption($referenceMap['assessment_option' . $data[5]]);
+            $entity->setAssessmentOption($referenceMap[DefaultDataLoader::ASSESSMENT_OPTION . $data[5]]);
         }
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
@@ -314,8 +316,8 @@ class SessionTypeRepository extends ServiceEntityRepository implements
     protected function importSessionTypeToMethodsMapping(array $data, array $referenceMap): array
     {
         /* @var SessionType $entity */
-        $entity = $referenceMap['session_type' . $data[0]];
-        $entity->addAamcMethod($referenceMap['aamc_method' . $data[1]]);
+        $entity = $referenceMap[DefaultDataLoader::SESSION_TYPE . $data[0]];
+        $entity->addAamcMethod($referenceMap[DefaultDataLoader::AAMC_METHOD . $data[1]]);
         $this->update($entity, true, true);
         return $referenceMap;
     }

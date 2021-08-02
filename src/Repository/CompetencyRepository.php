@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Competency;
+use App\Service\DefaultDataLoader;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -231,8 +232,8 @@ class CompetencyRepository extends ServiceEntityRepository implements
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {
-            'competency' => $this->importCompetencies($data, $type, $referenceMap),
-            'competency_x_aamc_pcrs' => $this->importCompetencyToPcrsMapping($data, $referenceMap),
+            DefaultDataLoader::COMPETENCY => $this->importCompetencies($data, $type, $referenceMap),
+            DefaultDataLoader::COMPETENCY_X_AAMC_PCRS => $this->importCompetencyToPcrsMapping($data, $referenceMap),
         };
     }
 
@@ -245,7 +246,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
         if (! empty($data[2])) {
             $entity->setParent($referenceMap[$type . $data[2]]);
         }
-        $entity->setSchool($referenceMap['school' . $data[3]]);
+        $entity->setSchool($referenceMap[DefaultDataLoader::SCHOOL . $data[3]]);
         $entity->setActive((bool) $data[4]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
@@ -256,8 +257,8 @@ class CompetencyRepository extends ServiceEntityRepository implements
     {
         // `competency_id`,`pcrs_id`
         /* @var Competency $entity */
-        $entity = $referenceMap['competency' . $data[0]];
-        $entity->addAamcPcrs($referenceMap['aamc_pcrs' . $data[1]]);
+        $entity = $referenceMap[DefaultDataLoader::COMPETENCY . $data[0]];
+        $entity->addAamcPcrs($referenceMap[DefaultDataLoader::AAMC_PCRS . $data[1]]);
         $this->update($entity, true, true);
         return $referenceMap;
     }
