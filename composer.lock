@@ -132,16 +132,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.186.2",
+            "version": "3.186.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ce90f6e5c322f2ce600d818b7949dbfcbf192359"
+                "reference": "037fd80e421b1dde4d32ec16d0f79c61bbee1605"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ce90f6e5c322f2ce600d818b7949dbfcbf192359",
-                "reference": "ce90f6e5c322f2ce600d818b7949dbfcbf192359",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/037fd80e421b1dde4d32ec16d0f79c61bbee1605",
+                "reference": "037fd80e421b1dde4d32ec16d0f79c61bbee1605",
                 "shasum": ""
             },
             "require": {
@@ -216,9 +216,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.186.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.186.3"
             },
-            "time": "2021-07-29T18:14:25+00:00"
+            "time": "2021-07-30T18:30:36+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -5014,16 +5014,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.51.1",
+            "version": "v3.51.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "bb21c6df52eb12cd4bdbf8c29feb500795595fa8"
+                "reference": "4c29a94daa8271096fd3e2aa34516e07a8932cf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/bb21c6df52eb12cd4bdbf8c29feb500795595fa8",
-                "reference": "bb21c6df52eb12cd4bdbf8c29feb500795595fa8",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/4c29a94daa8271096fd3e2aa34516e07a8932cf4",
+                "reference": "4c29a94daa8271096fd3e2aa34516e07a8932cf4",
                 "shasum": ""
             },
             "type": "library",
@@ -5069,9 +5069,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.51.1"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v3.51.2"
             },
-            "time": "2021-06-30T20:42:58+00:00"
+            "time": "2021-07-30T10:10:42+00:00"
         },
         {
             "name": "symfony/amazon-mailer",
@@ -11119,16 +11119,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "2.0.0-beta3",
+            "version": "2.0.0-beta4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "443f32e8e747dad14a7ba636b1ea2361f143dbf4"
+                "reference": "eba9dfaee0de39c420c2fc4c7467fca8f5f8a4c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/443f32e8e747dad14a7ba636b1ea2361f143dbf4",
-                "reference": "443f32e8e747dad14a7ba636b1ea2361f143dbf4",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/eba9dfaee0de39c420c2fc4c7467fca8f5f8a4c8",
+                "reference": "eba9dfaee0de39c420c2fc4c7467fca8f5f8a4c8",
                 "shasum": ""
             },
             "require": {
@@ -11196,9 +11196,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.0-beta3"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.0-beta4"
             },
-            "time": "2021-07-20T21:27:21+00:00"
+            "time": "2021-07-20T21:57:35+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -11673,16 +11673,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.93",
+            "version": "0.12.94",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "7b7602f05d340ffa418c59299f8c053ac6c3e7ea"
+                "reference": "3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7b7602f05d340ffa418c59299f8c053ac6c3e7ea",
-                "reference": "7b7602f05d340ffa418c59299f8c053ac6c3e7ea",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6",
+                "reference": "3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6",
                 "shasum": ""
             },
             "require": {
@@ -11713,7 +11713,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.93"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.94"
             },
             "funding": [
                 {
@@ -11733,7 +11733,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-20T10:49:53+00:00"
+            "time": "2021-07-30T09:05:27+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
@@ -12124,16 +12124,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.7",
+            "version": "9.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "d0dc8b6999c937616df4fb046792004b33fd31c5"
+                "reference": "191768ccd5c85513b4068bdbe99bb6390c7d54fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d0dc8b6999c937616df4fb046792004b33fd31c5",
-                "reference": "d0dc8b6999c937616df4fb046792004b33fd31c5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/191768ccd5c85513b4068bdbe99bb6390c7d54fb",
+                "reference": "191768ccd5c85513b4068bdbe99bb6390c7d54fb",
                 "shasum": ""
             },
             "require": {
@@ -12145,7 +12145,7 @@
                 "ext-xml": "*",
                 "ext-xmlwriter": "*",
                 "myclabs/deep-copy": "^1.10.1",
-                "phar-io/manifest": "^2.0.1",
+                "phar-io/manifest": "^2.0.3",
                 "phar-io/version": "^3.0.2",
                 "php": ">=7.3",
                 "phpspec/prophecy": "^1.12.1",
@@ -12211,7 +12211,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.7"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.8"
             },
             "funding": [
                 {
@@ -12223,7 +12223,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-19T06:14:47+00:00"
+            "time": "2021-07-31T15:17:34+00:00"
         },
         {
             "name": "sebastian/cli-parser",
