@@ -20,6 +20,7 @@ use App\Repository\SessionTypeRepository;
 use App\Repository\TermRepository;
 use App\Repository\UserRoleRepository;
 use App\Repository\VocabularyRepository;
+use App\Service\DefaultDataImporter;
 use App\Service\DefaultDataLoader;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -33,7 +34,7 @@ class ImportDefaultDataCommand extends Command
     use LockableTrait;
 
     public function __construct(
-        protected DefaultDataLoader $dataLoader,
+        protected DefaultDataImporter $defaultDataImporter,
         protected AamcMethodRepository $aamcMethodRepository,
         protected AamcPcrsRepository $aamcPcrsRepository,
         protected AamcResourceTypeRepository $aamcResourceTypeRepository,
@@ -96,99 +97,99 @@ class ImportDefaultDataCommand extends Command
             $this->applicationConfigRepository->deleteAll();
 
             // now, let's import
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->aamcMethodRepository,
-                DefaultDataLoader::AAMC_METHOD,
+                DefaultDataImporter::AAMC_METHOD,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->aamcPcrsRepository,
-                DefaultDataLoader::AAMC_PCRS,
+                DefaultDataImporter::AAMC_PCRS,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->aamcResourceTypeRepository,
-                DefaultDataLoader::AAMC_RESOURCE_TYPE,
+                DefaultDataImporter::AAMC_RESOURCE_TYPE,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->alertChangeTypeRepository,
-                DefaultDataLoader::ALERT_CHANGE_TYPE,
+                DefaultDataImporter::ALERT_CHANGE_TYPE,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->applicationConfigRepository,
-                DefaultDataLoader::APPLICATION_CONFIG,
+                DefaultDataImporter::APPLICATION_CONFIG,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->assessmentOptionRepository,
-                DefaultDataLoader::ASSESSMENT_OPTION,
+                DefaultDataImporter::ASSESSMENT_OPTION,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->courseClerkshipTypeRepository,
-                DefaultDataLoader::COURSE_CLERKSHIP_TYPE,
+                DefaultDataImporter::COURSE_CLERKSHIP_TYPE,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->learningMaterialStatusRepository,
-                DefaultDataLoader::LEARNING_MATERIAL_STATUS,
+                DefaultDataImporter::LEARNING_MATERIAL_STATUS,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->learningMaterialUserRoleRepository,
-                DefaultDataLoader::LEARNING_MATERIAL_USER_ROLE,
+                DefaultDataImporter::LEARNING_MATERIAL_USER_ROLE,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->userRoleRepository,
-                DefaultDataLoader::USER_ROLE,
+                DefaultDataImporter::USER_ROLE,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->schoolRepository,
-                DefaultDataLoader::SCHOOL,
+                DefaultDataImporter::SCHOOL,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->curriculumInventoryInstitutionRepository,
-                DefaultDataLoader::CURRICULUM_INVENTORY_INSTITUTION,
+                DefaultDataImporter::CURRICULUM_INVENTORY_INSTITUTION,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->competencyRepository,
-                DefaultDataLoader::COMPETENCY,
+                DefaultDataImporter::COMPETENCY,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->competencyRepository,
-                DefaultDataLoader::COMPETENCY_X_AAMC_PCRS,
+                DefaultDataImporter::COMPETENCY_X_AAMC_PCRS,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->sessionTypeRepository,
-                DefaultDataLoader::SESSION_TYPE,
+                DefaultDataImporter::SESSION_TYPE,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->sessionTypeRepository,
-                DefaultDataLoader::SESSION_TYPE_X_AAMC_METHOD,
+                DefaultDataImporter::SESSION_TYPE_X_AAMC_METHOD,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->vocabularyRepository,
-                DefaultDataLoader::VOCABULARY,
+                DefaultDataImporter::VOCABULARY,
                 $referenceMap
             );
-            $referenceMap = $this->dataLoader->import(
+            $referenceMap = $this->defaultDataImporter->import(
                 $this->termRepository,
-                DefaultDataLoader::TERM,
+                DefaultDataImporter::TERM,
                 $referenceMap
             );
-            $this->dataLoader->import(
+            $this->defaultDataImporter->import(
                 $this->termRepository,
-                DefaultDataLoader::TERM_X_AAMC_RESOURCE_TYPE,
+                DefaultDataImporter::TERM_X_AAMC_RESOURCE_TYPE,
                 $referenceMap
             );
         } catch (Exception $e) {

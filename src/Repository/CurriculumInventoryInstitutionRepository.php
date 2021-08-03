@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Service\DefaultDataLoader;
+use App\Service\DefaultDataImporter;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -129,7 +129,7 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         // `address_state_or_province`,`address_zipcode`,
         // `address_country_code`,`institution_id`
         $entity = new CurriculumInventoryInstitution();
-        $entity->setSchool($referenceMap[DefaultDataLoader::SCHOOL . $data[0]]);
+        $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[0]]);
         $entity->setName($data[1]);
         $entity->setAamcCode($data[2]);
         $entity->setAddressStreet($data[3]);

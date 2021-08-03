@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Service\DefaultDataLoader;
+use App\Service\DefaultDataImporter;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -154,7 +154,7 @@ class VocabularyRepository extends ServiceEntityRepository implements
         $entity = new Vocabulary();
         $entity->setId($data[0]);
         $entity->setTitle($data[1]);
-        $entity->setSchool($referenceMap[DefaultDataLoader::SCHOOL . $data[2]]);
+        $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[2]]);
         $entity->setActive((bool) $data[3]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Term;
-use App\Service\DefaultDataLoader;
+use App\Service\DefaultDataImporter;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
@@ -382,8 +382,8 @@ class TermRepository extends ServiceEntityRepository implements
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {
-            DefaultDataLoader::TERM => $this->importTerms($data, $type, $referenceMap),
-            DefaultDataLoader::TERM_X_AAMC_RESOURCE_TYPE
+            DefaultDataImporter::TERM => $this->importTerms($data, $type, $referenceMap),
+            DefaultDataImporter::TERM_X_AAMC_RESOURCE_TYPE
                 => $this->importTermToResourceTypesMapping($data, $referenceMap),
         };
     }
@@ -398,7 +398,7 @@ class TermRepository extends ServiceEntityRepository implements
             $entity->setParent($referenceMap[$type . $data[2]]);
         }
         $entity->setDescription($data[3]);
-        $entity->setVocabulary($referenceMap[DefaultDataLoader::VOCABULARY . $data[4]]);
+        $entity->setVocabulary($referenceMap[DefaultDataImporter::VOCABULARY . $data[4]]);
         $entity->setActive((bool) $data[5]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
@@ -409,8 +409,8 @@ class TermRepository extends ServiceEntityRepository implements
     {
         // `term_id`,`resource_type_id`
         /* @var TermInterface $entity */
-        $entity = $referenceMap[DefaultDataLoader::TERM . $data[0]];
-        $resourceType = $referenceMap[DefaultDataLoader::AAMC_RESOURCE_TYPE . $data[1]];
+        $entity = $referenceMap[DefaultDataImporter::TERM . $data[0]];
+        $resourceType = $referenceMap[DefaultDataImporter::AAMC_RESOURCE_TYPE . $data[1]];
         $entity->addAamcResourceType($resourceType);
         $this->update($entity, true, true);
         return $referenceMap;
