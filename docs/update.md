@@ -86,5 +86,5 @@ in order to load the default resource-types data set.
 
 ```bash
 cd YOUR_ILIOS_APPLICATION_ROOT
-sudo -u apache bin/console doctrine:fixtures:load --env=prod --append --fixtures=src/DataFixtures/ORM/LoadAamcResourceTypeData.php
+mysql -u YOUR_ILIOS_DATABASE_USER -p YOUR_ILIOS_DATABASE_NAME -e "LOAD DATA LOCAL INFILE './config/dataimport/aamc_resource_type.csv' INTO TABLE aamc_resource_type FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 ROWS"
 ```
