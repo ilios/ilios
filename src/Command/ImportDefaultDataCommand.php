@@ -21,7 +21,6 @@ use App\Repository\TermRepository;
 use App\Repository\UserRoleRepository;
 use App\Repository\VocabularyRepository;
 use App\Service\DefaultDataImporter;
-use App\Service\DefaultDataLoader;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
