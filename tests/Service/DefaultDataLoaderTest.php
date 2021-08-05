@@ -7,23 +7,22 @@ namespace App\Tests\Service;
 use App\Service\DataimportFileLocator;
 use App\Service\DefaultDataImporter;
 use App\Service\DefaultDataLoader;
-use App\Tests\TestCase;
-use Mockery as m;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 
 /**
  * @package App\Tests\Service
  * @covers \App\Service\DefaultDataLoader
  */
-class DefaultDataLoaderTest extends TestCase
+class DefaultDataLoaderTest extends KernelTestCase
 {
     protected string $projectRootDir;
 
     public function setUp(): void
     {
         parent::setUp();
-        // @todo figure out how to set this from the $kernelRootDir variable. [ST 2021/08/04]
-        $this->projectRootDir = dirname(__DIR__, 2);
+        $kernel = self::bootKernel();
+        $this->projectRootDir = $kernel->getProjectDir();
     }
 
     public function tearDown(): void
