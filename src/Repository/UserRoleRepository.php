@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,18 +13,19 @@ use App\Entity\UserRole;
 use App\Entity\DTO\UserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class UserRoleRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class UserRoleRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserRole::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -113,5 +115,16 @@ class UserRoleRepository extends ServiceEntityRepository implements DTORepositor
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `user_role_id`,`title`
+        $entity = new UserRole();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

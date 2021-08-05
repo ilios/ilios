@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -14,18 +15,17 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class LearningMaterialStatusRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, LearningMaterialStatus::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -99,5 +99,16 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `learning_material_status_id`,`title`
+        $entity = new LearningMaterialStatus();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

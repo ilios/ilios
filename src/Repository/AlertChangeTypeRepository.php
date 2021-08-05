@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AlertChangeType;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,18 +13,19 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AlertChangeTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AlertChangeTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AlertChangeTypeRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AlertChangeType::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -118,5 +120,16 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements DTORe
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `alert_change_type_id`,`title`
+        $entity = new AlertChangeType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

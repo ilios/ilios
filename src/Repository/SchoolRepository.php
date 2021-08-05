@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\School;
 use App\Entity\Session;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,10 +22,12 @@ use App\Traits\CalendarEventRepository;
 
 class SchoolRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $userMaterialFactory)
     {
@@ -49,9 +52,6 @@ class SchoolRepository extends ServiceEntityRepository implements
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
@@ -610,5 +610,19 @@ class SchoolRepository extends ServiceEntityRepository implements
         }
 
         return array_values($schoolDTOs);
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
+        $entity = new School();
+        $entity->setId($data[0]);
+        $entity->setTemplatePrefix($data[1]);
+        $entity->setTitle($data[2]);
+        $entity->setIliosAdministratorEmail($data[3]);
+        $entity->setChangeAlertRecipients($data[4]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

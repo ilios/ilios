@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -14,18 +15,17 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CourseClerkshipType::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -123,5 +123,16 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `course_clerkship_type_id`,`title`
+        $entity = new CourseClerkshipType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

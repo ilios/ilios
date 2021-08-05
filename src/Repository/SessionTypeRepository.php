@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\SessionType;
+use App\Service\DefaultDataImporter;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,19 +14,19 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\SessionTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class SessionTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class SessionTypeRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SessionType::class);
     }
 
-
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -282,5 +284,41 @@ class SessionTypeRepository extends ServiceEntityRepository implements DTOReposi
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        return match ($type) {
+            DefaultDataImporter::SESSION_TYPE => $this->importSessionType($data, $type, $referenceMap),
+            DefaultDataImporter::SESSION_TYPE_X_AAMC_METHOD
+                => $this->importSessionTypeToMethodMapping($data, $referenceMap),
+        };
+    }
+
+    protected function importSessionType(array $data, $type, array $referenceMap): array
+    {
+        // `session_type_id`,`title`,`school_id`,`calendar_color`,`assessment`,`assessment_option_id`, `active`
+        $entity = new SessionType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[2]]);
+        $entity->setCalendarColor($data[3]);
+        $entity->setAssessment((bool) $data[4]);
+        $entity->setActive((bool) $data[6]);
+        if (! empty($data[5])) {
+            $entity->setAssessmentOption($referenceMap[DefaultDataImporter::ASSESSMENT_OPTION . $data[5]]);
+        }
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
+    }
+
+    protected function importSessionTypeToMethodMapping(array $data, array $referenceMap): array
+    {
+        /* @var SessionType $entity */
+        $entity = $referenceMap[DefaultDataImporter::SESSION_TYPE . $data[0]];
+        $entity->addAamcMethod($referenceMap[DefaultDataImporter::AAMC_METHOD . $data[1]]);
+        $this->update($entity, true, true);
+        return $referenceMap;
     }
 }

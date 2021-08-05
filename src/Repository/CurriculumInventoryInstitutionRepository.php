@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Service\DefaultDataImporter;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -14,18 +16,17 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CurriculumInventoryInstitution::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -120,5 +121,25 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `school_id`,`name`,`aamc_code`,`address_street`,`address_city`,
+        // `address_state_or_province`,`address_zipcode`,
+        // `address_country_code`,`institution_id`
+        $entity = new CurriculumInventoryInstitution();
+        $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[0]]);
+        $entity->setName($data[1]);
+        $entity->setAamcCode($data[2]);
+        $entity->setAddressStreet($data[3]);
+        $entity->setAddressCity($data[4]);
+        $entity->setAddressStateOrProvince($data[5]);
+        $entity->setAddressZipCode($data[6]);
+        $entity->setAddressCountryCode($data[7]);
+        $entity->setId($data[8]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

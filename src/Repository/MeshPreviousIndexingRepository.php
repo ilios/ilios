@@ -23,9 +23,6 @@ class MeshPreviousIndexingRepository extends ServiceEntityRepository implements
         parent::__construct($registry, MeshPreviousIndexing::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

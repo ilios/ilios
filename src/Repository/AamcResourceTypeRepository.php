@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AamcResourceType;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,18 +13,19 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcResourceTypeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AamcResourceTypeRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AamcResourceType::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -119,5 +121,17 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements DTOR
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `resource_type_id`,`title`,`description`
+        $entity = new AamcResourceType();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setDescription($data[2]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

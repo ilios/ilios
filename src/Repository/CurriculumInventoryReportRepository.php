@@ -29,9 +29,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         parent::__construct($registry, CurriculumInventoryReport::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

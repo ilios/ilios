@@ -25,9 +25,6 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
         parent::__construct($registry, Offering::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

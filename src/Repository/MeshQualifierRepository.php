@@ -21,9 +21,6 @@ class MeshQualifierRepository extends ServiceEntityRepository implements DTORepo
         parent::__construct($registry, MeshQualifier::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

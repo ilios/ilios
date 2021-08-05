@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,18 +13,19 @@ use App\Entity\AamcPcrs;
 use App\Entity\DTO\AamcPcrsDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcPcrsRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AamcPcrsRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AamcPcrs::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -118,5 +120,16 @@ class AamcPcrsRepository extends ServiceEntityRepository implements DTORepositor
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `pcrs_id`,`description`
+        $entity = new AamcPcrs();
+        $entity->setId($data[0]);
+        $entity->setDescription($data[1]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

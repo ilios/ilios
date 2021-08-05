@@ -41,9 +41,6 @@ class ProgramRepository extends ServiceEntityRepository implements
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('p')->distinct()->from(Program::class, 'p');

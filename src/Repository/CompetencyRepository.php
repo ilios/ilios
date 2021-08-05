@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Competency;
+use App\Service\DefaultDataImporter;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -14,18 +16,17 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class CompetencyRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
-    RepositoryInterface
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Competency::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -226,5 +227,39 @@ class CompetencyRepository extends ServiceEntityRepository implements
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        return match ($type) {
+            DefaultDataImporter::COMPETENCY => $this->importCompetencies($data, $type, $referenceMap),
+            DefaultDataImporter::COMPETENCY_X_AAMC_PCRS => $this->importCompetencyToPcrsMapping($data, $referenceMap),
+        };
+    }
+
+    protected function importCompetencies(array $data, string $type, array $referenceMap): array
+    {
+        // `competency_id`,`title`,`parent_competency_id`,`school_id`, `active`
+        $entity = new Competency();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        if (! empty($data[2])) {
+            $entity->setParent($referenceMap[$type . $data[2]]);
+        }
+        $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[3]]);
+        $entity->setActive((bool) $data[4]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
+    }
+
+    protected function importCompetencyToPcrsMapping(array $data, array $referenceMap): array
+    {
+        // `competency_id`,`pcrs_id`
+        /* @var Competency $entity */
+        $entity = $referenceMap[DefaultDataImporter::COMPETENCY . $data[0]];
+        $entity->addAamcPcrs($referenceMap[DefaultDataImporter::AAMC_PCRS . $data[1]]);
+        $this->update($entity, true, true);
+        return $referenceMap;
     }
 }

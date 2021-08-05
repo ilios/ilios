@@ -21,9 +21,6 @@ class MeshConceptRepository extends ServiceEntityRepository implements DTOReposi
         parent::__construct($registry, MeshConcept::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();

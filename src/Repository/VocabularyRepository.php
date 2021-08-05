@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Service\DefaultDataImporter;
+use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,18 +14,19 @@ use App\Entity\Vocabulary;
 use App\Entity\DTO\VocabularyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class VocabularyRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class VocabularyRepository extends ServiceEntityRepository implements
+    DTORepositoryInterface,
+    RepositoryInterface,
+    DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Vocabulary::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
@@ -143,5 +146,18 @@ class VocabularyRepository extends ServiceEntityRepository implements DTOReposit
         }
 
         return $qb;
+    }
+
+    public function import(array $data, string $type, array $referenceMap): array
+    {
+        // `vocabulary_id`,`title`,`school_id`, `active`
+        $entity = new Vocabulary();
+        $entity->setId($data[0]);
+        $entity->setTitle($data[1]);
+        $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[2]]);
+        $entity->setActive((bool) $data[3]);
+        $this->importEntity($entity);
+        $referenceMap[$type . $entity->getId()] = $entity;
+        return $referenceMap;
     }
 }

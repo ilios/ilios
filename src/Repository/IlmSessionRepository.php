@@ -21,9 +21,6 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
         parent::__construct($registry, IlmSession::class);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this->_em->createQueryBuilder();
