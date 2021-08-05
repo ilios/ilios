@@ -289,13 +289,13 @@ class SessionTypeRepository extends ServiceEntityRepository implements
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {
-            DefaultDataImporter::SESSION_TYPE => $this->importSessionTypes($data, $type, $referenceMap),
+            DefaultDataImporter::SESSION_TYPE => $this->importSessionType($data, $type, $referenceMap),
             DefaultDataImporter::SESSION_TYPE_X_AAMC_METHOD
-                => $this->importSessionTypeToMethodsMapping($data, $referenceMap),
+                => $this->importSessionTypeToMethodMapping($data, $referenceMap),
         };
     }
 
-    protected function importSessionTypes(array $data, $type, array $referenceMap): array
+    protected function importSessionType(array $data, $type, array $referenceMap): array
     {
         // `session_type_id`,`title`,`school_id`,`calendar_color`,`assessment`,`assessment_option_id`, `active`
         $entity = new SessionType();
@@ -313,7 +313,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         return $referenceMap;
     }
 
-    protected function importSessionTypeToMethodsMapping(array $data, array $referenceMap): array
+    protected function importSessionTypeToMethodMapping(array $data, array $referenceMap): array
     {
         /* @var SessionType $entity */
         $entity = $referenceMap[DefaultDataImporter::SESSION_TYPE . $data[0]];

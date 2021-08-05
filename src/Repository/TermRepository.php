@@ -382,13 +382,13 @@ class TermRepository extends ServiceEntityRepository implements
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {
-            DefaultDataImporter::TERM => $this->importTerms($data, $type, $referenceMap),
+            DefaultDataImporter::TERM => $this->importTerm($data, $type, $referenceMap),
             DefaultDataImporter::TERM_X_AAMC_RESOURCE_TYPE
-                => $this->importTermToResourceTypesMapping($data, $referenceMap),
+                => $this->importTermToResourceTypeMapping($data, $referenceMap),
         };
     }
 
-    protected function importTerms(array $data, string $type, array $referenceMap): array
+    protected function importTerm(array $data, string $type, array $referenceMap): array
     {
         // `term_id`,`title`,`parent_term_id`, `description`, `vocabulary_id`, `active`
         $entity = new Term();
@@ -405,7 +405,7 @@ class TermRepository extends ServiceEntityRepository implements
         return $referenceMap;
     }
 
-    protected function importTermToResourceTypesMapping(array $data, array $referenceMap): array
+    protected function importTermToResourceTypeMapping(array $data, array $referenceMap): array
     {
         // `term_id`,`resource_type_id`
         /* @var TermInterface $entity */
