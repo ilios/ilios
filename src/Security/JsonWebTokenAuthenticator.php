@@ -105,10 +105,12 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
      * @inheritdoc
      *
      * @param string $jwt the extracted JWT
+     * @param SessionUserInterface $user
+     *
+     * @return bool
      */
     public function checkCredentials($jwt, UserInterface $user)
     {
-        /** @var $user SessionUserInterface */
         if (!$user->isEnabled()) {
             throw new CustomUserMessageAuthenticationException(
                 'Invalid JSON Web Token: user is disabled'
@@ -143,6 +145,7 @@ class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // do nothing - continue with an authenticated user
+        return null;
     }
 
     /**
