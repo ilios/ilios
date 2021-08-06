@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\ProgramData;
 use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
@@ -492,10 +493,26 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $report = $dataLoader->getOne();
+
+        $postData = self::getContainer()->get(ProgramData::class)->create();
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl($this->kernelBrowser, 'app_api_programs_post', [
+                'version' => $this->apiVersion
+            ]),
+            json_encode(['programs' => [$postData]]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $newProgramId = json_decode($this->kernelBrowser->getResponse()->getContent(), true)['programs'][0]['id'];
+
+
         $overrides = [
             'name' => strrev($report['name']),
             'description' => strrev($report['description']),
             'year' => $report['year'] + 1,
+            'program' => $newProgramId,
         ];
         $parameters = array_merge($overrides, [
             'version' => $this->apiVersion,
@@ -523,6 +540,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $this->assertNotSame($report['description'], $newReport['description']);
         $this->assertSame((int) $overrides['year'], (int) $newReport['year']);
         $this->assertNotSame((int) $report['year'], (int) $newReport['year']);
+        $this->assertSame($overrides['program'], $newReport['program']);
+        $this->assertNotSame($report['program'], $newReport['program']);
     }
 
 
