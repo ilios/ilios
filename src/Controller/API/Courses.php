@@ -26,9 +26,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Courses extends ReadWriteController
 {
-    public function __construct(CourseRepository $repository, protected TokenStorageInterface $tokenStorage)
-    {
-        parent::__construct($repository, 'courses');
+    public function __construct(
+        protected CourseRepository $courseRepository,
+        protected TokenStorageInterface $tokenStorage
+    ) {
+        parent::__construct($courseRepository, 'courses');
     }
 
     /**

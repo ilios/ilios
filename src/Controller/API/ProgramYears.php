@@ -32,11 +32,11 @@ class ProgramYears extends ReadWriteController
 {
 
     public function __construct(
-        ProgramYearRepository $repository,
+        protected ProgramYearRepository $programYearRepository,
         protected CohortRepository $cohortRepository,
         protected SerializerInterface $serializer
     ) {
-        parent::__construct($repository, 'programyears');
+        parent::__construct($programYearRepository, 'programyears');
     }
 
    /**
