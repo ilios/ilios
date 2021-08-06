@@ -33,7 +33,7 @@ class JsonApiDataShaper
     public function flattenJsonApiData(object $data): array
     {
         $rhett = [];
-        if (property_exists($data, 'id')) {
+        if (property_exists($data, 'id') && property_exists($data, 'type')) {
             $manager = $this->entityRepositoryLookup->getRepositoryForEndpoint($data->type);
             $rhett[$manager->getIdField()] = $data->id;
         }
