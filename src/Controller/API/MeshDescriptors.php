@@ -18,12 +18,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class MeshDescriptors extends ReadOnlyController
 {
-    protected MeshDescriptorRepository $meshDescriptorRepository;
-
-    public function __construct(MeshDescriptorRepository $repository)
+    public function __construct(protected MeshDescriptorRepository $meshDescriptorRepository)
     {
-        parent::__construct($repository, 'meshdescriptors');
-        $this->meshDescriptorRepository = $repository;
+        parent::__construct($this->meshDescriptorRepository, 'meshdescriptors');
     }
 
     /**
