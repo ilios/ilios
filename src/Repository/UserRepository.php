@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Session;
+use App\Entity\UserRole;
+use App\Entity\UserRoleInterface;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -232,31 +234,62 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Get a list of users who do not have the former student role filtered by campus id
      * @return ArrayCollection
      */
-    public function findUsersWhoAreNotFormerStudents(array $campusIds = [])
+    public function findUsersWhoAreNotFormerStudents(array $campusIds = []): ArrayCollection
     {
         $qb = $this->_em->createQueryBuilder();
-        $formerStudents = $qb->select('u.id')
+        $formerStudentRole = $qb->select()
             ->from('App\Entity\UserRole', 'r')
-            ->leftJoin('r.users', 'u')
             ->where($qb->expr()->eq('r.title', ':fs_role_title'))
             ->setParameter('fs_role_title', 'Former Student')
             ->getQuery()
+            ->getSingleResult();
+
+        return new ArrayCollection($this->findUsersWithoutRole($formerStudentRole, $campusIds));
+    }
+
+    /**
+     * Get a list of users who do not have the student role filtered by campus id
+     */
+    public function findUsersWhoAreNotStudents(array $campusIds): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $studentRole = $qb->select('r')
+            ->from(UserRole::class, 'r')
+            ->where($qb->expr()->eq('r.title', ':fs_role_title'))
+            ->setParameter('fs_role_title', 'Student')
+            ->getQuery()
+            ->getSingleResult();
+
+        return $this->findUsersWithoutRole($studentRole, $campusIds);
+    }
+
+    /**
+     * Find users who do not have a specific role
+     * Optionally filter those users by campusId
+     */
+    public function findUsersWithoutRole(UserRoleInterface $role, array $campusIds = []): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $usersWithRole = $qb->select('u.id')
+            ->from(UserRole::class, 'r')
+            ->leftJoin('r.users', 'u')
+            ->where($qb->expr()->eq('r.id', ':role_id'))
+            ->setParameter('role_id', $role->getId())
+            ->getQuery()
             ->getScalarResult();
-        $formerStudentUserIds = array_map(fn(array $arr) => $arr['id'], $formerStudents);
+        $userIds = array_map(fn(array $arr) => $arr['id'], $usersWithRole);
 
         $qb2 = $this->_em->createQueryBuilder();
         $qb2->addSelect('u')
-            ->from('App\Entity\User', 'u')
-            ->where('u.enabled=1')
-            ->andWhere($qb->expr()->notIn('u.id', $formerStudentUserIds))
+            ->from(User::class, 'u')
+            ->andWhere($qb->expr()->notIn('u.id', $userIds))
             ->addOrderBy('u.lastName', 'ASC')
-            ->addOrderBy('u.firstName', 'ASC')
-        ;
-        if (!empty($campusIds)) {
+            ->addOrderBy('u.firstName', 'ASC');
+        if ($campusIds !== []) {
             $qb2->andWhere($qb->expr()->in('u.campusId', $campusIds));
         }
 
-        return new ArrayCollection($qb2->getQuery()->getResult());
+        return $qb2->getQuery()->getResult();
     }
 
     /**
