@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ActivatableEntityInterface;
+use App\Traits\CategorizableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
+use App\Traits\SortableEntityInterface;
 use App\Traits\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
 
@@ -19,7 +21,9 @@ interface CourseObjectiveInterface extends
     IndexableCoursesEntityInterface,
     TitledEntityInterface,
     MeshDescriptorsEntityInterface,
-    ActivatableEntityInterface
+    ActivatableEntityInterface,
+    CategorizableEntityInterface,
+    SortableEntityInterface
 {
     public function setCourse(CourseInterface $course): void;
 
