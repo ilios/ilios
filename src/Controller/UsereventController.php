@@ -85,8 +85,6 @@ class UsereventController extends AbstractController
             $events,
             fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
         ));
-        /** @var SessionUserInterface $sessionUser */
-        $tokenStorage->getToken()->getUser();
 
         $events = $repository->addPreAndPostRequisites($user->getId(), $events);
 
