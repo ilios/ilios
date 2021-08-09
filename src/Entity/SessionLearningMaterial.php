@@ -101,7 +101,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $learningMaterial;
 
     /**
-     * @var MeshDescriptorInterface
+     * @var ArrayCollection|MeshDescriptorInterface[]
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinTable(name: 'session_learning_material_x_mesh')]

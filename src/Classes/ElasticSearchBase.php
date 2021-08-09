@@ -101,7 +101,6 @@ class ElasticSearchBase
      * The API for bulk indexing is a little bit weird and front data has to be inserted in
      * front of every item. This allows bulk indexing on many types at the same time, and
      * this convenience method takes care of that for us.
-     * @param $index
      */
     protected function doBulkIndex(string $index, array $items): array
     {

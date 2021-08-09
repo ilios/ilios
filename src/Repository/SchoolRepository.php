@@ -234,9 +234,9 @@ class SchoolRepository extends ServiceEntityRepository implements
 
     /**
      * Adds instructors to a given list of events.
-     * @param CalendarEvent[] $events A list of events
+     * @param SchoolEvent[] $events A list of events
      *
-     * @return CalendarEvent[] The events list with instructors added.
+     * @return SchoolEvent[] The events list with instructors added.
      */
     public function addInstructorsToEvents(array $events)
     {
@@ -246,8 +246,8 @@ class SchoolRepository extends ServiceEntityRepository implements
     /**
      * Finds and adds learning materials to a given list of calendar events.
      *
-     * @param CalendarEvent[] $events
-     * @return CalendarEvent[]
+     * @param SchoolEvent[] $events
+     * @return SchoolEvent[]
      */
     public function addMaterialsToEvents(array $events)
     {
@@ -257,8 +257,8 @@ class SchoolRepository extends ServiceEntityRepository implements
     /**
      * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
      *
-     * @param CalendarEvent[] $events
-     * @return CalendarEvent[]
+     * @param SchoolEvent[] $events
+     * @return SchoolEvent[]
      */
     public function addSessionDataToEvents(array $events)
     {

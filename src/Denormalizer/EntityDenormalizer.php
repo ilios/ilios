@@ -8,6 +8,7 @@ use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Psr\Log\LoggerInterface;
 use ReflectionProperty;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -102,18 +103,18 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         if (in_array($type, ['entity', 'entityCollection'])) {
             $entityManager = $this->managerRegistry->getManagerForClass($property->class);
             $metaData = $entityManager->getClassMetadata($property->class);
-            $associationMappings = $metaData->associationMappings;
-
-            $association = $associationMappings[$property->name];
-            $targetEntity = $association['targetEntity'];
-
+            if (!$metaData->hasAssociation($property->name)) {
+                throw new Exception("Invalid Association");
+            }
+            $targetEntity = $metaData->getAssociationTargetClass($property->name);
             $iliosManager = $this->entityRepositoryLookup->getManagerForEntity($targetEntity);
 
             if ($type === 'entity') {
                 if (null !== $value) {
                     $result = $iliosManager->findOneById($value);
                     if (!$result) {
-                        $identifier = $metaData->getSingleIdentifierFieldName();
+                        $identifiers = $metaData->getIdentifier();
+                        $identifier = $identifiers[3] ?? 'No ID Found';
                         throw new InvalidInputWithSafeUserMessageException(
                             sprintf("Unable to resolve %s with %s %s", $property->getName(), $identifier, $value)
                         );
@@ -123,7 +124,11 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             } elseif (is_array($value) && !empty($value)) {
                 $result = $iliosManager->findBy(['id' => $value]);
                 if (count($result) !== count($value)) {
-                    $identifier = $metaData->getSingleIdentifierFieldName();
+                    $identifiers = $metaData->getIdentifier();
+                    if (!$identifiers[0]) {
+                        throw new Exception("No Identifier found");
+                    }
+                    $identifier = $identifiers[0];
                     $method = 'get' . ucfirst($identifier);
                     $foundIds = array_map(fn($entity) => $entity->$method(), $result);
                     $missingIds = array_filter($value, fn($id) => !in_array($id, $foundIds));

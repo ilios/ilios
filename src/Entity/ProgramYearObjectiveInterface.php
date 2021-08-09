@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ActivatableEntityInterface;
+use App\Traits\CategorizableEntityInterface;
+use App\Traits\IdentifiableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
+use App\Traits\SortableEntityInterface;
 use App\Traits\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
 
@@ -13,9 +16,12 @@ use Doctrine\Common\Collections\Collection;
  * Interface ProgramYearObjectiveInterface
  */
 interface ProgramYearObjectiveInterface extends
+    IdentifiableEntityInterface,
     TitledEntityInterface,
     MeshDescriptorsEntityInterface,
-    ActivatableEntityInterface
+    ActivatableEntityInterface,
+    CategorizableEntityInterface,
+    SortableEntityInterface
 {
     public function setProgramYear(ProgramYearInterface $programYear): void;
 

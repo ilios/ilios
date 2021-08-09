@@ -85,8 +85,6 @@ class UsereventController extends AbstractController
             $events,
             fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
         ));
-        /** @var SessionUserInterface $sessionUser */
-        $tokenStorage->getToken()->getUser();
 
         $events = $repository->addPreAndPostRequisites($user->getId(), $events);
 
@@ -121,7 +119,6 @@ class UsereventController extends AbstractController
         $allEvents = $repository->addSessionDataToEvents($allEvents);
 
         $now = new \DateTime();
-        /* @var UserEvent $event */
         foreach ($allEvents as $event) {
             if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
                 $event->clearDataForUnprivilegedUsers($now);

@@ -18,9 +18,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class MeshDescriptors extends ReadOnlyController
 {
-    public function __construct(MeshDescriptorRepository $repository)
+    public function __construct(protected MeshDescriptorRepository $meshDescriptorRepository)
     {
-        parent::__construct($repository, 'meshdescriptors');
+        parent::__construct($this->meshDescriptorRepository, 'meshdescriptors');
     }
 
     /**
@@ -37,7 +37,7 @@ class MeshDescriptors extends ReadOnlyController
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $q && '' !== $q) {
-            $dtos = $this->repository->findDTOsByQ(
+            $dtos = $this->meshDescriptorRepository->findDTOsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],

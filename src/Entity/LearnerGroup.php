@@ -125,7 +125,7 @@ class LearnerGroup implements LearnerGroupInterface
     protected $ancestor;
 
     /**
-     * @var LearnerGroupInterface[]
+     * @var ArrayCollection|LearnerGroupInterface[]
      */
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
@@ -189,7 +189,7 @@ class LearnerGroup implements LearnerGroupInterface
     protected $users;
 
     /**
-     * @var UserInterface
+     * @var ArrayCollection|UserInterface[]
      */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedLearnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor')]

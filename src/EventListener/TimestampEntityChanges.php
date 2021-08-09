@@ -53,10 +53,9 @@ class TimestampEntityChanges
     }
 
     /**
-     * @param $entity
      * @throws Exception
      */
-    protected function stamp($entity)
+    protected function stamp(object $entity)
     {
         $timestamp = new Datetime();
 

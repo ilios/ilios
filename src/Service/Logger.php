@@ -47,10 +47,10 @@ class Logger
     /**
      * Log an action
      *
-     * @param $action
-     * @param $objectId
-     * @param $objectClass
-     * @param $valuesChanged
+     * @param string $action
+     * @param string $objectId
+     * @param string $objectClass
+     * @param string $valuesChanged
      * @param bool $andFlush
      */
     public function log(

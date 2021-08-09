@@ -22,9 +22,10 @@ class ListConfigValuesCommand extends Command
 {
     /**
      * RolloverCourseCommand constructor.
-     * @param $environment
-     * @param $kernelSecret
-     * @param $databaseUrl
+     * @param ApplicationConfigRepository $applicationConfigRepository
+     * @param string $environment
+     * @param string $kernelSecret
+     * @param string $databaseUrl
      */
     public function __construct(
         protected ApplicationConfigRepository $applicationConfigRepository,

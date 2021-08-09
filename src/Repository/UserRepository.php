@@ -1051,7 +1051,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Find all of the assigned materials for a user
      * @param int $id
-     * @param UserMaterialFactory $factory
      * @param array $criteria
      *
      * @return UserMaterial[]
@@ -1180,9 +1179,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Finds and adds learning materials to a given list of calendar events.
      *
-     * @param CalendarEvent[] $events
-     * @param UserMaterialFactory $factory
-     * @return CalendarEvent[]
+     * @param UserEvent[] $events
+     * @return UserEvent[]
      */
     public function addMaterialsToEvents(array $events)
     {
@@ -1192,8 +1190,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
      *
-     * @param CalendarEvent[] $events
-     * @return CalendarEvent[]
+     * @param UserEvent[] $events
+     * @return UserEvent[]
      */
     public function addSessionDataToEvents(array $events)
     {
@@ -1202,7 +1200,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools directed by the given user.
-     * @param $userId
+     * @param int $userId
      */
     public function getDirectedSchoolIds($userId): array
     {
@@ -1217,7 +1215,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools administered by the given user.
-     * @param $userId
+     * @param int $userId
      */
     public function getAdministeredSchoolIds($userId): array
     {
@@ -1233,7 +1231,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids os courses directed by the given user,
      * and the ids of schools owning these directed courses.
-     * @param $userId
+     * @param int $userId
      */
     public function getDirectedCourseAndSchoolIds($userId): array
     {
@@ -1260,7 +1258,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of courses administered by the given user,
      * and the ids of schools owning these administered courses.
-     * @param $userId
+     * @param int $userId
      * @return array
      */
     public function getAdministeredCourseAndSchoolIds($userId)
@@ -1288,7 +1286,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of curriculum inventory reports administered by the given user,
      * and the ids of schools owning these administered reports.
-     * @param $userId
+     * @param int $userId
      */
     public function getAdministeredCurriculumInventoryReportAndSchoolIds($userId): array
     {
@@ -1316,7 +1314,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of sessions administered by the given user,
      * and the ids of schools and courses owning these administered sessions.
-     * @param $userId
+     * @param int $userId
      */
     public function getAdministeredSessionCourseAndSchoolIds($userId): array
     {
@@ -1398,7 +1396,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools which own learner groups instructed by the given user.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getInstructedLearnerGroupSchoolIds($userId): array
     {
@@ -1417,7 +1416,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of learner groups that the given user is a member of.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getLearnerGroupIds($userId): array
     {
@@ -1432,7 +1432,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of instructor groups that the given user is a member of.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getInstructorGroupIds($userId): array
     {
@@ -1447,7 +1448,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools owning instructor groups that the given user is part of.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getInstructorGroupSchoolIds($userId): array
     {
@@ -1464,7 +1466,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of courses that are linked to the programs directed by the given user,
      * and the ids of cohorts, program years and directed programs in this chain of associations.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId): array
     {
@@ -1497,7 +1500,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of ILMs and offerings instructed by the given user,
      * and the ids of schools, courses, and sessions owning these instructed and offerings.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getInstructedOfferingIlmSessionCourseAndSchoolIds($userId): array
     {
@@ -1587,7 +1591,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of programs directed by the given user,
      * and the ids of schools owning these directed programs.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getDirectedProgramAndSchoolIds($userId): array
     {
@@ -1613,7 +1618,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of program-years directed by the given user,
      * and the ids of programs and schools owning these directed program years.
-     * @param $userId
+     * @param int $userId
+     * @return array
      */
     public function getDirectedProgramYearProgramAndSchoolIds($userId): array
     {

@@ -30,12 +30,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ProgramYears extends ReadWriteController
 {
+
     public function __construct(
-        ProgramYearRepository $repository,
+        protected ProgramYearRepository $programYearRepository,
         protected CohortRepository $cohortRepository,
         protected SerializerInterface $serializer
     ) {
-        parent::__construct($repository, 'programyears');
+        parent::__construct($programYearRepository, 'programyears');
     }
 
    /**
@@ -140,7 +141,7 @@ class ProgramYears extends ReadWriteController
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
-        $data = $this->repository->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
+        $data = $this->programYearRepository->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
 
         array_walk($data, function (&$row) {
             foreach (['program_year_objective', 'mapped_course_objective'] as $key) {

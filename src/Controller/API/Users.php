@@ -11,7 +11,6 @@ use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -31,11 +30,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class Users extends ReadWriteController
 {
     public function __construct(
-        UserRepository $repository,
+        protected UserRepository $userRepository,
         protected TokenStorageInterface $tokenStorage,
         protected SerializerInterface $serializer
     ) {
-        parent::__construct($repository, 'users');
+        parent::__construct($userRepository, 'users');
     }
 
     /**
@@ -52,7 +51,7 @@ class Users extends ReadWriteController
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $q && '' !== $q) {
-            $dtos = $this->repository->findDTOsByQ(
+            $dtos = $this->userRepository->findDTOsByQ(
                 $q,
                 $parameters['orderBy'],
                 $parameters['limit'],

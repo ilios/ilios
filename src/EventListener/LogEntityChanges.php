@@ -51,7 +51,7 @@ class LogEntityChanges
 
         $collections = $uow->getScheduledCollectionUpdates();
         foreach ($collections as $col) {
-            /** @var $col PersistentCollection */
+            /** @var PersistentCollection $col */
             $entity = $col->getOwner();
             $change = $col->getTypeClass()->name;
             if ($entity instanceof LoggableEntityInterface) {
@@ -69,7 +69,7 @@ class LogEntityChanges
         }
         $collections = $uow->getScheduledCollectionDeletions();
         foreach ($collections as $col) {
-            /** @var $col PersistentCollection */
+            /** @var PersistentCollection $col */
             $entity = $col->getOwner();
             $change = $col->getTypeClass()->name;
             if ($entity instanceof LoggableEntityInterface) {
