@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f98b81eb9bb8b4c2a2e54992a1e32104",
+    "content-hash": "286fcb146f8498fadba4168d6638a053",
     "packages": [
         {
             "name": "async-aws/core",
@@ -14624,6 +14624,7 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
+        "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
