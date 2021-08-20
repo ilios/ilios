@@ -11831,16 +11831,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "2.0.0-RC1",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "eba9dfaee0de39c420c2fc4c7467fca8f5f8a4c8"
+                "reference": "54d797af9871d9feaba4fe1ad5536b978a86bdaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/eba9dfaee0de39c420c2fc4c7467fca8f5f8a4c8",
-                "reference": "eba9dfaee0de39c420c2fc4c7467fca8f5f8a4c8",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/54d797af9871d9feaba4fe1ad5536b978a86bdaa",
+                "reference": "54d797af9871d9feaba4fe1ad5536b978a86bdaa",
                 "shasum": ""
             },
             "require": {
@@ -11908,9 +11908,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.0-beta4"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.1"
             },
-            "time": "2021-07-20T21:57:35+00:00"
+            "time": "2021-08-19T11:22:21+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -14624,7 +14624,6 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
-        "liip/test-fixtures-bundle": 15,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
