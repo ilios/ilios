@@ -61,8 +61,65 @@ class SessionRepository extends ServiceEntityRepository implements
         $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from(Session::class, 's');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
+        return $this->createSessionDTOs($qb->getQuery());
+    }
+
+    /**
+     * Find by a string query
+     * @return SessionDTO[]
+     */
+    public function findDTOsByQ(
+        string $q,
+        array $orderBy = null,
+        $limit = null,
+        $offset = null,
+        array $criteria = []
+    ) {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('s')->from(Session::class, 's');
+
+        $terms = explode(' ', $q);
+        $terms = array_filter($terms, 'strlen');
+        if (empty($terms)) {
+            return [];
+        }
+
+        foreach ($terms as $key => $term) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('s.title', "?{$key}"),
+                $qb->expr()->like('s.description', "?{$key}"),
+            ))
+            ->setParameter($key, '%' . $term . '%');
+        }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('s.' . $sort, $order);
+            }
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $this->createSessionDTOs($qb->getQuery());
+    }
+
+    /**
+     * @return SessionDTO[]
+     */
+    protected function createSessionDTOs(AbstractQuery $query): array
+    {
         $sessionDTOs = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $sessionDTOs[$arr['id']] = new SessionDTO(
                 $arr['id'],
                 $arr['title'],

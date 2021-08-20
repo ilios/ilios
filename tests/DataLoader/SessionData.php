@@ -22,7 +22,7 @@ class SessionData extends AbstractDataLoader
             'instructionalNotes' => $this->faker->text(100),
             'sessionType' => 1,
             'course' => 1,
-            'description' => $this->faker->text(),
+            'description' => $this->faker->text() . 'description',
             'terms' => ['2', '5'],
             'sessionObjectives' => ['1'],
             'meshDescriptors' => ['abc1'],
@@ -69,6 +69,7 @@ class SessionData extends AbstractDataLoader
             'instructionalNotes' => $this->faker->text(100),
             'sessionType' => 2,
             'course' => 2,
+            'description' => $this->faker->text() . 'description',
             'terms' => ['3', '6'],
             'sessionObjectives' => [],
             'meshDescriptors' => ["abc2"],
@@ -81,7 +82,7 @@ class SessionData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 4,
-            'title' => $this->faker->text(10),
+            'title' => $this->faker->text(10) . 'fourth',
             'equipmentRequired' => false,
             'supplemental' => false,
             'attendanceRequired' => false,

@@ -148,6 +148,91 @@ class SessionTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function qsToTest()
+    {
+        return [
+            ['session1Title', [0]],
+            ['1', [0]],
+            ['title', [0]],
+            ['fourth', [3]],
+            ['xyznothing', []],
+            ['description', [0, 1, 2]],
+            ['second', [1]],
+            ['', [0, 1, 2, 3, 4, 5, 6, 7]],
+        ];
+    }
+
+    /**
+     * @dataProvider qsToTest
+     */
+    public function testFindByQ(string $q, array $dataKeys)
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
+        $filters = ['q' => $q];
+        $this->filterTest($filters, $expectedData);
+    }
+
+    /**
+     * @dataProvider qsToTest
+     */
+    public function testFindByQJsonApi(string $q, array $dataKeys)
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
+        $filters = ['q' => $q];
+        $this->jsonApiFilterTest($filters, $expectedData);
+    }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithLimit()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['description'], 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'description', 'limit' => 2];
+        $this->filterTest($filters, [$all[0], $all[1]]);
+    }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithOffset()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['description'], 'offset' => 0];
+        $this->filterTest($filters, [$all[0]]);
+    }
+
+    /**
+     * Ensure offset and limit work
+     */
+    public function testFindByQWithOffsetAndLimit()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['description'], 'offset' => 0, 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'description', 'offset' => 2, 'limit' => 2];
+        $this->filterTest($filters, [$all[2]]);
+    }
+
+    public function testFindByQWithOffsetAndLimitJsonApi()
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => $all[0]['description'], 'offset' => 0, 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'description', 'offset' => 2, 'limit' => 2];
+        $this->jsonApiFilterTest($filters, [$all[2]]);
+    }
+
     protected function getTimeStampFields()
     {
         return ['updatedAt'];
