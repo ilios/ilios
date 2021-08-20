@@ -64,7 +64,7 @@
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
     "fakerphp/faker": "^1.12",
-    "liip/test-fixtures-bundle": "^2.0.0-alpha2",
+    "liip/test-fixtures-bundle": "@stable",
     "mockery/mockery": "@stable",
     "phpcompatibility/php-compatibility": "^9.3",
     "phpstan/extension-installer": "^1.0",
