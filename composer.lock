@@ -132,16 +132,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.190.2",
+            "version": "3.191.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8ca6a5f9834de3eb3fb84b28fc12c9088bc01293"
+                "reference": "221eb3790a2f5cc73067ec1c13d4c788a0296351"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8ca6a5f9834de3eb3fb84b28fc12c9088bc01293",
-                "reference": "8ca6a5f9834de3eb3fb84b28fc12c9088bc01293",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/221eb3790a2f5cc73067ec1c13d4c788a0296351",
+                "reference": "221eb3790a2f5cc73067ec1c13d4c788a0296351",
                 "shasum": ""
             },
             "require": {
@@ -216,9 +216,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.190.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.191.1"
             },
-            "time": "2021-08-13T18:12:28+00:00"
+            "time": "2021-08-20T18:43:14+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -2167,16 +2167,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.9.4",
+            "version": "2.9.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "b19a13f4edfaa5806109cd899f5912a7df1547b5"
+                "reference": "77cc86ed880e3f1f6c9c5819e131a8aaeeeee0da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/b19a13f4edfaa5806109cd899f5912a7df1547b5",
-                "reference": "b19a13f4edfaa5806109cd899f5912a7df1547b5",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/77cc86ed880e3f1f6c9c5819e131a8aaeeeee0da",
+                "reference": "77cc86ed880e3f1f6c9c5819e131a8aaeeeee0da",
                 "shasum": ""
             },
             "require": {
@@ -2255,9 +2255,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.9.4"
+                "source": "https://github.com/doctrine/orm/tree/2.9.5"
             },
-            "time": "2021-08-11T20:53:03+00:00"
+            "time": "2021-08-23T10:20:22+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -7082,16 +7082,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.13.4",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "d81196c3f3b544e32997b67e955fb8291fdfe770"
+                "reference": "b298435b9df8d7c7d7d5473d4b9f850a7844d7ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/d81196c3f3b544e32997b67e955fb8291fdfe770",
-                "reference": "d81196c3f3b544e32997b67e955fb8291fdfe770",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/b298435b9df8d7c7d7d5473d4b9f850a7844d7ea",
+                "reference": "b298435b9df8d7c7d7d5473d4b9f850a7844d7ea",
                 "shasum": ""
             },
             "require": {
@@ -7130,7 +7130,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.13.4"
+                "source": "https://github.com/symfony/flex/tree/v1.14.0"
             },
             "funding": [
                 {
@@ -7146,7 +7146,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-03T08:14:48+00:00"
+            "time": "2021-08-20T17:26:27+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -12385,16 +12385,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.94",
+            "version": "0.12.96",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6"
+                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6",
-                "reference": "3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a98bdc51318f20fcae8c953d266f81a70254917f",
+                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f",
                 "shasum": ""
             },
             "require": {
@@ -12425,7 +12425,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.94"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.96"
             },
             "funding": [
                 {
@@ -12445,7 +12445,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-30T09:05:27+00:00"
+            "time": "2021-08-21T11:55:13+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
@@ -14176,23 +14176,26 @@
         },
         {
             "name": "symfony/debug-pack",
-            "version": "v1.0.9",
+            "version": "v1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug-pack.git",
-                "reference": "cfd5093378e9cafe500f05c777a22fe8a64a9342"
+                "reference": "98ef3cb02f9adb54b98d8bc95c84b896513a51d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/cfd5093378e9cafe500f05c777a22fe8a64a9342",
-                "reference": "cfd5093378e9cafe500f05c777a22fe8a64a9342",
+                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/98ef3cb02f9adb54b98d8bc95c84b896513a51d5",
+                "reference": "98ef3cb02f9adb54b98d8bc95c84b896513a51d5",
                 "shasum": ""
             },
             "require": {
                 "symfony/debug-bundle": "*",
                 "symfony/monolog-bundle": "^3.0",
-                "symfony/profiler-pack": "*",
-                "symfony/var-dumper": "*"
+                "symfony/profiler-pack": "*"
+            },
+            "require-dev": {
+                "symfony/debug-bundle": "*",
+                "symfony/profiler-pack": "*"
             },
             "type": "symfony-pack",
             "notification-url": "https://packagist.org/downloads/",
@@ -14202,7 +14205,7 @@
             "description": "A debug pack for Symfony projects",
             "support": {
                 "issues": "https://github.com/symfony/debug-pack/issues",
-                "source": "https://github.com/symfony/debug-pack/tree/v1.0.9"
+                "source": "https://github.com/symfony/debug-pack/tree/v1.0.10"
             },
             "funding": [
                 {
@@ -14218,7 +14221,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-19T08:51:51+00:00"
+            "time": "2021-08-20T17:29:57+00:00"
         },
         {
             "name": "symfony/dom-crawler",
@@ -14380,21 +14383,24 @@
         },
         {
             "name": "symfony/profiler-pack",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/profiler-pack.git",
-                "reference": "29ec66471082b4eb068db11eb4f0a48c277653f7"
+                "reference": "bcd6e80af9819454ac18594362e7875fd1d771c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/profiler-pack/zipball/29ec66471082b4eb068db11eb4f0a48c277653f7",
-                "reference": "29ec66471082b4eb068db11eb4f0a48c277653f7",
+                "url": "https://api.github.com/repos/symfony/profiler-pack/zipball/bcd6e80af9819454ac18594362e7875fd1d771c7",
+                "reference": "bcd6e80af9819454ac18594362e7875fd1d771c7",
                 "shasum": ""
             },
             "require": {
                 "symfony/stopwatch": "*",
-                "symfony/twig-bundle": "*",
+                "symfony/web-profiler-bundle": "*"
+            },
+            "require-dev": {
+                "symfony/stopwatch": "*",
                 "symfony/web-profiler-bundle": "*"
             },
             "type": "symfony-pack",
@@ -14405,7 +14411,7 @@
             "description": "A pack for the Symfony web profiler",
             "support": {
                 "issues": "https://github.com/symfony/profiler-pack/issues",
-                "source": "https://github.com/symfony/profiler-pack/tree/v1.0.5"
+                "source": "https://github.com/symfony/profiler-pack/tree/v1.0.6"
             },
             "funding": [
                 {
@@ -14421,23 +14427,29 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-12T06:50:46+00:00"
+            "time": "2021-08-20T17:27:58+00:00"
         },
         {
             "name": "symfony/test-pack",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/test-pack.git",
-                "reference": "d6da9926f785b0c4ebf3b0c6965398aac80e95ce"
+                "reference": "66a2b0a5c9152128b42feb439a735130a9b4d3dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/test-pack/zipball/d6da9926f785b0c4ebf3b0c6965398aac80e95ce",
-                "reference": "d6da9926f785b0c4ebf3b0c6965398aac80e95ce",
+                "url": "https://api.github.com/repos/symfony/test-pack/zipball/66a2b0a5c9152128b42feb439a735130a9b4d3dc",
+                "reference": "66a2b0a5c9152128b42feb439a735130a9b4d3dc",
                 "shasum": ""
             },
             "require": {
+                "phpunit/phpunit": "*",
+                "symfony/browser-kit": "*",
+                "symfony/css-selector": "*",
+                "symfony/phpunit-bridge": "*"
+            },
+            "require-dev": {
                 "phpunit/phpunit": "*",
                 "symfony/browser-kit": "*",
                 "symfony/css-selector": "*",
@@ -14451,7 +14463,7 @@
             "description": "A pack for functional and end-to-end testing within a Symfony app",
             "support": {
                 "issues": "https://github.com/symfony/test-pack/issues",
-                "source": "https://github.com/symfony/test-pack/tree/v1.0.8"
+                "source": "https://github.com/symfony/test-pack/tree/v1.0.9"
             },
             "funding": [
                 {
@@ -14467,7 +14479,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-31T14:58:13+00:00"
+            "time": "2021-08-20T17:29:16+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
