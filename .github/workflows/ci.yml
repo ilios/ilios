@@ -14,6 +14,7 @@ env:
   ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
+  MESSENGER_TRANSPORT_DSN: doctrine://default
   latest_php: 8.0
 
 jobs:
@@ -82,6 +83,7 @@ jobs:
     - name: Drop, Create, Migrate, and Validate DB
       env:
         ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.7
+        MESSENGER_TRANSPORT_DSN: doctrine://default
       run: |
         sudo /etc/init.d/mysql start
         bin/console doctrine:database:drop --if-exists --force
@@ -121,6 +123,7 @@ jobs:
       ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.7
       ILIOS_SECRET: DifferentSecret
       ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+      MESSENGER_TRANSPORT_DSN: doctrine://default
     steps:
     - uses: actions/checkout@v2
     - name: Drop, Create Database to use everywhere else
