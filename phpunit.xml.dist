@@ -23,12 +23,6 @@
         </testsuite>
     </testsuites>
 
-    <groups>
-        <exclude>
-            <group>mesh_data_import</group>
-        </exclude>
-    </groups>
-
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">src</directory>
