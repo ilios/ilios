@@ -4,8 +4,8 @@ framework:
 
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
-       async: "doctrine://default"
-       failed: "doctrine://default"
+       async: '%env(MESSENGER_TRANSPORT_DSN)%'
+       failed: '%env(MESSENGER_TRANSPORT_DSN)%'
 
     routing:
       # Route your messages to the transports
