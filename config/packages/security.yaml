@@ -50,7 +50,7 @@ security:
   providers:
     session_user:
       id: App\Service\SessionUserProvider
-  encoders:
+  password_hashers:
     App\Classes\SessionUserInterface:
       algorithm: auto
       migrate_from:

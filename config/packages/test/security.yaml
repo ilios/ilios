@@ -1,4 +1,4 @@
 security:
-  encoders:
+  password_hashers:
     App\Classes\SessionUserInterface:
       algorithm: plaintext
