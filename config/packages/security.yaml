@@ -2,6 +2,14 @@ security:
   access_decision_manager:
     allow_if_all_abstain: false
     strategy: unanimous
+  password_hashers:
+    App\Classes\SessionUserInterface:
+      algorithm: auto
+      migrate_from:
+        - bcrypt
+  providers:
+    session_user:
+      id: App\Service\SessionUserProvider
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -47,11 +55,3 @@ security:
         authenticators:
           - App\Security\JsonWebTokenAuthenticator
       provider: session_user
-  providers:
-    session_user:
-      id: App\Service\SessionUserProvider
-  password_hashers:
-    App\Classes\SessionUserInterface:
-      algorithm: auto
-      migrate_from:
-        - bcrypt
