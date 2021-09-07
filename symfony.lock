@@ -235,7 +235,7 @@
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
             "version": "2.6",
-            "ref": "02ad65038eceb5231c73a530b67beedd955c40ed"
+            "ref": "02c7cd93304dead890f9042fc2670dd9b0e0c091"
         },
         "files": [
             "config/packages/monitor.yaml"
