@@ -16,10 +16,12 @@ security:
       security: false
     api_docs:
       pattern:   ^/api/doc
-      anonymous: ~
+      anonymous: true
+      lazy: true
     anonymous_auth:
       pattern:    ^/(auth|application)/(login|config|logout)
-      anonymous: ~
+      anonymous: true
+      lazy: true
     authenticated_auth:
       pattern:    ^/auth
       stateless: true
