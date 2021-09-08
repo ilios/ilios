@@ -17,7 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class AddUserCommandTest
@@ -32,7 +32,7 @@ class AddUserCommandTest extends KernelTestCase
     protected $userRepository;
     protected $authenticationRepository;
     protected $schoolRepository;
-    protected $passwordHasher;
+    protected $encoder;
     protected $commandTester;
     protected $questionHelper;
     protected $sessionUserProvider;
@@ -43,7 +43,7 @@ class AddUserCommandTest extends KernelTestCase
         $this->userRepository = m::mock(UserRepository::class);
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
         $this->schoolRepository = m::mock(SchoolRepository::class);
-        $this->passwordHasher = m::mock(UserPasswordHasherInterface::class);
+        $this->encoder = m::mock(UserPasswordEncoderInterface::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
 
 
@@ -51,7 +51,7 @@ class AddUserCommandTest extends KernelTestCase
             $this->userRepository,
             $this->authenticationRepository,
             $this->schoolRepository,
-            $this->passwordHasher,
+            $this->encoder,
             $this->sessionUserProvider
         );
 
@@ -332,7 +332,8 @@ class AddUserCommandTest extends KernelTestCase
         $user->shouldReceive('setAuthentication')->with($authentication);
 
 
-        $this->passwordHasher->shouldReceive('hashPassword')->with($sessionUser, 'abc123pass')->andReturn('hashBlurb');
+        $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'abc123pass')->andReturn('hashBlurb');
+
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
         $this->userRepository->shouldReceive('findOneBy')->with(['email' => 'email@example.com'])->andReturn(false);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);

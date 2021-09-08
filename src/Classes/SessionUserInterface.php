@@ -6,12 +6,11 @@ namespace App\Classes;
 
 use App\Entity\SchoolInterface;
 use App\Entity\UserInterface as IliosUserInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use DateTime;
 
-interface SessionUserInterface extends UserInterface, EquatableInterface, PasswordAuthenticatedUserInterface
+interface SessionUserInterface extends UserInterface, EquatableInterface
 {
     /**
      * Is this user a root user

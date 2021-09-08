@@ -18,7 +18,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Add a user by looking them up in the directory
@@ -31,7 +31,7 @@ class AddUserCommand extends Command
         protected UserRepository $userRepository,
         protected AuthenticationRepository $authenticationRepository,
         protected SchoolRepository $schoolRepository,
-        protected UserPasswordHasherInterface $passwordHasher,
+        protected UserPasswordEncoderInterface $encoder,
         protected SessionUserProvider $sessionUserProvider
     ) {
         parent::__construct();
@@ -176,7 +176,7 @@ class AddUserCommand extends Command
             $user->setAuthentication($authentication);
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
-            $encodedPassword = $this->passwordHasher->hashPassword($sessionUser, $userRecord['password']);
+            $encodedPassword = $this->encoder->encodePassword($sessionUser, $userRecord['password']);
             $authentication->setPasswordHash($encodedPassword);
 
             $this->authenticationRepository->update($authentication);

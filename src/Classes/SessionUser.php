@@ -153,7 +153,7 @@ class SessionUser implements SessionUserInterface
     /**
      * @inheritdoc
      */
-    public function getPassword(): ?string
+    public function getPassword()
     {
         return $this->password;
     }
