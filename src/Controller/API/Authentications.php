@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -40,7 +40,7 @@ class Authentications
     use ApiEntityValidation;
 
     public function __construct(
-        protected UserPasswordEncoderInterface $passwordEncoder,
+        protected UserPasswordHasherInterface $passwordHasher,
         protected SessionUserProvider $sessionUserProvider,
         protected AuthenticationRepository $repository,
         protected UserRepository $userRepository,
@@ -93,7 +93,7 @@ class Authentications
                 $user = $users[$obj->user];
                 if ($user) {
                     $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
-                    $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $obj->password);
+                    $encodedPassword = $this->passwordHasher->hashPassword($sessionUser, $obj->password);
                     $encodedPasswords[$user->getId()] = $encodedPassword;
                 }
             }
@@ -185,7 +185,7 @@ class Authentications
             $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
-                $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
+                $encodedPassword = $this->passwordHasher->hashPassword($sessionUser, $authObject->password);
             }
         }
         unset($authObject->password);
@@ -240,7 +240,7 @@ class Authentications
             $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
-                $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
+                $encodedPassword = $this->passwordHasher->hashPassword($sessionUser, $authObject->password);
             }
         }
         unset($authObject->password);
