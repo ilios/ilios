@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class ChangePasswordCommandTest
@@ -38,8 +38,8 @@ class ChangePasswordCommandTest extends KernelTestCase
     protected $userRepository;
     /** @var AuthenticationRepository */
     protected $authenticationRepository;
-    /** @var UserPasswordEncoderInterface */
-    protected $encoder;
+    /** @var UserPasswordHasherInterface */
+    protected $passwordHasher;
     /** @var SessionUserProvider */
     protected $sessionUserProvider;
 
@@ -48,13 +48,13 @@ class ChangePasswordCommandTest extends KernelTestCase
         parent::setUp();
         $this->userRepository = m::mock(UserRepository::class);
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
-        $this->encoder = m::mock(UserPasswordEncoderInterface::class);
+        $this->passwordHasher = m::mock(UserPasswordHasherInterface::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
 
         $command = new ChangePasswordCommand(
             $this->userRepository,
             $this->authenticationRepository,
-            $this->encoder,
+            $this->passwordHasher,
             $this->sessionUserProvider
         );
         $kernel = self::bootKernel();
@@ -76,7 +76,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->userRepository);
         unset($this->authenticationRepository);
-        unset($this->encoder);
+        unset($this->passwordHasher);
         unset($this->sessionUserProvider);
         unset($this->commandTester);
     }
@@ -93,7 +93,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $sessionUser = m::mock(SessionUserInterface::class);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
 
-        $this->encoder->shouldReceive('encodePassword')->with($sessionUser, '123456789')->andReturn('abc');
+        $this->passwordHasher->shouldReceive('hashPassword')->with($sessionUser, '123456789')->andReturn('abc');
         $authentication->shouldReceive('setPasswordHash')->with('abc')->once();
 
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
@@ -122,7 +122,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $sessionUser = m::mock(SessionUserInterface::class);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
 
-        $this->encoder->shouldReceive('encodePassword')->with($sessionUser, '123456789')->andReturn('abc');
+        $this->passwordHasher->shouldReceive('hashPassword')->with($sessionUser, '123456789')->andReturn('abc');
         $authentication->shouldReceive('setPasswordHash')->with('abc')->once();
 
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
