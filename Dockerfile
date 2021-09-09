@@ -36,7 +36,7 @@ COPY --from=src /src /var/www/ilios
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install libldap2-dev zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
+    && apt-get install libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
@@ -209,7 +209,7 @@ COPY ./src/.htaccess /var/www/ilios/src
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install sudo libldap2-dev zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
+    && apt-get install sudo libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
