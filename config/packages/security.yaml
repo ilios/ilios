@@ -21,36 +21,31 @@ security:
     authenticated_auth:
       pattern:    ^/auth
       stateless: true
-      guard:
-        authenticators:
-          - App\Security\JsonWebTokenAuthenticator
+      custom_authenticators:
+        - App\Security\JsonWebTokenAuthenticator
       provider: session_user
     authenticated_application:
       pattern:    ^/application
       stateless: true
-      guard:
-        authenticators:
-          - App\Security\JsonWebTokenAuthenticator
+      custom_authenticators:
+        - App\Security\JsonWebTokenAuthenticator
       provider: session_user
     upload:
       pattern:    ^/upload
       stateless: true
-      guard:
-        authenticators:
-          - App\Security\JsonWebTokenAuthenticator
+      custom_authenticators:
+        - App\Security\JsonWebTokenAuthenticator
       provider: session_user
     errors:
       pattern:    ^/errors
       stateless: true
-      guard:
-        authenticators:
-          - App\Security\JsonWebTokenAuthenticator
+      custom_authenticators:
+        - App\Security\JsonWebTokenAuthenticator
       provider: session_user
     default:
       pattern:    ^/api
       stateless: true
-      guard:
-        authenticators:
-          - App\Security\JsonWebTokenAuthenticator
+      custom_authenticators:
+        - App\Security\JsonWebTokenAuthenticator
       provider: session_user
 
