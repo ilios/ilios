@@ -55,8 +55,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                 return new Passport(
                     new UserBadge((string) $userId),
                     new CustomCredentials(
-                        function ($credentials, UserInterface $user) {
-                            /* @var SessionUserInterface $user */
+                        function ($credentials, SessionUserInterface $user) {
                             if (!$user->isEnabled()) {
                                 throw new CustomUserMessageAuthenticationException(
                                     'Invalid JSON Web Token: user is disabled'
