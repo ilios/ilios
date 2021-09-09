@@ -51,9 +51,9 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         if (preg_match('/^Token (\S+)$/', $authorizationHeader, $matches)) {
             $jwt = $matches[1];
             try {
-                $username = $this->jwtManager->getUserIdFromToken($jwt);
+                $userId = $this->jwtManager->getUserIdFromToken($jwt);
                 return new Passport(
-                    new UserBadge($username),
+                    new UserBadge((string) $userId),
                     new CustomCredentials(
                         function ($credentials, UserInterface $user) {
                             /* @var SessionUserInterface $user */
