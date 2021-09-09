@@ -11,7 +11,6 @@ env:
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
   CC_TEST_REPORTER_ID: c2e072c72320901c23741e4c25bfd28e149441b5a19ba9abb8cf80ca0363ff9a
-  MESSENGER_TRANSPORT_DSN: doctrine://default
 jobs:
   coverage:
     name: Test and Calculate Coverage
