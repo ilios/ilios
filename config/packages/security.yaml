@@ -1,5 +1,8 @@
 security:
   enable_authenticator_manager: true
+  access_control:
+    - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+    - { path: ^/(auth|application)/(login|config|logout), roles: PUBLIC_ACCESS }
   access_decision_manager:
     allow_if_all_abstain: false
     strategy: unanimous
@@ -15,14 +18,6 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
-    api_docs:
-      pattern:   ^/api/doc
-      anonymous: true
-      lazy: true
-    anonymous_auth:
-      pattern:    ^/(auth|application)/(login|config|logout)
-      anonymous: true
-      lazy: true
     authenticated_auth:
       pattern:    ^/auth
       stateless: true
