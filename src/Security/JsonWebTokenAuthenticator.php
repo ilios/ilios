@@ -40,7 +40,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         }
 
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
-        return preg_match('/^Token \S+$/', $authorizationHeader);
+        return (bool) preg_match('/^Token \S+$/', $authorizationHeader);
     }
 
     public function authenticate(Request $request): PassportInterface
