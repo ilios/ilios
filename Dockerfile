@@ -59,7 +59,8 @@ APP_DEBUG=false \
 MAILER_DSN=null://null \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
-ILIOS_REQUIRE_SECURE_CONNECTION=false
+ILIOS_REQUIRE_SECURE_CONNECTION=false \
+MESSENGER_TRANSPORT_DSN=doctrine://default
 
 WORKDIR /var/www/ilios
 RUN /usr/bin/touch .env
