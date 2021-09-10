@@ -47,43 +47,39 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
         preg_match('/^Token (\S+)$/', $authorizationHeader, $matches);
-
-        if (preg_match('/^Token (\S+)$/', $authorizationHeader, $matches)) {
-            $jwt = $matches[1];
-            try {
-                $userId = $this->jwtManager->getUserIdFromToken($jwt);
-                return new Passport(
-                    new UserBadge((string) $userId),
-                    new CustomCredentials(
-                        function ($credentials, SessionUserInterface $user) {
-                            if (!$user->isEnabled()) {
+        $jwt = $matches[1];
+        try {
+            $userId = $this->jwtManager->getUserIdFromToken($jwt);
+            return new Passport(
+                new UserBadge((string) $userId),
+                new CustomCredentials(
+                    function ($credentials, SessionUserInterface $user) {
+                        if (!$user->isEnabled()) {
+                            throw new CustomUserMessageAuthenticationException(
+                                'Invalid JSON Web Token: user is disabled'
+                            );
+                        }
+                        $tokenNotValidBefore = $user->tokenNotValidBefore();
+                        $issuedAt = $this->jwtManager->getIssuedAtFromToken($credentials);
+                        if ($tokenNotValidBefore) {
+                            if ($tokenNotValidBefore > $issuedAt) {
                                 throw new CustomUserMessageAuthenticationException(
-                                    'Invalid JSON Web Token: user is disabled'
+                                    'Invalid JSON Web Token: Not issued after ' .
+                                    $tokenNotValidBefore->format('c') .
+                                    ' issued on ' . $issuedAt->format('c')
                                 );
                             }
-                            $tokenNotValidBefore = $user->tokenNotValidBefore();
-                            $issuedAt = $this->jwtManager->getIssuedAtFromToken($credentials);
-                            if ($tokenNotValidBefore) {
-                                if ($tokenNotValidBefore > $issuedAt) {
-                                    throw new CustomUserMessageAuthenticationException(
-                                        'Invalid JSON Web Token: Not issued after ' .
-                                        $tokenNotValidBefore->format('c') .
-                                        ' issued on ' . $issuedAt->format('c')
-                                    );
-                                }
-                            }
-                            return true;
-                        },
-                        $jwt
-                    )
-                );
-            } catch (UnexpectedValueException $e) {
-                throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token: ' . $e->getMessage());
-            } catch (Exception) {
-                throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token');
-            }
+                        }
+                        return true;
+                    },
+                    $jwt
+                )
+            );
+        } catch (UnexpectedValueException $e) {
+            throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token: ' . $e->getMessage());
+        } catch (Exception) {
+            throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token');
         }
-        throw new CustomUserMessageAuthenticationException('No JSON Web Token provided');
     }
 
 
