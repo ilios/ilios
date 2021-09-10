@@ -6,153 +6,84 @@ namespace App\Security;
 
 use App\Classes\SessionUserInterface;
 use App\Service\JsonWebTokenManager;
-use App\Service\SessionUserProvider;
 use Exception;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use UnexpectedValueException;
 
-class JsonWebTokenAuthenticator extends AbstractGuardAuthenticator
+class JsonWebTokenAuthenticator extends AbstractAuthenticator
 {
-    /**
-     * Constructor
-     */
     public function __construct(protected JsonWebTokenManager $jwtManager, protected RouterInterface $router)
     {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
-        $apiDocsUrl = $this->router->generate(
-            'ilios_swagger_index',
-            [],
-            UrlGenerator::ABSOLUTE_URL
-        );
-        return new Response(
-            'X-JWT-Authorization header required with JWT token. See ' .
-            "<a href='${apiDocsUrl}'>${apiDocsUrl}</a>",
-            401
-        );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function supports(Request $request)
+    public function supports(Request $request): ?bool
     {
         if (!$request->headers->has('X-JWT-Authorization')) {
             return false;
         }
 
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
-        return preg_match('/^Token \S+$/', $authorizationHeader);
+        return (bool) preg_match('/^Token \S+$/', $authorizationHeader);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCredentials(Request $request)
+    public function authenticate(Request $request): PassportInterface
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
         preg_match('/^Token (\S+)$/', $authorizationHeader, $matches);
-        return $matches[1];
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param string $jwt the extracted JWT
-     */
-    public function getUser($jwt, UserProviderInterface $userProvider)
-    {
-        if (!$userProvider instanceof SessionUserProvider) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'The user provider must be an instance of SessionUserProvider (%s was given).',
-                    $userProvider::class
+        $token = $matches[1];
+        try {
+            $userId = $this->jwtManager->getUserIdFromToken($token);
+            return new Passport(
+                new UserBadge((string) $userId),
+                new CustomCredentials(
+                    function ($token, SessionUserInterface $user) {
+                        if (!$user->isEnabled()) {
+                            throw new CustomUserMessageAuthenticationException(
+                                'Invalid JSON Web Token: user is disabled'
+                            );
+                        }
+                        $tokenNotValidBefore = $user->tokenNotValidBefore();
+                        $issuedAt = $this->jwtManager->getIssuedAtFromToken($token);
+                        if ($tokenNotValidBefore) {
+                            if ($tokenNotValidBefore > $issuedAt) {
+                                throw new CustomUserMessageAuthenticationException(
+                                    'Invalid JSON Web Token: Not issued after ' .
+                                    $tokenNotValidBefore->format('c') .
+                                    ' issued on ' . $issuedAt->format('c')
+                                );
+                            }
+                        }
+                        return true;
+                    },
+                    $token
                 )
             );
-        }
-
-        try {
-            $username = $this->jwtManager->getUserIdFromToken($jwt);
         } catch (UnexpectedValueException $e) {
             throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token: ' . $e->getMessage());
         } catch (Exception) {
             throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token');
         }
-
-        /* @var SessionUserInterface $user */
-        $user = $userProvider->loadUserByUsername($username);
-
-
-        return $user;
     }
 
-    /**
-     * @inheritdoc
-     *
-     * @param string $jwt the extracted JWT
-     * @param SessionUserInterface $user
-     *
-     * @return bool
-     */
-    public function checkCredentials($jwt, UserInterface $user)
-    {
-        if (!$user->isEnabled()) {
-            throw new CustomUserMessageAuthenticationException(
-                'Invalid JSON Web Token: user is disabled'
-            );
-        }
 
-        $tokenNotValidBefore = $user->tokenNotValidBefore();
-        $issuedAt = $this->jwtManager->getIssuedAtFromToken($jwt);
-        if ($tokenNotValidBefore) {
-            if ($tokenNotValidBefore > $issuedAt) {
-                throw new CustomUserMessageAuthenticationException(
-                    'Invalid JSON Web Token: Not issued after ' . $tokenNotValidBefore->format('c') .
-                    ' issued on ' . $issuedAt->format('c')
-                );
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         return new Response("Authentication Failed. " . $exception->getMessage(), 401);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // do nothing - continue with an authenticated user
         return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function supportsRememberMe()
-    {
-        return false;
     }
 }
