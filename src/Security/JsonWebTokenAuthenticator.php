@@ -22,16 +22,10 @@ use UnexpectedValueException;
 
 class JsonWebTokenAuthenticator extends AbstractAuthenticator
 {
-    /**
-     * Constructor
-     */
     public function __construct(protected JsonWebTokenManager $jwtManager, protected RouterInterface $router)
     {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function supports(Request $request): ?bool
     {
         if (!$request->headers->has('X-JWT-Authorization')) {
