@@ -88,7 +88,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         return new Response("Authentication Failed. " . $exception->getMessage(), 401);
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // do nothing - continue with an authenticated user
         return null;
