@@ -40,20 +40,20 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
         preg_match('/^Token (\S+)$/', $authorizationHeader, $matches);
-        $jwt = $matches[1];
+        $token = $matches[1];
         try {
-            $userId = $this->jwtManager->getUserIdFromToken($jwt);
+            $userId = $this->jwtManager->getUserIdFromToken($token);
             return new Passport(
                 new UserBadge((string) $userId),
                 new CustomCredentials(
-                    function ($credentials, SessionUserInterface $user) {
+                    function ($token, SessionUserInterface $user) {
                         if (!$user->isEnabled()) {
                             throw new CustomUserMessageAuthenticationException(
                                 'Invalid JSON Web Token: user is disabled'
                             );
                         }
                         $tokenNotValidBefore = $user->tokenNotValidBefore();
-                        $issuedAt = $this->jwtManager->getIssuedAtFromToken($credentials);
+                        $issuedAt = $this->jwtManager->getIssuedAtFromToken($token);
                         if ($tokenNotValidBefore) {
                             if ($tokenNotValidBefore > $issuedAt) {
                                 throw new CustomUserMessageAuthenticationException(
@@ -65,7 +65,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                         }
                         return true;
                     },
-                    $jwt
+                    $token
                 )
             );
         } catch (UnexpectedValueException $e) {
