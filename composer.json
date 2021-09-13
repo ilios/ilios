@@ -15,7 +15,7 @@
     "ext-xmlwriter": "*",
     "ext-zlib": "*",
     "composer/composer": "^2.1",
-    "composer/package-versions-deprecated": "1.11.99.3",
+    "composer/package-versions-deprecated": "1.11.99.4",
     "danielstjules/stringy": "^3.1",
     "doctrine/annotations": "^1.0",
     "doctrine/doctrine-bundle": "^2.4",
