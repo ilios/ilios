@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Service\GraphQL\TypeResolver;
 use App\Service\GraphQL\TypeRegistry;
+use GraphQL\Error\DebugFlag;
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Schema;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +22,7 @@ class GraphQL
     /**
      * @Route("/api/graphql")
      */
-    public function index(Request $request, TypeRegistry $typeRegistry): Response
+    public function index(Request $request, TypeRegistry $typeRegistry, TypeResolver $resolver): Response
     {
         $types = $typeRegistry->getTypes();
         $queryType = new ObjectType([
@@ -32,7 +34,15 @@ class GraphQL
         ]);
         $input = json_decode($request->getContent() ?? '', true);
         $variableValues = $input['variables'] ?? null;
-        $result = \GraphQL\GraphQL::executeQuery($schema, $input['query'] ?? null, null, null, $variableValues);
-        return JsonResponse::fromJsonString(json_encode($result->toArray()));
+        $result = \GraphQL\GraphQL::executeQuery(
+            $schema,
+            $input['query'] ?? null,
+            null,
+            null,
+            $variableValues,
+            null,
+            $resolver,
+        );
+        return JsonResponse::fromJsonString(json_encode($result->toArray(DebugFlag::RETHROW_INTERNAL_EXCEPTIONS)));
     }
 }

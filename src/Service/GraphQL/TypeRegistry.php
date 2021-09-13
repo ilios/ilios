@@ -4,32 +4,28 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
+use App\Attribute\Id;
 use App\Attribute\Related;
 use App\Service\EntityMetadata;
-use Exception;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
-use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Contracts\Cache\CacheInterface;
+
 use function array_key_exists;
-use function array_keys;
-use function call_user_func;
 
 class TypeRegistry
 {
     private const CACHE_KEY_PREFIX = 'ilios-graphql-type-registry';
-    protected array $typeToDtoClassNames;
-    protected array $typeRefs = [];
     protected array $types = [];
 
-    public function __construct(protected EntityMetadata $entityMetadata, protected CacheInterface $appCache)
-    {
-        $this->typeToDtoClassNames = $this->getDtoTypes();
-//        $this->typeToDtoRefs = $this->appCache->get(
-//            self::CACHE_KEY_PREFIX . 'dto-types',
-//            fn () => $this->getDtoTypes()
-//        );
+    public function __construct(
+        protected EntityMetadata $entityMetadata,
+        protected CacheInterface $appCache,
+        protected DTOInfo $dtoInfo,
+        protected TypeResolver $typeResolver,
+        protected FieldResolver $fieldResolver,
+    ) {
     }
 
     public function getTypes(): array
@@ -41,50 +37,19 @@ class TypeRegistry
 //        );
     }
 
-    protected function getRefForType(string $type): ReflectionClass
-    {
-        if (!array_key_exists($type, $this->typeRefs)) {
-            if (!array_key_exists($type, $this->typeToDtoClassNames)) {
-                throw new Exception("Invalid Type. No DTO for ${type}");
-            }
-            $this->typeRefs[$type] = new ReflectionClass($this->typeToDtoClassNames[$type]);
-        }
-
-        return $this->typeRefs[$type];
-    }
-
     protected function createTypeRegistry(): array
     {
         $types = [];
-        foreach (array_keys($this->typeToDtoClassNames) as $name) {
-            $types[$name] = $this->getType($name);
+        foreach ($this->dtoInfo->getDtoTypeList() as $name) {
+            $types[$name] = Type::listOf($this->getType($name));
         }
         return $types;
-    }
-
-    protected function getDtoTypes(): array
-    {
-        $dtos = $this->entityMetadata->getDtoList();
-        $types = array_map(function (string $className) {
-            $ref = new ReflectionClass($className);
-            $type = $this->entityMetadata->extractType($ref);
-            return [
-                'name' => $className,
-                'type' => $type
-            ];
-        }, $dtos);
-        $rhett = [];
-        foreach ($types as $arr) {
-            $rhett[$arr['type']] = $arr['name'];
-        }
-
-        return $rhett;
     }
 
     protected function getType(string $name): ObjectType
     {
         if (!array_key_exists($name, $this->types)) {
-            $ref = $this->getRefForType($name);
+            $ref = $this->dtoInfo->getRefForType($name);
             $exposedProperties = $this->entityMetadata->extractExposedProperties($ref);
             $fields = [];
             foreach ($exposedProperties as $prop) {
@@ -93,6 +58,10 @@ class TypeRegistry
             $this->types[$name] =  new ObjectType([
                 'name' => $this->entityMetadata->extractType($ref),
                 'fields' => $fields,
+                'resolve' => $this->typeResolver,
+                'extensions' => [
+                    'dtoClassName' => $name,
+                ]
             ]);
         }
         return $this->types[$name];
@@ -101,9 +70,23 @@ class TypeRegistry
     protected function buildPropertyField(ReflectionProperty $property): array
     {
         if ($this->isRelated($property)) {
+            $type = $this->entityMetadata->getTypeOfProperty($property);
             $name = $this->entityMetadata->extractRelatedNameForProperty($property);
+
+            //wrap array types in listOf
+            $fn = $type === 'array<string>' ?
+                fn() => Type::listOf($this->getType($name)) :
+                fn() => $this->getType($name)
+            ;
+
             return [
-                'type' => fn() => $this->getType($name)
+                'type' => $fn,
+                'resolve' => $this->typeResolver,
+            ];
+        } elseif ($this->isId($property)) {
+            return [
+                'type' => Type::id(),
+                'resolve' => $this->fieldResolver,
             ];
         } else {
             $type = $this->entityMetadata->getTypeOfProperty($property);
@@ -115,7 +98,8 @@ class TypeRegistry
                     'float' => Type::float(),
                     'dateTime' => DateTimeType::getInstance(),
                     'array<dto>', 'array<string>', 'array' => Type::listOf(Type::string()),
-                }
+                },
+                'resolve' => $this->fieldResolver,
             ];
         }
     }
@@ -124,5 +108,11 @@ class TypeRegistry
     {
         $related = $property->getAttributes(Related::class);
         return $related !== [];
+    }
+
+    protected function isId(ReflectionProperty $property): bool
+    {
+        $id = $property->getAttributes(Id::class);
+        return $id !== [];
     }
 }

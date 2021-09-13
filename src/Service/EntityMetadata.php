@@ -20,12 +20,14 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Contracts\Cache\CacheInterface;
+use function array_key_exists;
 
 class EntityMetadata
 {
     private const CACHE_KEY_PREFIX = 'ilios-entity-metadata-';
     private array $exposedPropertiesForClass;
     private array $typeForClasses;
+    private array $repositoryForClasses;
     private array $typeForProperties;
     private array $idForClasses;
     private array $relatedForClass;
@@ -43,6 +45,7 @@ class EntityMetadata
     {
         $this->exposedPropertiesForClass = [];
         $this->typeForClasses = [];
+        $this->repositoryForClasses = [];
         $this->typeForProperties = [];
         $this->idForClasses = [];
         $this->relatedForClass = [];
@@ -233,6 +236,33 @@ class EntityMetadata
         }
 
         return $this->typeForClasses[$className];
+    }
+
+    /**
+     * Get the repository for an object
+     */
+    public function extractRepository(ReflectionClass $reflection): string
+    {
+        $className = $reflection->getName();
+        if (!array_key_exists($className, $this->repositoryForClasses)) {
+            $attributes = $reflection->getAttributes(DTO::class);
+            if ($attributes === []) {
+                throw new Exception(
+                    "Missing attribute ${className} DTO Attribute"
+                );
+            }
+            $arguments = $attributes[0]->getArguments();
+            if (count($arguments) < 2 || !$arguments[1]) {
+                throw new Exception(
+                    "Missing Repository argument on ${className} DTO Attribute"
+                );
+            }
+            $repository = $arguments[1];
+
+            $this->repositoryForClasses[$className] = $repository;
+        }
+
+        return $this->repositoryForClasses[$className];
     }
 
     /**

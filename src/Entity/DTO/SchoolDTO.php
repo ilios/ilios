@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use App\Repository\SchoolRepository;
 
 /**
  * Class SchoolDTO
  * Data transfer object for a school.
  */
-#[IA\DTO('schools')]
+#[IA\DTO('schools', SchoolRepository::class)]
 class SchoolDTO
 {
     #[IA\Id]
