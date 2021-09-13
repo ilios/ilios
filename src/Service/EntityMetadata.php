@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Contracts\Cache\CacheInterface;
+
 use function array_key_exists;
 
 class EntityMetadata

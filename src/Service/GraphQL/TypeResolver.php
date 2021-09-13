@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace App\Service\GraphQL;
 
 use App\Repository\RepositoryInterface;
-use App\Repository\SchoolRepository;
-use App\Repository\SessionTypeRepository;
 use App\Service\EntityMetadata;
 use Exception;
 use GraphQL\Type\Definition\ResolveInfo;
 use Psr\Container\ContainerInterface;
-use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-class TypeResolver implements ServiceSubscriberInterface
+class TypeResolver
 {
     public function __construct(
         protected DTOInfo $dtoInfo,
         protected EntityMetadata $entityMetadata,
-        protected ContainerInterface $locator,
+        protected ContainerInterface $container,
     ) {
     }
 
@@ -42,18 +39,15 @@ class TypeResolver implements ServiceSubscriberInterface
 
     protected function getRepository(string $name): RepositoryInterface
     {
-        if (!$this->locator->has($name)) {
+        if (!$this->container->has($name)) {
             throw new Exception("Unable to locate repository ${name} is it in getSubscribedServices()?");
         }
 
-        return $this->locator->get($name);
-    }
+        $repository = $this->container->get($name);
+        if (!($repository instanceof RepositoryInterface)) {
+            throw new Exception(sprintf("%s does not implement RepositoryInterface", $repository::class));
+        }
 
-    public static function getSubscribedServices()
-    {
-        return [
-            SchoolRepository::class,
-            SessionTypeRepository::class,
-        ];
+        return $repository;
     }
 }
