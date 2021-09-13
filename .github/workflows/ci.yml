@@ -24,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use PHP ${{ env.latest_php }}
-      uses: shivammathur/setup-php@2.13.0
+      uses: shivammathur/setup-php@2.14.0
       with:
         coverage: none
         php-version: ${{ env.latest_php }}
@@ -56,7 +56,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use PHP ${{ matrix.php-version }}
-      uses: shivammathur/setup-php@2.13.0
+      uses: shivammathur/setup-php@2.14.0
       with:
         coverage: none
         php-version: ${{ matrix.php-version }}
@@ -73,7 +73,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use PHP ${{ env.latest_php }}
-      uses: shivammathur/setup-php@2.13.0
+      uses: shivammathur/setup-php@2.14.0
       with:
         coverage: none
         php-version: ${{ env.latest_php }}
@@ -102,7 +102,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use PHP ${{ matrix.php-version }}
-      uses: shivammathur/setup-php@2.13.0
+      uses: shivammathur/setup-php@2.14.0
       with:
         coverage: none
         php-version: ${{ matrix.php-version }}
@@ -193,7 +193,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@2.13.0
+        uses: shivammathur/setup-php@2.14.0
         with:
           coverage: none
           php-version: ${{ matrix.php-version }}
