@@ -11,7 +11,7 @@ use App\Repository\SchoolRepository;
  * Class SchoolDTO
  * Data transfer object for a school.
  */
-#[IA\DTO('schools', SchoolRepository::class)]
+#[IA\DTO('schools')]
 class SchoolDTO
 {
     #[IA\Id]

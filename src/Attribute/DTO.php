@@ -9,7 +9,7 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS)]
 class DTO
 {
-    public function __construct(public string $name, public ?string $repository = null)
+    public function __construct(public string $name)
     {
     }
 }

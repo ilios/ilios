@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
-use App\Repository\SessionTypeRepository;
 
 /**
  * Class SessionTypeDTO
  * Data transfer object for a session type
  */
-#[IA\DTO('sessionTypes', SessionTypeRepository::class)]
+#[IA\DTO('sessionTypes')]
 class SessionTypeDTO
 {
     #[IA\Id]
