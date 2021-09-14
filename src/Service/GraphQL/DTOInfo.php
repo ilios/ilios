@@ -27,11 +27,10 @@ class DTOInfo
         protected EntityMetadata $entityMetadata,
         protected CacheInterface $appCache,
     ) {
-        $this->typeToDtoClassNames = $this->getDtoTypes();
-//        $this->typeToDtoRefs = $this->appCache->get(
-//            self::CACHE_KEY_PREFIX . 'dto-types',
-//            fn () => $this->getDtoTypes()
-//        );
+        $this->typeToDtoClassNames = $this->appCache->get(
+            self::CACHE_KEY_PREFIX . 'dto-types',
+            fn () => $this->getDtoTypes()
+        );
     }
 
     public function getDtoTypeList(): array
