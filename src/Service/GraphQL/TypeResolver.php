@@ -6,6 +6,7 @@ namespace App\Service\GraphQL;
 
 use App\Service\EntityMetadata;
 use App\Service\EntityRepositoryLookup;
+use GraphQL\Deferred;
 use GraphQL\Type\Definition\ResolveInfo;
 
 class TypeResolver
@@ -14,6 +15,7 @@ class TypeResolver
         protected DTOInfo $dtoInfo,
         protected EntityMetadata $entityMetadata,
         protected EntityRepositoryLookup $entityRepositoryLookup,
+        protected DeferredBuffer $buffer,
     ) {
     }
 
@@ -26,10 +28,8 @@ class TypeResolver
         if ($source) {
             //we have already fetched an object and just need to fetch
             //things related to it
-            $idField = $this->entityMetadata->extractId($ref);
-            return $repository->findDTOsBy([
-                "${idField}" => $source->{$fieldName}
-            ]);
+            $this->buffer->bufferRequest($type, $source->{$fieldName});
+            return new Deferred(fn() => $this->buffer->getValuesForType($type, $source->{$fieldName}));
         }
 
         return $repository->findDTOsBy([]);
