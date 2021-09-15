@@ -415,16 +415,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.1.6",
+            "version": "2.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "e5cac5f9d2354d08b67f1d21c664ae70d748c603"
+                "reference": "f381e45f0b83a602a315613e08fffe0d8f2288c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/e5cac5f9d2354d08b67f1d21c664ae70d748c603",
-                "reference": "e5cac5f9d2354d08b67f1d21c664ae70d748c603",
+                "url": "https://api.github.com/repos/composer/composer/zipball/f381e45f0b83a602a315613e08fffe0d8f2288c8",
+                "reference": "f381e45f0b83a602a315613e08fffe0d8f2288c8",
                 "shasum": ""
             },
             "require": {
@@ -493,7 +493,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.1.6"
+                "source": "https://github.com/composer/composer/tree/2.1.7"
             },
             "funding": [
                 {
@@ -509,7 +509,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-19T15:11:08+00:00"
+            "time": "2021-09-14T12:26:01+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -14448,6 +14448,7 @@
         "symfony/web-link": 0,
         "symfony/yaml": 0,
         "liip/test-fixtures-bundle": 0,
+        "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
     "prefer-stable": false,
