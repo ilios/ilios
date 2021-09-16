@@ -68,7 +68,12 @@ class TypeRegistry
 
     protected function buildPropertyField(ReflectionProperty $property): array
     {
-        if ($this->isRelated($property)) {
+        if ($this->isId($property)) {
+            return [
+                'type' => Type::id(),
+                'resolve' => $this->fieldResolver,
+            ];
+        } elseif ($this->isRelated($property)) {
             $type = $this->entityMetadata->getTypeOfProperty($property);
             $name = $this->entityMetadata->extractRelatedNameForProperty($property);
 
@@ -81,11 +86,6 @@ class TypeRegistry
             return [
                 'type' => $fn,
                 'resolve' => $this->typeResolver,
-            ];
-        } elseif ($this->isId($property)) {
-            return [
-                'type' => Type::id(),
-                'resolve' => $this->fieldResolver,
             ];
         } else {
             $type = $this->entityMetadata->getTypeOfProperty($property);
