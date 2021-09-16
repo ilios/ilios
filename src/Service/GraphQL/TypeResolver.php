@@ -28,7 +28,7 @@ class TypeResolver
     public function __invoke($source, $args, $context, ResolveInfo $info)
     {
         $fieldName = $info->fieldName;
-        $ref = $this->dtoInfo->getRefForType($fieldName);
+        $ref = $this->getRef($fieldName, $source);
         $type = $this->entityMetadata->extractType($ref);
         $repository = $this->entityRepositoryLookup->getRepositoryForEndpoint($type);
         if ($source) {
@@ -45,6 +45,17 @@ class TypeResolver
         }
 
         return $this->filterValues($repository->findDTOsBy([]));
+    }
+
+    protected function getRef(string $fieldName, ?object $source): ReflectionClass
+    {
+        if ($source) {
+            $ref = new ReflectionClass($source::class);
+            $related = $this->entityMetadata->extractRelated($ref);
+            return $this->dtoInfo->getRefForType($related[$fieldName]);
+        } else {
+            return $this->dtoInfo->getRefForType($fieldName);
+        }
     }
 
     protected function filterValues(array $values): array
