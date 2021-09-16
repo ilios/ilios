@@ -21,6 +21,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
+use function json_decode;
+use function json_encode;
+use function var_export;
 
 /**
  * Abstract Testing glue for endpoints
@@ -216,6 +219,33 @@ abstract class AbstractEndpointTest extends WebTestCase
         array $files = []
     ) {
         $this->makeJsonApiRequest($this->kernelBrowser, $method, $url, $content, $token, $files);
+    }
+
+    /**
+     * Create a GraphQL request
+     */
+    protected function createGraphQLRequest(
+        ?string $content,
+        ?string $token
+    ) {
+        $headers = [];
+
+        if (! empty($token)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
+        }
+
+        $this->kernelBrowser->request(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_graphql_index"
+            ),
+            [],
+            [],
+            $headers,
+            $content
+        );
+
     }
 
     /**
@@ -551,6 +581,35 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
 
         return $content->data;
+    }
+
+    protected function getAllGraphQLTest(): array
+    {
+        $name = $this->getCamelCasedPluralName();
+        $loader = $this->getDataLoader();
+        $idField = $loader->getIdField();
+        $data = $loader->getAll();
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { ${name} { ${idField} }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->{$name});
+
+        foreach ($content->data->{$name} as $i => $item) {
+            $this->assertObjectHasAttribute($idField, $item);
+            $this->assertEquals($data[$i][$idField], $item->{$idField});
+        }
+
+        return $content->data->{$name};
     }
 
     /**

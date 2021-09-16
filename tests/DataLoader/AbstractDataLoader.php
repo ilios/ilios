@@ -152,4 +152,14 @@ abstract class AbstractDataLoader implements DataLoaderInterface
             'relationships' => $relationships
         ];
     }
+
+    /**
+     * Build a single JSON API version using the annotations on the DTO
+     */
+    public function getIdField(): string
+    {
+        $class = $this->getDtoClass();
+        $reflection = new ReflectionClass($class);
+        return $this->entityMetadata->extractId($reflection);
+    }
 }

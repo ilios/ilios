@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\JsonWebTokenManager;
+use function json_decode;
+use function substr;
 
 /**
  * Class JsonControllerTest
@@ -48,6 +50,7 @@ trait JsonControllerTest
             );
         }
     }
+
     /**
      * Check if the response is valid
      * tests the status code, headers, and the content
@@ -84,6 +87,40 @@ trait JsonControllerTest
             $this->assertObjectHasAttribute('data', $decode);
             $this->assertObjectHasAttribute('included', $decode);
         }
+    }
+
+
+    /**
+     * Check if the response is valid graphQL
+     * tests the status code, headers, and the content
+     * @param Response $response
+     */
+    protected function assertGraphQLResponse(Response $response): void
+    {
+        $this->assertEquals(
+            Response::HTTP_OK,
+            $response->getStatusCode(),
+            'Wrong Response Status.  Page Body: ' . substr($response->getContent(), 0, 1000)
+        );
+
+        $this->assertTrue(
+            $response->headers->contains(
+                'Content-Type',
+                'application/json'
+            ),
+            "Content-type is not application/json. \n" .
+            "Headers: [\n" . $response->headers . ']' .
+            "Content: [\n" . substr($response->getContent(), 0, 1000) . ']'
+        );
+
+        $decode = json_decode($response->getContent());
+
+        $this->assertTrue(
+            ($decode !== null && $decode !== false),
+            'Invalid JSON: [' . $response->getContent() . ']'
+        );
+        $this->assertIsObject($decode);
+        $this->assertObjectHasAttribute('data', $decode);
     }
 
 

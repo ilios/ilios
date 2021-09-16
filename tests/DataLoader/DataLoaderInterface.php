@@ -51,4 +51,9 @@ interface DataLoaderInterface
      * Get the DTO for a data type
      */
     public function getDtoClass(): string;
+
+    /**
+     * Get the ID Field for a data type
+     */
+    public function getIdField(): string;
 }
