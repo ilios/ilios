@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
+use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityMetadata;
 use App\Service\EntityRepositoryLookup;
 use GraphQL\Deferred;
 use GraphQL\Type\Definition\ResolveInfo;
+use ReflectionClass;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use function array_filter;
+use function call_user_func;
 
 class TypeResolver
 {
@@ -16,6 +21,7 @@ class TypeResolver
         protected EntityMetadata $entityMetadata,
         protected EntityRepositoryLookup $entityRepositoryLookup,
         protected DeferredBuffer $buffer,
+        protected AuthorizationCheckerInterface $authorizationChecker,
     ) {
     }
 
@@ -28,10 +34,24 @@ class TypeResolver
         if ($source) {
             //we have already fetched an object and just need to fetch
             //things related to it
-            $this->buffer->bufferRequest($type, $source->{$fieldName});
-            return new Deferred(fn() => $this->buffer->getValuesForType($type, $source->{$fieldName}));
+            $ids = $source->{$fieldName};
+            $this->buffer->bufferRequest($type, $ids);
+            $filter = [$this, 'filterValues'];
+            $buffer = $this->buffer;
+            return new Deferred(function () use ($buffer, $filter, $type, $ids) {
+                $values = $buffer->getValuesForType($type, $ids);
+                return call_user_func($filter, $values);
+            });
         }
 
-        return $repository->findDTOsBy([]);
+        return $this->filterValues($repository->findDTOsBy([]));
+    }
+
+    protected function filterValues(array $values): array
+    {
+        return array_filter(
+            $values,
+            fn($value) => $this->authorizationChecker->isGranted(AbstractVoter::VIEW, $value)
+        );
     }
 }

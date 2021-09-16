@@ -47,7 +47,6 @@ class EntityMetadata
     ) {
         $this->exposedPropertiesForClass = [];
         $this->typeForClasses = [];
-        $this->repositoryForClasses = [];
         $this->typeForProperties = [];
         $this->idForClasses = [];
         $this->relatedForClass = [];
