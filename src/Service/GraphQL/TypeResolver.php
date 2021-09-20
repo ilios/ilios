@@ -11,6 +11,7 @@ use GraphQL\Deferred;
 use GraphQL\Type\Definition\ResolveInfo;
 use ReflectionClass;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 use function array_filter;
 use function call_user_func;
 
