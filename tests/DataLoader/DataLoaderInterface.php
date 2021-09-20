@@ -55,5 +55,5 @@ interface DataLoaderInterface
     /**
      * Get the ID Field for a data type
      */
-    public function getIdField(): string;
+    public function getScalarFields(): array;
 }

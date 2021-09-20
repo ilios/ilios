@@ -101,6 +101,12 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         );
     }
 
+    protected function compareGraphQLData(array $expected, object $result): void
+    {
+        unset($result->absoluteFileUri);
+        parent::compareGraphQLData($expected, $result);
+    }
+
     protected function getOneTest()
     {
         $endpoint = $this->getPluralName();

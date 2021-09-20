@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use App\Attribute\Id;
+use App\Attribute\Related;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
 use DateTime;
 use Exception;
 use Faker\Factory as FakerFactory;
 use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * Abstract utilities for loading data
@@ -154,12 +157,20 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     }
 
     /**
-     * Build a single JSON API version using the annotations on the DTO
+     * Get all the scalar fields (not relationships) of a DTO
      */
-    public function getIdField(): string
+    public function getScalarFields(): array
     {
         $class = $this->getDtoClass();
         $reflection = new ReflectionClass($class);
-        return $this->entityMetadata->extractId($reflection);
+        $properties = $this->entityMetadata->extractExposedProperties($reflection);
+        $scalarProperties = array_filter(
+            $properties,
+            fn(ReflectionProperty $p) => !$p->getAttributes(Related::class)
+        );
+
+        $names = array_map(fn(ReflectionProperty $p) => $p->name, $scalarProperties);
+
+        return array_values($names);
     }
 }
