@@ -152,7 +152,7 @@ class UserDTO
      * @var int[]
      */
     #[IA\Expose]
-    #[IA\Related('ilmSession')]
+    #[IA\Related('ilmSessions')]
     #[IA\Type('array<string>')]
     public array $learnerIlmSessions = [];
 

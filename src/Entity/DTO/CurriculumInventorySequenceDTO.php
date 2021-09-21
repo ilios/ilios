@@ -18,7 +18,7 @@ class CurriculumInventorySequenceDTO
     public int $id;
 
     #[IA\Expose]
-    #[IA\Related('curriculumInventoryReport')]
+    #[IA\Related('curriculumInventoryReports')]
     #[IA\Type('integer')]
     public int $report;
 

@@ -21,6 +21,8 @@ use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Contracts\Cache\CacheInterface;
 
+use function array_key_exists;
+
 class EntityMetadata
 {
     private const CACHE_KEY_PREFIX = 'ilios-entity-metadata-';
@@ -39,8 +41,10 @@ class EntityMetadata
      * we don't have to constantly run expensive class_exists
      * and annotation inspection tasks
      */
-    public function __construct(CacheInterface $appCache, KernelInterface $kernel)
-    {
+    public function __construct(
+        CacheInterface $appCache,
+        KernelInterface $kernel,
+    ) {
         $this->exposedPropertiesForClass = [];
         $this->typeForClasses = [];
         $this->typeForProperties = [];
@@ -126,6 +130,7 @@ class EntityMetadata
     /**
      * Get all of the properties of a call which are
      * marked with the Exposed annotation
+     * @return ReflectionProperty[]
      */
     public function extractExposedProperties(ReflectionClass $reflection): array
     {
@@ -183,9 +188,7 @@ class EntityMetadata
                 $related = $property->getAttributes(Related::class);
                 $exposed = $property->getAttributes(Expose::class);
                 if ($related !== [] && $exposed !== []) {
-                    $arguments = $related[0]->getArguments();
-                    $value = $arguments[0] ?? $property->getName();
-                    $relatedProperties[$property->getName()] = $value;
+                    $relatedProperties[$property->getName()] = $this->extractRelatedNameForProperty($property);
                 }
             }
 
@@ -193,6 +196,20 @@ class EntityMetadata
         }
 
         return $this->relatedForClass[$className];
+    }
+
+    /**
+     * Extract the name of the related data from the annotation
+     * defaults to the name of the property if not set
+     */
+    public function extractRelatedNameForProperty(ReflectionProperty $property): string
+    {
+        $related = $property->getAttributes(Related::class);
+        if ($related === []) {
+            throw new Exception("No related annotation on " . $property->getName());
+        }
+        $arguments = $related[0]->getArguments();
+        return $arguments[0] ?? $property->getName();
     }
 
     /**
@@ -291,6 +308,14 @@ class EntityMetadata
     public function isPropertyRemoveMarkup(ReflectionProperty $property): bool
     {
         return $property->getAttributes(RemoveMarkup::class) !== [];
+    }
+
+    /**
+     * Get the list of DTOs
+     */
+    public function getDtoList(): array
+    {
+        return $this->iliosDtos;
     }
 
     /**

@@ -67,7 +67,8 @@
     "symfony/twig-bundle": "@stable",
     "symfony/validator": "@stable",
     "symfony/web-link": "@stable",
-    "symfony/yaml": "@stable"
+    "symfony/yaml": "@stable",
+    "webonyx/graphql-php": "^14.9"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",

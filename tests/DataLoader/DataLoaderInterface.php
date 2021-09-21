@@ -51,4 +51,9 @@ interface DataLoaderInterface
      * Get the DTO for a data type
      */
     public function getDtoClass(): string;
+
+    /**
+     * Get all scalar fields for a data type
+     */
+    public function getScalarFields(): array;
 }

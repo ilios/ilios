@@ -28,6 +28,7 @@ trait GetEndpointTestable
         $this->getAllWithLimitAndOffsetTest();
         $this->getAllJsonApiTest();
         $this->getAllWithLimitAndOffsetJsonApiTest();
+        $this->getAllGraphQLTest();
     }
 
     /**

@@ -17,10 +17,17 @@ use App\Tests\DataLoader\DataLoaderInterface;
 use App\Tests\Traits\JsonControllerTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
+
+use function array_key_exists;
+use function get_object_vars;
+use function in_array;
+use function is_null;
+use function json_decode;
+use function json_encode;
+use function var_export;
 
 /**
  * Abstract Testing glue for endpoints
@@ -171,6 +178,25 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Overridable data comparison for GraphQL API
+     * Because GraphQL returns null values we have to do some special work to compare it to our expected
+     * data. Our DataProviders sometimes have null values set, but often just omit these values.
+     */
+    protected function compareGraphQLData(array $expected, object $result): void
+    {
+        foreach (get_object_vars($result) as $key => $value) {
+            if (is_null($value)) {
+                if (array_key_exists($key, $expected)) {
+                    $this->assertNull($expected[$key]);
+                }
+            } else {
+                $this->assertArrayHasKey($key, $expected);
+                $this->assertEquals($expected[$key], $value);
+            }
+        }
+    }
+
+    /**
      * @return DataLoaderInterface
      */
     protected function getDataLoader()
@@ -216,6 +242,32 @@ abstract class AbstractEndpointTest extends WebTestCase
         array $files = []
     ) {
         $this->makeJsonApiRequest($this->kernelBrowser, $method, $url, $content, $token, $files);
+    }
+
+    /**
+     * Create a GraphQL request
+     */
+    protected function createGraphQLRequest(
+        ?string $content,
+        ?string $token
+    ) {
+        $headers = [];
+
+        if (! empty($token)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
+        }
+
+        $this->kernelBrowser->request(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_graphql_index"
+            ),
+            [],
+            [],
+            $headers,
+            $content
+        );
     }
 
     /**
@@ -551,6 +603,47 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
 
         return $content->data;
+    }
+
+    protected function getAllGraphQLTest(): array
+    {
+        $name = $this->getCamelCasedPluralName();
+        $loader = $this->getDataLoader();
+        $scalarFields = $loader->getScalarFields();
+        $fields = implode(', ', $scalarFields);
+        $data = $loader->getAll();
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { ${name} { ${fields} }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->{$name});
+
+        $now = new DateTime();
+        $timeStampFields = $this->getTimeStampFields();
+        foreach ($content->data->{$name} as $i => $item) {
+            foreach ($scalarFields as $f) {
+                if (in_array($f, $timeStampFields)) {
+                    $stamp = new DateTime($item->{$f});
+                    $diff = $now->diff($stamp);
+                    $this->assertTrue($diff->y < 1, "The {$f} timestamp is within the last year");
+                    unset($item->{$f});
+                } else {
+                    $this->assertObjectHasAttribute($f, $item);
+                }
+            }
+            $this->compareGraphQLData($data[$i], $item);
+        }
+
+        return $content->data->{$name};
     }
 
     /**

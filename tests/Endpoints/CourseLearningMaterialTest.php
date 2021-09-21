@@ -8,6 +8,10 @@ use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
 use App\Tests\ReadWriteEndpointTest;
 
+use function array_key_exists;
+use function date_format;
+use function is_null;
+
 /**
  * CourseLearningMaterial API endpoint Test.
  * @group api_1
@@ -75,12 +79,14 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
         ];
     }
 
-    protected function compareData(array $expected, array $result)
+    /**
+     * TOTAL GROSSNESS!
+     * get the expected fixture from the repo, then correct
+     * the expected start- and end-dates by overriding them.
+     * @todo load fixtures upstream without regenerating them [ST/JJ 2021/09/19].
+     */
+    protected function fixDatesInExpectedData(array $expected): array
     {
-        // TOTAL GROSSNESS!
-        // get the expected fixture from the repo, then correct
-        // the expected start- and end-dates by overriding them.
-        // @todo load fixtures upstream without regenerating them [ST 2017/09/14].
         $ref = 'courseLearningMaterials' . $expected['id'];
         if ($this->fixtures->hasReference($ref)) {
             $fixture = $this->fixtures->getReference($ref);
@@ -90,6 +96,12 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
             $expected['endDate'] = is_null($endDate) ? null : date_format($endDate, 'c');
         }
 
+        return $expected;
+    }
+
+    protected function compareData(array $expected, array $result)
+    {
+        $expected = $this->fixDatesInExpectedData($expected);
         if (is_null($expected['startDate'])) {
             $this->assertFalse(array_key_exists('startDate', $result));
             unset($expected['startDate']);
@@ -101,5 +113,12 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
         }
 
         parent::compareData($expected, $result);
+    }
+
+    protected function compareGraphQLData(array $expected, object $result): void
+    {
+        $expected = $this->fixDatesInExpectedData($expected);
+
+        parent::compareGraphQLData($expected, $result);
     }
 }
