@@ -53,7 +53,7 @@ interface DataLoaderInterface
     public function getDtoClass(): string;
 
     /**
-     * Get the ID Field for a data type
+     * Get all scalar fields for a data type
      */
     public function getScalarFields(): array;
 }
