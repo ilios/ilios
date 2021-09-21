@@ -14,6 +14,7 @@ use GraphQL\Utils\Utils;
 use InvalidArgumentException;
 
 use function assert;
+use function checkdate;
 use function is_string;
 use function preg_match;
 use function substr;
@@ -103,30 +104,6 @@ class DateTimeType extends CustomScalarType
         $month = (int) substr($date, 5, 2);
         $day   = (int) substr($date, 8, 2);
 
-        switch ($month) {
-            case 2: // February
-                if ($this->isLeapYear($year) && $day > 29) {
-                    return false;
-                }
-
-                return $this->isLeapYear($year) || $day <= 28;
-
-            case 4: // April
-            case 6: // June
-            case 9: // September
-            case 11: // November
-                if ($day > 30) {
-                    return false;
-                }
-
-                break;
-        }
-
-        return true;
-    }
-
-    private function isLeapYear(int $year): bool
-    {
-        return ($year % 4 === 0 && $year % 100 !== 0) || $year % 400 === 0;
+        return checkdate($month, $day, $year);
     }
 }
