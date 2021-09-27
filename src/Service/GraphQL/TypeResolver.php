@@ -45,7 +45,7 @@ class TypeResolver
             });
         }
 
-        return $this->filterValues($repository->findDTOsBy([]));
+        return $this->filterValues($repository->findDTOsBy($args));
     }
 
     protected function getRef(string $fieldName, ?object $source): ReflectionClass
