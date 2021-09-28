@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use PHP 8.0
-      uses: shivammathur/setup-php@2.14.0
+      uses: shivammathur/setup-php@2.15.0
       with:
         coverage: none
         php-version: 8.0
