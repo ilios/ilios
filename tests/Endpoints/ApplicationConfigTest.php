@@ -14,6 +14,7 @@ use App\Tests\ReadWriteEndpointTest;
 class ApplicationConfigTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'applicationConfigs';
+    protected bool $isGraphQLTestable = false;
 
     /**
      * @inheritdoc

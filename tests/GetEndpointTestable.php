@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use function property_exists;
+
 /**
  * Trait GetEndpointTestable
  * @package App\Tests
@@ -28,7 +30,9 @@ trait GetEndpointTestable
         $this->getAllWithLimitAndOffsetTest();
         $this->getAllJsonApiTest();
         $this->getAllWithLimitAndOffsetJsonApiTest();
-        $this->getAllGraphQLTest();
+        if (property_exists($this, 'isGraphQLTestable') && $this->isGraphQLTestable) {
+            $this->getAllGraphQLTest();
+        }
     }
 
     /**
