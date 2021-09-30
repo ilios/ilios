@@ -4,68 +4,99 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
-use App\Attribute\Id;
+use App\Attribute\ExposeGraphQL;
 use App\Attribute\Related;
 use App\Service\EntityMetadata;
 use Exception;
-use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Contracts\Cache\CacheInterface;
 
+use function array_filter;
 use function array_key_exists;
 use function array_keys;
 
 class DTOInfo
 {
-    private const CACHE_KEY_PREFIX = 'ilios-graphql-dto-info';
-    protected array $typeToDtoClassNames;
-    protected array $refs = [];
+    private const CACHE_KEY_PREFIX = 'ilios-dto-info';
+    protected array $types;
 
     public function __construct(
         protected EntityMetadata $entityMetadata,
         protected CacheInterface $appCache,
     ) {
-        $this->typeToDtoClassNames = $this->appCache->get(
-            self::CACHE_KEY_PREFIX . 'dto-types',
+        $this->types = $this->appCache->get(
+            self::CACHE_KEY_PREFIX . 'types',
             fn () => $this->getDtoTypes()
         );
     }
 
     public function getDtoTypeList(): array
     {
-        return array_keys($this->typeToDtoClassNames);
+        return array_keys($this->types);
+    }
+
+    public function getGraphQLTypeList(): array
+    {
+        $graphQlTypes = array_filter($this->types, fn(array $arr) => $arr['isGraphQL']);
+        return array_keys($graphQlTypes);
     }
 
     public function getRefForType(string $type): ReflectionClass
     {
-        if (!array_key_exists($type, $this->refs)) {
-            if (!array_key_exists($type, $this->typeToDtoClassNames)) {
-                throw new Exception("Invalid Type. No DTO for ${type}");
-            }
-            $this->refs[$type] = new ReflectionClass($this->typeToDtoClassNames[$type]);
+        if (!array_key_exists($type, $this->types)) {
+            throw new Exception("Invalid Type. No DTO for ${type}");
         }
+        return $this->types[$type]['ref'];
+    }
 
-        return $this->refs[$type];
+    public function isGraphQL(ReflectionClass $class): bool
+    {
+        $graphQL = $class->getAttributes(ExposeGraphQL::class);
+        return $graphQL !== [];
+    }
+
+    public function getGraphQLExposedPropertiesForType(string $type): array
+    {
+        $ref = $this->getRefForType($type);
+        $exposedProperties = $this->entityMetadata->extractExposedProperties($ref);
+        $relatedProperties = array_filter($exposedProperties, [$this, 'isRelated']);
+        $regularProperties = array_diff($exposedProperties, $relatedProperties);
+
+        $graphQlRelated = array_filter($relatedProperties, [$this, 'isGraphQlRelated']);
+
+        return array_merge($regularProperties, $graphQlRelated);
+    }
+
+    public function isRelated(ReflectionProperty $property): bool
+    {
+        $related = $property->getAttributes(Related::class);
+        return $related !== [];
     }
 
     protected function getDtoTypes(): array
     {
         $dtos = $this->entityMetadata->getDtoList();
-        $types = array_map(function (string $className) {
+        $rhett = [];
+        foreach ($dtos as $className) {
             $ref = new ReflectionClass($className);
             $type = $this->entityMetadata->extractType($ref);
-            return [
+
+            $rhett[$type] = [
                 'name' => $className,
-                'type' => $type
+                'ref' => $ref,
+                'isGraphQL' => $this->isGraphQL($ref),
             ];
-        }, $dtos);
-        $rhett = [];
-        foreach ($types as $arr) {
-            $rhett[$arr['type']] = $arr['name'];
         }
 
         return $rhett;
+    }
+
+    protected function isGraphQlRelated(ReflectionProperty $prop): bool
+    {
+        $name = $this->entityMetadata->extractRelatedNameForProperty($prop);
+        $ref = $this->getRefForType($name);
+
+        return $this->isGraphQL($ref);
     }
 }
