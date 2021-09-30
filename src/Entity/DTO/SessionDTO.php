@@ -12,6 +12,7 @@ use DateTime;
  * Data transfer object for a session.
  */
 #[IA\DTO('sessions')]
+#[IA\ExposeGraphQL]
 class SessionDTO
 {
     #[IA\Id]

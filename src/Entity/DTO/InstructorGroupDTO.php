@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for an instructor group
  */
 #[IA\DTO('instructorGroups')]
+#[IA\ExposeGraphQL]
 class InstructorGroupDTO
 {
     #[IA\Id]

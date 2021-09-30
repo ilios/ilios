@@ -12,6 +12,7 @@ use DateTime;
  * Data transfer object for a course
  */
 #[IA\DTO('courses')]
+#[IA\ExposeGraphQL]
 class CourseDTO
 {
     #[IA\Id]

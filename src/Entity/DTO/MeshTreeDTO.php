@@ -10,6 +10,7 @@ use App\Attribute as IA;
  * Class MeshTreeDTO
  */
 #[IA\DTO('meshTrees')]
+#[IA\ExposeGraphQL]
 class MeshTreeDTO
 {
     #[IA\Id]

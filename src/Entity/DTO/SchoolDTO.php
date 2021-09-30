@@ -12,6 +12,7 @@ use App\Repository\SchoolRepository;
  * Data transfer object for a school.
  */
 #[IA\DTO('schools')]
+#[IA\ExposeGraphQL]
 class SchoolDTO
 {
     #[IA\Id]

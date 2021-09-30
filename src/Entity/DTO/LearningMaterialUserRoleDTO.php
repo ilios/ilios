@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a learning material user role
  */
 #[IA\DTO('learningMaterialUserRoles')]
+#[IA\ExposeGraphQL]
 class LearningMaterialUserRoleDTO
 {
     #[IA\Id]

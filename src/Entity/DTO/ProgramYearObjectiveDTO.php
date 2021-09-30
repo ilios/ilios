@@ -10,6 +10,7 @@ use App\Attribute as IA;
  * Class ProgramYearObjectiveDTO
  */
 #[IA\DTO('programYearObjectives')]
+#[IA\ExposeGraphQL]
 class ProgramYearObjectiveDTO
 {
     #[IA\Id]

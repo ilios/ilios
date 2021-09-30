@@ -14,6 +14,7 @@ use DateTime;
  * Class CurriculumInventoryReport
  */
 #[IA\DTO('curriculumInventoryReports')]
+#[IA\ExposeGraphQL]
 class CurriculumInventoryReportDTO
 {
     #[IA\Id]

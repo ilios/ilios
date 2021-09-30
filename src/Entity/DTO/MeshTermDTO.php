@@ -11,6 +11,7 @@ use DateTime;
  * Class MeshTermDTO
  */
 #[IA\DTO('meshTerms')]
+#[IA\ExposeGraphQL]
 class MeshTermDTO
 {
     #[IA\Id]

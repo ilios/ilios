@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a Program
  */
 #[IA\DTO('programs')]
+#[IA\ExposeGraphQL]
 class ProgramDTO
 {
     #[IA\Id]

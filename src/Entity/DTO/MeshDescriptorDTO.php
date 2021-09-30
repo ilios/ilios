@@ -12,6 +12,7 @@ use DateTime;
  * Data transfer object for a MeSH descriptor.
  */
 #[IA\DTO('meshDescriptors')]
+#[IA\ExposeGraphQL]
 class MeshDescriptorDTO
 {
     #[IA\Id]

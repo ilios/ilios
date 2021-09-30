@@ -8,6 +8,7 @@ use App\Attribute as IA;
 use DateTime;
 
 #[IA\DTO('courseLearningMaterials')]
+#[IA\ExposeGraphQL]
 class CourseLearningMaterialDTO
 {
     #[IA\Id]

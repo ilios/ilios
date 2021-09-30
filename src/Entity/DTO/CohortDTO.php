@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a cohort
  */
 #[IA\DTO('cohorts')]
+#[IA\ExposeGraphQL]
 class CohortDTO
 {
     #[IA\Id]

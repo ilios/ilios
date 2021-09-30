@@ -11,6 +11,7 @@ use DateTime;
  * Class CurriculumInventorySequenceBlockDTO
  */
 #[IA\DTO('curriculumInventorySequenceBlocks')]
+#[IA\ExposeGraphQL]
 class CurriculumInventorySequenceBlockDTO
 {
     #[IA\Id]

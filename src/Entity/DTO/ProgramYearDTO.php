@@ -12,6 +12,7 @@ use App\Entity\CompetencyInterface;
  * Data transfer object for a programYear
  */
 #[IA\DTO('programYears')]
+#[IA\ExposeGraphQL]
 class ProgramYearDTO
 {
     #[IA\Id]

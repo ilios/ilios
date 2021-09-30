@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a aamcResourceType
  */
 #[IA\DTO('aamcResourceTypes')]
+#[IA\ExposeGraphQL]
 class AamcResourceTypeDTO
 {
     #[IA\Id]
