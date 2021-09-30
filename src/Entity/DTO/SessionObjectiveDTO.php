@@ -10,6 +10,7 @@ use App\Attribute as IA;
  * Class SessionObjectiveDTO
  */
 #[IA\DTO('sessionObjectives')]
+#[IA\ExposeGraphQL]
 class SessionObjectiveDTO
 {
     #[IA\Id]

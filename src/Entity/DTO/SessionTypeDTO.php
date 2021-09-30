@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a session type
  */
 #[IA\DTO('sessionTypes')]
+#[IA\ExposeGraphQL]
 class SessionTypeDTO
 {
     #[IA\Id]

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service\GraphQL;
 
 use App\Attribute\Id;
-use App\Attribute\Related;
 use App\Service\EntityMetadata;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -39,7 +38,7 @@ class TypeRegistry
     protected function createTypeRegistry(): array
     {
         $types = [];
-        foreach ($this->dtoInfo->getDtoTypeList() as $name) {
+        foreach ($this->dtoInfo->getGraphQLTypeList() as $name) {
             $types[$name] = Type::listOf($this->getType($name));
         }
         return $types;
@@ -48,14 +47,13 @@ class TypeRegistry
     protected function getType(string $name): ObjectType
     {
         if (!array_key_exists($name, $this->types)) {
-            $ref = $this->dtoInfo->getRefForType($name);
-            $exposedProperties = $this->entityMetadata->extractExposedProperties($ref);
+            $exposedProperties = $this->dtoInfo->getGraphQLExposedPropertiesForType($name);
             $fields = [];
             foreach ($exposedProperties as $prop) {
                 $fields[$prop->getName()] = $this->buildPropertyField($prop);
             }
             $this->types[$name] =  new ObjectType([
-                'name' => $this->entityMetadata->extractType($ref),
+                'name' => $this->entityMetadata->extractType($this->dtoInfo->getRefForType($name)),
                 'fields' => $fields,
                 'resolve' => $this->typeResolver,
                 'extensions' => [
@@ -73,7 +71,7 @@ class TypeRegistry
                 'type' => Type::id(),
                 'resolve' => $this->fieldResolver,
             ];
-        } elseif ($this->isRelated($property)) {
+        } elseif ($this->dtoInfo->isRelated($property)) {
             $type = $this->entityMetadata->getTypeOfProperty($property);
             $name = $this->entityMetadata->extractRelatedNameForProperty($property);
 
@@ -101,12 +99,6 @@ class TypeRegistry
                 'resolve' => $this->fieldResolver,
             ];
         }
-    }
-
-    protected function isRelated(ReflectionProperty $property): bool
-    {
-        $related = $property->getAttributes(Related::class);
-        return $related !== [];
     }
 
     protected function isId(ReflectionProperty $property): bool

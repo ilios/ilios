@@ -10,6 +10,7 @@ use App\Attribute as IA;
  * Class CurriculumInventorySequenceBlockDTO
  */
 #[IA\DTO('curriculumInventorySequences')]
+#[IA\ExposeGraphQL]
 class CurriculumInventorySequenceDTO
 {
     #[IA\Id]

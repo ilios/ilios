@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a MeSH descriptor.
  */
 #[IA\DTO('meshPreviousIndexings')]
+#[IA\ExposeGraphQL]
 class MeshPreviousIndexingDTO
 {
     #[IA\Id]

@@ -15,6 +15,7 @@ use App\Tests\ReadEndpointTest;
 class UserRoleTest extends ReadEndpointTest
 {
     protected string $testName =  'userRoles';
+    protected bool $isGraphQLTestable = false;
 
     /**
      * @inheritdoc

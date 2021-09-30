@@ -27,6 +27,7 @@ use App\Tests\ReadWriteEndpointTest;
 class AuthenticationTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'authentications';
+    protected bool $isGraphQLTestable = false;
 
     /**
      * @inheritdoc

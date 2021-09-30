@@ -11,6 +11,7 @@ use DateTime;
  * Class ReportDTO
  */
 #[IA\DTO('reports')]
+#[IA\ExposeGraphQL]
 class ReportDTO
 {
     #[IA\Id]

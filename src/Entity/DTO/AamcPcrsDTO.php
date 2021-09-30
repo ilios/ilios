@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a aamcPcrs
  */
 #[IA\DTO('aamcPcrses')]
+#[IA\ExposeGraphQL]
 class AamcPcrsDTO
 {
     #[IA\Id]

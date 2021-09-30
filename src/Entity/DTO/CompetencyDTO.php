@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a competency
  */
 #[IA\DTO('competencies')]
+#[IA\ExposeGraphQL]
 class CompetencyDTO
 {
     #[IA\Id]

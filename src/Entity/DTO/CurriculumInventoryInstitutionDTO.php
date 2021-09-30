@@ -10,6 +10,7 @@ use App\Attribute as IA;
  * Class CurriculumInventoryInstitutionDTO
  */
 #[IA\DTO('curriculumInventoryInstitutions')]
+#[IA\ExposeGraphQL]
 class CurriculumInventoryInstitutionDTO
 {
     #[IA\Id]

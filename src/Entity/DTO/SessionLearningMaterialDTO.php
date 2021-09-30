@@ -11,6 +11,7 @@ use DateTime;
  * Class SessionLearningMaterialDTO
  */
 #[IA\DTO('sessionLearningMaterials')]
+#[IA\ExposeGraphQL]
 class SessionLearningMaterialDTO
 {
     #[IA\Id]

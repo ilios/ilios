@@ -11,6 +11,7 @@ use DateTime;
  * Class IlmSessionDTO
  */
 #[IA\DTO('ilmSessions')]
+#[IA\ExposeGraphQL]
 class IlmSessionDTO
 {
     #[IA\Id]

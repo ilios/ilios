@@ -15,6 +15,7 @@ use App\Tests\ReadEndpointTest;
 class IngestionExceptionTest extends ReadEndpointTest
 {
     protected string $testName =  'ingestionExceptions';
+    protected bool $isGraphQLTestable = false;
 
     /**
      * @inheritdoc

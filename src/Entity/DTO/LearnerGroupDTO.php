@@ -10,6 +10,7 @@ use App\Attribute as IA;
  * Class LearnerGroupDTO
  */
 #[IA\DTO('learnerGroups')]
+#[IA\ExposeGraphQL]
 class LearnerGroupDTO
 {
     #[IA\Id]

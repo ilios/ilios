@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for an assessmentOption
  */
 #[IA\DTO('assessmentOptions')]
+#[IA\ExposeGraphQL]
 class AssessmentOptionDTO
 {
     #[IA\Id]

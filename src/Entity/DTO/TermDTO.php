@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a session.
  */
 #[IA\DTO('terms')]
+#[IA\ExposeGraphQL]
 class TermDTO
 {
     #[IA\Id]

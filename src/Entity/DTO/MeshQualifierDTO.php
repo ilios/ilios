@@ -11,6 +11,7 @@ use DateTime;
  * Class MeshQualifierDTO
  */
 #[IA\DTO('meshQualifiers')]
+#[IA\ExposeGraphQL]
 class MeshQualifierDTO
 {
     #[IA\Id]

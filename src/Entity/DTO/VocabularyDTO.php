@@ -10,6 +10,7 @@ use App\Attribute as IA;
  * Class VocabularyDTO
  */
 #[IA\DTO('vocabularies')]
+#[IA\ExposeGraphQL]
 class VocabularyDTO
 {
     #[IA\Id]

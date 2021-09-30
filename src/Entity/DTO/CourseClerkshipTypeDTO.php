@@ -11,6 +11,7 @@ use App\Attribute as IA;
  * Data transfer object for a course clerkship types
  */
 #[IA\DTO('courseClerkshipTypes')]
+#[IA\ExposeGraphQL]
 class CourseClerkshipTypeDTO
 {
     #[IA\Id]

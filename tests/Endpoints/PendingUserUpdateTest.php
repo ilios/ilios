@@ -21,6 +21,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     use DeleteEndpointTestable;
 
     protected string $testName =  'pendingUserUpdates';
+    protected bool $isGraphQLTestable = false;
 
     /**
      * @inheritdoc

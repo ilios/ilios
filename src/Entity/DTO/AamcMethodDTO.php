@@ -7,6 +7,7 @@ namespace App\Entity\DTO;
 use App\Attribute as IA;
 
 #[IA\DTO("aamcMethods")]
+#[IA\ExposeGraphQL]
 class AamcMethodDTO
 {
     #[IA\Expose]
