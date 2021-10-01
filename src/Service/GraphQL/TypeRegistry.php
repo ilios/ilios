@@ -9,12 +9,16 @@ use App\Service\EntityMetadata;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use ReflectionProperty;
+use Symfony\Component\String\Inflector\EnglishInflector;
 use Symfony\Contracts\Cache\CacheInterface;
+
+use function array_key_exists;
 
 class TypeRegistry
 {
     private const CACHE_KEY = 'ilios-graphql-type-registry';
     protected array $types = [];
+    protected EnglishInflector $inflector;
 
     public function __construct(
         protected EntityMetadata $entityMetadata,
@@ -23,6 +27,7 @@ class TypeRegistry
         protected TypeResolver $typeResolver,
         protected FieldResolver $fieldResolver,
     ) {
+        $this->inflector = new EnglishInflector();
     }
 
     public function getTypes(): array
@@ -69,8 +74,12 @@ class TypeRegistry
 
     protected function getType(string $name): ObjectType
     {
-        $def = $this->getTypeDefinition($name);
-        return new ObjectType($def);
+        if (!array_key_exists($name, $this->types)) {
+            $def = $this->getTypeDefinition($name);
+            $this->types[$name] = new ObjectType($def);
+        }
+
+        return $this->types[$name];
     }
 
     protected function buildPropertyField(ReflectionProperty $property): array
