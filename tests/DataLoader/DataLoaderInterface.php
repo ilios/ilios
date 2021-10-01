@@ -56,4 +56,9 @@ interface DataLoaderInterface
      * Get all scalar fields for a data type
      */
     public function getScalarFields(): array;
+
+    /**
+     * Get all scalar fields for a data type
+     */
+    public function getIdField(): string;
 }

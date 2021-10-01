@@ -23,6 +23,7 @@ use Faker\Generator as FakerGenerator;
 
 use function array_key_exists;
 use function get_object_vars;
+use function implode;
 use function in_array;
 use function is_null;
 use function json_decode;
@@ -644,6 +645,42 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
 
         return $content->data->{$name};
+    }
+
+    protected function getSomeGraphQLTest(): array
+    {
+        $name = $this->getCamelCasedPluralName();
+        $loader = $this->getDataLoader();
+        $idField = $loader->getIdField();
+        $data = $loader->getOne();
+        $id = $data[$idField];
+        if (is_int($id)) {
+            $idValue = $id;
+        } else {
+            $idValue = '"' . $id . '"';
+        }
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { ${name}(${idField}: [${idValue}]) { ${idField} }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->{$name});
+
+        $result = $content->data->{$name};
+        $this->assertCount(1, $result);
+        $this->assertObjectHasAttribute($idField, $result[0]);
+        $this->assertEquals($data[$idField], $result[0]->{$idField});
+
+        return $result;
     }
 
     /**

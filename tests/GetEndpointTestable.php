@@ -32,6 +32,7 @@ trait GetEndpointTestable
         $this->getAllWithLimitAndOffsetJsonApiTest();
         if (property_exists($this, 'isGraphQLTestable') && $this->isGraphQLTestable) {
             $this->getAllGraphQLTest();
+            $this->getSomeGraphQLTest();
         }
     }
 
