@@ -19,8 +19,6 @@ use function call_user_func;
 
 class TypeResolver
 {
-    protected Inflector $inflector;
-
     public function __construct(
         protected DTOInfo $dtoInfo,
         protected EntityMetadata $entityMetadata,
@@ -28,7 +26,6 @@ class TypeResolver
         protected DeferredBuffer $buffer,
         protected AuthorizationCheckerInterface $authorizationChecker,
     ) {
-        $this->inflector = InflectorFactory::create();
     }
 
     public function __invoke($source, $args, $context, ResolveInfo $info)
@@ -50,16 +47,9 @@ class TypeResolver
             });
         }
 
-        // $args can be id or ids, but in both cases we have to pass id to the repository
-        $criteria = [];
-        foreach ($args as $key => $value) {
-            if (is_array($value)) {
-                $key = $this->inflector->singularize($key);
-            }
-            $criteria[$key] = $value;
-        }
-
-        return $this->filterValues($repository->findDTOsBy($criteria));
+        //we can pass $ars directly because our GraphQL library will reject
+        //any args that aren't part of our schema
+        return $this->filterValues($repository->findDTOsBy($args));
     }
 
     protected function getRef(string $fieldName, ?object $source): ReflectionClass

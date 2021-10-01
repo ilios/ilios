@@ -19,7 +19,6 @@ class TypeRegistry
 {
     private const CACHE_KEY = 'ilios-graphql-type-registry';
     protected array $types = [];
-    protected Inflector $inflector;
 
     public function __construct(
         protected EntityMetadata $entityMetadata,
@@ -28,7 +27,6 @@ class TypeRegistry
         protected TypeResolver $typeResolver,
         protected FieldResolver $fieldResolver,
     ) {
-        $this->inflector = InflectorFactory::create();
     }
 
     public function getTypes(): array
@@ -132,17 +130,12 @@ class TypeRegistry
         $idProperty = array_values($idProperties)[0];
         $type = $this->entityMetadata->getTypeOfProperty($idProperty);
         $name = $idProperty->getName();
-        $pluralName = $this->inflector->pluralize($name);
-        $type = match ($type) {
-            'string' => Type::string(),
-            'integer' => Type::int(),
-        };
         return [
             $name => [
-                'type' => $type
-            ],
-            $pluralName => [
-                'type' => Type::listOf($type)
+                'type' => Type::listOf(match ($type) {
+                    'string' => Type::string(),
+                    'integer' => Type::int(),
+                })
             ]
         ];
     }
