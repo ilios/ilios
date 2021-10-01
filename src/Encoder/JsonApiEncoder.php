@@ -44,9 +44,7 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
         $shaped = $this->dataShaper->shapeData($data, $context['sideLoadFields']);
 
         if (array_key_exists('singleItem', $context) && $context['singleItem']) {
-            $data = $shaped['data'];
-            $item = $data[0];
-            $shaped['data'] = $item;
+            $shaped['data'] = $shaped['data'][0] ?? null;
         }
 
         return json_encode($shaped);
