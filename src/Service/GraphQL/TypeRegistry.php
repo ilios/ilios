@@ -6,10 +6,11 @@ namespace App\Service\GraphQL;
 
 use App\Attribute\Id;
 use App\Service\EntityMetadata;
+use App\Service\InflectorFactory;
+use Doctrine\Inflector\Inflector;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use ReflectionProperty;
-use Symfony\Component\String\Inflector\EnglishInflector;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_key_exists;
@@ -18,7 +19,7 @@ class TypeRegistry
 {
     private const CACHE_KEY = 'ilios-graphql-type-registry';
     protected array $types = [];
-    protected EnglishInflector $inflector;
+    protected Inflector $inflector;
 
     public function __construct(
         protected EntityMetadata $entityMetadata,
@@ -27,7 +28,7 @@ class TypeRegistry
         protected TypeResolver $typeResolver,
         protected FieldResolver $fieldResolver,
     ) {
-        $this->inflector = new EnglishInflector();
+        $this->inflector = InflectorFactory::create();
     }
 
     public function getTypes(): array
@@ -130,12 +131,18 @@ class TypeRegistry
         }
         $idProperty = array_values($idProperties)[0];
         $type = $this->entityMetadata->getTypeOfProperty($idProperty);
+        $name = $idProperty->getName();
+        $pluralName = $this->inflector->pluralize($name);
+        $type = match ($type) {
+            'string' => Type::string(),
+            'integer' => Type::int(),
+        };
         return [
-            $idProperty->getName() => [
-                'type' => match ($type) {
-                    'string' => Type::string(),
-                    'integer' => Type::int(),
-                }
+            $name => [
+                'type' => $type
+            ],
+            $pluralName => [
+                'type' => Type::listOf($type)
             ]
         ];
     }

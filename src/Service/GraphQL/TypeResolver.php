@@ -7,6 +7,8 @@ namespace App\Service\GraphQL;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityMetadata;
 use App\Service\EntityRepositoryLookup;
+use App\Service\InflectorFactory;
+use Doctrine\Inflector\Inflector;
 use GraphQL\Deferred;
 use GraphQL\Type\Definition\ResolveInfo;
 use ReflectionClass;
@@ -17,6 +19,8 @@ use function call_user_func;
 
 class TypeResolver
 {
+    protected Inflector $inflector;
+
     public function __construct(
         protected DTOInfo $dtoInfo,
         protected EntityMetadata $entityMetadata,
@@ -24,6 +28,7 @@ class TypeResolver
         protected DeferredBuffer $buffer,
         protected AuthorizationCheckerInterface $authorizationChecker,
     ) {
+        $this->inflector = InflectorFactory::create();
     }
 
     public function __invoke($source, $args, $context, ResolveInfo $info)
@@ -45,7 +50,16 @@ class TypeResolver
             });
         }
 
-        return $this->filterValues($repository->findDTOsBy($args));
+        // $args can be id or ids, but in both cases we have to pass id to the repository
+        $criteria = [];
+        foreach ($args as $key => $value) {
+            if (is_array($value)) {
+                $key = $this->inflector->singularize($key);
+            }
+            $criteria[$key] = $value;
+        }
+
+        return $this->filterValues($repository->findDTOsBy($criteria));
     }
 
     protected function getRef(string $fieldName, ?object $source): ReflectionClass
