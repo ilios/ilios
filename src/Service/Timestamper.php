@@ -13,14 +13,10 @@ use Exception;
 
 class Timestamper
 {
-    /**
-     * @var array
-     */
-    protected $entities;
+    protected array $entities = [];
 
     public function __construct(protected ManagerRegistry $registry)
     {
-        $this->entities   = [];
     }
 
     /**
@@ -40,7 +36,10 @@ class Timestamper
         if (!$entity instanceof IdentifiableEntityInterface) {
             throw new Exception("Tried to timestamp a non identifiable entity {$class}");
         }
-        $this->entities[$ts][$class][] = $entity->getId();
+        // When and entity has already been deleted it will lose it's ID so we have to check for that here
+        if ($id = $entity->getId()) {
+            $this->entities[$ts][$class][] = $id;
+        }
     }
 
     public function flush()
@@ -52,13 +51,15 @@ class Timestamper
                 $dateTime = new DateTime();
                 $dateTime->setTimestamp($timestamp);
                 foreach ($entities as $class => $ids) {
-                    $qb = $om->createQueryBuilder();
-                    $qb->update($class, 'c')
-                       ->set('c.updatedAt', ':timestamp')
-                       ->where($qb->expr()->in('c.id', $ids))
-                       ->setParameter('timestamp', $dateTime);
-                    $query = $qb->getQuery();
-                    $query->execute();
+                    if ($ids !== []) {
+                        $qb = $om->createQueryBuilder();
+                        $qb->update($class, 'c')
+                            ->set('c.updatedAt', ':timestamp')
+                            ->where($qb->expr()->in('c.id', $ids))
+                            ->setParameter('timestamp', $dateTime);
+                        $query = $qb->getQuery();
+                        $query->execute();
+                    }
                 }
             }
 
