@@ -50,7 +50,7 @@ class CasAuthentication implements AuthenticationInterface
      * If the user is logged in, but no account exists set a cookie and redirect them back to the frontend
      * If the user is authenticated set a cookie and redirect back to the frontend
      */
-    public function login(Request $request)
+    public function login(Request $request): Response
     {
         if ($request->cookies->has(self::JWT_COOKIE)) {
             $jwt = $request->cookies->get(self::JWT_COOKIE);
@@ -125,7 +125,7 @@ class CasAuthentication implements AuthenticationInterface
     /**
      * @inheritDoc
      */
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $logoutUrl = $this->casManager->getLogoutUrl();
         $response =  new JsonResponse([
@@ -137,10 +137,7 @@ class CasAuthentication implements AuthenticationInterface
         return $response;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPublicConfigurationInformation(Request $request)
+    public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
         $configuration['type'] = 'cas';
@@ -149,9 +146,6 @@ class CasAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function createAuthenticationResponse(Request $request): Response
     {
         if (

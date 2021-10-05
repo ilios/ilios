@@ -44,10 +44,8 @@ class LdapAuthentication implements AuthenticationInterface
     /**
      * Login a user using a username and password
      * to bind against an LDAP server
-     *
-     * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $username = null;
         $password = null;
@@ -98,10 +96,8 @@ class LdapAuthentication implements AuthenticationInterface
 
     /**
      * Logout a user
-     *
-     * @return JsonResponse
      */
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         return new JsonResponse([
             'status' => 'success'
@@ -129,10 +125,7 @@ class LdapAuthentication implements AuthenticationInterface
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPublicConfigurationInformation(Request $request)
+    public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
         $configuration['type'] = 'ldap';
@@ -140,9 +133,6 @@ class LdapAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function createAuthenticationResponse(Request $request): Response
     {
         return new Response();

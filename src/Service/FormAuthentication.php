@@ -31,10 +31,8 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Login a user using a username and password
-     *
-     * @return JsonResponse
      */
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $username = null;
         $password = null;
@@ -86,10 +84,8 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Logout a user
-     *
-     * @return JsonResponse
      */
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         return new JsonResponse([
             'status' => 'success'
@@ -112,10 +108,7 @@ class FormAuthentication implements AuthenticationInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPublicConfigurationInformation(Request $request)
+    public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
         $configuration['type'] = 'form';
@@ -123,9 +116,6 @@ class FormAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function createAuthenticationResponse(Request $request): Response
     {
         return new Response();

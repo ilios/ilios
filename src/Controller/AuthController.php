@@ -24,7 +24,7 @@ class AuthController extends AbstractController
      * Passes off the task of authentication to the service selected by the config
      * option authentication_type.
      */
-    public function loginAction(Request $request, AuthenticationInterface $authenticator): JsonResponse
+    public function loginAction(Request $request, AuthenticationInterface $authenticator): Response
     {
         return $authenticator->login($request);
     }
