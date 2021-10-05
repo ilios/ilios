@@ -6,6 +6,7 @@ namespace App\Tests\Controller;
 
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\GetUrlTrait;
+use Exception;
 use Firebase\JWT\JWT;
 use DateTime;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -14,6 +15,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 use App\Service\JsonWebTokenManager;
+
+use function array_key_exists;
+use function json_decode;
+use function var_export;
 
 class AuthControllerTest extends WebTestCase
 {
@@ -144,6 +149,21 @@ class AuthControllerTest extends WebTestCase
         );
     }
 
+    public function testWhoAmIUnauthenticated()
+    {
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.whoami'),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $response = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('userId', $response);
+        $this->assertSame($response['userId'], null);
+    }
+
     public function testGetToken()
     {
         $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
@@ -199,6 +219,19 @@ class AuthControllerTest extends WebTestCase
         $this->assertTrue($now->diff($expiresAt)->d > 5);
     }
 
+    public function testGetTokenForUnauthenticatedUser()
+    {
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token'),
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $response = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('jwt', $response);
+        $this->assertSame($response['jwt'], null);
+    }
+
     public function testInvalidateToken()
     {
         $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
@@ -228,5 +261,17 @@ class AuthControllerTest extends WebTestCase
         $response2 = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response2->getStatusCode());
         $this->assertMatchesRegularExpression('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
+    }
+
+    public function testInvalidateTokenForUnauthenticatedUser()
+    {
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.invalidate_tokens'),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
