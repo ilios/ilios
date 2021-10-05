@@ -10,39 +10,32 @@ use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\JsonWebTokenManager;
 use App\Entity\UserInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AuthController extends AbstractController
 {
-
     /**
      * Authenticate someone
      * Passes off the task of authentication to the service selected by the config
      * option authentication_type.
-     *
-     * @param Request $request
-     * @param AuthenticationInterface $authenticator
-     *
-     * @return JsonResponse
      */
-    public function loginAction(Request $request, AuthenticationInterface $authenticator)
+    public function loginAction(Request $request, AuthenticationInterface $authenticator): JsonResponse
     {
         return $authenticator->login($request);
     }
 
     /**
-     * Get the id fro the currently authenticated user
-     *
-     * @param TokenStorageInterface $tokenStorage
-     * @return JsonResponse
+     * Get the id from the currently authenticated user
      */
-    public function whoamiAction(TokenStorageInterface $tokenStorage)
+    public function whoamiAction(TokenStorageInterface $tokenStorage): JsonResponse
     {
         $token = $tokenStorage->getToken();
-        if ($token->isAuthenticated()) {
+        if ($token?->isAuthenticated()) {
             /** @var SessionUserInterface $sessionUser */
             $sessionUser = $token->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
@@ -50,28 +43,25 @@ class AuthController extends AbstractController
             }
         }
 
-        return new JsonResponse(['userId' => null], JsonResponse::HTTP_OK);
+        return new JsonResponse(['userId' => null], Response::HTTP_OK);
     }
 
     /**
      * Get a new token
      * Useful when the time limit is approaching but the user is still active
-     *
-     * @param Request $request
-     * @param TokenStorageInterface $tokenStorage
-     * @param JsonWebTokenManager $jwtManager
-     *
-     * @return JsonResponse
      */
-    public function tokenAction(Request $request, TokenStorageInterface $tokenStorage, JsonWebTokenManager $jwtManager)
-    {
+    public function tokenAction(
+        Request $request,
+        TokenStorageInterface $tokenStorage,
+        JsonWebTokenManager $jwtManager
+    ): JsonResponse {
         $token = $tokenStorage->getToken();
-        if ($token->isAuthenticated()) {
+        if ($token?->isAuthenticated()) {
             $sessionUser = $token->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
                 $ttl = $request->get('ttl') ? $request->get('ttl') : 'PT8H';
                 $jwt = $jwtManager->createJwtFromSessionUser($sessionUser, $ttl);
-                return new JsonResponse(['jwt' => $jwt], JsonResponse::HTTP_OK);
+                return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
             }
         }
 
@@ -82,13 +72,8 @@ class AuthController extends AbstractController
      * Logout
      * Passes off the task of logout to the service selected by the config
      * option authentication_type.
-     *
-     * @param Request $request
-     * @param AuthenticationInterface $authenticator
-     *
-     * @return JsonResponse
      */
-    public function logoutAction(Request $request, AuthenticationInterface $authenticator)
+    public function logoutAction(Request $request, AuthenticationInterface $authenticator): JsonResponse
     {
         return $authenticator->logout($request);
     }
@@ -97,19 +82,17 @@ class AuthController extends AbstractController
      * Invalidate all tokens issued before now
      * Resets authentication in case a token is compromised
      *
-     * @throws \Exception
-     *
-     * @return JsonResponse
+     * @throws Exception
      */
     public function invalidateTokensAction(
         TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
         AuthenticationRepository $authenticationRepository,
         JsonWebTokenManager $jwtManager
-    ) {
+    ): JsonResponse {
         $now = new \DateTime();
         $token = $tokenStorage->getToken();
-        if ($token->isAuthenticated()) {
+        if ($token?->isAuthenticated()) {
             /** @var SessionUserInterface $sessionUser */
             $sessionUser = $token->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
@@ -127,10 +110,10 @@ class AuthController extends AbstractController
                 sleep(1);
                 $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);
 
-                return new JsonResponse(['jwt' => $jwt], JsonResponse::HTTP_OK);
+                return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
             }
         }
 
-        throw new \Exception('Attempted to invalidate token with no valid user');
+        throw new Exception('Attempted to invalidate token with no valid user');
     }
 }
