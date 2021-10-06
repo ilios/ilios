@@ -9,10 +9,13 @@ use App\Attribute\Related;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
 use DateTime;
-use Exception;
 use Faker\Factory as FakerFactory;
 use ReflectionClass;
 use ReflectionProperty;
+
+use function array_filter;
+use function array_map;
+use function array_values;
 
 /**
  * Abstract utilities for loading data
@@ -172,5 +175,23 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         $names = array_map(fn(ReflectionProperty $p) => $p->name, $scalarProperties);
 
         return array_values($names);
+    }
+
+    /**
+     * Get all the scalar fields (not relationships) of a DTO
+     */
+    public function getIdField(): string
+    {
+        $class = $this->getDtoClass();
+        $reflection = new ReflectionClass($class);
+        $properties = $this->entityMetadata->extractExposedProperties($reflection);
+        $scalarProperties = array_filter(
+            $properties,
+            fn(ReflectionProperty $p) => $p->getAttributes(Id::class)
+        );
+
+        $names = array_map(fn(ReflectionProperty $p) => $p->name, $scalarProperties);
+
+        return array_values($names)[0];
     }
 }

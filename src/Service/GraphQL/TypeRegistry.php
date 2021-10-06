@@ -6,6 +6,8 @@ namespace App\Service\GraphQL;
 
 use App\Attribute\Id;
 use App\Service\EntityMetadata;
+use App\Service\InflectorFactory;
+use Doctrine\Inflector\Inflector;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use ReflectionProperty;
@@ -39,28 +41,43 @@ class TypeRegistry
     {
         $types = [];
         foreach ($this->dtoInfo->getGraphQLTypeList() as $name) {
-            $types[$name] = Type::listOf($this->getType($name));
+            $types[$name] = $this->getTypeDefinition($name, true);
+            $types[$name]['type'] = Type::listOf($this->getType($name));
         }
         return $types;
+    }
+
+    protected function getTypeDefinition(string $name, bool $includeArgs = false): array
+    {
+        $exposedProperties = $this->dtoInfo->getGraphQLExposedPropertiesForType($name);
+        $fields = [];
+        foreach ($exposedProperties as $prop) {
+            $fields[$prop->getName()] = $this->buildPropertyField($prop);
+        }
+
+        $def = [
+            'name' => $this->entityMetadata->extractType($this->dtoInfo->getRefForType($name)),
+            'fields' => $fields,
+            'resolve' => $this->typeResolver,
+            'extensions' => [
+                'dtoClassName' => $name,
+            ]
+        ];
+
+        if ($includeArgs) {
+            $def['args'] = $this->buildArgs($exposedProperties);
+        }
+
+        return $def;
     }
 
     protected function getType(string $name): ObjectType
     {
         if (!array_key_exists($name, $this->types)) {
-            $exposedProperties = $this->dtoInfo->getGraphQLExposedPropertiesForType($name);
-            $fields = [];
-            foreach ($exposedProperties as $prop) {
-                $fields[$prop->getName()] = $this->buildPropertyField($prop);
-            }
-            $this->types[$name] =  new ObjectType([
-                'name' => $this->entityMetadata->extractType($this->dtoInfo->getRefForType($name)),
-                'fields' => $fields,
-                'resolve' => $this->typeResolver,
-                'extensions' => [
-                    'dtoClassName' => $name,
-                ]
-            ]);
+            $def = $this->getTypeDefinition($name);
+            $this->types[$name] = new ObjectType($def);
         }
+
         return $this->types[$name];
     }
 
@@ -99,6 +116,28 @@ class TypeRegistry
                 'resolve' => $this->fieldResolver,
             ];
         }
+    }
+
+    /**
+     * @param ReflectionProperty[] $properties
+     */
+    protected function buildArgs(array $properties): array
+    {
+        $idProperties = array_filter($properties, [$this, 'isId']);
+        if ($idProperties === []) {
+            return [];
+        }
+        $idProperty = array_values($idProperties)[0];
+        $type = $this->entityMetadata->getTypeOfProperty($idProperty);
+        $name = $idProperty->getName();
+        return [
+            $name => [
+                'type' => Type::listOf(match ($type) {
+                    'string' => Type::string(),
+                    'integer' => Type::int(),
+                })
+            ]
+        ];
     }
 
     protected function isId(ReflectionProperty $property): bool

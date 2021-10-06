@@ -7,6 +7,8 @@ namespace App\Service\GraphQL;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityMetadata;
 use App\Service\EntityRepositoryLookup;
+use App\Service\InflectorFactory;
+use Doctrine\Inflector\Inflector;
 use GraphQL\Deferred;
 use GraphQL\Type\Definition\ResolveInfo;
 use ReflectionClass;
@@ -45,7 +47,9 @@ class TypeResolver
             });
         }
 
-        return $this->filterValues($repository->findDTOsBy([]));
+        //we can pass $ars directly because our GraphQL library will reject
+        //any args that aren't part of our schema
+        return $this->filterValues($repository->findDTOsBy($args));
     }
 
     protected function getRef(string $fieldName, ?object $source): ReflectionClass
