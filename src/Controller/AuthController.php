@@ -39,11 +39,11 @@ class AuthController extends AbstractController
             /** @var SessionUserInterface $sessionUser */
             $sessionUser = $token->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
-                return new JsonResponse(['userId' => $sessionUser->getId()], JsonResponse::HTTP_OK);
+                return new JsonResponse(['userId' => $sessionUser->getId()], Response::HTTP_OK);
             }
         }
 
-        return new JsonResponse(['userId' => null], Response::HTTP_OK);
+        return new JsonResponse(['userId' => null], Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -65,7 +65,7 @@ class AuthController extends AbstractController
             }
         }
 
-        return new JsonResponse(['jwt' => null], JsonResponse::HTTP_OK);
+        return new JsonResponse(['jwt' => null], Response::HTTP_UNAUTHORIZED);
     }
 
     /**

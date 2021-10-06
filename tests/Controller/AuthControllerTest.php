@@ -6,7 +6,6 @@ namespace App\Tests\Controller;
 
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\GetUrlTrait;
-use Exception;
 use Firebase\JWT\JWT;
 use DateTime;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -158,10 +157,25 @@ class AuthControllerTest extends WebTestCase
         );
 
         $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
         $response = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('userId', $response);
         $this->assertSame($response['userId'], null);
+    }
+
+    public function testWhoAmIExpiredToken()
+    {
+        $jwt = $this->getExpiredToken(1);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.whoami'),
+            null,
+            $jwt
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testGetToken()
@@ -227,9 +241,24 @@ class AuthControllerTest extends WebTestCase
             $this->getUrl($this->kernelBrowser, 'ilios_authentication.token'),
         );
         $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
         $response = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('jwt', $response);
         $this->assertSame($response['jwt'], null);
+    }
+
+    public function testGetTokenForExpiredToken()
+    {
+        $jwt = $this->getExpiredToken(1);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token'),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
     public function testInvalidateToken()
@@ -273,5 +302,14 @@ class AuthControllerTest extends WebTestCase
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    protected function getExpiredToken(int $userId): string
+    {
+        $container = $this->kernelBrowser->getContainer();
+        $jwtManager = $container->get(JsonWebTokenManager::class);
+        $jwt = $jwtManager->createJwtFromUserId($userId, 'PT0S');
+        sleep(6); //wait for 5 second leeway to pass
+        return $jwt;
     }
 }
