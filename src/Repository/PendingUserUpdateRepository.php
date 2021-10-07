@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,50 +13,36 @@ use App\Entity\PendingUserUpdate;
 use App\Entity\DTO\PendingUserUpdateDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_keys;
+
 class PendingUserUpdateRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PendingUserUpdate::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\PendingUserUpdate', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\PendingUserUpdate', 'x');
+            ->distinct()->from(PendingUserUpdate::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var PendingUserUpdateDTO[] $pendingUserUpdateDTOs */
-        $pendingUserUpdateDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $pendingUserUpdateDTOs[$arr['id']] = new PendingUserUpdateDTO(
+            $dtos[$arr['id']] = new PendingUserUpdateDTO(
                 $arr['id'],
                 $arr['type'],
                 $arr['property'],
                 $arr['value']
             );
         }
-        $pendingUserUpdateIds = array_keys($pendingUserUpdateDTOs);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -64,25 +51,23 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
             ->from('App\Entity\PendingUserUpdate', 'x')
             ->join('x.user', 'user')
             ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', $pendingUserUpdateIds);
+            ->setParameter('ids', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $pendingUserUpdateDTOs[$arr['xId']]->user = (int) $arr['userId'];
+            $dtos[$arr['xId']]->user = (int) $arr['userId'];
         }
 
-        return array_values($pendingUserUpdateDTOs);
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
             $qb->join('x.user', 's_user');
@@ -101,33 +86,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
             unset($criteria['users']);
         }
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     /**

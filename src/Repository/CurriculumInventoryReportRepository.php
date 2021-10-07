@@ -9,6 +9,7 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\ProgramYearObjective;
 use App\Entity\Session;
 use App\Entity\SessionObjective;
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -18,34 +19,22 @@ use App\Entity\DTO\CurriculumInventoryReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\CurriculumInventoryReportInterface;
 
+use function array_values;
+
 class CurriculumInventoryReportRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CurriculumInventoryReport::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from(CurriculumInventoryReport::class, 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -53,10 +42,9 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             ->distinct()->from(CurriculumInventoryReport::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var CurriculumInventoryReportDTO[] $curriculumInventoryReportDTOs */
-        $curriculumInventoryReportDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $curriculumInventoryReportDTOs[$arr['id']] = new CurriculumInventoryReportDTO(
+            $dtos[$arr['id']] = new CurriculumInventoryReportDTO(
                 $arr['id'],
                 $arr['name'],
                 $arr['description'],
@@ -66,7 +54,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
                 $arr['token']
             );
         }
-        $curriculumInventoryReportIds = array_keys($curriculumInventoryReportDTOs);
+        $curriculumInventoryReportIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -83,42 +71,32 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             ->setParameter('ids', $curriculumInventoryReportIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $curriculumInventoryReportDTOs[$arr['xId']]->export = $arr['exportId'] ? (int)$arr['exportId'] : null;
-            $curriculumInventoryReportDTOs[$arr['xId']]->sequence = $arr['sequenceId'] ? (int)$arr['sequenceId'] : null;
-            $curriculumInventoryReportDTOs[$arr['xId']]->program = $arr['programId'] ? (int)$arr['programId'] : null;
-            $curriculumInventoryReportDTOs[$arr['xId']]->school = $arr['schoolId'] ? (int)$arr['schoolId'] : null;
+            $dtos[$arr['xId']]->export = $arr['exportId'] ? (int)$arr['exportId'] : null;
+            $dtos[$arr['xId']]->sequence = $arr['sequenceId'] ? (int)$arr['sequenceId'] : null;
+            $dtos[$arr['xId']]->program = $arr['programId'] ? (int)$arr['programId'] : null;
+            $dtos[$arr['xId']]->school = $arr['schoolId'] ? (int)$arr['schoolId'] : null;
         }
 
-        $related = [
-            'sequenceBlocks',
-            'academicLevels',
-            'administrators',
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS curriculumInventoryReportId')
-                ->from(CurriculumInventoryReport::class, 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $curriculumInventoryReportIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $curriculumInventoryReportDTOs[$arr['curriculumInventoryReportId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($curriculumInventoryReportDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'sequenceBlocks',
+                'academicLevels',
+                'administrators',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('sequenceBlocks', $criteria)) {
             $ids = is_array($criteria['sequenceBlocks']) ? $criteria['sequenceBlocks'] : [$criteria['sequenceBlocks']];
             $qb->join('x.sequenceBlocks', 'sb');
@@ -136,33 +114,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         unset($criteria['sequenceBlocks']);
         unset($criteria['academicLevels']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     /**

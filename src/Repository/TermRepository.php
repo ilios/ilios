@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Term;
 use App\Service\DefaultDataImporter;
+use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
@@ -15,12 +16,15 @@ use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
 
+use function array_values;
+
 class TermRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
     use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)
@@ -29,40 +33,16 @@ class TermRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * Custom findBy so we can filter by related entities
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return TermInterface[]
-     */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-
-        $qb->select('DISTINCT t')->from(Term::class, 't');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return TermDTO[]
+     * Find and hydrate as DTOs @return TermDTO[]
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('t')->distinct()->from(Term::class, 't');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Term::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $termDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $termDTOs[$arr['id']] = new TermDTO(
+            $dtos[$arr['id']] = new TermDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['description'],
@@ -70,12 +50,12 @@ class TermRepository extends ServiceEntityRepository implements
             );
         }
 
-        return $this->attachAssociationsToDTOs($termDTOs);
+        return $this->attachAssociationsToDTOs($dtos);
     }
 
-    protected function attachAssociationsToDTOs(array $termDTOs): array
+    protected function attachAssociationsToDTOs(array $dtos): array
     {
-        $termIds = array_keys($termDTOs);
+        $termIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId, s.id AS schoolId')
@@ -87,53 +67,39 @@ class TermRepository extends ServiceEntityRepository implements
             ->setParameter('termIds', $termIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $termDTOs[$arr['termId']]->vocabulary = $arr['vocabularyId'];
-            $termDTOs[$arr['termId']]->parent = $arr['parentId'] ? $arr['parentId'] : null;
-            $termDTOs[$arr['termId']]->school = $arr['schoolId'];
+            $dtos[$arr['termId']]->vocabulary = $arr['vocabularyId'];
+            $dtos[$arr['termId']]->parent = $arr['parentId'] ? $arr['parentId'] : null;
+            $dtos[$arr['termId']]->school = $arr['schoolId'];
         }
 
-        $related = [
-            'children',
-            'courses',
-            'programYears',
-            'sessions',
-            'aamcResourceTypes',
-            'programYearObjectives',
-            'courseObjectives',
-            'sessionObjectives'
-        ];
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'children',
+                'courses',
+                'programYears',
+                'sessions',
+                'aamcResourceTypes',
+                'programYearObjectives',
+                'courseObjectives',
+                'sessionObjectives',
+            ],
+        );
 
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id as relId, t.id AS termId')->from(Term::class, 't')
-                ->join("t.{$rel}", 'r')
-                ->where($qb->expr()->in('t.id', ':termIds'))
-                ->orderBy('relId')
-                ->setParameter('termIds', $termIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $termDTOs[$arr['termId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($termDTOs);
+        return array_values($dtos);
     }
 
-    /**
-     * Custom findBy so we can filter by related entities
-     *
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('t.courses', 'cr_course');
-            $qb->leftJoin('t.sessions', 'cr_session');
+            $qb->leftJoin('x.courses', 'cr_course');
+            $qb->leftJoin('x.sessions', 'cr_session');
             $qb->leftJoin('cr_session.course', 'cr_course2');
             $qb->andWhere(
                 $qb->expr()->orX(
@@ -146,21 +112,21 @@ class TermRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->join('t.sessions', 'se_session');
+            $qb->join('x.sessions', 'se_session');
             $qb->andWhere($qb->expr()->in('se_session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
         }
 
         if (array_key_exists('programYears', $criteria)) {
             $ids = is_array($criteria['programYears']) ? $criteria['programYears'] : [$criteria['programYears']];
-            $qb->join('t.programYears', 'py_programyear');
+            $qb->join('x.programYears', 'py_programyear');
             $qb->andWhere($qb->expr()->in('py_programyear.id', ':programYears'));
             $qb->setParameter(':programYears', $ids);
         }
 
         if (array_key_exists('sessionTypes', $criteria)) {
             $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
-            $qb->join('t.sessions', 'st_session');
+            $qb->join('x.sessions', 'st_session');
             $qb->join('st_session.sessionType', 'st_sessionType');
             $qb->andWhere($qb->expr()->in('st_sessionType.id', ':sessionTypes'));
             $qb->setParameter(':sessionTypes', $ids);
@@ -168,7 +134,7 @@ class TermRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('programs', $criteria)) {
             $ids = is_array($criteria['programs']) ? $criteria['programs'] : [$criteria['programs']];
-            $qb->join('t.programYears', 'p_programYear');
+            $qb->join('x.programYears', 'p_programYear');
             $qb->join('p_programYear.program', 'p_program');
             $qb->andWhere($qb->expr()->in('p_program.id', ':programs'));
             $qb->setParameter(':programs', $ids);
@@ -176,7 +142,7 @@ class TermRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
-            $qb->join('t.sessions', 'i_session');
+            $qb->join('x.sessions', 'i_session');
             $qb->leftJoin('i_session.offerings', 'i_offering');
             $qb->leftJoin('i_offering.instructors', 'i_instructor');
             $qb->leftJoin('i_offering.instructorGroups', 'i_iGroup');
@@ -199,7 +165,7 @@ class TermRepository extends ServiceEntityRepository implements
         if (array_key_exists('instructorGroups', $criteria)) {
             $ids = is_array($criteria['instructorGroups'])
                 ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
-            $qb->join('t.sessions', 'ig_session');
+            $qb->join('x.sessions', 'ig_session');
             $qb->leftJoin('ig_session.offerings', 'ig_offering');
             $qb->leftJoin('ig_offering.instructorGroups', 'ig_iGroup');
             $qb->leftJoin('ig_session.ilmSession', 'ig_ilm');
@@ -216,8 +182,8 @@ class TermRepository extends ServiceEntityRepository implements
         if (array_key_exists('learningMaterials', $criteria)) {
             $ids = is_array($criteria['learningMaterials'])
                 ? $criteria['learningMaterials'] : [$criteria['learningMaterials']];
-            $qb->leftJoin('t.courses', 'lm_course');
-            $qb->leftJoin('t.sessions', 'lm_session');
+            $qb->leftJoin('x.courses', 'lm_course');
+            $qb->leftJoin('x.sessions', 'lm_session');
             $qb->leftJoin('lm_course.learningMaterials', 'lm_clm');
             $qb->leftJoin('lm_session.learningMaterials', 'lm_slm');
             $qb->andWhere(
@@ -231,8 +197,8 @@ class TermRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->leftJoin('t.courses', 'cm_course');
-            $qb->leftJoin('t.sessions', 'cm_session');
+            $qb->leftJoin('x.courses', 'cm_course');
+            $qb->leftJoin('x.sessions', 'cm_session');
             $qb->leftJoin('cm_course.courseObjectives', 'cm_course_x_objective');
             $qb->leftJoin('cm_course_x_objective.programYearObjectives', 'cm_program_year_objective');
             $qb->leftJoin('cm_program_year_objective.competency', 'cm_competency');
@@ -256,8 +222,8 @@ class TermRepository extends ServiceEntityRepository implements
         if (array_key_exists('meshDescriptors', $criteria)) {
             $ids = is_array($criteria['meshDescriptors'])
                 ? $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
-            $qb->leftJoin('t.courses', 'm_course');
-            $qb->leftJoin('t.sessions', 'm_session');
+            $qb->leftJoin('x.courses', 'm_course');
+            $qb->leftJoin('x.sessions', 'm_session');
             $qb->leftJoin('m_course.meshDescriptors', 'm_meshDescriptor');
             $qb->leftJoin('m_session.meshDescriptors', 'm_meshDescriptor2');
             $qb->leftJoin('m_session.course', 'm_course2');
@@ -292,7 +258,7 @@ class TermRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('t.vocabulary', 'sc_vocabulary');
+            $qb->join('x.vocabulary', 'sc_vocabulary');
             $qb->join('sc_vocabulary.school', 'sc_school');
             $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
             $qb->setParameter(':schools', $ids);
@@ -302,7 +268,7 @@ class TermRepository extends ServiceEntityRepository implements
             $ids = is_array(
                 $criteria['aamcResourceTypes']
             ) ? $criteria['aamcResourceTypes'] : [$criteria['aamcResourceTypes']];
-            $qb->join('t.aamcResourceTypes', 'art_resourceTypes');
+            $qb->join('x.aamcResourceTypes', 'art_resourceTypes');
             $qb->andWhere($qb->expr()->in('art_resourceTypes.id', ':aamcResourceTypes'));
             $qb->setParameter(':aamcResourceTypes', $ids);
         }
@@ -311,7 +277,7 @@ class TermRepository extends ServiceEntityRepository implements
             $ids = is_array(
                 $criteria['programYearObjectives']
             ) ? $criteria['programYearObjectives'] : [$criteria['programYearObjectives']];
-            $qb->join('t.programYearObjectives', 'pyo_programYearObjectives');
+            $qb->join('x.programYearObjectives', 'pyo_programYearObjectives');
             $qb->andWhere($qb->expr()->in('pyo_programYearObjectives.id', ':programYearObjectives'));
             $qb->setParameter(':programYearObjectives', $ids);
         }
@@ -320,7 +286,7 @@ class TermRepository extends ServiceEntityRepository implements
             $ids = is_array(
                 $criteria['sessionObjectives']
             ) ? $criteria['sessionObjectives'] : [$criteria['sessionObjectives']];
-            $qb->join('t.sessionObjectives', 'so_sessionObjectives');
+            $qb->join('x.sessionObjectives', 'so_sessionObjectives');
             $qb->andWhere($qb->expr()->in('so_sessionObjectives.id', ':sessionObjectives'));
             $qb->setParameter(':sessionObjectives', $ids);
         }
@@ -329,7 +295,7 @@ class TermRepository extends ServiceEntityRepository implements
             $ids = is_array(
                 $criteria['courseObjectives']
             ) ? $criteria['courseObjectives'] : [$criteria['courseObjectives']];
-            $qb->join('t.courseObjectives', 'co_courseObjectives');
+            $qb->join('x.courseObjectives', 'co_courseObjectives');
             $qb->andWhere($qb->expr()->in('co_courseObjectives.id', ':courseObjectives'));
             $qb->setParameter(':courseObjectives', $ids);
         }
@@ -350,33 +316,7 @@ class TermRepository extends ServiceEntityRepository implements
         unset($criteria['sessionObjectives']);
         unset($criteria['courseObjectives']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("t.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('t.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     public function import(array $data, string $type, array $referenceMap): array

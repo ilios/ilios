@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Session;
 use App\Entity\UserRole;
 use App\Entity\UserRoleInterface;
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -23,6 +24,9 @@ use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_keys;
+use function array_values;
+
 /**
  * Class UserRepository
  */
@@ -30,19 +34,11 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 {
     use CalendarEventRepository;
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $factory)
     {
         parent::__construct($registry, User::class);
-    }
-
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT u')->from('App\Entity\User', 'u');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -60,8 +56,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         array $criteria = []
     ) {
         $qb = $this->_em->createQueryBuilder();
-        $qb->addSelect('u')->from('App\Entity\User', 'u');
-        $qb->leftJoin('u.authentication', 'auth');
+        $qb->addSelect('x')->from(User::class, 'x');
+        $qb->leftJoin('x.authentication', 'auth');
 
         $terms = explode(' ', $q);
         $terms = array_filter($terms, 'strlen');
@@ -71,13 +67,13 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         foreach ($terms as $key => $term) {
             $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->like('u.firstName', "?{$key}"),
-                $qb->expr()->like('u.lastName', "?{$key}"),
-                $qb->expr()->like('u.middleName', "?{$key}"),
-                $qb->expr()->like('u.displayName', "?{$key}"),
-                $qb->expr()->like('u.email', "?{$key}"),
-                $qb->expr()->like('u.preferredEmail', "?{$key}"),
-                $qb->expr()->like('u.campusId', "?{$key}"),
+                $qb->expr()->like('x.firstName', "?{$key}"),
+                $qb->expr()->like('x.lastName', "?{$key}"),
+                $qb->expr()->like('x.middleName', "?{$key}"),
+                $qb->expr()->like('x.displayName', "?{$key}"),
+                $qb->expr()->like('x.email', "?{$key}"),
+                $qb->expr()->like('x.preferredEmail', "?{$key}"),
+                $qb->expr()->like('x.campusId', "?{$key}"),
                 $qb->expr()->like('auth.username', "?{$key}")
             ))
                 ->setParameter($key, '%' . $term . '%');
@@ -89,12 +85,12 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('u.' . $sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
         if (array_key_exists('roles', $criteria)) {
             $roleIds = is_array($criteria['roles']) ? $criteria['roles'] : [$criteria['roles']];
-            $qb->join('u.roles', 'r');
+            $qb->join('x.roles', 'r');
             $qb->andWhere($qb->expr()->in('r.id', ':roles'));
             $qb->setParameter(':roles', $roleIds);
         }
@@ -111,16 +107,11 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     }
 
     /**
-     * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return UserDTO[]
+     * Find and hydrate as DTOs @return UserDTO[]
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('u')->distinct()->from('App\Entity\User', 'u');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(User::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $this->createUserDTOs($qb->getQuery());
@@ -726,33 +717,19 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         return $events;
     }
 
-    /**
-     * Custom findBy so we can filter by related entities
-     *
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('u.' . $sort, $order);
-            }
-        }
-
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('instructedCourses', $criteria)) {
             $ids = is_array($criteria['instructedCourses'])
                 ? $criteria['instructedCourses'] : [$criteria['instructedCourses']];
-            $qb->leftJoin('u.instructedOfferings', 'ic_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'ic_ilm');
-            $qb->leftJoin('u.instructorGroups', 'ic_iGroup');
+            $qb->leftJoin('x.instructedOfferings', 'ic_offering');
+            $qb->leftJoin('x.instructorIlmSessions', 'ic_ilm');
+            $qb->leftJoin('x.instructorGroups', 'ic_iGroup');
             $qb->leftJoin('ic_iGroup.offerings', 'ic_offering2');
             $qb->leftJoin('ic_iGroup.ilmSessions', 'ic_ilm2');
             $qb->leftJoin('ic_offering.session', 'ic_session');
@@ -775,9 +752,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         if (array_key_exists('instructedSessions', $criteria)) {
             $ids = is_array($criteria['instructedSessions'])
                 ? $criteria['instructedSessions'] : [$criteria['instructedSessions']];
-            $qb->leftJoin('u.instructedOfferings', 'is_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'is_ilm');
-            $qb->leftJoin('u.instructorGroups', 'is_iGroup');
+            $qb->leftJoin('x.instructedOfferings', 'is_offering');
+            $qb->leftJoin('x.instructorIlmSessions', 'is_ilm');
+            $qb->leftJoin('x.instructorGroups', 'is_iGroup');
             $qb->leftJoin('is_iGroup.offerings', 'is_offering2');
             $qb->leftJoin('is_iGroup.ilmSessions', 'is_ilm2');
             $qb->leftJoin('is_offering.session', 'is_session');
@@ -796,9 +773,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         if (array_key_exists('instructedLearningMaterials', $criteria)) {
             $ids = is_array($criteria['instructedLearningMaterials']) ?
                 $criteria['instructedLearningMaterials'] : [$criteria['instructedLearningMaterials']];
-            $qb->leftJoin('u.instructedOfferings', 'ilm_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'ilm_ilm');
-            $qb->leftJoin('u.instructorGroups', 'ilm_iGroup');
+            $qb->leftJoin('x.instructedOfferings', 'ilm_offering');
+            $qb->leftJoin('x.instructorIlmSessions', 'ilm_ilm');
+            $qb->leftJoin('x.instructorGroups', 'ilm_iGroup');
             $qb->leftJoin('ilm_iGroup.offerings', 'ilm_offering2');
             $qb->leftJoin('ilm_iGroup.ilmSessions', 'ilm_ilm2');
             $qb->leftJoin('ilm_offering.session', 'ilm_session');
@@ -821,9 +798,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         if (array_key_exists('instructedTerms', $criteria)) {
             $ids = is_array($criteria['instructedTerms'])
                 ? $criteria['instructedTerms'] : [$criteria['instructedTerms']];
-            $qb->leftJoin('u.instructedOfferings', 'it_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'it_ilm');
-            $qb->leftJoin('u.instructorGroups', 'it_iGroup');
+            $qb->leftJoin('x.instructedOfferings', 'it_offering');
+            $qb->leftJoin('x.instructorIlmSessions', 'it_ilm');
+            $qb->leftJoin('x.instructorGroups', 'it_iGroup');
             $qb->leftJoin('it_iGroup.offerings', 'it_offering2');
             $qb->leftJoin('it_iGroup.ilmSessions', 'it_ilm2');
             $qb->leftJoin('it_offering.session', 'it_session');
@@ -846,9 +823,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         if (array_key_exists('instructedSessionTypes', $criteria)) {
             $ids = is_array($criteria['instructedSessionTypes']) ?
                 $criteria['instructedSessionTypes'] : [$criteria['instructedSessionTypes']];
-            $qb->leftJoin('u.instructedOfferings', 'ist_offering');
-            $qb->leftJoin('u.instructorIlmSessions', 'ist_ilm');
-            $qb->leftJoin('u.instructorGroups', 'ist_iGroup');
+            $qb->leftJoin('x.instructedOfferings', 'ist_offering');
+            $qb->leftJoin('x.instructorIlmSessions', 'ist_ilm');
+            $qb->leftJoin('x.instructorGroups', 'ist_iGroup');
             $qb->leftJoin('ist_iGroup.offerings', 'ist_offering2');
             $qb->leftJoin('ist_iGroup.ilmSessions', 'ist_ilm2');
             $qb->leftJoin('ist_offering.session', 'ist_session');
@@ -871,7 +848,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         if (array_key_exists('instructorGroups', $criteria)) {
             $ids = is_array($criteria['instructorGroups'])
                 ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
-            $qb->join('u.instructorGroups', 'ig_iGroup');
+            $qb->join('x.instructorGroups', 'ig_iGroup');
             $qb->andWhere($qb->expr()->in('ig_iGroup.id', ':instructorGroups'));
             $qb->setParameter(':instructorGroups', $ids);
         }
@@ -879,7 +856,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools'])
                 ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('u.school', 'sc_school');
+            $qb->join('x.school', 'sc_school');
             $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
             $qb->setParameter(':schools', $ids);
         }
@@ -887,7 +864,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         if (array_key_exists('roles', $criteria)) {
             $ids = is_array($criteria['roles'])
                 ? $criteria['roles'] : [$criteria['roles']];
-            $qb->join('u.roles', 'r_roles');
+            $qb->join('x.roles', 'r_roles');
             $qb->andWhere($qb->expr()->in('r_roles.id', ':roles'));
             $qb->setParameter(':roles', $ids);
         }
@@ -897,10 +874,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
                 ? $criteria['cohorts'] : [$criteria['cohorts']];
             if (in_array(null, $ids)) {
                 $ids = array_diff($ids, [null]);
-                $qb->andWhere('u.cohorts IS EMPTY');
+                $qb->andWhere('x.cohorts IS EMPTY');
             }
             if ($ids !== []) {
-                $qb->join('u.cohorts', 'c_cohorts');
+                $qb->join('x.cohorts', 'c_cohorts');
                 $qb->andWhere($qb->expr()->in('c_cohorts.id', ':cohorts'));
                 $qb->setParameter(':cohorts', $ids);
             }
@@ -910,9 +887,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $ids = is_array($criteria['learnerSessions'])
                 ? $criteria['learnerSessions'] : [$criteria['learnerSessions']];
 
-            $qb->leftJoin('u.offerings', 'ls_offering');
-            $qb->leftJoin('u.learnerIlmSessions', 'ls_ilm');
-            $qb->leftJoin('u.learnerGroups', 'ls_iGroup');
+            $qb->leftJoin('x.offerings', 'ls_offering');
+            $qb->leftJoin('x.learnerIlmSessions', 'ls_ilm');
+            $qb->leftJoin('x.learnerGroups', 'ls_iGroup');
             $qb->leftJoin('ls_iGroup.offerings', 'ls_offering2');
             $qb->leftJoin('ls_iGroup.ilmSessions', 'ls_ilm2');
             $qb->leftJoin('ls_offering.session', 'ls_session');
@@ -940,22 +917,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         unset($criteria['instructorGroups']);
         unset($criteria['learnerSessions']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("u.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -963,9 +925,9 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      */
     protected function createUserDTOs(AbstractQuery $query)
     {
-        $userDTOs = [];
+        $dtos = [];
         foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $userDTOs[$arr['id']] = new UserDTO(
+            $dtos[$arr['id']] = new UserDTO(
                 $arr['id'],
                 $arr['firstName'],
                 $arr['lastName'],
@@ -985,67 +947,55 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             );
         }
 
-        $userIds = array_keys($userDTOs);
-
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
             'u.id AS userId, c.id AS primaryCohortId, s.id AS schoolId, '
             . 'auser.id as authenticationId, a.username as username'
         )
-            ->from('App\Entity\User', 'u')
+            ->from(User::class, 'u')
             ->join('u.school', 's')
             ->leftJoin('u.primaryCohort', 'c')
             ->leftJoin('u.authentication', 'a')
             ->leftJoin('a.user', 'auser')
             ->where($qb->expr()->in('u.id', ':userIds'))
-            ->setParameter('userIds', $userIds);
+            ->setParameter('userIds', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $userDTOs[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
-            $userDTOs[$arr['userId']]->school = $arr['schoolId'];
-            $userDTOs[$arr['userId']]->authentication = $arr['authenticationId'] ? $arr['authenticationId'] : null;
-            $userDTOs[$arr['userId']]->username = $arr['username'] ? $arr['username'] : null;
+            $dtos[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
+            $dtos[$arr['userId']]->school = $arr['schoolId'];
+            $dtos[$arr['userId']]->authentication = $arr['authenticationId'] ? $arr['authenticationId'] : null;
+            $dtos[$arr['userId']]->username = $arr['username'] ? $arr['username'] : null;
         }
 
-        $related = [
-            'directedCourses',
-            'administeredCourses',
-            'studentAdvisedCourses',
-            'learnerGroups',
-            'instructedLearnerGroups',
-            'instructorGroups',
-            'offerings',
-            'instructedOfferings',
-            'instructorIlmSessions',
-            'programYears',
-            'roles',
-            'reports',
-            'cohorts',
-            'pendingUserUpdates',
-            'auditLogs',
-            'learnerIlmSessions',
-            'directedSchools',
-            'administeredSchools',
-            'administeredSessions',
-            'studentAdvisedSessions',
-            'directedPrograms',
-            'administeredCurriculumInventoryReports',
-        ];
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'directedCourses',
+                'administeredCourses',
+                'studentAdvisedCourses',
+                'learnerGroups',
+                'instructedLearnerGroups',
+                'instructorGroups',
+                'offerings',
+                'instructedOfferings',
+                'instructorIlmSessions',
+                'programYears',
+                'roles',
+                'reports',
+                'cohorts',
+                'pendingUserUpdates',
+                'auditLogs',
+                'learnerIlmSessions',
+                'directedSchools',
+                'administeredSchools',
+                'administeredSessions',
+                'studentAdvisedSessions',
+                'directedPrograms',
+                'administeredCurriculumInventoryReports',
+            ],
+        );
 
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder();
-            $qb->select('r.id as relId, u.id AS userId')->from('App\Entity\User', 'u')
-                ->join("u.{$rel}", 'r')
-                ->where($qb->expr()->in('u.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $userIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $userDTOs[$arr['userId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($userDTOs);
+        return array_values($dtos);
     }
 
     /**

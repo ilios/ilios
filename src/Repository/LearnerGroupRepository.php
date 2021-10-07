@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,41 +13,30 @@ use App\Entity\LearnerGroup;
 use App\Entity\DTO\LearnerGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_keys;
+use function array_values;
+
 class LearnerGroupRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, LearnerGroup::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT l')->from('App\Entity\LearnerGroup', 'l');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('l')->distinct()->from('App\Entity\LearnerGroup', 'l');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(LearnerGroup::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $learnerGroupDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $learnerGroupDTOs[$arr['id']] = new LearnerGroupDTO(
+            $dtos[$arr['id']] = new LearnerGroupDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['location'],
@@ -54,65 +44,51 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
                 $arr['needsAccommodation']
             );
         }
-        $learnerGroupIds = array_keys($learnerGroupDTOs);
-
         $qb = $this->_em->createQueryBuilder()
             ->select('l.id as learnerGroupId, plg.id as parentId, c.id as cohortId, alg.id as ancestorId')
-            ->from('App\Entity\LearnerGroup', 'l')
+            ->from(LearnerGroup::class, 'l')
             ->join('l.cohort', 'c')
             ->leftJoin('l.parent', 'plg')
             ->leftJoin('l.ancestor', 'alg')
             ->where($qb->expr()->in('l.id', ':ids'))
-            ->setParameter('ids', $learnerGroupIds);
+            ->setParameter('ids', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $learnerGroupDTOs[$arr['learnerGroupId']]->cohort = (int) $arr['cohortId'];
-            $learnerGroupDTOs[$arr['learnerGroupId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
-            $learnerGroupDTOs[$arr['learnerGroupId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+            $dtos[$arr['learnerGroupId']]->cohort = (int) $arr['cohortId'];
+            $dtos[$arr['learnerGroupId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
+            $dtos[$arr['learnerGroupId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
         }
 
-        $related = [
-            'children',
-            'ilmSessions',
-            'offerings',
-            'instructorGroups',
-            'users',
-            'instructors',
-            'descendants'
-        ];
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'children',
+                'ilmSessions',
+                'offerings',
+                'instructorGroups',
+                'users',
+                'instructors',
+                'descendants',
+            ],
+        );
 
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, l.id AS learnerGroupId')->from('App\Entity\LearnerGroup', 'l')
-                ->join("l.{$rel}", 'r')
-                ->where($qb->expr()->in('l.id', ':learnerGroupIds'))
-                ->orderBy('relId')
-                ->setParameter('learnerGroupIds', $learnerGroupIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $learnerGroupDTOs[$arr['learnerGroupId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($learnerGroupDTOs);
+        return array_values($dtos);
     }
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('cohort', $criteria)) {
             $criteria['cohorts'][] = $criteria['cohort'];
             unset($criteria['cohort']);
         }
         if (array_key_exists('cohorts', $criteria)) {
             $ids = is_array($criteria['cohorts']) ? $criteria['cohorts'] : [$criteria['cohorts']];
-            $qb->join('l.cohort', 'l_cohort');
+            $qb->join('x.cohort', 'l_cohort');
             $qb->andWhere($qb->expr()->in('l_cohort.id', ':cohorts'));
             $qb->setParameter(':cohorts', $ids);
         }
@@ -126,10 +102,10 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
                 ? $criteria['parents'] : [$criteria['parents']];
             if (in_array(null, $ids)) {
                 $ids = array_diff($ids, [null]);
-                $qb->andWhere('l.parent IS NULL');
+                $qb->andWhere('x.parent IS NULL');
             }
             if ($ids !== []) {
-                $qb->join('l.parent', 'l_parent');
+                $qb->join('x.parent', 'l_parent');
                 $qb->andWhere($qb->expr()->in('l_parent.id', ':parents'));
                 $qb->setParameter(':parents', $ids);
             }
@@ -163,31 +139,6 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
         unset($criteria['parents']);
         unset($criteria['terms']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("l.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('l.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }

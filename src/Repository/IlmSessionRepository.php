@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,50 +13,36 @@ use App\Entity\IlmSession;
 use App\Entity\DTO\IlmSessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_keys;
+use function array_values;
+
 class IlmSessionRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, IlmSession::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\IlmSession', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\IlmSession', 'x');
+            ->distinct()->from(IlmSession::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var IlmSessionDTO[] $ilmSessionDTOs */
-        $ilmSessionDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $ilmSessionDTOs[$arr['id']] = new IlmSessionDTO(
+            $dtos[$arr['id']] = new IlmSessionDTO(
                 $arr['id'],
                 (float) $arr['hours'],
                 $arr['dueDate']
             );
         }
-        $ilmSessionIds = array_keys($ilmSessionDTOs);
-
         $qb = $this->_em->createQueryBuilder()
             ->select(
                 'x.id as xId, session.id AS sessionId, course.id AS courseId, school.id AS schoolId'
@@ -65,45 +52,34 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
             ->join('session.course', 'course')
             ->join('course.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', $ilmSessionIds);
+            ->setParameter('ids', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $ilmSessionDTOs[$arr['xId']]->session = (int) $arr['sessionId'];
-            $ilmSessionDTOs[$arr['xId']]->course = (int) $arr['courseId'];
-            $ilmSessionDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['xId']]->session = (int) $arr['sessionId'];
+            $dtos[$arr['xId']]->course = (int) $arr['courseId'];
+            $dtos[$arr['xId']]->school = (int) $arr['schoolId'];
         }
 
-        $related = [
-            'learners',
-            'learnerGroups',
-            'instructors',
-            'instructorGroups',
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS ilmSessionId')
-                ->from('App\Entity\IlmSession', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $ilmSessionIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $ilmSessionDTOs[$arr['ilmSessionId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($ilmSessionDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'learners',
+                'learnerGroups',
+                'instructors',
+                'instructorGroups',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
-
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         $related = [
             'learners',
             'learnerGroups',
@@ -142,32 +118,6 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
             unset($criteria['courses']);
         }
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Competency;
 use App\Service\DefaultDataImporter;
+use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -14,6 +15,8 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CompetencyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+
 class CompetencyRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
@@ -21,87 +24,65 @@ class CompetencyRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
     use ImportableEntityRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Competency::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT c')->from(Competency::class, 'c');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from(Competency::class, 'c');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Competency::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        $competencyDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $competencyDTOs[$arr['id']] = new CompetencyDTO(
+            $dtos[$arr['id']] = new CompetencyDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['active']
             );
         }
-        $competencyIds = array_keys($competencyDTOs);
+        $competencyIds = array_keys($dtos);
         $qb = $this->_em->createQueryBuilder()
-            ->select('c.id as competencyId, s.id as schoolId, p.id as parentId')
-            ->from(Competency::class, 'c')
-            ->join('c.school', 's')
-            ->leftJoin('c.parent', 'p')
-            ->where($qb->expr()->in('c.id', ':ids'))
+            ->select('x.id as competencyId, s.id as schoolId, p.id as parentId')
+            ->from(Competency::class, 'x')
+            ->join('x.school', 's')
+            ->leftJoin('x.parent', 'p')
+            ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $competencyIds);
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $competencyDTOs[$arr['competencyId']]->school = (int) $arr['schoolId'];
-            $competencyDTOs[$arr['competencyId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
+            $dtos[$arr['competencyId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['competencyId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
         }
-        $related = [
-            'programYearObjectives',
-            'children',
-            'aamcPcrses',
-            'programYears'
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, c.id AS competencyId')->from(Competency::class, 'c')
-                ->join("c.{$rel}", 'r')
-                ->where($qb->expr()->in('c.id', ':competencyIds'))
-                ->orderBy('relId')
-                ->setParameter('competencyIds', $competencyIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $competencyDTOs[$arr['competencyId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($competencyDTOs);
+
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'programYearObjectives',
+                'children',
+                'aamcPcrses',
+                'programYears'
+            ],
+        );
+
+        return array_values($dtos);
     }
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->leftJoin('c.children', 'se_subcompetency');
-            $qb->leftJoin('c.programYearObjectives', 'se_py_objective');
+            $qb->leftJoin('x.children', 'se_subcompetency');
+            $qb->leftJoin('x.programYearObjectives', 'se_py_objective');
             $qb->leftJoin('se_py_objective.courseObjectives', 'se_course_objective');
             $qb->leftJoin('se_course_objective.sessionObjectives', 'se_session_objective');
             $qb->leftJoin('se_session_objective.session', 'se_session');
@@ -120,8 +101,8 @@ class CompetencyRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('sessionTypes', $criteria)) {
             $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
-            $qb->leftJoin('c.children', 'st_subcompetency');
-            $qb->leftJoin('c.programYearObjectives', 'st_py_objective');
+            $qb->leftJoin('x.children', 'st_subcompetency');
+            $qb->leftJoin('x.programYearObjectives', 'st_py_objective');
             $qb->leftJoin('st_py_objective.courseObjectives', 'st_course_objective');
             $qb->leftJoin('st_course_objective.sessionObjectives', 'st_session_objective');
             $qb->leftJoin('st_session_objective.session', 'st_session');
@@ -142,8 +123,8 @@ class CompetencyRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('c.children', 'c_subcompetency');
-            $qb->leftJoin('c.programYearObjectives', 'c_py_objective');
+            $qb->leftJoin('x.children', 'c_subcompetency');
+            $qb->leftJoin('x.programYearObjectives', 'c_py_objective');
             $qb->leftJoin('c_py_objective.courseObjectives', 'c_course_objective');
             $qb->leftJoin('c_course_objective.course', 'c_course');
             $qb->leftJoin('c_subcompetency.programYearObjectives', 'c_py_objective2');
@@ -160,8 +141,8 @@ class CompetencyRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('terms', $criteria)) {
             $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
-            $qb->leftJoin('c.children', 't_subcompetency');
-            $qb->leftJoin('c.programYearObjectives', 't_py_objective');
+            $qb->leftJoin('x.children', 't_subcompetency');
+            $qb->leftJoin('x.programYearObjectives', 't_py_objective');
             $qb->leftJoin('t_py_objective.courseObjectives', 't_course_objective');
             $qb->leftJoin('t_course_objective.course', 't_course');
             $qb->leftJoin('t_course.terms', 't_term');
@@ -188,7 +169,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('c.school', 'sc_school');
+            $qb->join('x.school', 'sc_school');
             $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
             $qb->setParameter(':schools', $ids);
         }
@@ -200,33 +181,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
         unset($criteria['sessionTypes']);
         unset($criteria['terms']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("c.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('c.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     public function import(array $data, string $type, array $referenceMap): array

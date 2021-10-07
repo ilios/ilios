@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Authentication;
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -15,9 +16,12 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function is_array;
+
 class AuthenticationRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -65,44 +69,34 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
 
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('a')->distinct()->from('App\Entity\Authentication', 'a');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Authentication::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $authenticationDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $authenticationDTOs[$arr['person_id']] = new AuthenticationDTO(
+            $dtos[$arr['person_id']] = new AuthenticationDTO(
                 $arr['person_id'],
                 $arr['username']
             );
         }
 
-        return array_values($authenticationDTOs);
+        return array_values($dtos);
     }
 
-
-    /**
-     * Custom findBy so we can filter by related entities
-     *
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
                 $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("a.{$key}", ":{$key}"));
+                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
                 $qb->setParameter(":{$key}", $values);
             }
         }
@@ -113,7 +107,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
 
         if (is_array($orderBy)) {
             foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('a.' . $sort, $order);
+                $qb->addOrderBy('x.' . $sort, $order);
             }
         }
 
@@ -125,7 +119,5 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
         if ($limit) {
             $qb->setMaxResults($limit);
         }
-
-        return $qb;
     }
 }

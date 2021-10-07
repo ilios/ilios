@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,50 +13,38 @@ use App\Entity\Cohort;
 use App\Entity\DTO\CohortDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+
 class CohortRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Cohort::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT c')->from('App\Entity\Cohort', 'c');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('c')->distinct()->from('App\Entity\Cohort', 'c');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Cohort::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $cohortDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $cohortDTOs[$arr['id']] = new CohortDTO(
+            $dtos[$arr['id']] = new CohortDTO(
                 $arr['id'],
                 $arr['title']
             );
         }
-        $cohortIds = array_keys($cohortDTOs);
+        $cohortIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder()
             ->select('c.id as cohortId, py.id as programYearId, p.id as programId, s.id as schoolId')
-            ->from('App\Entity\Cohort', 'c')
+            ->from(Cohort::class, 'c')
             ->join('c.programYear', 'py')
             ->join('py.program', 'p')
             ->join('p.school', 's')
@@ -63,66 +52,54 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
             ->setParameter('ids', $cohortIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $cohortDTOs[$arr['cohortId']]->programYear = (int) $arr['programYearId'];
-            $cohortDTOs[$arr['cohortId']]->program = (int) $arr['programId'];
-            $cohortDTOs[$arr['cohortId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['cohortId']]->programYear = (int) $arr['programYearId'];
+            $dtos[$arr['cohortId']]->program = (int) $arr['programId'];
+            $dtos[$arr['cohortId']]->school = (int) $arr['schoolId'];
         }
 
-        $related = [
-            'courses',
-            'learnerGroups',
-            'users'
-        ];
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'courses',
+                'learnerGroups',
+                'users'
+            ],
+        );
 
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, c.id AS cohortId')->from('App\Entity\Cohort', 'c')
-                ->join("c.{$rel}", 'r')
-                ->where($qb->expr()->in('c.id', ':cohortIds'))
-                ->orderBy('relId')
-                ->setParameter('cohortIds', $cohortIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $cohortDTOs[$arr['cohortId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($cohortDTOs);
+        return array_values($dtos);
     }
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->join('c.courses', 'c_courses');
+            $qb->join('x.courses', 'c_courses');
             $qb->andWhere($qb->expr()->in('c_courses.id', ':courses'));
             $qb->setParameter(':courses', $ids);
         }
 
         if (array_key_exists('learnerGroups', $criteria)) {
             $ids = is_array($criteria['learnerGroups']) ? $criteria['learnerGroups'] : [$criteria['learnerGroups']];
-            $qb->join('c.learnerGroups', 'c_learnerGroup');
+            $qb->join('x.learnerGroups', 'c_learnerGroup');
             $qb->andWhere($qb->expr()->in('c_learnerGroup.id', ':learnerGroups'));
             $qb->setParameter(':learnerGroups', $ids);
         }
 
         if (array_key_exists('users', $criteria)) {
             $ids = is_array($criteria['users']) ? $criteria['users'] : [$criteria['users']];
-            $qb->join('c.users', 'c_users');
+            $qb->join('x.users', 'c_users');
             $qb->andWhere($qb->expr()->in('c_users.id', ':users'));
             $qb->setParameter(':users', $ids);
         }
 
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('c.programYear', 'c_school_programYear');
+            $qb->join('x.programYear', 'c_school_programYear');
             $qb->join('c_school_programYear.program', 'c_school_program');
             $qb->join('c_school_program.school', 'c_school');
             $qb->andWhere($qb->expr()->in('c_school.id', ':schools'));
@@ -131,7 +108,7 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
 
         if (array_key_exists('startYears', $criteria)) {
             $ids = is_array($criteria['startYears']) ? $criteria['startYears'] : [$criteria['startYears']];
-            $qb->join('c.programYear', 'c_startYears_programYear');
+            $qb->join('x.programYear', 'c_startYears_programYear');
             $qb->andWhere($qb->expr()->in('c_startYears_programYear.startYear', ':startYears'));
             $qb->setParameter(':startYears', $ids);
         }
@@ -142,31 +119,6 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
         unset($criteria['schools']);
         unset($criteria['startYears']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("c.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('c.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }

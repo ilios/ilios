@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Offering;
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -13,35 +14,23 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\OfferingDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+
 /**
  * Class OfferingRepository
  */
 class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Offering::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\Offering', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -56,9 +45,9 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
         }
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Offering::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        $offeringDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $offeringDTOs[$arr['id']] = new OfferingDTO(
+            $dtos[$arr['id']] = new OfferingDTO(
                 $arr['id'],
                 $arr['room'],
                 $arr['site'],
@@ -68,7 +57,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
                 $arr['updatedAt']
             );
         }
-        $offeringIds = array_keys($offeringDTOs);
+        $offeringIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder()
             ->select('x.id as offeringId, school.id as schoolId, course.id as courseId, session.id as sessionId')
@@ -80,29 +69,22 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
             ->setParameter('offeringIds', $offeringIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $offeringDTOs[$arr['offeringId']]->school = (int) $arr['schoolId'];
-            $offeringDTOs[$arr['offeringId']]->course = (int) $arr['courseId'];
-            $offeringDTOs[$arr['offeringId']]->session = (int) $arr['sessionId'];
+            $dtos[$arr['offeringId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['offeringId']]->course = (int) $arr['courseId'];
+            $dtos[$arr['offeringId']]->session = (int) $arr['sessionId'];
         }
 
-        $related = [
-            'learnerGroups',
-            'instructorGroups',
-            'learners',
-            'instructors'
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS offeringId')->from('App\Entity\Offering', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':offeringIds'))
-                ->orderBy('relId')
-                ->setParameter('offeringIds', $offeringIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $offeringDTOs[$arr['offeringId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($offeringDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'learnerGroups',
+                'instructorGroups',
+                'learners',
+                'instructors',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
     public function getOfferingsForTeachingReminders(int $daysInAdvance, array $schoolIds): array
@@ -142,15 +124,13 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         $related = [
             'learnerGroups',
             'instructorGroups',
@@ -189,32 +169,6 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
             unset($criteria['courses']);
         }
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }

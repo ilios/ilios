@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\School;
 use App\Entity\Session;
+use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
@@ -20,6 +21,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 
+use function array_values;
+
 class SchoolRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
@@ -27,6 +30,7 @@ class SchoolRepository extends ServiceEntityRepository implements
 {
     use CalendarEventRepository;
     use ManagerRepository;
+    use FindByRepository;
     use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $userMaterialFactory)
@@ -34,32 +38,14 @@ class SchoolRepository extends ServiceEntityRepository implements
         parent::__construct($registry, School::class);
     }
 
-    /**
-     * Custom findBy so we can filter by related entities
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return array
-     */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT s')->from('App\Entity\School', 's');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('s')->distinct()->from('App\Entity\School', 's');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(School::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $schoolDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $schoolDTOs[$arr['id']] = new SchoolDTO(
+            $dtos[$arr['id']] = new SchoolDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['templatePrefix'],
@@ -67,7 +53,7 @@ class SchoolRepository extends ServiceEntityRepository implements
                 $arr['changeAlertRecipients']
             );
         }
-        return $this->attachAssociationsToDTOs($schoolDTOs);
+        return $this->attachAssociationsToDTOs($dtos);
     }
 
     /**
@@ -530,86 +516,48 @@ class SchoolRepository extends ServiceEntityRepository implements
         return $events;
     }
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("s.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('s.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    protected function attachAssociationsToDTOs(array $schoolDTOs): array
+    protected function attachAssociationsToDTOs(array $dtos): array
     {
-        $schoolIds = array_keys($schoolDTOs);
+        $schoolIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('s.id as schoolId, c.id as curriculumInventoryInstitutionId')
-            ->from('App\Entity\School', 's')
+            ->from(School::class, 's')
             ->leftJoin('s.curriculumInventoryInstitution', 'c')
             ->where($qb->expr()->in('s.id', ':ids'))
             ->setParameter('ids', $schoolIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $schoolDTOs[$arr['schoolId']]->curriculumInventoryInstitution =
+            $dtos[$arr['schoolId']]->curriculumInventoryInstitution =
                 $arr['curriculumInventoryInstitutionId'] ? $arr['curriculumInventoryInstitutionId'] : null;
         }
 
-        $related = [
-            'competencies',
-            'courses',
-            'programs',
-            'vocabularies',
-            'instructorGroups',
-            'sessionTypes',
-            'directors',
-            'administrators',
-            'configurations'
-        ];
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'competencies',
+                'courses',
+                'programs',
+                'vocabularies',
+                'instructorGroups',
+                'sessionTypes',
+                'directors',
+                'administrators',
+                'configurations',
+            ],
+        );
 
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, s.id AS schoolId')->from('App\Entity\School', 's')
-                ->join("s.{$rel}", 'r')
-                ->where($qb->expr()->in('s.id', ':schoolIds'))
-                ->orderBy('relId')
-                ->setParameter('schoolIds', $schoolIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $schoolDTOs[$arr['schoolId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($schoolDTOs);
+        return array_values($dtos);
     }
 
     public function import(array $data, string $type, array $referenceMap): array

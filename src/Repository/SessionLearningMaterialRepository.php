@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,44 +13,31 @@ use App\Entity\SessionLearningMaterial;
 use App\Entity\DTO\SessionLearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+
 class SessionLearningMaterialRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SessionLearningMaterial::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\SessionLearningMaterial', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\SessionLearningMaterial', 'x');
+            ->distinct()->from(SessionLearningMaterial::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        /** @var SessionLearningMaterialDTO[] $sessionLearningMaterialDTOs */
-        $sessionLearningMaterialDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $sessionLearningMaterialDTOs[$arr['id']] = new SessionLearningMaterialDTO(
+            $dtos[$arr['id']] = new SessionLearningMaterialDTO(
                 $arr['id'],
                 $arr['notes'],
                 $arr['required'],
@@ -59,7 +47,7 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
                 $arr['endDate']
             );
         }
-        $sessionLearningMaterialIds = array_keys($sessionLearningMaterialDTOs);
+        $sessionLearningMaterialIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -77,43 +65,33 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
             ->setParameter('ids', $sessionLearningMaterialIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $sessionLearningMaterialDTOs[$arr['xId']]->session = (int) $arr['sessionId'];
-            $sessionLearningMaterialDTOs[$arr['xId']]->courseIsLocked = (bool) $arr['courseIsLocked'];
-            $sessionLearningMaterialDTOs[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
-            $sessionLearningMaterialDTOs[$arr['xId']]->course = (int) $arr['courseId'];
-            $sessionLearningMaterialDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
-            $sessionLearningMaterialDTOs[$arr['xId']]->learningMaterial = (int) $arr['learningMaterialId'];
-            $sessionLearningMaterialDTOs[$arr['xId']]->status = (int) $arr['statusId'];
+            $dtos[$arr['xId']]->session = (int) $arr['sessionId'];
+            $dtos[$arr['xId']]->courseIsLocked = (bool) $arr['courseIsLocked'];
+            $dtos[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
+            $dtos[$arr['xId']]->course = (int) $arr['courseId'];
+            $dtos[$arr['xId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['xId']]->learningMaterial = (int) $arr['learningMaterialId'];
+            $dtos[$arr['xId']]->status = (int) $arr['statusId'];
         }
 
-        $related = [
-            'meshDescriptors'
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS sessionLearningMaterialId')
-                ->from('App\Entity\SessionLearningMaterial', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $sessionLearningMaterialIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $sessionLearningMaterialDTOs[$arr['sessionLearningMaterialId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($sessionLearningMaterialDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'meshDescriptors',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('meshDescriptors', $criteria)) {
             if (is_array($criteria['meshDescriptors'])) {
                 $ids = $criteria['meshDescriptors'];
@@ -138,33 +116,7 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
         unset($criteria['meshDescriptors']);
         unset($criteria['schools']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     /**

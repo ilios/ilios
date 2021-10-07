@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,43 +13,30 @@ use App\Entity\MeshConcept;
 use App\Entity\DTO\MeshConceptDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+
 class MeshConceptRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
+    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MeshConcept::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\MeshConcept', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\MeshConcept', 'x');
+            ->distinct()->from(MeshConcept::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var MeshConceptDTO[] $meshConceptDTOs */
-        $meshConceptDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $meshConceptDTOs[$arr['id']] = new MeshConceptDTO(
+            $dtos[$arr['id']] = new MeshConceptDTO(
                 $arr['id'],
                 $arr['name'],
                 $arr['preferred'],
@@ -59,37 +47,26 @@ class MeshConceptRepository extends ServiceEntityRepository implements DTOReposi
                 $arr['updatedAt']
             );
         }
-        $meshConceptIds = array_keys($meshConceptDTOs);
 
-        $related = [
-            'terms',
-            'descriptors',
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS meshConceptId')
-                ->from('App\Entity\MeshConcept', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $meshConceptIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $meshConceptDTOs[$arr['meshConceptId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($meshConceptDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'terms',
+                'descriptors',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         $related = [
             'terms',
             'descriptors',
@@ -107,32 +84,6 @@ class MeshConceptRepository extends ServiceEntityRepository implements DTOReposi
             unset($criteria[$rel]);
         }
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }
