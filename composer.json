@@ -38,6 +38,7 @@
     "phpdocumentor/reflection-docblock": "^5.2",
     "psr/log": "^1.0.0",
     "sentry/sdk": "^3.0",
+    "shivas/versioning-bundle": "^4.0",
     "swagger-api/swagger-ui": "^3.0",
     "symfony/amazon-mailer": "@stable",
     "symfony/apache-pack": "@stable",

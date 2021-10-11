@@ -11,6 +11,9 @@
     "aws/aws-sdk-php": {
         "version": "3.169.0"
     },
+    "beberlei/assert": {
+        "version": "v3.3.1"
+    },
     "clue/stream-filter": {
         "version": "v1.5.0"
     },
@@ -271,6 +274,9 @@
     "nikic/php-parser": {
         "version": "v4.10.5"
     },
+    "nikolaposa/version": {
+        "version": "4.1.0"
+    },
     "ocramius/package-versions": {
         "version": "1.5.1"
     },
@@ -455,6 +461,9 @@
     },
     "sentry/sentry": {
         "version": "3.1.1"
+    },
+    "shivas/versioning-bundle": {
+        "version": "4.0.0"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.6",

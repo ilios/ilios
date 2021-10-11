@@ -28,3 +28,9 @@ services:
   App\Repository\ApplicationConfigRepository:
     arguments:
       $cacheEnabled: false
+
+  App\Tests\TestVersionProvider:
+    arguments:
+      $environment: '%kernel.environment%'
+    tags:
+      - { name: shivas_versioning.provider, alias: test_version_provider, priority: 0 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\TestVersionProvider;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -53,6 +54,7 @@ class ConfigControllerTest extends WebTestCase
                 'locale' => 'en',
                 'userSearchType' => 'local',
                 'apiVersion' => $container->getParameter('ilios_api_version'),
+                'appVersion' => TestVersionProvider::VERSION,
                 'trackingEnabled' => false,
                 'searchEnabled' => false,
                 'academicYearCrossesCalendarYearBoundaries' => false,
@@ -85,6 +87,7 @@ class ConfigControllerTest extends WebTestCase
                 'locale' => 'en',
                 'userSearchType' => 'local',
                 'apiVersion' => $container->getParameter('ilios_api_version'),
+                'appVersion' => TestVersionProvider::VERSION,
                 'trackingEnabled' => true,
                 'trackingCode' => '123-code!',
                 'searchEnabled' => false,

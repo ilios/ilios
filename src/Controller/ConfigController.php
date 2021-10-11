@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Service\AuthenticationInterface;
 use App\Service\Config;
 use App\Service\Index\Curriculum;
+use Shivas\VersioningBundle\Service\VersionManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,8 @@ class ConfigController extends AbstractController
         Request $request,
         Config $config,
         Curriculum $curriculumSearch,
-        AuthenticationInterface $authenticationSystem
+        AuthenticationInterface $authenticationSystem,
+        VersionManagerInterface $versionManager,
     ) {
         $configuration = $authenticationSystem->getPublicConfigurationInformation($request);
         $configuration['locale'] = $this->getParameter('kernel.default_locale');
@@ -34,6 +36,7 @@ class ConfigController extends AbstractController
         }
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
         $configuration['apiVersion'] = $this->getParameter('ilios_api_version');
+        $configuration['appVersion'] = $versionManager->getVersion();
 
         $configuration['trackingEnabled'] = $config->get('enable_tracking');
         if ($configuration['trackingEnabled']) {
