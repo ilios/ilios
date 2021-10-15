@@ -7,7 +7,6 @@ namespace App\Repository;
 use App\Entity\Session;
 use App\Entity\UserRole;
 use App\Entity\UserRoleInterface;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -34,7 +33,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 {
     use CalendarEventRepository;
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $factory)
     {

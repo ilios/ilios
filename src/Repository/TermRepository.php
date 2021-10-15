@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\Term;
 use App\Service\DefaultDataImporter;
-use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
@@ -24,7 +23,6 @@ class TermRepository extends ServiceEntityRepository implements
     DataImportRepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
     use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)

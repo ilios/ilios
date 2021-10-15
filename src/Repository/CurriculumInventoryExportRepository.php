@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\CurriculumInventoryExport;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
@@ -20,7 +19,6 @@ class CurriculumInventoryExportRepository extends ServiceEntityRepository implem
     RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

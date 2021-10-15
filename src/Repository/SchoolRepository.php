@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\School;
 use App\Entity\Session;
-use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
@@ -30,7 +29,6 @@ class SchoolRepository extends ServiceEntityRepository implements
 {
     use CalendarEventRepository;
     use ManagerRepository;
-    use FindByRepository;
     use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $userMaterialFactory)

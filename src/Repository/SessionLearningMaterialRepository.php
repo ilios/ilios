@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -20,7 +19,6 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
     RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

@@ -8,7 +8,6 @@ use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
 use App\Entity\Session;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
@@ -25,7 +24,6 @@ class CourseRepository extends ServiceEntityRepository implements
     RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

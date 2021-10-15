@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\SessionObjective;
 use App\Entity\DTO\SessionObjectiveDTO;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -20,7 +19,6 @@ use function array_values;
 class SessionObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

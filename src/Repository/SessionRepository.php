@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Session;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
@@ -24,7 +23,6 @@ class SessionRepository extends ServiceEntityRepository implements
     RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

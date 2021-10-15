@@ -11,7 +11,6 @@ use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
 use App\Service\MeshDescriptorSetTransmogrifier;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
@@ -35,7 +34,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry, protected MeshDescriptorSetTransmogrifier $transmogrifier)
     {

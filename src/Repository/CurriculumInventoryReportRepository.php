@@ -9,7 +9,6 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\ProgramYearObjective;
 use App\Entity\Session;
 use App\Entity\SessionObjective;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -26,7 +25,6 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

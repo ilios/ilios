@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Service\DefaultDataImporter;
-use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -24,7 +23,6 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
 {
     use ManagerRepository;
     use ImportableEntityRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

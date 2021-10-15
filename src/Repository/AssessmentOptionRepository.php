@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AssessmentOption;
-use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -22,7 +21,6 @@ class AssessmentOptionRepository extends ServiceEntityRepository implements
     DataImportRepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
     use ImportableEntityRepository;
 
     public function __construct(ManagerRegistry $registry)

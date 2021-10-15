@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Traits\FindByRepository;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,7 +20,6 @@ class AamcPcrsRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
     use ImportableEntityRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {

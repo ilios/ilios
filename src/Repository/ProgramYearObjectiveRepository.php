@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\Entity\ProgramYearObjective;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
-use App\Traits\FindByRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -22,7 +21,6 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
     RepositoryInterface
 {
     use ManagerRepository;
-    use FindByRepository;
 
     public function __construct(ManagerRegistry $registry)
     {
