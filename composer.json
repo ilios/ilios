@@ -37,7 +37,7 @@
     "nelmio/cors-bundle": "^2.0",
     "phpdocumentor/reflection-docblock": "^5.2",
     "psr/log": "^1.0.0",
-    "sentry/sdk": "^3.0",
+    "sentry/sentry-symfony": "^4.2",
     "shivas/versioning-bundle": "^4.0",
     "swagger-api/swagger-ui": "^3.0",
     "symfony/amazon-mailer": "@stable",
