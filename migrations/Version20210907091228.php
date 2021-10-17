@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Ilios\Migrations;
 
+use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Expands size of queue name column in messenger messages table.
  */
-final class Version20210907091228 extends AbstractMigration
+final class Version20210907091228 extends MysqlMigration
 {
     public function getDescription(): string
     {
