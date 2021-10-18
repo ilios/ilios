@@ -462,6 +462,18 @@
     "sentry/sentry": {
         "version": "3.1.1"
     },
+    "sentry/sentry-symfony": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "9746f0823302d7980e5273ef7a69ef3f5ac80914"
+        },
+        "files": [
+            "config/packages/sentry.yaml"
+        ]
+    },
     "shivas/versioning-bundle": {
         "version": "4.0.0"
     },
@@ -771,6 +783,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.2.2"
+    },
+    "symfony/psr-http-message-bridge": {
+        "version": "v2.1.1"
     },
     "symfony/redis-messenger": {
         "version": "v5.2.0"

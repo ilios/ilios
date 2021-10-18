@@ -6,7 +6,6 @@
 parameters:
     ilios_api_version: v3.4
     ilios_api_valid_api_versions: 'v3'
-    sentry_dsn: https://c70286fb157048be9ebc6e918e8c2b79@sentry.io/1323198
     env(TRUSTED_PROXIES):
 
 services:
@@ -134,14 +133,6 @@ services:
     App\Service\DefaultPermissionMatrix: ~
 
     App\Classes\PermissionMatrixInterface: '@App\Service\DefaultPermissionMatrix'
-
-    App\EventListener\SentryCaptureListener:
-      arguments:
-        $sentryDSN: '%sentry_dsn%'
-      tags:
-        - { name: kernel.event_listener, event: kernel.exception }
-        - { name: kernel.event_listener, event: kernel.request }
-        - { name: kernel.event_listener, event: kernel.terminate }
 
     Symfony\Component\Serializer\SerializerInterface:
       factory:   ['App\Service\SerializerFactory', createSerializer]
