@@ -21,6 +21,7 @@ use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 
 use function array_values;
+use function array_keys;
 
 class SchoolRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

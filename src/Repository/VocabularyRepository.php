@@ -15,6 +15,7 @@ use App\Entity\DTO\VocabularyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
+use function array_keys;
 
 class VocabularyRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

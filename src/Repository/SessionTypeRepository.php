@@ -15,6 +15,7 @@ use App\Entity\DTO\SessionTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
+use function array_keys;
 
 class SessionTypeRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

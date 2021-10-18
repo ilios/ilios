@@ -13,6 +13,7 @@ use App\Entity\DTO\SessionLearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
+use function array_keys;
 
 class SessionLearningMaterialRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

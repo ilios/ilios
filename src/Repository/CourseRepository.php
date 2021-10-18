@@ -18,6 +18,7 @@ use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
+use function array_keys;
 
 class CourseRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

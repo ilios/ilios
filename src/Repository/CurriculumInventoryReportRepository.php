@@ -19,6 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\CurriculumInventoryReportInterface;
 
 use function array_values;
+use function array_keys;
 
 class CurriculumInventoryReportRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

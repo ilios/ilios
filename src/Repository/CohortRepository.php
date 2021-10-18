@@ -13,6 +13,7 @@ use App\Entity\DTO\CohortDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
+use function array_keys;
 
 class CohortRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {

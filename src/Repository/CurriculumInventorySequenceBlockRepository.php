@@ -13,6 +13,7 @@ use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
+use function array_keys;
 
 class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

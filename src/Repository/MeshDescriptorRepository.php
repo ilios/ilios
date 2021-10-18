@@ -28,6 +28,7 @@ use Ilios\MeSH\Model\Term;
 use PDO;
 
 use function array_values;
+use function array_keys;
 
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

@@ -14,6 +14,7 @@ use App\Entity\DTO\OfferingDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
+use function array_keys;
 
 /**
  * Class OfferingRepository

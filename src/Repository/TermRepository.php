@@ -16,6 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
 
 use function array_values;
+use function array_keys;
 
 class TermRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,

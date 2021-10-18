@@ -12,6 +12,9 @@ use App\Entity\MeshPreviousIndexing;
 use App\Entity\DTO\MeshPreviousIndexingDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+use function array_key_exists;
+
 class MeshPreviousIndexingRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface
