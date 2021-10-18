@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 use function array_key_exists;
+use function array_keys;
 
 class MeshPreviousIndexingRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
