@@ -80,25 +80,15 @@ class SessionUser implements SessionUserInterface
             !empty($this->getAdministeredCurriculumInventoryReportIds());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isEqualTo(UserInterface $user)
     {
         if (!$user instanceof SessionUser) {
             return false;
         }
 
-        if ($this->userId === $user->getUserIdentifier()) {
-            return true;
-        }
-
-        return false;
+        return $this->getUserIdentifier() === $user->getUserIdentifier();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isTheUser(IliosUserInterface $user)
     {
 
@@ -109,9 +99,6 @@ class SessionUser implements SessionUserInterface
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isThePrimarySchool(SchoolInterface $school)
     {
 
@@ -122,9 +109,6 @@ class SessionUser implements SessionUserInterface
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getRoles()
     {
         return [];
@@ -150,81 +134,51 @@ class SessionUser implements SessionUserInterface
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPassword()
     {
         return $this->password;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getSalt()
     {
         return '';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUsername()
     {
         return $this->userId;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUserIdentifier()
+    public function getUserIdentifier(): string
     {
-        return $this->userId;
+        return (string) $this->userId;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function eraseCredentials()
     {
         $this->password = null;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isRoot()
     {
         return $this->isRoot;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isEnabled()
     {
         return $this->isEnabled;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tokenNotValidBefore()
     {
         return $this->tokenNotValidBefore;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getSchoolId()
     {
         return $this->schoolId;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getId()
     {
         return $this->userId;
