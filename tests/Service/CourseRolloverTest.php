@@ -572,7 +572,7 @@ class CourseRolloverTest extends TestCase
         $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $newTitle, 'year' => $newYear]])
-            ->andReturn(false)->once();
+            ->andReturn([])->once();
         $this->courseRepository->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
         $this->courseRepository
             ->shouldReceive('create')->once()
@@ -722,7 +722,7 @@ class CourseRolloverTest extends TestCase
         $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $newTitle, 'year' => $newYear]])
-            ->andReturn(false)->once();
+            ->andReturn([])->once();
         $this->courseRepository->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
 
         $this->courseRepository
@@ -999,7 +999,7 @@ class CourseRolloverTest extends TestCase
         $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
-            ->andReturn(new Course());
+            ->andReturn([new Course()]);
 
         $this->expectException(Exception::class);
 
@@ -1044,7 +1044,7 @@ class CourseRolloverTest extends TestCase
         $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
-            ->andReturn(false)->once();
+            ->andReturn([])->once();
 
         $newStartDate = clone $course->getStartDate();
         $newStartDate->add(new DateInterval('P1Y2D'));
@@ -1382,7 +1382,7 @@ class CourseRolloverTest extends TestCase
         $this->courseRepository
             ->shouldReceive('findBy')
             ->withArgs([['title' => $course->getTitle(), 'year' => $newYear]])
-            ->andReturn(false)->once();
+            ->andReturn([])->once();
         $this->courseRepository->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
 
         $this->courseRepository

@@ -12,6 +12,8 @@ use App\Entity\Report;
 use App\Entity\DTO\ReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_keys;
+
 class ReportRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
@@ -21,34 +23,18 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
         parent::__construct($registry, Report::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\Report', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\Report', 'x');
+            ->distinct()->from(Report::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var ReportDTO[] $reportDTOs */
-        $reportDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $reportDTOs[$arr['id']] = new ReportDTO(
+            $dtos[$arr['id']] = new ReportDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['createdAt'],
@@ -57,7 +43,6 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
                 $arr['prepositionalObjectTableRowId']
             );
         }
-        $reportIds = array_keys($reportDTOs);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -67,52 +52,24 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
             ->join('x.user', 'user')
             ->leftJoin('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', $reportIds);
+            ->setParameter('ids', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $reportDTOs[$arr['xId']]->school = $arr['schoolId'] ? (int) $arr['schoolId'] : null;
-            $reportDTOs[$arr['xId']]->user = (int) $arr['userId'];
+            $dtos[$arr['xId']]->school = $arr['schoolId'] ? (int) $arr['schoolId'] : null;
+            $dtos[$arr['xId']]->user = (int) $arr['userId'];
         }
 
-        return array_values($reportDTOs);
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }

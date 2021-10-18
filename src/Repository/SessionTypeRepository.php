@@ -14,6 +14,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\SessionTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+use function array_keys;
+
 class SessionTypeRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
@@ -27,35 +30,20 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         parent::__construct($registry, SessionType::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT st')->from(SessionType::class, 'st');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()
-            ->select('st')
+            ->select('x')
             ->distinct()
-            ->from(SessionType::class, 'st');
+            ->from(SessionType::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        $sessionTypeDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $sessionTypeDTOs[$arr['id']] = new SessionTypeDTO(
+            $dtos[$arr['id']] = new SessionTypeDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['calendarColor'],
@@ -63,7 +51,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
                 $arr['active']
             );
         }
-        $sessionTypeIds = array_keys($sessionTypeDTOs);
+        $sessionTypeIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder()
             ->select('st.id as sessionTypeId, s.id as schoolId, a.id as assessmentOptionId')
@@ -74,51 +62,39 @@ class SessionTypeRepository extends ServiceEntityRepository implements
             ->setParameter('ids', $sessionTypeIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $sessionTypeDTOs[$arr['sessionTypeId']]->school = (int) $arr['schoolId'];
-            $sessionTypeDTOs[$arr['sessionTypeId']]->assessmentOption =
+            $dtos[$arr['sessionTypeId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['sessionTypeId']]->assessmentOption =
                 $arr['assessmentOptionId'] ? (int)$arr['assessmentOptionId'] : null;
         }
 
-        $related = [
-            'aamcMethods',
-            'sessions'
-        ];
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'aamcMethods',
+                'sessions',
+            ],
+        );
 
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS sessionTypeId')->from(SessionType::class, 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':sessionTypeIds'))
-                ->orderBy('relId')
-                ->setParameter('sessionTypeIds', $sessionTypeIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $sessionTypeDTOs[$arr['sessionTypeId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($sessionTypeDTOs);
+        return array_values($dtos);
     }
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
-            $qb->join('st.sessions', 'se_session');
+            $qb->join('x.sessions', 'se_session');
             $qb->andWhere($qb->expr()->in('se_session.id', ':sessions'));
             $qb->setParameter(':sessions', $ids);
         }
 
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->join('st.sessions', 'co_session');
+            $qb->join('x.sessions', 'co_session');
             $qb->join('co_session.course', 'co_course');
             $qb->andWhere($qb->expr()->in('co_course.id', ':courses'));
             $qb->setParameter(':courses', $ids);
@@ -126,7 +102,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('instructors', $criteria)) {
             $ids = is_array($criteria['instructors']) ? $criteria['instructors'] : [$criteria['instructors']];
-            $qb->leftJoin('st.sessions', 'i_session');
+            $qb->leftJoin('x.sessions', 'i_session');
             $qb->leftJoin('i_session.offerings', 'i_offering');
             $qb->leftJoin('i_offering.instructors', 'i_instructor');
             $qb->leftJoin('i_offering.instructorGroups', 'i_insGroup');
@@ -149,7 +125,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         if (array_key_exists('instructorGroups', $criteria)) {
             $ids = is_array($criteria['instructorGroups'])
                 ? $criteria['instructorGroups'] : [$criteria['instructorGroups']];
-            $qb->leftJoin('st.sessions', 'ig_session');
+            $qb->leftJoin('x.sessions', 'ig_session');
             $qb->leftJoin('ig_session.offerings', 'ig_offering');
             $qb->leftJoin('ig_offering.instructorGroups', 'ig_insGroup');
             $qb->leftJoin('ig_session.ilmSession', 'ig_ilmSession');
@@ -165,7 +141,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('competencies', $criteria)) {
             $ids = is_array($criteria['competencies']) ? $criteria['competencies'] : [$criteria['competencies']];
-            $qb->join('st.sessions', 'c_session');
+            $qb->join('x.sessions', 'c_session');
             $qb->join('c_session.sessionObjectives', 'c_session_x_objective');
             $qb->join('c_session_x_objective.courseObjectives', 'c_course_objective');
             $qb->join('c_course_objective.programYearObjectives', 'c_program_year_objective');
@@ -181,7 +157,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         if (array_key_exists('meshDescriptors', $criteria)) {
             $ids = is_array($criteria['meshDescriptors']) ?
                 $criteria['meshDescriptors'] : [$criteria['meshDescriptors']];
-            $qb->leftJoin('st.sessions', 'm_session');
+            $qb->leftJoin('x.sessions', 'm_session');
             $qb->leftJoin('m_session.meshDescriptors', 'm_meshDescriptor');
             $qb->leftJoin('m_session.sessionObjectives', 'm_session_x_objective');
             $qb->leftJoin('m_session_x_objective.meshDescriptors', 'm_objectiveMeshDescriptor');
@@ -198,7 +174,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
             $ids = is_array($criteria['learningMaterials']) ?
                 $criteria['learningMaterials'] : [$criteria['learningMaterials']];
 
-            $qb->join('st.sessions', 'lm_session');
+            $qb->join('x.sessions', 'lm_session');
             $qb->join('lm_session.course', 'lm_course');
             $qb->leftJoin('lm_session.learningMaterials', 'lm_slm');
             $qb->leftJoin('lm_slm.learningMaterial', 'lm_lm1');
@@ -215,7 +191,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('programs', $criteria)) {
             $ids = is_array($criteria['programs']) ? $criteria['programs'] : [$criteria['programs']];
-            $qb->join('st.sessions', 'p_session');
+            $qb->join('x.sessions', 'p_session');
             $qb->join('p_session.course', 'p_course');
             $qb->join('p_course.cohorts', 'p_cohort');
             $qb->join('p_cohort.programYear', 'p_programYear');
@@ -226,14 +202,14 @@ class SessionTypeRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('schools', $criteria)) {
             $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
-            $qb->join('st.school', 'sc_school');
+            $qb->join('x.school', 'sc_school');
             $qb->andWhere($qb->expr()->in('sc_school.id', ':schools'));
             $qb->setParameter(':schools', $ids);
         }
 
         if (array_key_exists('terms', $criteria)) {
             $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
-            $qb->join('st.sessions', 't_session');
+            $qb->join('x.sessions', 't_session');
             $qb->leftJoin('t_session.terms', 't_session_term');
             $qb->leftJoin('t_session.course', 't_course');
             $qb->leftJoin('t_course.terms', 't_course_term');
@@ -258,32 +234,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("st.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('st.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     public function import(array $data, string $type, array $referenceMap): array

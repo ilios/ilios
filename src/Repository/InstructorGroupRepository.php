@@ -12,6 +12,9 @@ use App\Entity\InstructorGroup;
 use App\Entity\DTO\InstructorGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_keys;
+use function array_values;
+
 class InstructorGroupRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
@@ -21,39 +24,22 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
         parent::__construct($registry, InstructorGroup::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\InstructorGroup', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\InstructorGroup', 'x');
+            ->distinct()->from(InstructorGroup::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var InstructorGroupDTO[] $instructorGroupDTOs */
-        $instructorGroupDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $instructorGroupDTOs[$arr['id']] = new InstructorGroupDTO(
+            $dtos[$arr['id']] = new InstructorGroupDTO(
                 $arr['id'],
                 $arr['title']
             );
         }
-        $instructorGroupIds = array_keys($instructorGroupDTOs);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -62,43 +48,33 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
             ->from('App\Entity\InstructorGroup', 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', $instructorGroupIds);
+            ->setParameter('ids', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $instructorGroupDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['xId']]->school = (int) $arr['schoolId'];
         }
 
-        $related = [
-            'learnerGroups',
-            'ilmSessions',
-            'users',
-            'offerings',
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS instructorGroupId')
-                ->from('App\Entity\InstructorGroup', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $instructorGroupIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $instructorGroupDTOs[$arr['instructorGroupId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($instructorGroupDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'learnerGroups',
+                'ilmSessions',
+                'users',
+                'offerings',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         $related = [
             'learnerGroups',
             'ilmSessions',
@@ -225,33 +201,6 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
 
-
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }

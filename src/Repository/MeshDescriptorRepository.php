@@ -27,6 +27,9 @@ use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use PDO;
 
+use function array_values;
+use function array_keys;
+
 class MeshDescriptorRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface
@@ -67,35 +70,11 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * Custom findBy so we can filter by related entities
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     * @return array
-     */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-
-        $qb->select('DISTINCT m')->from(MeshDescriptor::class, 'm');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('m')->distinct()->from(MeshDescriptor::class, 'm');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(MeshDescriptor::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $this->createDTOs($qb->getQuery());
@@ -107,9 +86,9 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
      */
     protected function createDTOs(AbstractQuery $query): array
     {
-        $descriptorDTOs = [];
+        $dtos = [];
         foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $descriptorDTOs[$arr['id']] = new MeshDescriptorDTO(
+            $dtos[$arr['id']] = new MeshDescriptorDTO(
                 $arr['id'],
                 $arr['name'],
                 $arr['annotation'],
@@ -118,7 +97,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
                 $arr['deleted']
             );
         }
-        $descriptorIds = array_keys($descriptorDTOs);
+        $descriptorIds = array_keys($dtos);
         $qb = $this->_em->createQueryBuilder();
         $qb->select('p.id AS prevId, m.id AS descriptorId')
             ->from('App\Entity\MeshPreviousIndexing', 'p')
@@ -127,36 +106,26 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
             ->setParameter('descriptorIds', $descriptorIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $descriptorDTOs[$arr['descriptorId']]->previousIndexing = (int) $arr['prevId'];
+            $dtos[$arr['descriptorId']]->previousIndexing = (int) $arr['prevId'];
         }
 
-        $related = [
-            'courses',
-            'sessions',
-            'concepts',
-            'qualifiers',
-            'trees',
-            'sessionLearningMaterials',
-            'courseLearningMaterials',
-            'sessionObjectives',
-            'courseObjectives',
-            'programYearObjectives',
-        ];
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'courses',
+                'sessions',
+                'concepts',
+                'qualifiers',
+                'trees',
+                'sessionLearningMaterials',
+                'courseLearningMaterials',
+                'sessionObjectives',
+                'courseObjectives',
+                'programYearObjectives',
+            ],
+        );
 
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, m.id AS descriptorId')->from(MeshDescriptor::class, 'm')
-                ->join("m.{$rel}", 'r')
-                ->where($qb->expr()->in('m.id', ':descriptorIds'))
-                ->orderBy('relId')
-                ->setParameter('descriptorIds', $descriptorIds);
-
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $descriptorDTOs[$arr['descriptorId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-
-        return array_values($descriptorDTOs);
+        return array_values($dtos);
     }
 
     protected function getTermsFromQ(string $q)
@@ -206,21 +175,19 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         return $query;
     }
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('sessions', $criteria)) {
             $ids = is_array($criteria['sessions']) ?
                 $criteria['sessions'] : [$criteria['sessions']];
-            $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
-            $qb->leftJoin('m.sessionLearningMaterials', 'slm');
+            $qb->leftJoin('x.sessions', 'session');
+            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session2');
             $qb->leftJoin('sessionObjective.session', 'session3');
 
@@ -237,17 +204,17 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ?
                 $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('m.courses', 'course');
-            $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.courseLearningMaterials', 'clm');
-            $qb->leftJoin('m.courseObjectives', 'courseObjective');
+            $qb->leftJoin('x.courses', 'course');
+            $qb->leftJoin('x.sessions', 'session');
+            $qb->leftJoin('x.courseLearningMaterials', 'clm');
+            $qb->leftJoin('x.courseObjectives', 'courseObjective');
             $qb->leftJoin('courseObjective.course', 'course2');
             $qb->leftJoin('clm.course', 'course3');
             $qb->leftJoin('session.course', 'course4');
-            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
-            $qb->leftJoin('m.sessionLearningMaterials', 'slm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session3');
             $qb->leftJoin('session3.course', 'course6');
             $qb->andWhere(
@@ -267,12 +234,12 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
             $ids = is_array($criteria['sessionTypes']) ?
                 $criteria['sessionTypes'] : [$criteria['sessionTypes']];
 
-            $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.sessionLearningMaterials', 'slm');
+            $qb->leftJoin('x.sessions', 'session');
+            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
             $qb->leftJoin('session.sessionType', 'sessionType');
             $qb->leftJoin('slm.session', 'session2');
             $qb->leftJoin('session2.sessionType', 'sessionType2');
-            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session3');
 
             $qb->leftJoin('session3.sessionType', 'sessionType3');
@@ -289,8 +256,8 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         if (array_key_exists('learningMaterials', $criteria)) {
             $ids = is_array($criteria['learningMaterials']) ?
                 $criteria['learningMaterials'] : [$criteria['learningMaterials']];
-            $qb->leftJoin('m.courseLearningMaterials', 'clm');
-            $qb->leftJoin('m.sessionLearningMaterials', 'slm');
+            $qb->leftJoin('x.courseLearningMaterials', 'clm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.learningMaterial', 'learningMaterial');
             $qb->leftJoin('clm.learningMaterial', 'learningMaterial2');
             $qb->andWhere(
@@ -305,11 +272,11 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         if (array_key_exists('terms', $criteria)) {
             $ids = is_array($criteria['terms']) ?
                 $criteria['terms'] : [$criteria['terms']];
-            $qb->leftJoin('m.courses', 'course');
-            $qb->leftJoin('m.sessions', 'session');
-            $qb->leftJoin('m.courseLearningMaterials', 'clm');
+            $qb->leftJoin('x.courses', 'course');
+            $qb->leftJoin('x.sessions', 'session');
+            $qb->leftJoin('x.courseLearningMaterials', 'clm');
             $qb->leftJoin('course.terms', 'terms');
-            $qb->leftJoin('m.courseObjectives', 'courseObjectives');
+            $qb->leftJoin('x.courseObjectives', 'courseObjectives');
             $qb->leftJoin('courseObjectives.course', 'course2');
             $qb->leftJoin('course2.terms', 'terms2');
             $qb->leftJoin('clm.course', 'course3');
@@ -317,12 +284,12 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
             $qb->leftJoin('session.course', 'course4');
             $qb->leftJoin('session.terms', 'terms4');
             $qb->leftJoin('course4.terms', 'terms5');
-            $qb->leftJoin('m.sessionObjectives', 'sessionObjective');
+            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
             $qb->leftJoin('sessionObjective.session', 'session2');
             $qb->leftJoin('session2.course', 'course5');
             $qb->leftJoin('session2.terms', 'terms6');
             $qb->leftJoin('course5.terms', 'terms7');
-            $qb->leftJoin('m.sessionLearningMaterials', 'slm');
+            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
             $qb->leftJoin('slm.session', 'session3');
             $qb->leftJoin('session3.course', 'course6');
             $qb->leftJoin('session3.terms', 'terms8');
@@ -349,32 +316,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("m.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('m.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     /**

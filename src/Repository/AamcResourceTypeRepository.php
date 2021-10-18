@@ -13,6 +13,8 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+
 class AamcResourceTypeRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
@@ -26,64 +28,37 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
         parent::__construct($registry, AamcResourceType::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\AamcResourceType', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from('App\Entity\AamcResourceType', 'x');
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(AamcResourceType::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        $aamcResourceTypeDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $aamcResourceTypeDTOs[$arr['id']] = new AamcResourceTypeDTO(
+            $dtos[$arr['id']] = new AamcResourceTypeDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['description']
             );
         }
-        $aamcResourceTypeIds = array_keys($aamcResourceTypeDTOs);
-        $related = [
-            'terms'
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS aamcResourceTypeId')->from('App\Entity\AamcResourceType', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':aamcResourceTypeIds'))
-                ->orderBy('relId')
-                ->setParameter('aamcResourceTypeIds', $aamcResourceTypeIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $aamcResourceTypeDTOs[$arr['aamcResourceTypeId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($aamcResourceTypeDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            ['terms'],
+        );
+
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('terms', $criteria)) {
             $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
             $qb->join('x.terms', 'st');
@@ -94,33 +69,7 @@ class AamcResourceTypeRepository extends ServiceEntityRepository implements
         //cleanup all the possible relationship filters
         unset($criteria['terms']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     public function import(array $data, string $type, array $referenceMap): array

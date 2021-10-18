@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\AuditLog;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
@@ -120,5 +121,15 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
         foreach ($logs as $log) {
             $conn->insert('audit_log', $log);
         }
+    }
+
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
+        //empty as DTOs aren't implemented here
     }
 }

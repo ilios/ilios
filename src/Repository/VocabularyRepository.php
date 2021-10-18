@@ -14,6 +14,9 @@ use App\Entity\Vocabulary;
 use App\Entity\DTO\VocabularyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function array_values;
+use function array_keys;
+
 class VocabularyRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
     RepositoryInterface,
@@ -27,40 +30,24 @@ class VocabularyRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Vocabulary::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from('App\Entity\Vocabulary', 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
-            ->distinct()->from('App\Entity\Vocabulary', 'x');
+            ->distinct()->from(Vocabulary::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        /** @var VocabularyDTO[] $vocabularyDTOs */
-        $vocabularyDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $vocabularyDTOs[$arr['id']] = new VocabularyDTO(
+            $dtos[$arr['id']] = new VocabularyDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['active']
             );
         }
-        $vocabularyIds = array_keys($vocabularyDTOs);
+        $vocabularyIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -72,37 +59,27 @@ class VocabularyRepository extends ServiceEntityRepository implements
             ->setParameter('ids', $vocabularyIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $vocabularyDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['xId']]->school = (int) $arr['schoolId'];
         }
 
-        $related = [
-            'terms',
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS vocabularyId')
-                ->from('App\Entity\Vocabulary', 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $vocabularyIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $vocabularyDTOs[$arr['vocabularyId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($vocabularyDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'terms',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         $related = [
             'terms',
         ];
@@ -119,33 +96,7 @@ class VocabularyRepository extends ServiceEntityRepository implements
             unset($criteria[$rel]);
         }
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     public function import(array $data, string $type, array $referenceMap): array

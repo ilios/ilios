@@ -13,6 +13,9 @@ use App\Entity\DTO\LearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\LearningMaterialInterface;
 
+use function array_keys;
+use function array_values;
+
 class LearningMaterialRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
@@ -22,23 +25,8 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         parent::__construct($registry, LearningMaterial::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from(LearningMaterial::class, 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -113,10 +101,9 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
      */
     protected function queryForDTOs(QueryBuilder $qb): array
     {
-        /** @var LearningMaterialDTO[] $learningMaterialDTOs */
-        $learningMaterialDTOs = [];
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $learningMaterialDTOs[$arr['id']] = new LearningMaterialDTO(
+            $dtos[$arr['id']] = new LearningMaterialDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['description'],
@@ -133,7 +120,6 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
                 $arr['relativePath']
             );
         }
-        $learningMaterialIds = array_keys($learningMaterialDTOs);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -144,42 +130,32 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
             ->join('x.owningUser', 'owningUser')
             ->join('x.status', 'status')
             ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', $learningMaterialIds);
+            ->setParameter('ids', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $learningMaterialDTOs[$arr['xId']]->userRole = (int) $arr['userRoleId'];
-            $learningMaterialDTOs[$arr['xId']]->owningUser = (int) $arr['owningUserId'];
-            $learningMaterialDTOs[$arr['xId']]->status = (int) $arr['statusId'];
+            $dtos[$arr['xId']]->userRole = (int) $arr['userRoleId'];
+            $dtos[$arr['xId']]->owningUser = (int) $arr['owningUserId'];
+            $dtos[$arr['xId']]->status = (int) $arr['statusId'];
         }
 
-        $related = [
-            'courseLearningMaterials',
-            'sessionLearningMaterials',
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS learningMaterialId')
-                ->from(LearningMaterial::class, 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $learningMaterialIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $learningMaterialDTOs[$arr['learningMaterialId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($learningMaterialDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'courseLearningMaterials',
+                'sessionLearningMaterials',
+            ],
+        );
+
+        return array_values($dtos);
     }
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         $related = [
             'courseLearningMaterials',
             'sessionLearningMaterials',
@@ -326,33 +302,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         unset($criteria['sessionTypes']);
         unset($criteria['fullCourses']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     public function getTotalLearningMaterialCount(): int

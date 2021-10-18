@@ -14,6 +14,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 
+use function array_values;
+use function array_keys;
+
 class CourseObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
@@ -23,40 +26,25 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
         parent::__construct($registry, CourseObjective::class);
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('DISTINCT x')->from(CourseObjective::class, 'x');
-
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-
-        return $qb->getQuery()->getResult();
-    }
-
     /**
      * Find and hydrate as DTOs
-     *
-     * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
-     *
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(CourseObjective::class, 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        /** @var CourseObjectiveDTO[] $courseObjectiveDTOs */
-        $courseObjectiveDTOs = [];
+        /** @var CourseObjectiveDTO[] $dtos */
+        $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $courseObjectiveDTOs[$arr['id']] = new CourseObjectiveDTO(
+            $dtos[$arr['id']] = new CourseObjectiveDTO(
                 $arr['id'],
                 $arr['title'],
                 $arr['position'],
                 $arr['active']
             );
         }
-        $courseObjectiveIds = array_keys($courseObjectiveDTOs);
+        $courseObjectiveIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder()
             ->select(
@@ -71,10 +59,10 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
             ->setParameter('ids', $courseObjectiveIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseObjectiveDTOs[$arr['xId']]->courseIsLocked = (bool) $arr['courseIsLocked'];
-            $courseObjectiveDTOs[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
-            $courseObjectiveDTOs[$arr['xId']]->course = (int) $arr['courseId'];
-            $courseObjectiveDTOs[$arr['xId']]->school = (int) $arr['schoolId'];
+            $dtos[$arr['xId']]->courseIsLocked = (bool) $arr['courseIsLocked'];
+            $dtos[$arr['xId']]->courseIsArchived = (bool) $arr['courseIsArchived'];
+            $dtos[$arr['xId']]->course = (int) $arr['courseId'];
+            $dtos[$arr['xId']]->school = (int) $arr['schoolId'];
         }
 
         $qb = $this->_em->createQueryBuilder()
@@ -84,41 +72,31 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $courseObjectiveIds);
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $courseObjectiveDTOs[$arr['id']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+            $dtos[$arr['id']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
         }
 
-        $related = [
-            'terms',
-            'programYearObjectives',
-            'sessionObjectives',
-            'meshDescriptors',
-            'descendants'
-        ];
-        foreach ($related as $rel) {
-            $qb = $this->_em->createQueryBuilder()
-                ->select('r.id AS relId, x.id AS courseObjectiveId')
-                ->from(CourseObjective::class, 'x')
-                ->join("x.{$rel}", 'r')
-                ->where($qb->expr()->in('x.id', ':ids'))
-                ->orderBy('relId')
-                ->setParameter('ids', $courseObjectiveIds);
-            foreach ($qb->getQuery()->getResult() as $arr) {
-                $courseObjectiveDTOs[$arr['courseObjectiveId']]->{$rel}[] = $arr['relId'];
-            }
-        }
-        return array_values($courseObjectiveDTOs);
+        $dtos = $this->attachRelatedToDtos(
+            $dtos,
+            [
+                'terms',
+                'programYearObjectives',
+                'sessionObjectives',
+                'meshDescriptors',
+                'descendants'
+            ],
+        );
+
+        return array_values($dtos);
     }
 
 
-    /**
-     * @param array $criteria
-     * @param array $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @return QueryBuilder
-     */
-    protected function attachCriteriaToQueryBuilder(QueryBuilder $qb, $criteria, $orderBy, $limit, $offset)
-    {
+    protected function attachCriteriaToQueryBuilder(
+        QueryBuilder $qb,
+        array $criteria,
+        ?array $orderBy,
+        ?int $limit,
+        ?int $offset
+    ): void {
         if (array_key_exists('terms', $criteria)) {
             if (is_array($criteria['terms'])) {
                 $ids = $criteria['terms'];
@@ -140,33 +118,7 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
         unset($criteria['terms']);
         unset($criteria['courses']);
 
-        if ($criteria !== []) {
-            foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
-            }
-        }
-
-        if (empty($orderBy)) {
-            $orderBy = ['id' => 'ASC'];
-        }
-
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
-        }
-
-        if ($offset) {
-            $qb->setFirstResult($offset);
-        }
-
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb;
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     /**
