@@ -133,19 +133,12 @@ class CourseRepository extends ServiceEntityRepository implements
         return $this->attachAssociationsToDTOs($courseDTOs);
     }
 
-    /**
-     * @param int $userId
-     * @param array|null $orderBy
-     * @param int $limit
-     * @param int $offset
-     * @throws DBALException
-     */
     protected function findMyCourses(
-        $userId,
+        int $userId,
         array $criteria,
         array $orderBy = null,
-        $limit = null,
-        $offset = null
+        ?int $limit = null,
+        ?int $offset = null
     ): array {
         $meta = $this->_em->getClassMetadata(Course::class);
 
@@ -297,9 +290,9 @@ EOL;
         if (isset($offset)) {
             $stmt->bindValue(":offset", (int) $offset);
         }
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-        $stmt->closeCursor();
+        $result = $stmt->execute();
+        $rows = $result->fetchAllAssociative();
+        $result->free();
         return $rows;
     }
 

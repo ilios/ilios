@@ -13,7 +13,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\DBAL\Types\Type as DoctrineType;
+use Doctrine\DBAL\Types\Types as DoctrineType;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
@@ -377,8 +377,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         ));
         $qb->setParameter('user_id', $id);
 
-        $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
-        $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
+        $qb->setParameter('date_from', $from, DoctrineType::DATETIME_MUTABLE);
+        $qb->setParameter('date_to', $to, DoctrineType::DATETIME_MUTABLE);
 
         $results = $qb->getQuery()->getArrayResult();
         return $this->createEventObjectsForOfferings($results);
@@ -415,8 +415,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->expr()->between('ilm.dueDate', ':date_from', ':date_to')
         ));
         $qb->setParameter('user_id', $id);
-        $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
-        $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
+        $qb->setParameter('date_from', $from, DoctrineType::DATETIME_MUTABLE);
+        $qb->setParameter('date_to', $to, DoctrineType::DATETIME_MUTABLE);
 
         $results = $qb->getQuery()->getArrayResult();
 
