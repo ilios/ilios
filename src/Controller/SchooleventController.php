@@ -60,8 +60,8 @@ class SchooleventController extends AbstractController
             }
             $events = $schoolRepository->findSessionEventsForSchool($school->getId(), $session->getId());
         } else {
-            $fromTimestamp = $request->get('from');
-            $toTimestamp = $request->get('to');
+            $fromTimestamp = $request->get('from') ?? '';
+            $toTimestamp = $request->get('to') ?? '';
             $from = DateTime::createFromFormat('U', $fromTimestamp);
             $to = DateTime::createFromFormat('U', $toTimestamp);
 

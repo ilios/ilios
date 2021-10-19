@@ -1041,6 +1041,56 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertSame($users[3]['displayName'], $events[0]['instructors'][1]);
     }
 
+    public function testMissingFrom()
+    {
+        $userId = 5;
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => $userId,
+            'to' => 1000,
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_userevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $this->getTokenForUser($this->kernelBrowser, $userId)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+    }
+
+    public function testMissingTo()
+    {
+        $userId = 5;
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => $userId,
+            'from' => 1000,
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_userevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $this->getTokenForUser($this->kernelBrowser, $userId)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+    }
+
     /**
      * @param int $userId
      * @param int $from
