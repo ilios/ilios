@@ -4,6 +4,7 @@ sentry:
     dsn: '%env(SENTRY_DSN)%'
     options:
         before_send: 'App\Service\SentryBeforeSend'
+        send_default_pii: true
 
 when@test:
     sentry:
