@@ -92,3 +92,21 @@ jobs:
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
+
+  sentry-release:
+    name: Create Sentry Release
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Sentry CLI
+        run: npm install -g @sentry/cli
+      - name: Create a Sentry.io release
+        run: |
+          # Create new Sentry release
+          export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+          sentry-cli releases new $SENTRY_RELEASE
+          sentry-cli releases set-commits --auto $SENTRY_RELEASE
+          sentry-cli releases finalize $SENTRY_RELEASE
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
