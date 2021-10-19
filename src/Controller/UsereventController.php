@@ -67,8 +67,8 @@ class UsereventController extends AbstractController
             }
             $events = $repository->findSessionEventsForUser($user->getId(), $session->getId());
         } else {
-            $fromTimestamp = $request->get('from');
-            $toTimestamp = $request->get('to');
+            $fromTimestamp = $request->get('from') ?? '';
+            $toTimestamp = $request->get('to') ?? '';
             $from = DateTime::createFromFormat('U', $fromTimestamp);
             $to = DateTime::createFromFormat('U', $toTimestamp);
 

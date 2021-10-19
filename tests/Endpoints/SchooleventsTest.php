@@ -631,6 +631,56 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($users[3]['displayName'], $events[0]['instructors'][1]);
     }
 
+    public function testMissingFrom()
+    {
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => $school['id'],
+            'to' => 1000000
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_schoolevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+    }
+
+    public function testMissingT0()
+    {
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => $school['id'],
+            'from' => 1000000
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_schoolevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+    }
+
     protected function getEvents($schoolId, $from, $to, $userId = null)
     {
         $parameters = [
