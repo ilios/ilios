@@ -297,9 +297,9 @@ EOL;
         if (isset($offset)) {
             $stmt->bindValue(":offset", (int) $offset);
         }
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-        $stmt->closeCursor();
+        $result = $stmt->executeQuery();
+        $rows = $result->fetchAllAssociative();
+        $result->free();
         return $rows;
     }
 
