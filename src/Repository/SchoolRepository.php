@@ -10,7 +10,7 @@ use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Type as DoctrineType;
+use Doctrine\DBAL\Types\Types as DoctrineType;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use App\Classes\CalendarEvent;
@@ -167,8 +167,8 @@ class SchoolRepository extends ServiceEntityRepository implements
         ));
         $qb->setParameter('school_id', $id);
 
-        $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
-        $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
+        $qb->setParameter('date_from', $from, DoctrineType::DATETIME_MUTABLE);
+        $qb->setParameter('date_to', $to, DoctrineType::DATETIME_MUTABLE);
 
         $results = $qb->getQuery()->getArrayResult();
         return $this->createEventObjectsForOfferings($results);
@@ -210,8 +210,8 @@ class SchoolRepository extends ServiceEntityRepository implements
         ));
         $qb->setParameter('school_id', $id);
 
-        $qb->setParameter('date_from', $from, DoctrineType::DATETIME);
-        $qb->setParameter('date_to', $to, DoctrineType::DATETIME);
+        $qb->setParameter('date_from', $from, DoctrineType::DATETIME_MUTABLE);
+        $qb->setParameter('date_to', $to, DoctrineType::DATETIME_MUTABLE);
 
         $results = $qb->getQuery()->getArrayResult();
         return $this->createEventObjectsForIlmSessions($results);

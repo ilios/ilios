@@ -52,7 +52,7 @@ final class Version20160105002207 extends MysqlMigration
     private function getIlms()
     {
         $sql = 'SELECT ilm_session_facet_id, due_date FROM ilm_session_facet ORDER BY ilm_session_facet_id ASC';
-        return $this->connection->fetchAll($sql);
+        return $this->connection->fetchAllAssociative($sql);
     }
 
     /**
