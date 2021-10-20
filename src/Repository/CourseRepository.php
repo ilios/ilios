@@ -10,7 +10,6 @@ use App\Entity\Course;
 use App\Entity\Session;
 use App\Traits\ManagerRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -138,7 +137,6 @@ class CourseRepository extends ServiceEntityRepository implements
      * @param array|null $orderBy
      * @param int $limit
      * @param int $offset
-     * @throws DBALException
      */
     protected function findMyCourses(
         $userId,
