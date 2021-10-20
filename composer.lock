@@ -12341,16 +12341,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "2.0.1",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "54d797af9871d9feaba4fe1ad5536b978a86bdaa"
+                "reference": "ddc176357f55982172de200867f67f831ef9bae6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/54d797af9871d9feaba4fe1ad5536b978a86bdaa",
-                "reference": "54d797af9871d9feaba4fe1ad5536b978a86bdaa",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/ddc176357f55982172de200867f67f831ef9bae6",
+                "reference": "ddc176357f55982172de200867f67f831ef9bae6",
                 "shasum": ""
             },
             "require": {
@@ -12360,6 +12360,9 @@
                 "symfony/event-dispatcher-contracts": "^1 || ^2",
                 "symfony/framework-bundle": "^4.4 || ^5.0",
                 "symfony/yaml": "^4.4 || ^5.0"
+            },
+            "conflict": {
+                "doctrine/dbal": "<2.11"
             },
             "require-dev": {
                 "doctrine/cache": "^1.10.0",
@@ -12418,9 +12421,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.0.1"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.1.0"
             },
-            "time": "2021-08-19T11:22:21+00:00"
+            "time": "2021-10-20T12:28:11+00:00"
         },
         {
             "name": "mockery/mockery",
