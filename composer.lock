@@ -5940,16 +5940,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.2.3",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "d1126b2feadb3299e719f39caa128abe5cf684e9"
+                "reference": "cbd486cdf5b9d1933e0dad1c72a84269397ca931"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/d1126b2feadb3299e719f39caa128abe5cf684e9",
-                "reference": "d1126b2feadb3299e719f39caa128abe5cf684e9",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/cbd486cdf5b9d1933e0dad1c72a84269397ca931",
+                "reference": "cbd486cdf5b9d1933e0dad1c72a84269397ca931",
                 "shasum": ""
             },
             "require": {
@@ -6037,7 +6037,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.3"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.4"
             },
             "funding": [
                 {
@@ -6049,7 +6049,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-09-21T08:35:04+00:00"
+            "time": "2021-10-20T07:42:14+00:00"
         },
         {
             "name": "shivas/versioning-bundle",
