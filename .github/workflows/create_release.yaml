@@ -1,0 +1,40 @@
+name: Release Notes
+
+on: 
+  push:
+    tags:
+    - '*'
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Get Previous Tag
+      id: previousTag
+      run: |
+        PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
+        echo ${PREVIOUS_TAG}
+        echo ::set-output name=tag::${PREVIOUS_TAG}
+    - name: Get New Tag
+      id: nextTag
+      run: |
+        NEW_TAG=${GITHUB_REF#refs/tags/}
+        echo ${NEW_TAG}
+        echo ::set-output name=tag::${NEW_TAG}
+    - uses: actions/setup-node@v2
+    - name: Generate Release Notes
+      id: notes
+      run: |
+        NOTES=$(npx generate-github-release-notes ilios ilios ${{ steps.previousTag.outputs.tag }} ${{steps.nextTag.outputs.tag}})
+        echo ${NOTES}
+        # remove line breaks from notes so they can be passed around
+        NOTES="${NOTES//$'\n'/'%0A'}"
+        echo "::set-output name=releaseNotes::$NOTES"
+    - uses: ncipollo/release-action@v1
+      with:
+        name: Ilios ${{steps.nextTag.outputs.tag}}
+        body: ${{steps.notes.outputs.releaseNotes}}
+        token: ${{ secrets.ZORGBORT_TOKEN }}

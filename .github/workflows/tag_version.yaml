@@ -1,0 +1,26 @@
+name: Tag Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseType:
+        description: 'Semver Release Type (minor,patch)'
+        required: true
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          token: ${{ secrets.ZORGBORT_TOKEN }}
+    - name: Validate releaseType
+      run: npx in-string-list ${{ github.event.inputs.releaseType }} minor,patch
+    - name: Setup Git
+      run: |
+        git config user.name Zorgbort
+        git config user.email info@iliosproject.org
+    - name: Increment Version
+      run: npm version ${{ github.event.inputs.releaseType }}
+    - name: Push Changes
+      run: git push --follow-tags
