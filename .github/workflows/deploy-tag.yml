@@ -108,4 +108,6 @@ jobs:
           sentry-cli releases set-commits --auto $SENTRY_RELEASE
           sentry-cli releases finalize $SENTRY_RELEASE
         env:
+          SENTRY_ORG: ilios
+          SENTRY_PROJECT: api
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
