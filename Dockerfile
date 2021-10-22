@@ -23,6 +23,8 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=src /src /var/www/ilios
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 ENV FPM_CONTAINERS=fpm:9000
+ARG ILIOS_VERSION="v0.1.0"
+RUN echo ${ILIOS_VERSION} > VERSION
 
 ###############################################################################
 # Dependencies we need in all PHP containers
@@ -79,6 +81,8 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 COPY ./docker/php.ini $PHP_INI_DIR/conf.d/ilios.ini
 #Override the default entrypoint script with our own
 COPY docker/php-fpm-entrypoint /usr/local/bin/docker-php-entrypoint
+ARG ILIOS_VERSION="v0.1.0"
+RUN echo ${ILIOS_VERSION} > VERSION
 
 ###############################################################################
 # FPM configured to run ilios
@@ -255,6 +259,9 @@ RUN /usr/bin/composer install \
     #creates an empty env.php file, real ENV values will control the app
     && /usr/bin/composer dump-env prod \
     && /usr/bin/composer clear-cache
+
+ARG ILIOS_VERSION="v0.1.0"
+RUN echo ${ILIOS_VERSION} > VERSION
 
 USER root
 RUN chown -R www-data:www-data /var/www/ilios

@@ -35,5 +35,6 @@ jobs:
       with:
         tags: |
             ilios/${{ matrix.image }}:latest
+        build-args: ILIOS_VERSION=dev
         target: ${{ matrix.image }}
         push: true
