@@ -5,6 +5,9 @@ FakeTestFiles
 !/public/.htaccess
 !/public/theme-overrides
 
+# Created by docker build, shouldn't leak into app
+VERSION
+
 ###> squizlabs/php_codesniffer ###
 /.phpcs-cache
 /phpcs.xml
