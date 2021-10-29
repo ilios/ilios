@@ -1,0 +1,38 @@
+name: Tag Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseType:
+        description: 'Semver Release Type (minor,patch)'
+        required: true
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          token: ${{ secrets.ZORGBORT_TOKEN }}
+    - name: Validate releaseType
+      run: npx in-string-list ${{ github.event.inputs.releaseType }} minor,patch
+    - name: Get Current Tag
+      id: currentTag
+      run: |
+        CURRENT_TAG=$(git describe --tags --abbrev=0)
+        echo ${CURRENT_TAG}
+        echo ::set-output name=tag::${CURRENT_TAG}
+    - name: Get New Tag
+      id: newTag
+      run: |
+        NEW_TAG=$(npx semver --increment ${{ github.event.inputs.releaseType }} ${{ steps.currentTag.outputs.tag }}) 
+        echo ${NEW_TAG}
+        echo ::set-output name=tag::v${NEW_TAG}
+    - name: Setup Git
+      run: |
+        git config user.name Zorgbort
+        git config user.email info@iliosproject.org
+    - name: Increment Version
+      run: git tag ${{ steps.newTag.outputs.tag }} -m "Tagging the ${{ steps.newTag.outputs.tag }} ${{ github.event.inputs.releaseType }} release"
+    - name: Push Changes
+      run: git push --tags
