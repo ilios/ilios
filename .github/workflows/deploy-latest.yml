@@ -37,4 +37,5 @@ jobs:
             ilios/${{ matrix.image }}:latest
         build-args: ILIOS_VERSION=dev
         target: ${{ matrix.image }}
+        platforms: linux/amd64,linux/arm64
         push: true
