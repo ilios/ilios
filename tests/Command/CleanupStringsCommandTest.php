@@ -266,6 +266,37 @@ class CleanupStringsCommandTest extends KernelTestCase
         );
     }
 
+    public function testSessionDescriptionBrInP()
+    {
+        $emptyPTag = m::mock(SessionInterface::class)
+            ->shouldReceive('getDescription')->andReturn('<p>Empty P<br></p><p></p>')
+            ->shouldReceive('setDescription')->with('<p>Empty P</p>')
+            ->mock();
+        $emptyPTagWithLineBreak = m::mock(SessionInterface::class)
+            ->shouldReceive('getDescription')->andReturn('<p>Empty With Br<br></p><p><br /></p>')
+            ->shouldReceive('setDescription')->with('<p>Empty With Br</p>')
+            ->mock();
+        $this->sessionRepository->shouldReceive('findBy')
+            ->with([], ['id' => 'ASC'], 500, 0)
+            ->andReturn([$emptyPTag, $emptyPTagWithLineBreak]);
+        $this->sessionRepository->shouldReceive('update')->with($emptyPTag, false);
+        $this->sessionRepository->shouldReceive('update')->with($emptyPTagWithLineBreak, false);
+        $this->sessionRepository->shouldReceive('getTotalSessionCount')->andReturn(1);
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute([
+            'command'           => self::COMMAND_NAME,
+            '--session-description' => true
+        ]);
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/2 Session Descriptions updated/',
+            $output
+        );
+    }
+
     public function correctLearningMaterialLinksProvider(): array
     {
         return [

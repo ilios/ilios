@@ -5,9 +5,11 @@ exercise_html_purifier:
       config:
         # the charset used by the original contents
         Core.Encoding: 'UTF-8'
-        HTML.Allowed: 'a[href|target],br,div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul'
+        HTML.Allowed: 'a[href|target],div,dd,dl,dt,em,li,ol,p,strong,sub,sup,ul'
         Attr.AllowedFrameTargets:
           - '_blank'
+        AutoFormat.RemoveEmpty: true
+        AutoFormat.RemoveEmpty.RemoveNbsp: true
         # full configuration reference: http://htmlpurifier.org/live/configdoc/plain.html
 
 # Read the https://github.com/Exercise/HTMLPurifierBundle/blob/master/README.md file
