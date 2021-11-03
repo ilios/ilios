@@ -118,12 +118,9 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalSessionLearningMaterialCount()
+    public function getTotalSessionLearningMaterialCount(): int
     {
-        return $this->_em->createQuery('SELECT COUNT(l.id) FROM App\Entity\SessionLearningMaterial l')
+        return (int) $this->_em->createQuery('SELECT COUNT(l.id) FROM App\Entity\SessionLearningMaterial l')
             ->getSingleScalarResult();
     }
 }

@@ -106,12 +106,9 @@ class CourseLearningMaterialRepository extends ServiceEntityRepository implement
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalCourseLearningMaterialCount()
+    public function getTotalCourseLearningMaterialCount(): int
     {
-        return $this->_em->createQuery('SELECT COUNT(l.id) FROM App\Entity\CourseLearningMaterial l')
+        return (int) $this->_em->createQuery('SELECT COUNT(l.id) FROM App\Entity\CourseLearningMaterial l')
             ->getSingleScalarResult();
     }
 }

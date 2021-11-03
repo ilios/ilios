@@ -53,7 +53,7 @@ class CleanupStringsCommandTest extends KernelTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->purifier = m::mock(HTMLPurifier::class);
+        $this->purifier = static::getContainer()->get(HTMLPurifier::class);
         $this->sessionObjectiveRepository = m::mock(SessionObjectiveRepository::class);
         $this->courseObjectiveRepository = m::mock(CourseObjectiveRepository::class);
         $this->programYearObjectiveRepository = m::mock(ProgramYearObjectiveRepository::class);
@@ -109,7 +109,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->mock();
         $dirtySessionObjective = m::mock(SessionObjectiveInterface::class)
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
-            ->shouldReceive('setTitle')->with('<h1>html title</h1>')
+            ->shouldReceive('setTitle')->with('html title')
             ->mock();
         $this->sessionObjectiveRepository->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanSessionObjective, $dirtySessionObjective]);
@@ -121,7 +121,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->mock();
         $dirtyCourseObjective = m::mock(CourseObjectiveInterface::class)
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
-            ->shouldReceive('setTitle')->with('<h1>html title</h1>')
+            ->shouldReceive('setTitle')->with('html title')
             ->mock();
         $this->courseObjectiveRepository->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanCourseObjective, $dirtyCourseObjective]);
@@ -133,21 +133,13 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->mock();
         $dirtyProgramYearObjective = m::mock(ProgramYearObjectiveInterface::class)
             ->shouldReceive('getTitle')->andReturn('<script>alert();</script><h1>html title</h1>')
-            ->shouldReceive('setTitle')->with('<h1>html title</h1>')
+            ->shouldReceive('setTitle')->with('html title')
             ->mock();
         $this->programYearObjectiveRepository->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
             ->andReturn([$cleanPyObjective, $dirtyProgramYearObjective]);
         $this->programYearObjectiveRepository->shouldReceive('update')->with($dirtyProgramYearObjective, false);
         $this->programYearObjectiveRepository->shouldReceive('getTotalObjectiveCount')->andReturn(2);
 
-        $this->purifier->shouldReceive('purify')
-            ->with('clean title')
-            ->andReturn('clean title')
-            ->times(3);
-        $this->purifier->shouldReceive('purify')
-            ->with('<script>alert();</script><h1>html title</h1>')
-            ->andReturn('<h1>html title</h1>')
-            ->times(3);
         $this->em->shouldReceive('flush')->times(3);
         $this->em->shouldReceive('clear')->times(3);
         $this->commandTester->execute([
@@ -170,7 +162,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->mock();
         $dirty = m::mock('App\Entity\LearningMaterialInterface')
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
-            ->shouldReceive('setDescription')->with('<h1>html title</h1>')
+            ->shouldReceive('setDescription')->with('html title')
             ->mock();
         $this->learningMaterialRepository->shouldReceive('findBy')
             ->with([], ['id' => 'ASC'], 500, 0)
@@ -178,10 +170,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->learningMaterialRepository->shouldReceive('update')->with($dirty, false);
         $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')->andReturn(2);
 
-        $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');
-        $this->purifier->shouldReceive('purify')
-            ->with('<script>alert();</script><h1>html title</h1>')
-            ->andReturn('<h1>html title</h1>');
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
@@ -204,7 +192,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->mock();
         $dirtyCourse = m::mock('App\Entity\CourseLearningMaterialInterface')
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html course note</h1>')
-            ->shouldReceive('setNotes')->with('<h1>html course note</h1>')
+            ->shouldReceive('setNotes')->with('html course note')
             ->mock();
         $this->courseLearningMaterialRepository->shouldReceive('findBy')
             ->with([], ['id' => 'ASC'], 500, 0)
@@ -212,18 +200,12 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->courseLearningMaterialRepository->shouldReceive('update')->with($dirtyCourse, false);
         $this->courseLearningMaterialRepository->shouldReceive('getTotalCourseLearningMaterialCount')->andReturn(2);
 
-        $this->purifier->shouldReceive('purify')->with('clean course note')->andReturn('clean course note');
-        $this->purifier->shouldReceive('purify')
-            ->with('<script>alert();</script><h1>html course note</h1>')
-            ->andReturn('<h1>html course note</h1>');
-
-
         $cleanSession = m::mock('App\Entity\SessionLearningMaterialInterface')
             ->shouldReceive('getNotes')->andReturn('clean session note')
             ->mock();
         $dirtySession = m::mock('App\Entity\SessionLearningMaterialInterface')
             ->shouldReceive('getNotes')->andReturn('<script>alert();</script><h1>html session note</h1>')
-            ->shouldReceive('setNotes')->with('<h1>html session note</h1>')
+            ->shouldReceive('setNotes')->with('html session note')
             ->mock();
         $this->sessionLearningMaterialRepository->shouldReceive('findBy')
             ->with([], ['id' => 'ASC'], 500, 0)
@@ -231,11 +213,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->sessionLearningMaterialRepository->shouldReceive('update')
             ->with($dirtySession, false);
         $this->sessionLearningMaterialRepository->shouldReceive('getTotalSessionLearningMaterialCount')->andReturn(2);
-
-        $this->purifier->shouldReceive('purify')->with('clean session note')->andReturn('clean session note');
-        $this->purifier->shouldReceive('purify')
-            ->with('<script>alert();</script><h1>html session note</h1>')
-            ->andReturn('<h1>html session note</h1>');
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->twice();
@@ -266,7 +243,7 @@ class CleanupStringsCommandTest extends KernelTestCase
             ->mock();
         $dirty = m::mock(SessionInterface::class)
             ->shouldReceive('getDescription')->andReturn('<script>alert();</script><h1>html title</h1>')
-            ->shouldReceive('setDescription')->with('<h1>html title</h1>')
+            ->shouldReceive('setDescription')->with('html title')
             ->mock();
         $this->sessionRepository->shouldReceive('findBy')
             ->with([], ['id' => 'ASC'], 500, 0)
@@ -274,10 +251,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->sessionRepository->shouldReceive('update')->with($dirty, false);
         $this->sessionRepository->shouldReceive('getTotalSessionCount')->andReturn(2);
 
-        $this->purifier->shouldReceive('purify')->with('clean title')->andReturn('clean title');
-        $this->purifier->shouldReceive('purify')
-            ->with('<script>alert();</script><h1>html title</h1>')
-            ->andReturn('<h1>html title</h1>');
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
@@ -289,6 +262,37 @@ class CleanupStringsCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
             '/1 Session Descriptions updated/',
+            $output
+        );
+    }
+
+    public function testSessionDescriptionBrInP()
+    {
+        $emptyPTag = m::mock(SessionInterface::class)
+            ->shouldReceive('getDescription')->andReturn('<p>Empty P<br></p><p></p>')
+            ->shouldReceive('setDescription')->with('<p>Empty P</p>')
+            ->mock();
+        $emptyPTagWithLineBreak = m::mock(SessionInterface::class)
+            ->shouldReceive('getDescription')->andReturn('<p>Empty With Br<br></p><p><br /></p>')
+            ->shouldReceive('setDescription')->with('<p>Empty With Br</p>')
+            ->mock();
+        $this->sessionRepository->shouldReceive('findBy')
+            ->with([], ['id' => 'ASC'], 500, 0)
+            ->andReturn([$emptyPTag, $emptyPTagWithLineBreak]);
+        $this->sessionRepository->shouldReceive('update')->with($emptyPTag, false);
+        $this->sessionRepository->shouldReceive('update')->with($emptyPTagWithLineBreak, false);
+        $this->sessionRepository->shouldReceive('getTotalSessionCount')->andReturn(1);
+        $this->em->shouldReceive('flush')->once();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute([
+            'command'           => self::COMMAND_NAME,
+            '--session-description' => true
+        ]);
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/2 Session Descriptions updated/',
             $output
         );
     }
