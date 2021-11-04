@@ -50,7 +50,7 @@ All the steps below should be performed in the context of the user that runs you
 ```bash
 sudo -u apache git clone https://github.com/ilios/ilios.git
 ```
-This will create a folder named 'ilios' in your server root directory.  The entire application source tree will be downloaded to this folder and when this process is finished, the 'web' subfolder should be set as your web server's document root ('/web/ilios3/ilios/web') in your webserver configuration.  
+This will create a folder named 'ilios' in your server root directory.  The entire application source tree will be downloaded to this folder and when this process is finished, the 'web' subfolder should be set as your web server's document root ('/web/ilios3/ilios/public') in your webserver configuration.  
 3. Change into the newly created folder
 
 ```bash
