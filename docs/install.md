@@ -72,6 +72,20 @@ This will install the required PHP Symfony packages and their dependencies and c
 
 Congratulations! Once you've the completed the above steps, the latest codebase will have been built and deployed!
 
+## Configurations
+There are three [configuration parameters](./env_vars_and_config.md) that *must* be supplied to ilios for basic functionality.
+A path to your database connection, a path on the file system to store learning materials, and a secret to use for encrypting 
+user passwords, tokens and other sensitive data. For the initial installation it is sufficient to place this information in the
+ilios filesystem.
+
+```bash
+sudo -u apache echo "ILIOS_SECRET='NotSecretChangeMe'" >> .env.local
+sudo -u apache echo "ILIOS_DATABASE_URL=mysql://ilios:ilios@127.0.0.1/ilios?serverVersion=5.7" >> .env.local
+sudo -u apache echo "ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp" >> .env.local
+```
+
+These values will need to be adjusted to your environment and setup.
+
 ## Database
 
 ### Upgrading from previous versions of Ilios
