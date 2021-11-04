@@ -7,30 +7,32 @@ Currently, almost all of the configuration settings for Ilios are stored within 
 Before attempting to install or update an Ilios instance, please make sure the following values are set and present in your user's system environment as well as the system environment of the user that runs the web services on your system:
 
 ```bash
-# The application environment variable 'APP_ENV' should always be set, and it will almost always be set to `prod`:
+# the APP_ENV is very important!
 APP_ENV=prod
 
-# The authentication should be set to whichever type of user authentication you use (`form`,`cas`,`shibboleth`,`ldap`):
-ILIOS_AUTHENTICATION_TYPE=form
-
-# The database connection settings, in url format (eg, mysql://{username}:{password}@{database-hostname}/{database_name}?serverVersion={version}:
-ILIOS_DATABASE_URL="mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=5.7"
-
-# The locale of the Ilios instance (which language to use: `en`,`fr`,`es`):
 ILIOS_LOCALE=en
 
-# The hash secret for encrypting strings within the Ilios Application:
-ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
+ILIOS_DATABASE_URL=mysql://db_user:SomeVeryDifficultPassword@fqdn.database.hostname.edu:3306/ilios_database_name?serverVersion=5.7
 
-# The location of the learning materials on your system:
-ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/ilios/learning_materials
+#Set the authentication: "form", "ldap", "shibboleth", or "cas"
+#ILIOS_AUTHENTICATION_TYPE=shibboleth
 
-# The mailer url, in url format with extra settings passed as 'GET' vars in the query string as shown here:
-# smtp://{mailer-hostname:port}[[/?attibute][=value][&attribute][=value]]
-#
-# If you initially relay SMTP through your localhost over port 25 (smtp default), and without authentication,
-# use the following simplified URL without a trailing slash or query string:
+ILIOS_DATABASE_MYSQL_VERSION=5.7
+
+ILIOS_SECRET=SomeVeryRandomAlphaNumericStringUsedForEncryption
+
+#For storing learning materials locally
+ILIOS_FILE_SYSTEM_PATH=/var/www/ilios/learning_materials
+#OR for storing them as Amazon S3 objects
+#ILIOS_STORAGE_S3_URL="s3://AMAZON_AWS_ID:AMAZON_AWS_SECRET@amazon.s3.bucketname.region"
+
+ILIOS_ELASTICSEARCH_HOSTS=https://fqdn.elasticsearchhost.edu:443
+
+#default mail service for sending mails directly from Ilios (local smtpd server or relay required)
 MAILER_DSN=smtp://localhost:25
+
+# This value is required for doctrine and should not be removed
+MESSENGER_TRANSPORT_DSN="doctrine://default"
 ```
 
 To see which environment variables are set for your respective user, you can run the `env` command like so:
