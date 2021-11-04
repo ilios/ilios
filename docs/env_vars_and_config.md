@@ -15,7 +15,7 @@ ILIOS_LOCALE=en
 ILIOS_DATABASE_URL=mysql://db_user:SomeVeryDifficultPassword@fqdn.database.hostname.edu:3306/ilios_database_name?serverVersion=5.7
 
 #Set the authentication: "form", "ldap", "shibboleth", or "cas"
-#ILIOS_AUTHENTICATION_TYPE=shibboleth
+ILIOS_AUTHENTICATION_TYPE=form
 
 ILIOS_DATABASE_MYSQL_VERSION=5.7
 
