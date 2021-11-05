@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use DateTime;
 
 class JsonWebTokenManager
@@ -64,7 +65,7 @@ class JsonWebTokenManager
 
     protected function decode($jwt)
     {
-        $decoded = JWT::decode($jwt, $this->jwtKey, ['HS256']);
+        $decoded = JWT::decode($jwt, new Key($this->jwtKey, 'HS256'));
         return (array) $decoded;
     }
 
