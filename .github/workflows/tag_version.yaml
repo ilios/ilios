@@ -13,6 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
+          fetch-depth: 0
           token: ${{ secrets.ZORGBORT_TOKEN }}
     - name: Validate releaseType
       run: npx in-string-list ${{ github.event.inputs.releaseType }} minor,patch
