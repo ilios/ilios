@@ -72,4 +72,31 @@ class ApiControllerTest extends WebTestCase
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
+
+    public function testApiInfoAuthenticated()
+    {
+        $this->kernelBrowser->request(
+            'GET',
+            '/api',
+            [],
+            [],
+            ['HTTP_X-JWT-Authorization' => 'Token ' . $this->getTokenForUser($this->kernelBrowser, 1)],
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertStringContainsString('<h1>API Info</h1>', $response->getContent());
+    }
+
+    public function testApiInfoNotAuthenticated()
+    {
+        $this->kernelBrowser->request(
+            'GET',
+            '/api',
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertStringContainsString('<h1>API Info</h1>', $response->getContent());
+    }
 }
