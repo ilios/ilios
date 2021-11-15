@@ -3,12 +3,14 @@ security:
   access_control:
     - { path: '^/api/doc', roles: PUBLIC_ACCESS }
     - { path: '^/api$', roles: PUBLIC_ACCESS }
-    - { path: '^/lm/[a-zA-Z0-9]{64}$', roles: PUBLIC_ACCESS }
-    - { path: '^/ci-report-dl/[a-zA-Z0-9]{64}$', roles: PUBLIC_ACCESS }
     - { path: '^/application/config', roles: PUBLIC_ACCESS }
     - { path: '^/auth/(login|logout)', roles: PUBLIC_ACCESS }
-    - { path: '^/ilios/health', roles: PUBLIC_ACCESS }
-    - { path: '^/', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/auth', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/api', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/application', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/upload', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/error', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/', roles: PUBLIC_ACCESS }
   access_decision_manager:
     allow_if_all_abstain: false
     strategy: unanimous

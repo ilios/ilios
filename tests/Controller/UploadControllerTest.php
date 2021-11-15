@@ -65,6 +65,22 @@ class UploadControllerTest extends WebTestCase
         $this->assertSame($data['filename'], 'TESTFILE.txt');
         $this->assertSame($data['fileHash'], md5_file(__FILE__));
     }
+    public function testAnonymousUploadFileDenied()
+    {
+        $client = static::createClient();
+
+        $this->makeJsonRequest(
+            $client,
+            'POST',
+            '/upload',
+            null,
+            [],
+            ['file' => $this->fakeTestFile]
+        );
+
+        $response = $client->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
 
     public function testBadUpload()
     {
