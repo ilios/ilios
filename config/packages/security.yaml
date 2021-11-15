@@ -7,6 +7,7 @@ security:
     - { path: '^/ci-report-dl/[a-zA-Z0-9]{64}$', roles: PUBLIC_ACCESS }
     - { path: '^/application/config', roles: PUBLIC_ACCESS }
     - { path: '^/auth/(login|logout)', roles: PUBLIC_ACCESS }
+    - { path: '^/ilios/health', roles: PUBLIC_ACCESS }
     - { path: '^/', roles: IS_AUTHENTICATED_FULLY }
   access_decision_manager:
     allow_if_all_abstain: false
