@@ -3,7 +3,7 @@ security:
   access_control:
     - { path: '^/api/doc', roles: PUBLIC_ACCESS }
     - { path: '^/api$', roles: PUBLIC_ACCESS }
-    - { path: '^/lm/\s+', roles: PUBLIC_ACCESS }
+    - { path: '^/lm/[a-zA-Z0-9]{64}$', roles: PUBLIC_ACCESS }
     - { path: '^/application/config', roles: PUBLIC_ACCESS }
     - { path: '^/auth/(login|logout)', roles: PUBLIC_ACCESS }
     - { path: '^/', roles: IS_AUTHENTICATED_FULLY }
