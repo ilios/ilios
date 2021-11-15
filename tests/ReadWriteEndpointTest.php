@@ -67,6 +67,16 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
     }
 
     /**
+     * Test a failure when posting an object
+     */
+    public function testPostAnonymousAccessDenied()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $this->anonymousDeniedPostTest($data);
+    }
+
+    /**
      * Test POST several of this type of object
      */
     public function testPostMany()
@@ -225,5 +235,21 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         $this->deleteTest($data['id']);
+    }
+
+    public function testPutAnonymousAccessDenied()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+
+        $this->anonymousDeniedPutTest($data);
+    }
+
+    public function testPatchAnonymousAccessDenied()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+
+        $this->anonymousDeniedPatchTest($data);
     }
 }

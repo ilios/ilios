@@ -132,4 +132,16 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
 
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
+    public function testAnonymousPostDenied()
+    {
+        $url = '/api/' . $this->apiVersion . '/curriculuminventoryexports/';
+        $this->createJsonRequest(
+            'POST',
+            $url,
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
 }

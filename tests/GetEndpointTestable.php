@@ -66,4 +66,10 @@ trait GetEndpointTestable
         }
         $this->filterTest($filters, $expectedData);
     }
+
+    public function testAccessDenied()
+    {
+        $this->anonymousAccessDeniedOneTest();
+        $this->anonymousAccessDeniedAllTest();
+    }
 }

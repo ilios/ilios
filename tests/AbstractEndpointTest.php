@@ -961,6 +961,28 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Test POSTing without authentication to the API
+     */
+    protected function anonymousDeniedPostTest(array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_post",
+                ['version' => $this->apiVersion]
+            ),
+            json_encode([$responseKey => [$data]]),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
      * Test POSTing bad data to the API
      * @param array $data
      * @param int $code
@@ -983,6 +1005,28 @@ abstract class AbstractEndpointTest extends WebTestCase
         $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, $code);
+    }
+
+    /**
+     * Test PUTing as anonymous to the API
+     */
+    protected function anonymousDeniedPutTest(array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $this->createJsonRequest(
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_put",
+                ['version' => $this->apiVersion, 'id' => $data['id']]
+            ),
+            json_encode([$responseKey => [$data]]),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -1127,6 +1171,28 @@ abstract class AbstractEndpointTest extends WebTestCase
     }
 
     /**
+     * Test PATCHing as anonymous to the API
+     */
+    protected function anonymousDeniedPatchTest(array $data)
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $this->createJsonRequest(
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_patch",
+                ['version' => $this->apiVersion, 'id' => $data['id']]
+            ),
+            json_encode([$responseKey => [$data]]),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
      * Test deleting an object from the API
      *
      * @param $id
@@ -1189,6 +1255,49 @@ abstract class AbstractEndpointTest extends WebTestCase
         $response = $this->kernelBrowser->getResponse();
 
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * Ensure that anonymous users cannot access the resource
+     */
+    protected function anonymousAccessDeniedOneTest()
+    {
+        $endpoint = $this->getPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_getone",
+                ['version' => $this->apiVersion, 'id' => $data['id']]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Ensure that anonymous users cannot access the resource
+     */
+    protected function anonymousAccessDeniedAllTest()
+    {
+        $endpoint = $this->getPluralName();
+        $loader = $this->getDataLoader();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_${endpoint}_getall",
+                ['version' => $this->apiVersion]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 
     /**

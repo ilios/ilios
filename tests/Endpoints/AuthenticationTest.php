@@ -552,4 +552,49 @@ class AuthenticationTest extends ReadWriteEndpointTest
             $this->putTest($data, $postData, $id);
         }
     }
+
+    public function anonymousAccessDeniedOneTest()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_authentications_getone",
+                ['version' => $this->apiVersion, 'id' => $data['user']]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+    public function anonymousAccessDeniedAllTest()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_authentications_getall",
+                ['version' => $this->apiVersion]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    protected function anonymousDeniedPutTest(array $data)
+    {
+        $data['id'] = $data['user'];
+        parent::anonymousDeniedPutTest($data);
+    }
+
+    protected function anonymousDeniedPatchTest(array $data)
+    {
+        $data['id'] = $data['user'];
+        parent::anonymousDeniedPatchTest($data);
+    }
 }

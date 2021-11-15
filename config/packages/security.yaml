@@ -3,6 +3,7 @@ security:
   access_control:
     - { path: ^/api/doc, roles: PUBLIC_ACCESS }
     - { path: ^/(auth|application)/(login|config|logout), roles: PUBLIC_ACCESS }
+    - { path: '^/', roles: IS_AUTHENTICATED_FULLY }
   access_decision_manager:
     allow_if_all_abstain: false
     strategy: unanimous

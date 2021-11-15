@@ -156,6 +156,28 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertCount(9, $materials, 'All materials returned');
     }
 
+    public function testAccessDenied()
+    {
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => 99
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_usermaterials',
+            $parameters
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $url
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
     protected function getMaterials($userId, $before = null, $after = null, $authUser = null)
     {
         $parameters = [
