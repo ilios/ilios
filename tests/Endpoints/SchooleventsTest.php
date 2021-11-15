@@ -681,6 +681,29 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
+    public function testAccessDenied()
+    {
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => 1,
+            'from' => 1000000,
+            'to' => 1000000,
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_schoolevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
     protected function getEvents($schoolId, $from, $to, $userId = null)
     {
         $parameters = [

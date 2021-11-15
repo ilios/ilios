@@ -53,4 +53,23 @@ class ErrorControllerTest extends WebTestCase
         $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode(), $response->getContent());
     }
+
+    public function testAnonymousAccessDenied()
+    {
+        $faker = FakerFactory::create();
+
+        $data = [
+            'mainMessage' => $faker->text(100),
+            'stack' => $faker->text(1000)
+        ];
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'POST',
+            '/errors',
+            json_encode(['data' => json_encode($data)])
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
 }

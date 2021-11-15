@@ -42,7 +42,7 @@ class CurrentSessionTest extends WebTestCase
         unset($this->fixtures);
     }
 
-    public function testGetGetCurrentSession()
+    public function testGetCurrentSession()
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -68,5 +68,21 @@ class CurrentSessionTest extends WebTestCase
         $data = json_decode($response->getContent(), true);
 
         $this->assertEquals(2, $data['userId']);
+    }
+    public function testAccessDeniedForAnonymousUser()
+    {
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_currentsession',
+            ['version' => $this->apiVersion]
+        );
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'GET',
+            $url,
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 }

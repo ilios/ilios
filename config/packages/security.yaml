@@ -1,8 +1,16 @@
 security:
   enable_authenticator_manager: true
   access_control:
-    - { path: ^/api/doc, roles: PUBLIC_ACCESS }
-    - { path: ^/(auth|application)/(login|config|logout), roles: PUBLIC_ACCESS }
+    - { path: '^/api/doc', roles: PUBLIC_ACCESS }
+    - { path: '^/api$', roles: PUBLIC_ACCESS }
+    - { path: '^/application/config', roles: PUBLIC_ACCESS }
+    - { path: '^/auth/(login|logout)', roles: PUBLIC_ACCESS }
+    - { path: '^/auth', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/api', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/application', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/upload', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/error', roles: IS_AUTHENTICATED_FULLY }
+    - { path: '^/', roles: PUBLIC_ACCESS }
   access_decision_manager:
     allow_if_all_abstain: false
     strategy: unanimous
@@ -18,32 +26,7 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
-    authenticated_auth:
-      pattern:    ^/auth
-      stateless: true
-      custom_authenticators:
-        - App\Security\JsonWebTokenAuthenticator
-      provider: session_user
-    authenticated_application:
-      pattern:    ^/application
-      stateless: true
-      custom_authenticators:
-        - App\Security\JsonWebTokenAuthenticator
-      provider: session_user
-    upload:
-      pattern:    ^/upload
-      stateless: true
-      custom_authenticators:
-        - App\Security\JsonWebTokenAuthenticator
-      provider: session_user
-    errors:
-      pattern:    ^/errors
-      stateless: true
-      custom_authenticators:
-        - App\Security\JsonWebTokenAuthenticator
-      provider: session_user
-    default:
-      pattern:    ^/api
+    main:
       stateless: true
       custom_authenticators:
         - App\Security\JsonWebTokenAuthenticator

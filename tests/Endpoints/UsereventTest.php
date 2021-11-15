@@ -1091,6 +1091,29 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
+    public function testAccessDenied()
+    {
+        $parameters = [
+            'version' => $this->apiVersion,
+            'from' => 1000000,
+            'to' => 1000000,
+            'id' => 99,
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'ilios_api_userevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
     /**
      * @param int $userId
      * @param int $from

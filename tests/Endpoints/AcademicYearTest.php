@@ -137,4 +137,37 @@ class AcademicYearTest extends ReadEndpointTest
 
         return $academicYears;
     }
+
+    public function anonymousAccessDeniedOneTest()
+    {
+        $academicYears = $this->getYears();
+        $id = $academicYears[0]['id'];
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_academicyears_getone",
+                ['version' => $this->apiVersion, 'id' => $id]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+    public function anonymousAccessDeniedAllTest()
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_academicyears_getall",
+                ['version' => $this->apiVersion]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
 }

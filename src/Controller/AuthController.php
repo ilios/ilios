@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+use function sleep;
+
 class AuthController extends AbstractController
 {
     /**
@@ -35,15 +37,12 @@ class AuthController extends AbstractController
     public function whoamiAction(TokenStorageInterface $tokenStorage): JsonResponse
     {
         $token = $tokenStorage->getToken();
-        if ($token?->isAuthenticated()) {
-            /** @var SessionUserInterface $sessionUser */
-            $sessionUser = $token->getUser();
-            if ($sessionUser instanceof SessionUserInterface) {
-                return new JsonResponse(['userId' => $sessionUser->getId()], Response::HTTP_OK);
-            }
+        $sessionUser = $token?->getUser();
+        if (!$token?->isAuthenticated() || !$sessionUser instanceof SessionUserInterface) {
+            throw new Exception('Attempted to access whoami with no valid user');
         }
 
-        return new JsonResponse(['userId' => null], Response::HTTP_UNAUTHORIZED);
+        return new JsonResponse(['userId' => $sessionUser->getId()], Response::HTTP_OK);
     }
 
     /**
@@ -56,16 +55,14 @@ class AuthController extends AbstractController
         JsonWebTokenManager $jwtManager
     ): JsonResponse {
         $token = $tokenStorage->getToken();
-        if ($token?->isAuthenticated()) {
-            $sessionUser = $token->getUser();
-            if ($sessionUser instanceof SessionUserInterface) {
-                $ttl = $request->get('ttl') ? $request->get('ttl') : 'PT8H';
-                $jwt = $jwtManager->createJwtFromSessionUser($sessionUser, $ttl);
-                return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
-            }
+        $sessionUser = $token?->getUser();
+        if (!$token?->isAuthenticated() || !$sessionUser instanceof SessionUserInterface) {
+            throw new Exception('Attempted to access token with no valid user');
         }
 
-        return new JsonResponse(['jwt' => null], Response::HTTP_UNAUTHORIZED);
+        $ttl = $request->get('ttl') ? $request->get('ttl') : 'PT8H';
+        $jwt = $jwtManager->createJwtFromSessionUser($sessionUser, $ttl);
+        return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 
     /**
@@ -92,28 +89,25 @@ class AuthController extends AbstractController
     ): JsonResponse {
         $now = new \DateTime();
         $token = $tokenStorage->getToken();
-        if ($token?->isAuthenticated()) {
-            /** @var SessionUserInterface $sessionUser */
-            $sessionUser = $token->getUser();
-            if ($sessionUser instanceof SessionUserInterface) {
-                /** @var UserInterface $user */
-                $user = $userRepository->findOneBy(['id' => $sessionUser->getId()]);
-                $authentication = $authenticationRepository->findOneBy(['user' => $user->getId()]);
-                if (!$authentication) {
-                    $authentication = $authenticationRepository->create();
-                    $authentication->setUser($user);
-                }
-
-                $authentication->setInvalidateTokenIssuedBefore($now);
-                $authenticationRepository->update($authentication);
-
-                sleep(1);
-                $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);
-
-                return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
-            }
+        $sessionUser = $token?->getUser();
+        if (!$token?->isAuthenticated() || !$sessionUser instanceof SessionUserInterface) {
+            throw new Exception('Attempted to access invalidate tokens with no valid user');
         }
 
-        throw new Exception('Attempted to invalidate token with no valid user');
+        /** @var UserInterface $user */
+        $user = $userRepository->findOneBy(['id' => $sessionUser->getId()]);
+        $authentication = $authenticationRepository->findOneBy(['user' => $user->getId()]);
+        if (!$authentication) {
+            $authentication = $authenticationRepository->create();
+            $authentication->setUser($user);
+        }
+
+        $authentication->setInvalidateTokenIssuedBefore($now);
+        $authenticationRepository->update($authentication);
+
+        sleep(1);
+        $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);
+
+        return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 }
