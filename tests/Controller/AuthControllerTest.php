@@ -158,9 +158,6 @@ class AuthControllerTest extends WebTestCase
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
-        $response = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('userId', $response);
-        $this->assertSame($response['userId'], null);
     }
 
     public function testWhoAmIExpiredToken()
@@ -242,9 +239,6 @@ class AuthControllerTest extends WebTestCase
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
-        $response = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('jwt', $response);
-        $this->assertSame($response['jwt'], null);
     }
 
     public function testGetTokenForExpiredToken()
@@ -301,7 +295,7 @@ class AuthControllerTest extends WebTestCase
         );
 
         $response = $this->kernelBrowser->getResponse();
-        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 
     protected function getExpiredToken(int $userId): string
