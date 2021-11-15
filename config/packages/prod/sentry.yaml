@@ -6,7 +6,3 @@ sentry:
         before_send: 'App\Service\SentryBeforeSend'
         send_default_pii: true
 
-when@test:
-    sentry:
-        dsn: ~
-        tracing: false
