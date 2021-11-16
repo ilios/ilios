@@ -1,4 +1,4 @@
-name: Deploy Tagged Containers
+name: Deploy Tagged Version
 on:
   push:
     tags:
@@ -91,6 +91,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
+        build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
 
