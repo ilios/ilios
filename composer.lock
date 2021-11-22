@@ -15004,7 +15004,6 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
-        "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0
     },
