@@ -182,3 +182,6 @@ services:
     Elasticsearch\Client:
       factory: ['App\Service\ElasticSearchFactory', 'getClient']
       arguments: ['@App\Service\Config']
+
+    http_client:
+      class: Symfony\Component\HttpClient\NativeHttpClient
