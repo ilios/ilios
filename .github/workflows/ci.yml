@@ -221,5 +221,3 @@ jobs:
         run: composer install --no-interaction --prefer-dist
       - name: Run Update Frontend
         run: bin/console ilios:update-frontend
-      - name: Run Update Frontend (Staging)
-        run: bin/console ilios:update-frontend --staging-build
