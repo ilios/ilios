@@ -185,7 +185,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 
     protected function activateVersion(string $distributionPath): void
     {
-        $frontendPath = $this->cacheDir . self::ACTIVE_FRONTEND_VERSION_DIRECTORY;
+        $frontendPath = $this->kernelCacheDir . self::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $this->fs->remove($frontendPath);
         $this->fs->mkdir($frontendPath);
         $this->fs->copy("${distributionPath}/index.json", "${frontendPath}/index.json");
