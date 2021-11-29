@@ -38,9 +38,9 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     public const UNPACKED_DIRECTORY = '/deploy-dist/';
 
     public const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
-    public const STAGING_ASSET_LIST = 'http://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
+    public const STAGING_ASSET_LIST = 'https://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
     public const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
-    public const PRODUCTION_ASSET_LIST = 'http://frontend-archive-production.s3.us-west-2.amazonaws.com/';
+    public const PRODUCTION_ASSET_LIST = 'https://frontend-archive-production.s3.us-west-2.amazonaws.com/';
 
     private const STAGING = 'stage';
     private const PRODUCTION = 'prod';
@@ -193,12 +193,8 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 
     protected function downloadAndExtractAllArchives(string $environment): ?string
     {
-        $url = self::PRODUCTION_ASSET_LIST;
-        if ($environment === self::STAGING) {
-            $url = self::STAGING_ASSET_LIST;
-        }
         $this->optionalOutput('Downloading List of Frontend Distributions...');
-        $distributions = $this->extractS3Index($url);
+        $distributions = $this->extractS3Index($environment);
         if (empty($distributions)) {
             $this->optionalOutput('There are no current frontend distributions for your API version', 'comment');
             return null;
@@ -235,8 +231,17 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         return null;
     }
 
-    protected function extractS3Index(string $url): array
+    protected function extractS3Index(string $environment): array
     {
+        $url = self::PRODUCTION_ASSET_LIST;
+        if ($environment === self::STAGING) {
+            $url = self::STAGING_ASSET_LIST;
+        }
+
+        $assetUrl = self::PRODUCTION_CDN_ASSET_DOMAIN;
+        if ($environment === self::STAGING) {
+            $assetUrl = self::STAGING_CDN_ASSET_DOMAIN;
+        }
         $xmlString = $this->fetch->get($url . '?prefix=' . $this->apiVersion);
         $xml = new SimpleXMLElement($xmlString);
         $currentVersionEtag = false;
@@ -251,7 +256,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 $etag = (string) $element->ETag;
                 $allDistributions[] = [
                     'key' => (string) $element->Key,
-                    'url' => $url . (string) $element->Key,
+                    'url' => $assetUrl . (string) $element->Key,
                     'lastModified' => new DateTime((string) $element->LastModified),
                     'eTag' => trim($etag, '"'),
                     'isCurrentVersion' => $etag === $currentVersionEtag,
@@ -275,7 +280,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         ];
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
         $version = explode(':', $key)[1];
-
         $file = is_readable($archivePath) ? new SplFileObject($archivePath, "r") : null;
         $downloadedLastModified = $file ? new DateTime('@' . $file->getMTime()) : false;
         if (!$downloadedLastModified || $downloadedLastModified < $lastModified) {
