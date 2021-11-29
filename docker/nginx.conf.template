@@ -5,18 +5,17 @@ server {
     server_tokens off;
 
     location / {
+        gzip_static on;
         # try to serve file directly, fallback to index.php
-        try_files $uri /frontend-assets/$uri /index.php$is_args$args;
+        try_files $uri /index.php$is_args$args;
     }
 
     # cache fingerprinted ilios assets forever
-    # serve them front /frontend-assets
     # ex: sunburst-white-background192-68bd609abe5ea5043e544352c4ca9942.png
     # ex: assets/chunk.56bf0f0960e34acefd19.js
     location ~* "[a-z\-0-9]+-[a-z0-9]{15,}\.(css|js|png|svg)$" {
         gzip_static on;
         expires max;
-        try_files /frontend-assets/$uri $uri;
     }
 
     # special handling for the webmanifest file which needs to send a content type
@@ -26,7 +25,6 @@ server {
         gzip_static on;
         expires max;
         default_type application/manifest+json;
-        try_files /frontend-assets/$uri $uri;
     }
 
     #Symfony Docs on nginx: https://symfony.com/doc/current/setup/web_server_configuration.html#nginx

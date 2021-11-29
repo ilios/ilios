@@ -67,7 +67,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fs->mkdir($this->productionTemporaryFileStore);
         $this->stagingTemporaryFileStore = $temporaryFileStorePath . '/stage';
         $this->fs->mkdir($this->stagingTemporaryFileStore);
-        $this->frontendAssetDirectory = "${kernelProjectDir}/public/frontend-assets/";
+        $this->frontendAssetDirectory = "${kernelProjectDir}/public/";
         $this->output = null;
 
         parent::__construct();
