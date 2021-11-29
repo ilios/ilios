@@ -201,11 +201,9 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
         $this->optionalOutput('Done!');
         $progressBar = $this->output ? new ProgressBar($this->output, count($distributions)) : null;
-        if ($progressBar) {
-            $progressBar->setFormat('%message% %current%/%max% [%bar%] %percent:3s%%');
-            $progressBar->setMessage('Downloading Frontend Archives');
-            $progressBar->start();
-        }
+        $progressBar?->setFormat('%message% %current%/%max% [%bar%] %percent:3s%%');
+        $progressBar?->setMessage('Downloading Frontend Archives');
+        $progressBar?->start();
         foreach ($distributions as $distribution) {
             $this->downloadAndExtractArchive(
                 $distribution['key'],
@@ -213,13 +211,9 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 $distribution['lastModified'],
                 $environment === 'prod' ? $this->productionTemporaryFileStore : $this->stagingTemporaryFileStore
             );
-            if ($progressBar) {
-                $progressBar->advance();
-            }
+            $progressBar?->advance();
         }
-        if ($progressBar) {
-            $progressBar->finish();
-        }
+        $progressBar?->finish();
         $this->optionalOutput('');
         $this->optionalOutput('Done!');
 
