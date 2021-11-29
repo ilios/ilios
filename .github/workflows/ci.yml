@@ -200,3 +200,24 @@ jobs:
           extensions: apcu
       - name: Run Setup Command
         run: bin/setup
+
+  check_update_frontend_command:
+    name: Update Frontend Command
+    needs: code_style
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [8.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@2.15.0
+        with:
+          coverage: none
+          php-version: ${{ matrix.php-version }}
+          extensions: apcu
+      - name: Run Update Frontend
+        run: bin/console ilios:update-frontend
+      - name: Run Update Frontend (Staging)
+        run: bin/console ilios:update-frontend --staging-build
