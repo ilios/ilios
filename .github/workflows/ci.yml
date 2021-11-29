@@ -217,6 +217,8 @@ jobs:
           coverage: none
           php-version: ${{ matrix.php-version }}
           extensions: apcu
+      - name: install dependencies
+        run: composer install --no-interaction --prefer-dist
       - name: Run Update Frontend
         run: bin/console ilios:update-frontend
       - name: Run Update Frontend (Staging)
