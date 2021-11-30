@@ -17,11 +17,10 @@ use App\Traits\ApiEntityValidation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -40,7 +39,7 @@ class Authentications
     use ApiEntityValidation;
 
     public function __construct(
-        protected UserPasswordEncoderInterface $passwordEncoder,
+        protected UserPasswordHasherInterface $passwordHasher,
         protected SessionUserProvider $sessionUserProvider,
         protected AuthenticationRepository $repository,
         protected UserRepository $userRepository,
@@ -87,14 +86,14 @@ class Authentications
             $users[$user->getId()] = $user;
         }
 
-        $encodedPasswords = [];
+        $hashedPasswords = [];
         foreach ($arr as $obj) {
             if (!empty($obj->password) && !empty($obj->user)) {
                 $user = $users[$obj->user];
                 if ($user) {
                     $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
-                    $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $obj->password);
-                    $encodedPasswords[$user->getId()] = $encodedPassword;
+                    $hashedPassword = $this->passwordHasher->hashPassword($sessionUser, $obj->password);
+                    $hashedPasswords[$user->getId()] = $hashedPassword;
                 }
             }
             //unset the password here in case it is NULL and didn't satisfy the above condition
@@ -111,7 +110,7 @@ class Authentications
             $entitiesByUserId[$authentication->getUser()->getId()] = $authentication;
         }
 
-        foreach ($encodedPasswords as $userId => $password) {
+        foreach ($hashedPasswords as $userId => $password) {
             $entitiesByUserId[$userId]->setPasswordHash($password);
         }
         $entities = array_values($entitiesByUserId);
@@ -185,7 +184,7 @@ class Authentications
             $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
-                $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
+                $hashedPassword = $this->passwordHasher->hashPassword($sessionUser, $authObject->password);
             }
         }
         unset($authObject->password);
@@ -197,8 +196,8 @@ class Authentications
             'json',
             ['object_to_populate' => $entity]
         );
-        if (isset($encodedPassword)) {
-            $entity->setPasswordHash($encodedPassword);
+        if (isset($hashedPassword)) {
+            $entity->setPasswordHash($hashedPassword);
         }
 
         $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
@@ -240,7 +239,7 @@ class Authentications
             $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
-                $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, $authObject->password);
+                $hashedPassword = $this->passwordHasher->hashPassword($sessionUser, $authObject->password);
             }
         }
         unset($authObject->password);
@@ -252,8 +251,8 @@ class Authentications
             'json',
             ['object_to_populate' => $entity]
         );
-        if (isset($encodedPassword)) {
-            $entity->setPasswordHash($encodedPassword);
+        if (isset($hashedPassword)) {
+            $entity->setPasswordHash($hashedPassword);
         }
 
         $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);

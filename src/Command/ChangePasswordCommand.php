@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Change a users's password
@@ -26,7 +26,7 @@ class ChangePasswordCommand extends Command
     public function __construct(
         protected UserRepository $userRepository,
         protected AuthenticationRepository $authenticationRepository,
-        protected UserPasswordEncoderInterface $encoder,
+        protected UserPasswordHasherInterface $hasher,
         protected SessionUserProvider $sessionUserProvider
     ) {
         parent::__construct();
@@ -84,8 +84,8 @@ class ChangePasswordCommand extends Command
 
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
-        $encodedPassword = $this->encoder->encodePassword($sessionUser, $password);
-        $authentication->setPasswordHash($encodedPassword);
+        $hashedPassword = $this->hasher->hashPassword($sessionUser, $password);
+        $authentication->setPasswordHash($hashedPassword);
 
         $this->authenticationRepository->update($authentication);
 

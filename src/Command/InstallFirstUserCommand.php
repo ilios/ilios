@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Creates a first user account with Course Director privileges.
@@ -53,7 +53,7 @@ class InstallFirstUserCommand extends Command
         protected UserRepository $userRepository,
         protected SchoolRepository $schoolRepository,
         protected AuthenticationRepository $authenticationRepository,
-        protected UserPasswordEncoderInterface $passwordEncoder,
+        protected UserPasswordHasherInterface $passwordHasher,
         protected SessionUserProvider $sessionUserProvider
     ) {
         parent::__construct();
@@ -163,10 +163,10 @@ class InstallFirstUserCommand extends Command
         $user->setAuthentication($authentication);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
-        $encodedPassword = $this->passwordEncoder->encodePassword($sessionUser, self::PASSWORD);
+        $hashedPassword = $this->passwordHasher->hashPassword($sessionUser, self::PASSWORD);
 
         $authentication->setUsername(self::USERNAME);
-        $authentication->setPasswordHash($encodedPassword);
+        $authentication->setPasswordHash($hashedPassword);
         $this->authenticationRepository->update($authentication);
 
         $output->writeln('Success!');
