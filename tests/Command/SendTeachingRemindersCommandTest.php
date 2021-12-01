@@ -78,7 +78,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $command = new SendTeachingRemindersCommand(
             $this->fakeOfferingRepository,
             $this->fakeSchoolRepository,
-            $kernel->getContainer()->get('twig'),
+            static::getContainer()->get('twig'),
             $this->mailer,
             $config,
             $this->fs,
