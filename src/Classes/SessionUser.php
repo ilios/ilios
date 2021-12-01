@@ -134,7 +134,7 @@ class SessionUser implements SessionUserInterface
         );
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }

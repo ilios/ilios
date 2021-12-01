@@ -9,8 +9,8 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use App\Traits\AuthenticationService;
@@ -22,7 +22,7 @@ class FormAuthentication implements AuthenticationInterface
     public function __construct(
         protected AuthenticationRepository $authenticationRepository,
         protected UserRepository $userRepository,
-        protected UserPasswordEncoderInterface $encoder,
+        protected UserPasswordHasherInterface $hasher,
         protected TokenStorageInterface $tokenStorage,
         protected JsonWebTokenManager $jwtManager,
         protected SessionUserProvider $sessionUserProvider
@@ -62,7 +62,7 @@ class FormAuthentication implements AuthenticationInterface
             if ($authEntity) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
                 if ($sessionUser->isEnabled()) {
-                    $passwordValid = $this->encoder->isPasswordValid($sessionUser, $password);
+                    $passwordValid = $this->hasher->isPasswordValid($sessionUser, $password);
                     if ($passwordValid) {
                         $this->updatePassword($authEntity, $sessionUser, $password);
                         $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
@@ -101,8 +101,8 @@ class FormAuthentication implements AuthenticationInterface
         SessionUserInterface $sessionUser,
         $password
     ) {
-        if ($this->encoder->needsRehash($sessionUser)) {
-            $newPassword = $this->encoder->encodePassword($sessionUser, $password);
+        if ($this->hasher->needsRehash($sessionUser)) {
+            $newPassword = $this->hasher->hashPassword($sessionUser, $password);
             $authEntity->setPasswordHash($newPassword);
             $this->authenticationRepository->update($authEntity);
         }

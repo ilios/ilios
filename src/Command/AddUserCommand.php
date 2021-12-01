@@ -10,7 +10,6 @@ use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,7 +17,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Add a user by looking them up in the directory
@@ -31,7 +30,7 @@ class AddUserCommand extends Command
         protected UserRepository $userRepository,
         protected AuthenticationRepository $authenticationRepository,
         protected SchoolRepository $schoolRepository,
-        protected UserPasswordEncoderInterface $encoder,
+        protected UserPasswordHasherInterface $hasher,
         protected SessionUserProvider $sessionUserProvider
     ) {
         parent::__construct();
@@ -176,8 +175,8 @@ class AddUserCommand extends Command
             $user->setAuthentication($authentication);
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
 
-            $encodedPassword = $this->encoder->encodePassword($sessionUser, $userRecord['password']);
-            $authentication->setPasswordHash($encodedPassword);
+            $hashedPassword = $this->hasher->hashPassword($sessionUser, $userRecord['password']);
+            $authentication->setPasswordHash($hashedPassword);
 
             $this->authenticationRepository->update($authentication);
 

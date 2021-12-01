@@ -14,14 +14,14 @@ use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 use App\Service\FormAuthentication;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class FormAuthenticationTest extends TestCase
 {
     protected $authenticationRepository;
     protected $userRepository;
-    protected $encoder;
+    protected $hasher;
     protected $tokenStorage;
     protected $jwtManager;
     protected $sessionUserProvider;
@@ -38,7 +38,7 @@ class FormAuthenticationTest extends TestCase
     {
         parent::setUp();
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
-        $this->encoder = m::mock(UserPasswordEncoderInterface::class);
+        $this->hasher = m::mock(UserPasswordHasherInterface::class);
         $this->tokenStorage = m::mock(TokenStorageInterface::class);
         $this->jwtManager = m::mock(JsonWebTokenManager::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
@@ -46,7 +46,7 @@ class FormAuthenticationTest extends TestCase
         $this->obj = new FormAuthentication(
             $this->authenticationRepository,
             $this->userRepository,
-            $this->encoder,
+            $this->hasher,
             $this->tokenStorage,
             $this->jwtManager,
             $this->sessionUserProvider
@@ -60,7 +60,7 @@ class FormAuthenticationTest extends TestCase
     {
         unset($this->authenticationRepository);
         unset($this->userRepository);
-        unset($this->encoder);
+        unset($this->hasher);
         unset($this->tokenStorage);
         unset($this->jwtManager);
         unset($this->sessionUserProvider);
@@ -129,7 +129,7 @@ class FormAuthenticationTest extends TestCase
         $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
-        $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
+        $this->hasher->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
         $result = $this->obj->login($request);
 
         $this->assertTrue($result instanceof JsonResponse);
@@ -181,11 +181,11 @@ class FormAuthenticationTest extends TestCase
             ->shouldReceive('isEnabled')->andReturn(true)->mock();
         $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
             ->shouldReceive('getUser')->andReturn($user)->mock();
-        $this->encoder->shouldReceive('needsRehash')->with($sessionUser)->andReturn(false);
+        $this->hasher->shouldReceive('needsRehash')->with($sessionUser)->andReturn(false);
         $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
-        $this->encoder->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
+        $this->hasher->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
         $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
         $result = $this->obj->login($request);

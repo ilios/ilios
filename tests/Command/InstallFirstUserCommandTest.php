@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class InstallFirstUserCommandTest
@@ -30,7 +30,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     protected $userRepository;
     protected $authenticationRepository;
     protected $schoolRepository;
-    protected $encoder;
+    protected $hasher;
     protected $questionHelper;
     protected $sessionUserProvider;
 
@@ -48,14 +48,14 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->userRepository = m::mock(UserRepository::class);
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
         $this->schoolRepository = m::mock(SchoolRepository::class);
-        $this->encoder = m::mock(UserPasswordEncoderInterface::class);
+        $this->hasher = m::mock(UserPasswordHasherInterface::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
 
         $command = new InstallFirstUserCommand(
             $this->userRepository,
             $this->schoolRepository,
             $this->authenticationRepository,
-            $this->encoder,
+            $this->hasher,
             $this->sessionUserProvider
         );
         $kernel = self::bootKernel();
@@ -170,7 +170,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('update')->with($user);
         $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
-        $this->encoder->shouldReceive('encodePassword')->with($sessionUser, 'Ch4nge_m3')->andReturn('hashBlurb');
+        $this->hasher->shouldReceive('hashPassword')->with($sessionUser, 'Ch4nge_m3')->andReturn('hashBlurb');
         $this->userRepository->shouldReceive('update');
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
     }
