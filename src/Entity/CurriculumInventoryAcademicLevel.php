@@ -42,7 +42,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     protected $id;
 
     /**

@@ -60,7 +60,7 @@ class Authentication implements AuthenticationInterface, Stringable
      */
     #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $invalidateTokenIssuedBefore;
 

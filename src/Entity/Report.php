@@ -34,7 +34,7 @@ class Report implements ReportInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     protected $id;
 
     /**
@@ -56,7 +56,7 @@ class Report implements ReportInterface
      */
     #[ORM\Column(name: 'creation_date', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $createdAt;
 
