@@ -75,12 +75,12 @@
         "version": "v0.5.3"
     },
     "doctrine/doctrine-bundle": {
-        "version": "2.4",
+        "version": "2.5",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "2.4",
-            "ref": "bac5c852ff628886de2753215fe5eb1f9ce980fb"
+            "ref": "032f52ed50a27762b78ca6a2aaf432958c473553"
         },
         "files": [
             "config/packages/doctrine.yaml",
@@ -91,12 +91,12 @@
         ]
     },
     "doctrine/doctrine-fixtures-bundle": {
-        "version": "3.0",
+        "version": "3.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "3.0",
-            "ref": "e5b542d4ef47d8a003c91beb35650c76907f7e53"
+            "ref": "1f5514cfa15b947298df4d771e694e578d4c204d"
         },
         "files": [
             "src/DataFixtures/AppFixtures.php"
@@ -831,12 +831,12 @@
         "version": "v5.3.0"
     },
     "symfony/security-bundle": {
-        "version": "5.3",
+        "version": "5.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "5.3",
-            "ref": "227eba5e0c7e8fc4beda3537c3d81dc23ba08182"
+            "ref": "3307d76caa2d12fb10ade57975beb3d8975df396"
         },
         "files": [
             "config/packages/security.yaml"
@@ -882,12 +882,12 @@
         "version": "v5.2.0"
     },
     "symfony/twig-bundle": {
-        "version": "5.3",
+        "version": "5.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.3",
-            "ref": "3dd530739a4284e3272274c128dbb7a8140a66f1"
+            "version": "5.4",
+            "ref": "bffbb8f1a849736e64006735afae730cb428b6ff"
         },
         "files": [
             "config/packages/twig.yaml",
