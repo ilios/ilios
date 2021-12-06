@@ -8,7 +8,7 @@ use App\Entity\DTO\MeshTermDTO;
 
 class MeshTermData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -35,7 +35,7 @@ class MeshTermData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
 
         return [
@@ -50,7 +50,7 @@ class MeshTermData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'bad'

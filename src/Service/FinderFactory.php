@@ -18,7 +18,7 @@ class FinderFactory
     /**
      * @return Finder
      */
-    public static function create()
+    public static function create(): Finder
     {
         return new Finder();
     }

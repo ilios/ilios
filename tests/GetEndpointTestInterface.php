@@ -16,7 +16,7 @@ interface GetEndpointTestInterface
      * positions:  array of the positions the expected items from the DataLoader
      * filter: array containing the filterKey and filterValue we are testing
      */
-    public function filtersToTest();
+    public function filtersToTest(): array;
 
     /**
      * Test fetching a single object

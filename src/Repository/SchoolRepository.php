@@ -86,7 +86,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      *
      * @return SchoolEvent[]
      */
-    public function findEventsForSchool($id, DateTime $from, DateTime $to)
+    public function findEventsForSchool($id, DateTime $from, DateTime $to): array
     {
         $offeringEvents = [];
         $groupEvents = $this->getOfferingEventsFor($id, $from, $to);
@@ -223,7 +223,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      *
      * @return SchoolEvent[] The events list with instructors added.
      */
-    public function addInstructorsToEvents(array $events)
+    public function addInstructorsToEvents(array $events): array
     {
         return $this->attachInstructorsToEvents($events, $this->_em);
     }
@@ -234,7 +234,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      * @param SchoolEvent[] $events
      * @return SchoolEvent[]
      */
-    public function addMaterialsToEvents(array $events)
+    public function addMaterialsToEvents(array $events): array
     {
         return $this->attachMaterialsToEvents($events, $this->userMaterialFactory, $this->_em);
     }
@@ -245,7 +245,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      * @param SchoolEvent[] $events
      * @return SchoolEvent[]
      */
-    public function addSessionDataToEvents(array $events)
+    public function addSessionDataToEvents(array $events): array
     {
         return $this->attachSessionDataToEvents($events, $this->_em);
     }
@@ -256,7 +256,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      * @param SchoolEvent[] $events A list of events.
      * @return SchoolEvent[] The events list with pre- and post-requisites added.
      */
-    public function addPreAndPostRequisites($id, array $events)
+    public function addPreAndPostRequisites($id, array $events): array
     {
         $events = $this->attachPreRequisitesToEvents($id, $events);
         return $this->attachPostRequisitesToEvents($id, $events);
@@ -281,7 +281,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      * @param SchoolEvent[] $events A list of events.
      * @return array The events list with pre-requisites attached.
      */
-    protected function attachPreRequisitesToEvents($id, array $events)
+    protected function attachPreRequisitesToEvents($id, array $events): array
     {
         if (empty($events)) {
             return $events;
@@ -400,7 +400,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      * @param array $events A list of events.
      * @return array The events list with post-requisites attached.
      */
-    protected function attachPostRequisitesToEvents($id, array $events)
+    protected function attachPostRequisitesToEvents($id, array $events): array
     {
         if (empty($events)) {
             return $events;

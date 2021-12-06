@@ -8,7 +8,7 @@ use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 
 class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -30,7 +30,7 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         $arr = [
             'id' => 3,
@@ -43,12 +43,12 @@ class CurriculumInventoryAcademicLevelData extends AbstractDataLoader
         return $arr;
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }
 
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

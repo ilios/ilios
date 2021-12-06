@@ -68,9 +68,6 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
         $this->courses = new ArrayCollection();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCourse(CourseInterface $course)
     {
         if (!$this->courses->contains($course)) {
@@ -79,9 +76,6 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCourse(CourseInterface $course)
     {
         if ($this->courses->contains($course)) {

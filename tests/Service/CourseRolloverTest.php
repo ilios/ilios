@@ -113,9 +113,6 @@ class CourseRolloverTest extends TestCase
     protected $service;
 
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -143,9 +140,6 @@ class CourseRolloverTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();
@@ -1160,7 +1154,7 @@ class CourseRolloverTest extends TestCase
      *
      * @return Course
      */
-    protected function createTestCourse()
+    protected function createTestCourse(): Course
     {
         $course = new Course();
         $course->setId(10);
@@ -1198,7 +1192,7 @@ class CourseRolloverTest extends TestCase
      * Gets a course with a bunch of relationships attached
      * @return Course
      */
-    protected function createTestCourseWithAssociations()
+    protected function createTestCourseWithAssociations(): Course
     {
         $course = $this->createTestCourse();
 
@@ -1344,7 +1338,7 @@ class CourseRolloverTest extends TestCase
      *
      * @return Course
      */
-    protected function createTestCourseWithOfferings()
+    protected function createTestCourseWithOfferings(): Course
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -1374,7 +1368,7 @@ class CourseRolloverTest extends TestCase
      *
      * @return int
      */
-    protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1)
+    protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1): int
     {
         $newYear = $course->getYear() + $interval;
         $this->courseRepository->shouldReceive('findOneBy')

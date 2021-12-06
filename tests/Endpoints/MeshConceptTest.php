@@ -16,10 +16,7 @@ class MeshConceptTest extends AbstractMeshTest
 {
     protected string $testName =  'meshConcepts';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadMeshConceptData::class,
@@ -41,7 +38,7 @@ class MeshConceptTest extends AbstractMeshTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => '1']],
@@ -57,7 +54,7 @@ class MeshConceptTest extends AbstractMeshTest
         ];
     }
 
-    protected function getTimeStampFields()
+    protected function getTimeStampFields(): array
     {
         return ['updatedAt', 'createdAt'];
     }

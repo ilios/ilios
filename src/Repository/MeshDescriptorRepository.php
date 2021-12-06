@@ -136,7 +136,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     /**
      * @return Query
      */
-    protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset)
+    protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset): Query
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('DISTINCT d')

@@ -15,7 +15,7 @@ class ErrorController extends AbstractController
     /**
      * @return Response
      */
-    public function errorAction(Request $request, LoggerInterface $logger)
+    public function errorAction(Request $request, LoggerInterface $logger): Response
     {
         if ($request->request->has('data')) {
             $data = $request->request->all()['data'];

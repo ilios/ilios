@@ -22,5 +22,5 @@ interface ConceptsEntityInterface
     /**
     * @return MeshConceptInterface[]|ArrayCollection
     */
-    public function getConcepts();
+    public function getConcepts(): Collection;
 }

@@ -8,7 +8,7 @@ use App\Entity\DTO\CourseClerkshipTypeDTO;
 
 class CourseClerkshipTypeData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -28,7 +28,7 @@ class CourseClerkshipTypeData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 3,
@@ -37,7 +37,7 @@ class CourseClerkshipTypeData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

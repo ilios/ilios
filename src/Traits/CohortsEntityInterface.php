@@ -22,5 +22,5 @@ interface CohortsEntityInterface
     /**
     * @return CohortInterface[]|ArrayCollection
     */
-    public function getCohorts();
+    public function getCohorts(): Collection;
 }

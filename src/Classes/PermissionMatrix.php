@@ -15,9 +15,6 @@ class PermissionMatrix implements PermissionMatrixInterface
      */
     protected $matrix = [];
 
-    /**
-     * @inheritdoc
-     */
     public function hasPermission(int $schoolId, string $capability, array $roles): bool
     {
         if (!array_key_exists($schoolId, $this->matrix)) {
@@ -39,10 +36,7 @@ class PermissionMatrix implements PermissionMatrixInterface
         return $hasPermission;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setPermission(int $schoolId, string $capability, array $roles)
+    public function setPermission(int $schoolId, string $capability, array $roles): mixed
     {
         if (!array_key_exists($schoolId, $this->matrix)) {
             $this->matrix[$schoolId] = [];
@@ -50,9 +44,6 @@ class PermissionMatrix implements PermissionMatrixInterface
         $this->matrix[$schoolId][$capability] = $roles;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPermittedRoles(int $schoolId, string $capability): array
     {
         if (!array_key_exists($schoolId, $this->matrix)) {

@@ -34,7 +34,7 @@ interface ProgramInterface extends
     /**
      * @return string
      */
-    public function getShortTitle();
+    public function getShortTitle(): string;
 
     /**
      * @param int $duration
@@ -44,7 +44,7 @@ interface ProgramInterface extends
     /**
      * @return int
      */
-    public function getDuration();
+    public function getDuration(): int;
 
     public function setCurriculumInventoryReports(Collection $reports);
 
@@ -56,5 +56,5 @@ interface ProgramInterface extends
     /**
      * @return CurriculumInventoryReportInterface[]|ArrayCollection
      */
-    public function getCurriculumInventoryReports();
+    public function getCurriculumInventoryReports(): Collection;
 }

@@ -33,9 +33,6 @@ class AddNewStudentsToSchoolCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -54,10 +51,7 @@ class AddNewStudentsToSchoolCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filter = $input->getArgument('filter');
         $schoolId = $input->getArgument('schoolId');

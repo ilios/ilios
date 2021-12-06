@@ -24,17 +24,11 @@ class SchoolEventTest extends TestCase
      */
     protected $schoolEvent;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         $this->schoolEvent = new SchoolEvent();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->schoolEvent);

@@ -14,10 +14,7 @@ class MeshTreeTest extends AbstractMeshTest
 {
     protected string $testName =  'meshTrees';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadMeshTreeData::class,
@@ -37,7 +34,7 @@ class MeshTreeTest extends AbstractMeshTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

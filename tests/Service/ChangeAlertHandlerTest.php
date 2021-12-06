@@ -39,9 +39,6 @@ class ChangeAlertHandlerTest extends TestCase
      */
     protected $changeAlertHandler;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -53,9 +50,6 @@ class ChangeAlertHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         parent::tearDown();

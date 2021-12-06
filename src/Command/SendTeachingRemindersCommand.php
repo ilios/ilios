@@ -44,9 +44,6 @@ class SendTeachingRemindersCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -97,10 +94,7 @@ class SendTeachingRemindersCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // input validation
         $errors = $this->validateInput($input);
@@ -197,7 +191,7 @@ class SendTeachingRemindersCommand extends Command
      * Locates the applicable message template for a given school and returns its path.
      * @return string The template path.
      */
-    protected function getTemplatePath(SchoolInterface $school)
+    protected function getTemplatePath(SchoolInterface $school): string
     {
         $prefix = $school->getTemplatePrefix();
         if ($prefix) {
@@ -215,7 +209,7 @@ class SendTeachingRemindersCommand extends Command
      *
      * @return array A list of validation error message. Empty if no validation errors occurred.
      */
-    protected function validateInput(InputInterface $input)
+    protected function validateInput(InputInterface $input): array
     {
         $errors = [];
 

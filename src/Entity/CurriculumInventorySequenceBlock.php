@@ -260,7 +260,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return int
      */
-    public function getRequired()
+    public function getRequired(): int
     {
         return $this->required;
     }
@@ -276,7 +276,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return int $childSequenceOrder
      */
-    public function getChildSequenceOrder()
+    public function getChildSequenceOrder(): int
     {
         return $this->childSequenceOrder;
     }
@@ -292,7 +292,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return int
      */
-    public function getOrderInSequence()
+    public function getOrderInSequence(): int
     {
         return $this->orderInSequence;
     }
@@ -308,7 +308,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return int
      */
-    public function getMinimum()
+    public function getMinimum(): int
     {
         return $this->minimum;
     }
@@ -324,7 +324,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return int
      */
-    public function getMaximum()
+    public function getMaximum(): int
     {
         return $this->maximum;
     }
@@ -340,7 +340,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return bool
      */
-    public function hasTrack()
+    public function hasTrack(): bool
     {
         return $this->track;
     }
@@ -353,7 +353,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return \DateTime
      */
-    public function getStartDate()
+    public function getStartDate(): \DateTime
     {
         return $this->startDate;
     }
@@ -366,7 +366,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return \DateTime
      */
-    public function getEndDate()
+    public function getEndDate(): \DateTime
     {
         return $this->endDate;
     }
@@ -382,7 +382,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return int
      */
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->duration;
     }
@@ -395,23 +395,17 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return CurriculumInventoryAcademicLevelInterface
      */
-    public function getAcademicLevel()
+    public function getAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->academicLevel;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setCourse(CourseInterface $course = null)
     {
         $this->course = $course;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCourse()
+    public function getCourse(): ?CourseInterface
     {
         return $this->course;
     }
@@ -424,7 +418,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return CurriculumInventorySequenceBlockInterface
      */
-    public function getParent()
+    public function getParent(): CurriculumInventorySequenceBlockInterface
     {
         return $this->parent;
     }
@@ -453,7 +447,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
@@ -466,15 +460,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * @return CurriculumInventoryReportInterface
      */
-    public function getReport()
+    public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildrenAsSortedList()
+    public function getChildrenAsSortedList(): array
     {
         $children = $this->getChildren()->toArray();
         $sortStrategy = $this->getChildSequenceOrder();
@@ -557,9 +548,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return 0;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setExcludedSessions(Collection $sessions)
     {
         $this->excludedSessions = new ArrayCollection();
@@ -569,9 +557,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addExcludedSession(SessionInterface $session)
     {
         if (!$this->excludedSessions->contains($session)) {
@@ -579,18 +564,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeExcludedSession(SessionInterface $session)
     {
         $this->excludedSessions->removeElement($session);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExcludedSessions()
+    public function getExcludedSessions(): Collection
     {
         return $this->excludedSessions;
     }

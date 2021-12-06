@@ -25,9 +25,6 @@ class ManagerTest extends TestCase
 
     protected Manager $manager;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -35,9 +32,6 @@ class ManagerTest extends TestCase
         $this->manager = new Manager($this->repository);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         parent::tearDown();

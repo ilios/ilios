@@ -23,5 +23,5 @@ interface SessionsEntityInterface
     /**
     * @return SessionInterface[]|ArrayCollection
     */
-    public function getSessions();
+    public function getSessions(): Collection;
 }

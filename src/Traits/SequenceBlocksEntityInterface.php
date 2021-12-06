@@ -26,5 +26,5 @@ interface SequenceBlocksEntityInterface
     /**
     * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
     */
-    public function getSequenceBlocks();
+    public function getSequenceBlocks(): Collection;
 }

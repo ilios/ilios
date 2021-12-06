@@ -14,9 +14,6 @@ use App\Entity\ProgramYearInterface;
  */
 trait ProgramYearsEntity
 {
-    /**
-     * @inheritdoc
-     */
     public function setProgramYears(Collection $programYears)
     {
         $this->programYears = new ArrayCollection();
@@ -26,9 +23,6 @@ trait ProgramYearsEntity
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
@@ -36,18 +30,12 @@ trait ProgramYearsEntity
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeProgramYear(ProgramYearInterface $programYear)
     {
         $this->programYears->removeElement($programYear);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getProgramYears()
+    public function getProgramYears(): Collection
     {
         return $this->programYears;
     }

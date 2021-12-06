@@ -17,10 +17,7 @@ class IngestionExceptionTest extends ReadEndpointTest
     protected string $testName =  'ingestionExceptions';
     protected bool $isGraphQLTestable = false;
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadIngestionExceptionData::class,
@@ -30,7 +27,7 @@ class IngestionExceptionTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

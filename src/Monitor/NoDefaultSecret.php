@@ -19,7 +19,7 @@ class NoDefaultSecret implements CheckInterface
      *
      * @return ResultInterface
      */
-    public function check()
+    public function check(): ResultInterface
     {
         $secret = getenv(self::NAME);
         if (!$secret && isset($_ENV[self::NAME])) {
@@ -51,7 +51,7 @@ class NoDefaultSecret implements CheckInterface
      *
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return 'No Default Secret';
     }

@@ -28,7 +28,7 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     ) {
     }
 
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $reflection = new ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
@@ -53,7 +53,7 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
      * @param mixed $value
      * @return mixed
      */
-    protected function convertValueByType(ReflectionProperty $property, $value)
+    protected function convertValueByType(ReflectionProperty $property, $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'dateTime') {
@@ -82,7 +82,7 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
         return $value;
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, string $format = null): bool
     {
         return $format === 'json' && $this->entityMetadata->isAnIliosEntity($data);
     }

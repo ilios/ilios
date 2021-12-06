@@ -29,7 +29,7 @@ class Aggregator
      * @param array $keywords A list of keywords.
      * @return array The events with the keywords added.
      */
-    public static function addKeywordsToEvents(array $events, array $keywords)
+    public static function addKeywordsToEvents(array $events, array $keywords): array
     {
         foreach ($keywords as $keyword) {
             $eventId = $keyword['event_id'];
@@ -50,7 +50,7 @@ class Aggregator
      * @param array $resourceTypes A list of resource types.
      * @return array The events with their resource types added.
      */
-    public static function addResourceTypesToEvents(array $events, array $resourceTypes)
+    public static function addResourceTypesToEvents(array $events, array $resourceTypes): array
     {
         foreach ($resourceTypes as $resourceType) {
             $eventId = $resourceType['event_id'];
@@ -71,7 +71,7 @@ class Aggregator
      * @param array $references A list of competency object references.
      * @return array The events with references added.
      */
-    public static function addCompetencyObjectReferencesToEvents(array $events, array $references)
+    public static function addCompetencyObjectReferencesToEvents(array $events, array $references): array
     {
         $sessionIds = array_keys($events);
         for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
@@ -119,7 +119,7 @@ class Aggregator
      *
      * @throws Exception
      */
-    public function getData(CurriculumInventoryReportInterface $invReport)
+    public function getData(CurriculumInventoryReportInterface $invReport): array
     {
         // report validation
         $program = $invReport->getProgram();

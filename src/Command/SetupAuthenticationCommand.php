@@ -25,9 +25,6 @@ class SetupAuthenticationCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -36,10 +33,7 @@ class SetupAuthenticationCommand extends Command
             ->setDescription('Sets up authentication.');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $helper = $this->getHelper('question');
         $question = new ChoiceQuestion(

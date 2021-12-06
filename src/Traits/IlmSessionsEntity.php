@@ -37,7 +37,7 @@ trait IlmSessionsEntity
     /**
     * @return IlmSessionInterface[]|ArrayCollection
     */
-    public function getIlmSessions()
+    public function getIlmSessions(): Collection
     {
         return $this->ilmSessions;
     }

@@ -37,7 +37,7 @@ trait ConceptsEntity
     /**
     * @return MeshConceptInterface[]|ArrayCollection
     */
-    public function getConcepts()
+    public function getConcepts(): Collection
     {
         return $this->concepts;
     }

@@ -8,7 +8,7 @@ use App\Entity\DTO\ApplicationConfigDTO;
 
 class ApplicationConfigData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -35,7 +35,7 @@ class ApplicationConfigData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 5,
@@ -44,7 +44,7 @@ class ApplicationConfigData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'dsfdsaf'

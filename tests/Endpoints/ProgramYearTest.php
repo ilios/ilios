@@ -26,10 +26,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
 {
     protected string $testName = 'programYears';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadProgramYearData::class,
@@ -49,7 +46,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'startYear' => ['startYear', $this->getFaker()->randomDigitNotNull()],
@@ -66,7 +63,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -76,7 +73,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -98,7 +95,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         ];
     }
 
-    protected function postTest(array $data, array $postData)
+    protected function postTest(array $data, array $postData): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -126,7 +123,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
      * Test saving new data to the JSON:API
      * @return mixed
      */
-    protected function postJsonApiTest(object $postData, array $data)
+    protected function postJsonApiTest(object $postData, array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -150,7 +147,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     }
 
 
-    protected function postManyTest(array $data)
+    protected function postManyTest(array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -185,7 +182,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
-    protected function postManyJsonApiTest(object $postData, array $data)
+    protected function postManyJsonApiTest(object $postData, array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();

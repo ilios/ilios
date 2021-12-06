@@ -39,19 +39,19 @@ interface SessionObjectiveInterface extends
     /**
      * @return Collection
      */
-    public function getCourseObjectives();
+    public function getCourseObjectives(): Collection;
 
     public function setAncestor(SessionObjectiveInterface $ancestor);
 
     /**
      * @return SessionObjectiveInterface
      */
-    public function getAncestor();
+    public function getAncestor(): SessionObjectiveInterface;
 
     /**
      * @return SessionObjectiveInterface
      */
-    public function getAncestorOrSelf();
+    public function getAncestorOrSelf(): SessionObjectiveInterface;
 
     public function setDescendants(Collection $children);
 
@@ -62,5 +62,5 @@ interface SessionObjectiveInterface extends
     /**
      * @return Collection
      */
-    public function getDescendants();
+    public function getDescendants(): Collection;
 }

@@ -39,9 +39,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
      */
     protected $commandTester;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -66,9 +63,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->questionHelper = $commandInApp->getHelper('question');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

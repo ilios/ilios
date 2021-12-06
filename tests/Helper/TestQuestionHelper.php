@@ -20,7 +20,7 @@ use Symfony\Component\Console\Question\Question;
  */
 class TestQuestionHelper extends QuestionHelper
 {
-    public function ask(InputInterface $input, OutputInterface $output, Question $question)
+    public function ask(InputInterface $input, OutputInterface $output, Question $question): mixed
     {
         if ($question->isHidden()) {
             $question->setHidden(false);

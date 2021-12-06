@@ -29,9 +29,6 @@ class DefaultPermissionMatrixTest extends TestCase
      */
     protected $schoolDTO;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -47,9 +44,6 @@ class DefaultPermissionMatrixTest extends TestCase
         $this->permissionMatrix = new DefaultPermissionMatrix($schoolRepository);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

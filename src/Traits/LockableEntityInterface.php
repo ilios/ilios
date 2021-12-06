@@ -12,7 +12,7 @@ interface LockableEntityInterface
     /**
      * @return bool
      */
-    public function isLocked();
+    public function isLocked(): bool;
 
     /**
      * @param bool $locked

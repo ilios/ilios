@@ -8,7 +8,7 @@ use App\Entity\DTO\MeshQualifierDTO;
 
 class MeshQualifierData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -25,7 +25,7 @@ class MeshQualifierData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => '3',
@@ -34,7 +34,7 @@ class MeshQualifierData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }
@@ -43,7 +43,7 @@ class MeshQualifierData extends AbstractDataLoader
      * Mesh qualifier IDs are strings so we have to convert them
      * @inheritdoc
      */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = parent::createMany($count);
 

@@ -161,7 +161,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     /**
      * @return SessionInterface
      */
-    public function getSession()
+    public function getSession(): SessionInterface
     {
         return $this->session;
     }

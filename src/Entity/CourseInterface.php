@@ -54,7 +54,7 @@ interface CourseInterface extends
     /**
      * @return int
      */
-    public function getLevel();
+    public function getLevel(): int;
 
     /**
      * @param int $year
@@ -64,21 +64,21 @@ interface CourseInterface extends
     /**
      * @return int
      */
-    public function getYear();
+    public function getYear(): int;
 
     public function setStartDate(DateTime $startDate);
 
     /**
      * @return DateTime
      */
-    public function getStartDate();
+    public function getStartDate(): DateTime;
 
     public function setEndDate(DateTime $endDate);
 
     /**
      * @return DateTime
      */
-    public function getEndDate();
+    public function getEndDate(): DateTime;
 
     /**
      * @todo: Possible rename.
@@ -90,14 +90,14 @@ interface CourseInterface extends
      * @todo: Possible rename.
      * @return string
      */
-    public function getExternalId();
+    public function getExternalId(): string;
 
     public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType);
 
     /**
      * @return \App\Entity\CourseClerkshipType
      */
-    public function getClerkshipType();
+    public function getClerkshipType(): \App\Entity\CourseClerkshipType;
 
     public function setLearningMaterials(Collection $learningMaterials = null);
 
@@ -108,19 +108,19 @@ interface CourseInterface extends
     /**
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
-    public function getLearningMaterials();
+    public function getLearningMaterials(): Collection;
 
     public function setAncestor(CourseInterface $ancestor);
 
     /**
      * @return CourseInterface
      */
-    public function getAncestor();
+    public function getAncestor(): CourseInterface;
 
     /**
      * @return CourseInterface
      */
-    public function getAncestorOrSelf();
+    public function getAncestorOrSelf(): CourseInterface;
 
     public function setDescendants(Collection $children);
 
@@ -131,7 +131,7 @@ interface CourseInterface extends
     /**
      * @return ArrayCollection|CourseInterface[]
      */
-    public function getDescendants();
+    public function getDescendants(): Collection;
 
     public function setSequenceBlocks(Collection $sequenceBlocks);
 
@@ -142,5 +142,5 @@ interface CourseInterface extends
     /**
      * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
      */
-    public function getSequenceBlocks();
+    public function getSequenceBlocks(): Collection;
 }

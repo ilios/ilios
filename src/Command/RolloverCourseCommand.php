@@ -26,9 +26,6 @@ class RolloverCourseCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -133,10 +130,7 @@ class RolloverCourseCommand extends Command
             );
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         //get/set the courseId and newAcademicYear arguments
         $courseId = (int) $input->getArgument('courseId');

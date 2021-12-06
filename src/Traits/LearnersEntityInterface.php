@@ -22,5 +22,5 @@ interface LearnersEntityInterface
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getLearners();
+    public function getLearners(): Collection;
 }

@@ -22,5 +22,5 @@ interface UsersEntityInterface
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getUsers();
+    public function getUsers(): Collection;
 }

@@ -9,7 +9,7 @@ use Exception;
 
 class IngestionExceptionData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -26,12 +26,12 @@ class IngestionExceptionData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         throw new Exception('Not implemented.');
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         throw new Exception('Not implemented.');
     }

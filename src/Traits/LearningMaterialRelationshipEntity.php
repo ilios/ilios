@@ -25,7 +25,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @return string
      */
-    public function getNotes()
+    public function getNotes(): string
     {
         return $this->notes;
     }
@@ -41,7 +41,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @return bool
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->required;
     }
@@ -57,7 +57,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @return bool
      */
-    public function hasPublicNotes()
+    public function hasPublicNotes(): bool
     {
         return $this->publicNotes;
     }
@@ -70,39 +70,27 @@ trait LearningMaterialRelationshipEntity
     /**
      * @return LearningMaterialInterface
      */
-    public function getLearningMaterial()
+    public function getLearningMaterial(): LearningMaterialInterface
     {
         return $this->learningMaterial;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setStartDate(\DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getStartDate()
+    public function getStartDate(): ?\DateTime
     {
         return $this->startDate;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setEndDate(\DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getEndDate()
+    public function getEndDate(): ?\DateTime
     {
         return $this->endDate;
     }

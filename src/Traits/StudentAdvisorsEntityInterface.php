@@ -19,5 +19,5 @@ interface StudentAdvisorsEntityInterface
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getStudentAdvisors();
+    public function getStudentAdvisors(): Collection;
 }

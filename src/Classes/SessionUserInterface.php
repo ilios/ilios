@@ -18,35 +18,33 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
      *
      * @return bool
      */
-    public function isRoot();
+    public function isRoot(): bool;
 
     /**
      * Is this user enabled
      *
      * @return bool
      */
-    public function isEnabled();
+    public function isEnabled(): bool;
 
     /**
      * When is the last moment that a users token would be valid
-     *
-     * @return DateTime | null
      */
-    public function tokenNotValidBefore();
+    public function tokenNotValidBefore(): ?DateTime;
 
     /**
      * Get user's id
      *
      * @return int
      */
-    public function getId();
+    public function getId(): int;
 
     /**
      * Get user's primary school id
      *
      * @return int
      */
-    public function getSchoolId();
+    public function getSchoolId(): int;
 
     /**
      * Get the ids of all schools that this user is associated with
@@ -54,27 +52,27 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
      *
      * @return array
      */
-    public function getAssociatedSchoolIdsInNonLearnerFunction();
+    public function getAssociatedSchoolIdsInNonLearnerFunction(): array;
 
     /**
      * Check if the passed user is our session user by id
      *
      * @return bool
      */
-    public function isTheUser(IliosUserInterface $user);
+    public function isTheUser(IliosUserInterface $user): bool;
 
     /**
      * Check if the passed school is our user's primary school by id
      *
      * @return bool
      */
-    public function isThePrimarySchool(SchoolInterface $school);
+    public function isThePrimarySchool(SchoolInterface $school): bool;
 
     /**
      * Check if a user is a director of a course
      * @return bool
      */
-    public function isDirectingCourse(int $courseId);
+    public function isDirectingCourse(int $courseId): bool;
     public function isAdministeringCourse(int $courseId): bool;
 
     public function isDirectingSchool(int $schoolId): bool;

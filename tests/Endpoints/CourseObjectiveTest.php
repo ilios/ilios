@@ -26,10 +26,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'courseObjectives';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadMeshDescriptorData::class,
@@ -43,10 +40,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'title' => ['title', $this->getFaker()->text()],
@@ -60,18 +54,12 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -107,9 +95,6 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         return $data;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testPostMany()
     {
         $data = $this->createMany(10);
@@ -123,9 +108,6 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         $this->postManyJsonApiTest($jsonApiData, $data);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testPutForAllData()
     {
         $dataLoader = $this->getDataLoader();
@@ -143,9 +125,6 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function testPatchForAllDataJsonApi()
     {
         $dataLoader = $this->getDataLoader();
@@ -200,7 +179,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
     /**
      * @return array
      */
-    public function inputSanitationTestProvider()
+    public function inputSanitationTestProvider(): array
     {
         return [
             ['foo', 'foo'],

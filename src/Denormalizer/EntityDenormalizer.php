@@ -31,7 +31,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
     ) {
     }
 
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
         if (array_key_exists('object_to_populate', $context)) {
             $entity = $context['object_to_populate'];
@@ -97,7 +97,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
      * @param mixed $value
      * @return mixed
      */
-    protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value)
+    protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if (in_array($type, ['entity', 'entityCollection'])) {
@@ -172,7 +172,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         return $value;
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null)
+    public function supportsDenormalization($data, string $type, string $format = null): bool
     {
         return $this->entityMetadata->isAnIliosEntity($type);
     }

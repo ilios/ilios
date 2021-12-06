@@ -8,7 +8,7 @@ use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
 
 class CurriculumInventoryInstitutionData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -37,7 +37,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 3,
@@ -52,7 +52,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

@@ -29,7 +29,7 @@ interface CompetencyInterface extends
     /**
      * @return CompetencyInterface
      */
-    public function getParent();
+    public function getParent(): CompetencyInterface;
 
     public function setChildren(Collection $children);
 
@@ -40,12 +40,12 @@ interface CompetencyInterface extends
     /**
      * @return Collection
      */
-    public function getChildren();
+    public function getChildren(): Collection;
 
     /**
      * @return bool
      */
-    public function hasChildren();
+    public function hasChildren(): bool;
 
     public function setAamcPcrses(Collection $aamcPcrses);
 
@@ -56,5 +56,5 @@ interface CompetencyInterface extends
     /**
      * @return Collection
      */
-    public function getAamcPcrses();
+    public function getAamcPcrses(): Collection;
 }

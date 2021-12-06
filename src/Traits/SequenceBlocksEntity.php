@@ -39,7 +39,7 @@ trait SequenceBlocksEntity
     /**
     * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
     */
-    public function getSequenceBlocks()
+    public function getSequenceBlocks(): Collection
     {
         return $this->sequenceBlocks;
     }

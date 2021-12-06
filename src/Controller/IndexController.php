@@ -77,7 +77,7 @@ class IndexController extends AbstractController
      * Extract the path for a frontend file
      * @return bool|string
      */
-    protected function getFilePath(string $fileName)
+    protected function getFilePath(string $fileName): bool|string
     {
         $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
         $path = $assetsPath . $fileName;

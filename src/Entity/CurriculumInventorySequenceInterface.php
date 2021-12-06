@@ -19,5 +19,5 @@ interface CurriculumInventorySequenceInterface extends
     /**
      * @return CurriculumInventoryReportInterface
      */
-    public function getReport();
+    public function getReport(): CurriculumInventoryReportInterface;
 }

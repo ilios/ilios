@@ -22,5 +22,5 @@ interface CompetenciesEntityInterface
     /**
     * @return CompetencyInterface[]|ArrayCollection
     */
-    public function getCompetencies();
+    public function getCompetencies(): Collection;
 }

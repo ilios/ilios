@@ -9,7 +9,7 @@ use DateTime;
 
 class AuthenticationData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -34,7 +34,7 @@ class AuthenticationData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'user' => 4,
@@ -43,12 +43,12 @@ class AuthenticationData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }
 
-    public function createMany($count)
+    public function createMany($count): array
     {
         throw new \Exception("Cannot auto create many Authentications.  Users have to be created first");
     }

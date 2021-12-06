@@ -36,14 +36,14 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
      * @inheritdoc
      * @throws Exception
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $reportId = $input->getArgument('reportId');
         /* @var CurriculumInventoryReportInterface $report */
         $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
             $output->writeln("<error>No report with id #${reportId} was found.</error>");
-            return;
+            return Command::FAILURE;
         }
 
         $preview = $this->builder->build($report);
@@ -78,9 +78,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         return 0;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this

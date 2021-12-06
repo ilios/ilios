@@ -96,9 +96,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function tearDown(): void
     {
         parent::tearDown();
@@ -307,7 +304,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function executeProvider()
+    public function executeProvider(): array
     {
         $schoolA = new School();
         $schoolA->setId(1);
@@ -418,7 +415,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function executeRecipientWithoutEmailProvider()
+    public function executeRecipientWithoutEmailProvider(): array
     {
         $school = new School();
         $course = new Course();
@@ -441,7 +438,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function executeNoRecipientsConfiguredProvider()
+    public function executeNoRecipientsConfiguredProvider(): array
     {
         $school = new School();
         $course = new Course();
@@ -463,7 +460,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @return array
      */
-    public function executeDeletedOfferingProvider()
+    public function executeDeletedOfferingProvider(): array
     {
         $course = new Course();
         $session = new Session();

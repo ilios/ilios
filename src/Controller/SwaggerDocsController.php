@@ -29,7 +29,7 @@ class SwaggerDocsController extends AbstractController
      *
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $yamlRoute = $this->generateUrl(
             'ilios_swagger_file',
@@ -44,7 +44,7 @@ class SwaggerDocsController extends AbstractController
      *
      * @return Response
      */
-    public function uiAction(Request $request, $fileName)
+    public function uiAction(Request $request, $fileName): Response
     {
         $fileName = empty($fileName) ? 'index.html' : $fileName;
         $swaggerDistDir = $this->kernelProjectDir . '/vendor/swagger-api/swagger-ui/dist';
@@ -70,7 +70,7 @@ class SwaggerDocsController extends AbstractController
      *
      * @return Response
      */
-    public function yamlAction(Request $request)
+    public function yamlAction(Request $request): Response
     {
         $yaml = $this->builder->getDocs($request);
 

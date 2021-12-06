@@ -23,5 +23,5 @@ interface ProgramsEntityInterface
     /**
     * @return ProgramInterface[]|ArrayCollection
     */
-    public function getPrograms();
+    public function getPrograms(): Collection;
 }

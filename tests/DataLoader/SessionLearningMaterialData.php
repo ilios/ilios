@@ -8,7 +8,7 @@ use App\Entity\DTO\SessionLearningMaterialDTO;
 
 class SessionLearningMaterialData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -119,7 +119,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 9,
@@ -135,7 +135,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'session' => 11

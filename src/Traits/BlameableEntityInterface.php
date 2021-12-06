@@ -18,12 +18,12 @@ interface BlameableEntityInterface
      *
      * @return UserInterface
      */
-    public function getCreatedBy();
+    public function getCreatedBy(): UserInterface;
 
     public function setUpdatedBy(UserInterface $updatedBy);
 
     /**
      * @return UserInterface
      */
-    public function getUpdatedBy();
+    public function getUpdatedBy(): UserInterface;
 }

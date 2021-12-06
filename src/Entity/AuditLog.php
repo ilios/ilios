@@ -109,7 +109,7 @@ class AuditLog implements AuditLogInterface
      *
      * @return string
      */
-    public function getAction()
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -119,14 +119,11 @@ class AuditLog implements AuditLogInterface
      *
      * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCreatedAt(DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
@@ -148,7 +145,7 @@ class AuditLog implements AuditLogInterface
      *
      * @return string
      */
-    public function getObjectId()
+    public function getObjectId(): string
     {
         return $this->objectId;
     }
@@ -169,7 +166,7 @@ class AuditLog implements AuditLogInterface
      *
      * @return string
      */
-    public function getObjectClass()
+    public function getObjectClass(): string
     {
         return $this->objectClass;
     }
@@ -190,7 +187,7 @@ class AuditLog implements AuditLogInterface
      *
      * @return string
      */
-    public function getValuesChanged()
+    public function getValuesChanged(): string
     {
         return $this->valuesChanged;
     }
@@ -203,7 +200,7 @@ class AuditLog implements AuditLogInterface
     /**
      * @return UserInterface
      */
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }

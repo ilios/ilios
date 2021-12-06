@@ -18,5 +18,5 @@ interface CourseLearningMaterialInterface extends
     /**
      * @return CourseInterface|null
      */
-    public function getCourse();
+    public function getCourse(): ?CourseInterface;
 }

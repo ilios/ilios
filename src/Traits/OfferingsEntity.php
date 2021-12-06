@@ -38,7 +38,7 @@ trait OfferingsEntity
     /**
     * @return OfferingInterface[]|ArrayCollection
     */
-    public function getOfferings()
+    public function getOfferings(): Collection
     {
         return $this->offerings;
     }

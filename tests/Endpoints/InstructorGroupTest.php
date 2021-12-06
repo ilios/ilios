@@ -23,10 +23,7 @@ class InstructorGroupTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'instructorGroups';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadInstructorGroupData::class,
@@ -44,7 +41,7 @@ class InstructorGroupTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'title' => ['title', $this->getFaker()->text(60)],
@@ -59,7 +56,7 @@ class InstructorGroupTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -69,7 +66,7 @@ class InstructorGroupTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

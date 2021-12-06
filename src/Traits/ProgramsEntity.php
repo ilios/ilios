@@ -38,7 +38,7 @@ trait ProgramsEntity
     /**
     * @return ProgramInterface[]|ArrayCollection
     */
-    public function getPrograms()
+    public function getPrograms(): Collection
     {
         return $this->programs;
     }

@@ -8,7 +8,7 @@ use App\Entity\DTO\ProgramDTO;
 
 class ProgramData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -49,7 +49,7 @@ class ProgramData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 4,
@@ -63,7 +63,7 @@ class ProgramData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

@@ -22,9 +22,6 @@ class CreateCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -32,10 +29,7 @@ class CreateCommand extends Command
             ->setDescription('Create and empty search index');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("<info>Creating the search index.</info>");
         $this->indexManager->create();

@@ -33,7 +33,7 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @return int
      */
-    public function getYear();
+    public function getYear(): int;
 
     /**
      * @param \DateTime $startDate
@@ -43,7 +43,7 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @return \DateTime
      */
-    public function getStartDate();
+    public function getStartDate(): \DateTime;
 
     /**
      * @param \DateTime $endDate
@@ -53,28 +53,28 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @return \DateTime
      */
-    public function getEndDate();
+    public function getEndDate(): \DateTime;
 
     public function setExport(CurriculumInventoryExportInterface $export = null);
 
     /**
      * @return CurriculumInventoryExportInterface
      */
-    public function getExport();
+    public function getExport(): CurriculumInventoryExportInterface;
 
     public function setSequence(CurriculumInventorySequenceInterface $sequence = null);
 
     /**
      * @return CurriculumInventorySequenceInterface
      */
-    public function getSequence();
+    public function getSequence(): CurriculumInventorySequenceInterface;
 
     public function setProgram(ProgramInterface $program = null);
 
     /**
      * @return ProgramInterface
      */
-    public function getProgram();
+    public function getProgram(): ProgramInterface;
     public function setAcademicLevels(Collection $academicLevels = null);
 
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
@@ -84,18 +84,18 @@ interface CurriculumInventoryReportInterface extends
     /**
      * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
      */
-    public function getAcademicLevels();
+    public function getAcademicLevels(): Collection;
 
     /**
      * Gets the school that the program being reported on belongs to.
      * @return SchoolInterface|null
      */
-    public function getSchool();
+    public function getSchool(): ?SchoolInterface;
 
     /**
      * @return string
      */
-    public function getToken();
+    public function getToken(): string;
 
     /**
      * Generate a random token for use in downloading

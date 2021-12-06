@@ -19,5 +19,5 @@ interface SessionLearningMaterialInterface extends
     /**
      * @return SessionInterface|null
      */
-    public function getSession();
+    public function getSession(): ?SessionInterface;
 }

@@ -19,10 +19,7 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
 {
     protected string $testName =  'curriculumInventoryAcademicLevels';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadCurriculumInventoryAcademicLevelData::class,
@@ -36,7 +33,7 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

@@ -13,10 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class TemporaryFileSystem extends AbstractVoter
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof FileSystem && $attribute == self::CREATE;
     }
@@ -27,7 +24,7 @@ class TemporaryFileSystem extends AbstractVoter
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

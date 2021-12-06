@@ -12,7 +12,7 @@ trait ActivatableEntity
     /**
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active;
     }

@@ -22,5 +22,5 @@ interface CoursesEntityInterface
     /**
     * @return CourseInterface[]|ArrayCollection
     */
-    public function getCourses();
+    public function getCourses(): Collection;
 }

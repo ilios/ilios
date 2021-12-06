@@ -32,9 +32,6 @@ class ChangePasswordCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -51,7 +48,7 @@ class ChangePasswordCommand extends Command
      * {@inheritdoc}
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $userId = $input->getArgument('userId');
         /** @var UserInterface $user */

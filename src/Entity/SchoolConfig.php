@@ -75,17 +75,11 @@ class SchoolConfig implements SchoolConfigInterface
     #[IA\Type('entity')]
     protected $school;
 
-    /**
-     * @inheritdoc
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setValue($value)
     {
         $this->value = $value;

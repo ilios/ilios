@@ -34,10 +34,7 @@ class OfferingTest extends ReadWriteEndpointTest
         $this->skipDates = false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadOfferingData::class,
@@ -66,7 +63,7 @@ class OfferingTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'session' => ['session', 3],
@@ -78,7 +75,7 @@ class OfferingTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -89,7 +86,7 @@ class OfferingTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -107,7 +104,7 @@ class OfferingTest extends ReadWriteEndpointTest
         ];
     }
 
-    protected function getTimeStampFields()
+    protected function getTimeStampFields(): array
     {
         return ['updatedAt'];
     }
@@ -223,7 +220,7 @@ class OfferingTest extends ReadWriteEndpointTest
      * Check for updated alerts in addition to other info
      * @inheritdoc
      */
-    protected function postTest(array $data, array $postData)
+    protected function postTest(array $data, array $postData): mixed
     {
         $responseData = parent::postTest($data, $postData);
         //Instigator and school values are hard coded in test fixture data
@@ -241,7 +238,7 @@ class OfferingTest extends ReadWriteEndpointTest
      * Check for updated alerts in addition to other info
      * @inheritdoc
      */
-    protected function postJsonApiTest(object $postData, array $data)
+    protected function postJsonApiTest(object $postData, array $data): mixed
     {
         $responseData = parent::postJsonApiTest($postData, $data);
         //Instigator and school values are hard coded in test fixture data

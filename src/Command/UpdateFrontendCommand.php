@@ -73,9 +73,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -96,10 +93,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stagingBuild = $input->getOption('staging-build');
         $versionOverride = $input->getOption('at-version');
@@ -175,10 +169,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isOptional()
+    public function isOptional(): bool
     {
         return true;
     }

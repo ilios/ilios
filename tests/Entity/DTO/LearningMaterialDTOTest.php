@@ -20,9 +20,6 @@ class LearningMaterialDTOTest extends TestCase
      */
     protected $dto;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -44,9 +41,6 @@ class LearningMaterialDTOTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->dto);

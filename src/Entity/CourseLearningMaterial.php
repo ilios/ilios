@@ -163,10 +163,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         $this->course = $course;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCourse()
+    public function getCourse(): ?CourseInterface
     {
         return $this->course;
     }

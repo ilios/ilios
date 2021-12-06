@@ -103,8 +103,6 @@ class UsermaterialController extends AbstractController
 
     /**
      * @param UserMaterial[] $materials
-     *
-     * @return array;
      */
     protected function clearDraftMaterials(array $materials): array
     {

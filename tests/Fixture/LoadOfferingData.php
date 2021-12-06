@@ -60,9 +60,6 @@ class LoadOfferingData extends AbstractFixture implements
         $manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDependencies()
     {
         return [

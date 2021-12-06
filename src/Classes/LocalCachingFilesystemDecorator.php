@@ -89,18 +89,12 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function has($path)
+    public function has($path): bool
     {
         return $this->remoteFileSystem->has($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function read($path)
+    public function read($path): string|false
     {
         if ($this->cacheEnabled && $this->cacheFileSystem->has($path)) {
             return $this->cacheFileSystem->read($path);
@@ -114,9 +108,6 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
         return $result;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function readStream($path)
     {
         if ($this->cacheEnabled && $this->cacheFileSystem->has($path)) {
@@ -132,181 +123,118 @@ class LocalCachingFilesystemDecorator implements FilesystemInterface
         return $resource;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function listContents($directory = '', $recursive = false)
+    public function listContents($directory = '', $recursive = false): array
     {
         return $this->remoteFileSystem->listContents($directory, $recursive);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getMetadata($path)
+    public function getMetadata($path): array|false
     {
         return $this->remoteFileSystem->getMetadata($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSize($path)
+    public function getSize($path): int|false
     {
         return $this->remoteFileSystem->getSize($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getMimetype($path)
+    public function getMimetype($path): string|false
     {
         return $this->remoteFileSystem->getMimetype($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTimestamp($path)
+    public function getTimestamp($path): int|false
     {
         return $this->remoteFileSystem->getTimestamp($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getVisibility($path)
+    public function getVisibility($path): string|false
     {
         return $this->remoteFileSystem->getVisibility($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function write($path, $contents, array $config = [])
+    public function write($path, $contents, array $config = []): bool
     {
         $this->remoteFileSystem->write($path, $contents, $config);
         return $this->cacheFileSystem->put($path, $contents, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function writeStream($path, $resource, array $config = [])
+    public function writeStream($path, $resource, array $config = []): bool
     {
         $this->remoteFileSystem->writeStream($path, $resource, $config);
         return $this->cacheFileSystem->putStream($path, $resource, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function update($path, $contents, array $config = [])
+    public function update($path, $contents, array $config = []): bool
     {
         $this->deleteFromCache($path);
         return $this->remoteFileSystem->update($path, $contents, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function updateStream($path, $resource, array $config = [])
+    public function updateStream($path, $resource, array $config = []): bool
     {
         $this->deleteFromCache($path);
         return $this->remoteFileSystem->updateStream($path, $resource, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rename($path, $newpath)
+    public function rename($path, $newpath): bool
     {
         $this->deleteFromCache($path);
         return $this->remoteFileSystem->rename($path, $newpath);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function copy($path, $newpath)
+    public function copy($path, $newpath): bool
     {
         $this->deleteFromCache($path);
         return $this->remoteFileSystem->copy($path, $newpath);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete($path)
+    public function delete($path): bool
     {
         $this->deleteFromCache($path);
         return $this->remoteFileSystem->delete($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function deleteDir($dirname)
+    public function deleteDir($dirname): bool
     {
         $this->deleteDirFromCache($dirname);
         return $this->remoteFileSystem->deleteDir($dirname);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function createDir($dirname, array $config = [])
+    public function createDir($dirname, array $config = []): bool
     {
         return $this->remoteFileSystem->createDir($dirname, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setVisibility($path, $visibility)
+    public function setVisibility($path, $visibility): bool
     {
         return $this->remoteFileSystem->setVisibility($path, $visibility);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function put($path, $contents, array $config = [])
+    public function put($path, $contents, array $config = []): bool
     {
         $this->cacheFileSystem->put($path, $contents, $config);
         return $this->remoteFileSystem->put($path, $contents, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function putStream($path, $resource, array $config = [])
+    public function putStream($path, $resource, array $config = []): bool
     {
         $this->cacheFileSystem->putStream($path, $resource, $config);
         return $this->remoteFileSystem->putStream($path, $resource, $config);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function readAndDelete($path)
+    public function readAndDelete($path): string|false
     {
         $this->deleteFromCache($path);
         return $this->remoteFileSystem->readAndDelete($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function get($path, Handler $handler = null)
+    public function get($path, Handler $handler = null): Handler
     {
         return $this->remoteFileSystem->get($path, $handler);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addPlugin(PluginInterface $plugin)
+    public function addPlugin(PluginInterface $plugin): static
     {
         return $this->remoteFileSystem->addPlugin($plugin);
     }

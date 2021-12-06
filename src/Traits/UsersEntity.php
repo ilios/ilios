@@ -37,7 +37,7 @@ trait UsersEntity
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getUsers()
+    public function getUsers(): Collection
     {
         return $this->users;
     }

@@ -25,9 +25,6 @@ class CheckS3PermissionsCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -35,10 +32,7 @@ class CheckS3PermissionsCommand extends Command
             ->setDescription('Checks the configured S3 filesystem for any permission issues.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $s3Url = $this->config->get('storage_s3_url');
 

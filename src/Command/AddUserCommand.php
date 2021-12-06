@@ -36,9 +36,6 @@ class AddUserCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -77,7 +74,7 @@ class AddUserCommand extends Command
      * {@inheritdoc}
      * @throws \Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $schoolId = $input->getOption('schoolId');
         if (!$schoolId) {

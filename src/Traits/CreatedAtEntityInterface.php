@@ -11,7 +11,7 @@ interface CreatedAtEntityInterface
     /**
      * @return DateTime
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): DateTime;
 
     public function setCreatedAt(DateTime $createdAt);
 }

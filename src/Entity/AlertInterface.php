@@ -22,7 +22,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     /**
      * @return int
      */
-    public function getTableRowId();
+    public function getTableRowId(): int;
 
     /**
      * @param string $tableName
@@ -32,7 +32,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     /**
      * @return string
      */
-    public function getTableName();
+    public function getTableName(): string;
 
     /**
      * @param string $additionalText
@@ -42,7 +42,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     /**
      * @return string
      */
-    public function getAdditionalText();
+    public function getAdditionalText(): string;
 
     /**
      * @param bool $dispatched
@@ -52,7 +52,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     /**
      * @return bool
      */
-    public function isDispatched();
+    public function isDispatched(): bool;
 
     public function setChangeTypes(Collection $changeTypes);
 
@@ -63,7 +63,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     /**
      * @return ArrayCollection|AlertChangeTypeInterface[]
      */
-    public function getChangeTypes();
+    public function getChangeTypes(): Collection;
 
     public function setInstigators(Collection $instigators);
 
@@ -74,7 +74,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     /**
      * @return ArrayCollection|UserInterface[]
      */
-    public function getInstigators();
+    public function getInstigators(): Collection;
 
     public function setRecipients(Collection $recipients);
 
@@ -85,5 +85,5 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     /**
      * @return ArrayCollection|SchoolInterface[]
      */
-    public function getRecipients();
+    public function getRecipients(): Collection;
 }

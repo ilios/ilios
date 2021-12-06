@@ -159,7 +159,7 @@ class MeshTerm implements MeshTermInterface
     /**
      * @return string
      */
-    public function getMeshTermUid()
+    public function getMeshTermUid(): string
     {
         return $this->meshTermUid;
     }
@@ -175,7 +175,7 @@ class MeshTerm implements MeshTermInterface
     /**
      * @return string
      */
-    public function getLexicalTag()
+    public function getLexicalTag(): string
     {
         return $this->lexicalTag;
     }
@@ -191,7 +191,7 @@ class MeshTerm implements MeshTermInterface
     /**
      * @return bool
      */
-    public function isConceptPreferred()
+    public function isConceptPreferred(): bool
     {
         return $this->conceptPreferred;
     }
@@ -207,7 +207,7 @@ class MeshTerm implements MeshTermInterface
     /**
      * @return bool
      */
-    public function isRecordPreferred()
+    public function isRecordPreferred(): bool
     {
         return $this->recordPreferred;
     }
@@ -223,7 +223,7 @@ class MeshTerm implements MeshTermInterface
     /**
      * @return bool
      */
-    public function isPermuted()
+    public function isPermuted(): bool
     {
         return $this->permuted;
     }

@@ -19,7 +19,7 @@ class MeshDescriptorSetTransmogrifier
      *
      * @return array
      */
-    public function transmogrify(DescriptorSet $descriptors, array $existingDescriptorIds)
+    public function transmogrify(DescriptorSet $descriptors, array $existingDescriptorIds): array
     {
         $rhett = [
             'insert' => [
@@ -88,7 +88,7 @@ class MeshDescriptorSetTransmogrifier
      * Creates a MD5 hash from all relevant properties of a given MeSH term.
      * @return string
      */
-    public function hashTerm(Term $term)
+    public function hashTerm(Term $term): string
     {
         return md5(
             implode(

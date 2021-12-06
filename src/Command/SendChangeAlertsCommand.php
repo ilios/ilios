@@ -42,9 +42,6 @@ class SendChangeAlertsCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -59,10 +56,7 @@ class SendChangeAlertsCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $isDryRun = $input->getOption('dry-run');
 
@@ -178,7 +172,7 @@ class SendChangeAlertsCommand extends Command
      * Locates the applicable message template for a given school and returns its path.
      * @return string The template path.
      */
-    protected function getTemplatePath(SchoolInterface $school)
+    protected function getTemplatePath(SchoolInterface $school): string
     {
         $prefix = $school->getTemplatePrefix();
         if ($prefix) {

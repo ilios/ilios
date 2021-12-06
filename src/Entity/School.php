@@ -234,7 +234,7 @@ class School implements SchoolInterface
     /**
      * @return string
      */
-    public function getTemplatePrefix()
+    public function getTemplatePrefix(): string
     {
         return $this->templatePrefix;
     }
@@ -250,7 +250,7 @@ class School implements SchoolInterface
     /**
      * @return string
      */
-    public function getIliosAdministratorEmail()
+    public function getIliosAdministratorEmail(): string
     {
         return $this->iliosAdministratorEmail;
     }
@@ -266,7 +266,7 @@ class School implements SchoolInterface
     /**
      * @return string
      */
-    public function getChangeAlertRecipients()
+    public function getChangeAlertRecipients(): string
     {
         return $this->changeAlertRecipients;
     }
@@ -282,14 +282,11 @@ class School implements SchoolInterface
     /**
      * @return string
      */
-    public function getCurriculumInventoryInstitution()
+    public function getCurriculumInventoryInstitution(): string
     {
         return $this->curriculumInventoryInstitution;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAlert(AlertInterface $alert)
     {
         if (!$this->alerts->contains($alert)) {
@@ -298,9 +295,6 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAlert(AlertInterface $alert)
     {
         if ($this->alerts->contains($alert)) {
@@ -309,9 +303,6 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setVocabularies(Collection $vocabularies)
     {
         $this->vocabularies = new ArrayCollection();
@@ -321,9 +312,6 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addVocabulary(VocabularyInterface $vocabulary)
     {
         if (!$this->vocabularies->contains($vocabulary)) {
@@ -331,25 +319,16 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeVocabulary(VocabularyInterface $vocabulary)
     {
         $this->vocabularies->removeElement($vocabulary);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getVocabularies()
+    public function getVocabularies(): Collection
     {
         return $this->vocabularies;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addDirector(UserInterface $director)
     {
         if (!$this->directors->contains($director)) {
@@ -358,9 +337,6 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeDirector(UserInterface $director)
     {
         if ($this->directors->contains($director)) {
@@ -369,9 +345,6 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAdministrator(UserInterface $administrator)
     {
         if (!$this->administrators->contains($administrator)) {
@@ -380,9 +353,6 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAdministrator(UserInterface $administrator)
     {
         if ($this->administrators->contains($administrator)) {
@@ -391,9 +361,6 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addConfiguration(SchoolConfigInterface $config)
     {
         if (!$this->configurations->contains($config)) {
@@ -401,17 +368,11 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeConfiguration(SchoolConfigInterface $config)
     {
         $this->configurations->removeElement($config);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setConfigurations(Collection $configs)
     {
         $this->configurations = new ArrayCollection();
@@ -421,10 +382,7 @@ class School implements SchoolInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getConfigurations()
+    public function getConfigurations(): Collection
     {
         return $this->configurations;
     }

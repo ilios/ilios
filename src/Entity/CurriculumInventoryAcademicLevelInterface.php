@@ -28,12 +28,12 @@ interface CurriculumInventoryAcademicLevelInterface extends
     /**
      * @return int
      */
-    public function getLevel();
+    public function getLevel(): int;
 
     public function setReport(CurriculumInventoryReportInterface $report);
 
     /**
      * @return CurriculumInventoryReportInterface
      */
-    public function getReport();
+    public function getReport(): CurriculumInventoryReportInterface;
 }

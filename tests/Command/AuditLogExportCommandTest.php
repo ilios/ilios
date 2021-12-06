@@ -33,9 +33,6 @@ class AuditLogExportCommandTest extends KernelTestCase
 
     protected $auditLogRepository;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp(): void
     {
         parent::setUp();

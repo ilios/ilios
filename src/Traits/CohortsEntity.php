@@ -37,7 +37,7 @@ trait CohortsEntity
     /**
     * @return CohortInterface[]|ArrayCollection
     */
-    public function getCohorts()
+    public function getCohorts(): Collection
     {
         return $this->cohorts;
     }

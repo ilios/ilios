@@ -129,7 +129,7 @@ class Report implements ReportInterface
     /**
      * @return \DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
@@ -145,7 +145,7 @@ class Report implements ReportInterface
     /**
      * @return string
      */
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->subject;
     }
@@ -161,7 +161,7 @@ class Report implements ReportInterface
     /**
      * @return string
      */
-    public function getPrepositionalObject()
+    public function getPrepositionalObject(): string
     {
         return $this->prepositionalObject;
     }
@@ -177,7 +177,7 @@ class Report implements ReportInterface
     /**
      * @return string
      */
-    public function getPrepositionalObjectTableRowId()
+    public function getPrepositionalObjectTableRowId(): string
     {
         return $this->prepositionalObjectTableRowId;
     }
@@ -190,22 +190,16 @@ class Report implements ReportInterface
     /**
      * @return UserInterface
      */
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getSchool(): ?SchoolInterface
     {
         return $this->school;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setSchool(SchoolInterface $school = null): void
     {
         $this->school = $school;

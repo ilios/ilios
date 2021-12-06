@@ -27,7 +27,7 @@ interface LearningMaterialRelationshipInterface extends
     /**
      * @return string
      */
-    public function getNotes();
+    public function getNotes(): string;
 
     /**
      * @param bool $required
@@ -37,7 +37,7 @@ interface LearningMaterialRelationshipInterface extends
     /**
      * @return bool
      */
-    public function isRequired();
+    public function isRequired(): bool;
 
     /**
      * @param bool $publicNotes
@@ -47,19 +47,19 @@ interface LearningMaterialRelationshipInterface extends
     /**
      * @return bool
      */
-    public function hasPublicNotes();
+    public function hasPublicNotes(): bool;
 
     public function setLearningMaterial(LearningMaterialInterface $learningMaterial);
 
     /**
      * @return LearningMaterialInterface
      */
-    public function getLearningMaterial();
+    public function getLearningMaterial(): LearningMaterialInterface;
 
     /**
      * @return \DateTime|null
      */
-    public function getStartDate();
+    public function getStartDate(): ?\DateTime;
 
     /**
      * @param \DateTime|null $startDate
@@ -69,7 +69,7 @@ interface LearningMaterialRelationshipInterface extends
     /**
      * @return \DateTime|null
      */
-    public function getEndDate();
+    public function getEndDate(): ?\DateTime;
 
     /**
      * @param \DateTime|null $endDate

@@ -8,7 +8,7 @@ use App\Entity\DTO\CourseLearningMaterialDTO;
 
 class CourseLearningMaterialData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -145,7 +145,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 11,
@@ -161,7 +161,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

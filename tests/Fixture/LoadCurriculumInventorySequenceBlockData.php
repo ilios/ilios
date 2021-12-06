@@ -64,9 +64,6 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
         $manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDependencies()
     {
         return [

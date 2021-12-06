@@ -47,9 +47,6 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
         $manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDependencies()
     {
         return [

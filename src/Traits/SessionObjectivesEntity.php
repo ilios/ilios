@@ -8,9 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\SessionObjectiveInterface;
 
-/**
- * Class SessionObjectivesEntity
- */
 trait SessionObjectivesEntity
 {
     public function setSessionObjectives(Collection $sessionObjectives = null): void
@@ -37,9 +34,6 @@ trait SessionObjectivesEntity
         $this->sessionObjectives->removeElement($sessionObjective);
     }
 
-    /**
-     * @return Collection|SessionObjectiveInterface[]
-     */
     public function getSessionObjectives(): Collection
     {
         return $this->sessionObjectives;

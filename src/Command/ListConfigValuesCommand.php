@@ -36,9 +36,6 @@ class ListConfigValuesCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -47,10 +44,7 @@ class ListConfigValuesCommand extends Command
             ->setDescription('Read configuration values from the DB');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             /** @var ApplicationConfig[] $configs */

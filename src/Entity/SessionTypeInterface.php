@@ -31,7 +31,7 @@ interface SessionTypeInterface extends
     /**
      * @return string
      */
-    public function getCalendarColor();
+    public function getCalendarColor(): string;
 
     /**
      * Set assessment
@@ -45,14 +45,14 @@ interface SessionTypeInterface extends
      *
      * @return bool
      */
-    public function isAssessment();
+    public function isAssessment(): bool;
 
     public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null);
 
     /**
      * @return AssessmentOptionInterface
      */
-    public function getAssessmentOption();
+    public function getAssessmentOption(): AssessmentOptionInterface;
 
     public function setAamcMethods(Collection $aamcMethods);
 
@@ -63,5 +63,5 @@ interface SessionTypeInterface extends
     /**
      * @return ArrayCollection|AamcMethodInterface[]
      */
-    public function getAamcMethods();
+    public function getAamcMethods(): Collection;
 }

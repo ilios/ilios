@@ -22,5 +22,5 @@ interface DirectorsEntityInterface
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getDirectors();
+    public function getDirectors(): Collection;
 }

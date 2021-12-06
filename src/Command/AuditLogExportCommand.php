@@ -28,9 +28,6 @@ class AuditLogExportCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -58,10 +55,7 @@ class AuditLogExportCommand extends Command
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $from = $input->getArgument('from');
         $to = $input->getArgument('to');

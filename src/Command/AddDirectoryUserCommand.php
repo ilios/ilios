@@ -31,9 +31,6 @@ class AddDirectoryUserCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -52,10 +49,7 @@ class AddDirectoryUserCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $campusId = $input->getArgument('campusId');
         $user = $this->userRepository->findOneBy(['campusId' => $campusId]);

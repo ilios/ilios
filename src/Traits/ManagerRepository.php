@@ -47,7 +47,7 @@ trait ManagerRepository
         return $results[0] ?? null;
     }
 
-    public function update($entity, $andFlush = true, $forceId = false)
+    public function update($entity, $andFlush = true, $forceId = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -61,13 +61,13 @@ trait ManagerRepository
         }
     }
 
-    public function delete($entity)
+    public function delete($entity): void
     {
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
     }
 
-    public function create()
+    public function create(): object
     {
         $class = $this->getEntityName();
         return new $class();

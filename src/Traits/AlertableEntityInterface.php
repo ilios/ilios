@@ -22,5 +22,5 @@ interface AlertableEntityInterface
     /**
      * @return ArrayCollection|AlertInterface[]
      */
-    public function getAlerts();
+    public function getAlerts(): Collection;
 }

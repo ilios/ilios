@@ -20,7 +20,7 @@ trait PublishableEntity
     /**
      * @return bool
      */
-    public function isPublished()
+    public function isPublished(): bool
     {
         return $this->published;
     }
@@ -36,7 +36,7 @@ trait PublishableEntity
     /**
      * @return bool
      */
-    public function isPublishedAsTbd()
+    public function isPublishedAsTbd(): bool
     {
         return $this->publishedAsTbd;
     }

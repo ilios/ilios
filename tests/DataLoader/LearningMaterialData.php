@@ -10,10 +10,7 @@ use App\Entity\LearningMaterialStatusInterface;
 class LearningMaterialData extends AbstractDataLoader
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -186,10 +183,7 @@ class LearningMaterialData extends AbstractDataLoader
         return $arr;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 11,
@@ -211,7 +205,7 @@ class LearningMaterialData extends AbstractDataLoader
     /**
      * @return array
      */
-    public function createCitation()
+    public function createCitation(): array
     {
         return [
             'id' => 11,
@@ -231,7 +225,7 @@ class LearningMaterialData extends AbstractDataLoader
     /**
      * @return array
      */
-    public function createLink()
+    public function createLink(): array
     {
         return [
             'id' => 11,
@@ -271,7 +265,7 @@ class LearningMaterialData extends AbstractDataLoader
     /**
      * @return array
      */
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 12
@@ -281,7 +275,7 @@ class LearningMaterialData extends AbstractDataLoader
     /**
      * @return array
      */
-    public function createInvalidCitation()
+    public function createInvalidCitation(): array
     {
         return [
             'id' => 11,
@@ -300,7 +294,7 @@ class LearningMaterialData extends AbstractDataLoader
     /**
      * @return array
      */
-    public function createInvalidLink()
+    public function createInvalidLink(): array
     {
         return [
             'id' => 11,

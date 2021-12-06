@@ -23,17 +23,11 @@ class UserEventTest extends TestCase
      */
     protected $userEvent;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         $this->userEvent = new UserEvent();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->userEvent);

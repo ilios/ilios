@@ -37,7 +37,7 @@ trait LearnerGroupsEntity
     /**
     * @return LearnerGroupInterface[]|ArrayCollection
     */
-    public function getLearnerGroups()
+    public function getLearnerGroups(): Collection
     {
         return $this->learnerGroups;
     }

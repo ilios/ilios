@@ -39,7 +39,7 @@ class Config
      *
      * @return string | null
      */
-    public function get($name)
+    public function get($name): string|bool|null
     {
         $result = $this->getValueFromEnv($name);
         if (null === $result) {
@@ -53,9 +53,8 @@ class Config
      * See if there is an environmental variable for this var
      *
      * @param string $name
-     * @return string | null
      */
-    protected function getValueFromEnv($name)
+    protected function getValueFromEnv($name): string|bool|null
     {
         $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
         $result = null;
@@ -86,7 +85,7 @@ class Config
      * @param string $name
      * @return string | null
      */
-    protected function getValueFromDb($name)
+    protected function getValueFromDb($name): string|null
     {
         try {
             return $this->applicationConfigRepository->getValue($name);
@@ -106,7 +105,7 @@ class Config
      *
      * @return mixed
      */
-    protected function castResult($name, $result)
+    protected function castResult($name, $result): mixed
     {
         if (null !== $result && !is_bool($result) && in_array($name, self::BOOLEAN_NAMES)) {
             return (bool) json_decode($result);

@@ -20,7 +20,7 @@ interface ReportInterface extends
     /**
      * @return \DateTime
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): \DateTime;
 
     /**
      * @param string $subject
@@ -30,7 +30,7 @@ interface ReportInterface extends
     /**
      * @return string
      */
-    public function getSubject();
+    public function getSubject(): string;
 
     /**
      * @param string $prepositionalObject
@@ -40,7 +40,7 @@ interface ReportInterface extends
     /**
      * @return string
      */
-    public function getPrepositionalObject();
+    public function getPrepositionalObject(): string;
 
     /**
      * @param string $prepositionalObjectTableRowId
@@ -50,14 +50,14 @@ interface ReportInterface extends
     /**
      * @return string
      */
-    public function getPrepositionalObjectTableRowId();
+    public function getPrepositionalObjectTableRowId(): string;
 
     public function setUser(UserInterface $user);
 
     /**
      * @return UserInterface
      */
-    public function getUser();
+    public function getUser(): UserInterface;
 
     public function getSchool(): ?SchoolInterface;
 

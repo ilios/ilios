@@ -24,9 +24,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 {
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();

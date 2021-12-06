@@ -156,7 +156,7 @@ class IlmSession implements IlmSessionInterface
     /**
      * @return float
      */
-    public function getHours()
+    public function getHours(): float
     {
         return $this->hours;
     }
@@ -169,15 +169,12 @@ class IlmSession implements IlmSessionInterface
     /**
      * @return DateTime
      */
-    public function getDueDate()
+    public function getDueDate(): DateTime
     {
         return $this->dueDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAllInstructors()
+    public function getAllInstructors(): Collection
     {
         $instructors = $this->getInstructors()->toArray();
         foreach ($this->getInstructorGroups() as $group) {
@@ -192,18 +189,12 @@ class IlmSession implements IlmSessionInterface
         $this->session = $session;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSession()
+    public function getSession(): ?SessionInterface
     {
         return $this->session;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($session = $this->getSession()) {
             if ($course = $session->getCourse()) {

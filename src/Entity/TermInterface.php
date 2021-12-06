@@ -42,14 +42,14 @@ interface TermInterface extends
     /**
      * @return VocabularyInterface
      */
-    public function getVocabulary();
+    public function getVocabulary(): VocabularyInterface;
 
     public function setParent(TermInterface $parent = null);
 
     /**
      * @return TermInterface
      */
-    public function getParent();
+    public function getParent(): TermInterface;
 
     public function setChildren(Collection $children);
 
@@ -60,12 +60,12 @@ interface TermInterface extends
     /**
      * @return ArrayCollection|TermInterface[]
      */
-    public function getChildren();
+    public function getChildren(): Collection;
 
     /**
      * @return bool
      */
-    public function hasChildren();
+    public function hasChildren(): bool;
 
     public function setAamcResourceTypes(Collection $aamcResourceTypes);
 
@@ -76,5 +76,5 @@ interface TermInterface extends
     /**
      * @return ArrayCollection|AamcResourceTypeInterface[]
      */
-    public function getAamcResourceTypes();
+    public function getAamcResourceTypes(): Collection;
 }

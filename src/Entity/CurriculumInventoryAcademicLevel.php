@@ -116,7 +116,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     /**
      * @return int
      */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->level;
     }
@@ -129,7 +129,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     /**
      * @return CurriculumInventoryReportInterface
      */
-    public function getReport()
+    public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }

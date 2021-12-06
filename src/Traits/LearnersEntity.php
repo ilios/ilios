@@ -37,7 +37,7 @@ trait LearnersEntity
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getLearners()
+    public function getLearners(): Collection
     {
         return $this->learners;
     }

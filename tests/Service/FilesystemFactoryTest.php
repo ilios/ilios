@@ -26,9 +26,6 @@ class FilesystemFactoryTest extends TestCase
         $this->filesystemFactory = new FilesystemFactory($this->config, '/tmp');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

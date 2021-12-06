@@ -23,17 +23,11 @@ class LoadAuditLogData extends AbstractFixture implements
      */
     private $container;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(ObjectManager $manager)
     {
         $data = $this->container

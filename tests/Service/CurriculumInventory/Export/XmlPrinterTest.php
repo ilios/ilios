@@ -26,18 +26,12 @@ class XmlPrinterTest extends TestCase
 {
     protected XmlPrinter $printer;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
         $this->printer = new XmlPrinter();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         parent::tearDown();

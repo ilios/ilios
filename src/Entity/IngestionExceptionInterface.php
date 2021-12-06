@@ -16,7 +16,7 @@ interface IngestionExceptionInterface extends IdentifiableEntityInterface
     /**
      * @return UserInterface
      */
-    public function getUser();
+    public function getUser(): UserInterface;
 
     /**
      * @param string $uid
@@ -26,5 +26,5 @@ interface IngestionExceptionInterface extends IdentifiableEntityInterface
     /**
      * @return string
      */
-    public function getUid();
+    public function getUid(): string;
 }

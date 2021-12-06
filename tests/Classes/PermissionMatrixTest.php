@@ -18,18 +18,12 @@ class PermissionMatrixTest extends TestCase
      */
     protected $permissionMatrix;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
         $this->permissionMatrix = new PermissionMatrix();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

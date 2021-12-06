@@ -174,41 +174,26 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->descendants = new ArrayCollection();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setProgramYear(ProgramYearInterface $programYear): void
     {
         $this->programYear = $programYear;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getProgramYear(): ProgramYearInterface
     {
         return $this->programYear;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setCompetency(CompetencyInterface $competency = null)
     {
         $this->competency = $competency;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCompetency()
+    public function getCompetency(): CompetencyInterface
     {
         return $this->competency;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setCourseObjectives(Collection $courseObjectives)
     {
         $this->courseObjectives = new ArrayCollection();
@@ -218,9 +203,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCourseObjective(CourseObjectiveInterface $courseObjective)
     {
         if (!$this->courseObjectives->contains($courseObjective)) {
@@ -229,9 +211,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective)
     {
         if ($this->courseObjectives->contains($courseObjective)) {
@@ -240,43 +219,28 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCourseObjectives()
+    public function getCourseObjectives(): Collection
     {
         return $this->courseObjectives;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setAncestor(ProgramYearObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAncestor()
+    public function getAncestor(): ProgramYearObjectiveInterface
     {
         return $this->ancestor;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAncestorOrSelf()
+    public function getAncestorOrSelf(): ProgramYearObjectiveInterface
     {
         $ancestor = $this->getAncestor();
 
         return $ancestor ? $ancestor : $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setDescendants(Collection $descendants)
     {
         $this->descendants = new ArrayCollection();
@@ -286,9 +250,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addDescendant(ProgramYearObjectiveInterface $descendant)
     {
         if (!$this->descendants->contains($descendant)) {
@@ -296,49 +257,31 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeDescendant(ProgramYearObjectiveInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDescendants()
+    public function getDescendants(): Collection
     {
         return $this->descendants;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setTitle($title)
     {
         $this->title = $title;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setPosition($position)
     {
         $this->position = $position;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setActive($active)
     {
         $this->active = $active;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setMeshDescriptors(Collection $meshDescriptors)
     {
         $this->meshDescriptors = new ArrayCollection();
@@ -348,9 +291,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
@@ -358,9 +298,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
     {
         $this->meshDescriptors->removeElement($meshDescriptor);

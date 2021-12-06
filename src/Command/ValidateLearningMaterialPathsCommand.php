@@ -27,9 +27,6 @@ class ValidateLearningMaterialPathsCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -38,10 +35,7 @@ class ValidateLearningMaterialPathsCommand extends Command
             ->setDescription('Validate file paths for learning materials');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $totalLearningMaterialsCount = $this->learningMaterialRepository->getTotalFileLearningMaterialCount();
 

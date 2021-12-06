@@ -15,7 +15,7 @@ interface PermissionMatrixInterface
     /**
      * @return mixed
      */
-    public function setPermission(int $schoolId, string $capability, array $roles);
+    public function setPermission(int $schoolId, string $capability, array $roles): mixed;
 
     /**
      * Returns a list of roles that have the given capability in a given school.

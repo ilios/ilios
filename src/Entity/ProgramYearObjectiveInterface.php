@@ -32,7 +32,7 @@ interface ProgramYearObjectiveInterface extends
     /**
      * @return CompetencyInterface
      */
-    public function getCompetency();
+    public function getCompetency(): CompetencyInterface;
 
     public function setCourseObjectives(Collection $courseObjectives);
 
@@ -43,19 +43,19 @@ interface ProgramYearObjectiveInterface extends
     /**
      * @return Collection
      */
-    public function getCourseObjectives();
+    public function getCourseObjectives(): Collection;
 
     public function setAncestor(ProgramYearObjectiveInterface $ancestor);
 
     /**
      * @return ProgramYearObjectiveInterface
      */
-    public function getAncestor();
+    public function getAncestor(): ProgramYearObjectiveInterface;
 
     /**
      * @return ProgramYearObjectiveInterface
      */
-    public function getAncestorOrSelf();
+    public function getAncestorOrSelf(): ProgramYearObjectiveInterface;
 
     public function setDescendants(Collection $children);
 
@@ -66,5 +66,5 @@ interface ProgramYearObjectiveInterface extends
     /**
      * @return Collection
      */
-    public function getDescendants();
+    public function getDescendants(): Collection;
 }

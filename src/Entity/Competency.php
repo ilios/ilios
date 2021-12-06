@@ -145,7 +145,7 @@ class Competency implements CompetencyInterface
     /**
      * @return CompetencyInterface
      */
-    public function getParent()
+    public function getParent(): CompetencyInterface
     {
         return $this->parent;
     }
@@ -175,7 +175,7 @@ class Competency implements CompetencyInterface
     /**
      * @return ArrayCollection|CompetencyInterface[]
      */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
@@ -183,7 +183,7 @@ class Competency implements CompetencyInterface
     /**
      * @return bool
      */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return (!$this->children->isEmpty()) ? true : false;
     }
@@ -205,9 +205,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs)
     {
         if ($this->aamcPcrses->contains($aamcPcrs)) {
@@ -219,14 +216,11 @@ class Competency implements CompetencyInterface
     /**
      * @return ArrayCollection|AamcPcrsInterface[]
      */
-    public function getAamcPcrses()
+    public function getAamcPcrses(): Collection
     {
         return $this->aamcPcrses;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
@@ -235,9 +229,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeProgramYear(ProgramYearInterface $programYear)
     {
         if ($this->programYears->contains($programYear)) {

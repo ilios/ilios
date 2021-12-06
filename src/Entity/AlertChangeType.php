@@ -69,9 +69,6 @@ class AlertChangeType implements AlertChangeTypeInterface
         $this->alerts = new ArrayCollection();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAlert(AlertInterface $alert)
     {
         if (!$this->alerts->contains($alert)) {
@@ -80,9 +77,6 @@ class AlertChangeType implements AlertChangeTypeInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAlert(AlertInterface $alert)
     {
         if ($this->alerts->contains($alert)) {

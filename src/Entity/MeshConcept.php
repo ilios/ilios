@@ -161,7 +161,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @return bool
      */
-    public function getPreferred()
+    public function getPreferred(): bool
     {
         return $this->preferred;
     }
@@ -177,7 +177,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @return string
      */
-    public function getScopeNote()
+    public function getScopeNote(): string
     {
         return $this->scopeNote;
     }
@@ -193,7 +193,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @return string
      */
-    public function getCasn1Name()
+    public function getCasn1Name(): string
     {
         return $this->casn1Name;
     }
@@ -209,7 +209,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @return string
      */
-    public function getRegistryNumber()
+    public function getRegistryNumber(): string
     {
         return $this->registryNumber;
     }
@@ -242,7 +242,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @return ArrayCollection|MeshTermInterface[]
      */
-    public function getTerms()
+    public function getTerms(): Collection
     {
         return $this->terms;
     }
@@ -271,7 +271,7 @@ class MeshConcept implements MeshConceptInterface
     /**
      * @return ArrayCollection|MeshDescriptorInterface[]
      */
-    public function getDescriptors()
+    public function getDescriptors(): Collection
     {
         return $this->descriptors;
     }

@@ -39,9 +39,6 @@ class ImportMeshUniverseCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -69,10 +66,7 @@ class ImportMeshUniverseCommand extends Command
             );
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->lock()) {
             $output->writeln('The command is already running in another process.');
@@ -123,7 +117,7 @@ class ImportMeshUniverseCommand extends Command
     /**
      * @return string
      */
-    private function getUri(InputInterface $input)
+    private function getUri(InputInterface $input): string
     {
         $path = trim((string) $input->getOption('path'));
         $url = trim((string) $input->getOption('url'));

@@ -18,9 +18,15 @@ use App\Traits\IdentifiableEntityInterface;
  */
 interface AamcPcrsInterface extends
     IdentifiableEntityInterface,
-    DescribableEntityInterface,
     StringableEntityInterface,
     LoggableEntityInterface,
     CompetenciesEntityInterface
 {
+    /**
+     * @param string $description
+     */
+    public function setDescription($description);
+
+    public function getDescription(): string;
+
 }

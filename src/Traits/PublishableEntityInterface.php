@@ -12,7 +12,7 @@ interface PublishableEntityInterface
     /**
      * @return bool
      */
-    public function isPublished();
+    public function isPublished(): bool;
 
     /**
      * @param bool $published
@@ -27,5 +27,5 @@ interface PublishableEntityInterface
     /**
      * @return bool
      */
-    public function isPublishedAsTbd();
+    public function isPublishedAsTbd(): bool;
 }

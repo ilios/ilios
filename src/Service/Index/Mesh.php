@@ -18,7 +18,7 @@ class Mesh extends ElasticSearchBase
      * @return array
      * @throws Exception when search is not configured
      */
-    public function idsQuery(string $query)
+    public function idsQuery(string $query): array
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");

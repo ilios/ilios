@@ -29,7 +29,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
      *
      * @return array
      */
-    public function findInRange(\DateTime $from, \DateTime $to)
+    public function findInRange(\DateTime $from, \DateTime $to): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a as log', 'u.id as userId')

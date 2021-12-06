@@ -37,7 +37,7 @@ trait InstructorsEntity
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getInstructors()
+    public function getInstructors(): Collection
     {
         return $this->instructors;
     }

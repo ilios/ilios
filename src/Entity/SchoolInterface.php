@@ -45,7 +45,7 @@ interface SchoolInterface extends
     /**
      * @return string
      */
-    public function getTemplatePrefix();
+    public function getTemplatePrefix(): string;
 
     /**
      * @param string $iliosAdministratorEmail
@@ -55,7 +55,7 @@ interface SchoolInterface extends
     /**
      * @return string
      */
-    public function getIliosAdministratorEmail();
+    public function getIliosAdministratorEmail(): string;
 
     /**
      * @param string $changeAlertRecipients
@@ -65,7 +65,7 @@ interface SchoolInterface extends
     /**
      * @return string
      */
-    public function getChangeAlertRecipients();
+    public function getChangeAlertRecipients(): string;
 
     public function setVocabularies(Collection $vocabularies);
 
@@ -76,7 +76,7 @@ interface SchoolInterface extends
     /**
      * @return ArrayCollection|VocabularyInterface[]
      */
-    public function getVocabularies();
+    public function getVocabularies(): Collection;
 
     public function addConfiguration(SchoolConfigInterface $config);
 
@@ -87,5 +87,5 @@ interface SchoolInterface extends
     /**
      * @return ArrayCollection|SchoolConfigInterface[]
      */
-    public function getConfigurations();
+    public function getConfigurations(): Collection;
 }

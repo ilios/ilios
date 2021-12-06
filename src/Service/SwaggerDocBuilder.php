@@ -61,7 +61,7 @@ class SwaggerDocBuilder
      *
      * @throws Exception
      */
-    protected function getSection($dir)
+    protected function getSection($dir): array
     {
         $finder = new Finder();
         $path = $this->swaggerDir . DIRECTORY_SEPARATOR . $dir;
@@ -89,7 +89,7 @@ class SwaggerDocBuilder
      *
      * @return array
      */
-    protected function getFrontMatter(Request $request)
+    protected function getFrontMatter(Request $request): array
     {
         $arr = [];
         $arr['swagger'] = '2.0';

@@ -17,10 +17,7 @@ class AcademicYearTest extends ReadEndpointTest
 {
     protected string $testName = 'academicYears';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadCourseData::class,
@@ -30,7 +27,7 @@ class AcademicYearTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[1], ['id' => 2013], $skipped = true],

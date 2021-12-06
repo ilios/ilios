@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\InstructorGroupsEntityInterface;
 use App\Traits\InstructorsEntityInterface;
@@ -41,7 +40,7 @@ interface OfferingInterface extends
     /**
      * @return string
      */
-    public function getSite();
+    public function getSite(): string;
 
     public function setUrl(?string $url);
 
@@ -52,36 +51,31 @@ interface OfferingInterface extends
     /**
      * @return DateTime
      */
-    public function getStartDate();
+    public function getStartDate(): DateTime;
 
     public function setEndDate(DateTime $endDate);
 
     /**
      * @return DateTime
      */
-    public function getEndDate();
+    public function getEndDate(): DateTime;
 
     public function setSession(SessionInterface $session);
 
     /**
      * @return SessionInterface|null
      */
-    public function getSession();
+    public function getSession(): ?SessionInterface;
 
     /**
      * Get all the instructors including those in groups
-     * @return ArrayCollection
      */
-    public function getAllInstructors();
+    public function getAllInstructors(): Collection;
 
     /**
      * Returns "alertable" properties in an easy to compare format.
-     * @return array.
      */
-    public function getAlertProperties();
+    public function getAlertProperties(): array;
 
-    /**
-     * @return SchoolInterface|null
-     */
-    public function getSchool();
+    public function getSchool(): ?SchoolInterface;
 }

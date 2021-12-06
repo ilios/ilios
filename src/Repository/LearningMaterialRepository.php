@@ -44,7 +44,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
      *
      * @return LearningMaterialInterface[]
      */
-    public function findFileLearningMaterials($limit, $offset)
+    public function findFileLearningMaterials($limit, $offset): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('DISTINCT x')->from(LearningMaterial::class, 'x');
@@ -313,7 +313,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
     /**
      * @return int
      */
-    public function getTotalFileLearningMaterialCount()
+    public function getTotalFileLearningMaterialCount(): int
     {
         $dql = 'SELECT COUNT(l.id) FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
         return $this->_em->createQuery($dql)->getSingleScalarResult();

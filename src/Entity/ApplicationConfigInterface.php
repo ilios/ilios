@@ -15,7 +15,7 @@ interface ApplicationConfigInterface extends IdentifiableEntityInterface, Nameab
     /**
      * @return string
      */
-    public function getValue();
+    public function getValue(): string;
 
     /**
      * @param string $value

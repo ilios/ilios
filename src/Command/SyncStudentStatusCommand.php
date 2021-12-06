@@ -41,7 +41,7 @@ class SyncStudentStatusCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Starting student synchronization process.</info>');
         $filter = $input->getArgument('filter');

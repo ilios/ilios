@@ -20,7 +20,7 @@ class AuthenticationFactory
      * @return CasAuthentication|FormAuthentication|LdapAuthentication|ShibbolethAuthentication
      * @throws \Exception
      */
-    public function createAuthenticationService()
+    public function createAuthenticationService(): CasAuthentication|FormAuthentication|LdapAuthentication|ShibbolethAuthentication
     {
         $authenticationType = $this->config->get('authentication_type');
         switch ($authenticationType) {

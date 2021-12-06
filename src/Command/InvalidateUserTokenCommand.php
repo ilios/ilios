@@ -26,9 +26,6 @@ class InvalidateUserTokenCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -42,10 +39,7 @@ class InvalidateUserTokenCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $now = new DateTime();
         $userId = $input->getArgument('userId');

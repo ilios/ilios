@@ -161,7 +161,7 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @return int
      */
-    public function getStartYear()
+    public function getStartYear(): int
     {
         return $this->startYear;
     }
@@ -174,31 +174,22 @@ class ProgramYear implements ProgramYearInterface
     /**
      * @return ProgramInterface
      */
-    public function getProgram()
+    public function getProgram(): ProgramInterface
     {
         return $this->program;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setCohort(CohortInterface $cohort)
     {
         $this->cohort = $cohort;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCohort()
+    public function getCohort(): CohortInterface
     {
         return $this->cohort;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($program = $this->getProgram()) {
             return $program->getSchool();

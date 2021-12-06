@@ -22,5 +22,5 @@ interface AdministratorsEntityInterface
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getAdministrators();
+    public function getAdministrators(): Collection;
 }

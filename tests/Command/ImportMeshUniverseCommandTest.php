@@ -51,9 +51,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
      */
     private const COMMAND_NAME = 'ilios:import-mesh-universe';
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -69,9 +66,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

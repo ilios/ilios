@@ -27,14 +27,14 @@ interface AuditLogInterface extends
      *
      * @return string
      */
-    public function getAction();
+    public function getAction(): string;
 
     /**
      * Get createdAt
      *
      * @return \DateTime
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): \DateTime;
 
 
     public function setCreatedAt(\DateTime $createdAt);
@@ -51,7 +51,7 @@ interface AuditLogInterface extends
      *
      * @return string
      */
-    public function getObjectId();
+    public function getObjectId(): string;
 
     /**
      * Set objectClass
@@ -65,12 +65,12 @@ interface AuditLogInterface extends
      *
      * @return string
      */
-    public function getObjectClass();
+    public function getObjectClass(): string;
 
     public function setUser(UserInterface $user);
 
     /**
      * @return UserInterface
      */
-    public function getUser();
+    public function getUser(): UserInterface;
 }

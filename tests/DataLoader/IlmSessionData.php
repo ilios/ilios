@@ -8,7 +8,7 @@ use App\Entity\DTO\IlmSessionDTO;
 
 class IlmSessionData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $dt = $this->faker->dateTime();
@@ -63,7 +63,7 @@ class IlmSessionData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         $dt = $this->faker->dateTime();
         $dt->setTime(0, 0, 0);
@@ -79,7 +79,7 @@ class IlmSessionData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

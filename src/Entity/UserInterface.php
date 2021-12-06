@@ -42,7 +42,7 @@ interface UserInterface extends
     /**
      * @return AuthenticationInterface
      */
-    public function getAuthentication();
+    public function getAuthentication(): AuthenticationInterface;
 
     /**
      * @param string $lastName
@@ -52,7 +52,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getLastName();
+    public function getLastName(): string;
 
     /**
      * @param string $firstName
@@ -62,7 +62,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getFirstName();
+    public function getFirstName(): string;
 
     /**
      * @param string $middleName
@@ -72,12 +72,12 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getMiddleName();
+    public function getMiddleName(): string;
 
     /**
      * @return string
      */
-    public function getFirstAndLastName();
+    public function getFirstAndLastName(): string;
 
     /**
      * @param string $displayName
@@ -87,7 +87,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getDisplayName();
+    public function getDisplayName(): string;
 
     /**
      * @param string $phone
@@ -97,7 +97,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getPhone();
+    public function getPhone(): string;
 
     /**
      * @param string $email
@@ -107,7 +107,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getEmail();
+    public function getEmail(): string;
 
     /**
      * @param string $email
@@ -117,7 +117,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getPreferredEmail();
+    public function getPreferredEmail(): string;
 
     /**
      * @param bool $addedViaIlios
@@ -127,7 +127,7 @@ interface UserInterface extends
     /**
      * @return bool
      */
-    public function isAddedViaIlios();
+    public function isAddedViaIlios(): bool;
 
     /**
      * @param bool $enabled
@@ -137,7 +137,7 @@ interface UserInterface extends
     /**
      * @return bool
      */
-    public function isEnabled();
+    public function isEnabled(): bool;
 
     /**
      * @param string $campusId
@@ -147,7 +147,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getCampusId();
+    public function getCampusId(): string;
 
     /**
      * @param string $otherId
@@ -157,7 +157,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getOtherId();
+    public function getOtherId(): string;
 
     /**
      * @param bool $examined
@@ -167,7 +167,7 @@ interface UserInterface extends
     /**
      * @return bool
      */
-    public function isExamined();
+    public function isExamined(): bool;
 
     /**
      * @param bool $userSyncIgnore
@@ -177,7 +177,7 @@ interface UserInterface extends
     /**
      * @return bool
      */
-    public function isUserSyncIgnore();
+    public function isUserSyncIgnore(): bool;
 
     /**
      * Generate a random string to use as the calendar feed url
@@ -193,7 +193,7 @@ interface UserInterface extends
     /**
      * @return string
      */
-    public function getIcsFeedKey();
+    public function getIcsFeedKey(): string;
 
     public function setDirectedCourses(Collection $courses);
 
@@ -204,7 +204,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|CourseInterface[]
      */
-    public function getDirectedCourses();
+    public function getDirectedCourses(): Collection;
 
     public function setAdministeredCourses(Collection $administeredCourses);
 
@@ -215,7 +215,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|CourseInterface[]
      */
-    public function getAdministeredCourses();
+    public function getAdministeredCourses(): Collection;
 
     public function setStudentAdvisedCourses(Collection $studentAdvisedCourses);
 
@@ -226,7 +226,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|CourseInterface[]
      */
-    public function getStudentAdvisedCourses();
+    public function getStudentAdvisedCourses(): Collection;
 
     public function setStudentAdvisedSessions(Collection $studentAdvisedSessions);
 
@@ -237,13 +237,13 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|SessionInterface[]
      */
-    public function getStudentAdvisedSessions();
+    public function getStudentAdvisedSessions(): Collection;
 
     /**
      * @param int $courseId
      * @return bool
      */
-    public function isDirectingCourse($courseId);
+    public function isDirectingCourse($courseId): bool;
 
     public function setInstructedLearnerGroups(Collection $instructedLearnerGroups);
 
@@ -254,7 +254,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getInstructedLearnerGroups();
+    public function getInstructedLearnerGroups(): Collection;
 
     public function setRoles(Collection $roles);
 
@@ -265,7 +265,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|UserRoleInterface[]
      */
-    public function getRoles();
+    public function getRoles(): Collection;
 
     public function setReports(Collection $reports);
 
@@ -276,7 +276,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|ReportInterface[]
      */
-    public function getReports();
+    public function getReports(): Collection;
 
     public function setPendingUserUpdates(Collection $pendingUserUpdates);
 
@@ -287,12 +287,12 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|PendingUserUpdateInterface[]
      */
-    public function getPendingUserUpdates();
+    public function getPendingUserUpdates(): Collection;
 
     /**
      * @return ArrayCollection[School]
      */
-    public function getAllSchools();
+    public function getAllSchools(): Collection;
 
     public function setAuditLogs(Collection $auditLogs);
 
@@ -303,7 +303,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|AuditLogInterface[]
      */
-    public function getAuditLogs();
+    public function getAuditLogs(): Collection;
 
     public function setAlerts(Collection $alerts);
 
@@ -314,7 +314,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|AlertInterface[]
      */
-    public function getAlerts();
+    public function getAlerts(): Collection;
 
     public function setAdministeredSessions(Collection $administeredSessions);
 
@@ -325,7 +325,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|SessionInterface[]
      */
-    public function getAdministeredSessions();
+    public function getAdministeredSessions(): Collection;
 
     public function setLearnerIlmSessions(Collection $learnerIlmSessions);
 
@@ -336,7 +336,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|IlmSessionInterface[]
      */
-    public function getLearnerIlmSessions();
+    public function getLearnerIlmSessions(): Collection;
 
     public function setDirectedSchools(Collection $schools);
 
@@ -347,7 +347,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|SchoolInterface[]
      */
-    public function getDirectedSchools();
+    public function getDirectedSchools(): Collection;
 
     public function setAdministeredSchools(Collection $administeredSchools);
 
@@ -358,7 +358,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|SchoolInterface[]
      */
-    public function getAdministeredSchools();
+    public function getAdministeredSchools(): Collection;
 
     public function setDirectedPrograms(Collection $programs);
 
@@ -369,7 +369,7 @@ interface UserInterface extends
     /**
      * @return ArrayCollection|ProgramInterface[]
      */
-    public function getDirectedPrograms();
+    public function getDirectedPrograms(): Collection;
 
     /**
      * @param bool $root
@@ -379,12 +379,12 @@ interface UserInterface extends
     /**
      * @return bool
      */
-    public function isRoot();
+    public function isRoot(): bool;
 
     /**
      * @return ArrayCollection|CurriculumInventoryReportInterface[]
      */
-    public function getAdministeredCurriculumInventoryReports();
+    public function getAdministeredCurriculumInventoryReports(): Collection;
 
     public function setAdministeredCurriculumInventoryReports(Collection $reports);
 

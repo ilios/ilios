@@ -13,10 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SchoolEvent extends AbstractCalendarEvent
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof Event && in_array($attribute, [self::VIEW, self::VIEW_DRAFT_CONTENTS]);
     }
@@ -27,7 +24,7 @@ class SchoolEvent extends AbstractCalendarEvent
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $event, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $event, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

@@ -11,10 +11,7 @@ use Exception;
  */
 class AuditLogData extends AbstractDataLoader
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function getData()
+    protected function getData(): array
     {
         $arr[] = [
             'createdAt' => new \DateTime('1 day ago', new \DateTimeZone('UTC')),
@@ -49,7 +46,7 @@ class AuditLogData extends AbstractDataLoader
      *
      * @throws Exception
      */
-    public function create()
+    public function create(): array
     {
         throw new Exception('Not implemented');
     }
@@ -59,7 +56,7 @@ class AuditLogData extends AbstractDataLoader
      *
      * @throws Exception
      */
-    public function createInvalid()
+    public function createInvalid(): array
     {
         throw new Exception('Not implemented');
     }

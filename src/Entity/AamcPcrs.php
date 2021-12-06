@@ -25,7 +25,6 @@ use App\Traits\StringableIdEntity;
 class AamcPcrs implements AamcPcrsInterface
 {
     use IdentifiableEntity;
-    use DescribableEntity;
     use StringableIdEntity;
     use CompetenciesEntity;
 
@@ -73,9 +72,6 @@ class AamcPcrs implements AamcPcrsInterface
         $this->competencies = new ArrayCollection();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCompetency(CompetencyInterface $competency)
     {
         if (!$this->competencies->contains($competency)) {
@@ -84,14 +80,21 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCompetency(CompetencyInterface $competency)
     {
         if ($this->competencies->contains($competency)) {
             $this->competencies->removeElement($competency);
             $competency->removeAamcPcrs($this);
         }
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 }

@@ -100,7 +100,7 @@ class IcsController extends AbstractController
     /**
      * @return string
      */
-    protected function getDescriptionForEvent(UserEvent $event)
+    protected function getDescriptionForEvent(UserEvent $event): string
     {
         $slug = 'U' . $event->startDate->format('Ymd');
 
@@ -153,7 +153,7 @@ class IcsController extends AbstractController
      * @param string $string
      * @return string
      */
-    protected function purify($string)
+    protected function purify($string): string
     {
         return str_replace("\n", ' ', trim(strip_tags($string)));
     }

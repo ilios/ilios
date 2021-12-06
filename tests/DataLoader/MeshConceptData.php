@@ -8,7 +8,7 @@ use App\Entity\DTO\MeshConceptDTO;
 
 class MeshConceptData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -35,7 +35,7 @@ class MeshConceptData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => '3',
@@ -49,7 +49,7 @@ class MeshConceptData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'bad'
@@ -60,7 +60,7 @@ class MeshConceptData extends AbstractDataLoader
      * Mesh concept IDs are strings so we have to convert them
      * @inheritdoc
      */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = parent::createMany($count);
 

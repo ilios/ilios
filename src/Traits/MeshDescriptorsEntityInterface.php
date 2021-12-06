@@ -22,5 +22,5 @@ interface MeshDescriptorsEntityInterface
     /**
     * @return MeshDescriptorInterface[]|ArrayCollection
     */
-    public function getMeshDescriptors();
+    public function getMeshDescriptors(): Collection;
 }

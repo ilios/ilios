@@ -24,7 +24,7 @@ class Filesystem extends SymfonyFileSystem
      *
      * @throws IOException
      */
-    public function readFile($filename)
+    public function readFile($filename): string
     {
         $contents = file_get_contents($filename);
         if (false === $contents) {

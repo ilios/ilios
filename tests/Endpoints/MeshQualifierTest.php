@@ -15,10 +15,7 @@ class MeshQualifierTest extends AbstractMeshTest
 {
     protected string $testName =  'meshQualifiers';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadMeshQualifierData::class,
@@ -39,7 +36,7 @@ class MeshQualifierTest extends AbstractMeshTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => '1']],
@@ -49,7 +46,7 @@ class MeshQualifierTest extends AbstractMeshTest
         ];
     }
 
-    public function getTimeStampFields()
+    public function getTimeStampFields(): array
     {
         return ['createdAt', 'updatedAt'];
     }

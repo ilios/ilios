@@ -32,9 +32,6 @@ class DownloadControllerTest extends WebTestCase
     protected KernelBrowser $kernelBrowser;
     protected string $apiVersion = 'v3';
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -50,9 +47,6 @@ class DownloadControllerTest extends WebTestCase
         $this->fixtures = $executor->getReferenceRepository();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

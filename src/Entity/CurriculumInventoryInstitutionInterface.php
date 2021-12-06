@@ -26,7 +26,7 @@ interface CurriculumInventoryInstitutionInterface extends
     /**
      * @return string
      */
-    public function getAamcCode();
+    public function getAamcCode(): string;
 
     /**
      * @param string $addressStreet
@@ -36,7 +36,7 @@ interface CurriculumInventoryInstitutionInterface extends
     /**
      * @return string
      */
-    public function getAddressStreet();
+    public function getAddressStreet(): string;
 
     /**
      * @param string $addressCity
@@ -46,7 +46,7 @@ interface CurriculumInventoryInstitutionInterface extends
     /**
      * @return string
      */
-    public function getAddressCity();
+    public function getAddressCity(): string;
 
     /**
      * @param string $addressStateOrProvince
@@ -56,7 +56,7 @@ interface CurriculumInventoryInstitutionInterface extends
     /**
      * @return string
      */
-    public function getAddressStateOrProvince();
+    public function getAddressStateOrProvince(): string;
 
     /**
      * @param string $addressZipcode
@@ -66,7 +66,7 @@ interface CurriculumInventoryInstitutionInterface extends
     /**
      * @return string
      */
-    public function getAddressZipcode();
+    public function getAddressZipcode(): string;
 
     /**
      * @param string $addressCountryCode
@@ -76,5 +76,5 @@ interface CurriculumInventoryInstitutionInterface extends
     /**
      * @return string
      */
-    public function getAddressCountryCode();
+    public function getAddressCountryCode(): string;
 }

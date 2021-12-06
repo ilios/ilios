@@ -25,5 +25,5 @@ interface CategorizableEntityInterface
     /**
      * @return ArrayCollection|TermInterface[]
      */
-    public function getTerms();
+    public function getTerms(): Collection;
 }

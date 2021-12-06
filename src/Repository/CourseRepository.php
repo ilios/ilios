@@ -67,7 +67,7 @@ class CourseRepository extends ServiceEntityRepository implements
     /**
      * @return array
      */
-    public function getYears()
+    public function getYears(): array
     {
         $dql = 'SELECT DISTINCT c.year FROM App\Entity\Course c ORDER BY c.year ASC';
         $results = $this->getEntityManager()->createQuery($dql)->getArrayResult();
@@ -85,7 +85,7 @@ class CourseRepository extends ServiceEntityRepository implements
      *
      * @return array
      */
-    public function getIds()
+    public function getIds(): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('x.id')->from(Course::class, 'x');
@@ -500,7 +500,7 @@ EOL;
      *
      * @return IndexableCourse[]
      */
-    public function getCourseIndexesFor(array $courseIds)
+    public function getCourseIndexesFor(array $courseIds): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
@@ -638,7 +638,7 @@ EOL;
      *
      * @return array
      */
-    protected function joinResults(string $from, string $rel, string $select, array $ids)
+    protected function joinResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
@@ -658,7 +658,7 @@ EOL;
      *
      * @return array
      */
-    protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids)
+    protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
@@ -677,7 +677,7 @@ EOL;
     /**
      * @return IndexableSession[]
      */
-    protected function sessionDataForIndex(array $sessionIds)
+    protected function sessionDataForIndex(array $sessionIds): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(

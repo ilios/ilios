@@ -22,9 +22,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
         $this->hasMatrixBeenBuilt = false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasPermission(int $schoolId, string $capability, array $roles): bool
     {
         if (! $this->hasMatrixBeenBuilt) {
@@ -33,9 +30,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
         return parent::hasPermission($schoolId, $capability, $roles);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPermittedRoles(int $schoolId, string $capability): array
     {
         if (! $this->hasMatrixBeenBuilt) {

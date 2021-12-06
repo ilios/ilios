@@ -237,7 +237,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @return array
      */
-    public function compareSequenceBlocksWithOrderedStrategyProvider()
+    public function compareSequenceBlocksWithOrderedStrategyProvider(): array
     {
         $rhett = [];
 
@@ -288,7 +288,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @return array
      */
-    public function compareSequenceBlocksWithDefaultStrategyProvider()
+    public function compareSequenceBlocksWithDefaultStrategyProvider(): array
     {
         $rhett = [];
 

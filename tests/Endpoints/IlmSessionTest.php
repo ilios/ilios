@@ -17,10 +17,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'ilmSessions';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadIlmSessionData::class,
@@ -31,7 +28,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'hours' => ['hours', $this->getFaker()->randomFloat(2)],
@@ -46,7 +43,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -56,7 +53,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

@@ -13,10 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class LearningMaterial extends AbstractVoter
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof LearningMaterialInterface && in_array($attribute, [
                 self::VIEW, self::CREATE, self::EDIT, self::DELETE
@@ -29,7 +26,7 @@ class LearningMaterial extends AbstractVoter
      * @param TokenInterface $token
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $learningMaterial, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $learningMaterial, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

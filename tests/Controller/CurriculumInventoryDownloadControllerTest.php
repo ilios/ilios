@@ -30,9 +30,6 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     protected KernelBrowser $kernelBrowser;
     protected string $apiVersion = 'v3';
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();

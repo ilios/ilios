@@ -52,9 +52,6 @@ class ReportRolloverTest extends TestCase
      */
     protected $service;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -83,9 +80,6 @@ class ReportRolloverTest extends TestCase
         $this->sequenceBlockRepository->shouldReceive('update');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

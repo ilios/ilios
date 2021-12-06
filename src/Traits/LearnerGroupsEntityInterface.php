@@ -22,5 +22,5 @@ interface LearnerGroupsEntityInterface
     /**
     * @return LearnerGroupInterface[]|ArrayCollection
     */
-    public function getLearnerGroups();
+    public function getLearnerGroups(): Collection;
 }

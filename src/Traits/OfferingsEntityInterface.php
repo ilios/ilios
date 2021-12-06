@@ -23,5 +23,5 @@ interface OfferingsEntityInterface
     /**
     * @return OfferingInterface[]|ArrayCollection
     */
-    public function getOfferings();
+    public function getOfferings(): Collection;
 }

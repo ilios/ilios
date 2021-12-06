@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\InstructorsEntity;
@@ -203,7 +204,7 @@ class Offering implements OfferingInterface
     /**
      * @return string
      */
-    public function getSite()
+    public function getSite(): string
     {
         return $this->site;
     }
@@ -224,7 +225,7 @@ class Offering implements OfferingInterface
     /**
      * @return DateTime
      */
-    public function getStartDate()
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
@@ -237,7 +238,7 @@ class Offering implements OfferingInterface
     /**
      * @return DateTime
      */
-    public function getEndDate()
+    public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
@@ -247,18 +248,12 @@ class Offering implements OfferingInterface
         $this->session = $session;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSession()
+    public function getSession(): ?SessionInterface
     {
         return $this->session;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAllInstructors()
+    public function getAllInstructors(): Collection
     {
         $instructors = $this->getInstructors()->toArray();
         foreach ($this->getInstructorGroups() as $group) {
@@ -268,10 +263,7 @@ class Offering implements OfferingInterface
         return new ArrayCollection($instructors);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlertProperties()
+    public function getAlertProperties(): array
     {
         $instructorIds = $this->getInstructors()->map(fn(UserInterface $entity) => $entity->getId())->toArray();
         sort($instructorIds);
@@ -304,10 +296,7 @@ class Offering implements OfferingInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($session = $this->getSession()) {
             return $session->getSchool();

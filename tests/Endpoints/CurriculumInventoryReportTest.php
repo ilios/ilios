@@ -24,10 +24,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'curriculumInventoryReports';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadProgramData::class,
@@ -43,7 +40,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'name' => ['name', $this->getFaker()->text()],
@@ -65,7 +62,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -75,7 +72,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -107,7 +104,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         parent::compareGraphQLData($expected, $result);
     }
 
-    protected function getOneTest()
+    protected function getOneTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -120,7 +117,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $returnedData;
     }
 
-    protected function getAllTest()
+    protected function getAllTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -150,7 +147,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $responses;
     }
 
-    protected function postTest(array $data, array $postData)
+    protected function postTest(array $data, array $postData): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -186,7 +183,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
      * Test saving new data to the JSON:API
      * @return mixed
      */
-    protected function postJsonApiTest(object $postData, array $data)
+    protected function postJsonApiTest(object $postData, array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -218,7 +215,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
-    protected function postManyTest(array $data)
+    protected function postManyTest(array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -255,7 +252,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
-    protected function postManyJsonApiTest(object $postData, array $data)
+    protected function postManyJsonApiTest(object $postData, array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -291,7 +288,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         return $fetchedResponseData;
     }
 
-    protected function putTest(array $data, array $postData, $id, $new = false)
+    protected function putTest(array $data, array $postData, $id, $new = false): mixed
     {
         $endpoint = $this->getPluralName();
         $putResponseKey = $this->getCamelCasedSingularName();

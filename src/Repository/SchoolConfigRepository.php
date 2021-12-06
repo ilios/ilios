@@ -60,7 +60,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
      * @param string $name
      * @return mixed|null
      */
-    public function getValue($name)
+    public function getValue($name): mixed
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('x.value')->from('App\Entity\SchoolConfig', 'x')

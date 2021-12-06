@@ -21,7 +21,7 @@ class LearningMaterialDecoratorFactory
      * @param mixed $object
      * @return LearningMaterialDTO
      */
-    public function create($object)
+    public function create($object): LearningMaterialDTO
     {
         if (!$object instanceof LearningMaterialInterface && !$object instanceof LearningMaterialDTO) {
             throw new \InvalidArgumentException(
@@ -38,7 +38,7 @@ class LearningMaterialDecoratorFactory
     /**
      * @return LearningMaterialDTO
      */
-    protected function entityToDto(LearningMaterialInterface $learningMaterial)
+    protected function entityToDto(LearningMaterialInterface $learningMaterial): LearningMaterialDTO
     {
         $dto = new LearningMaterialDTO(
             $learningMaterial->getId(),
@@ -72,7 +72,7 @@ class LearningMaterialDecoratorFactory
     /**
      * @return LearningMaterialDTO
      */
-    protected function decorateDto(LearningMaterialDTO $learningMaterialDTO)
+    protected function decorateDto(LearningMaterialDTO $learningMaterialDTO): LearningMaterialDTO
     {
         if ($learningMaterialDTO->filename) {
             $link = $this->router->generate(

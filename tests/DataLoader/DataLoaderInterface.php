@@ -10,32 +10,32 @@ interface DataLoaderInterface
      * Get a single item from this loader
      * @return array
      */
-    public function getOne();
+    public function getOne(): array;
 
     /**
      * Get all items from this loader
      * @return array
      */
-    public function getAll();
+    public function getAll(): array;
 
     /**
      * Create a sample of this item
      * @return array
      */
-    public function create();
+    public function create(): array;
 
     /**
      * Create an invalid sample of this item
      * @return array
      */
-    public function createInvalid();
+    public function createInvalid(): array;
 
     /**
      * Create multiple samples of this item
      * @param int $count
      * @return array
      */
-    public function createMany($count);
+    public function createMany($count): array;
 
     /**
      * Create a JSON:API compatible version

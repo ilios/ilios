@@ -59,9 +59,6 @@ class InstallFirstUserCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -86,7 +83,7 @@ class InstallFirstUserCommand extends Command
      * {@inheritdoc}
      * @throws \Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // prevent this command to run on a non-empty user store.
         $existingUser = $this->userRepository->findOneBy([]);

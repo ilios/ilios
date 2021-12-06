@@ -8,7 +8,7 @@ use App\Entity\DTO\TermDTO;
 
 class TermData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -108,7 +108,7 @@ class TermData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 7,
@@ -127,7 +127,7 @@ class TermData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'vocabulary' => 11

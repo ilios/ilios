@@ -20,7 +20,7 @@ class Curriculum extends ElasticSearchBase
      * @return array
      * @throws Exception when search is not configured
      */
-    public function search(string $query, $onlySuggest)
+    public function search(string $query, $onlySuggest): array
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");

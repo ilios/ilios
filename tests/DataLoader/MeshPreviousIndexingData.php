@@ -8,7 +8,7 @@ use App\Entity\DTO\MeshPreviousIndexingDTO;
 
 class MeshPreviousIndexingData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -25,7 +25,7 @@ class MeshPreviousIndexingData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 3,
@@ -34,7 +34,7 @@ class MeshPreviousIndexingData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'bad'

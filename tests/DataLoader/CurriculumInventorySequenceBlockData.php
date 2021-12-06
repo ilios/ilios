@@ -9,7 +9,7 @@ use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 
 class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $dt = $this->faker->dateTime();
@@ -58,7 +58,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         $dt = $this->faker->dateTime();
         $dt->setTime(0, 0, 0);
@@ -83,7 +83,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 7,

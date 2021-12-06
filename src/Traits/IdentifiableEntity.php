@@ -22,7 +22,7 @@ trait IdentifiableEntity
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): mixed
     {
         return $this->id;
     }

@@ -27,7 +27,7 @@ interface MeshTreeInterface extends
      *
      * @return string
      */
-    public function getTreeNumber();
+    public function getTreeNumber(): string;
 
     /**
      * Set meshDescriptor
@@ -35,12 +35,12 @@ interface MeshTreeInterface extends
      *
      * @return MeshTree
      */
-    public function setDescriptor(MeshDescriptorInterface $descriptor);
+    public function setDescriptor(MeshDescriptorInterface $descriptor): MeshTree;
 
     /**
      * Get meshDescriptor
      *
      * @return MeshDescriptorInterface
      */
-    public function getDescriptor();
+    public function getDescriptor(): MeshDescriptorInterface;
 }

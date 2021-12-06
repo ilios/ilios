@@ -8,7 +8,7 @@ use App\Entity\DTO\CourseObjectiveDTO;
 
 class CourseObjectiveData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -81,7 +81,7 @@ class CourseObjectiveData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 6,
@@ -97,7 +97,7 @@ class CourseObjectiveData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

@@ -10,13 +10,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class PendingUserUpdate extends AbstractVoter
 {
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof PendingUserUpdateInterface
             && in_array($attribute, [self::VIEW, self::EDIT, self::DELETE]);
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

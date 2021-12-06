@@ -27,9 +27,6 @@ class FixLearningMaterialMimeTypesCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -38,10 +35,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
             ->setDescription('Cleanup incorrectly stored mime types for learning materials.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $totalLearningMaterialsCount = $this->learningMaterialRepository->getTotalLearningMaterialCount();
 

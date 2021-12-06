@@ -184,7 +184,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return int
      */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
@@ -200,7 +200,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return \DateTime
      */
-    public function getStartDate()
+    public function getStartDate(): \DateTime
     {
         return $this->startDate;
     }
@@ -216,7 +216,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return \DateTime
      */
-    public function getEndDate()
+    public function getEndDate(): \DateTime
     {
         return $this->endDate;
     }
@@ -232,7 +232,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return CurriculumInventoryExportInterface
      */
-    public function getExport()
+    public function getExport(): CurriculumInventoryExportInterface
     {
         return $this->export;
     }
@@ -248,7 +248,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return CurriculumInventorySequenceInterface
      */
-    public function getSequence()
+    public function getSequence(): CurriculumInventorySequenceInterface
     {
         return $this->sequence;
     }
@@ -261,7 +261,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return ProgramInterface
      */
-    public function getProgram()
+    public function getProgram(): ProgramInterface
     {
         return $this->program;
     }
@@ -292,15 +292,12 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
      */
-    public function getAcademicLevels()
+    public function getAcademicLevels(): Collection
     {
         return $this->academicLevels;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($program = $this->getProgram()) {
             return $program->getSchool();
@@ -311,14 +308,11 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     /**
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function generateToken()
     {
         $random = random_bytes(128);
@@ -331,9 +325,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->token = hash('sha256', $key);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAdministrator(UserInterface $administrator)
     {
         if (!$this->administrators->contains($administrator)) {
@@ -342,9 +333,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAdministrator(UserInterface $administrator)
     {
         if ($this->administrators->contains($administrator)) {

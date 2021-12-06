@@ -19,7 +19,7 @@ interface MeshPreviousIndexingInterface extends
     /**
      * @return MeshDescriptorInterface
      */
-    public function getDescriptor();
+    public function getDescriptor(): MeshDescriptorInterface;
 
     /**
      * @param string $previousIndexing
@@ -29,5 +29,5 @@ interface MeshPreviousIndexingInterface extends
     /**
      * @return string
      */
-    public function getPreviousIndexing();
+    public function getPreviousIndexing(): string;
 }

@@ -22,5 +22,5 @@ interface LearningMaterialsEntityInterface
     /**
     * @return LearningMaterialInterface[]|ArrayCollection
     */
-    public function getLearningMaterials();
+    public function getLearningMaterials(): Collection;
 }

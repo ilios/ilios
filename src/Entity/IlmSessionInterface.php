@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\InstructorGroupsEntityInterface;
@@ -29,34 +29,28 @@ interface IlmSessionInterface extends
      */
     public function setHours($hours);
 
-    /**
-     * @return string
-     */
-    public function getHours();
+    public function getHours(): float;
 
-    public function setDueDate(\DateTime $dueDate = null);
+    public function setDueDate(DateTime $dueDate = null);
 
-    /**
-     * @return \DateTime
-     */
-    public function getDueDate();
+    public function getDueDate(): DateTime;
 
     /**
      * Get all the instructors including those in groups
      * @return ArrayCollection
      */
-    public function getAllInstructors();
+    public function getAllInstructors(): Collection;
 
     public function setSession(SessionInterface $session);
 
     /**
      * @return SessionInterface|null
      */
-    public function getSession();
+    public function getSession(): ?SessionInterface;
 
     /**
      * Get the school we belong to
      * @return SchoolInterface|null
      */
-    public function getSchool();
+    public function getSchool(): ?SchoolInterface;
 }

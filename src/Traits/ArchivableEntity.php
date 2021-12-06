@@ -12,7 +12,7 @@ trait ArchivableEntity
     /**
      * @return bool
      */
-    public function isArchived()
+    public function isArchived(): bool
     {
         return $this->archived;
     }

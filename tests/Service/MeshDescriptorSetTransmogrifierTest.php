@@ -24,18 +24,12 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
      */
     protected $transmogrifier;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
         $this->transmogrifier = new MeshDescriptorSetTransmogrifier();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

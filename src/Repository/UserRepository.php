@@ -121,7 +121,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return UserDTO[]
      */
-    public function findAllMatchingDTOsByCampusIds(array $campusIds)
+    public function findAllMatchingDTOsByCampusIds(array $campusIds): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('u')
@@ -137,7 +137,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param int $id
      * @return UserEvent[]
      */
-    public function findEventsForUser($id, DateTime $from, DateTime $to)
+    public function findEventsForUser($id, DateTime $from, DateTime $to): array
     {
         //These joins are DQL representations to go from a user to an offerings
         $joins = $this->getUserToOfferingJoins();
@@ -220,7 +220,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Get a list of users who do not have the former student role filtered by campus id
      * @return ArrayCollection
      */
-    public function findUsersWhoAreNotFormerStudents(array $campusIds = []): ArrayCollection
+    public function findUsersWhoAreNotFormerStudents(array $campusIds = []): Collection
     {
         $qb = $this->_em->createQueryBuilder();
         $formerStudentRole = $qb->select()
@@ -286,7 +286,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return array
      */
-    public function getIds($includeDisabled = true, $includeSyncIgnore = true)
+    public function getIds($includeDisabled = true, $includeSyncIgnore = true): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u.id')->from('App\Entity\User', 'u');
@@ -308,7 +308,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return array
      */
-    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
+    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u.campusId')->from('App\Entity\User', 'u');
@@ -432,7 +432,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return UserEvent[] The events list with instructors added.
      */
-    public function addInstructorsToEvents(array $events)
+    public function addInstructorsToEvents(array $events): array
     {
         return $this->attachInstructorsToEvents($events, $this->_em);
     }
@@ -455,7 +455,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param UserEvent[] $events A list of events.
      * @return array The events list with pre-requisites attached.
      */
-    protected function attachPreRequisitesToEvents($id, array $events)
+    protected function attachPreRequisitesToEvents($id, array $events): array
     {
         if (empty($events)) {
             return $events;
@@ -588,7 +588,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param array $events A list of events.
      * @return array The events list with post-requisites attached.
      */
-    protected function attachPostRequisitesToEvents($id, array $events)
+    protected function attachPostRequisitesToEvents($id, array $events): array
     {
         if (empty($events)) {
             return $events;
@@ -921,7 +921,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * @return UserDTO[]
      */
-    protected function createUserDTOs(AbstractQuery $query)
+    protected function createUserDTOs(AbstractQuery $query): array
     {
         $dtos = [];
         foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -1003,7 +1003,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @return UserMaterial[]
      */
-    public function findMaterialsForUser($id, $criteria)
+    public function findMaterialsForUser($id, $criteria): array
     {
         $factory = $this->factory;
         $offIdQb = $this->_em->createQueryBuilder();
@@ -1130,7 +1130,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param UserEvent[] $events
      * @return UserEvent[]
      */
-    public function addMaterialsToEvents(array $events)
+    public function addMaterialsToEvents(array $events): array
     {
         return $this->attachMaterialsToEvents($events, $this->factory, $this->_em);
     }
@@ -1141,7 +1141,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param UserEvent[] $events
      * @return UserEvent[]
      */
-    public function addSessionDataToEvents(array $events)
+    public function addSessionDataToEvents(array $events): array
     {
         return $this->attachSessionDataToEvents($events, $this->_em);
     }
@@ -1209,7 +1209,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param int $userId
      * @return array
      */
-    public function getAdministeredCourseAndSchoolIds($userId)
+    public function getAdministeredCourseAndSchoolIds($userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];

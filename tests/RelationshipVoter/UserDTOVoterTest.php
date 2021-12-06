@@ -20,9 +20,6 @@ class UserDTOVoterTest extends AbstractBase
 {
     protected $dto;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();

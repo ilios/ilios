@@ -14,9 +14,14 @@ use App\Traits\SessionTypesEntityInterface;
  */
 interface AamcMethodInterface extends
     IdentifiableEntityInterface,
-    DescribableEntityInterface,
     LoggableEntityInterface,
     SessionTypesEntityInterface,
     ActivatableEntityInterface
 {
+    /**
+     * @param string $description
+     */
+    public function setDescription($description);
+
+    public function getDescription(): string;
 }

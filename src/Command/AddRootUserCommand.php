@@ -28,9 +28,6 @@ class AddRootUserCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -44,10 +41,7 @@ class AddRootUserCommand extends Command
             );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $userId = $input->getArgument('userId');
         /* @var UserInterface $user */

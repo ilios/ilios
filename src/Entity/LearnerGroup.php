@@ -223,7 +223,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @return string
      */
-    public function getLocation()
+    public function getLocation(): string
     {
         return $this->location;
     }
@@ -236,7 +236,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @return CohortInterface
      */
-    public function getCohort()
+    public function getCohort(): CohortInterface
     {
         return $this->cohort;
     }
@@ -265,7 +265,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @return LearnerGroupInterface
      */
-    public function getParent()
+    public function getParent(): LearnerGroupInterface
     {
         return $this->parent;
     }
@@ -278,7 +278,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @return LearnerGroupInterface
      */
-    public function getAncestor()
+    public function getAncestor(): LearnerGroupInterface
     {
         return $this->ancestor;
     }
@@ -288,7 +288,7 @@ class LearnerGroup implements LearnerGroupInterface
      *
      * @return LearnerGroupInterface
      */
-    public function getAncestorOrSelf()
+    public function getAncestorOrSelf(): LearnerGroupInterface
     {
         $ancestor = $this->getAncestor();
 
@@ -320,7 +320,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getDescendants()
+    public function getDescendants(): Collection
     {
         return $this->descendants;
     }
@@ -352,14 +352,11 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addOffering(OfferingInterface $offering)
     {
         if (!$this->offerings->contains($offering)) {
@@ -368,9 +365,6 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeOffering(OfferingInterface $offering)
     {
         if ($this->offerings->contains($offering)) {
@@ -379,10 +373,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($cohort = $this->getCohort()) {
             return $cohort->getSchool();
@@ -390,10 +381,7 @@ class LearnerGroup implements LearnerGroupInterface
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getProgram()
+    public function getProgram(): ?ProgramInterface
     {
         if ($cohort = $this->getCohort()) {
             return $cohort = $cohort->getProgram();
@@ -401,10 +389,7 @@ class LearnerGroup implements LearnerGroupInterface
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getProgramYear()
+    public function getProgramYear(): ?ProgramYearInterface
     {
         if ($cohort = $this->getCohort()) {
             return $cohort->getProgramYear();

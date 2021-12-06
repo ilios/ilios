@@ -17,5 +17,5 @@ interface DescribableEntityInterface
     /**
      * @return string
      */
-    public function getDescription();
+    public function getDescription(): ?string;
 }

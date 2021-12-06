@@ -9,7 +9,7 @@ use App\Entity\DTO\AlertChangeTypeDTO;
 
 class AlertChangeTypeData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -64,7 +64,7 @@ class AlertChangeTypeData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 9,
@@ -73,7 +73,7 @@ class AlertChangeTypeData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => $this->faker->text(),

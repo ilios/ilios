@@ -97,7 +97,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -117,7 +117,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      *
      * @return string
      */
-    public function getProperty()
+    public function getProperty(): string
     {
         return $this->property;
     }
@@ -137,7 +137,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
      *
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -150,7 +150,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     /**
      * @return UserInterface
      */
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -72,7 +73,7 @@ class LearningMaterial implements LearningMaterialInterface
     protected $description;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'upload_date', type: 'datetime')]
@@ -269,7 +270,7 @@ class LearningMaterial implements LearningMaterialInterface
 
     public function __construct()
     {
-        $this->uploadDate = new \DateTime();
+        $this->uploadDate = new DateTime();
         $this->sessionLearningMaterials = new ArrayCollection();
         $this->courseLearningMaterials = new ArrayCollection();
     }
@@ -285,7 +286,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getOriginalAuthor()
+    public function getOriginalAuthor(): string
     {
         return $this->originalAuthor;
     }
@@ -293,14 +294,11 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function generateToken()
     {
         $random = random_bytes(128);
@@ -321,7 +319,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return LearningMaterialStatusInterface
      */
-    public function getStatus()
+    public function getStatus(): LearningMaterialStatusInterface
     {
         return $this->status;
     }
@@ -331,10 +329,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->owningUser = $user;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOwningUser()
+    public function getOwningUser(): ?UserInterface
     {
         return $this->owningUser;
     }
@@ -347,15 +342,12 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return LearningMaterialUserRoleInterface
      */
-    public function getUserRole()
+    public function getUserRole(): LearningMaterialUserRoleInterface
     {
         return $this->userRole;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getUploadDate()
+    public function getUploadDate(): DateTime
     {
         return $this->uploadDate;
     }
@@ -374,7 +366,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getCitation()
+    public function getCitation(): string
     {
         return $this->citation;
     }
@@ -390,7 +382,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getRelativePath()
+    public function getRelativePath(): string
     {
         return $this->relativePath;
     }
@@ -406,7 +398,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return bool
      */
-    public function hasCopyrightPermission()
+    public function hasCopyrightPermission(): bool
     {
         return $this->copyrightPermission;
     }
@@ -422,7 +414,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getCopyrightRationale()
+    public function getCopyrightRationale(): string
     {
         return $this->copyrightRationale;
     }
@@ -438,7 +430,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getFilename()
+    public function getFilename(): string
     {
         return $this->filename;
     }
@@ -454,7 +446,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getFilesize()
+    public function getFilesize(): string
     {
         return $this->filesize;
     }
@@ -470,7 +462,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getMimetype()
+    public function getMimetype(): string
     {
         return $this->mimetype;
     }
@@ -489,7 +481,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return string
      */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->link;
     }
@@ -521,7 +513,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return ArrayCollection|CourseLearningMaterialInterface[]
      */
-    public function getCourseLearningMaterials()
+    public function getCourseLearningMaterials(): Collection
     {
         return $this->courseLearningMaterials;
     }
@@ -553,15 +545,12 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return ArrayCollection|SessionLearningMaterialInterface[]
      */
-    public function getSessionLearningMaterials()
+    public function getSessionLearningMaterials(): Collection
     {
         return $this->sessionLearningMaterials;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOwningSchool()
+    public function getOwningSchool(): ?SchoolInterface
     {
         if ($user = $this->getOwningUser()) {
             return $user->getSchool();
@@ -572,7 +561,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @return SessionInterface[]|ArrayCollection
      */
-    public function getSessions()
+    public function getSessions(): Collection
     {
         $sessions = [];
         foreach ($this->getSessionLearningMaterials() as $sessionLearningMaterial) {
@@ -585,7 +574,7 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * @inheritDoc
      */
-    public function getValidationGroups()
+    public function getValidationGroups(): array
     {
         if ($this->getCitation() !== null && strlen(trim($this->getCitation())) > 0) {
             return ['Default', 'citation'];

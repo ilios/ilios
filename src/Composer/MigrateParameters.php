@@ -52,7 +52,7 @@ class MigrateParameters
      * Read existing parameters
      * @return array
      */
-    protected static function readParameters($parametersPath)
+    protected static function readParameters($parametersPath): array
     {
         if (is_readable($parametersPath)) {
             $parameters = Yaml::parse(file_get_contents($parametersPath));

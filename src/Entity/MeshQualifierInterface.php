@@ -30,5 +30,5 @@ interface MeshQualifierInterface extends
     /**
      * @return ArrayCollection|MeshDescriptorInterface[]
      */
-    public function getDescriptors();
+    public function getDescriptors(): Collection;
 }

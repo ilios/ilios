@@ -53,9 +53,6 @@ class LoadReportData extends AbstractFixture implements
         $manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDependencies()
     {
         return ['App\Tests\Fixture\LoadUserData'];

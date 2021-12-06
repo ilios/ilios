@@ -29,9 +29,6 @@ class GenerateEndpointTestCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -45,10 +42,7 @@ class GenerateEndpointTestCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $shortCut = $input->getArgument('entityShortcut');
 

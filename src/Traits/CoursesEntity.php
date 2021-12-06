@@ -38,7 +38,7 @@ trait CoursesEntity
     /**
     * @return CourseInterface[]|ArrayCollection
     */
-    public function getCourses()
+    public function getCourses(): Collection
     {
         return $this->courses;
     }

@@ -32,7 +32,7 @@ class EntityBase extends TestCase
      * @param int $expectedCount how many errors are you expecting
      * @return array an abbreviated set of errors
      */
-    protected function validate($expectedCount)
+    protected function validate($expectedCount): array
     {
         $validator = Validation::createValidatorBuilder()
                 ->enableAnnotationMapping()
@@ -271,7 +271,7 @@ class EntityBase extends TestCase
      * @param $count
      * @return array
      */
-    protected function getArrayOfMockObjects($className, $count)
+    protected function getArrayOfMockObjects($className, $count): array
     {
         $arr = [];
         for ($i = 0; $i < $count; $i++) {
@@ -285,7 +285,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getSetMethodForProperty($property)
+    protected function getSetMethodForProperty($property): string
     {
         return 'set' . ucfirst($property);
     }
@@ -294,7 +294,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getGetMethodForProperty($property)
+    protected function getGetMethodForProperty($property): string
     {
         return 'get' . ucfirst($property);
     }
@@ -303,7 +303,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getIsMethodForProperty($property)
+    protected function getIsMethodForProperty($property): string
     {
         return 'is' . ucfirst($property);
     }
@@ -312,7 +312,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getHasMethodForProperty($property)
+    protected function getHasMethodForProperty($property): string
     {
         return 'has' . ucfirst($property);
     }
@@ -321,7 +321,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getGetMethodForCollectionProperty($property)
+    protected function getGetMethodForCollectionProperty($property): string
     {
         return 'get' . ucfirst($property) . 's';
     }
@@ -330,7 +330,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getSetMethodForCollectionProperty($property)
+    protected function getSetMethodForCollectionProperty($property): string
     {
         return 'set' . ucfirst($property) . 's';
     }
@@ -339,7 +339,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getAddMethodForProperty($property)
+    protected function getAddMethodForProperty($property): string
     {
         return 'add' . ucfirst($property);
     }
@@ -348,7 +348,7 @@ class EntityBase extends TestCase
      * @param $property
      * @return string
      */
-    protected function getRemoveMethodForProperty($property)
+    protected function getRemoveMethodForProperty($property): string
     {
         return 'remove' . ucfirst($property);
     }
@@ -358,7 +358,7 @@ class EntityBase extends TestCase
      * @return \DateTime|float|int|bool|string
      * @throws \Exception
      */
-    protected function getValueForType($type)
+    protected function getValueForType($type): \DateTime|float|int|bool|string
     {
         $faker = Factory::create();
         switch ($type) {

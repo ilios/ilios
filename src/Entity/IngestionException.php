@@ -77,23 +77,17 @@ class IngestionException implements IngestionExceptionInterface
     /**
      * @return UserInterface
      */
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUid($uid)
     {
         $this->uid = $uid;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUid()
+    public function getUid(): string
     {
         return $this->uid;
     }

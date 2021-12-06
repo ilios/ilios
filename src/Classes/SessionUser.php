@@ -80,7 +80,7 @@ class SessionUser implements SessionUserInterface
             !empty($this->getAdministeredCurriculumInventoryReportIds());
     }
 
-    public function isEqualTo(UserInterface $user)
+    public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof SessionUser) {
             return false;
@@ -89,7 +89,7 @@ class SessionUser implements SessionUserInterface
         return $this->getUserIdentifier() === $user->getUserIdentifier();
     }
 
-    public function isTheUser(IliosUserInterface $user)
+    public function isTheUser(IliosUserInterface $user): bool
     {
 
         if ($this->userId === $user->getId()) {
@@ -99,7 +99,7 @@ class SessionUser implements SessionUserInterface
         return false;
     }
 
-    public function isThePrimarySchool(SchoolInterface $school)
+    public function isThePrimarySchool(SchoolInterface $school): bool
     {
 
         if ($this->schoolId === $school->getId()) {
@@ -109,7 +109,7 @@ class SessionUser implements SessionUserInterface
         return false;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return [];
     }
@@ -118,7 +118,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function getAssociatedSchoolIdsInNonLearnerFunction()
+    public function getAssociatedSchoolIdsInNonLearnerFunction(): array
     {
         return array_merge(
             $this->getDirectedSchoolIds(),
@@ -139,12 +139,12 @@ class SessionUser implements SessionUserInterface
         return $this->password;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return '';
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->userId;
     }
@@ -159,27 +159,27 @@ class SessionUser implements SessionUserInterface
         $this->password = null;
     }
 
-    public function isRoot()
+    public function isRoot(): bool
     {
         return $this->isRoot;
     }
 
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->isEnabled;
     }
 
-    public function tokenNotValidBefore()
+    public function tokenNotValidBefore(): ?DateTime
     {
         return $this->tokenNotValidBefore;
     }
 
-    public function getSchoolId()
+    public function getSchoolId(): int
     {
         return $this->schoolId;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->userId;
     }
@@ -188,7 +188,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
-    public function isDirectingCourse(int $courseId)
+    public function isDirectingCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getDirectedCourseIds());
     }
@@ -813,7 +813,7 @@ class SessionUser implements SessionUserInterface
      * @return array
      * @throws Exception
      */
-    protected function getAdministeredCurriculumInventoryReportAndSchoolIds()
+    protected function getAdministeredCurriculumInventoryReportAndSchoolIds(): array
     {
         if (!isset($this->administeredCurriculumInventoryReportSchoolIds)) {
             $this->administeredCurriculumInventoryReportAndSchoolIds =

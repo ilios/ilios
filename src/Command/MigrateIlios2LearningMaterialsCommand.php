@@ -30,9 +30,6 @@ class MigrateIlios2LearningMaterialsCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -47,10 +44,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pathToIlios2 = $input->getArgument('pathToIlios2');
         if (!$this->symfonyFileSystem->exists($pathToIlios2)) {

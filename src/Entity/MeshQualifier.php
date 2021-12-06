@@ -114,7 +114,7 @@ class MeshQualifier implements MeshQualifierInterface
     /**
      * @return ArrayCollection|MeshDescriptorInterface[]
      */
-    public function getDescriptors()
+    public function getDescriptors(): Collection
     {
         return $this->descriptors;
     }

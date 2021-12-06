@@ -142,9 +142,6 @@ class SessionType implements SessionTypeInterface
         $this->active = true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setCalendarColor($color)
     {
         $this->calendarColor = $color;
@@ -153,7 +150,7 @@ class SessionType implements SessionTypeInterface
     /**
      * @return string
      */
-    public function getCalendarColor()
+    public function getCalendarColor(): string
     {
         return $this->calendarColor;
     }
@@ -173,7 +170,7 @@ class SessionType implements SessionTypeInterface
      *
      * @return bool
      */
-    public function isAssessment()
+    public function isAssessment(): bool
     {
         return $this->assessment;
     }
@@ -186,7 +183,7 @@ class SessionType implements SessionTypeInterface
     /**
      * @return AssessmentOptionInterface
      */
-    public function getAssessmentOption()
+    public function getAssessmentOption(): AssessmentOptionInterface
     {
         return $this->assessmentOption;
     }
@@ -215,14 +212,11 @@ class SessionType implements SessionTypeInterface
     /**
      * @return ArrayCollection|AamcMethodInterface[]
      */
-    public function getAamcMethods()
+    public function getAamcMethods(): Collection
     {
         return $this->aamcMethods;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addSession(SessionInterface $session)
     {
         if (!$this->sessions->contains($session)) {
@@ -231,9 +225,6 @@ class SessionType implements SessionTypeInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeSession(SessionInterface $session)
     {
         $sessionId = $session->getId();

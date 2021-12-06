@@ -38,7 +38,7 @@ trait SessionsEntity
     /**
     * @return SessionInterface[]|ArrayCollection
     */
-    public function getSessions()
+    public function getSessions(): Collection
     {
         return $this->sessions;
     }

@@ -15,9 +15,14 @@ use App\Traits\TitledEntityInterface;
  */
 interface AamcResourceTypeInterface extends
     IdentifiableEntityInterface,
-    DescribableEntityInterface,
     StringableEntityInterface,
     TitledEntityInterface,
     CategorizableEntityInterface
 {
+    /**
+     * @param string $description
+     */
+    public function setDescription($description);
+
+    public function getDescription(): string;
 }

@@ -23,5 +23,5 @@ interface ProgramYearsEntityInterface
     /**
     * @return ProgramYearInterface[]|ArrayCollection
     */
-    public function getProgramYears();
+    public function getProgramYears(): Collection;
 }

@@ -37,7 +37,7 @@ trait DirectorsEntity
     /**
     * @return UserInterface[]|ArrayCollection
     */
-    public function getDirectors()
+    public function getDirectors(): Collection
     {
         return $this->directors;
     }

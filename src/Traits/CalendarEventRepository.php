@@ -26,7 +26,7 @@ trait CalendarEventRepository
      *
      * @return CalendarEvent[]
      */
-    protected function createEventObjectsForOfferings(array $results)
+    protected function createEventObjectsForOfferings(array $results): array
     {
         return array_map(fn($arr) => $this->createEventObjectForOffering($arr), $results);
     }
@@ -34,7 +34,7 @@ trait CalendarEventRepository
     /**
      * @return CalendarEvent
      */
-    protected function createEventObjectForOffering(array $arr)
+    protected function createEventObjectForOffering(array $arr): CalendarEvent
     {
         $event = new CalendarEvent();
         $event->name = $arr['title'];
@@ -108,7 +108,7 @@ trait CalendarEventRepository
      * @param array $ids A list of offering ids.
      * @return array A map of instructor lists, keyed off by offering ids.
      */
-    protected function getInstructorsForOfferings(array $ids, EntityManager $em)
+    protected function getInstructorsForOfferings(array $ids, EntityManager $em): array
     {
         if (empty($ids)) {
             return [];
@@ -155,7 +155,7 @@ trait CalendarEventRepository
      * @param array $ids A list of ILM session ids.
      * @return array A map of instructor lists, keyed off by ILM sessions ids.
      */
-    protected function getInstructorsForIlmSessions(array $ids, EntityManager $em)
+    protected function getInstructorsForIlmSessions(array $ids, EntityManager $em): array
     {
         if (empty($ids)) {
             return [];
@@ -200,7 +200,7 @@ trait CalendarEventRepository
      * @param array $events A list of events
      * @return array The events list with instructors added.
      */
-    public function attachInstructorsToEvents(array $events, EntityManager $em)
+    public function attachInstructorsToEvents(array $events, EntityManager $em): array
     {
         $offeringIds = array_map(fn($event) => $event->offering, array_filter($events, fn($event) => $event->offering));
 
@@ -232,7 +232,7 @@ trait CalendarEventRepository
      * @param array $events A list of events
      * @return array The events list with objectives and competencies added.
      */
-    public function attachSessionDataToEvents(array $events, EntityManager $em)
+    public function attachSessionDataToEvents(array $events, EntityManager $em): array
     {
         $sessionIds = array_unique(array_column($events, 'session'));
         $courseIds = array_unique(array_column($events, 'course'));
@@ -413,7 +413,7 @@ trait CalendarEventRepository
      * @param CalendarEvent[] $events
      * @return CalendarEvent[]
      */
-    public function attachMaterialsToEvents(array $events, UserMaterialFactory $factory, EntityManager $em)
+    public function attachMaterialsToEvents(array $events, UserMaterialFactory $factory, EntityManager $em): array
     {
         $sessionIds = array_map(fn(CalendarEvent $event) => $event->session, $events);
 

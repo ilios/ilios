@@ -528,7 +528,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getLastName()
+    public function getLastName(): string
     {
         return $this->lastName;
     }
@@ -544,7 +544,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
@@ -560,31 +560,22 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getMiddleName()
+    public function getMiddleName(): string
     {
         return $this->middleName;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getFirstAndLastName()
+    public function getFirstAndLastName(): string
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setDisplayName($displayName)
     {
         $this->displayName = $displayName;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDisplayName()
+    public function getDisplayName(): string
     {
         return $this->displayName;
     }
@@ -600,7 +591,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
@@ -616,7 +607,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -632,7 +623,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getPreferredEmail()
+    public function getPreferredEmail(): string
     {
         return $this->preferredEmail;
     }
@@ -648,7 +639,7 @@ class User implements UserInterface
     /**
      * @return bool
      */
-    public function isAddedViaIlios()
+    public function isAddedViaIlios(): bool
     {
         return $this->addedViaIlios;
     }
@@ -664,7 +655,7 @@ class User implements UserInterface
     /**
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
@@ -680,7 +671,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getCampusId()
+    public function getCampusId(): string
     {
         return $this->campusId;
     }
@@ -696,7 +687,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getOtherId()
+    public function getOtherId(): string
     {
         return $this->otherId;
     }
@@ -712,7 +703,7 @@ class User implements UserInterface
     /**
      * @return bool
      */
-    public function isExamined()
+    public function isExamined(): bool
     {
         return $this->examined;
     }
@@ -728,14 +719,11 @@ class User implements UserInterface
     /**
      * @return bool
      */
-    public function isUserSyncIgnore()
+    public function isUserSyncIgnore(): bool
     {
         return $this->userSyncIgnore;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function generateIcsFeedKey()
     {
         $random = random_bytes(128);
@@ -747,18 +735,12 @@ class User implements UserInterface
         $this->icsFeedKey = hash('sha256', $key);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setIcsFeedKey($icsFeedKey)
     {
         $this->icsFeedKey = $icsFeedKey;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getIcsFeedKey()
+    public function getIcsFeedKey(): string
     {
         return $this->icsFeedKey;
     }
@@ -786,10 +768,7 @@ class User implements UserInterface
         $course->removeDirector($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDirectedCourses()
+    public function getDirectedCourses(): Collection
     {
         return $this->directedCourses;
     }
@@ -817,10 +796,7 @@ class User implements UserInterface
         $course->removeAdministrator($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAdministeredCourses()
+    public function getAdministeredCourses(): Collection
     {
         return $this->administeredCourses;
     }
@@ -848,10 +824,7 @@ class User implements UserInterface
         $course->removeStudentAdvisor($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getStudentAdvisedCourses()
+    public function getStudentAdvisedCourses(): Collection
     {
         return $this->studentAdvisedCourses;
     }
@@ -879,10 +852,7 @@ class User implements UserInterface
         $session->removeAdministrator($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAdministeredSessions()
+    public function getAdministeredSessions(): Collection
     {
         return $this->administeredSessions;
     }
@@ -910,18 +880,12 @@ class User implements UserInterface
         $session->removeStudentAdvisor($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getStudentAdvisedSessions()
+    public function getStudentAdvisedSessions(): Collection
     {
         return $this->studentAdvisedSessions;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isDirectingCourse($courseId)
+    public function isDirectingCourse($courseId): bool
     {
         return $this->directedCourses->map(fn(CourseInterface $course) => $course->getId())->contains($courseId);
     }
@@ -968,7 +932,7 @@ class User implements UserInterface
     /**
      * @return ArrayCollection|LearnerGroupInterface[]
      */
-    public function getInstructedLearnerGroups()
+    public function getInstructedLearnerGroups(): Collection
     {
         return $this->instructedLearnerGroups;
     }
@@ -1010,9 +974,6 @@ class User implements UserInterface
         $session->removeInstructor($this);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstructorIlmSessions()
     {
         return $this->instructorIlmSessions;
@@ -1027,9 +988,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addLearnerIlmSession(IlmSessionInterface $session)
     {
         if (!$this->learnerIlmSessions->contains($session)) {
@@ -1038,9 +996,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeLearnerIlmSession(IlmSessionInterface $session)
     {
         if ($this->learnerIlmSessions->contains($session)) {
@@ -1052,7 +1007,7 @@ class User implements UserInterface
     /**
      * @return ArrayCollection|IlmSessionInterface[]
      */
-    public function getLearnerIlmSessions()
+    public function getLearnerIlmSessions(): Collection
     {
         return $this->learnerIlmSessions;
     }
@@ -1095,7 +1050,7 @@ class User implements UserInterface
     /**
      * @return ArrayCollection|UserRoleInterface[]
      */
-    public function getRoles()
+    public function getRoles(): Collection
     {
         return $this->roles;
     }
@@ -1121,10 +1076,7 @@ class User implements UserInterface
         $this->reports->removeElement($report);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getReports()
+    public function getReports(): Collection
     {
         return $this->reports;
     }
@@ -1168,7 +1120,7 @@ class User implements UserInterface
     /**
      * @return CohortInterface
      */
-    public function getPrimaryCohort()
+    public function getPrimaryCohort(): CohortInterface
     {
         return $this->primaryCohort;
     }
@@ -1196,17 +1148,11 @@ class User implements UserInterface
         $instructedOffering->removeInstructor($this);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstructedOfferings()
     {
         return $this->instructedOfferings;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setAuthentication(AuthenticationInterface $authentication = null)
     {
         $this->authentication = $authentication;
@@ -1216,10 +1162,7 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthentication()
+    public function getAuthentication(): AuthenticationInterface
     {
         return $this->authentication;
     }
@@ -1245,10 +1188,7 @@ class User implements UserInterface
         $this->auditLogs->removeElement($auditLog);
     }
 
-    /**
-     * @return ArrayCollection[AuditLogInterface]
-     */
-    public function getAuditLogs()
+    public function getAuditLogs(): Collection
     {
         return $this->auditLogs;
     }
@@ -1277,14 +1217,11 @@ class User implements UserInterface
     /**
      * @return ArrayCollection|PendingUserUpdateInterface[]
      */
-    public function getPendingUserUpdates()
+    public function getPendingUserUpdates(): Collection
     {
         return $this->pendingUserUpdates;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
@@ -1293,9 +1230,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeProgramYear(ProgramYearInterface $programYear)
     {
         if ($this->programYears->contains($programYear)) {
@@ -1304,9 +1238,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addOffering(OfferingInterface $offering)
     {
         if (!$this->offerings->contains($offering)) {
@@ -1315,9 +1246,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeOffering(OfferingInterface $offering)
     {
         if ($this->offerings->contains($offering)) {
@@ -1349,10 +1277,7 @@ class User implements UserInterface
         $school->removeDirector($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDirectedSchools()
+    public function getDirectedSchools(): Collection
     {
         return $this->directedSchools;
     }
@@ -1380,10 +1305,7 @@ class User implements UserInterface
         $school->removeAdministrator($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAdministeredSchools()
+    public function getAdministeredSchools(): Collection
     {
         return $this->administeredSchools;
     }
@@ -1411,10 +1333,7 @@ class User implements UserInterface
         $program->removeDirector($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDirectedPrograms()
+    public function getDirectedPrograms(): Collection
     {
         return $this->directedPrograms;
     }
@@ -1422,10 +1341,8 @@ class User implements UserInterface
     /**
      * Get all the schools an user is affiliated with so we can match
      * permissions.
-     *
-     * @return ArrayCollection[School]
      */
-    public function getAllSchools()
+    public function getAllSchools(): Collection
     {
         $cohortSchools = $this->getCohorts()->map(fn(CohortInterface $cohort) => $cohort->getSchool());
 
@@ -1456,33 +1373,21 @@ class User implements UserInterface
         return new ArrayCollection($allSchools);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isRoot()
+    public function isRoot(): bool
     {
         return $this->root;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setRoot($root)
     {
         $this->root = $root;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAdministeredCurriculumInventoryReports()
+    public function getAdministeredCurriculumInventoryReports(): Collection
     {
         return $this->administeredCurriculumInventoryReports;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setAdministeredCurriculumInventoryReports(Collection $reports)
     {
         $this->administeredCurriculumInventoryReports = new ArrayCollection();
@@ -1492,9 +1397,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
         if (!$this->administeredCurriculumInventoryReports->contains($report)) {
@@ -1503,9 +1405,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
         $this->administeredCurriculumInventoryReports->removeElement($report);

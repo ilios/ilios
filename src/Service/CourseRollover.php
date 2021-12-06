@@ -386,7 +386,7 @@ class CourseRollover
      * @return CourseInterface
      * @throws Exception
      */
-    private function getOriginalCourse($origCourseId)
+    private function getOriginalCourse($origCourseId): CourseInterface
     {
         /* @var CourseInterface $origCourse */
         $origCourse = $this->courseRepository->findOneBy(['id' => $origCourseId]);

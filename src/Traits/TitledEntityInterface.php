@@ -17,5 +17,5 @@ interface TitledEntityInterface
     /**
      * @return string
      */
-    public function getTitle();
+    public function getTitle(): string;
 }

@@ -18,10 +18,7 @@ class MeshPreviousIndexingTest extends AbstractMeshTest
 {
     protected string $testName =  'meshPreviousIndexings';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadMeshPreviousIndexingData::class,
@@ -45,7 +42,7 @@ class MeshPreviousIndexingTest extends AbstractMeshTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
