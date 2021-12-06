@@ -3762,27 +3762,24 @@
         },
         {
             "name": "laminas/laminas-diagnostics",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diagnostics.git",
-                "reference": "cda82d226bcc9e2008b0ddf0199c24c465bc36c7"
+                "reference": "cf9f497fe04adb4a813503f34bc2dc6586b05d25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/cda82d226bcc9e2008b0ddf0199c24c465bc36c7",
-                "reference": "cda82d226bcc9e2008b0ddf0199c24c465bc36c7",
+                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/cf9f497fe04adb4a813503f34bc2dc6586b05d25",
+                "reference": "cf9f497fe04adb4a813503f34bc2dc6586b05d25",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-zendframework-bridge": "^1.0",
                 "php": "^7.3 || ~8.0.0"
             },
             "conflict": {
-                "guzzlehttp/ringphp": "<1.1.1"
-            },
-            "replace": {
-                "zendframework/zenddiagnostics": "^1.6.0"
+                "guzzlehttp/ringphp": "<1.1.1",
+                "zendframework/zenddiagnostics": "*"
             },
             "require-dev": {
                 "doctrine/migrations": "^2.0 || ^3.0",
@@ -3849,69 +3846,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-07-10T15:59:13+00:00"
-        },
-        {
-            "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "bf180a382393e7db5c1e8d0f2ec0c4af9c724baf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/bf180a382393e7db5c1e8d0f2ec0c4af9c724baf",
-                "reference": "bf180a382393e7db5c1e8d0f2ec0c4af9c724baf",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.3 || ~8.0.0 || ~8.1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.3",
-                "psalm/plugin-phpunit": "^0.15.1",
-                "squizlabs/php_codesniffer": "^3.5",
-                "vimeo/psalm": "^4.6"
-            },
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "module": "Laminas\\ZendFrameworkBridge"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/autoload.php"
-                ],
-                "psr-4": {
-                    "Laminas\\ZendFrameworkBridge\\": "src//"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Alias legacy ZF class names to Laminas Project equivalents.",
-            "keywords": [
-                "ZendFramework",
-                "autoloading",
-                "laminas",
-                "zf"
-            ],
-            "support": {
-                "forum": "https://discourse.laminas.dev/",
-                "issues": "https://github.com/laminas/laminas-zendframework-bridge/issues",
-                "rss": "https://github.com/laminas/laminas-zendframework-bridge/releases.atom",
-                "source": "https://github.com/laminas/laminas-zendframework-bridge"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2021-09-03T17:53:30+00:00"
+            "time": "2021-12-06T04:26:03+00:00"
         },
         {
             "name": "league/csv",
@@ -4251,22 +4186,22 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.16.1",
+            "version": "2.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "24165da52bd648c0c847d3b5b676c3452b303ca2"
+                "reference": "906c9e0d01e524fc9dd6b90cbeef1b702848765e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/24165da52bd648c0c847d3b5b676c3452b303ca2",
-                "reference": "24165da52bd648c0c847d3b5b676c3452b303ca2",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/906c9e0d01e524fc9dd6b90cbeef1b702848765e",
+                "reference": "906c9e0d01e524fc9dd6b90cbeef1b702848765e",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-diagnostics": "^1.5",
-                "php": "^7.1 || ^8.0",
-                "symfony/framework-bundle": "^3.4 || ^4.0 || ^5.0"
+                "laminas/laminas-diagnostics": "^1.9",
+                "php": "^7.3 || ^8.0",
+                "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0"
             },
             "require-dev": {
                 "doctrine/doctrine-migrations-bundle": "^2.0 || ^3.0",
@@ -4275,16 +4210,15 @@
                 "enlightn/security-checker": "^1.2",
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3 || ^7.0.1",
-                "matthiasnoback/symfony-dependency-injection-test": "^3.0 || ^4.0",
+                "matthiasnoback/symfony-dependency-injection-test": "^4.0",
                 "phpunit/phpunit": "^7.0 || ^8.0",
-                "sensiolabs/security-checker": "^5.0 || ^6.0",
                 "swiftmailer/swiftmailer": "^5.4 || ^6.1",
-                "symfony/asset": "^3.4 || ^4.0 || ^5.0",
-                "symfony/browser-kit": "^3.4 || ^4.0 || ^5.0",
-                "symfony/expression-language": "^3.4 || ^4.0 || ^5.0",
-                "symfony/finder": "^3.4 || ^4.0 || ^5.0",
-                "symfony/templating": "^3.4 || ^4.0 || ^5.0",
-                "symfony/twig-bundle": "^3.4 || ^4.0 || ^5.0"
+                "symfony/asset": "^4.4 || ^5.0 || ^6.0",
+                "symfony/browser-kit": "^4.4 || ^5.0 || ^6.0",
+                "symfony/expression-language": "^4.4 || ^5.0 || ^6.0",
+                "symfony/finder": "^4.4 || ^5.0 || ^6.0",
+                "symfony/templating": "^4.4 || ^5.0 || ^6.0",
+                "symfony/twig-bundle": "^4.4 || ^5.0 || ^6.0"
             },
             "suggest": {
                 "sensio/distribution-bundle": "To be able to use the composer ScriptHandler",
@@ -4332,9 +4266,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipMonitorBundle/issues",
-                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.16.1"
+                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.17.0"
             },
-            "time": "2021-07-09T13:12:00+00:00"
+            "time": "2021-12-05T12:27:41+00:00"
         },
         {
             "name": "monolog/monolog",
