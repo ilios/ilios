@@ -29,9 +29,6 @@ class UserIndexRequest
         $this->userIds = $userIds;
     }
 
-    /**
-     * @return int[]
-     */
     public function getUserIds(): array
     {
         return $this->userIds;

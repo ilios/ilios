@@ -19,8 +19,5 @@ interface LearnersEntityInterface
 
     public function removeLearner(UserInterface $learner);
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
     public function getLearners(): Collection;
 }

@@ -23,7 +23,6 @@ class ReportDTOVoter extends AbstractVoter
      * @param string $attribute
      * @param ReportDTO $report
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $report, TokenInterface $token): bool
     {

@@ -19,11 +19,6 @@ class DefaultDataLoader
     {
     }
 
-    /**
-     * @param string $type
-     * @return array
-     * @throws Exception
-     */
     public function load(string $type): array
     {
         $filename = $type . '.csv';

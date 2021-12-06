@@ -34,9 +34,6 @@ trait LearnersEntity
         $this->learners->removeElement($learner);
     }
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
     public function getLearners(): Collection
     {
         return $this->learners;

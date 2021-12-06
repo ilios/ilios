@@ -15,8 +15,5 @@ interface CourseLearningMaterialInterface extends
 {
     public function setCourse(CourseInterface $course);
 
-    /**
-     * @return CourseInterface|null
-     */
     public function getCourse(): ?CourseInterface;
 }

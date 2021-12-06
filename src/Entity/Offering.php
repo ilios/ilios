@@ -201,9 +201,6 @@ class Offering implements OfferingInterface
         $this->site = $site;
     }
 
-    /**
-     * @return string
-     */
     public function getSite(): string
     {
         return $this->site;
@@ -222,9 +219,6 @@ class Offering implements OfferingInterface
         $this->startDate = $startDate;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getStartDate(): DateTime
     {
         return $this->startDate;
@@ -235,9 +229,6 @@ class Offering implements OfferingInterface
         $this->endDate = $endDate;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getEndDate(): DateTime
     {
         return $this->endDate;

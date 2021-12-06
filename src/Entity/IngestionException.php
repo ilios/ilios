@@ -74,9 +74,6 @@ class IngestionException implements IngestionExceptionInterface
         $this->user = $user;
     }
 
-    /**
-     * @return UserInterface
-     */
     public function getUser(): UserInterface
     {
         return $this->user;

@@ -59,7 +59,6 @@ class EntityRepositoryLookup
 
     /**
      * Get the Entity name for an endpoint
-     *
      */
     protected function getEntityName(string $name): string
     {

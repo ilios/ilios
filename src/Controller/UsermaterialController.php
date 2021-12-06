@@ -29,8 +29,6 @@ class UsermaterialController extends AbstractController
      *
      * @param string $version
      * @param int $id of the user
-     *
-     * @return Response
      */
     public function getAction(
         $version,

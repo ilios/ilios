@@ -231,9 +231,6 @@ class School implements SchoolInterface
         $this->templatePrefix = $templatePrefix;
     }
 
-    /**
-     * @return string
-     */
     public function getTemplatePrefix(): string
     {
         return $this->templatePrefix;
@@ -247,9 +244,6 @@ class School implements SchoolInterface
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
     }
 
-    /**
-     * @return string
-     */
     public function getIliosAdministratorEmail(): string
     {
         return $this->iliosAdministratorEmail;
@@ -263,9 +257,6 @@ class School implements SchoolInterface
         $this->changeAlertRecipients = $changeAlertRecipients;
     }
 
-    /**
-     * @return string
-     */
     public function getChangeAlertRecipients(): string
     {
         return $this->changeAlertRecipients;
@@ -279,9 +270,6 @@ class School implements SchoolInterface
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
 
-    /**
-     * @return string
-     */
     public function getCurriculumInventoryInstitution(): string
     {
         return $this->curriculumInventoryInstitution;

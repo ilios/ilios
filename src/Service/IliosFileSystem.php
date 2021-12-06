@@ -52,7 +52,6 @@ class IliosFileSystem
     /**
      *
      * Store a learning material file and return the relativePath
-     * @return string $relativePath
      */
     public function storeLearningMaterialFile(File $file): string
     {
@@ -66,7 +65,6 @@ class IliosFileSystem
 
     /**
      * Store a learning material file and return the relativePath
-     * @return string $relativePath
      */
     public function getLearningMaterialFilePath(File $file): string
     {
@@ -86,7 +84,6 @@ class IliosFileSystem
 
     /**
      * Get a File from a hash
-     * @return string | bool
      */
     public function getFileContents(string $relativePath): string
     {
@@ -99,7 +96,6 @@ class IliosFileSystem
 
     /**
      * Get if a learning material has a valid file path
-     *
      */
     public function checkLearningMaterialFilePath(LearningMaterialInterface $lm): bool
     {
@@ -117,7 +113,6 @@ class IliosFileSystem
 
     /**
      * Get the path for a lock file
-     * @return string $relativePath
      */
     protected function getLockFilePath(string $name): string
     {

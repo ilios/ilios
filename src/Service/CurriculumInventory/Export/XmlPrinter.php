@@ -50,7 +50,6 @@ class XmlPrinter
      *             'events' ... maps sequence blocks to events
      *             'competency_objects' .. maps sequence blocks to competency objects
      *
-     * @return string
      * @throws Exception
      */
     public function print(array $inventory): string
@@ -690,7 +689,6 @@ class XmlPrinter
 
     /**
      * @param string $type
-     * @return string
      */
     protected function createRelationshipUri($type): string
     {
@@ -706,7 +704,6 @@ class XmlPrinter
      *     "course_objective"
      *     "session_objective"
      * @param string $institutionDomain
-     * @return string The unique URI for the given competency object.
      */
     protected function createCompetencyObjectUri($id, $type, $institutionDomain): string
     {
@@ -716,7 +713,6 @@ class XmlPrinter
     /**
      * Returns a URI that identifies a given PCRS as defined by the AAMC.
      * @param string $pcrsPartialUri A part of the URI that uniquely identifies te PCRS competency.
-     * @return string The generated URI.
      */
     protected function createPcrsUri($pcrsPartialUri): string
     {

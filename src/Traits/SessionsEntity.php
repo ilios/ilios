@@ -35,9 +35,6 @@ trait SessionsEntity
         $this->sessions->removeElement($session);
     }
 
-    /**
-    * @return SessionInterface[]|ArrayCollection
-    */
     public function getSessions(): Collection
     {
         return $this->sessions;

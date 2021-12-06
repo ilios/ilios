@@ -11,9 +11,6 @@ use App\Entity\SchoolInterface;
  */
 trait SchoolEntity
 {
-    /**
-     * @return SchoolInterface|null
-     */
     public function getSchool(): ?SchoolInterface
     {
         return $this->school;

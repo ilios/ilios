@@ -9,9 +9,6 @@ namespace App\Traits;
  */
 interface LockableEntityInterface
 {
-    /**
-     * @return bool
-     */
     public function isLocked(): bool;
 
     /**

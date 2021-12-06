@@ -54,9 +54,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setRequired($required);
 
-    /**
-     * @return int
-     */
     public function getRequired(): int;
 
     /**
@@ -64,9 +61,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setChildSequenceOrder($childSequenceOrder);
 
-    /**
-     * @return int
-     */
     public function getChildSequenceOrder(): int;
 
     /**
@@ -74,9 +68,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setOrderInSequence($orderInSequence);
 
-    /**
-     * @return int
-     */
     public function getOrderInSequence(): int;
 
     /**
@@ -84,9 +75,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setMinimum($minimum);
 
-    /**
-     * @return int
-     */
     public function getMinimum(): int;
 
     /**
@@ -94,9 +82,6 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setMaximum($maximum);
 
-    /**
-     * @return int
-     */
     public function getMaximum(): int;
 
     /**
@@ -104,23 +89,14 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setTrack($track);
 
-    /**
-     * @return bool
-     */
     public function hasTrack(): bool;
 
     public function setStartDate(\DateTime $startDate = null);
 
-    /**
-     * @return \DateTime
-     */
     public function getStartDate(): \DateTime;
 
     public function setEndDate(\DateTime $endDate = null);
 
-    /**
-     * @return \DateTime
-     */
     public function getEndDate(): \DateTime;
 
     /**
@@ -128,23 +104,14 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setDuration($duration);
 
-    /**
-     * @return int
-     */
     public function getDuration(): int;
 
     public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
-    /**
-     * @return CurriculumInventoryAcademicLevelInterface
-     */
     public function getAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
 
     public function setCourse(CourseInterface $course = null);
 
-    /**
-     * @return CourseInterface|null
-     */
     public function getCourse(): ?CourseInterface;
 
     public function setChildren(Collection $children);
@@ -153,28 +120,18 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function removeChild(CurriculumInventorySequenceBlockInterface $child);
 
-    /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
     public function getChildren(): Collection;
 
     public function setReport(CurriculumInventoryReportInterface $report);
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
     public function getReport(): CurriculumInventoryReportInterface;
 
     public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
 
-    /**
-     * @return CurriculumInventorySequenceBlockInterface
-     */
     public function getParent(): CurriculumInventorySequenceBlockInterface;
 
     /**
      * Sorts child sequence blocks according to this entity's child sequence order.
-     * @return CurriculumInventorySequenceBlockInterface[] The sorted list of child sequence blocks.
      */
     public function getChildrenAsSortedList(): array;
 
@@ -184,8 +141,5 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function removeExcludedSession(SessionInterface $session);
 
-    /**
-     * @return SessionInterface[]|ArrayCollection
-     */
     public function getExcludedSessions(): Collection;
 }

@@ -220,9 +220,6 @@ class LearnerGroup implements LearnerGroupInterface
         $this->location = $location;
     }
 
-    /**
-     * @return string
-     */
     public function getLocation(): string
     {
         return $this->location;
@@ -233,9 +230,6 @@ class LearnerGroup implements LearnerGroupInterface
         $this->cohort = $cohort;
     }
 
-    /**
-     * @return CohortInterface
-     */
     public function getCohort(): CohortInterface
     {
         return $this->cohort;
@@ -262,9 +256,6 @@ class LearnerGroup implements LearnerGroupInterface
         $this->parent = $parent;
     }
 
-    /**
-     * @return LearnerGroupInterface
-     */
     public function getParent(): LearnerGroupInterface
     {
         return $this->parent;
@@ -275,9 +266,6 @@ class LearnerGroup implements LearnerGroupInterface
         $this->ancestor = $ancestor;
     }
 
-    /**
-     * @return LearnerGroupInterface
-     */
     public function getAncestor(): LearnerGroupInterface
     {
         return $this->ancestor;
@@ -285,8 +273,6 @@ class LearnerGroup implements LearnerGroupInterface
 
     /**
      * If the objective has no ancestor then we need to objective itself
-     *
-     * @return LearnerGroupInterface
      */
     public function getAncestorOrSelf(): LearnerGroupInterface
     {
@@ -317,9 +303,6 @@ class LearnerGroup implements LearnerGroupInterface
         $this->descendants->removeElement($descendant);
     }
 
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
     public function getDescendants(): Collection
     {
         return $this->descendants;
@@ -349,9 +332,6 @@ class LearnerGroup implements LearnerGroupInterface
         $this->children->removeElement($child);
     }
 
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
     public function getChildren(): Collection
     {
         return $this->children;

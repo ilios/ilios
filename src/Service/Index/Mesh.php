@@ -13,11 +13,6 @@ class Mesh extends ElasticSearchBase
 {
     public const INDEX = 'ilios-mesh';
 
-    /**
-     * @param string $query
-     * @return array
-     * @throws Exception when search is not configured
-     */
     public function idsQuery(string $query): array
     {
         if (!$this->enabled) {
@@ -42,7 +37,6 @@ class Mesh extends ElasticSearchBase
 
     /**
      * @param Descriptor[] $descriptors
-     * @return bool
      */
     public function index(array $descriptors): bool
     {

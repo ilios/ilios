@@ -147,9 +147,6 @@ class SessionType implements SessionTypeInterface
         $this->calendarColor = $color;
     }
 
-    /**
-     * @return string
-     */
     public function getCalendarColor(): string
     {
         return $this->calendarColor;
@@ -167,8 +164,6 @@ class SessionType implements SessionTypeInterface
 
     /**
      * Get assessment
-     *
-     * @return bool
      */
     public function isAssessment(): bool
     {
@@ -180,9 +175,6 @@ class SessionType implements SessionTypeInterface
         $this->assessmentOption = $assessmentOption;
     }
 
-    /**
-     * @return AssessmentOptionInterface
-     */
     public function getAssessmentOption(): AssessmentOptionInterface
     {
         return $this->assessmentOption;
@@ -209,9 +201,6 @@ class SessionType implements SessionTypeInterface
         $this->aamcMethods->removeElement($aamcMethod);
     }
 
-    /**
-     * @return ArrayCollection|AamcMethodInterface[]
-     */
     public function getAamcMethods(): Collection
     {
         return $this->aamcMethods;

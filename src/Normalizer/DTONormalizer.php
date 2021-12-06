@@ -42,7 +42,6 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
      * Converts value into the type dictated by it's annotation on the entity
      *
      * @param mixed $value
-     * @return mixed
      */
     protected function convertValueByType(ReflectionProperty $property, $value): mixed
     {

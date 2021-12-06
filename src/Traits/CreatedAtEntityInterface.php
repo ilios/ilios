@@ -8,9 +8,6 @@ use DateTime;
 
 interface CreatedAtEntityInterface
 {
-    /**
-     * @return DateTime
-     */
     public function getCreatedAt(): DateTime;
 
     public function setCreatedAt(DateTime $createdAt);

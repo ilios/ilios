@@ -19,8 +19,5 @@ interface UsersEntityInterface
 
     public function removeUser(UserInterface $user);
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
     public function getUsers(): Collection;
 }

@@ -97,9 +97,6 @@ class IcsController extends AbstractController
         return $response;
     }
 
-    /**
-     * @return string
-     */
     protected function getDescriptionForEvent(UserEvent $event): string
     {
         $slug = 'U' . $event->startDate->format('Ymd');
@@ -151,7 +148,6 @@ class IcsController extends AbstractController
 
     /**
      * @param string $string
-     * @return string
      */
     protected function purify($string): string
     {

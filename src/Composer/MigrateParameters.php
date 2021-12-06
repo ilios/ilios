@@ -50,7 +50,6 @@ class MigrateParameters
 
     /**
      * Read existing parameters
-     * @return array
      */
     protected static function readParameters($parametersPath): array
     {

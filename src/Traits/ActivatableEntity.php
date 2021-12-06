@@ -9,17 +9,11 @@ namespace App\Traits;
  */
 trait ActivatableEntity
 {
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @param bool $active
-     */
     public function setActive($active)
     {
         $this->active = $active;

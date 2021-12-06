@@ -14,8 +14,5 @@ interface DescribableEntityInterface
      */
     public function setDescription($description);
 
-    /**
-     * @return string
-     */
     public function getDescription(): ?string;
 }

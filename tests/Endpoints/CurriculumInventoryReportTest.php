@@ -181,7 +181,6 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
 
     /**
      * Test saving new data to the JSON:API
-     * @return mixed
      */
     protected function postJsonApiTest(object $postData, array $data): mixed
     {

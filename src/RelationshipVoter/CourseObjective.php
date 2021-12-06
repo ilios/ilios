@@ -25,7 +25,6 @@ class CourseObjective extends AbstractVoter
      * @param string $attribute
      * @param CourseObjectiveInterface $objective
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $objective, TokenInterface $token): bool
     {

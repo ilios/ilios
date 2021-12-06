@@ -34,7 +34,6 @@ class DataimportFileLocator
      * Finds and return the absolute path to a given dataimport file.
      *
      * @param string $fileName name of the data file.
-     * @return string the absolute path.
      */
     public function getDataFilePath($fileName): string
     {
@@ -49,9 +48,6 @@ class DataimportFileLocator
         $this->dir = $dir;
     }
 
-    /**
-     * @return string The relative path to the data-files directory.
-     */
     public function getDirectoryPath(): string
     {
         return $this->dir;

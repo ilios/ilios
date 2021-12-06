@@ -27,7 +27,6 @@ class Aggregator
      * Adds keywords to events.
      * @param array $events A list of events.
      * @param array $keywords A list of keywords.
-     * @return array The events with the keywords added.
      */
     public static function addKeywordsToEvents(array $events, array $keywords): array
     {
@@ -48,7 +47,6 @@ class Aggregator
      * Adds AAMC resource types to events.
      * @param array $events A list of events.
      * @param array $resourceTypes A list of resource types.
-     * @return array The events with their resource types added.
      */
     public static function addResourceTypesToEvents(array $events, array $resourceTypes): array
     {
@@ -69,7 +67,6 @@ class Aggregator
      * Adds competency objects references to events.
      * @param array $events A list of events.
      * @param array $references A list of competency object references.
-     * @return array The events with references added.
      */
     public static function addCompetencyObjectReferencesToEvents(array $events, array $references): array
     {
@@ -265,7 +262,6 @@ class Aggregator
      * Returns a lookup map that matches objectives to their most recent siblings, or most recent descendant,
      * within their ancestry tree,
      * excluding the most recent siblings (we don't need to look them up)
-     * @return array An associative array with objective ids as keys, and the id of their most recent sibling as value.
      */
     public static function getConsolidatedObjectivesMap(array $objectives): array
     {

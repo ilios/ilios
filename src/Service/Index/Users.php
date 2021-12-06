@@ -15,7 +15,6 @@ class Users extends ElasticSearchBase
 
     /**
      * @param UserDTO[] $users
-     * @return bool
      */
     public function index(array $users): bool
     {
@@ -51,7 +50,6 @@ class Users extends ElasticSearchBase
 
     /**
      * @param int $id
-     * @return bool
      */
     public function delete(int $id): bool
     {

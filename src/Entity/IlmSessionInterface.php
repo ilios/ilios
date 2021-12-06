@@ -37,20 +37,15 @@ interface IlmSessionInterface extends
 
     /**
      * Get all the instructors including those in groups
-     * @return ArrayCollection
      */
     public function getAllInstructors(): Collection;
 
     public function setSession(SessionInterface $session);
 
-    /**
-     * @return SessionInterface|null
-     */
     public function getSession(): ?SessionInterface;
 
     /**
      * Get the school we belong to
-     * @return SchoolInterface|null
      */
     public function getSchool(): ?SchoolInterface;
 }

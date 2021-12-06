@@ -35,9 +35,6 @@ trait OfferingsEntity
         $this->offerings->removeElement($offering);
     }
 
-    /**
-    * @return OfferingInterface[]|ArrayCollection
-    */
     public function getOfferings(): Collection
     {
         return $this->offerings;

@@ -27,8 +27,5 @@ interface MeshQualifierInterface extends
 
     public function removeDescriptor(MeshDescriptorInterface $descriptor);
 
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
     public function getDescriptors(): Collection;
 }

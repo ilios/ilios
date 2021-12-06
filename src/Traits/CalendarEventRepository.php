@@ -23,17 +23,12 @@ trait CalendarEventRepository
 {
     /**
      * Convert offerings into CalendarEvent() objects
-     *
-     * @return CalendarEvent[]
      */
     protected function createEventObjectsForOfferings(array $results): array
     {
         return array_map(fn($arr) => $this->createEventObjectForOffering($arr), $results);
     }
 
-    /**
-     * @return CalendarEvent
-     */
     protected function createEventObjectForOffering(array $arr): CalendarEvent
     {
         $event = new CalendarEvent();
@@ -66,7 +61,6 @@ trait CalendarEventRepository
 
     /**
      * Convert IlmSessions into CalendarEvent() objects
-     * @return CalendarEvent[]
      */
     protected function createEventObjectsForIlmSessions(array $results): array
     {
@@ -104,9 +98,6 @@ trait CalendarEventRepository
 
     /**
      * Retrieves a list of instructors associated with given offerings.
-     *
-     * @param array $ids A list of offering ids.
-     * @return array A map of instructor lists, keyed off by offering ids.
      */
     protected function getInstructorsForOfferings(array $ids, EntityManager $em): array
     {
@@ -153,7 +144,6 @@ trait CalendarEventRepository
      * Retrieves a list of instructors associated with given ILM sessions.
      *
      * @param array $ids A list of ILM session ids.
-     * @return array A map of instructor lists, keyed off by ILM sessions ids.
      */
     protected function getInstructorsForIlmSessions(array $ids, EntityManager $em): array
     {
@@ -197,8 +187,6 @@ trait CalendarEventRepository
 
     /**
      * Adds instructors to a given list of events.
-     * @param array $events A list of events
-     * @return array The events list with instructors added.
      */
     public function attachInstructorsToEvents(array $events, EntityManager $em): array
     {
@@ -230,7 +218,6 @@ trait CalendarEventRepository
     /**
      * Adds course and session data to a given list of events.
      * @param array $events A list of events
-     * @return array The events list with objectives and competencies added.
      */
     public function attachSessionDataToEvents(array $events, EntityManager $em): array
     {
@@ -409,9 +396,6 @@ trait CalendarEventRepository
 
     /**
      * Finds and adds learning materials to a given list of calendar events.
-     *
-     * @param CalendarEvent[] $events
-     * @return CalendarEvent[]
      */
     public function attachMaterialsToEvents(array $events, UserMaterialFactory $factory, EntityManager $em): array
     {
@@ -470,8 +454,6 @@ trait CalendarEventRepository
     /**
      * Get a set of learning materials based on published session
      *
-     *
-     * @return array
      */
     protected function getSessionLearningMaterialsForPublishedSessions(
         array $sessionIds,
@@ -488,9 +470,6 @@ trait CalendarEventRepository
 
     /**
      * Get a set of learning materials based on session
-     *
-     *
-     * @return array
      */
     protected function getSessionLearningMaterials(
         array $sessionIds,
@@ -500,9 +479,6 @@ trait CalendarEventRepository
         return $qb->getQuery()->getArrayResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
     protected function sessionLmQuery(
         array $sessionIds,
         EntityManager $em
@@ -530,8 +506,6 @@ trait CalendarEventRepository
     /**
      * Get a set of course learning materials
      *
-     *
-     * @return array
      */
     protected function getCourseLearningMaterials(
         array $sessionIds,
@@ -544,9 +518,6 @@ trait CalendarEventRepository
 
     /**
      * Get a set of course learning materials for published sessions
-     *
-     *
-     * @return array
      */
     protected function getCourseLearningMaterialsForPublishedSessions(
         array $sessionIds,
@@ -559,9 +530,6 @@ trait CalendarEventRepository
         return $qb->getQuery()->getArrayResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
     protected function courseLmQuery(
         array $sessionIds,
         EntityManager $em

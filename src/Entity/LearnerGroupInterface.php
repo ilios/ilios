@@ -34,23 +34,14 @@ interface LearnerGroupInterface extends
      */
     public function setLocation($location);
 
-    /**
-     * @return string
-     */
     public function getLocation(): string;
 
     public function setCohort(CohortInterface $cohort);
 
-    /**
-     * @return CohortInterface
-     */
     public function getCohort(): CohortInterface;
 
     public function setParent(LearnerGroupInterface $parent = null);
 
-    /**
-     * @return LearnerGroupInterface
-     */
     public function getParent(): LearnerGroupInterface;
 
     public function setChildren(Collection $children);
@@ -59,39 +50,27 @@ interface LearnerGroupInterface extends
 
     public function removeChild(LearnerGroupInterface $child);
 
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
     public function getChildren(): Collection;
 
     /**
      * Get the school we belong to
-     * @return SchoolInterface|null
      */
     public function getSchool(): ?SchoolInterface;
 
     /**
      * Gets the program that this learner group belongs to.
-     * @return ProgramInterface|null
      */
     public function getProgram(): ?ProgramInterface;
 
     /**
      * Gets the program year that this learner group belongs to.
-     * @return ProgramYearInterface|null
      */
     public function getProgramYear(): ?ProgramYearInterface;
 
     public function setAncestor(LearnerGroupInterface $ancestor);
 
-    /**
-     * @return LearnerGroupInterface
-     */
     public function getAncestor(): LearnerGroupInterface;
 
-    /**
-     * @return LearnerGroupInterface
-     */
     public function getAncestorOrSelf(): LearnerGroupInterface;
 
     public function setDescendants(Collection $children);
@@ -100,9 +79,6 @@ interface LearnerGroupInterface extends
 
     public function removeDescendant(LearnerGroupInterface $child);
 
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
     public function getDescendants(): Collection;
 
     public function setNeedsAccommodation(bool $needsAccommodation): void;

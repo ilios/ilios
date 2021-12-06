@@ -34,9 +34,6 @@ trait InstructorGroupsEntity
         $this->instructorGroups->removeElement($instructorGroup);
     }
 
-    /**
-    * @return InstructorGroupInterface[]|ArrayCollection
-    */
     public function getInstructorGroups(): Collection
     {
         return $this->instructorGroups;

@@ -64,11 +64,8 @@ final class Version20170824000000 extends MysqlMigration
      * Cleanup our parameters to remove defaults and null values,
      * convert booleans to integers, and modify requirements for forceProtocol
      * which is now a boolean called requireSecureConnection
-     * @param array $parameters
-     *
-     * @return array
      */
-    protected function cleanup(array $parameters)
+    protected function cleanup(array $parameters): array
     {
         $defaultsToRemove = [
             'legacy_password_salt' => 'Ilios2 ilios_authentication_internal_auth_salt value',
@@ -118,7 +115,6 @@ final class Version20170824000000 extends MysqlMigration
 
     /**
      * Read existing parameters
-     * @return array
      * @throws \Exception
      */
     protected function readParameters()

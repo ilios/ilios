@@ -113,16 +113,14 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Type('entityCollection')]
     protected $terms;
 
-    /**
-     */
+    
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]
     #[IA\Type('dateTime')]
     protected $createdAt;
 
-    /**
-     */
+    
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]
@@ -158,9 +156,6 @@ class MeshConcept implements MeshConceptInterface
         $this->preferred = $preferred;
     }
 
-    /**
-     * @return bool
-     */
     public function getPreferred(): bool
     {
         return $this->preferred;
@@ -174,9 +169,6 @@ class MeshConcept implements MeshConceptInterface
         $this->scopeNote = $scopeNote;
     }
 
-    /**
-     * @return string
-     */
     public function getScopeNote(): string
     {
         return $this->scopeNote;
@@ -190,9 +182,6 @@ class MeshConcept implements MeshConceptInterface
         $this->casn1Name = $casn1Name;
     }
 
-    /**
-     * @return string
-     */
     public function getCasn1Name(): string
     {
         return $this->casn1Name;
@@ -206,9 +195,6 @@ class MeshConcept implements MeshConceptInterface
         $this->registryNumber = $registryNumber;
     }
 
-    /**
-     * @return string
-     */
     public function getRegistryNumber(): string
     {
         return $this->registryNumber;
@@ -239,9 +225,6 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    /**
-     * @return ArrayCollection|MeshTermInterface[]
-     */
     public function getTerms(): Collection
     {
         return $this->terms;
@@ -268,9 +251,6 @@ class MeshConcept implements MeshConceptInterface
         $this->descriptors->removeElement($descriptor);
     }
 
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
     public function getDescriptors(): Collection
     {
         return $this->descriptors;

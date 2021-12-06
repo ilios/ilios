@@ -23,9 +23,6 @@ interface CurriculumInventoryInstitutionInterface extends
      */
     public function setAamcCode($aamcCode);
 
-    /**
-     * @return string
-     */
     public function getAamcCode(): string;
 
     /**
@@ -33,9 +30,6 @@ interface CurriculumInventoryInstitutionInterface extends
      */
     public function setAddressStreet($addressStreet);
 
-    /**
-     * @return string
-     */
     public function getAddressStreet(): string;
 
     /**
@@ -43,9 +37,6 @@ interface CurriculumInventoryInstitutionInterface extends
      */
     public function setAddressCity($addressCity);
 
-    /**
-     * @return string
-     */
     public function getAddressCity(): string;
 
     /**
@@ -53,9 +44,6 @@ interface CurriculumInventoryInstitutionInterface extends
      */
     public function setAddressStateOrProvince($addressStateOrProvince);
 
-    /**
-     * @return string
-     */
     public function getAddressStateOrProvince(): string;
 
     /**
@@ -63,9 +51,6 @@ interface CurriculumInventoryInstitutionInterface extends
      */
     public function setAddressZipcode($addressZipcode);
 
-    /**
-     * @return string
-     */
     public function getAddressZipcode(): string;
 
     /**
@@ -73,8 +58,5 @@ interface CurriculumInventoryInstitutionInterface extends
      */
     public function setAddressCountryCode($addressCountryCode);
 
-    /**
-     * @return string
-     */
     public function getAddressCountryCode(): string;
 }

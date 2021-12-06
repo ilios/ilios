@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ErrorController extends AbstractController
 {
-    /**
-     * @return Response
-     */
     public function errorAction(Request $request, LoggerInterface $logger): Response
     {
         if ($request->request->has('data')) {

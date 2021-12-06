@@ -34,9 +34,6 @@ trait LearningMaterialsEntity
         $this->learningMaterials->removeElement($learningMaterial);
     }
 
-    /**
-    * @return LearningMaterialInterface[]|ArrayCollection
-    */
     public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;

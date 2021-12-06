@@ -32,7 +32,6 @@ class SchooleventController extends AbstractController
      * @param string $version of the API requested
      * @param string $id of the school
      *
-     * @return Response
      * @throws \Exception
      */
     public function getAction(

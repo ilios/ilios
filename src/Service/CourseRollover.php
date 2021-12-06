@@ -327,17 +327,12 @@ class CourseRollover
         }
     }
 
-    /**
-     * @param DateTime|null $newCourseStartDate
-     * @return int
-     * @throws Exception
-     */
     private function calculateDaysOffset(
         DateTime $origCourseStartDate,
         int $origAcademicYear,
         int $newAcademicYear,
         DateTime $newCourseStartDate = null
-    ) {
+    ): int {
         if (!$newCourseStartDate) {
             $isoWeekOrdinal = (int) $origCourseStartDate->format('W');
             $isoDayOrdinal = (int) $origCourseStartDate->format('N');
@@ -398,9 +393,6 @@ class CourseRollover
         return $origCourse;
     }
 
-    /**
-     * @return CourseObjectiveInterface[]
-     */
     protected function rolloverCourseObjectives(
         CourseInterface $newCourse,
         CourseInterface $origCourse
@@ -526,16 +518,10 @@ class CourseRollover
         }
     }
 
-    /**
-     * @param DateTime $origDate
-     * @param int $daysOffset
-     * @return DateTime
-     * @throws Exception
-     */
     protected function getAdjustedDate(
-        $origDate,
-        $daysOffset
-    ) {
+        DateTime $origDate,
+        int $daysOffset
+    ): DateTime {
         $newDate = clone $origDate;
         $newInterval = 'P' . $daysOffset . 'D';
         $newDate->add(new DateInterval($newInterval));

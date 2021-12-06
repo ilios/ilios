@@ -18,7 +18,6 @@ interface DataImportRepositoryInterface
      * @param array $data An associative array containing the data record to import.
      * @param string $type The type of data that's being imported.
      * @param array $referenceMap a map that holds references to already imported entities
-     * @return array the updated reference map.
      */
     public function import(array $data, string $type, array $referenceMap): array;
 }

@@ -26,7 +26,6 @@ class TemporaryFileSystem
 
     /**
      * Store a file and return the hash
-     * @return string $hash
      */
     public function storeFile(File $file): string
     {
@@ -67,7 +66,6 @@ class TemporaryFileSystem
     /**
      * Get a File from a hash
      * @param string $hash
-     * @return File|bool
      */
     public function getFile($hash): File|bool
     {
@@ -81,7 +79,6 @@ class TemporaryFileSystem
     /**
      * Turn a relative path into an ilios file store path
      * @param  string $hash
-     * @return string
      */
     protected function getPath($hash): string
     {

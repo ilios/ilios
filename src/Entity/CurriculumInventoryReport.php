@@ -181,9 +181,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->year = $year;
     }
 
-    /**
-     * @return int
-     */
     public function getYear(): int
     {
         return $this->year;
@@ -197,9 +194,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->startDate = $startDate;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStartDate(): \DateTime
     {
         return $this->startDate;
@@ -213,9 +207,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->endDate = $endDate;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getEndDate(): \DateTime
     {
         return $this->endDate;
@@ -229,9 +220,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->export = $export;
     }
 
-    /**
-     * @return CurriculumInventoryExportInterface
-     */
     public function getExport(): CurriculumInventoryExportInterface
     {
         return $this->export;
@@ -245,9 +233,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->sequence = $sequence;
     }
 
-    /**
-     * @return CurriculumInventorySequenceInterface
-     */
     public function getSequence(): CurriculumInventorySequenceInterface
     {
         return $this->sequence;
@@ -258,9 +243,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->program = $program;
     }
 
-    /**
-     * @return ProgramInterface
-     */
     public function getProgram(): ProgramInterface
     {
         return $this->program;
@@ -289,9 +271,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->academicLevels->removeElement($academicLevel);
     }
 
-    /**
-     * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
-     */
     public function getAcademicLevels(): Collection
     {
         return $this->academicLevels;
@@ -305,9 +284,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return null;
     }
 
-    /**
-     * @return string
-     */
     public function getToken(): string
     {
         return $this->token;

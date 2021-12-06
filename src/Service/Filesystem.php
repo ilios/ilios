@@ -17,14 +17,8 @@ class Filesystem extends SymfonyFileSystem
 
     /**
      * Read the contents of a file and return it as a string
-     *
-     * @param string $filename
-     *
-     * @return string
-     *
-     * @throws IOException
      */
-    public function readFile($filename): string
+    public function readFile(string $filename): string
     {
         $contents = file_get_contents($filename);
         if (false === $contents) {

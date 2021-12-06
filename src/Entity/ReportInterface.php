@@ -17,9 +17,6 @@ interface ReportInterface extends
     LoggableEntityInterface
 {
 
-    /**
-     * @return \DateTime
-     */
     public function getCreatedAt(): \DateTime;
 
     /**
@@ -27,9 +24,6 @@ interface ReportInterface extends
      */
     public function setSubject($subject);
 
-    /**
-     * @return string
-     */
     public function getSubject(): string;
 
     /**
@@ -37,9 +31,6 @@ interface ReportInterface extends
      */
     public function setPrepositionalObject($prepositionalObject);
 
-    /**
-     * @return string
-     */
     public function getPrepositionalObject(): string;
 
     /**
@@ -47,16 +38,10 @@ interface ReportInterface extends
      */
     public function setPrepositionalObjectTableRowId($prepositionalObjectTableRowId);
 
-    /**
-     * @return string
-     */
     public function getPrepositionalObjectTableRowId(): string;
 
     public function setUser(UserInterface $user);
 
-    /**
-     * @return UserInterface
-     */
     public function getUser(): UserInterface;
 
     public function getSchool(): ?SchoolInterface;

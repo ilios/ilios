@@ -19,7 +19,6 @@ class CrossingGuard
 
     /**
      * Check if the crossing guard is down
-     * @return bool
      */
     public function isStopped(): bool
     {

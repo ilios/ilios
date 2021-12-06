@@ -257,9 +257,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->required = $required;
     }
 
-    /**
-     * @return int
-     */
     public function getRequired(): int
     {
         return $this->required;
@@ -273,9 +270,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->childSequenceOrder = $childSequenceOrder;
     }
 
-    /**
-     * @return int $childSequenceOrder
-     */
     public function getChildSequenceOrder(): int
     {
         return $this->childSequenceOrder;
@@ -289,9 +283,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->orderInSequence = $orderInSequence;
     }
 
-    /**
-     * @return int
-     */
     public function getOrderInSequence(): int
     {
         return $this->orderInSequence;
@@ -305,9 +296,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->minimum = $minimum;
     }
 
-    /**
-     * @return int
-     */
     public function getMinimum(): int
     {
         return $this->minimum;
@@ -321,9 +309,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->maximum = $maximum;
     }
 
-    /**
-     * @return int
-     */
     public function getMaximum(): int
     {
         return $this->maximum;
@@ -337,9 +322,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->track = $track;
     }
 
-    /**
-     * @return bool
-     */
     public function hasTrack(): bool
     {
         return $this->track;
@@ -350,9 +332,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->startDate = $startDate;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStartDate(): \DateTime
     {
         return $this->startDate;
@@ -363,9 +342,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->endDate = $endDate;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getEndDate(): \DateTime
     {
         return $this->endDate;
@@ -379,9 +355,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->duration = $duration;
     }
 
-    /**
-     * @return int
-     */
     public function getDuration(): int
     {
         return $this->duration;
@@ -392,9 +365,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->academicLevel = $academicLevel;
     }
 
-    /**
-     * @return CurriculumInventoryAcademicLevelInterface
-     */
     public function getAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->academicLevel;
@@ -415,9 +385,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->parent = $parent;
     }
 
-    /**
-     * @return CurriculumInventorySequenceBlockInterface
-     */
     public function getParent(): CurriculumInventorySequenceBlockInterface
     {
         return $this->parent;
@@ -444,9 +411,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->children->removeElement($child);
     }
 
-    /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
     public function getChildren(): Collection
     {
         return $this->children;
@@ -457,9 +421,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->report = $report;
     }
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
@@ -485,8 +446,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     /**
      * Callback function for comparing sequence blocks.
      * The applied criterion for comparison is the </pre>"orderInSequence</pre> property.
-     *
-     * @return int One of -1, 0, 1.
      */
     public static function compareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $a,
@@ -509,8 +468,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
      *    Alphabetical sort.
      * 4. "sequence block id"
      *    A last resort. Numeric sort, ascending.
-     *
-     * @return int One of -1, 0, 1.
      */
     public static function compareSequenceBlocksWithDefaultStrategy(
         CurriculumInventorySequenceBlockInterface $a,

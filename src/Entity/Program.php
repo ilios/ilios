@@ -137,9 +137,6 @@ class Program implements ProgramInterface
         $this->shortTitle = $shortTitle;
     }
 
-    /**
-     * @return string
-     */
     public function getShortTitle(): string
     {
         return $this->shortTitle;
@@ -153,9 +150,6 @@ class Program implements ProgramInterface
         $this->duration = $duration;
     }
 
-    /**
-     * @return int
-     */
     public function getDuration(): int
     {
         return $this->duration;

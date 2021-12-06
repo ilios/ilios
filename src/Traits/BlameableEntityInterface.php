@@ -15,15 +15,10 @@ interface BlameableEntityInterface
 
     /**
      * Returns createdBy.
-     *
-     * @return UserInterface
      */
     public function getCreatedBy(): UserInterface;
 
     public function setUpdatedBy(UserInterface $updatedBy);
 
-    /**
-     * @return UserInterface
-     */
     public function getUpdatedBy(): UserInterface;
 }

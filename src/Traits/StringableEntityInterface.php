@@ -9,8 +9,5 @@ namespace App\Traits;
  */
 interface StringableEntityInterface
 {
-    /**
-    * @return string
-    */
     public function __toString(): string;
 }

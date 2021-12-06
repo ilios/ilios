@@ -64,9 +64,6 @@ class CourseRepository extends ServiceEntityRepository implements
         return $this->attachAssociationsToDTOs($dtos);
     }
 
-    /**
-     * @return array
-     */
     public function getYears(): array
     {
         $dql = 'SELECT DISTINCT c.year FROM App\Entity\Course c ORDER BY c.year ASC';
@@ -82,8 +79,6 @@ class CourseRepository extends ServiceEntityRepository implements
 
     /**
      * Get all the IDs
-     *
-     * @return array
      */
     public function getIds(): array
     {
@@ -497,8 +492,6 @@ EOL;
     /**
      * Create course index objects for a set of courses
      *
-     *
-     * @return IndexableCourse[]
      */
     public function getCourseIndexesFor(array $courseIds): array
     {
@@ -635,8 +628,6 @@ EOL;
     }
 
     /**
-     *
-     * @return array
      */
     protected function joinResults(string $from, string $rel, string $select, array $ids): array
     {
@@ -655,8 +646,6 @@ EOL;
     }
 
     /**
-     *
-     * @return array
      */
     protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids): array
     {
@@ -674,9 +663,6 @@ EOL;
         return $rhett;
     }
 
-    /**
-     * @return IndexableSession[]
-     */
     protected function sessionDataForIndex(array $sessionIds): array
     {
         $qb = $this->_em->createQueryBuilder();

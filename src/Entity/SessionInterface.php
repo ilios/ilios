@@ -46,9 +46,6 @@ interface SessionInterface extends
      */
     public function setAttireRequired($attireRequired);
 
-    /**
-     * @return bool
-     */
     public function isAttireRequired(): bool;
 
     /**
@@ -56,9 +53,6 @@ interface SessionInterface extends
      */
     public function setEquipmentRequired($equipmentRequired);
 
-    /**
-     * @return bool
-     */
     public function isEquipmentRequired(): bool;
 
     /**
@@ -66,9 +60,6 @@ interface SessionInterface extends
      */
     public function setSupplemental($supplemental);
 
-    /**
-     * @return bool
-     */
     public function isSupplemental(): bool;
 
     /**
@@ -76,9 +67,6 @@ interface SessionInterface extends
      */
     public function setAttendanceRequired($attendanceRequired);
 
-    /**
-     * @return bool
-     */
     public function isAttendanceRequired(): bool;
 
     public function getInstructionalNotes(): ?string;
@@ -87,23 +75,14 @@ interface SessionInterface extends
 
     public function setSessionType(SessionTypeInterface $sessionType);
 
-    /**
-     * @return SessionTypeInterface
-     */
     public function getSessionType(): SessionTypeInterface;
 
     public function setCourse(CourseInterface $course);
 
-    /**
-     * @return CourseInterface|null
-     */
     public function getCourse(): ?CourseInterface;
 
     public function setIlmSession(IlmSessionInterface $ilmSession = null);
 
-    /**
-     * @return IlmSessionInterface
-     */
     public function getIlmSession(): IlmSessionInterface;
 
     public function setLearningMaterials(Collection $learningMaterials = null);
@@ -112,14 +91,8 @@ interface SessionInterface extends
 
     public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
 
-    /**
-     * @return ArrayCollection|SessionLearningMaterialInterface[]
-     */
     public function getLearningMaterials(): Collection;
 
-    /**
-     * @return SchoolInterface|null
-     */
     public function getSchool(): ?SchoolInterface;
 
     public function setExcludedSequenceBlocks(Collection $sequenceBlocks);
@@ -128,16 +101,10 @@ interface SessionInterface extends
 
     public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
-    /**
-     * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
-     */
     public function getExcludedSequenceBlocks(): Collection;
 
     public function setPostrequisite(SessionInterface $ancestor);
 
-    /**
-     * @return SessionInterface
-     */
     public function getPostrequisite(): SessionInterface;
 
     public function setPrerequisites(Collection $children);
@@ -146,8 +113,5 @@ interface SessionInterface extends
 
     public function removePrerequisite(SessionInterface $child);
 
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
     public function getPrerequisites(): Collection;
 }

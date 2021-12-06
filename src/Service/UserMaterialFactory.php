@@ -14,9 +14,6 @@ class UserMaterialFactory
     {
     }
 
-    /**
-     * @return UserMaterial
-     */
     public function create(array $material): UserMaterial
     {
         if (array_key_exists('filename', $material) && !empty($material['filename'])) {

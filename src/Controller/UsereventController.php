@@ -34,7 +34,6 @@ class UsereventController extends AbstractController
      * @param string $version
      * @param int $id of the user
      *
-     * @return Response
      * @throws \Exception
      */
     public function getAction(

@@ -16,8 +16,6 @@ class Directory
     /**
      * Get directory information for a single user
      * @param  string $campusId
-     *
-     * @return array | false
      */
     public function findByCampusId($campusId): array
     {
@@ -34,8 +32,6 @@ class Directory
 
     /**
      * Get directory information for a list of users
-     *
-     * @return array | false
      */
     public function findByCampusIds(array $campusIds): array
     {
@@ -62,8 +58,6 @@ class Directory
 
     /**
      * Find everyone in the directory matching these terms
-     *
-     * @return array | false
      */
     public function find(array $searchTerms): array
     {
@@ -86,8 +80,6 @@ class Directory
     /**
      * Find all users matching LDAP filter
      * @param  string $filter
-     *
-     * @return array | false
      */
     public function findByLdapFilter($filter): array
     {

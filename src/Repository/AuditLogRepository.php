@@ -26,8 +26,6 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
 
     /**
      * Returns all audit log entries in a given date/time range.
-     *
-     * @return array
      */
     public function findInRange(\DateTime $from, \DateTime $to): array
     {

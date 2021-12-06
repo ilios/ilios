@@ -34,9 +34,6 @@ trait CohortsEntity
         $this->cohorts->removeElement($cohort);
     }
 
-    /**
-    * @return CohortInterface[]|ArrayCollection
-    */
     public function getCohorts(): Collection
     {
         return $this->cohorts;

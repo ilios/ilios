@@ -17,7 +17,6 @@ class AuthenticationFactory
 
     /**
      * Create the correct service for authentication
-     * @return CasAuthentication|FormAuthentication|LdapAuthentication|ShibbolethAuthentication
      * @throws \Exception
      */
     public function createAuthenticationService(): CasAuthentication|FormAuthentication|LdapAuthentication|ShibbolethAuthentication

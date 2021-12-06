@@ -114,9 +114,6 @@ class ImportMeshUniverseCommand extends Command
         return 0;
     }
 
-    /**
-     * @return string
-     */
     private function getUri(InputInterface $input): string
     {
         $path = trim((string) $input->getOption('path'));

@@ -25,7 +25,6 @@ class ProgramYearObjective extends AbstractVoter
      * @param string $attribute
      * @param ProgramYearObjectiveInterface $objective
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $objective, TokenInterface $token): bool
     {

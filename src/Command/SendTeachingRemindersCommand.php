@@ -189,7 +189,6 @@ class SendTeachingRemindersCommand extends Command
 
     /**
      * Locates the applicable message template for a given school and returns its path.
-     * @return string The template path.
      */
     protected function getTemplatePath(SchoolInterface $school): string
     {
@@ -206,8 +205,6 @@ class SendTeachingRemindersCommand extends Command
 
     /**
      * Validates user input.
-     *
-     * @return array A list of validation error message. Empty if no validation errors occurred.
      */
     protected function validateInput(InputInterface $input): array
     {

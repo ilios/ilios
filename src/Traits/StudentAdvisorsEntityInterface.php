@@ -16,8 +16,5 @@ interface StudentAdvisorsEntityInterface
 
     public function removeStudentAdvisor(UserInterface $studentAdvisor);
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
     public function getStudentAdvisors(): Collection;
 }

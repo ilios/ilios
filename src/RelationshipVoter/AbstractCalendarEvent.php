@@ -20,7 +20,6 @@ abstract class AbstractCalendarEvent extends AbstractVoter
      * owning school/course/session/ILM/offering context,
      * @param SessionUserInterface $user
      * @param CalendarEvent $event
-     * @return bool
      */
     protected function isUserAdministratorDirectorsOrInstructorOfEvent(
         SessionUserInterface $user,

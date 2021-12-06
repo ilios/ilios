@@ -25,7 +25,6 @@ class SessionObjective extends AbstractVoter
      * @param string $attribute
      * @param SessionObjectiveInterface $objective
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $objective, TokenInterface $token): bool
     {

@@ -19,9 +19,6 @@ trait StudentAdvisorsEntity
         }
     }
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
     public function getStudentAdvisors(): Collection
     {
         return $this->studentAdvisors;

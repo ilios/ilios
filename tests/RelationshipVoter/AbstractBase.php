@@ -32,7 +32,6 @@ class AbstractBase extends TestCase
     /**
      * Creates a mock token that has the given user.
      * @param SessionUserInterface $sessionUser A (mock) user entity.
-     * @return TokenInterface
      */
     protected function createMockTokenWithSessionUser(SessionUserInterface $sessionUser = null): TokenInterface
     {
@@ -43,8 +42,6 @@ class AbstractBase extends TestCase
 
     /**
      * Creates a mock token with a non-root user
-     *
-     * @return TokenInterface
      */
     protected function createMockTokenWithNonRootSessionUser(): TokenInterface
     {
@@ -55,8 +52,6 @@ class AbstractBase extends TestCase
 
     /**
      * Creates a mock token with a user that's performs non-learner functions.
-     *
-     * @return TokenInterface
      */
     protected function createMockTokenWithSessionUserPerformingNonLearnerFunction(): TokenInterface
     {
@@ -68,8 +63,6 @@ class AbstractBase extends TestCase
 
     /**
      * Creates a mock token with a user that's doesn't perform non-learner functions.
-     *
-     * @return TokenInterface
      */
     protected function createMockTokenWithSessionUserPerformingOnlyLearnerFunction(): TokenInterface
     {
@@ -81,7 +74,6 @@ class AbstractBase extends TestCase
 
     /**
      * Creates a mock token with a root user
-     * @return TokenInterface
      */
     protected function createMockTokenWithRootSessionUser(): TokenInterface
     {

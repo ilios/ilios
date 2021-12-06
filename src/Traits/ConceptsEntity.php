@@ -34,9 +34,6 @@ trait ConceptsEntity
         $this->concepts->removeElement($concept);
     }
 
-    /**
-    * @return MeshConceptInterface[]|ArrayCollection
-    */
     public function getConcepts(): Collection
     {
         return $this->concepts;

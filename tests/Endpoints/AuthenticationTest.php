@@ -466,7 +466,6 @@ class AuthenticationTest extends ReadWriteEndpointTest
 
     /**
      * Test saving new data to the JSON:API
-     * @return mixed
      */
     protected function postManyJsonApiTest(object $postData, array $data): mixed
     {

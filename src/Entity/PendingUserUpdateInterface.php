@@ -17,9 +17,6 @@ interface PendingUserUpdateInterface extends
      */
     public function setType($type);
 
-    /**
-     * @return string
-     */
     public function getType(): string;
 
     /**
@@ -31,8 +28,6 @@ interface PendingUserUpdateInterface extends
 
     /**
      * Get property
-     *
-     * @return string
      */
     public function getProperty(): string;
 
@@ -45,15 +40,10 @@ interface PendingUserUpdateInterface extends
 
     /**
      * Get value
-     *
-     * @return string
      */
     public function getValue(): string;
 
     public function setUser(UserInterface $user);
 
-    /**
-     * @return UserInterface
-     */
     public function getUser(): UserInterface;
 }

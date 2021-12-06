@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Ilios\Migrations;
 
 use App\Classes\MysqlMigration;
+use DateTimeZone;
 use Doctrine\DBAL\Schema\Schema;
 use SebastianBergmann\RecursionContext\Exception;
 
@@ -38,17 +39,14 @@ final class Version20160105002207 extends MysqlMigration
     }
 
     /**
-     * @return \DateTimeZone
      * @throws Exception
      */
     private function getTimezone()
     {
-        return new \DateTimeZone(date_default_timezone_get());
+        return new DateTimeZone(date_default_timezone_get());
     }
 
-    /**
-     * @return array
-     */
+    
     private function getIlms()
     {
         $sql = 'SELECT ilm_session_facet_id, due_date FROM ilm_session_facet ORDER BY ilm_session_facet_id ASC';

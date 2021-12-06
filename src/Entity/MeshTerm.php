@@ -113,16 +113,14 @@ class MeshTerm implements MeshTermInterface
     #[IA\Type('boolean')]
     protected $permuted;
 
-    /**
-     */
+    
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]
     #[IA\Type('dateTime')]
     protected $createdAt;
 
-    /**
-     */
+    
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]
@@ -156,9 +154,6 @@ class MeshTerm implements MeshTermInterface
         $this->meshTermUid = $meshTermUid;
     }
 
-    /**
-     * @return string
-     */
     public function getMeshTermUid(): string
     {
         return $this->meshTermUid;
@@ -172,9 +167,6 @@ class MeshTerm implements MeshTermInterface
         $this->lexicalTag = $lexicalTag;
     }
 
-    /**
-     * @return string
-     */
     public function getLexicalTag(): string
     {
         return $this->lexicalTag;
@@ -188,9 +180,6 @@ class MeshTerm implements MeshTermInterface
         $this->conceptPreferred = $conceptPreferred;
     }
 
-    /**
-     * @return bool
-     */
     public function isConceptPreferred(): bool
     {
         return $this->conceptPreferred;
@@ -204,9 +193,6 @@ class MeshTerm implements MeshTermInterface
         $this->recordPreferred = $recordPreferred;
     }
 
-    /**
-     * @return bool
-     */
     public function isRecordPreferred(): bool
     {
         return $this->recordPreferred;
@@ -220,9 +206,6 @@ class MeshTerm implements MeshTermInterface
         $this->permuted = $permuted;
     }
 
-    /**
-     * @return bool
-     */
     public function isPermuted(): bool
     {
         return $this->permuted;

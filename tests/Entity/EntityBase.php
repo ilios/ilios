@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use DateTime;
 use Faker\Factory;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
@@ -30,7 +31,6 @@ class EntityBase extends TestCase
     /**
      * Engage the symfony validator and test the object.
      * @param int $expectedCount how many errors are you expecting
-     * @return array an abbreviated set of errors
      */
     protected function validate($expectedCount): array
     {
@@ -269,7 +269,6 @@ class EntityBase extends TestCase
     /**
      * @param $className
      * @param $count
-     * @return array
      */
     protected function getArrayOfMockObjects($className, $count): array
     {
@@ -283,7 +282,6 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getSetMethodForProperty($property): string
     {
@@ -292,7 +290,6 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getGetMethodForProperty($property): string
     {
@@ -301,7 +298,6 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getIsMethodForProperty($property): string
     {
@@ -310,7 +306,6 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getHasMethodForProperty($property): string
     {
@@ -319,7 +314,6 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getGetMethodForCollectionProperty($property): string
     {
@@ -328,7 +322,6 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getSetMethodForCollectionProperty($property): string
     {
@@ -337,7 +330,6 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getAddMethodForProperty($property): string
     {
@@ -346,19 +338,13 @@ class EntityBase extends TestCase
 
     /**
      * @param $property
-     * @return string
      */
     protected function getRemoveMethodForProperty($property): string
     {
         return 'remove' . ucfirst($property);
     }
 
-    /**
-     * @param string $type
-     * @return \DateTime|float|int|bool|string
-     * @throws \Exception
-     */
-    protected function getValueForType($type): \DateTime|float|int|bool|string
+    protected function getValueForType(string $type): DateTime|float|int|bool|string
     {
         $faker = Factory::create();
         switch ($type) {

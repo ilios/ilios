@@ -51,7 +51,6 @@ class SendTestEmailCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
-     *
      */
     public function testExecute()
     {

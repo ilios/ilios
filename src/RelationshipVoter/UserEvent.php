@@ -22,7 +22,6 @@ class UserEvent extends AbstractCalendarEvent
      * @param string $attribute
      * @param Event $event
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $event, TokenInterface $token): bool
     {

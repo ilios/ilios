@@ -36,8 +36,6 @@ class Config
      * go ahead and ignore the DB
      *
      * @param string $name
-     *
-     * @return string | null
      */
     public function get($name): string|bool|null
     {
@@ -83,7 +81,6 @@ class Config
      * just return null
      *
      * @param string $name
-     * @return string | null
      */
     protected function getValueFromDb($name): string|null
     {
@@ -102,8 +99,6 @@ class Config
      *
      * @param string $name
      * @param string|boolean $result
-     *
-     * @return mixed
      */
     protected function castResult($name, $result): mixed
     {

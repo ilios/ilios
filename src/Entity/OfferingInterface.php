@@ -37,9 +37,6 @@ interface OfferingInterface extends
      */
     public function setSite($site);
 
-    /**
-     * @return string
-     */
     public function getSite(): string;
 
     public function setUrl(?string $url);
@@ -48,23 +45,14 @@ interface OfferingInterface extends
 
     public function setStartDate(DateTime $startDate);
 
-    /**
-     * @return DateTime
-     */
     public function getStartDate(): DateTime;
 
     public function setEndDate(DateTime $endDate);
 
-    /**
-     * @return DateTime
-     */
     public function getEndDate(): DateTime;
 
     public function setSession(SessionInterface $session);
 
-    /**
-     * @return SessionInterface|null
-     */
     public function getSession(): ?SessionInterface;
 
     /**

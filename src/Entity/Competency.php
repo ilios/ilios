@@ -142,9 +142,6 @@ class Competency implements CompetencyInterface
         $this->parent = $parent;
     }
 
-    /**
-     * @return CompetencyInterface
-     */
     public function getParent(): CompetencyInterface
     {
         return $this->parent;
@@ -172,17 +169,11 @@ class Competency implements CompetencyInterface
         $child->setParent(null);
     }
 
-    /**
-     * @return ArrayCollection|CompetencyInterface[]
-     */
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * @return bool
-     */
     public function hasChildren(): bool
     {
         return (!$this->children->isEmpty()) ? true : false;
@@ -213,9 +204,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @return ArrayCollection|AamcPcrsInterface[]
-     */
     public function getAamcPcrses(): Collection
     {
         return $this->aamcPcrses;

@@ -21,7 +21,6 @@ class IliosFileSystem extends Voter
      * @param string $attribute
      * @param TemporaryFileSystem $fileSystem
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token): bool
     {

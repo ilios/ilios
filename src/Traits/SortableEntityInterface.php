@@ -14,8 +14,5 @@ interface SortableEntityInterface
      */
     public function setPosition($position);
 
-    /**
-     * @return int
-     */
     public function getPosition(): int;
 }

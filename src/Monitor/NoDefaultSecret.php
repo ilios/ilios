@@ -16,8 +16,6 @@ class NoDefaultSecret implements CheckInterface
 
     /**
      * Ensure ILIOS_SECRET isn't set to a default value
-     *
-     * @return ResultInterface
      */
     public function check(): ResultInterface
     {
@@ -48,8 +46,6 @@ class NoDefaultSecret implements CheckInterface
 
     /**
      * Describe this test
-     *
-     * @return string
      */
     public function getLabel(): string
     {

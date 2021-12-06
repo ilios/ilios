@@ -525,9 +525,6 @@ class User implements UserInterface
         $this->lastName = $lastName;
     }
 
-    /**
-     * @return string
-     */
     public function getLastName(): string
     {
         return $this->lastName;
@@ -541,9 +538,6 @@ class User implements UserInterface
         $this->firstName = $firstName;
     }
 
-    /**
-     * @return string
-     */
     public function getFirstName(): string
     {
         return $this->firstName;
@@ -557,9 +551,6 @@ class User implements UserInterface
         $this->middleName = $middleName;
     }
 
-    /**
-     * @return string
-     */
     public function getMiddleName(): string
     {
         return $this->middleName;
@@ -588,9 +579,6 @@ class User implements UserInterface
         $this->phone = $phone;
     }
 
-    /**
-     * @return string
-     */
     public function getPhone(): string
     {
         return $this->phone;
@@ -604,9 +592,6 @@ class User implements UserInterface
         $this->email = $email;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
@@ -620,9 +605,6 @@ class User implements UserInterface
         $this->preferredEmail = $email;
     }
 
-    /**
-     * @return string
-     */
     public function getPreferredEmail(): string
     {
         return $this->preferredEmail;
@@ -636,9 +618,6 @@ class User implements UserInterface
         $this->addedViaIlios = $addedViaIlios;
     }
 
-    /**
-     * @return bool
-     */
     public function isAddedViaIlios(): bool
     {
         return $this->addedViaIlios;
@@ -652,9 +631,6 @@ class User implements UserInterface
         $this->enabled = $enabled;
     }
 
-    /**
-     * @return bool
-     */
     public function isEnabled(): bool
     {
         return $this->enabled;
@@ -668,9 +644,6 @@ class User implements UserInterface
         $this->campusId = $campusId;
     }
 
-    /**
-     * @return string
-     */
     public function getCampusId(): string
     {
         return $this->campusId;
@@ -684,9 +657,6 @@ class User implements UserInterface
         $this->otherId = $otherId;
     }
 
-    /**
-     * @return string
-     */
     public function getOtherId(): string
     {
         return $this->otherId;
@@ -700,9 +670,6 @@ class User implements UserInterface
         $this->examined = $examined;
     }
 
-    /**
-     * @return bool
-     */
     public function isExamined(): bool
     {
         return $this->examined;
@@ -716,9 +683,6 @@ class User implements UserInterface
         $this->userSyncIgnore = $userSyncIgnore;
     }
 
-    /**
-     * @return bool
-     */
     public function isUserSyncIgnore(): bool
     {
         return $this->userSyncIgnore;
@@ -929,9 +893,6 @@ class User implements UserInterface
         $instructedLearnerGroup->removeInstructor($this);
     }
 
-    /**
-     * @return ArrayCollection|LearnerGroupInterface[]
-     */
     public function getInstructedLearnerGroups(): Collection
     {
         return $this->instructedLearnerGroups;
@@ -1004,9 +965,6 @@ class User implements UserInterface
         }
     }
 
-    /**
-     * @return ArrayCollection|IlmSessionInterface[]
-     */
     public function getLearnerIlmSessions(): Collection
     {
         return $this->learnerIlmSessions;
@@ -1047,9 +1005,6 @@ class User implements UserInterface
         $this->roles->removeElement($role);
     }
 
-    /**
-     * @return ArrayCollection|UserRoleInterface[]
-     */
     public function getRoles(): Collection
     {
         return $this->roles;
@@ -1117,9 +1072,6 @@ class User implements UserInterface
         $this->primaryCohort = $primaryCohort;
     }
 
-    /**
-     * @return CohortInterface
-     */
     public function getPrimaryCohort(): CohortInterface
     {
         return $this->primaryCohort;
@@ -1214,9 +1166,6 @@ class User implements UserInterface
         $this->pendingUserUpdates->removeElement($pendingUserUpdate);
     }
 
-    /**
-     * @return ArrayCollection|PendingUserUpdateInterface[]
-     */
     public function getPendingUserUpdates(): Collection
     {
         return $this->pendingUserUpdates;

@@ -108,8 +108,6 @@ class LdapAuthentication implements AuthenticationInterface
      * Check against ldap to see if the user is valid
      * @param  string $username
      * @param  string $password
-     *
-     * @return bool
      */
     public function checkLdapPassword($username, $password): bool
     {

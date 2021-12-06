@@ -685,7 +685,6 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     /**
      * Sorts the blocks in a given sequence by their 'order in sequence' values.
      * @param CurriculumInventorySequenceBlockInterface[] $sequence The unsorted sequence.
-     * @return CurriculumInventorySequenceBlockInterface[] The sorted sequence.
      */
     protected function sortOrderedSequence(array $sequence): array
     {

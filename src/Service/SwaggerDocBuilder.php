@@ -54,14 +54,8 @@ class SwaggerDocBuilder
     /**
      * Parse a directory and its YAML files and convert them
      * into an array.
-     *
-     * @param string $dir
-     *
-     * @return array
-     *
-     * @throws Exception
      */
-    protected function getSection($dir): array
+    protected function getSection(string $dir): array
     {
         $finder = new Finder();
         $path = $this->swaggerDir . DIRECTORY_SEPARATOR . $dir;
@@ -86,8 +80,6 @@ class SwaggerDocBuilder
     /**
      * Get the information swagger loads at the top of the document
      *
-     *
-     * @return array
      */
     protected function getFrontMatter(Request $request): array
     {

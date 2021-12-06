@@ -26,9 +26,6 @@ interface MeshTermInterface extends
      */
     public function setMeshTermUid($meshTermUid);
 
-    /**
-     * @return string
-     */
     public function getMeshTermUid(): string;
 
     /**
@@ -36,9 +33,6 @@ interface MeshTermInterface extends
      */
     public function setLexicalTag($lexicalTag);
 
-    /**
-     * @return string
-     */
     public function getLexicalTag(): string;
 
     /**
@@ -46,9 +40,6 @@ interface MeshTermInterface extends
      */
     public function setConceptPreferred($conceptPreferred);
 
-    /**
-     * @return bool
-     */
     public function isConceptPreferred(): bool;
 
     /**
@@ -56,9 +47,6 @@ interface MeshTermInterface extends
      */
     public function setRecordPreferred($recordPreferred);
 
-    /**
-     * @return bool
-     */
     public function isRecordPreferred(): bool;
 
     /**
@@ -66,8 +54,5 @@ interface MeshTermInterface extends
      */
     public function setPermuted($permuted);
 
-    /**
-     * @return bool
-     */
     public function isPermuted(): bool;
 }

@@ -57,7 +57,6 @@ class SchoolRepository extends ServiceEntityRepository implements
 
     /**
      * Find all of the events for a school by session
-     * @return SchoolEvent[]
      */
     public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
     {
@@ -83,8 +82,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Find all of the events for a user id between two dates.
      *
      * @param int $id
-     *
-     * @return SchoolEvent[]
      */
     public function findEventsForSchool($id, DateTime $from, DateTime $to): array
     {
@@ -134,8 +131,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Use the query builder to get a set of offering based school events.
      *
      * @param int $id
-     *
-     * @return CalendarEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
@@ -178,8 +173,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Use the query builder to get a set of ILMSession based user events.
      *
      * @param int $id
-     *
-     * @return CalendarEvent[]
      */
     protected function getIlmSessionEventsFor(
         $id,
@@ -220,8 +213,6 @@ class SchoolRepository extends ServiceEntityRepository implements
     /**
      * Adds instructors to a given list of events.
      * @param SchoolEvent[] $events A list of events
-     *
-     * @return SchoolEvent[] The events list with instructors added.
      */
     public function addInstructorsToEvents(array $events): array
     {
@@ -232,7 +223,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Finds and adds learning materials to a given list of calendar events.
      *
      * @param SchoolEvent[] $events
-     * @return SchoolEvent[]
      */
     public function addMaterialsToEvents(array $events): array
     {
@@ -243,7 +233,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
      *
      * @param SchoolEvent[] $events
-     * @return SchoolEvent[]
      */
     public function addSessionDataToEvents(array $events): array
     {
@@ -254,7 +243,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Adds pre- and post-requisites for a given school to a given list of events.
      * @param int $id The school id.
      * @param SchoolEvent[] $events A list of events.
-     * @return SchoolEvent[] The events list with pre- and post-requisites added.
      */
     public function addPreAndPostRequisites($id, array $events): array
     {
@@ -264,8 +252,6 @@ class SchoolRepository extends ServiceEntityRepository implements
 
     /**
      * Get all the IDs
-     *
-     * @return int[]
      */
     public function getIds(): array
     {
@@ -279,7 +265,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Attaches school-events for a given user as pre-requisites to a given list of given events.
      * @param int $id The school id.
      * @param SchoolEvent[] $events A list of events.
-     * @return array The events list with pre-requisites attached.
      */
     protected function attachPreRequisitesToEvents($id, array $events): array
     {
@@ -398,7 +383,6 @@ class SchoolRepository extends ServiceEntityRepository implements
      * Attaches school-events for a given user as post-requisites to a given list of given events.
      * @param int $id The school id.
      * @param array $events A list of events.
-     * @return array The events list with post-requisites attached.
      */
     protected function attachPostRequisitesToEvents($id, array $events): array
     {

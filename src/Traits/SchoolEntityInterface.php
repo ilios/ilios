@@ -11,9 +11,6 @@ use App\Entity\SchoolInterface;
  */
 interface SchoolEntityInterface
 {
-    /**
-     * @return SchoolInterface|null
-     */
     public function getSchool(): ?SchoolInterface;
 
     public function setSchool(SchoolInterface $school);

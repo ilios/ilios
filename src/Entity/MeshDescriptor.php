@@ -234,9 +234,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->annotation = $annotation;
     }
 
-    /**
-     * @return string
-     */
     public function getAnnotation(): string
     {
         return $this->annotation;

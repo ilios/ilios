@@ -23,7 +23,6 @@ class UserMaterial extends AbstractVoter
      * @param string $attribute
      * @param Material $material
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $material, TokenInterface $token): bool
     {

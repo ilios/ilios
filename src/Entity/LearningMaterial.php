@@ -283,17 +283,11 @@ class LearningMaterial implements LearningMaterialInterface
         $this->originalAuthor = $originalAuthor;
     }
 
-    /**
-     * @return string
-     */
     public function getOriginalAuthor(): string
     {
         return $this->originalAuthor;
     }
 
-    /**
-     * @return string
-     */
     public function getToken(): string
     {
         return $this->token;
@@ -316,9 +310,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->status = $status;
     }
 
-    /**
-     * @return LearningMaterialStatusInterface
-     */
     public function getStatus(): LearningMaterialStatusInterface
     {
         return $this->status;
@@ -339,9 +330,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->userRole = $userRole;
     }
 
-    /**
-     * @return LearningMaterialUserRoleInterface
-     */
     public function getUserRole(): LearningMaterialUserRoleInterface
     {
         return $this->userRole;
@@ -363,9 +351,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->citation = $citation;
     }
 
-    /**
-     * @return string
-     */
     public function getCitation(): string
     {
         return $this->citation;
@@ -379,9 +364,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->relativePath = $path;
     }
 
-    /**
-     * @return string
-     */
     public function getRelativePath(): string
     {
         return $this->relativePath;
@@ -395,9 +377,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->copyrightPermission = $copyrightPermission;
     }
 
-    /**
-     * @return bool
-     */
     public function hasCopyrightPermission(): bool
     {
         return $this->copyrightPermission;
@@ -411,9 +390,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->copyrightRationale = $copyrightRationale;
     }
 
-    /**
-     * @return string
-     */
     public function getCopyrightRationale(): string
     {
         return $this->copyrightRationale;
@@ -427,9 +403,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->filename = $filename;
     }
 
-    /**
-     * @return string
-     */
     public function getFilename(): string
     {
         return $this->filename;
@@ -443,9 +416,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->filesize = $filesize;
     }
 
-    /**
-     * @return string
-     */
     public function getFilesize(): string
     {
         return $this->filesize;
@@ -459,9 +429,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->mimetype = $mimetype;
     }
 
-    /**
-     * @return string
-     */
     public function getMimetype(): string
     {
         return $this->mimetype;
@@ -478,9 +445,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->link = $link;
     }
 
-    /**
-     * @return string
-     */
     public function getLink(): string
     {
         return $this->link;
@@ -510,9 +474,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->courseLearningMaterials->removeElement($courseLearningMaterial);
     }
 
-    /**
-     * @return ArrayCollection|CourseLearningMaterialInterface[]
-     */
     public function getCourseLearningMaterials(): Collection
     {
         return $this->courseLearningMaterials;
@@ -542,9 +503,6 @@ class LearningMaterial implements LearningMaterialInterface
         $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
     }
 
-    /**
-     * @return ArrayCollection|SessionLearningMaterialInterface[]
-     */
     public function getSessionLearningMaterials(): Collection
     {
         return $this->sessionLearningMaterials;
@@ -558,9 +516,6 @@ class LearningMaterial implements LearningMaterialInterface
         return null;
     }
 
-    /**
-     * @return SessionInterface[]|ArrayCollection
-     */
     public function getSessions(): Collection
     {
         $sessions = [];

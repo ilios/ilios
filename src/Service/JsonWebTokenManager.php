@@ -71,11 +71,8 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a user
-     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     * @return string
-     * @throws \Exception
      */
-    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, $timeToLive = 'PT8H'): string
+    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, string $timeToLive = 'PT8H'): string
     {
         $requestedInterval = new \DateInterval($timeToLive);
         $maximumInterval = new \DateInterval('P364D');
@@ -109,7 +106,6 @@ class JsonWebTokenManager
     /**
      * Build a token from a user
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     * @return string
      */
     public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H'): string
     {
@@ -120,8 +116,6 @@ class JsonWebTokenManager
      * Build a token from a userId
      * @param int $userId
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     *
-     * @return string
      */
     public function createJwtFromUserId($userId, $timeToLive = 'PT8H'): string
     {

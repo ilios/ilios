@@ -17,9 +17,6 @@ trait SortableEntity
         $this->position = $position;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition(): int
     {
         return $this->position;

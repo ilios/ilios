@@ -12,9 +12,6 @@ interface PermissionMatrixInterface
 {
     public function hasPermission(int $schoolId, string $capability, array $roles): bool;
 
-    /**
-     * @return mixed
-     */
     public function setPermission(int $schoolId, string $capability, array $roles): mixed;
 
     /**

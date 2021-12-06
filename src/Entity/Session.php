@@ -337,9 +337,6 @@ class Session implements SessionInterface
         $this->attireRequired = $attireRequired;
     }
 
-    /**
-     * @return bool
-     */
     public function isAttireRequired(): bool
     {
         return $this->attireRequired;
@@ -353,9 +350,6 @@ class Session implements SessionInterface
         $this->equipmentRequired = $equipmentRequired;
     }
 
-    /**
-     * @return bool
-     */
     public function isEquipmentRequired(): bool
     {
         return $this->equipmentRequired;
@@ -369,9 +363,6 @@ class Session implements SessionInterface
         $this->supplemental = $supplemental;
     }
 
-    /**
-     * @return bool
-     */
     public function isSupplemental(): bool
     {
         return $this->supplemental;
@@ -385,9 +376,6 @@ class Session implements SessionInterface
         $this->attendanceRequired = $attendanceRequired;
     }
 
-    /**
-     * @return bool
-     */
     public function isAttendanceRequired(): bool
     {
         return $this->attendanceRequired;
@@ -408,9 +396,6 @@ class Session implements SessionInterface
         $this->sessionType = $sessionType;
     }
 
-    /**
-     * @return SessionTypeInterface
-     */
     public function getSessionType(): SessionTypeInterface
     {
         return $this->sessionType;
@@ -434,9 +419,6 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @return IlmSessionInterface
-     */
     public function getIlmSession(): IlmSessionInterface
     {
         return $this->ilmSession;
@@ -466,9 +448,6 @@ class Session implements SessionInterface
         $this->learningMaterials->removeElement($learningMaterial);
     }
 
-    /**
-     * @return ArrayCollection|SessionLearningMaterialInterface[]
-     */
     public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;

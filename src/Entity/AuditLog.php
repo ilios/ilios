@@ -97,7 +97,6 @@ class AuditLog implements AuditLogInterface
      * Set action
      *
      * @param string $action
-     *
      */
     public function setAction($action)
     {
@@ -106,8 +105,6 @@ class AuditLog implements AuditLogInterface
 
     /**
      * Get action
-     *
-     * @return string
      */
     public function getAction(): string
     {
@@ -116,8 +113,6 @@ class AuditLog implements AuditLogInterface
 
     /**
      * Get createdAt
-     *
-     * @return DateTime
      */
     public function getCreatedAt(): DateTime
     {
@@ -133,7 +128,6 @@ class AuditLog implements AuditLogInterface
      * Set objectId
      *
      * @param string $objectId
-     *
      */
     public function setObjectId($objectId)
     {
@@ -142,8 +136,6 @@ class AuditLog implements AuditLogInterface
 
     /**
      * Get objectId
-     *
-     * @return string
      */
     public function getObjectId(): string
     {
@@ -154,7 +146,6 @@ class AuditLog implements AuditLogInterface
      * Set objectClass
      *
      * @param string $objectClass
-     *
      */
     public function setObjectClass($objectClass)
     {
@@ -163,8 +154,6 @@ class AuditLog implements AuditLogInterface
 
     /**
      * Get objectClass
-     *
-     * @return string
      */
     public function getObjectClass(): string
     {
@@ -175,7 +164,6 @@ class AuditLog implements AuditLogInterface
      * Set valuesChanged
      *
      * @param string $valuesChanged
-     *
      */
     public function setValuesChanged($valuesChanged)
     {
@@ -184,8 +172,6 @@ class AuditLog implements AuditLogInterface
 
     /**
      * Get valuesChanged
-     *
-     * @return string
      */
     public function getValuesChanged(): string
     {
@@ -197,9 +183,6 @@ class AuditLog implements AuditLogInterface
         $this->user = $user;
     }
 
-    /**
-     * @return UserInterface
-     */
     public function getUser(): UserInterface
     {
         return $this->user;

@@ -63,9 +63,6 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
         return $cache;
     }
 
-    /**
-     * @return mixed|null
-     */
     public function getValue(string $name): mixed
     {
         $values = $this->getValues();

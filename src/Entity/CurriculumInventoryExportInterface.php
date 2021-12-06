@@ -20,27 +20,15 @@ interface CurriculumInventoryExportInterface extends
      */
     public function setDocument($document);
 
-    /**
-     * @return string
-     */
     public function getDocument(): string;
 
     public function setReport(CurriculumInventoryReportInterface $report);
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
     public function getReport(): CurriculumInventoryReportInterface;
 
     public function setCreatedBy(UserInterface $createdBy);
 
-    /**
-     * @return UserInterface
-     */
     public function getCreatedBy(): UserInterface;
 
-    /**
-     * @return \DateTime
-     */
     public function getCreatedAt(): \DateTime;
 }

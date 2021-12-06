@@ -810,7 +810,6 @@ class SessionUser implements SessionUserInterface
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     protected function getAdministeredCurriculumInventoryReportAndSchoolIds(): array

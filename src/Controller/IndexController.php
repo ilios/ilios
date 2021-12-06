@@ -75,7 +75,6 @@ class IndexController extends AbstractController
 
     /**
      * Extract the path for a frontend file
-     * @return bool|string
      */
     protected function getFilePath(string $fileName): bool|string
     {

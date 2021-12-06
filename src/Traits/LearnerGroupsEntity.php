@@ -34,9 +34,6 @@ trait LearnerGroupsEntity
         $this->learnerGroups->removeElement($learnerGroup);
     }
 
-    /**
-    * @return LearnerGroupInterface[]|ArrayCollection
-    */
     public function getLearnerGroups(): Collection
     {
         return $this->learnerGroups;

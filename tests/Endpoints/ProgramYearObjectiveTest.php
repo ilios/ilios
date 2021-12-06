@@ -131,7 +131,6 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
-     *
      */
     public function testInputSanitation($input, $output)
     {
@@ -159,9 +158,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
         );
     }
 
-    /**
-     * @return array
-     */
+    
     public function inputSanitationTestProvider(): array
     {
         return [

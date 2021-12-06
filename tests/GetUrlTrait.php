@@ -18,8 +18,6 @@ trait GetUrlTrait
      * @param string $route
      * @param array $params
      * @param int $absolute
-     *
-     * @return string
      */
     public function getUrl(
         KernelBrowser $browser,

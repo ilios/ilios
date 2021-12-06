@@ -19,9 +19,6 @@ trait IdentifiableEntity
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getId(): mixed
     {
         return $this->id;

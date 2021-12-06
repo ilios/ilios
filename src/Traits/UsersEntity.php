@@ -34,9 +34,6 @@ trait UsersEntity
         $this->users->removeElement($user);
     }
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
     public function getUsers(): Collection
     {
         return $this->users;

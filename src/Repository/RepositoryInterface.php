@@ -9,9 +9,6 @@ namespace App\Repository;
  */
 interface RepositoryInterface
 {
-    /**
-     * @return string
-     */
     public function getClass(): string;
 
     /**
@@ -24,9 +21,6 @@ interface RepositoryInterface
      */
     public function flush();
 
-    /**
-     * @return object|null The entity instance or NULL if the entity can not be found.
-     */
     public function findOneBy(
         array $criteria
     );
@@ -45,8 +39,6 @@ interface RepositoryInterface
     /**
      * @param int $limit
      * @param int $offset
-     *
-     * @return array A list of entities.
      */
     public function findBy(
         array $criteria,
@@ -59,8 +51,6 @@ interface RepositoryInterface
      * Searches the data store for all objects matching the given criteria.
      * @param int $limit
      * @param int $offset
-     *
-     * @return object[] A list of DTOs.
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
 
@@ -68,8 +58,6 @@ interface RepositoryInterface
      * @param object $entity
      * @param bool $andFlush
      * @param bool $forceId
-     *
-     * @return void
      */
     public function update(
         $entity,
@@ -79,16 +67,11 @@ interface RepositoryInterface
 
     /**
      * @param object $entity
-     *
-     * @return void
      */
     public function delete(
         $entity
     );
 
-    /**
-     * @return object A new entity.
-     */
     public function create(): object;
 
     /**

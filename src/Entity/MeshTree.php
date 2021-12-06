@@ -71,8 +71,6 @@ class MeshTree implements MeshTreeInterface
 
     /**
      * Get treeNumber
-     *
-     * @return string
      */
     public function getTreeNumber(): string
     {
@@ -82,8 +80,6 @@ class MeshTree implements MeshTreeInterface
     /**
      * Set meshDescriptor
      *
-     *
-     * @return MeshTree
      */
     public function setDescriptor(MeshDescriptorInterface $descriptor): MeshTree
     {
@@ -94,8 +90,6 @@ class MeshTree implements MeshTreeInterface
 
     /**
      * Get descriptor
-     *
-     * @return MeshDescriptorInterface
      */
     public function getDescriptor(): MeshDescriptorInterface
     {

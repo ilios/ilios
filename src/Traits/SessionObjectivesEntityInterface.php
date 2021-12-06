@@ -21,8 +21,5 @@ interface SessionObjectivesEntityInterface
 
     public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void;
 
-    /**
-     * @return Collection|SessionObjectiveInterface[]
-     */
     public function getSessionObjectives(): Collection;
 }

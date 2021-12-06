@@ -70,9 +70,6 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
         $this->report = $report;
     }
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;

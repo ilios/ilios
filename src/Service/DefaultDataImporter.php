@@ -38,13 +38,6 @@ class DefaultDataImporter
     {
     }
 
-    /**
-     * @param DataImportRepositoryInterface $repository
-     * @param string $type
-     * @param array $referenceMap
-     * @return array
-     * @throws Exception
-     */
     public function import(DataImportRepositoryInterface $repository, string $type, array $referenceMap): array
     {
         $rows = $this->defaultDataLoader->load($type);

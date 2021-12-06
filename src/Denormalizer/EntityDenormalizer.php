@@ -95,7 +95,6 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
      * Convert single API value back into what the entity needs
      *
      * @param mixed $value
-     * @return mixed
      */
     protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value): mixed
     {

@@ -22,8 +22,6 @@ class RequiredENV implements CheckInterface
 
     /**
      * Perform the actual check and return a ResultInterface
-     *
-     * @return ResultInterface
      */
     public function check(): ResultInterface
     {
@@ -48,8 +46,6 @@ class RequiredENV implements CheckInterface
 
     /**
      * Return a label describing this test instance.
-     *
-     * @return string
      */
     public function getLabel(): string
     {

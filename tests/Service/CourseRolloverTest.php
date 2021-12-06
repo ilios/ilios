@@ -1151,8 +1151,6 @@ class CourseRolloverTest extends TestCase
 
     /**
      * Gets a basic filled out course
-     *
-     * @return Course
      */
     protected function createTestCourse(): Course
     {
@@ -1190,7 +1188,6 @@ class CourseRolloverTest extends TestCase
 
     /**
      * Gets a course with a bunch of relationships attached
-     * @return Course
      */
     protected function createTestCourseWithAssociations(): Course
     {
@@ -1335,8 +1332,6 @@ class CourseRolloverTest extends TestCase
 
     /**
      * Gets a course with a few offerings to use in date testing
-     *
-     * @return Course
      */
     protected function createTestCourseWithOfferings(): Course
     {
@@ -1365,8 +1360,6 @@ class CourseRolloverTest extends TestCase
      * @param CourseInterface $course
      * @param CourseInterface $newCourse
      * @param int $interval the length of time in the future for the new academic year
-     *
-     * @return int
      */
     protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1): int
     {

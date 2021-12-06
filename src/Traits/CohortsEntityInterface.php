@@ -19,8 +19,5 @@ interface CohortsEntityInterface
 
     public function removeCohort(CohortInterface $cohort);
 
-    /**
-    * @return CohortInterface[]|ArrayCollection
-    */
     public function getCohorts(): Collection;
 }

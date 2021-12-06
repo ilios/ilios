@@ -19,7 +19,6 @@ class LearningMaterialDecoratorFactory
 
     /**
      * @param mixed $object
-     * @return LearningMaterialDTO
      */
     public function create($object): LearningMaterialDTO
     {
@@ -35,9 +34,6 @@ class LearningMaterialDecoratorFactory
         return $this->decorateDto($object);
     }
 
-    /**
-     * @return LearningMaterialDTO
-     */
     protected function entityToDto(LearningMaterialInterface $learningMaterial): LearningMaterialDTO
     {
         $dto = new LearningMaterialDTO(
@@ -69,9 +65,6 @@ class LearningMaterialDecoratorFactory
         return $dto;
     }
 
-    /**
-     * @return LearningMaterialDTO
-     */
     protected function decorateDto(LearningMaterialDTO $learningMaterialDTO): LearningMaterialDTO
     {
         if ($learningMaterialDTO->filename) {

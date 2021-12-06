@@ -19,8 +19,5 @@ interface LearningMaterialsEntityInterface
 
     public function removeLearningMaterial(LearningMaterialInterface $learningMaterial);
 
-    /**
-    * @return LearningMaterialInterface[]|ArrayCollection
-    */
     public function getLearningMaterials(): Collection;
 }

@@ -36,7 +36,6 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     /**
      * Create test data
-     * @return array
      */
     abstract protected function getData(): array;
 
@@ -64,7 +63,6 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     /**
      * Get a formatted data from a string
      * @param string $when
-     * @return string
      */
     public function getFormattedDate($when): string
     {

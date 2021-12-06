@@ -34,9 +34,6 @@ trait SessionTypesEntity
         $this->sessionTypes->removeElement($sessionType);
     }
 
-    /**
-    * @return SessionTypeInterface[]|ArrayCollection
-    */
     public function getSessionTypes(): Collection
     {
         return $this->sessionTypes;

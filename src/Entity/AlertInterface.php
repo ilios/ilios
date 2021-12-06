@@ -19,9 +19,6 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
      */
     public function setTableRowId($tableRowId);
 
-    /**
-     * @return int
-     */
     public function getTableRowId(): int;
 
     /**
@@ -29,9 +26,6 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
      */
     public function setTableName($tableName);
 
-    /**
-     * @return string
-     */
     public function getTableName(): string;
 
     /**
@@ -39,9 +33,6 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
      */
     public function setAdditionalText($additionalText);
 
-    /**
-     * @return string
-     */
     public function getAdditionalText(): string;
 
     /**
@@ -49,9 +40,6 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
      */
     public function setDispatched($dispatched);
 
-    /**
-     * @return bool
-     */
     public function isDispatched(): bool;
 
     public function setChangeTypes(Collection $changeTypes);
@@ -60,9 +48,6 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
 
     public function removeChangeType(AlertChangeTypeInterface $changeType);
 
-    /**
-     * @return ArrayCollection|AlertChangeTypeInterface[]
-     */
     public function getChangeTypes(): Collection;
 
     public function setInstigators(Collection $instigators);
@@ -71,9 +56,6 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
 
     public function removeInstigator(UserInterface $instigator);
 
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
     public function getInstigators(): Collection;
 
     public function setRecipients(Collection $recipients);
@@ -82,8 +64,5 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
 
     public function removeRecipient(SchoolInterface $recipient);
 
-    /**
-     * @return ArrayCollection|SchoolInterface[]
-     */
     public function getRecipients(): Collection;
 }

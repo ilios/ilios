@@ -26,8 +26,6 @@ class SwaggerDocsController extends AbstractController
 
     /**
      * Get a single YAML file which documents our endpoints
-     *
-     * @return Response
      */
     public function indexAction(Request $request): Response
     {
@@ -41,8 +39,6 @@ class SwaggerDocsController extends AbstractController
 
     /**
      * Fetch the swagger-ui from vendor and send its contents as the response
-     *
-     * @return Response
      */
     public function uiAction(Request $request, $fileName): Response
     {
@@ -67,8 +63,6 @@ class SwaggerDocsController extends AbstractController
 
     /**
      * Get a single YAML file which documents our endpoints
-     *
-     * @return Response
      */
     public function yamlAction(Request $request): Response
     {

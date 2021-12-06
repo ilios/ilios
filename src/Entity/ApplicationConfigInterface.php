@@ -12,9 +12,6 @@ use App\Traits\NameableEntityInterface;
  */
 interface ApplicationConfigInterface extends IdentifiableEntityInterface, NameableEntityInterface
 {
-    /**
-     * @return string
-     */
     public function getValue(): string;
 
     /**

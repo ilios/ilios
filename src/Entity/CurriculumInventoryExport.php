@@ -88,9 +88,6 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->report = $report;
     }
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
@@ -104,9 +101,6 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->document = $document;
     }
 
-    /**
-     * @return string
-     */
     public function getDocument(): string
     {
         return $this->document;
@@ -117,17 +111,11 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->createdBy = $createdBy;
     }
 
-    /**
-     * @return UserInterface
-     */
     public function getCreatedBy(): UserInterface
     {
         return $this->createdBy;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;

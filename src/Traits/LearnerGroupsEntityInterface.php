@@ -19,8 +19,5 @@ interface LearnerGroupsEntityInterface
 
     public function removeLearnerGroup(LearnerGroupInterface $learnerGroup);
 
-    /**
-    * @return LearnerGroupInterface[]|ArrayCollection
-    */
     public function getLearnerGroups(): Collection;
 }

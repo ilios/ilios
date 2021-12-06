@@ -158,9 +158,6 @@ class ProgramYear implements ProgramYearInterface
         $this->startYear = $startYear;
     }
 
-    /**
-     * @return int
-     */
     public function getStartYear(): int
     {
         return $this->startYear;
@@ -171,9 +168,6 @@ class ProgramYear implements ProgramYearInterface
         $this->program = $program;
     }
 
-    /**
-     * @return ProgramInterface
-     */
     public function getProgram(): ProgramInterface
     {
         return $this->program;

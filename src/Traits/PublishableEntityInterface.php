@@ -9,9 +9,6 @@ namespace App\Traits;
  */
 interface PublishableEntityInterface
 {
-    /**
-     * @return bool
-     */
     public function isPublished(): bool;
 
     /**
@@ -24,8 +21,5 @@ interface PublishableEntityInterface
      */
     public function setPublishedAsTbd($publishedAsTbd);
 
-    /**
-     * @return bool
-     */
     public function isPublishedAsTbd(): bool;
 }

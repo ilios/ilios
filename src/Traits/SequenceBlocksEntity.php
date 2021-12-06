@@ -36,9 +36,6 @@ trait SequenceBlocksEntity
         $this->sequenceBlocks->removeElement($sequenceBlock);
     }
 
-    /**
-    * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
-    */
     public function getSequenceBlocks(): Collection
     {
         return $this->sequenceBlocks;

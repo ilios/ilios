@@ -153,9 +153,6 @@ class IlmSession implements IlmSessionInterface
         $this->hours = $hours;
     }
 
-    /**
-     * @return float
-     */
     public function getHours(): float
     {
         return $this->hours;
@@ -166,9 +163,6 @@ class IlmSession implements IlmSessionInterface
         $this->dueDate = $dueDate;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getDueDate(): DateTime
     {
         return $this->dueDate;

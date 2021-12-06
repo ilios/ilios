@@ -51,7 +51,6 @@ class FilesystemFactory
 
     /**
      * Get the path to the S3 cache
-     * @return string path
      */
     public function getLocalS3CacheDirectory(): string
     {

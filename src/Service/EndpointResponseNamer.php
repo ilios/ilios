@@ -43,7 +43,6 @@ class EndpointResponseNamer
      * Get the pluralized name of an endpoint
      *
      * @param string $object
-     * @return mixed
      */
     public function getPluralName($object): mixed
     {
@@ -56,7 +55,6 @@ class EndpointResponseNamer
      * Get the singular name for an endpoint
      *
      * @param string $object
-     * @return mixed
      */
     public function getSingularName($object): mixed
     {

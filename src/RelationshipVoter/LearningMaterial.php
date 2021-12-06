@@ -24,7 +24,6 @@ class LearningMaterial extends AbstractVoter
      * @param string $attribute
      * @param LearningMaterialInterface $learningMaterial
      * @param TokenInterface $token
-     * @return bool
      */
     protected function voteOnAttribute($attribute, $learningMaterial, TokenInterface $token): bool
     {

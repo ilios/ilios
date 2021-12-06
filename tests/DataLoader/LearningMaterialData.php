@@ -202,9 +202,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
+    
     public function createCitation(): array
     {
         return [
@@ -222,9 +220,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
+    
     public function createLink(): array
     {
         return [
@@ -262,9 +258,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
+    
     public function createInvalid(): array
     {
         return [
@@ -272,9 +266,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
+    
     public function createInvalidCitation(): array
     {
         return [
@@ -291,9 +283,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
+    
     public function createInvalidLink(): array
     {
         return [

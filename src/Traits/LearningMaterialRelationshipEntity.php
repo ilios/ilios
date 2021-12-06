@@ -22,9 +22,6 @@ trait LearningMaterialRelationshipEntity
         $this->notes = $notes;
     }
 
-    /**
-     * @return string
-     */
     public function getNotes(): string
     {
         return $this->notes;
@@ -38,9 +35,6 @@ trait LearningMaterialRelationshipEntity
         $this->required = $required;
     }
 
-    /**
-     * @return bool
-     */
     public function isRequired(): bool
     {
         return $this->required;
@@ -54,9 +48,6 @@ trait LearningMaterialRelationshipEntity
         $this->publicNotes = $publicNotes;
     }
 
-    /**
-     * @return bool
-     */
     public function hasPublicNotes(): bool
     {
         return $this->publicNotes;
@@ -67,9 +58,6 @@ trait LearningMaterialRelationshipEntity
         $this->learningMaterial = $learningMaterial;
     }
 
-    /**
-     * @return LearningMaterialInterface
-     */
     public function getLearningMaterial(): LearningMaterialInterface
     {
         return $this->learningMaterial;

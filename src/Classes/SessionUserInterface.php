@@ -15,15 +15,11 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
 {
     /**
      * Is this user a root user
-     *
-     * @return bool
      */
     public function isRoot(): bool;
 
     /**
      * Is this user enabled
-     *
-     * @return bool
      */
     public function isEnabled(): bool;
 
@@ -34,43 +30,32 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
 
     /**
      * Get user's id
-     *
-     * @return int
      */
     public function getId(): int;
 
     /**
      * Get user's primary school id
-     *
-     * @return int
      */
     public function getSchoolId(): int;
 
     /**
      * Get the ids of all schools that this user is associated with
      * in a non learner function (e.g. as session administrator, program director, etc.)
-     *
-     * @return array
      */
     public function getAssociatedSchoolIdsInNonLearnerFunction(): array;
 
     /**
      * Check if the passed user is our session user by id
-     *
-     * @return bool
      */
     public function isTheUser(IliosUserInterface $user): bool;
 
     /**
      * Check if the passed school is our user's primary school by id
-     *
-     * @return bool
      */
     public function isThePrimarySchool(SchoolInterface $school): bool;
 
     /**
      * Check if a user is a director of a course
-     * @return bool
      */
     public function isDirectingCourse(int $courseId): bool;
     public function isAdministeringCourse(int $courseId): bool;
