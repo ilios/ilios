@@ -182,16 +182,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.207.1",
+            "version": "3.208.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3120e8adc7b2b060a7eb4c3c5e2a8c25c0f95a94"
+                "reference": "d497414c1c4ae55145493f720f7b4d12afe92c02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3120e8adc7b2b060a7eb4c3c5e2a8c25c0f95a94",
-                "reference": "3120e8adc7b2b060a7eb4c3c5e2a8c25c0f95a94",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d497414c1c4ae55145493f720f7b4d12afe92c02",
+                "reference": "d497414c1c4ae55145493f720f7b4d12afe92c02",
                 "shasum": ""
             },
             "require": {
@@ -267,9 +267,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.207.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.208.1"
             },
-            "time": "2021-12-01T23:44:02+00:00"
+            "time": "2021-12-03T19:16:12+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -2289,16 +2289,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.10.2",
+            "version": "2.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "81d472f6f96b8b571cafefe8d2fef89ed9446a62"
+                "reference": "7b242753466508e1dd10f67c1baee95785f845c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/81d472f6f96b8b571cafefe8d2fef89ed9446a62",
-                "reference": "81d472f6f96b8b571cafefe8d2fef89ed9446a62",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/7b242753466508e1dd10f67c1baee95785f845c1",
+                "reference": "7b242753466508e1dd10f67c1baee95785f845c1",
                 "shasum": ""
             },
             "require": {
@@ -2328,12 +2328,12 @@
                 "doctrine/annotations": "^1.13",
                 "doctrine/coding-standard": "^9.0",
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
-                "phpstan/phpstan": "0.12.99",
+                "phpstan/phpstan": "1.2.0",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
                 "squizlabs/php_codesniffer": "3.6.1",
                 "symfony/cache": "^4.4 || ^5.2",
                 "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0",
-                "vimeo/psalm": "4.10.0"
+                "vimeo/psalm": "4.13.1"
             },
             "suggest": {
                 "symfony/cache": "Provides cache support for Setup Tool with doctrine/cache 2.0",
@@ -2382,9 +2382,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.10.2"
+                "source": "https://github.com/doctrine/orm/tree/2.10.3"
             },
-            "time": "2021-10-21T17:57:02+00:00"
+            "time": "2021-12-03T12:27:05+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -3762,27 +3762,24 @@
         },
         {
             "name": "laminas/laminas-diagnostics",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diagnostics.git",
-                "reference": "cda82d226bcc9e2008b0ddf0199c24c465bc36c7"
+                "reference": "cf9f497fe04adb4a813503f34bc2dc6586b05d25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/cda82d226bcc9e2008b0ddf0199c24c465bc36c7",
-                "reference": "cda82d226bcc9e2008b0ddf0199c24c465bc36c7",
+                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/cf9f497fe04adb4a813503f34bc2dc6586b05d25",
+                "reference": "cf9f497fe04adb4a813503f34bc2dc6586b05d25",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-zendframework-bridge": "^1.0",
                 "php": "^7.3 || ~8.0.0"
             },
             "conflict": {
-                "guzzlehttp/ringphp": "<1.1.1"
-            },
-            "replace": {
-                "zendframework/zenddiagnostics": "^1.6.0"
+                "guzzlehttp/ringphp": "<1.1.1",
+                "zendframework/zenddiagnostics": "*"
             },
             "require-dev": {
                 "doctrine/migrations": "^2.0 || ^3.0",
@@ -3849,69 +3846,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-07-10T15:59:13+00:00"
-        },
-        {
-            "name": "laminas/laminas-zendframework-bridge",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "bf180a382393e7db5c1e8d0f2ec0c4af9c724baf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/bf180a382393e7db5c1e8d0f2ec0c4af9c724baf",
-                "reference": "bf180a382393e7db5c1e8d0f2ec0c4af9c724baf",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.3 || ~8.0.0 || ~8.1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.3",
-                "psalm/plugin-phpunit": "^0.15.1",
-                "squizlabs/php_codesniffer": "^3.5",
-                "vimeo/psalm": "^4.6"
-            },
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "module": "Laminas\\ZendFrameworkBridge"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/autoload.php"
-                ],
-                "psr-4": {
-                    "Laminas\\ZendFrameworkBridge\\": "src//"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Alias legacy ZF class names to Laminas Project equivalents.",
-            "keywords": [
-                "ZendFramework",
-                "autoloading",
-                "laminas",
-                "zf"
-            ],
-            "support": {
-                "forum": "https://discourse.laminas.dev/",
-                "issues": "https://github.com/laminas/laminas-zendframework-bridge/issues",
-                "rss": "https://github.com/laminas/laminas-zendframework-bridge/releases.atom",
-                "source": "https://github.com/laminas/laminas-zendframework-bridge"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2021-09-03T17:53:30+00:00"
+            "time": "2021-12-06T04:26:03+00:00"
         },
         {
             "name": "league/csv",
@@ -4251,22 +4186,22 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.16.1",
+            "version": "2.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "24165da52bd648c0c847d3b5b676c3452b303ca2"
+                "reference": "906c9e0d01e524fc9dd6b90cbeef1b702848765e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/24165da52bd648c0c847d3b5b676c3452b303ca2",
-                "reference": "24165da52bd648c0c847d3b5b676c3452b303ca2",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/906c9e0d01e524fc9dd6b90cbeef1b702848765e",
+                "reference": "906c9e0d01e524fc9dd6b90cbeef1b702848765e",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-diagnostics": "^1.5",
-                "php": "^7.1 || ^8.0",
-                "symfony/framework-bundle": "^3.4 || ^4.0 || ^5.0"
+                "laminas/laminas-diagnostics": "^1.9",
+                "php": "^7.3 || ^8.0",
+                "symfony/framework-bundle": "^4.4 || ^5.0 || ^6.0"
             },
             "require-dev": {
                 "doctrine/doctrine-migrations-bundle": "^2.0 || ^3.0",
@@ -4275,16 +4210,15 @@
                 "enlightn/security-checker": "^1.2",
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "guzzlehttp/guzzle": "^5.3.2 || ^6.3.3 || ^7.0.1",
-                "matthiasnoback/symfony-dependency-injection-test": "^3.0 || ^4.0",
+                "matthiasnoback/symfony-dependency-injection-test": "^4.0",
                 "phpunit/phpunit": "^7.0 || ^8.0",
-                "sensiolabs/security-checker": "^5.0 || ^6.0",
                 "swiftmailer/swiftmailer": "^5.4 || ^6.1",
-                "symfony/asset": "^3.4 || ^4.0 || ^5.0",
-                "symfony/browser-kit": "^3.4 || ^4.0 || ^5.0",
-                "symfony/expression-language": "^3.4 || ^4.0 || ^5.0",
-                "symfony/finder": "^3.4 || ^4.0 || ^5.0",
-                "symfony/templating": "^3.4 || ^4.0 || ^5.0",
-                "symfony/twig-bundle": "^3.4 || ^4.0 || ^5.0"
+                "symfony/asset": "^4.4 || ^5.0 || ^6.0",
+                "symfony/browser-kit": "^4.4 || ^5.0 || ^6.0",
+                "symfony/expression-language": "^4.4 || ^5.0 || ^6.0",
+                "symfony/finder": "^4.4 || ^5.0 || ^6.0",
+                "symfony/templating": "^4.4 || ^5.0 || ^6.0",
+                "symfony/twig-bundle": "^4.4 || ^5.0 || ^6.0"
             },
             "suggest": {
                 "sensio/distribution-bundle": "To be able to use the composer ScriptHandler",
@@ -4332,9 +4266,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipMonitorBundle/issues",
-                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.16.1"
+                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.17.0"
             },
-            "time": "2021-07-09T13:12:00+00:00"
+            "time": "2021-12-05T12:27:41+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -12492,22 +12426,22 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.16.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "271d384d216e5e5c468a6b28feedf95d49f83b35"
+                "reference": "b85e9d44eae8c52cca7aa0939483611f7232b669"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/271d384d216e5e5c468a6b28feedf95d49f83b35",
-                "reference": "271d384d216e5e5c468a6b28feedf95d49f83b35",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/b85e9d44eae8c52cca7aa0939483611f7232b669",
+                "reference": "b85e9d44eae8c52cca7aa0939483611f7232b669",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0",
                 "psr/container": "^1.0 || ^2.0",
-                "symfony/deprecation-contracts": "^2.2"
+                "symfony/deprecation-contracts": "^2.2 || ^3.0"
             },
             "conflict": {
                 "fzaninotto/faker": "*"
@@ -12526,7 +12460,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "v1.16-dev"
+                    "dev-main": "v1.17-dev"
                 }
             },
             "autoload": {
@@ -12551,9 +12485,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.16.0"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.17.0"
             },
-            "time": "2021-09-06T14:53:37+00:00"
+            "time": "2021-12-05T17:14:47+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -13298,16 +13232,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.9",
+            "version": "9.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f301eb1453c9e7a1bc912ee8b0ea9db22c60223b"
+                "reference": "d5850aaf931743067f4bfc1ae4cbd06468400687"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f301eb1453c9e7a1bc912ee8b0ea9db22c60223b",
-                "reference": "f301eb1453c9e7a1bc912ee8b0ea9db22c60223b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d5850aaf931743067f4bfc1ae4cbd06468400687",
+                "reference": "d5850aaf931743067f4bfc1ae4cbd06468400687",
                 "shasum": ""
             },
             "require": {
@@ -13363,7 +13297,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.9"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.10"
             },
             "funding": [
                 {
@@ -13371,7 +13305,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-11-19T15:21:02+00:00"
+            "time": "2021-12-05T09:12:13+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
