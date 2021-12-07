@@ -158,7 +158,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
         );
     }
 
-    
+
     public function inputSanitationTestProvider(): array
     {
         return [

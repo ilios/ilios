@@ -106,5 +106,4 @@ class AamcMethod implements AamcMethodInterface
     {
         return $this->description;
     }
-
 }

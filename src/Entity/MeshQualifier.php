@@ -55,14 +55,14 @@ class MeshQualifier implements MeshQualifierInterface
     #[IA\Type('string')]
     protected $name;
 
-    
+
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]
     #[IA\Type('dateTime')]
     protected $createdAt;
 
-    
+
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]

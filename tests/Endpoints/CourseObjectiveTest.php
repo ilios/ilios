@@ -175,7 +175,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         );
     }
 
-    
+
     public function inputSanitationTestProvider(): array
     {
         return [

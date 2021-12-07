@@ -202,7 +202,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    
+
     public function createCitation(): array
     {
         return [
@@ -220,7 +220,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    
+
     public function createLink(): array
     {
         return [
@@ -258,7 +258,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    
+
     public function createInvalid(): array
     {
         return [
@@ -266,7 +266,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    
+
     public function createInvalidCitation(): array
     {
         return [
@@ -283,7 +283,7 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    
+
     public function createInvalidLink(): array
     {
         return [

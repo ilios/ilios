@@ -73,39 +73,39 @@ abstract class AbstractEndpointTest extends WebTestCase
         unset($this->faker);
     }
 
-    
+
     protected function getFixtures(): array
     {
         return [];
     }
 
-    
+
     protected function getPluralName(): string
     {
         return strtolower($this->testName);
     }
 
-    
+
     protected function getSingularName(): string
     {
         $pluralized = $this->getPluralName();
         return $this->inflector->singularize($pluralized);
     }
 
-    
+
     protected function getCamelCasedPluralName(): ?string
     {
         return $this->testName;
     }
 
-    
+
     protected function getCamelCasedSingularName(): string
     {
         $pluralized = $this->getCamelCasedPluralName();
         return $this->inflector->singularize($pluralized);
     }
 
-    
+
     protected function getFaker(): FakerGenerator
     {
         if (!isset($this->faker)) {
@@ -185,7 +185,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
     }
 
-    
+
     protected function getDataLoader(): DataLoaderInterface
     {
         $name = ucfirst($this->getCamelCasedSingularName());
@@ -196,7 +196,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $dataLoader;
     }
 
-    
+
     protected function getTimeStampFields(): array
     {
         return [];
@@ -1062,8 +1062,15 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param int $userId
      * @param string $version the version of the API endpoint
      */
-    protected function putOne($endpoint, $responseKey, $id, array $data, $new = false, $userId = 2, $version = null): mixed
-    {
+    protected function putOne(
+        $endpoint,
+        $responseKey,
+        $id,
+        array $data,
+        $new = false,
+        $userId = 2,
+        $version = null,
+    ): mixed {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'PUT',

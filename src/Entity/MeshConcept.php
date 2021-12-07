@@ -113,14 +113,14 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Type('entityCollection')]
     protected $terms;
 
-    
+
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]
     #[IA\Type('dateTime')]
     protected $createdAt;
 
-    
+
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\ReadOnly]

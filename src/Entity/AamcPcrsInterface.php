@@ -28,5 +28,4 @@ interface AamcPcrsInterface extends
     public function setDescription($description);
 
     public function getDescription(): string;
-
 }

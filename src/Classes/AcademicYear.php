@@ -12,12 +12,12 @@ use App\Attribute as IA;
 #[IA\DTO('academicYears')]
 class AcademicYear
 {
-    
+
     #[IA\Id]
     #[IA\Expose]
     #[IA\Type('string')]
     public int $id;
-    
+
     #[IA\Expose]
     #[IA\Type('string')]
     public string $title;

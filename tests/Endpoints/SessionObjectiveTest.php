@@ -159,7 +159,7 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
         );
     }
 
-    
+
     public function inputSanitationTestProvider(): array
     {
         return [

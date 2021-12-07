@@ -301,7 +301,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
 
-    
+
     public function executeProvider(): array
     {
         $schoolA = new School();
@@ -410,7 +410,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         ];
     }
 
-    
+
     public function executeRecipientWithoutEmailProvider(): array
     {
         $school = new School();
@@ -431,7 +431,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         return [[ $alert, $offering ]];
     }
 
-    
+
     public function executeNoRecipientsConfiguredProvider(): array
     {
         $school = new School();
@@ -451,7 +451,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         return [[ $alert, $offering ]];
     }
 
-    
+
     public function executeDeletedOfferingProvider(): array
     {
         $course = new Course();

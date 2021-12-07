@@ -29,8 +29,11 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
     ) {
     }
 
-    public function normalize($object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-    {
+    public function normalize(
+        $object,
+        string $format = null,
+        array $context = [],
+    ): array|string|int|float|bool|\ArrayObject|null {
         $class = $object::class;
         switch ($class) {
             case LearningMaterial::class:

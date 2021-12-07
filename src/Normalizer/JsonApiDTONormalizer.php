@@ -17,8 +17,11 @@ class JsonApiDTONormalizer implements NormalizerInterface
     {
     }
 
-    public function normalize($object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-    {
+    public function normalize(
+        $object,
+        string $format = null,
+        array $context = [],
+    ): array|string|int|float|bool|\ArrayObject|null {
         $reflection = new ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
         $attributes = [];
