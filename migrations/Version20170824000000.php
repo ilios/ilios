@@ -117,7 +117,7 @@ final class Version20170824000000 extends MysqlMigration
      * Read existing parameters
      * @throws \Exception
      */
-    protected function readParameters()
+    protected function readParameters(): array
     {
         $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
         if ($parametersPath && is_readable($parametersPath)) {
@@ -131,10 +131,9 @@ final class Version20170824000000 extends MysqlMigration
 
     /**
      * Write parameters to the file
-     * @param $parameters
      * @throws \Exception
      */
-    protected function writeParameters($parameters)
+    protected function writeParameters($parameters): void
     {
         $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
         if (!is_writable($parametersPath)) {

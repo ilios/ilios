@@ -47,7 +47,7 @@ final class Version20160105002207 extends MysqlMigration
     }
 
     
-    private function getIlms()
+    private function getIlms(): array
     {
         $sql = 'SELECT ilm_session_facet_id, due_date FROM ilm_session_facet ORDER BY ilm_session_facet_id ASC';
         return $this->connection->fetchAllAssociative($sql);
@@ -57,7 +57,7 @@ final class Version20160105002207 extends MysqlMigration
      * @param int $id
      * @param \DateTime $dueDate
      */
-    private function updateIlmDueDate($id, \DateTime $dueDate)
+    private function updateIlmDueDate($id, \DateTime $dueDate): void
     {
         $sql = 'UPDATE ilm_session_facet SET due_date = ? WHERE ilm_session_facet_id = ?';
         $this->addSql($sql, [ $dueDate->format('Y-m-d H:i:s'), $id ]);
