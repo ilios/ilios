@@ -36,7 +36,7 @@ class PermissionMatrix implements PermissionMatrixInterface
         return $hasPermission;
     }
 
-    public function setPermission(int $schoolId, string $capability, array $roles): mixed
+    public function setPermission(int $schoolId, string $capability, array $roles): void
     {
         if (!array_key_exists($schoolId, $this->matrix)) {
             $this->matrix[$schoolId] = [];
