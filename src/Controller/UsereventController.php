@@ -45,7 +45,7 @@ class UsereventController extends AbstractController
         SessionRepository $sessionRepository,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
-    ) {
+    ): Response {
         /** @var UserInterface $user */
         $user = $repository->findOneBy(['id' => $id]);
 

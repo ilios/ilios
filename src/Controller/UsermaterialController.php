@@ -38,7 +38,7 @@ class UsermaterialController extends AbstractController
         UserRepository $userRepository,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
-    ) {
+    ): Response {
         /** @var UserInterface $user */
         $user = $userRepository->findOneBy(['id' => $id]);
 

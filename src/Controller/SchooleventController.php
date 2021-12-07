@@ -43,7 +43,7 @@ class SchooleventController extends AbstractController
         AuthorizationCheckerInterface $authorizationChecker,
         TokenStorageInterface $tokenStorage,
         SerializerInterface $serializer
-    ) {
+    ): Response {
         $school = $schoolRepository->findOneBy(['id' => $id]);
 
         if (!$school) {
