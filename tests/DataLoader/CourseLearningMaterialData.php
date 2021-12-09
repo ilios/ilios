@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\CourseLearningMaterialDTO;
+use DateTime;
 
 class CourseLearningMaterialData extends AbstractDataLoader
 {
@@ -73,7 +74,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "5",
             'meshDescriptors' => [],
             'position' => 3,
-            'startDate' => date_format(new \DateTime('2 days ago'), 'c'),
+            'startDate' => date_format(new DateTime('2 days ago'), 'c'),
             'endDate' => null,
         ];
 
@@ -86,7 +87,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "6",
             'meshDescriptors' => [],
             'position' => 4,
-            'startDate' => date_format(new \DateTime('+2 days'), 'c'),
+            'startDate' => date_format(new DateTime('+2 days'), 'c'),
             'endDate' => null
         ];
 
@@ -100,7 +101,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => [],
             'position' => 5,
             'startDate' => null,
-            'endDate' => date_format(new \DateTime('+2 days'), 'c'),
+            'endDate' => date_format(new DateTime('+2 days'), 'c'),
         ];
 
         $arr[] = [
@@ -113,7 +114,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => [],
             'position' => 6,
             'startDate' => null,
-            'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
+            'endDate' => date_format(new DateTime('2 days ago'), 'c'),
         ];
 
         $arr[] = [
@@ -125,8 +126,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "9",
             'meshDescriptors' => [],
             'position' => 7,
-            'startDate' => date_format(new \DateTime('2 days ago'), 'c'),
-            'endDate' => date_format(new \DateTime('+2 days'), 'c'),
+            'startDate' => date_format(new DateTime('2 days ago'), 'c'),
+            'endDate' => date_format(new DateTime('+2 days'), 'c'),
         ];
 
         $arr[] = [
@@ -138,8 +139,8 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => "10",
             'meshDescriptors' => [],
             'position' => 8,
-            'startDate' => date_format(new \DateTime('4 days ago'), 'c'),
-            'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
+            'startDate' => date_format(new DateTime('4 days ago'), 'c'),
+            'endDate' => date_format(new DateTime('2 days ago'), 'c'),
         ];
 
         return $arr;

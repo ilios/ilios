@@ -16,6 +16,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 use function array_values;
 use function array_keys;
@@ -97,7 +98,7 @@ class CourseRepository extends ServiceEntityRepository implements
      * @param null $limit
      * @param null $offset
      * @return CourseDTO[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findByUserId(
         $userId,
@@ -225,7 +226,7 @@ EOL;
         foreach ($criteria as $name => $value) {
             $i++;
             if (!$meta->hasField($name)) {
-                throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $name));
+                throw new Exception(sprintf('"%s" is not a property of the Course entity.', $name));
             }
 
             $column = $meta->getColumnName($name);
@@ -247,7 +248,7 @@ EOL;
             $sqlFragments = [];
             foreach ($orderBy as $sort => $order) {
                 if (!$meta->hasField($sort)) {
-                    throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
+                    throw new Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
                 }
                 $column = $meta->getColumnName($sort);
                 $sqlFragments[] = "{$column} " . ('desc' === strtolower($order) ? 'DESC' : 'ASC');

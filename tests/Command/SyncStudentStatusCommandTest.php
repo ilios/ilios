@@ -10,6 +10,7 @@ use App\Entity\UserRoleInterface;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
 use App\Service\Directory;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -126,7 +127,7 @@ class SyncStudentStatusCommandTest extends KernelTestCase
 
     public function testFilterRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

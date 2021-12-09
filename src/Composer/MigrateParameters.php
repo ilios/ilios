@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Composer;
 
 use Composer\Script\Event;
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 class MigrateParameters
@@ -66,12 +67,12 @@ class MigrateParameters
      * Write parameters to the file
      * @param string $parametersPath
      * @param mixed $parameters
-     * @throws \Exception
+     * @throws Exception
      */
     protected static function writeParameters($parametersPath, $parameters)
     {
         if (!is_writable($parametersPath)) {
-            throw new \Exception("Unable to write parameters file at ${parametersPath}");
+            throw new Exception("Unable to write parameters file at ${parametersPath}");
         }
 
         $string = Yaml::dump(['parameters' => $parameters]);

@@ -14,6 +14,8 @@ use App\Tests\Fixture\LoadInstructorGroupData;
 use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\ReadWriteEndpointTest;
+use DateTime;
+use DateTimeZone;
 
 /**
  * Offering API endpoint Test.
@@ -299,8 +301,8 @@ class OfferingTest extends ReadWriteEndpointTest
 
     public function testStartDateInSystemTimeZone()
     {
-        $systemTimeZone = new \DateTimeZone(date_default_timezone_get());
-        $now = new \DateTime('now', $systemTimeZone);
+        $systemTimeZone = new DateTimeZone(date_default_timezone_get());
+        $now = new DateTime('now', $systemTimeZone);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['startDate'] = $now->format('c');
@@ -310,15 +312,15 @@ class OfferingTest extends ReadWriteEndpointTest
 
     public function testStartDateConvertedToSystemTimeZone()
     {
-        $americaLa = new \DateTimeZone('America/Los_Angeles');
-        $utc = new \DateTimeZone('UTC');
+        $americaLa = new DateTimeZone('America/Los_Angeles');
+        $utc = new DateTimeZone('UTC');
         $systemTimeZone = date_default_timezone_get();
         if ($systemTimeZone === 'UTC') {
             $systemTime = $utc;
-            $now = new \DateTime('now', $americaLa);
+            $now = new DateTime('now', $americaLa);
         } else {
             $systemTime = $americaLa;
-            $now = new \DateTime('now', $utc);
+            $now = new DateTime('now', $utc);
         }
 
         $dataLoader = $this->getDataLoader();
@@ -332,8 +334,8 @@ class OfferingTest extends ReadWriteEndpointTest
 
     public function testEndDateInSystemTimeZone()
     {
-        $systemTimeZone = new \DateTimeZone(date_default_timezone_get());
-        $now = new \DateTime('now', $systemTimeZone);
+        $systemTimeZone = new DateTimeZone(date_default_timezone_get());
+        $now = new DateTime('now', $systemTimeZone);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['endDate'] = $now->format('c');
@@ -343,15 +345,15 @@ class OfferingTest extends ReadWriteEndpointTest
 
     public function testEndDateConvertedToSystemTimeZone()
     {
-        $americaLa = new \DateTimeZone('America/Los_Angeles');
-        $utc = new \DateTimeZone('UTC');
+        $americaLa = new DateTimeZone('America/Los_Angeles');
+        $utc = new DateTimeZone('UTC');
         $systemTimeZone = date_default_timezone_get();
         if ($systemTimeZone === 'UTC') {
             $systemTime = $utc;
-            $now = new \DateTime('now', $americaLa);
+            $now = new DateTime('now', $americaLa);
         } else {
             $systemTime = $americaLa;
-            $now = new \DateTime('now', $utc);
+            $now = new DateTime('now', $utc);
         }
 
         $dataLoader = $this->getDataLoader();

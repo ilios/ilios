@@ -8,6 +8,8 @@ use App\Entity\UserInterface;
 use App\Entity\AuthenticationInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,7 +42,7 @@ class ChangeUsernameCommand extends Command
 
     /**
      * {@inheritdoc}
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -48,7 +50,7 @@ class ChangeUsernameCommand extends Command
         /** @var UserInterface $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
-            throw new \Exception(
+            throw new Exception(
                 "No user with id #{$userId} was found."
             );
         }
@@ -60,7 +62,7 @@ class ChangeUsernameCommand extends Command
         $question = new Question("New Username: ");
         $question->setValidator(function ($answer) use ($allUsernames) {
             if (in_array(strtolower($answer), $allUsernames)) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     "Username already in use"
                 );
             }

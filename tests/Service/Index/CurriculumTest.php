@@ -10,6 +10,7 @@ use App\Service\Config;
 use App\Service\Index\Curriculum;
 use App\Tests\TestCase;
 use Elasticsearch\Client;
+use InvalidArgumentException;
 use Mockery as m;
 
 class CurriculumTest extends TestCase
@@ -55,7 +56,7 @@ class CurriculumTest extends TestCase
     public function testIndexCoursesThrowsWhenNotIndexableCourse()
     {
         $obj = new Curriculum($this->config, null);
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $courses = [
             m::mock(IndexableCourse::class),
             m::mock(CourseDTO::class),

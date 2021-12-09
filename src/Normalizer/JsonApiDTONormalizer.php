@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use ArrayObject;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use ReflectionClass;
 use ReflectionProperty;
@@ -21,7 +22,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
         $object,
         string $format = null,
         array $context = [],
-    ): array|string|int|float|bool|\ArrayObject|null {
+    ): array|string|int|float|bool|ArrayObject|null {
         $reflection = new ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
         $attributes = [];

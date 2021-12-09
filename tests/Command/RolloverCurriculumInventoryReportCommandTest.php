@@ -9,6 +9,7 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -63,7 +64,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 
     public function testCommandFailsWithoutArguments()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
         ]);

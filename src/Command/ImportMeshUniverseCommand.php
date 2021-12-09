@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
 use Ilios\MeSH\Parser;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -134,7 +135,7 @@ class ImportMeshUniverseCommand extends Command
             $year = (int)$year;
             if (!in_array($year, $supportedYears)) {
                 $this->release();
-                throw new \RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
+                throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
             }
 
             return self::YEARS[$year];

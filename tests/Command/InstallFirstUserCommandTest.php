@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Command\InstallFirstUserCommand;
 use App\Entity\User;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -90,7 +91,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->userRepository->shouldReceive('findOneBy')->with([])->andReturn(new User());
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             '--school' => '1'
@@ -101,7 +102,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->userRepository->shouldReceive('findOneBy')->with([])->andReturn(null);
         $this->schoolRepository->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([]);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             '--school' => '1'

@@ -10,6 +10,7 @@ use App\Traits\StringableIdEntity;
 use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
@@ -217,7 +218,7 @@ class SessionType implements SessionTypeInterface
     public function removeSession(SessionInterface $session)
     {
         $sessionId = $session->getId();
-        throw new \Exception(
+        throw new Exception(
             'Sessions can not be removed from sessionTypes.' .
             "You must modify session #{$sessionId} directly."
         );

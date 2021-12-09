@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -45,7 +46,7 @@ class InvalidateUserTokenCommand extends Command
         $userId = $input->getArgument('userId');
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
-            throw new \Exception(
+            throw new Exception(
                 "No user with id #{$userId} was found."
             );
         }

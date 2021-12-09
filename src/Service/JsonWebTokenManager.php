@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface;
+use DateInterval;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use DateTime;
@@ -74,8 +75,8 @@ class JsonWebTokenManager
      */
     public function createJwtFromSessionUser(SessionUserInterface $sessionUser, string $timeToLive = 'PT8H'): string
     {
-        $requestedInterval = new \DateInterval($timeToLive);
-        $maximumInterval = new \DateInterval('P364D');
+        $requestedInterval = new DateInterval($timeToLive);
+        $maximumInterval = new DateInterval('P364D');
         $now = new DateTime();
 
         //DateIntervals are not comparable so we have to create DateTimes first with are

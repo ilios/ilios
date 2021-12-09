@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,7 +44,7 @@ class CrossingGuardCommand extends Command
     {
         $action = strtolower($input->getArgument('action'));
         if (!in_array($action, ['down', 'up', 'status'])) {
-            throw new \Exception("'${action} is not a valid action (status|enable|disable)'");
+            throw new Exception("'${action} is not a valid action (status|enable|disable)'");
         }
 
         if ($action === 'down') {

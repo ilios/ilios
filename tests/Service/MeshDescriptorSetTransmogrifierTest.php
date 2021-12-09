@@ -6,6 +6,7 @@ namespace App\Tests\Service;
 
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Tests\TestCase;
+use DateTime;
 use Ilios\MeSH\Model\AllowableQualifier;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
@@ -176,7 +177,7 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
         $term1->setNote('Lorem ipsum');
         $term1->setAbbreviation('T1');
         $term1->setEntryVersion('1.0');
-        $term1->setDateCreated(new \DateTime());
+        $term1->setDateCreated(new DateTime());
         $term1->setSortVersion('1.0');
         $term1->addThesaurusId('124');
 
@@ -202,7 +203,7 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
             'Modifying irrelevant property does not change generated hash'
         );
 
-        $term1->setDateCreated(new \DateTime('2 weeks ago'));
+        $term1->setDateCreated(new DateTime('2 weeks ago'));
         $this->assertEquals(
             $md5,
             $this->transmogrifier->hashTerm($term1),

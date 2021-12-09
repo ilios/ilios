@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\IdentifiableEntityInterface;
@@ -44,17 +45,17 @@ interface LearningMaterialRelationshipInterface extends
 
     public function getLearningMaterial(): LearningMaterialInterface;
 
-    public function getStartDate(): ?\DateTime;
+    public function getStartDate(): ?DateTime;
 
     /**
-     * @param \DateTime|null $startDate
+     * @param DateTime|null $startDate
      */
-    public function setStartDate(\DateTime $startDate = null);
+    public function setStartDate(DateTime $startDate = null);
 
-    public function getEndDate(): ?\DateTime;
+    public function getEndDate(): ?DateTime;
 
     /**
-     * @param \DateTime|null $endDate
+     * @param DateTime|null $endDate
      */
-    public function setEndDate(\DateTime $endDate = null);
+    public function setEndDate(DateTime $endDate = null);
 }

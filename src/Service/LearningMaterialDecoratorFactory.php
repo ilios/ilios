@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Traits\StringableEntityInterface;
 use App\Entity\LearningMaterialInterface;
+use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -23,7 +24,7 @@ class LearningMaterialDecoratorFactory
     public function create($object): LearningMaterialDTO
     {
         if (!$object instanceof LearningMaterialInterface && !$object instanceof LearningMaterialDTO) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Object must by a learning material entity or DTO got " . $object::class
             );
         }

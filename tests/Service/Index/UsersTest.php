@@ -10,6 +10,8 @@ use App\Service\Config;
 use App\Service\Index\Users;
 use App\Tests\TestCase;
 use Elasticsearch\Client;
+use Exception;
+use InvalidArgumentException;
 use Mockery as m;
 
 class UsersTest extends TestCase
@@ -54,7 +56,7 @@ class UsersTest extends TestCase
     public function testIndexUsersThrowsWhenNotDTO()
     {
         $obj = new Users($this->config, null);
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $users = [
             m::mock(UserDTO::class),
             m::mock(User::class),
@@ -128,7 +130,7 @@ class UsersTest extends TestCase
     public function testSearchThrowsExceptionWhenNotConfigured()
     {
         $obj = new Users($this->config, null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             'Search is not configured, isEnabled() should be called before calling this method'
         );

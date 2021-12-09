@@ -11,6 +11,8 @@ use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -81,14 +83,14 @@ class InstallFirstUserCommand extends Command
 
     /**
      * {@inheritdoc}
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // prevent this command to run on a non-empty user store.
         $existingUser = $this->userRepository->findOneBy([]);
         if (! empty($existingUser)) {
-            throw new \Exception(
+            throw new Exception(
                 'Sorry, at least one user record already exists. Cannot create a "first" user account.'
             );
         }
@@ -98,7 +100,7 @@ class InstallFirstUserCommand extends Command
         // check if any school data is present before invoking the form helper
         // to prevent the form from breaking on missing school data further downstream.
         if (empty($schools)) {
-            throw new \Exception('No schools found. Please load schools into this Ilios instance first.');
+            throw new Exception('No schools found. Please load schools into this Ilios instance first.');
         }
 
         $schoolId = $input->getOption('school');
@@ -120,7 +122,7 @@ class InstallFirstUserCommand extends Command
         }
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
-            throw new \Exception(
+            throw new Exception(
                 "School with id {$schoolId} could not be found."
             );
         }
@@ -130,7 +132,7 @@ class InstallFirstUserCommand extends Command
             $question = new Question("What is the user's Email Address? ");
             $question->setValidator(function ($answer) {
                 if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
-                    throw new \RuntimeException(
+                    throw new RuntimeException(
                         "Email is not valid"
                     );
                 }

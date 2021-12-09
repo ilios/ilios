@@ -7,6 +7,9 @@ namespace App\Command;
 use App\Service\EntityMetadata;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Inflector\Inflector;
+use Exception;
+use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,13 +52,13 @@ class GenerateEndpointTestCommand extends Command
         $manager = $this->registry->getManagerForClass($shortCut);
         $class = $manager->getClassMetadata($shortCut)->getName();
         if (!$this->entityMetadata->isAnIliosEntity($class)) {
-            throw new \Exception("Sorry. {$shortCut} is not an Ilios entity.");
+            throw new Exception("Sorry. {$shortCut} is not an Ilios entity.");
         }
-        $reflection = new \ReflectionClass($class);
+        $reflection = new ReflectionClass($class);
         $entity = $reflection->getShortName();
 
 
-        $mapProperties = fn(\ReflectionProperty $property) => [
+        $mapProperties = fn(ReflectionProperty $property) => [
             'name' => $property->getName(),
             'type' => $this->entityMetadata->getTypeOfProperty($property)
         ];

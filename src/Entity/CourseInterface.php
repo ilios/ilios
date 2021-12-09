@@ -81,7 +81,7 @@ interface CourseInterface extends
 
     public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType);
 
-    public function getClerkshipType(): \App\Entity\CourseClerkshipType;
+    public function getClerkshipType(): CourseClerkshipTypeInterface;
 
     public function setLearningMaterials(Collection $learningMaterials = null);
 

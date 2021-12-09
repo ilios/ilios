@@ -9,6 +9,7 @@ use App\Entity\SchoolConfig;
 use App\Entity\SchoolInterface;
 use App\Repository\SchoolConfigRepository;
 use App\Repository\SchoolRepository;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -101,7 +102,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
 
     public function testNameRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'school'         => '1',
@@ -111,7 +112,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
 
     public function testValueRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'school'         => '1',
@@ -121,7 +122,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
 
     public function testSchoolRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'name'         => 'foo',

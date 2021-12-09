@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Offering;
 use App\Traits\ManagerRepository;
 use DateTime;
+use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -90,13 +91,13 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
     {
         $now = time();
         $startDate = new \DateTime();
-        $startDate->setTimezone(new \DateTimeZone('UTC'));
+        $startDate->setTimezone(new DateTimeZone('UTC'));
         $startDate->setTimestamp($now);
         $startDate->modify("midnight +{$daysInAdvance} days");
 
         $daysInAdvance++;
         $endDate = new \DateTime();
-        $endDate->setTimezone(new \DateTimeZone('UTC'));
+        $endDate->setTimezone(new DateTimeZone('UTC'));
         $endDate->setTimestamp($now);
         $endDate->modify("midnight +{$daysInAdvance} days");
 

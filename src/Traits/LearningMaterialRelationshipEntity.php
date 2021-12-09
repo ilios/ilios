@@ -6,6 +6,7 @@ namespace App\Traits;
 
 use App\Entity\LearningMaterialInterface;
 use App\Entity\LearningMaterialRelationshipInterface;
+use DateTime;
 
 /**
  * Trait LearningMaterialRelationshipEntity
@@ -63,22 +64,22 @@ trait LearningMaterialRelationshipEntity
         return $this->learningMaterial;
     }
 
-    public function setStartDate(\DateTime $startDate = null)
+    public function setStartDate(DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
 
-    public function getStartDate(): ?\DateTime
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
-    public function setEndDate(\DateTime $endDate = null)
+    public function setEndDate(DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
 
-    public function getEndDate(): ?\DateTime
+    public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }

@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Repository\UserRepository;
 use App\Service\PermissionChecker;
 use App\Service\Directory;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +81,7 @@ class DirectoryController extends AbstractController
 
         $userRecord = $this->directory->findByCampusId($user->getCampusId());
         if (!$userRecord) {
-            throw new \Exception('Unable to find ' . $user->getCampusId() . ' in the directory.');
+            throw new Exception('Unable to find ' . $user->getCampusId() . ' in the directory.');
         }
 
         return new JsonResponse(['result' => $userRecord]);

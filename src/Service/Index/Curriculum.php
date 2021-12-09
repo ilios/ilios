@@ -7,6 +7,7 @@ namespace App\Service\Index;
 use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
 use Exception;
+use InvalidArgumentException;
 
 class Curriculum extends ElasticSearchBase
 {
@@ -78,7 +79,7 @@ class Curriculum extends ElasticSearchBase
     {
         foreach ($courses as $course) {
             if (!$course instanceof IndexableCourse) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     sprintf(
                         '$courses must be an array of %s. %s found',
                         IndexableCourse::class,

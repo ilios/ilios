@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\BlameableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Entity\CurriculumInventoryReportInterface;
+use DateTime;
 
 /**
  * Interface CurriculumInventoryExportInterface
@@ -30,5 +29,5 @@ interface CurriculumInventoryExportInterface extends
 
     public function getCreatedBy(): UserInterface;
 
-    public function getCreatedAt(): \DateTime;
+    public function getCreatedAt(): DateTime;
 }

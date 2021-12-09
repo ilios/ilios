@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use DOMDocument;
 use Exception;
 use DOMElement;
 
@@ -104,7 +105,7 @@ class CasManager
     protected function connect(string $url): DOMElement
     {
         $response = $this->fetch->get($url);
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $dom->preserveWhiteSpace = false;
         $dom->encoding = "utf-8";
 

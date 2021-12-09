@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SessionsEntity;
 use App\Attribute as IA;
@@ -135,7 +136,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $track;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     #[ORM\Column(name: 'start_date', type: 'date', nullable: true)]
     #[IA\Expose]
@@ -143,7 +144,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     protected $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     #[ORM\Column(name: 'end_date', type: 'date', nullable: true)]
     #[IA\Expose]
@@ -327,22 +328,22 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->track;
     }
 
-    public function setStartDate(\DateTime $startDate = null)
+    public function setStartDate(DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
 
-    public function getStartDate(): \DateTime
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    public function setEndDate(\DateTime $endDate = null)
+    public function setEndDate(DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
 
-    public function getEndDate(): \DateTime
+    public function getEndDate(): DateTime
     {
         return $this->endDate;
     }

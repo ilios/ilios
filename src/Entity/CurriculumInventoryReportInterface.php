@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
@@ -33,18 +34,18 @@ interface CurriculumInventoryReportInterface extends
     public function getYear(): int;
 
     /**
-     * @param \DateTime $startDate
+     * @param DateTime $startDate
      */
     public function setStartDate($startDate = null);
 
-    public function getStartDate(): \DateTime;
+    public function getStartDate(): DateTime;
 
     /**
-     * @param \DateTime $endDate
+     * @param DateTime $endDate
      */
     public function setEndDate($endDate = null);
 
-    public function getEndDate(): \DateTime;
+    public function getEndDate(): DateTime;
 
     public function setExport(CurriculumInventoryExportInterface $export = null);
 

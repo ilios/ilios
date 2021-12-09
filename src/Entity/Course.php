@@ -404,7 +404,7 @@ class Course implements CourseInterface
         $this->clerkshipType = $clerkshipType;
     }
 
-    public function getClerkshipType(): \App\Entity\CourseClerkshipType
+    public function getClerkshipType(): CourseClerkshipTypeInterface
     {
         return $this->clerkshipType;
     }

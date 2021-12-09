@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Offering;
+use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -38,8 +39,8 @@ class LoadOfferingData extends AbstractFixture implements
             if (array_key_exists('url', $arr)) {
                 $entity->setUrl($arr['url']);
             }
-            $entity->setStartDate(new \DateTime($arr['startDate']));
-            $entity->setEndDate(new \DateTime($arr['endDate']));
+            $entity->setStartDate(new DateTime($arr['startDate']));
+            $entity->setEndDate(new DateTime($arr['endDate']));
             $entity->setSession($this->getReference('sessions' . $arr['session']));
             foreach ($arr['learnerGroups'] as $id) {
                 $entity->addLearnerGroup($this->getReference('learnerGroups' . $id));

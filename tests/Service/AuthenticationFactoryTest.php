@@ -10,6 +10,7 @@ use App\Service\LdapAuthentication;
 use App\Service\ShibbolethAuthentication;
 use App\Service\Config;
 use App\Tests\TestCase;
+use Exception;
 use Mockery as m;
 use App\Service\AuthenticationFactory;
 
@@ -87,7 +88,7 @@ class AuthenticationFactoryTest extends TestCase
 
     public function testCreateUnknownService()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->config->shouldReceive('get')->once()->with('authentication_type')->andReturn('nothing');
 
         $this->obj->createAuthenticationService();

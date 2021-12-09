@@ -133,7 +133,7 @@ class UserMaterial
      * timed-release window (relative to the given date-time).
      * And sets the isBlanked flag to TRUE, as applicable.
      */
-    public function clearTimedMaterial(\DateTime $dateTime)
+    public function clearTimedMaterial(DateTime $dateTime)
     {
         $startDate = $this->startDate;
         $endDate = $this->endDate;

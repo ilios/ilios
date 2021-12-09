@@ -6,6 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialStatusInterface;
+use Exception;
 
 class LearningMaterialData extends AbstractDataLoader
 {
@@ -239,7 +240,7 @@ class LearningMaterialData extends AbstractDataLoader
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function createFile()
     {
@@ -302,7 +303,7 @@ class LearningMaterialData extends AbstractDataLoader
 
     public function createInvalidFile()
     {
-        throw new \Exception('Not implemented yet');
+        throw new Exception('Not implemented yet');
     }
 
     public function getDtoClass(): string

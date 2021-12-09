@@ -5,6 +5,7 @@ namespace Ilios\Migrations;
 
 use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -25,7 +26,7 @@ final class Version20170824000000 extends MysqlMigration
                 return $arr['name'];
             }, $rows);
             $names = join(', ', $names);
-            throw new \Exception("Cannot copy parameters in the DB it already contains values for [${names}]");
+            throw new Exception("Cannot copy parameters in the DB it already contains values for [${names}]");
         }
         unset($rows);
 
@@ -115,7 +116,7 @@ final class Version20170824000000 extends MysqlMigration
 
     /**
      * Read existing parameters
-     * @throws \Exception
+     * @throws Exception
      */
     protected function readParameters(): array
     {
@@ -131,13 +132,13 @@ final class Version20170824000000 extends MysqlMigration
 
     /**
      * Write parameters to the file
-     * @throws \Exception
+     * @throws Exception
      */
     protected function writeParameters($parameters): void
     {
         $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
         if (!is_writable($parametersPath)) {
-            throw new \Exception("Unable to write parameters file at ${parametersPath}");
+            throw new Exception("Unable to write parameters file at ${parametersPath}");
         }
 
         $string = Yaml::dump(['parameters' => $parameters]);

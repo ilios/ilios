@@ -74,7 +74,7 @@ class UsermaterialController extends AbstractController
         // or if the requesting user does not have elevated privileges
         $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
         if ($sessionUser->getId() !== $user->getId() || ! $hasElevatedPrivileges) {
-            $now = new \DateTime();
+            $now = new DateTime();
             $materials = $this->clearDraftMaterials($materials);
             $this->clearTimedMaterials($materials, $now);
         }
@@ -92,7 +92,7 @@ class UsermaterialController extends AbstractController
     /**
      * @param UserMaterial[] $materials
      */
-    protected function clearTimedMaterials(array $materials, \DateTime $dateTime)
+    protected function clearTimedMaterials(array $materials, DateTime $dateTime)
     {
         foreach ($materials as $material) {
             $material->clearTimedMaterial($dateTime);

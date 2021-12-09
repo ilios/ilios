@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CreatedAtEntity;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -141,8 +142,8 @@ class MeshConcept implements MeshConceptInterface
 
     public function __construct()
     {
-        $this->updatedAt = new \DateTime();
-        $this->createdAt = new \DateTime();
+        $this->updatedAt = new DateTime();
+        $this->createdAt = new DateTime();
         $this->preferred = false;
         $this->terms = new ArrayCollection();
         $this->descriptors = new ArrayCollection();

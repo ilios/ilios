@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\DescribableEntityInterface;
@@ -91,13 +92,13 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function hasTrack(): bool;
 
-    public function setStartDate(\DateTime $startDate = null);
+    public function setStartDate(DateTime $startDate = null);
 
-    public function getStartDate(): \DateTime;
+    public function getStartDate(): DateTime;
 
-    public function setEndDate(\DateTime $endDate = null);
+    public function setEndDate(DateTime $endDate = null);
 
-    public function getEndDate(): \DateTime;
+    public function getEndDate(): DateTime;
 
     /**
      * @param int $duration

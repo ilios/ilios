@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
+use Exception;
 
 use function Stringy\create as s;
 
@@ -25,7 +26,7 @@ class Config
     /**
      * Config constructor.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(protected ApplicationConfigRepository $applicationConfigRepository)
     {

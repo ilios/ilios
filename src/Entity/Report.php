@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -50,7 +51,7 @@ class Report implements ReportInterface
     protected $title;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'creation_date', type: 'datetime')]
@@ -123,10 +124,10 @@ class Report implements ReportInterface
      */
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }

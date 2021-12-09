@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\TitledEntityInterface;
+use DateTime;
 
 /**
  * Interface ReportInterface
@@ -17,7 +18,7 @@ interface ReportInterface extends
     LoggableEntityInterface
 {
 
-    public function getCreatedAt(): \DateTime;
+    public function getCreatedAt(): DateTime;
 
     /**
      * @param string $subject

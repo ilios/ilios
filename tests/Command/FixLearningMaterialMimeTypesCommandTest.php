@@ -8,6 +8,7 @@ use App\Command\FixLearningMaterialMimeTypesCommand;
 use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
 use App\Service\TemporaryFileSystem;
+use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -230,7 +231,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
 
         $mockFile = m::mock(File::class)->shouldReceive('getMimeType')
-            ->once()->andThrow(\ErrorException::class)->mock();
+            ->once()->andThrow(ErrorException::class)->mock();
         $this->iliosFileSystem->shouldReceive('getFileContents')
             ->once()->with('/tmp/somewhere')->andReturn('some contents');
         $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);

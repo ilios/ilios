@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\LearningMaterialRelationshipEntity;
@@ -135,7 +136,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     protected $position;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
@@ -143,7 +144,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     protected $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
@@ -163,7 +164,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         $this->course = $course;
     }
 
-    public function getCourse(): ?CourseInterface
+    public function getCourse(): CourseInterface
     {
         return $this->course;
     }

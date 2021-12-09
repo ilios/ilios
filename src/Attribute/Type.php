@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Attribute;
 
 use Attribute;
+use InvalidArgumentException;
 
 /**
  * Indicates the type of data contained in the property
@@ -42,7 +43,7 @@ class Type
     public function __construct(string $value)
     {
         if (!in_array($value, self::ALLOWED_VALUES)) {
-            throw new \InvalidArgumentException("${value} is not a valid type");
+            throw new InvalidArgumentException("${value} is not a valid type");
         }
         $this->value = $value;
     }

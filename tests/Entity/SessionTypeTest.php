@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\SessionType;
+use Exception;
 use Mockery as m;
 
 /**
@@ -145,7 +146,7 @@ class SessionTypeTest extends EntityBase
      */
     public function testRemoveSession()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->entityCollectionRemoveTest('session', 'Session');
     }
 

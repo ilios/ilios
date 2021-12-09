@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Classes\LocalCachingFilesystemDecorator;
 use Aws\S3\S3Client;
+use Exception;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Adapter\Local;
@@ -114,7 +115,7 @@ class FilesystemFactory
             $matches
         );
         if (!$result) {
-            throw new \Exception("Bad S3 URL, should be formatted as `s3://KEY:SECRET@bucket.region`");
+            throw new Exception("Bad S3 URL, should be formatted as `s3://KEY:SECRET@bucket.region`");
         }
 
         return [

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use ArrayObject;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
@@ -24,7 +25,7 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
         $object,
         string $format = null,
         array $context = [],
-    ): array|string|int|float|bool|\ArrayObject|null {
+    ): array|string|int|float|bool|ArrayObject|null {
         $reflection = new ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
 

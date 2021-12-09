@@ -9,6 +9,7 @@ use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
 use App\Entity\LearningMaterialStatusInterface;
 use App\Tests\TestCase;
+use DateTime;
 
 /**
  * Class UserEventTest
@@ -47,7 +48,7 @@ class UserEventTest extends TestCase
 
         $this->userEvent->learningMaterials = [ $draftMaterial, $revisedMaterial, $finalizedMaterial ];
         $this->userEvent->isPublished = true;
-        $this->userEvent->clearDataForUnprivilegedUsers(new \DateTime());
+        $this->userEvent->clearDataForUnprivilegedUsers(new DateTime());
         $this->assertEquals(2, count($this->userEvent->learningMaterials));
         $this->assertTrue(in_array($finalizedMaterial, $this->userEvent->learningMaterials));
         $this->assertTrue(in_array($revisedMaterial, $this->userEvent->learningMaterials));
@@ -66,9 +67,9 @@ class UserEventTest extends TestCase
         $calendarEvent->courseExternalId = '12';
         $calendarEvent->course = 17;
         $calendarEvent->courseTitle = 'Test Event';
-        $calendarEvent->endDate = new \DateTime();
+        $calendarEvent->endDate = new DateTime();
         $calendarEvent->equipmentRequired = true;
-        $calendarEvent->startDate = new \DateTime();
+        $calendarEvent->startDate = new DateTime();
         $calendarEvent->instructionalNotes = 'lorem ipsum';
         $calendarEvent->sessionDescription = 'something';
 

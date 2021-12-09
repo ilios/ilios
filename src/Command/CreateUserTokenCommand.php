@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Classes\SessionUser;
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -54,7 +55,7 @@ class CreateUserTokenCommand extends Command
         /** @var UserInterface $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
-            throw new \Exception(
+            throw new Exception(
                 "No user with id #{$userId} was found."
             );
         }

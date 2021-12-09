@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CreatedAtEntity;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -83,8 +84,8 @@ class MeshQualifier implements MeshQualifierInterface
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
         $this->descriptors = new ArrayCollection();
     }
 

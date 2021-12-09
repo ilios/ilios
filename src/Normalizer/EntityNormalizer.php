@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use ArrayObject;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use HTMLPurifier;
@@ -32,7 +34,7 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
         $object,
         string $format = null,
         array $context = [],
-    ): array|string|int|float|bool|\ArrayObject|null {
+    ): array|string|int|float|bool|ArrayObject|null {
         $reflection = new ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -59,7 +61,7 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'dateTime') {
-            /** @var \DateTime $value */
+            /** @var DateTime $value */
             if ($value) {
                 return $value->format('c');
             }

@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\JsonWebTokenManager;
 use App\Entity\UserInterface;
+use DateTime;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,7 +88,7 @@ class AuthController extends AbstractController
         AuthenticationRepository $authenticationRepository,
         JsonWebTokenManager $jwtManager
     ): JsonResponse {
-        $now = new \DateTime();
+        $now = new DateTime();
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
         if (!$token?->isAuthenticated() || !$sessionUser instanceof SessionUserInterface) {

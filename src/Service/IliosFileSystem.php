@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Classes\LocalCachingFilesystemDecorator;
 use App\Exception\IliosFilesystemException;
 use Aws\S3\Exception\S3Exception;
+use Exception;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -230,7 +231,7 @@ class IliosFileSystem
         if ($this->fileSystem->has($relativePath)) {
             $result = $this->fileSystem->readAndDelete($relativePath);
             if ($result === false) {
-                throw new \Exception("Unable to read temporary file ${hash}");
+                throw new Exception("Unable to read temporary file ${hash}");
             }
 
             return $result;

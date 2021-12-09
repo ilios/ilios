@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\SetConfigValueCommand;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -84,7 +85,7 @@ class SetConfigValueCommandTest extends KernelTestCase
 
     public function testNameRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'value'        => 'bar',
@@ -93,7 +94,7 @@ class SetConfigValueCommandTest extends KernelTestCase
 
     public function testValueRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'name'         => 'foo',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -83,7 +84,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $year;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'start_date', type: 'date')]
@@ -92,7 +93,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'end_date', type: 'date')]
@@ -187,27 +188,27 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     /**
-     * @param \DateTime $startDate
+     * @param DateTime $startDate
      */
     public function setStartDate($startDate = null)
     {
         $this->startDate = $startDate;
     }
 
-    public function getStartDate(): \DateTime
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
     /**
-     * @param \DateTime $endDate
+     * @param DateTime $endDate
      */
     public function setEndDate($endDate = null)
     {
         $this->endDate = $endDate;
     }
 
-    public function getEndDate(): \DateTime
+    public function getEndDate(): DateTime
     {
         return $this->endDate;
     }

@@ -9,6 +9,7 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterial;
 use App\Service\CurriculumInventoryReportDecoratorFactory;
 use App\Service\LearningMaterialDecoratorFactory;
+use ArrayObject;
 use Exception;
 use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
@@ -33,7 +34,7 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
         $object,
         string $format = null,
         array $context = [],
-    ): array|string|int|float|bool|\ArrayObject|null {
+    ): array|string|int|float|bool|ArrayObject|null {
         $class = $object::class;
         switch ($class) {
             case LearningMaterial::class:

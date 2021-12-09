@@ -12,6 +12,7 @@ use App\Classes\SchoolEvent;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Repository\SchoolRepository;
 use App\Repository\SessionRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ class SchooleventController extends AbstractController
      * @param string $version of the API requested
      * @param string $id of the school
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAction(
         $version,

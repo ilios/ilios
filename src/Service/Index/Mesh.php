@@ -8,6 +8,7 @@ use App\Classes\ElasticSearchBase;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
+use InvalidArgumentException;
 
 class Mesh extends ElasticSearchBase
 {
@@ -42,7 +43,7 @@ class Mesh extends ElasticSearchBase
     {
         foreach ($descriptors as $descriptor) {
             if (!$descriptor instanceof Descriptor) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     sprintf(
                         '$descriptors must be an array of %s. %s found',
                         Descriptor::class,

@@ -6,6 +6,7 @@ namespace App\Tests\Entity;
 
 use App\Entity\IlmSession;
 use App\Entity\Session;
+use DateTime;
 use Mockery as m;
 
 /**
@@ -38,7 +39,7 @@ class IlmSessionTest extends EntityBase
 
         $this->object->setSession(new Session());
         $this->object->setHours(55.1);
-        $this->object->setDueDate(new \DateTime());
+        $this->object->setDueDate(new DateTime());
         $this->validate(0);
     }
 
@@ -49,7 +50,7 @@ class IlmSessionTest extends EntityBase
     {
         $this->object->setSession(new Session());
         $this->object->setHours(55);
-        $this->object->setDueDate(new \DateTime());
+        $this->object->setDueDate(new DateTime());
         $this->object->setHours(1.33);
         $this->validate(0);
     }

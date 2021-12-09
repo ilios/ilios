@@ -7,6 +7,8 @@ namespace App\Tests\Command;
 use App\Command\InvalidateUserTokenCommand;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -113,7 +115,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
     public function testBadUserId()
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -122,7 +124,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
 
     public function testUserRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

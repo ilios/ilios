@@ -6,6 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\AuthenticationDTO;
 use DateTime;
+use Exception;
 
 class AuthenticationData extends AbstractDataLoader
 {
@@ -50,7 +51,7 @@ class AuthenticationData extends AbstractDataLoader
 
     public function createMany($count): array
     {
-        throw new \Exception("Cannot auto create many Authentications.  Users have to be created first");
+        throw new Exception("Cannot auto create many Authentications.  Users have to be created first");
     }
 
     public function getDtoClass(): string

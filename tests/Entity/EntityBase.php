@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use DateTime;
+use Exception;
 use Faker\Factory;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
@@ -366,7 +367,7 @@ class EntityBase extends TestCase
             case 'boolean':
                 return $faker->boolean;
             default:
-                throw new \Exception("No values for type {$type}");
+                throw new Exception("No values for type {$type}");
         }
     }
 }

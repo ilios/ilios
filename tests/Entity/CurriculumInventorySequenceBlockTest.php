@@ -7,6 +7,7 @@ namespace App\Tests\Entity;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
+use DateTime;
 use Mockery as m;
 
 /**
@@ -46,8 +47,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setOrderInSequence(2);
         $this->object->setMinimum(1);
         $this->object->setMaximum(521);
-        $this->object->setStartDate(new \DateTime());
-        $this->object->setEndDate(new \DateTime());
+        $this->object->setStartDate(new DateTime());
+        $this->object->setEndDate(new DateTime());
         $this->object->setDuration(60);
         $this->validate(0);
     }
@@ -62,8 +63,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setOrderInSequence(2);
         $this->object->setMinimum(1);
         $this->object->setMaximum(521);
-        $this->object->setStartDate(new \DateTime());
-        $this->object->setEndDate(new \DateTime());
+        $this->object->setStartDate(new DateTime());
+        $this->object->setEndDate(new DateTime());
         $this->object->setDuration(60);
         $this->validateNotNulls($notNulls);
 
@@ -297,35 +298,35 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $blockA = new CurriculumInventorySequenceBlock();
         $blockA->setId(1);
         $blockA->setTitle("Alpha");
-        $blockA->setStartDate(new \DateTime('2015-09-17'));
+        $blockA->setStartDate(new DateTime('2015-09-17'));
         $blockA->setAcademicLevel($level1);
 
         // same as A but with different level
         $blockB = new CurriculumInventorySequenceBlock();
         $blockB->setId(1);
         $blockB->setTitle("Alpha");
-        $blockB->setStartDate(new \DateTime('2015-09-17'));
+        $blockB->setStartDate(new DateTime('2015-09-17'));
         $blockB->setAcademicLevel($level10);
 
         // same as A but with different start date
         $blockC = new CurriculumInventorySequenceBlock();
         $blockC->setId(1);
         $blockC->setTitle("Alpha");
-        $blockC->setStartDate(new \DateTime('2019-09-17'));
+        $blockC->setStartDate(new DateTime('2019-09-17'));
         $blockC->setAcademicLevel($level1);
 
         // same as A but with different title
         $blockD = new CurriculumInventorySequenceBlock();
         $blockD->setId(1);
         $blockD->setTitle("Beta");
-        $blockD->setStartDate(new \DateTime('2015-09-17'));
+        $blockD->setStartDate(new DateTime('2015-09-17'));
         $blockD->setAcademicLevel($level1);
 
         // same as A but with different id
         $blockE = new CurriculumInventorySequenceBlock();
         $blockE->setId(2);
         $blockE->setTitle("Alpha");
-        $blockE->setStartDate(new \DateTime('2015-09-17'));
+        $blockE->setStartDate(new DateTime('2015-09-17'));
         $blockE->setAcademicLevel($level1);
 
         $rhett[] = [ $blockA, $blockA, 0 ];
