@@ -112,7 +112,7 @@ class Cohort implements CohortInterface
         $this->programYear = $programYear;
     }
 
-    public function getProgramYear(): ProgramYearInterface
+    public function getProgramYear(): ?ProgramYearInterface
     {
         return $this->programYear;
     }

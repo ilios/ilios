@@ -25,7 +25,7 @@ interface CohortInterface extends
 {
     public function setProgramYear(ProgramYearInterface $programYear = null);
 
-    public function getProgramYear(): ProgramYearInterface;
+    public function getProgramYear(): ?ProgramYearInterface;
 
     /**
      * Get the school we belong to

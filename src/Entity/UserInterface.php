@@ -39,7 +39,7 @@ interface UserInterface extends
     public function setAuthentication(AuthenticationInterface $authentication = null);
 
 
-    public function getAuthentication(): AuthenticationInterface;
+    public function getAuthentication(): ?AuthenticationInterface;
 
     /**
      * @param string $lastName
@@ -288,4 +288,7 @@ interface UserInterface extends
     public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
 
     public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
+
+    public function setPrimaryCohort(CohortInterface $primaryCohort = null);
+    public function getPrimaryCohort(): ?CohortInterface;
 }

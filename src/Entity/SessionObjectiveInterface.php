@@ -40,7 +40,7 @@ interface SessionObjectiveInterface extends
 
     public function setAncestor(SessionObjectiveInterface $ancestor);
 
-    public function getAncestor(): SessionObjectiveInterface;
+    public function getAncestor(): ?SessionObjectiveInterface;
 
     public function getAncestorOrSelf(): SessionObjectiveInterface;
 

@@ -201,7 +201,7 @@ class Offering implements OfferingInterface
         $this->site = $site;
     }
 
-    public function getSite(): string
+    public function getSite(): ?string
     {
         return $this->site;
     }

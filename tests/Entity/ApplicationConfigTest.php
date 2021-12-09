@@ -26,12 +26,17 @@ class ApplicationConfigTest extends EntityBase
         $this->object = new ApplicationConfig();
     }
 
-    /**
-     * @covers \App\Entity\ApplicationConfig
-     */
-    public function testConstructor()
+    public function testNotBlankValidation()
     {
-        $this->assertEmpty($this->object->getValue());
+        $notBlank = [
+            'name',
+            'value'
+        ];
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('bestDog');
+        $this->object->setValue('jackson');
+        $this->validate(0);
     }
 
     /**

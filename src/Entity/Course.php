@@ -445,7 +445,7 @@ class Course implements CourseInterface
         $this->ancestor = $ancestor;
     }
 
-    public function getAncestor(): CourseInterface
+    public function getAncestor(): ?CourseInterface
     {
         return $this->ancestor;
     }

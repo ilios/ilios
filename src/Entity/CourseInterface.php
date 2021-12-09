@@ -93,7 +93,7 @@ interface CourseInterface extends
 
     public function setAncestor(CourseInterface $ancestor);
 
-    public function getAncestor(): CourseInterface;
+    public function getAncestor(): ?CourseInterface;
 
     public function getAncestorOrSelf(): CourseInterface;
 

@@ -26,7 +26,7 @@ interface CompetencyInterface extends
 {
     public function setParent(CompetencyInterface $parent);
 
-    public function getParent(): CompetencyInterface;
+    public function getParent(): ?CompetencyInterface;
 
     public function setChildren(Collection $children);
 

@@ -189,7 +189,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->competency = $competency;
     }
 
-    public function getCompetency(): CompetencyInterface
+    public function getCompetency(): ?CompetencyInterface
     {
         return $this->competency;
     }
@@ -229,7 +229,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->ancestor = $ancestor;
     }
 
-    public function getAncestor(): ProgramYearObjectiveInterface
+    public function getAncestor(): ?ProgramYearObjectiveInterface
     {
         return $this->ancestor;
     }

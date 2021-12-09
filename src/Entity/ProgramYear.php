@@ -168,7 +168,7 @@ class ProgramYear implements ProgramYearInterface
         $this->program = $program;
     }
 
-    public function getProgram(): ProgramInterface
+    public function getProgram(): ?ProgramInterface
     {
         return $this->program;
     }

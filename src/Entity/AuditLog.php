@@ -50,7 +50,7 @@ class AuditLog implements AuditLogInterface
     protected $createdAt;
 
     /**
-     * @var int
+     * @var string
      * @Assert\Type(type="string")
      * @Assert\NotBlank()
      */
@@ -131,7 +131,7 @@ class AuditLog implements AuditLogInterface
      */
     public function setObjectId($objectId)
     {
-        $this->objectId = $objectId;
+        $this->objectId = (string) $objectId;
     }
 
     /**

@@ -1072,7 +1072,7 @@ class User implements UserInterface
         $this->primaryCohort = $primaryCohort;
     }
 
-    public function getPrimaryCohort(): CohortInterface
+    public function getPrimaryCohort(): ?CohortInterface
     {
         return $this->primaryCohort;
     }
@@ -1114,7 +1114,7 @@ class User implements UserInterface
         }
     }
 
-    public function getAuthentication(): AuthenticationInterface
+    public function getAuthentication(): ?AuthenticationInterface
     {
         return $this->authentication;
     }

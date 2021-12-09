@@ -37,7 +37,7 @@ interface OfferingInterface extends
      */
     public function setSite($site);
 
-    public function getSite(): string;
+    public function getSite(): ?string;
 
     public function setUrl(?string $url);
 

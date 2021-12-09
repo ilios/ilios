@@ -230,7 +230,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->cohort = $cohort;
     }
 
-    public function getCohort(): CohortInterface
+    public function getCohort(): ?CohortInterface
     {
         return $this->cohort;
     }
@@ -266,7 +266,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->ancestor = $ancestor;
     }
 
-    public function getAncestor(): LearnerGroupInterface
+    public function getAncestor(): ?LearnerGroupInterface
     {
         return $this->ancestor;
     }

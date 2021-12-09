@@ -215,7 +215,7 @@ class SessionObjective implements SessionObjectiveInterface
         $this->ancestor = $ancestor;
     }
 
-    public function getAncestor(): SessionObjectiveInterface
+    public function getAncestor(): ?SessionObjectiveInterface
     {
         return $this->ancestor;
     }

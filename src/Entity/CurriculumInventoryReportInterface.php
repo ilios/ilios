@@ -57,7 +57,7 @@ interface CurriculumInventoryReportInterface extends
 
     public function setProgram(ProgramInterface $program = null);
 
-    public function getProgram(): ProgramInterface;
+    public function getProgram(): ?ProgramInterface;
     public function setAcademicLevels(Collection $academicLevels = null);
 
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);

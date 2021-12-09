@@ -29,7 +29,7 @@ interface ProgramYearObjectiveInterface extends
 
     public function setCompetency(CompetencyInterface $competency);
 
-    public function getCompetency(): CompetencyInterface;
+    public function getCompetency(): ?CompetencyInterface;
 
     public function setCourseObjectives(Collection $courseObjectives);
 
@@ -41,7 +41,7 @@ interface ProgramYearObjectiveInterface extends
 
     public function setAncestor(ProgramYearObjectiveInterface $ancestor);
 
-    public function getAncestor(): ProgramYearObjectiveInterface;
+    public function getAncestor(): ?ProgramYearObjectiveInterface;
 
     public function getAncestorOrSelf(): ProgramYearObjectiveInterface;
 

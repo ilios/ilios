@@ -231,7 +231,7 @@ class School implements SchoolInterface
         $this->templatePrefix = $templatePrefix;
     }
 
-    public function getTemplatePrefix(): string
+    public function getTemplatePrefix(): ?string
     {
         return $this->templatePrefix;
     }
@@ -257,7 +257,7 @@ class School implements SchoolInterface
         $this->changeAlertRecipients = $changeAlertRecipients;
     }
 
-    public function getChangeAlertRecipients(): string
+    public function getChangeAlertRecipients(): ?string
     {
         return $this->changeAlertRecipients;
     }
@@ -270,7 +270,7 @@ class School implements SchoolInterface
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
 
-    public function getCurriculumInventoryInstitution(): string
+    public function getCurriculumInventoryInstitution(): CurriculumInventoryInstitutionInterface
     {
         return $this->curriculumInventoryInstitution;
     }

@@ -244,7 +244,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->program = $program;
     }
 
-    public function getProgram(): ProgramInterface
+    public function getProgram(): ?ProgramInterface
     {
         return $this->program;
     }

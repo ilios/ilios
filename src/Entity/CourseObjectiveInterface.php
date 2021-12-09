@@ -47,7 +47,7 @@ interface CourseObjectiveInterface extends
 
     public function setAncestor(CourseObjectiveInterface $ancestor);
 
-    public function getAncestor(): CourseObjectiveInterface;
+    public function getAncestor(): ?CourseObjectiveInterface;
 
     public function getAncestorOrSelf(): CourseObjectiveInterface;
 

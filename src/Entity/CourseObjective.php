@@ -253,7 +253,7 @@ class CourseObjective implements CourseObjectiveInterface
         $this->ancestor = $ancestor;
     }
 
-    public function getAncestor(): CourseObjectiveInterface
+    public function getAncestor(): ?CourseObjectiveInterface
     {
         return $this->ancestor;
     }

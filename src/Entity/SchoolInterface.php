@@ -42,7 +42,7 @@ interface SchoolInterface extends
      */
     public function setTemplatePrefix($templatePrefix);
 
-    public function getTemplatePrefix(): string;
+    public function getTemplatePrefix(): ?string;
 
     /**
      * @param string $iliosAdministratorEmail
@@ -56,7 +56,14 @@ interface SchoolInterface extends
      */
     public function setChangeAlertRecipients($changeAlertRecipients);
 
-    public function getChangeAlertRecipients(): string;
+    public function getChangeAlertRecipients(): ?string;
+
+    /**
+     * @param CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
+     */
+    public function setCurriculumInventoryInstitution($curriculumInventoryInstitution);
+
+    public function getCurriculumInventoryInstitution(): CurriculumInventoryInstitutionInterface;
 
     public function setVocabularies(Collection $vocabularies);
 

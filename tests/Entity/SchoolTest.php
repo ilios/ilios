@@ -88,7 +88,7 @@ class SchoolTest extends EntityBase
      */
     public function testSetChangeAlertRecipients()
     {
-        $this->entitySetTest('changeAlertRecipients', 'ChangeAlertRecipients');
+        $this->basicSetTest('changeAlertRecipients', 'string');
     }
 
     /**

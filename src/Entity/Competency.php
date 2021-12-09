@@ -142,7 +142,7 @@ class Competency implements CompetencyInterface
         $this->parent = $parent;
     }
 
-    public function getParent(): CompetencyInterface
+    public function getParent(): ?CompetencyInterface
     {
         return $this->parent;
     }

@@ -42,7 +42,7 @@ final class Version20160105002207 extends MysqlMigration
     /**
      * @throws Exception
      */
-    private function getTimezone()
+    private function getTimezone(): DateTimeZone
     {
         return new DateTimeZone(date_default_timezone_get());
     }

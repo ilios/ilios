@@ -34,7 +34,7 @@ interface ProgramYearInterface extends
 
     public function setProgram(ProgramInterface $program);
 
-    public function getProgram(): ProgramInterface;
+    public function getProgram(): ?ProgramInterface;
 
     /**
      * Gets the school that this program year belongs to.

@@ -38,7 +38,7 @@ interface LearnerGroupInterface extends
 
     public function setCohort(CohortInterface $cohort);
 
-    public function getCohort(): CohortInterface;
+    public function getCohort(): ?CohortInterface;
 
     public function setParent(LearnerGroupInterface $parent = null);
 
@@ -69,7 +69,7 @@ interface LearnerGroupInterface extends
 
     public function setAncestor(LearnerGroupInterface $ancestor);
 
-    public function getAncestor(): LearnerGroupInterface;
+    public function getAncestor(): ?LearnerGroupInterface;
 
     public function getAncestorOrSelf(): LearnerGroupInterface;
 
