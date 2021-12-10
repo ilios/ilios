@@ -70,6 +70,7 @@ class ChangeAlertHandlerTest extends TestCase
         $session = new Session();
         $session->setCourse($course);
         $offering = new Offering();
+        $offering->setId(2);
         $offering->setSession($session);
 
         $instigator = new User();
