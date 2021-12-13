@@ -15,6 +15,7 @@ use App\Entity\User;
 use App\Repository\AlertChangeTypeRepository;
 use App\Repository\AlertRepository;
 use App\Service\ChangeAlertHandler;
+use DateTime;
 use Mockery as m;
 use App\Tests\TestCase;
 
@@ -39,9 +40,6 @@ class ChangeAlertHandlerTest extends TestCase
      */
     protected $changeAlertHandler;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -53,9 +51,6 @@ class ChangeAlertHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -75,6 +70,7 @@ class ChangeAlertHandlerTest extends TestCase
         $session = new Session();
         $session->setCourse($course);
         $offering = new Offering();
+        $offering->setId(2);
         $offering->setSession($session);
 
         $instigator = new User();
@@ -120,9 +116,9 @@ class ChangeAlertHandlerTest extends TestCase
         $offering = new Offering();
         $offering->setId(1);
         $offering->setSession($session);
-        $startDate = new \DateTime();
+        $startDate = new DateTime();
         $offering->setStartDate($startDate);
-        $offering->setEndDate(new \DateTime());
+        $offering->setEndDate(new DateTime());
         $offering->setRoom('Room A');
         $offering->setSite('Site A');
         $offering->setUrl('http://example.edu');
@@ -136,7 +132,7 @@ class ChangeAlertHandlerTest extends TestCase
             'instructors' => [],
             'instructorGroups' => [],
             'startDate' => $startDate->getTimestamp(),
-            'endDate' => (new \DateTime('+1 year'))->getTimestamp(),
+            'endDate' => (new DateTime('+1 year'))->getTimestamp(),
             'site' => 'some other site',
             'room' => 'some other room',
             'url' => 'http://example.com',
@@ -207,8 +203,8 @@ class ChangeAlertHandlerTest extends TestCase
         $offering = new Offering();
         $offering->setId(1);
         $offering->setSession($session);
-        $offering->setStartDate(new \DateTime());
-        $offering->setEndDate(new \DateTime());
+        $offering->setStartDate(new DateTime());
+        $offering->setEndDate(new DateTime());
         $offering->setRoom('Room A');
         $offering->setSite('Site A');
         $offering->setUrl('http://example.edu');
@@ -221,8 +217,8 @@ class ChangeAlertHandlerTest extends TestCase
             'learnerGroups' => [1, 3],
             'instructors' => [1],
             'instructorGroups' => [2],
-            'startDate' => (new \DateTime('+1 year'))->getTimestamp(),
-            'endDate' => (new \DateTime('+1 year'))->getTimestamp(),
+            'startDate' => (new DateTime('+1 year'))->getTimestamp(),
+            'endDate' => (new DateTime('+1 year'))->getTimestamp(),
             'site' => 'some other site',
             'room' => 'some other room',
             'url' => null,

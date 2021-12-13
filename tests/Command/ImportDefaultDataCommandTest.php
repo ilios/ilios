@@ -62,9 +62,6 @@ class ImportDefaultDataCommandTest extends KernelTestCase
     private const COMMAND_NAME = 'ilios:import-default-data';
 
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         $this->defaultDataImporter = m::mock(DefaultDataImporter::class);
@@ -111,9 +108,6 @@ class ImportDefaultDataCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

@@ -31,10 +31,7 @@ use DateTime;
  */
 class SchooleventsTest extends AbstractEndpointTest
 {
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadOfferingData::class,

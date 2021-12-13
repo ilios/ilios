@@ -35,10 +35,7 @@ interface CourseObjectiveInterface extends
 
     public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective);
 
-    /**
-     * @return Collection
-     */
-    public function getProgramYearObjectives();
+    public function getProgramYearObjectives(): Collection;
 
     public function setSessionObjectives(Collection $sessionObjectives);
 
@@ -46,22 +43,13 @@ interface CourseObjectiveInterface extends
 
     public function removeSessionObjective(SessionObjectiveInterface $sessionObjective);
 
-    /**
-     * @return Collection
-     */
-    public function getSessionObjectives();
+    public function getSessionObjectives(): Collection;
 
     public function setAncestor(CourseObjectiveInterface $ancestor);
 
-    /**
-     * @return CourseObjectiveInterface
-     */
-    public function getAncestor();
+    public function getAncestor(): ?CourseObjectiveInterface;
 
-    /**
-     * @return CourseObjectiveInterface
-     */
-    public function getAncestorOrSelf();
+    public function getAncestorOrSelf(): CourseObjectiveInterface;
 
     public function setDescendants(Collection $children);
 
@@ -69,8 +57,5 @@ interface CourseObjectiveInterface extends
 
     public function removeDescendant(CourseObjectiveInterface $child);
 
-    /**
-     * @return Collection
-     */
-    public function getDescendants();
+    public function getDescendants(): Collection;
 }

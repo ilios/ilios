@@ -7,6 +7,7 @@ namespace App\Service\Index;
 use App\Classes\ElasticSearchBase;
 use App\Classes\IndexableCourse;
 use Exception;
+use InvalidArgumentException;
 
 class Curriculum extends ElasticSearchBase
 {
@@ -14,13 +15,7 @@ class Curriculum extends ElasticSearchBase
     public const INDEX = 'ilios-curriculum';
     public const SESSION_ID_PREFIX = 'session_';
 
-    /**
-     * @param string $query
-     * @param bool $onlySuggest should the search return only suggestions
-     * @return array
-     * @throws Exception when search is not configured
-     */
-    public function search(string $query, $onlySuggest)
+    public function search(string $query, bool $onlySuggest): array
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -79,13 +74,12 @@ class Curriculum extends ElasticSearchBase
 
     /**
      * @param IndexableCourse[] $courses
-     * @return bool
      */
     public function index(array $courses): bool
     {
         foreach ($courses as $course) {
             if (!$course instanceof IndexableCourse) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     sprintf(
                         '$courses must be an array of %s. %s found',
                         IndexableCourse::class,
@@ -120,8 +114,6 @@ class Curriculum extends ElasticSearchBase
 
     /**
      * @param int $id
-     *
-     * @return bool
      */
     public function deleteCourse(int $id): bool
     {
@@ -139,8 +131,6 @@ class Curriculum extends ElasticSearchBase
 
     /**
      * @param int $id
-     *
-     * @return bool
      */
     public function deleteSession(int $id): bool
     {
@@ -212,7 +202,6 @@ class Curriculum extends ElasticSearchBase
     /**
      * Construct the query to search the curriculum
      * @param string $query
-     * @return array
      */
     protected function buildCurriculumSearch(string $query): array
     {

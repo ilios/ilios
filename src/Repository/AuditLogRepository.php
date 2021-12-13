@@ -6,9 +6,11 @@ namespace App\Repository;
 
 use App\Entity\AuditLog;
 use App\Traits\ManagerRepository;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
@@ -21,15 +23,13 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
 
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        throw new \Exception('DTOs for AuditLogs are not implemented yet');
+        throw new Exception('DTOs for AuditLogs are not implemented yet');
     }
 
     /**
      * Returns all audit log entries in a given date/time range.
-     *
-     * @return array
      */
-    public function findInRange(\DateTime $from, \DateTime $to)
+    public function findInRange(DateTime $from, DateTime $to): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a as log', 'u.id as userId')
@@ -64,7 +64,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
     /**
      * Deletes all audit log entries in a given date/time range.
      */
-    public function deleteInRange(\DateTime $from, \DateTime $to)
+    public function deleteInRange(DateTime $from, DateTime $to)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb
@@ -93,19 +93,19 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
      * do not need to access the user entity
      *
      *
-     * @throws \Exception where there are issues with the passed data
+     * @throws Exception where there are issues with the passed data
      */
     public function writeLogs(array $entries)
     {
         $conn = $this->_em->getConnection();
-        $now = new \DateTime();
+        $now = new DateTime();
         $timestamp = $now->format('Y-m-d H:i:s');
         $logs = array_map(function (array $entry) use ($timestamp) {
             $keys = ['action', 'objectId', 'objectClass', 'valuesChanged', 'userId'];
             $log = [];
             foreach ($keys as $key) {
                 if (!array_key_exists($key, $entry)) {
-                    throw new \Exception("Log entry missing required {$key} key: " . var_export($entry, true));
+                    throw new Exception("Log entry missing required {$key} key: " . var_export($entry, true));
                 }
             }
             $log['action'] = $entry['action'];

@@ -8,6 +8,7 @@ use App\Service\Config;
 use App\Service\Index\Mesh;
 use App\Tests\TestCase;
 use Elasticsearch\Client;
+use Exception;
 use Ilios\MeSH\Model\Descriptor;
 use Mockery as m;
 
@@ -78,7 +79,7 @@ class MeshTest extends TestCase
     public function testIdsQueryThrowsExceptionWhenNotConfigured()
     {
         $obj = new Mesh($this->config, null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             'Search is not configured, isEnabled() should be called before calling this method'
         );

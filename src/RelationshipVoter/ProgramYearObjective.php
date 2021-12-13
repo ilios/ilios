@@ -14,10 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ProgramYearObjective extends AbstractVoter
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof ProgramYearObjectiveInterface && in_array($attribute, [
                 self::VIEW, self::CREATE, self::EDIT, self::DELETE
@@ -28,9 +25,8 @@ class ProgramYearObjective extends AbstractVoter
      * @param string $attribute
      * @param ProgramYearObjectiveInterface $objective
      * @param TokenInterface $token
-     * @return bool
      */
-    protected function voteOnAttribute($attribute, $objective, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $objective, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

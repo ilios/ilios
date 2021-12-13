@@ -17,10 +17,7 @@ class UserRoleTest extends ReadEndpointTest
     protected string $testName =  'userRoles';
     protected bool $isGraphQLTestable = false;
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadUserRoleData::class,
@@ -31,7 +28,7 @@ class UserRoleTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

@@ -16,9 +16,6 @@ class {{ entity }}Test extends AbstractEndpointTest
     protected $testName =  '{{ entity[:1]|lower ~ entity[1:] }}';
 
 
-    /**
-     * @inheritdoc
-     */
     protected function getFixtures()
     {
         return [

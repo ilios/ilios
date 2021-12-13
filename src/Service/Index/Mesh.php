@@ -8,17 +8,13 @@ use App\Classes\ElasticSearchBase;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
+use InvalidArgumentException;
 
 class Mesh extends ElasticSearchBase
 {
     public const INDEX = 'ilios-mesh';
 
-    /**
-     * @param string $query
-     * @return array
-     * @throws Exception when search is not configured
-     */
-    public function idsQuery(string $query)
+    public function idsQuery(string $query): array
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -42,13 +38,12 @@ class Mesh extends ElasticSearchBase
 
     /**
      * @param Descriptor[] $descriptors
-     * @return bool
      */
     public function index(array $descriptors): bool
     {
         foreach ($descriptors as $descriptor) {
             if (!$descriptor instanceof Descriptor) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     sprintf(
                         '$descriptors must be an array of %s. %s found',
                         Descriptor::class,

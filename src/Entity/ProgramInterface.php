@@ -31,20 +31,14 @@ interface ProgramInterface extends
      */
     public function setShortTitle($shortTitle);
 
-    /**
-     * @return string
-     */
-    public function getShortTitle();
+    public function getShortTitle(): string;
 
     /**
      * @param int $duration
      */
     public function setDuration($duration);
 
-    /**
-     * @return int
-     */
-    public function getDuration();
+    public function getDuration(): int;
 
     public function setCurriculumInventoryReports(Collection $reports);
 
@@ -53,8 +47,5 @@ interface ProgramInterface extends
     public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
 
 
-    /**
-     * @return CurriculumInventoryReportInterface[]|ArrayCollection
-     */
-    public function getCurriculumInventoryReports();
+    public function getCurriculumInventoryReports(): Collection;
 }

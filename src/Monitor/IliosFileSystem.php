@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Monitor;
 
+use Laminas\Diagnostics\Result\ResultInterface;
 use App\Exception\IliosFilesystemException;
 use App\Service\Config;
 use App\Service\IliosFileSystem as Filesystem;
@@ -18,10 +19,7 @@ class IliosFileSystem implements CheckInterface
     {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function check()
+    public function check(): ResultInterface
     {
         $path = $this->config->get('file_system_storage_path');
         if (!is_writable($path)) {
@@ -48,10 +46,7 @@ class IliosFileSystem implements CheckInterface
         return new Success('is writable and has enough free space');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return 'Ilios File System';
     }

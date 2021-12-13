@@ -23,10 +23,7 @@ class CurriculumInventoryExportTest extends AbstractEndpointTest
 {
     protected string $testName =  'curriculumInventoryExports';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadUserData::class,

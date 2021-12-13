@@ -19,8 +19,5 @@ interface CompetenciesEntityInterface
 
     public function removeCompetency(CompetencyInterface $competency);
 
-    /**
-    * @return CompetencyInterface[]|ArrayCollection
-    */
-    public function getCompetencies();
+    public function getCompetencies(): Collection;
 }

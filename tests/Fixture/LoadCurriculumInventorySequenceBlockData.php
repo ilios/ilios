@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventorySequenceBlock;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -44,8 +45,8 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             $entity->setMaximum($arr['maximum']);
             $entity->setDuration($arr['duration']);
             $entity->setRequired($arr['required']);
-            $entity->setStartDate(new \DateTime($arr['startDate']));
-            $entity->setEndDate(new \DateTime($arr['endDate']));
+            $entity->setStartDate(new DateTime($arr['startDate']));
+            $entity->setEndDate(new DateTime($arr['endDate']));
             $entity->setAcademicLevel($this->getReference('curriculumInventoryAcademicLevels' . $arr['academicLevel']));
             $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
             if (!empty($arr['parent'])) {
@@ -64,9 +65,6 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
         $manager->flush();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDependencies()
     {
         return [

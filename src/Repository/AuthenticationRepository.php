@@ -29,9 +29,8 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
     /**
      * Get an authentication entity by case insensitive user name.
      * @param  string $username
-     * @return AuthenticationInterface|null an auth record, or NULL if none/no-unique could be found.
      */
-    public function findOneByUsername($username)
+    public function findOneByUsername($username): ?AuthenticationInterface
     {
         $username = strtolower($username);
         $qb = $this->_em->createQueryBuilder();
@@ -54,10 +53,8 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
 
     /**
      * Get all the usernames
-     *
-     * @return string[]
      */
-    public function getUsernames()
+    public function getUsernames(): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('a.username')->from(Authentication::class, 'a');

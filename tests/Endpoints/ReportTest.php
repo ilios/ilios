@@ -17,10 +17,7 @@ class ReportTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'reports';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadReportData::class,
@@ -31,7 +28,7 @@ class ReportTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'title' => ['title', $this->getFaker()->text(25)],
@@ -46,7 +43,7 @@ class ReportTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -57,7 +54,7 @@ class ReportTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -72,7 +69,7 @@ class ReportTest extends ReadWriteEndpointTest
         ];
     }
 
-    protected function getTimeStampFields()
+    protected function getTimeStampFields(): array
     {
         return ['createdAt'];
     }

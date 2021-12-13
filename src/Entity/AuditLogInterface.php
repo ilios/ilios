@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\StringableEntityInterface;
+use DateTime;
 
 /**
  * Class AuditLogInterface
@@ -24,20 +25,16 @@ interface AuditLogInterface extends
 
     /**
      * Get action
-     *
-     * @return string
      */
-    public function getAction();
+    public function getAction(): string;
 
     /**
      * Get createdAt
-     *
-     * @return \DateTime
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): DateTime;
 
 
-    public function setCreatedAt(\DateTime $createdAt);
+    public function setCreatedAt(DateTime $createdAt);
 
     /**
      * Set objectId
@@ -48,10 +45,8 @@ interface AuditLogInterface extends
 
     /**
      * Get objectId
-     *
-     * @return string
      */
-    public function getObjectId();
+    public function getObjectId(): string;
 
     /**
      * Set objectClass
@@ -62,15 +57,10 @@ interface AuditLogInterface extends
 
     /**
      * Get objectClass
-     *
-     * @return string
      */
-    public function getObjectClass();
+    public function getObjectClass(): string;
 
     public function setUser(UserInterface $user);
 
-    /**
-     * @return UserInterface
-     */
-    public function getUser();
+    public function getUser(): UserInterface;
 }

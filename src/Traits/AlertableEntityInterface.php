@@ -19,8 +19,5 @@ interface AlertableEntityInterface
 
     public function removeAlert(AlertInterface $alert);
 
-    /**
-     * @return ArrayCollection|AlertInterface[]
-     */
-    public function getAlerts();
+    public function getAlerts(): Collection;
 }

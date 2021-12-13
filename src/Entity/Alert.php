@@ -127,73 +127,46 @@ class Alert implements AlertInterface
         $this->dispatched = false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setTableRowId($tableRowId)
     {
         $this->tableRowId = $tableRowId;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTableRowId()
+    public function getTableRowId(): int
     {
         return $this->tableRowId;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->tableName;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setAdditionalText($additionalText)
     {
         $this->additionalText = $additionalText;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAdditionalText()
+    public function getAdditionalText(): string
     {
         return $this->additionalText;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setDispatched($dispatched)
     {
         $this->dispatched = $dispatched;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isDispatched()
+    public function isDispatched(): bool
     {
         return $this->dispatched;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setChangeTypes(Collection $changeTypes)
     {
         $this->changeTypes = new ArrayCollection();
@@ -203,9 +176,6 @@ class Alert implements AlertInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addChangeType(AlertChangeTypeInterface $changeType)
     {
         if (!$this->changeTypes->contains($changeType)) {
@@ -213,25 +183,16 @@ class Alert implements AlertInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeChangeType(AlertChangeTypeInterface $changeType)
     {
         $this->changeTypes->removeElement($changeType);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getChangeTypes()
+    public function getChangeTypes(): Collection
     {
         return $this->changeTypes;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setInstigators(Collection $instigators)
     {
         $this->instigators = new ArrayCollection();
@@ -241,9 +202,6 @@ class Alert implements AlertInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addInstigator(UserInterface $instigator)
     {
         if (!$this->instigators->contains($instigator)) {
@@ -251,25 +209,16 @@ class Alert implements AlertInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeInstigator(UserInterface $instigator)
     {
         $this->instigators->removeElement($instigator);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInstigators()
+    public function getInstigators(): Collection
     {
         return $this->instigators;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setRecipients(Collection $recipients)
     {
         $this->recipients = new ArrayCollection();
@@ -279,9 +228,6 @@ class Alert implements AlertInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addRecipient(SchoolInterface $recipient)
     {
         if (!$this->recipients->contains($recipient)) {
@@ -289,18 +235,12 @@ class Alert implements AlertInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeRecipient(SchoolInterface $recipient)
     {
         $this->recipients->removeElement($recipient);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getRecipients()
+    public function getRecipients(): Collection
     {
         return $this->recipients;
     }

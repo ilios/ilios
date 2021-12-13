@@ -34,9 +34,6 @@ class RolloverCourseCommandTest extends KernelTestCase
      */
     protected $commandTester;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -50,9 +47,6 @@ class RolloverCourseCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

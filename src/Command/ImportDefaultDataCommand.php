@@ -54,9 +54,6 @@ class ImportDefaultDataCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure(): void
     {
         $this
@@ -65,9 +62,6 @@ class ImportDefaultDataCommand extends Command
             ->setDescription('Imports default application data into Ilios. Only works with an empty database schema.');
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

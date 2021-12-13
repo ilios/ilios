@@ -16,10 +16,7 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'aamcResourceTypes';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadAamcResourceTypeData::class,
@@ -30,7 +27,7 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'title' => ['title', $this->getFaker()->text()],
@@ -43,7 +40,7 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [];
     }
@@ -51,7 +48,7 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[2], ['id' => 'RE003']],

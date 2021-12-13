@@ -49,10 +49,10 @@ class DirectoryTest extends TestCase
     public function testFindByCampusId()
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
-        $this->ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn([1]);
+        $this->ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn([['id' => 1]]);
 
         $result = $this->obj->findByCampusId(1234);
-        $this->assertSame($result, 1);
+        $this->assertSame($result, ['id' => 1]);
     }
 
     /**
@@ -61,10 +61,11 @@ class DirectoryTest extends TestCase
     public function testFindByCampusIds()
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
-        $this->ldapManager->shouldReceive('search')->with('(|(campusId=1234)(campusId=1235))')->andReturn([1]);
+        $this->ldapManager->shouldReceive('search')
+            ->with('(|(campusId=1234)(campusId=1235))')->andReturn([['id' => 1], ['id' => 2]]);
 
         $result = $this->obj->findByCampusIds([1234, 1235]);
-        $this->assertSame($result, [1]);
+        $this->assertSame($result, [['id' => 1], ['id' => 2]]);
     }
 
     /**

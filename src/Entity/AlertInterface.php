@@ -19,40 +19,28 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
      */
     public function setTableRowId($tableRowId);
 
-    /**
-     * @return int
-     */
-    public function getTableRowId();
+    public function getTableRowId(): int;
 
     /**
      * @param string $tableName
      */
     public function setTableName($tableName);
 
-    /**
-     * @return string
-     */
-    public function getTableName();
+    public function getTableName(): string;
 
     /**
      * @param string $additionalText
      */
     public function setAdditionalText($additionalText);
 
-    /**
-     * @return string
-     */
-    public function getAdditionalText();
+    public function getAdditionalText(): string;
 
     /**
      * @param bool $dispatched
      */
     public function setDispatched($dispatched);
 
-    /**
-     * @return bool
-     */
-    public function isDispatched();
+    public function isDispatched(): bool;
 
     public function setChangeTypes(Collection $changeTypes);
 
@@ -60,10 +48,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
 
     public function removeChangeType(AlertChangeTypeInterface $changeType);
 
-    /**
-     * @return ArrayCollection|AlertChangeTypeInterface[]
-     */
-    public function getChangeTypes();
+    public function getChangeTypes(): Collection;
 
     public function setInstigators(Collection $instigators);
 
@@ -71,10 +56,7 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
 
     public function removeInstigator(UserInterface $instigator);
 
-    /**
-     * @return ArrayCollection|UserInterface[]
-     */
-    public function getInstigators();
+    public function getInstigators(): Collection;
 
     public function setRecipients(Collection $recipients);
 
@@ -82,8 +64,5 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
 
     public function removeRecipient(SchoolInterface $recipient);
 
-    /**
-     * @return ArrayCollection|SchoolInterface[]
-     */
-    public function getRecipients();
+    public function getRecipients(): Collection;
 }

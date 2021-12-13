@@ -25,15 +25,13 @@ class CurriculumInventoryDownloadController extends AbstractController
      * @param CurriculumInventoryReportRepository $reportRepository
      * @param CurriculumInventoryExportRepository $exportManager
      * @param Exporter $exporter
-     *
-     * @return Response
      */
     public function getAction(
         $token,
         CurriculumInventoryReportRepository $reportRepository,
         CurriculumInventoryExportRepository $exportManager,
         Exporter $exporter
-    ) {
+    ): Response {
         /* @var CurriculumInventoryReportInterface $curriculumInventoryReport */
         $curriculumInventoryReport = $reportRepository->findOneBy(['token' => $token]);
 
@@ -66,14 +64,12 @@ class CurriculumInventoryDownloadController extends AbstractController
 
     /**
      * Retrieves the report document for a given curriculum inventory report.
-     *
-     * @return string
      */
     protected function getExportedDocument(
         CurriculumInventoryReportInterface $report,
         CurriculumInventoryExportRepository $repository,
         Exporter $exporter
-    ) {
+    ): string {
         // check if the report has been exported.
         // if so, pull the document from the database.
         $export = $repository->findOneBy(['report' => $report->getId()]);

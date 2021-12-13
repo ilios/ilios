@@ -8,7 +8,7 @@ use App\Entity\DTO\SchoolDTO;
 
 class SchoolData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -68,7 +68,7 @@ class SchoolData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 4,
@@ -88,17 +88,14 @@ class SchoolData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'lkjdsf'
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

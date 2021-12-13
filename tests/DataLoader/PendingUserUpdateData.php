@@ -8,7 +8,7 @@ use App\Entity\DTO\PendingUserUpdateDTO;
 
 class PendingUserUpdateData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -32,7 +32,7 @@ class PendingUserUpdateData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 3,
@@ -43,7 +43,7 @@ class PendingUserUpdateData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

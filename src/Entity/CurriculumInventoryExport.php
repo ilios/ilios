@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\UserInterface;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryExportRepository;
@@ -69,7 +68,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     protected $createdBy;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'created_on', type: 'datetime')]
@@ -80,7 +79,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
     public function setReport(CurriculumInventoryReportInterface $report)
@@ -88,10 +87,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->report = $report;
     }
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
-    public function getReport()
+    public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
@@ -104,10 +100,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->document = $document;
     }
 
-    /**
-     * @return string
-     */
-    public function getDocument()
+    public function getDocument(): string
     {
         return $this->document;
     }
@@ -117,18 +110,12 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->createdBy = $createdBy;
     }
 
-    /**
-     * @return UserInterface
-     */
-    public function getCreatedBy()
+    public function getCreatedBy(): UserInterface
     {
         return $this->createdBy;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }

@@ -16,18 +16,12 @@ interface MeshPreviousIndexingInterface extends
 {
     public function setDescriptor(MeshDescriptorInterface $descriptor);
 
-    /**
-     * @return MeshDescriptorInterface
-     */
-    public function getDescriptor();
+    public function getDescriptor(): MeshDescriptorInterface;
 
     /**
      * @param string $previousIndexing
      */
     public function setPreviousIndexing($previousIndexing);
 
-    /**
-     * @return string
-     */
-    public function getPreviousIndexing();
+    public function getPreviousIndexing(): string;
 }

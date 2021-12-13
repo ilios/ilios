@@ -32,7 +32,7 @@ class Exporter
      * @see Aggregator::getData()
      * @see XmlPrinter::print()
      */
-    public function getXmlReport(CurriculumInventoryReportInterface $report)
+    public function getXmlReport(CurriculumInventoryReportInterface $report): string
     {
         $inventory = $this->aggregator->getData($report);
         return $this->printer->print($inventory);

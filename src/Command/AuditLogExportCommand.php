@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Repository\AuditLogRepository;
+use DateTime;
+use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -28,9 +30,6 @@ class AuditLogExportCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -58,16 +57,13 @@ class AuditLogExportCommand extends Command
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $from = $input->getArgument('from');
         $to = $input->getArgument('to');
 
-        $from = new \DateTime($from, new \DateTimeZone('UTC'));
-        $to = new \DateTime($to, new \DateTimeZone('UTC'));
+        $from = new DateTime($from, new DateTimeZone('UTC'));
+        $to = new DateTime($to, new DateTimeZone('UTC'));
 
         $delete = $input->getOption('delete');
 
@@ -76,7 +72,7 @@ class AuditLogExportCommand extends Command
         $this->logger->info('Starting Audit Log Export.');
 
         $rows = array_map(function (array $arr) {
-            /** @var \DateTime $dt */
+            /** @var DateTime $dt */
             $dt = $arr['createdAt'];
             return [
                 $arr['id'],

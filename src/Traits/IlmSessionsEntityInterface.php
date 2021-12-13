@@ -19,8 +19,5 @@ interface IlmSessionsEntityInterface
 
     public function removeIlmSession(IlmSessionInterface $ilmSession);
 
-    /**
-    * @return IlmSessionInterface[]|ArrayCollection
-    */
-    public function getIlmSessions();
+    public function getIlmSessions(): Collection;
 }

@@ -30,7 +30,7 @@ class SessionRepository extends ServiceEntityRepository implements
     }
 
     /**
-     * Find and hydrate as DTOs @return SessionDTO[]
+     * Find and hydrate as DTOs
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {

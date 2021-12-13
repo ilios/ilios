@@ -37,9 +37,6 @@ trait CourseObjectivesEntity
         $this->courseObjectives->removeElement($courseObjective);
     }
 
-    /**
-     * @return Collection|CourseObjectiveInterface[]
-     */
     public function getCourseObjectives(): Collection
     {
         return $this->courseObjectives;

@@ -16,8 +16,5 @@ interface CurriculumInventorySequenceInterface extends
 {
     public function setReport(CurriculumInventoryReportInterface $report);
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
-    public function getReport();
+    public function getReport(): CurriculumInventoryReportInterface;
 }

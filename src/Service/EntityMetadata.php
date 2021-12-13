@@ -66,8 +66,6 @@ class EntityMetadata
      * Check if an object or className has the Entity annotation
      *
      * @param string|object $classNameOrObject
-     *
-     * @return bool
      */
     public function isAnIliosEntity(mixed $classNameOrObject): bool
     {
@@ -96,8 +94,6 @@ class EntityMetadata
      * Check if an object or class name has the DTO annotation
      *
      * @param string|object $classNameOrObject
-     *
-     * @return bool
      */
     public function isAnIliosDto(mixed $classNameOrObject): bool
     {
@@ -130,7 +126,6 @@ class EntityMetadata
     /**
      * Get all of the properties of a call which are
      * marked with the Exposed annotation
-     * @return ReflectionProperty[]
      */
     public function extractExposedProperties(ReflectionClass $reflection): array
     {

@@ -137,10 +137,7 @@ class Program implements ProgramInterface
         $this->shortTitle = $shortTitle;
     }
 
-    /**
-     * @return string
-     */
-    public function getShortTitle()
+    public function getShortTitle(): string
     {
         return $this->shortTitle;
     }
@@ -153,17 +150,11 @@ class Program implements ProgramInterface
         $this->duration = $duration;
     }
 
-    /**
-     * @return int
-     */
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->duration;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setCurriculumInventoryReports(Collection $reports)
     {
         $this->curriculumInventoryReports = new ArrayCollection();
@@ -173,9 +164,6 @@ class Program implements ProgramInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
         if (!$this->curriculumInventoryReports->contains($report)) {
@@ -183,9 +171,6 @@ class Program implements ProgramInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
     {
         if ($this->curriculumInventoryReports->contains($report)) {
@@ -193,17 +178,11 @@ class Program implements ProgramInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCurriculumInventoryReports()
+    public function getCurriculumInventoryReports(): Collection
     {
         return $this->curriculumInventoryReports;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addDirector(UserInterface $director)
     {
         if (!$this->directors->contains($director)) {
@@ -212,9 +191,6 @@ class Program implements ProgramInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeDirector(UserInterface $director)
     {
         if ($this->directors->contains($director)) {

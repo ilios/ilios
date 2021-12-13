@@ -19,8 +19,5 @@ interface InstructorGroupsEntityInterface
 
     public function removeInstructorGroup(InstructorGroupInterface $instructorGroup);
 
-    /**
-    * @return InstructorGroupInterface[]|ArrayCollection
-    */
-    public function getInstructorGroups();
+    public function getInstructorGroups(): Collection;
 }

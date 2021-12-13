@@ -8,7 +8,7 @@ use App\Entity\DTO\AlertDTO;
 
 class AlertData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -43,7 +43,7 @@ class AlertData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 4,
@@ -56,7 +56,7 @@ class AlertData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'string',

@@ -20,10 +20,7 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'courseLearningMaterials';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadCourseLearningMaterialData::class,
@@ -34,7 +31,7 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'notes' => ['notes', $this->getFaker()->text()],
@@ -52,7 +49,7 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -62,7 +59,7 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

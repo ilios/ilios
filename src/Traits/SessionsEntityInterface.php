@@ -20,8 +20,5 @@ interface SessionsEntityInterface
 
     public function removeSession(SessionInterface $session);
 
-    /**
-    * @return SessionInterface[]|ArrayCollection
-    */
-    public function getSessions();
+    public function getSessions(): Collection;
 }

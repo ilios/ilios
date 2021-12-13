@@ -29,10 +29,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     protected string $testName =  'authentications';
     protected bool $isGraphQLTestable = false;
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadAuthenticationData::class,
@@ -53,7 +50,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'username' => ['username', $this->getFaker()->text(100)],
@@ -64,7 +61,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'invalidateTokenIssuedBefore' => ['invalidateTokenIssuedBefore', 1, 99],
@@ -74,7 +71,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'user' => [[1], ['user' => 2]],
@@ -290,7 +287,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
      * 'user' the ID
      * @inheritdoc
      */
-    protected function getOneTest()
+    protected function getOneTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -306,7 +303,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
      * Overridden because authetication uses
      * 'user' as the ID
      */
-    protected function getOneJsonApiTest()
+    protected function getOneJsonApiTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -410,7 +407,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function postTest(array $data, array $postData)
+    protected function postTest(array $data, array $postData): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -428,7 +425,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function putTest(array $data, array $postData, $id, $new = false)
+    protected function putTest(array $data, array $postData, $id, $new = false): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -446,7 +443,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function postManyTest(array $data)
+    protected function postManyTest(array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -469,9 +466,8 @@ class AuthenticationTest extends ReadWriteEndpointTest
 
     /**
      * Test saving new data to the JSON:API
-     * @return mixed
      */
-    protected function postManyJsonApiTest(object $postData, array $data)
+    protected function postManyJsonApiTest(object $postData, array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -496,7 +492,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
      * 'user' as the Primary Key
      * @inheritdoc
      */
-    protected function getOne($endpoint, $responseKey, $userId, $version = null)
+    protected function getOne($endpoint, $responseKey, $userId, $version = null): mixed
     {
         $version = $version ?: $this->apiVersion;
         $url = $this->getUrl(

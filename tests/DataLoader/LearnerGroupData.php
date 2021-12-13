@@ -8,7 +8,7 @@ use App\Entity\DTO\LearnerGroupDTO;
 
 class LearnerGroupData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -94,7 +94,7 @@ class LearnerGroupData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 6,
@@ -112,7 +112,7 @@ class LearnerGroupData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

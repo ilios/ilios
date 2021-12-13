@@ -10,6 +10,8 @@ use App\Entity\User;
 use App\Repository\IlmSessionRepository;
 use App\Repository\OfferingRepository;
 use App\Repository\UserRepository;
+use DateTime;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,8 +45,8 @@ class IcsController extends AbstractController
         $calendar = new ICS\Calendar('Ilios Calendar for ' . $user->getFirstAndLastName());
         $calendar->setPublishedTTL('P1H');
 
-        $from = new \DateTime(self::LOOK_BACK);
-        $to =  new \DateTime(self::LOOK_FORWARD);
+        $from = new DateTime(self::LOOK_BACK);
+        $to =  new DateTime(self::LOOK_FORWARD);
 
         $events = $this->userRepository->findEventsForUser($user->getId(), $from, $to);
 
@@ -97,10 +99,7 @@ class IcsController extends AbstractController
         return $response;
     }
 
-    /**
-     * @return string
-     */
-    protected function getDescriptionForEvent(UserEvent $event)
+    protected function getDescriptionForEvent(UserEvent $event): string
     {
         $slug = 'U' . $event->startDate->format('Ymd');
 
@@ -114,7 +113,7 @@ class IcsController extends AbstractController
             $session = $ilmSession->getSession();
             $slug .= 'I' . $event->ilmSession;
         } else {
-            throw new \Exception("Event was neither an offering nor an ILM. This isn't a valid state");
+            throw new Exception("Event was neither an offering nor an ILM. This isn't a valid state");
         }
         $link = $this->router->generate(
             'ilios_index',
@@ -151,9 +150,8 @@ class IcsController extends AbstractController
 
     /**
      * @param string $string
-     * @return string
      */
-    protected function purify($string)
+    protected function purify($string): string
     {
         return str_replace("\n", ' ', trim(strip_tags($string)));
     }

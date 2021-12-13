@@ -28,10 +28,7 @@ use DateTime;
  */
 class UsereventTest extends AbstractEndpointTest
 {
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadOfferingData::class,
@@ -1119,9 +1116,8 @@ class UsereventTest extends AbstractEndpointTest
      * @param int $from
      * @param int $to
      * @param string|null $userToken
-     * @return array
      */
-    protected function getEvents($userId, $from, $to, $userToken)
+    protected function getEvents($userId, $from, $to, $userToken): array
     {
         $parameters = [
             'version' => $this->apiVersion,
@@ -1156,9 +1152,8 @@ class UsereventTest extends AbstractEndpointTest
      * @param int $userId
      * @param int $sessionId
      * @param string|null $userToken
-     * @return array
      */
-    protected function getEventsForSessionId($userId, $sessionId, $userToken)
+    protected function getEventsForSessionId($userId, $sessionId, $userToken): array
     {
         $parameters = [
             'version' => $this->apiVersion,

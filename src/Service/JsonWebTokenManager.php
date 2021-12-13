@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface;
+use DateInterval;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use DateTime;
@@ -71,14 +72,11 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a user
-     * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     * @return string
-     * @throws \Exception
      */
-    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, $timeToLive = 'PT8H')
+    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, string $timeToLive = 'PT8H'): string
     {
-        $requestedInterval = new \DateInterval($timeToLive);
-        $maximumInterval = new \DateInterval('P364D');
+        $requestedInterval = new DateInterval($timeToLive);
+        $maximumInterval = new DateInterval('P364D');
         $now = new DateTime();
 
         //DateIntervals are not comparable so we have to create DateTimes first with are
@@ -109,9 +107,8 @@ class JsonWebTokenManager
     /**
      * Build a token from a user
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     * @return string
      */
-    public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H')
+    public function createJwtFromUser(UserInterface $user, $timeToLive = 'PT8H'): string
     {
         return $this->createJwtFromUserId($user->getId(), $timeToLive);
     }
@@ -120,10 +117,8 @@ class JsonWebTokenManager
      * Build a token from a userId
      * @param int $userId
      * @param string $timeToLive PHP DateInterval notation for the length of time the token shoud be valid
-     *
-     * @return string
      */
-    public function createJwtFromUserId($userId, $timeToLive = 'PT8H')
+    public function createJwtFromUserId($userId, $timeToLive = 'PT8H'): string
     {
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
         return $this->createJwtFromSessionUser($sessionUser, $timeToLive);

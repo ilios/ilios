@@ -8,6 +8,8 @@ use App\Command\MigrateIlios2LearningMaterialsCommand;
 use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
 use App\Service\IliosFileSystem;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -144,7 +146,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
     public function testBadIlios2Path()
     {
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'pathToIlios2'         => 'badpath'
@@ -153,7 +155,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 
     public function testIlios2PathRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

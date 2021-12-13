@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\IdentifiableEntityInterface;
@@ -24,55 +25,37 @@ interface LearningMaterialRelationshipInterface extends
      */
     public function setNotes($notes);
 
-    /**
-     * @return string
-     */
-    public function getNotes();
+    public function getNotes(): ?string;
 
     /**
      * @param bool $required
      */
     public function setRequired($required);
 
-    /**
-     * @return bool
-     */
-    public function isRequired();
+    public function isRequired(): bool;
 
     /**
      * @param bool $publicNotes
      */
     public function setPublicNotes($publicNotes);
 
-    /**
-     * @return bool
-     */
-    public function hasPublicNotes();
+    public function hasPublicNotes(): bool;
 
     public function setLearningMaterial(LearningMaterialInterface $learningMaterial);
 
-    /**
-     * @return LearningMaterialInterface
-     */
-    public function getLearningMaterial();
+    public function getLearningMaterial(): LearningMaterialInterface;
+
+    public function getStartDate(): ?DateTime;
 
     /**
-     * @return \DateTime|null
+     * @param DateTime|null $startDate
      */
-    public function getStartDate();
+    public function setStartDate(DateTime $startDate = null);
+
+    public function getEndDate(): ?DateTime;
 
     /**
-     * @param \DateTime|null $startDate
+     * @param DateTime|null $endDate
      */
-    public function setStartDate(\DateTime $startDate = null);
-
-    /**
-     * @return \DateTime|null
-     */
-    public function getEndDate();
-
-    /**
-     * @param \DateTime|null $endDate
-     */
-    public function setEndDate(\DateTime $endDate = null);
+    public function setEndDate(DateTime $endDate = null);
 }

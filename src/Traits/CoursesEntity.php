@@ -35,10 +35,7 @@ trait CoursesEntity
         $this->courses->removeElement($course);
     }
 
-    /**
-    * @return CourseInterface[]|ArrayCollection
-    */
-    public function getCourses()
+    public function getCourses(): Collection
     {
         return $this->courses;
     }

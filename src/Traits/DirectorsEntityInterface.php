@@ -19,8 +19,5 @@ interface DirectorsEntityInterface
 
     public function removeDirector(UserInterface $director);
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
-    public function getDirectors();
+    public function getDirectors(): Collection;
 }

@@ -50,7 +50,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class GreenlightViewDTOVoter extends AbstractVoter
 {
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return (
             $attribute === self::VIEW && (
@@ -93,7 +93,7 @@ class GreenlightViewDTOVoter extends AbstractVoter
             )
         );
     }
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

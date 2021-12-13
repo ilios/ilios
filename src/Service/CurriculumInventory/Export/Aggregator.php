@@ -27,9 +27,8 @@ class Aggregator
      * Adds keywords to events.
      * @param array $events A list of events.
      * @param array $keywords A list of keywords.
-     * @return array The events with the keywords added.
      */
-    public static function addKeywordsToEvents(array $events, array $keywords)
+    public static function addKeywordsToEvents(array $events, array $keywords): array
     {
         foreach ($keywords as $keyword) {
             $eventId = $keyword['event_id'];
@@ -48,9 +47,8 @@ class Aggregator
      * Adds AAMC resource types to events.
      * @param array $events A list of events.
      * @param array $resourceTypes A list of resource types.
-     * @return array The events with their resource types added.
      */
-    public static function addResourceTypesToEvents(array $events, array $resourceTypes)
+    public static function addResourceTypesToEvents(array $events, array $resourceTypes): array
     {
         foreach ($resourceTypes as $resourceType) {
             $eventId = $resourceType['event_id'];
@@ -69,9 +67,8 @@ class Aggregator
      * Adds competency objects references to events.
      * @param array $events A list of events.
      * @param array $references A list of competency object references.
-     * @return array The events with references added.
      */
-    public static function addCompetencyObjectReferencesToEvents(array $events, array $references)
+    public static function addCompetencyObjectReferencesToEvents(array $events, array $references): array
     {
         $sessionIds = array_keys($events);
         for ($i = 0, $n = count($sessionIds); $i < $n; $i++) {
@@ -119,7 +116,7 @@ class Aggregator
      *
      * @throws Exception
      */
-    public function getData(CurriculumInventoryReportInterface $invReport)
+    public function getData(CurriculumInventoryReportInterface $invReport): array
     {
         // report validation
         $program = $invReport->getProgram();
@@ -265,7 +262,6 @@ class Aggregator
      * Returns a lookup map that matches objectives to their most recent siblings, or most recent descendant,
      * within their ancestry tree,
      * excluding the most recent siblings (we don't need to look them up)
-     * @return array An associative array with objective ids as keys, and the id of their most recent sibling as value.
      */
     public static function getConsolidatedObjectivesMap(array $objectives): array
     {

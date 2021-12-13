@@ -8,6 +8,7 @@ use App\Attribute\Id;
 use App\Attribute\Related;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
+use Closure;
 use DateTime;
 use Faker\Factory as FakerFactory;
 use ReflectionClass;
@@ -36,9 +37,8 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     /**
      * Create test data
-     * @return array
      */
-    abstract protected function getData();
+    abstract protected function getData(): array;
 
     protected function setup()
     {
@@ -49,13 +49,13 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         $this->data = $this->getData();
     }
 
-    public function getOne()
+    public function getOne(): array
     {
         $this->setup();
         return array_values($this->data)[0];
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $this->setup();
         return $this->data;
@@ -64,17 +64,16 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     /**
      * Get a formatted data from a string
      * @param string $when
-     * @return string
      */
-    public function getFormattedDate($when)
+    public function getFormattedDate($when): string
     {
         $dt = new DateTime($when);
         return $dt->format('c');
     }
 
-    abstract public function create();
+    abstract public function create(): array;
 
-    abstract public function createInvalid();
+    abstract public function createInvalid(): array;
 
     public function createJsonApi(array $arr): object
     {
@@ -82,10 +81,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         return json_decode(json_encode(['data' => $item]), false);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {
@@ -100,7 +96,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     public function createBulkJsonApi(array $arr): object
     {
         $class = $this->getDtoClass();
-        $builder = \Closure::fromCallable([$this, 'buildJsonApiObject']);
+        $builder = Closure::fromCallable([$this, 'buildJsonApiObject']);
         $data = array_map(fn(array $item) => $builder($item, $class), $arr);
 
         return json_decode(json_encode(['data' => $data]), false);

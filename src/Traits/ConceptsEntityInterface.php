@@ -19,8 +19,5 @@ interface ConceptsEntityInterface
 
     public function removeConcept(MeshConceptInterface $concept);
 
-    /**
-    * @return MeshConceptInterface[]|ArrayCollection
-    */
-    public function getConcepts();
+    public function getConcepts(): Collection;
 }

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\DescribableEntity;
 use App\Traits\SessionObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
+use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
@@ -17,7 +19,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attribute as IA;
-use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\OfferingsEntity;
@@ -36,7 +37,7 @@ use App\Repository\SessionRepository;
 class Session implements SessionInterface
 {
     use IdentifiableEntity;
-    use TitledEntity;
+    use TitledNullableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
     use OfferingsEntity;
@@ -47,6 +48,7 @@ class Session implements SessionInterface
     use AdministratorsEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
+    use DescribableEntity;
 
     /**
      * @var int
@@ -335,10 +337,7 @@ class Session implements SessionInterface
         $this->attireRequired = $attireRequired;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAttireRequired()
+    public function isAttireRequired(): ?bool
     {
         return $this->attireRequired;
     }
@@ -351,10 +350,7 @@ class Session implements SessionInterface
         $this->equipmentRequired = $equipmentRequired;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEquipmentRequired()
+    public function isEquipmentRequired(): ?bool
     {
         return $this->equipmentRequired;
     }
@@ -367,10 +363,7 @@ class Session implements SessionInterface
         $this->supplemental = $supplemental;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSupplemental()
+    public function isSupplemental(): ?bool
     {
         return $this->supplemental;
     }
@@ -383,25 +376,16 @@ class Session implements SessionInterface
         $this->attendanceRequired = $attendanceRequired;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAttendanceRequired()
+    public function isAttendanceRequired(): ?bool
     {
         return $this->attendanceRequired;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInstructionalNotes(): ?string
     {
         return $this->instructionalNotes;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setInstructionalNotes(string $instructionalNotes = null): void
     {
         $this->instructionalNotes = $instructionalNotes;
@@ -412,10 +396,7 @@ class Session implements SessionInterface
         $this->sessionType = $sessionType;
     }
 
-    /**
-     * @return SessionTypeInterface
-     */
-    public function getSessionType()
+    public function getSessionType(): SessionTypeInterface
     {
         return $this->sessionType;
     }
@@ -425,10 +406,7 @@ class Session implements SessionInterface
         $this->course = $course;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCourse()
+    public function getCourse(): ?CourseInterface
     {
         return $this->course;
     }
@@ -441,10 +419,7 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @return IlmSessionInterface
-     */
-    public function getIlmSession()
+    public function getIlmSession(): ?IlmSessionInterface
     {
         return $this->ilmSession;
     }
@@ -473,18 +448,12 @@ class Session implements SessionInterface
         $this->learningMaterials->removeElement($learningMaterial);
     }
 
-    /**
-     * @return ArrayCollection|SessionLearningMaterialInterface[]
-     */
-    public function getLearningMaterials()
+    public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($course = $this->getCourse()) {
             return $course->getSchool();
@@ -492,9 +461,6 @@ class Session implements SessionInterface
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAdministrator(UserInterface $administrator)
     {
         if (!$this->administrators->contains($administrator)) {
@@ -503,9 +469,6 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAdministrator(UserInterface $administrator)
     {
         if ($this->administrators->contains($administrator)) {
@@ -528,9 +491,6 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setExcludedSequenceBlocks(Collection $sequenceBlocks)
     {
         $this->sequenceBlocks = new ArrayCollection();
@@ -540,9 +500,6 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
     {
         if (!$this->excludedSequenceBlocks->contains($sequenceBlock)) {
@@ -550,41 +507,26 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
     {
         $this->excludedSequenceBlocks->removeElement($sequenceBlock);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExcludedSequenceBlocks()
+    public function getExcludedSequenceBlocks(): Collection
     {
         return $this->excludedSequenceBlocks;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setPostrequisite(SessionInterface $postrequisite = null)
     {
         $this->postrequisite = $postrequisite;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPostrequisite()
+    public function getPostrequisite(): ?SessionInterface
     {
         return $this->postrequisite;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setPrerequisites(Collection $prerequisites)
     {
         $this->prerequisites = new ArrayCollection();
@@ -594,9 +536,6 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addPrerequisite(SessionInterface $prerequisite)
     {
         if (!$this->prerequisites->contains($prerequisite)) {
@@ -605,18 +544,12 @@ class Session implements SessionInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removePrerequisite(SessionInterface $prerequisite)
     {
         $this->prerequisites->removeElement($prerequisite);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPrerequisites()
+    public function getPrerequisites(): Collection
     {
         return $this->prerequisites;
     }
@@ -627,21 +560,5 @@ class Session implements SessionInterface
     public function getIndexableCourses(): array
     {
         return [$this->course];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setDescription($description): void
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
     }
 }

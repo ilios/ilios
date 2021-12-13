@@ -22,10 +22,8 @@ class RequiredENV implements CheckInterface
 
     /**
      * Perform the actual check and return a ResultInterface
-     *
-     * @return ResultInterface
      */
-    public function check()
+    public function check(): ResultInterface
     {
         $missingVariables = array_filter(self::REQUIRED_ENV, fn($name) => !getenv($name) && !isset($_ENV[$name]));
 
@@ -48,10 +46,8 @@ class RequiredENV implements CheckInterface
 
     /**
      * Return a label describing this test instance.
-     *
-     * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return 'ENV variables';
     }

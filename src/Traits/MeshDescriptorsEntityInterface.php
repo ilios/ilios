@@ -19,8 +19,5 @@ interface MeshDescriptorsEntityInterface
 
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
 
-    /**
-    * @return MeshDescriptorInterface[]|ArrayCollection
-    */
-    public function getMeshDescriptors();
+    public function getMeshDescriptors(): Collection;
 }

@@ -31,7 +31,6 @@ class LearningMaterials extends ElasticSearchBase
 
     /**
      * @param LearningMaterialDTO[] $materials
-     * @return bool
      */
     public function index(array $materials): bool
     {
@@ -76,8 +75,6 @@ class LearningMaterials extends ElasticSearchBase
 
     /**
      * @param int $id
-     *
-     * @return bool
      */
     public function delete(int $id): bool
     {
@@ -98,7 +95,6 @@ class LearningMaterials extends ElasticSearchBase
      * Files larger than the upload limit are ignored
      *
      * @param LearningMaterialDTO $dto
-     * @return array
      */
     protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
     {

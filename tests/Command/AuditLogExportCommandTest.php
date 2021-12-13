@@ -6,6 +6,8 @@ namespace App\Tests\Command;
 
 use App\Command\AuditLogExportCommand;
 use App\Repository\AuditLogRepository;
+use DateTime;
+use DateTimeZone;
 use Mockery as m;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -33,9 +35,6 @@ class AuditLogExportCommandTest extends KernelTestCase
 
     protected $auditLogRepository;
 
-    /**
-     * {@inheritdoc}
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -57,10 +56,10 @@ class AuditLogExportCommandTest extends KernelTestCase
     {
         $this->auditLogRepository
             ->shouldReceive('findInRange')
-            ->withArgs(function (\DateTime $from, \DateTime $to) {
+            ->withArgs(function (DateTime $from, DateTime $to) {
                 $format = 'Y-m-d H:i:s';
-                $midnightYesterday = new \DateTime('midnight yesterday', new \DateTimeZone('UTC'));
-                $midnightToday = new \DateTime('midnight today', new \DateTimeZone('UTC'));
+                $midnightYesterday = new DateTime('midnight yesterday', new DateTimeZone('UTC'));
+                $midnightToday = new DateTime('midnight today', new DateTimeZone('UTC'));
                 return $from->format($format)  ===  $midnightYesterday->format($format)
                     && $to->format($format)  ===  $midnightToday->format($format);
             })
@@ -78,10 +77,10 @@ class AuditLogExportCommandTest extends KernelTestCase
     {
         $this->auditLogRepository
             ->shouldReceive('findInRange')
-            ->withArgs(function (\DateTime $from, \DateTime $to) {
+            ->withArgs(function (DateTime $from, DateTime $to) {
                 $format = 'Y-m-d';
-                $twoYearsAgo = new \DateTime('2 years ago', new \DateTimeZone('UTC'));
-                $twoDaysAgo = new \DateTime('2 days ago', new \DateTimeZone('UTC'));
+                $twoYearsAgo = new DateTime('2 years ago', new DateTimeZone('UTC'));
+                $twoDaysAgo = new DateTime('2 days ago', new DateTimeZone('UTC'));
                 return $from->format($format)  ===  $twoYearsAgo->format($format)
                     && $to->format($format)  ===  $twoDaysAgo->format($format);
             })
@@ -100,7 +99,7 @@ class AuditLogExportCommandTest extends KernelTestCase
      */
     public function testExecuteCheckTableOutput()
     {
-        $now = new \DateTime();
+        $now = new DateTime();
 
         $this->auditLogRepository
             ->shouldReceive('findInRange')
@@ -132,8 +131,8 @@ class AuditLogExportCommandTest extends KernelTestCase
      */
     public function testExecuteCheckLogging()
     {
-        $from = (new \DateTime('midnight yesterday', new \DateTimeZone('UTC')))->format('c');
-        $to = (new \DateTime('midnight today', new \DateTimeZone('UTC')))->format('c');
+        $from = (new DateTime('midnight yesterday', new DateTimeZone('UTC')))->format('c');
+        $to = (new DateTime('midnight today', new DateTimeZone('UTC')))->format('c');
 
         $this->auditLogRepository
             ->shouldReceive('findInRange')
@@ -142,7 +141,7 @@ class AuditLogExportCommandTest extends KernelTestCase
                     'id' => '1',
                     'userId' => '10',
                     'action' => 'update',
-                    'createdAt' => new \DateTime(),
+                    'createdAt' => new DateTime(),
                     'objectId' => '20',
                     'valuesChanged' => 'phone',
                     'objectClass' => 'FooBar',
@@ -151,7 +150,7 @@ class AuditLogExportCommandTest extends KernelTestCase
                     'id' => '2',
                     'userId' => null,
                     'action' => 'insert',
-                    'createdAt' => new \DateTime(),
+                    'createdAt' => new DateTime(),
                     'objectId' => '21',
                     'valuesChanged' => 'email',
                     'objectClass' => 'Baz',
@@ -177,8 +176,8 @@ class AuditLogExportCommandTest extends KernelTestCase
 
     public function testExecuteWithDeletion()
     {
-        $midnightYesterday = new \DateTime('midnight yesterday', new \DateTimeZone('UTC'));
-        $midnightToday = new \DateTime('midnight today', new \DateTimeZone('UTC'));
+        $midnightYesterday = new DateTime('midnight yesterday', new DateTimeZone('UTC'));
+        $midnightToday = new DateTime('midnight today', new DateTimeZone('UTC'));
 
         $this->auditLogRepository
             ->shouldReceive('findInRange')
@@ -188,7 +187,7 @@ class AuditLogExportCommandTest extends KernelTestCase
 
         $this->auditLogRepository
         ->shouldReceive('deleteInRange')
-        ->withArgs(function (\DateTime $from, \DateTime $to) use ($midnightYesterday, $midnightToday) {
+        ->withArgs(function (DateTime $from, DateTime $to) use ($midnightYesterday, $midnightToday) {
             $format = 'Y-m-d H:i:s';
             return $from->format($format)  ===  $midnightYesterday->format($format)
                 && $to->format($format)  ===  $midnightToday->format($format);

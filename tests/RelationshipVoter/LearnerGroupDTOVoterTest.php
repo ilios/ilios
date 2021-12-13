@@ -18,9 +18,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class LearnerGroupDTOVoterTest extends AbstractBase
 {
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();

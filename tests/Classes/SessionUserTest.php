@@ -47,9 +47,6 @@ class SessionUserTest extends TestCase
      */
     protected $school;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -64,9 +61,6 @@ class SessionUserTest extends TestCase
         $this->sessionUser = new SessionUser($this->iliosUser, $this->userRepository);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

@@ -53,9 +53,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class GreenlightViewDtoVoterTest extends AbstractBase
 {
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();

@@ -8,7 +8,7 @@ use App\Entity\DTO\UserRoleDTO;
 
 class UserRoleData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -31,7 +31,7 @@ class UserRoleData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         $arr = [];
 
@@ -43,7 +43,7 @@ class UserRoleData extends AbstractDataLoader
         return $arr[0];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

@@ -127,7 +127,6 @@ class VerificationPreviewBuilder
      * school program expectations in aggregate. A single Program Expectation can be related to multiple PCRS, and
      * a single PCRS can be related to multiple Program Expectations.
      *
-     *
      */
     public function getProgramExpectationsMappedToPcrs(array $data): array
     {
@@ -194,7 +193,6 @@ class VerificationPreviewBuilder
      * event in your curriculum management system that includes lecture and simulation, and you choose to mark
      * lecture as the primary instructional method, the full 2.5 hours of the event will be attributed to lecture
      * in the Number of Formal Instructional Hours Per Course section of the table below.
-     *
      *
      */
     public function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
@@ -284,7 +282,6 @@ class VerificationPreviewBuilder
      * both instructional methods and assessment methods.
      * It does not include events that are tagged with only assessment methods (i.e., Assessment Events).
      *
-     *
      */
     public function getNonClerkshipSequenceBlockInstructionalTime(array $data): array
     {
@@ -306,7 +303,6 @@ class VerificationPreviewBuilder
      * both instructional methods and assessment methods.
      * It does not include events that are tagged with only assessment methods (i.e., Assessment Events).
      *
-     *
      */
     public function getClerkshipSequenceBlockInstructionalTime(array $data): array
     {
@@ -325,7 +321,6 @@ class VerificationPreviewBuilder
      * the Number of Non-primary Occurrences of This Method.
      * If an instructional method is tagged more than once as non-primary to a given event, each occurrence of the
      * instructional method is counted.
-     *
      *
      */
     public function getInstructionalMethodCounts(array $data): array
@@ -372,7 +367,6 @@ class VerificationPreviewBuilder
      * If at least one event in the Sequence Block contains AM010, Narrative Assessment Narrative Assessment (Y/N)
      * will get a Y.
      *
-     *
      */
     public function getNonClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
@@ -397,7 +391,6 @@ class VerificationPreviewBuilder
      * If at least one event in the Sequence Block contains AM010, Narrative Assessment, the Narrative Assessment (Y/N)
      * will get a Y.
      *
-     *
      */
     public function getClerkshipSequenceBlockAssessmentMethods(array $data): array
     {
@@ -416,7 +409,6 @@ class VerificationPreviewBuilder
      * The Number of Summative Assessments, when summed, represents the total number of assessment methods tagged
      * as summative in your curriculum; the Number of Formative Assessments, when summed, represents the total number
      * of assessment methods tagged as formative in your curriculum.
-     *
      *
      */
     public function getAllEventsWithAssessmentsTaggedAsFormativeOrSummative(array $data): array
@@ -453,7 +445,6 @@ class VerificationPreviewBuilder
      *
      * All resources tagged in each event are counted, including multiple occurrences of the same resource within a
      * single event.
-     *
      *
      */
     public function getAllResourceTypes(array $data): array
@@ -495,7 +486,6 @@ class VerificationPreviewBuilder
 
     /**
      * @param bool $clerkships
-     *
      */
     protected function getSequenceBlockAssessmentMethods(array $data, array $map, $clerkships = false): array
     {
@@ -595,7 +585,6 @@ class VerificationPreviewBuilder
 
     /**
      * @param bool $clerkships
-     *
      */
     protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
     {

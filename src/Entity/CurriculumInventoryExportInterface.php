@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\BlameableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Entity\CurriculumInventoryReportInterface;
+use DateTime;
 
 /**
  * Interface CurriculumInventoryExportInterface
@@ -20,27 +19,15 @@ interface CurriculumInventoryExportInterface extends
      */
     public function setDocument($document);
 
-    /**
-     * @return string
-     */
-    public function getDocument();
+    public function getDocument(): string;
 
     public function setReport(CurriculumInventoryReportInterface $report);
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
-    public function getReport();
+    public function getReport(): CurriculumInventoryReportInterface;
 
     public function setCreatedBy(UserInterface $createdBy);
 
-    /**
-     * @return UserInterface
-     */
-    public function getCreatedBy();
+    public function getCreatedBy(): UserInterface;
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt();
+    public function getCreatedAt(): DateTime;
 }

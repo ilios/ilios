@@ -47,9 +47,6 @@ class VerificationPreviewBuilderTest extends TestCase
      */
     protected $aggregator;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -366,9 +363,6 @@ class VerificationPreviewBuilderTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->aggregator);

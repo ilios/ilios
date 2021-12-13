@@ -8,6 +8,7 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,9 +34,6 @@ class AddNewStudentsToSchoolCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -54,16 +52,13 @@ class AddNewStudentsToSchoolCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filter = $input->getArgument('filter');
         $schoolId = $input->getArgument('schoolId');
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
-            throw new \Exception(
+            throw new Exception(
                 "School with id {$schoolId} could not be found."
             );
         }

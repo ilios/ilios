@@ -8,7 +8,7 @@ use App\Entity\DTO\MeshDescriptorDTO;
 
 class MeshDescriptorData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -65,7 +65,7 @@ class MeshDescriptorData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 'abc4',
@@ -85,7 +85,7 @@ class MeshDescriptorData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'bad'
@@ -96,7 +96,7 @@ class MeshDescriptorData extends AbstractDataLoader
      * Mesh descriptor IDs are strings so we have to convert them
      * @inheritdoc
      */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

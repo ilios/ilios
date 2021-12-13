@@ -9,10 +9,7 @@ namespace App\Repository;
  */
 interface RepositoryInterface
 {
-    /**
-     * @return string
-     */
-    public function getClass();
+    public function getClass(): string;
 
     /**
      * Flush and clear the entity repository when doing bulk updates
@@ -24,9 +21,6 @@ interface RepositoryInterface
      */
     public function flush();
 
-    /**
-     * @return object|null The entity instance or NULL if the entity can not be found.
-     */
     public function findOneBy(
         array $criteria
     );
@@ -39,16 +33,12 @@ interface RepositoryInterface
 
     /**
      * Searches the data store for a single object by given criteria and sort order.
-     *
-     * @return object|bool The first found object, or FALSE if none could be found.
      */
-    public function findDTOBy(array $criteria);
+    public function findDTOBy(array $criteria): ?object;
 
     /**
      * @param int $limit
      * @param int $offset
-     *
-     * @return array A list of entities.
      */
     public function findBy(
         array $criteria,
@@ -61,17 +51,13 @@ interface RepositoryInterface
      * Searches the data store for all objects matching the given criteria.
      * @param int $limit
      * @param int $offset
-     *
-     * @return object[] A list of DTOs.
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
 
     /**
      * @param object $entity
      * @param bool $andFlush
      * @param bool $forceId
-     *
-     * @return void
      */
     public function update(
         $entity,
@@ -81,17 +67,12 @@ interface RepositoryInterface
 
     /**
      * @param object $entity
-     *
-     * @return void
      */
     public function delete(
         $entity
     );
 
-    /**
-     * @return object A new entity.
-     */
-    public function create();
+    public function create(): object;
 
     /**
      * Get the ID field for this type of entity

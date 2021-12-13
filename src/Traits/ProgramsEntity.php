@@ -35,10 +35,7 @@ trait ProgramsEntity
         $this->programs->removeElement($program);
     }
 
-    /**
-    * @return ProgramInterface[]|ArrayCollection
-    */
-    public function getPrograms()
+    public function getPrograms(): Collection
     {
         return $this->programs;
     }

@@ -22,10 +22,8 @@ class CurrentSessionController extends AbstractController
      * Gets the currently authenticated users Id
      *
      * @param string $version
-     *
-     * @return Response
      */
-    public function getAction($version, TokenStorageInterface $tokenStorage, SerializerInterface $serializer)
+    public function getAction($version, TokenStorageInterface $tokenStorage, SerializerInterface $serializer): Response
     {
         $sessionUser = $tokenStorage->getToken()->getUser();
         if (!$sessionUser instanceof SessionUserInterface) {

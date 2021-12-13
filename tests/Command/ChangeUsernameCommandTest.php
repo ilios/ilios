@@ -9,6 +9,8 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -123,7 +125,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn(['newname']);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -138,7 +140,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn(['newname']);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -153,7 +155,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->authenticationRepository->shouldReceive('getUsernames')->once()->andReturn(['newName']);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -219,7 +221,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
     public function testBadUserId()
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -228,7 +230,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
     public function testUserRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

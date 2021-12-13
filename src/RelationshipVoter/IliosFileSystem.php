@@ -12,10 +12,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class IliosFileSystem extends Voter
 {
     public const CREATE_TEMPORARY_FILE = 'create_temporary_file';
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof FileSystem && $attribute == self::CREATE_TEMPORARY_FILE;
     }
@@ -24,9 +21,8 @@ class IliosFileSystem extends Voter
      * @param string $attribute
      * @param TemporaryFileSystem $fileSystem
      * @param TokenInterface $token
-     * @return bool
      */
-    protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

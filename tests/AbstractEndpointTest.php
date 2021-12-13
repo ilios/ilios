@@ -73,52 +73,40 @@ abstract class AbstractEndpointTest extends WebTestCase
         unset($this->faker);
     }
 
-    /**
-     * @return array
-     */
-    protected function getFixtures()
+
+    protected function getFixtures(): array
     {
         return [];
     }
 
-    /**
-     * @return string
-     */
-    protected function getPluralName()
+
+    protected function getPluralName(): string
     {
         return strtolower($this->testName);
     }
 
-    /**
-     * @return string
-     */
-    protected function getSingularName()
+
+    protected function getSingularName(): string
     {
         $pluralized = $this->getPluralName();
         return $this->inflector->singularize($pluralized);
     }
 
-    /**
-     * @return null|string
-     */
-    protected function getCamelCasedPluralName()
+
+    protected function getCamelCasedPluralName(): ?string
     {
         return $this->testName;
     }
 
-    /**
-     * @return string
-     */
-    protected function getCamelCasedSingularName()
+
+    protected function getCamelCasedSingularName(): string
     {
         $pluralized = $this->getCamelCasedPluralName();
         return $this->inflector->singularize($pluralized);
     }
 
-    /**
-     * @return FakerGenerator
-     */
-    protected function getFaker()
+
+    protected function getFaker(): FakerGenerator
     {
         if (!isset($this->faker)) {
             $this->faker = FakerFactory::create();
@@ -197,10 +185,8 @@ abstract class AbstractEndpointTest extends WebTestCase
         }
     }
 
-    /**
-     * @return DataLoaderInterface
-     */
-    protected function getDataLoader()
+
+    protected function getDataLoader(): DataLoaderInterface
     {
         $name = ucfirst($this->getCamelCasedSingularName());
         $service = "App\\Tests\\DataLoader\\{$name}Data";
@@ -210,10 +196,8 @@ abstract class AbstractEndpointTest extends WebTestCase
         return $dataLoader;
     }
 
-    /**
-     * @return array
-     */
-    protected function getTimeStampFields()
+
+    protected function getTimeStampFields(): array
     {
         return [];
     }
@@ -273,9 +257,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Test getting a single value from the API
-     * @return mixed
      */
-    protected function getOneTest()
+    protected function getOneTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -297,9 +280,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Test getting a single value from the JSON:API
-     * @return mixed
      */
-    protected function getOneJsonApiTest()
+    protected function getOneJsonApiTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -326,10 +308,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $responseKey the key data is returned under
      * @param mixed $id the ID to fetch
      * @param string $version the version of the API endpoint
-     *
-     * @return mixed
      */
-    protected function getOne($endpoint, $responseKey, $id, $version = null)
+    protected function getOne($endpoint, $responseKey, $id, $version = null): mixed
     {
         $version = $version ?: $this->apiVersion;
         $url = $this->getUrl(
@@ -435,9 +415,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Get getting every piece of data in the test DB
-     * @return mixed
      */
-    protected function getAllTest()
+    protected function getAllTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -474,9 +453,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Get with limit and offset
-     * @return mixed
      */
-    protected function getAllWithLimitAndOffsetTest()
+    protected function getAllWithLimitAndOffsetTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -513,9 +491,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Get getting every piece of data in the test DB
-     * @return mixed
      */
-    protected function getAllJsonApiTest()
+    protected function getAllJsonApiTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -561,9 +538,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Get getting every piece of data in the test DB
-     * @return mixed
      */
-    protected function getAllWithLimitAndOffsetJsonApiTest()
+    protected function getAllWithLimitAndOffsetJsonApiTest(): mixed
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -688,9 +664,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      *
      * @param array $data
      * @param array $postData
-     * @return mixed
      */
-    protected function postTest(array $data, array $postData)
+    protected function postTest(array $data, array $postData): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -714,9 +689,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Test saving new data to the JSON:API
-     * @return mixed
      */
-    protected function postJsonApiTest(object $postData, array $data)
+    protected function postJsonApiTest(object $postData, array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -741,9 +715,8 @@ abstract class AbstractEndpointTest extends WebTestCase
     /**
      * Test POSTing an array of similar items to the API
      * @param array $data
-     * @return mixed
      */
-    protected function postManyTest(array $data)
+    protected function postManyTest(array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -782,9 +755,8 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     /**
      * Test saving new data to the JSON:API
-     * @return mixed
      */
-    protected function postManyJsonApiTest(object $postData, array $data)
+    protected function postManyJsonApiTest(object $postData, array $data): mixed
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -828,10 +800,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $responseKey the key the response will be under
      * @param array $postData the data to send
      * @param string $version the version of the API endpoint
-     *
-     * @return mixed
      */
-    protected function postOne($endpoint, $postKey, $responseKey, array $postData, $version = null)
+    protected function postOne($endpoint, $postKey, $responseKey, array $postData, $version = null): mixed
     {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
@@ -883,10 +853,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $responseKey the data will be returned with
      * @param array $postData to send
      * @param string $version the version of the API endpoint
-     *
-     * @return mixed
      */
-    protected function postMany($endpoint, $responseKey, array $postData, $version = null)
+    protected function postMany($endpoint, $responseKey, array $postData, $version = null): mixed
     {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
@@ -1059,9 +1027,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param array $postData
      * @param mixed $id
      * @param bool $new if we are expecting this data to create a new item
-     * @return mixed
      */
-    protected function putTest(array $data, array $postData, $id, $new = false)
+    protected function putTest(array $data, array $postData, $id, $new = false): mixed
     {
         $endpoint = $this->getPluralName();
         $putResponseKey = $this->getCamelCasedSingularName();
@@ -1094,11 +1061,16 @@ abstract class AbstractEndpointTest extends WebTestCase
      *                  of updating existing data
      * @param int $userId
      * @param string $version the version of the API endpoint
-     *
-     * @return mixed
      */
-    protected function putOne($endpoint, $responseKey, $id, array $data, $new = false, $userId = 2, $version = null)
-    {
+    protected function putOne(
+        $endpoint,
+        $responseKey,
+        $id,
+        array $data,
+        $new = false,
+        $userId = 2,
+        $version = null,
+    ): mixed {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'PUT',
@@ -1210,9 +1182,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param string $endpoint we are testing
      * @param mixed $id we want to delete
      * @param string $version the version of the API endpoint
-     * @return null|Response
      */
-    protected function deleteOne($endpoint, $id, $version = null)
+    protected function deleteOne($endpoint, $id, $version = null): ?Response
     {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
@@ -1380,9 +1351,8 @@ abstract class AbstractEndpointTest extends WebTestCase
      * @param array $filters
      * @param int $userId
      * @param string $version
-     * @return mixed
      */
-    protected function getFiltered($endpoint, $responseKey, array $filters, int $userId = 2, $version = null)
+    protected function getFiltered($endpoint, $responseKey, array $filters, int $userId = 2, $version = null): mixed
     {
         $version = $version ?: $this->apiVersion;
         $parameters = array_merge([

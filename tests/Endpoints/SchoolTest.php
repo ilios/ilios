@@ -23,10 +23,7 @@ class SchoolTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'schools';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadSchoolData::class,
@@ -44,7 +41,7 @@ class SchoolTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'iliosAdministratorEmail' => ['iliosAdministratorEmail', $this->getFaker()->email()],
@@ -67,7 +64,7 @@ class SchoolTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -77,7 +74,7 @@ class SchoolTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

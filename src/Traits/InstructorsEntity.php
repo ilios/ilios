@@ -34,10 +34,7 @@ trait InstructorsEntity
         $this->instructors->removeElement($instructor);
     }
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
-    public function getInstructors()
+    public function getInstructors(): Collection
     {
         return $this->instructors;
     }

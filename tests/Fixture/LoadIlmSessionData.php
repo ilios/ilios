@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\IlmSession;
+use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -35,7 +36,7 @@ class LoadIlmSessionData extends AbstractFixture implements
             $entity = new IlmSession();
             $entity->setId($arr['id']);
             $entity->setHours($arr['hours']);
-            $entity->setDueDate(new \DateTime($arr['dueDate']));
+            $entity->setDueDate(new DateTime($arr['dueDate']));
             $entity->setSession($this->getReference('sessions' . $arr['session']));
             foreach ($arr['instructors'] as $id) {
                 $entity->addInstructor($this->getReference('users' . $id));

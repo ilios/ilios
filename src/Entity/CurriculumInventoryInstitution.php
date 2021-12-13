@@ -154,10 +154,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         $this->aamcCode = $aamcCode;
     }
 
-    /**
-     * @return string
-     */
-    public function getAamcCode()
+    public function getAamcCode(): string
     {
         return $this->aamcCode;
     }
@@ -170,10 +167,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         $this->addressStreet = $addressStreet;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddressStreet()
+    public function getAddressStreet(): string
     {
         return $this->addressStreet;
     }
@@ -186,10 +180,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         $this->addressCity = $addressCity;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddressCity()
+    public function getAddressCity(): string
     {
         return $this->addressCity;
     }
@@ -202,10 +193,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         $this->addressStateOrProvince = $addressStateOrProvince;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddressStateOrProvince()
+    public function getAddressStateOrProvince(): string
     {
         return $this->addressStateOrProvince;
     }
@@ -218,10 +206,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         $this->addressZipCode = $addressZipCode;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddressZipCode()
+    public function getAddressZipCode(): string
     {
         return $this->addressZipCode;
     }
@@ -234,10 +219,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         $this->addressCountryCode = $addressCountryCode;
     }
 
-    /**
-     * @return string
-     */
-    public function getAddressCountryCode()
+    public function getAddressCountryCode(): string
     {
         return $this->addressCountryCode;
     }

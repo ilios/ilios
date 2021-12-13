@@ -8,7 +8,7 @@ use App\Entity\DTO\AssessmentOptionDTO;
 
 class AssessmentOptionData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -26,7 +26,7 @@ class AssessmentOptionData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 3,
@@ -35,7 +35,7 @@ class AssessmentOptionData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => 'something',
@@ -43,10 +43,7 @@ class AssessmentOptionData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

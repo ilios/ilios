@@ -5,6 +5,7 @@ namespace Ilios\Migrations;
 
 use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
+use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -25,7 +26,7 @@ final class Version20170824000000 extends MysqlMigration
                 return $arr['name'];
             }, $rows);
             $names = join(', ', $names);
-            throw new \Exception("Cannot copy parameters in the DB it already contains values for [${names}]");
+            throw new Exception("Cannot copy parameters in the DB it already contains values for [${names}]");
         }
         unset($rows);
 
@@ -64,11 +65,8 @@ final class Version20170824000000 extends MysqlMigration
      * Cleanup our parameters to remove defaults and null values,
      * convert booleans to integers, and modify requirements for forceProtocol
      * which is now a boolean called requireSecureConnection
-     * @param array $parameters
-     *
-     * @return array
      */
-    protected function cleanup(array $parameters)
+    protected function cleanup(array $parameters): array
     {
         $defaultsToRemove = [
             'legacy_password_salt' => 'Ilios2 ilios_authentication_internal_auth_salt value',
@@ -118,10 +116,9 @@ final class Version20170824000000 extends MysqlMigration
 
     /**
      * Read existing parameters
-     * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function readParameters()
+    protected function readParameters(): array
     {
         $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
         if ($parametersPath && is_readable($parametersPath)) {
@@ -135,14 +132,13 @@ final class Version20170824000000 extends MysqlMigration
 
     /**
      * Write parameters to the file
-     * @param $parameters
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function writeParameters($parameters)
+    protected function writeParameters($parameters): void
     {
         $parametersPath = realpath(__DIR__ . '/../../config/parameters.yml');
         if (!is_writable($parametersPath)) {
-            throw new \Exception("Unable to write parameters file at ${parametersPath}");
+            throw new Exception("Unable to write parameters file at ${parametersPath}");
         }
 
         $string = Yaml::dump(['parameters' => $parameters]);

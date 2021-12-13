@@ -10,6 +10,7 @@ use App\Traits\StringableIdEntity;
 use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
@@ -142,18 +143,12 @@ class SessionType implements SessionTypeInterface
         $this->active = true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setCalendarColor($color)
     {
         $this->calendarColor = $color;
     }
 
-    /**
-     * @return string
-     */
-    public function getCalendarColor()
+    public function getCalendarColor(): string
     {
         return $this->calendarColor;
     }
@@ -170,10 +165,8 @@ class SessionType implements SessionTypeInterface
 
     /**
      * Get assessment
-     *
-     * @return bool
      */
-    public function isAssessment()
+    public function isAssessment(): bool
     {
         return $this->assessment;
     }
@@ -183,10 +176,7 @@ class SessionType implements SessionTypeInterface
         $this->assessmentOption = $assessmentOption;
     }
 
-    /**
-     * @return AssessmentOptionInterface
-     */
-    public function getAssessmentOption()
+    public function getAssessmentOption(): ?AssessmentOptionInterface
     {
         return $this->assessmentOption;
     }
@@ -212,17 +202,11 @@ class SessionType implements SessionTypeInterface
         $this->aamcMethods->removeElement($aamcMethod);
     }
 
-    /**
-     * @return ArrayCollection|AamcMethodInterface[]
-     */
-    public function getAamcMethods()
+    public function getAamcMethods(): Collection
     {
         return $this->aamcMethods;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addSession(SessionInterface $session)
     {
         if (!$this->sessions->contains($session)) {
@@ -231,13 +215,10 @@ class SessionType implements SessionTypeInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeSession(SessionInterface $session)
     {
         $sessionId = $session->getId();
-        throw new \Exception(
+        throw new Exception(
             'Sessions can not be removed from sessionTypes.' .
             "You must modify session #{$sessionId} directly."
         );

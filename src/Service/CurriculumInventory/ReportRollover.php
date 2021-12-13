@@ -57,7 +57,6 @@ class ReportRollover
      * @param string|null $newName Name override for the rolled-over report.
      * @param string|null $newDescription Description override for the rolled-over report.
      * @param int|null $newYear Academic year override for the rolled-over report.
-     * @return CurriculumInventoryReportInterface The report created during rollover.
      */
     public function rollover(
         CurriculumInventoryReportInterface $report,

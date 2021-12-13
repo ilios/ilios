@@ -13,9 +13,6 @@ use App\Entity\AlertInterface;
  */
 trait AlertableEntity
 {
-    /**
-     * @inheritdoc
-     */
     public function setAlerts(Collection $alerts = null)
     {
         $this->alerts = new ArrayCollection();
@@ -28,10 +25,7 @@ trait AlertableEntity
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAlerts()
+    public function getAlerts(): Collection
     {
         return $this->alerts;
     }

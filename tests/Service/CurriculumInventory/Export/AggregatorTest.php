@@ -39,9 +39,6 @@ class AggregatorTest extends TestCase
      */
     protected $aggregator;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -51,9 +48,6 @@ class AggregatorTest extends TestCase
         $this->aggregator = new Aggregator($this->manager, $this->institutionRepository, $this->config);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->aggregator);

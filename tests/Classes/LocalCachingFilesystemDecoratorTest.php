@@ -30,9 +30,6 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
      */
     private $subject;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         $this->cacheFileSystem = m::mock(FilesystemInterface::class);
@@ -43,9 +40,6 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->cacheFileSystem);

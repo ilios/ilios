@@ -6,6 +6,7 @@ namespace App\Traits;
 
 use App\Entity\LearningMaterialInterface;
 use App\Entity\LearningMaterialRelationshipInterface;
+use DateTime;
 
 /**
  * Trait LearningMaterialRelationshipEntity
@@ -22,10 +23,7 @@ trait LearningMaterialRelationshipEntity
         $this->notes = $notes;
     }
 
-    /**
-     * @return string
-     */
-    public function getNotes()
+    public function getNotes(): ?string
     {
         return $this->notes;
     }
@@ -38,10 +36,7 @@ trait LearningMaterialRelationshipEntity
         $this->required = $required;
     }
 
-    /**
-     * @return bool
-     */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->required;
     }
@@ -54,10 +49,7 @@ trait LearningMaterialRelationshipEntity
         $this->publicNotes = $publicNotes;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasPublicNotes()
+    public function hasPublicNotes(): bool
     {
         return $this->publicNotes;
     }
@@ -67,42 +59,27 @@ trait LearningMaterialRelationshipEntity
         $this->learningMaterial = $learningMaterial;
     }
 
-    /**
-     * @return LearningMaterialInterface
-     */
-    public function getLearningMaterial()
+    public function getLearningMaterial(): LearningMaterialInterface
     {
         return $this->learningMaterial;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setStartDate(\DateTime $startDate = null)
+    public function setStartDate(DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getStartDate()
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setEndDate(\DateTime $endDate = null)
+    public function setEndDate(DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getEndDate()
+    public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }

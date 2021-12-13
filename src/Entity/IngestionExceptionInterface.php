@@ -13,18 +13,12 @@ interface IngestionExceptionInterface extends IdentifiableEntityInterface
 {
     public function setUser(UserInterface $user);
 
-    /**
-     * @return UserInterface
-     */
-    public function getUser();
+    public function getUser(): UserInterface;
 
     /**
      * @param string $uid
      */
     public function setUid($uid);
 
-    /**
-     * @return string
-     */
-    public function getUid();
+    public function getUid(): string;
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use ArrayObject;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use ReflectionClass;
 use ReflectionProperty;
@@ -17,8 +18,11 @@ class JsonApiDTONormalizer implements NormalizerInterface
     {
     }
 
-    public function normalize($object, string $format = null, array $context = [])
-    {
+    public function normalize(
+        $object,
+        string $format = null,
+        array $context = [],
+    ): array|string|int|float|bool|ArrayObject|null {
         $reflection = new ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
         $attributes = [];
@@ -79,7 +83,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
         return $object->{$property->name};
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, string $format = null): bool
     {
         return $format === 'json-api' && $this->entityMetadata->isAnIliosDto($data);
     }

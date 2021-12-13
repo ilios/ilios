@@ -20,8 +20,5 @@ interface ProgramsEntityInterface
 
     public function removeProgram(ProgramInterface $program);
 
-    /**
-    * @return ProgramInterface[]|ArrayCollection
-    */
-    public function getPrograms();
+    public function getPrograms(): Collection;
 }

@@ -8,7 +8,7 @@ use App\Entity\DTO\CurriculumInventoryReportDTO;
 
 class CurriculumInventoryReportData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -59,7 +59,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         $dt = $this->faker->dateTime();
         $dt->setTime(0, 0, 0);
@@ -77,7 +77,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

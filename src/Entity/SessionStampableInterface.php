@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 interface SessionStampableInterface
 {
-    /**
-     * @return ArrayCollection|SessionInterface[]
-     */
-    public function getSessions();
+    public function getSessions(): Collection;
 }

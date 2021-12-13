@@ -23,10 +23,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     protected string $testName =  'pendingUserUpdates';
     protected bool $isGraphQLTestable = false;
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadPendingUserUpdateData::class,
@@ -36,7 +33,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'type' => ['type', $this->getFaker()->text(15)],
@@ -49,7 +46,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -59,7 +56,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

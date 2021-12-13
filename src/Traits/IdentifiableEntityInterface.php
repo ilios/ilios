@@ -14,8 +14,5 @@ interface IdentifiableEntityInterface
      */
     public function setId($id);
 
-    /**
-     * @return mixed
-     */
-    public function getId();
+    public function getId(): mixed;
 }

@@ -19,8 +19,5 @@ interface AdministratorsEntityInterface
 
     public function removeAdministrator(UserInterface $administrator);
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
-    public function getAdministrators();
+    public function getAdministrators(): Collection;
 }

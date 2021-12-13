@@ -26,9 +26,8 @@ class TemporaryFileSystem
 
     /**
      * Store a file and return the hash
-     * @return string $hash
      */
-    public function storeFile(File $file)
+    public function storeFile(File $file): string
     {
         $hash = md5_file($file->getPathname());
         if (!$this->fileSystem->exists($this->getPath($hash))) {
@@ -67,9 +66,8 @@ class TemporaryFileSystem
     /**
      * Get a File from a hash
      * @param string $hash
-     * @return File|bool
      */
-    public function getFile($hash)
+    public function getFile($hash): File|bool
     {
         if ($this->fileSystem->exists($this->getPath($hash))) {
             return new File($this->getPath($hash));
@@ -81,9 +79,8 @@ class TemporaryFileSystem
     /**
      * Turn a relative path into an ilios file store path
      * @param  string $hash
-     * @return string
      */
-    protected function getPath($hash)
+    protected function getPath($hash): string
     {
         return $this->temporaryFileStorePath . '/' . $hash;
     }

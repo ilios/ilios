@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\SessionLearningMaterialDTO;
+use DateTime;
 
 class SessionLearningMaterialData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -47,7 +48,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => 5,
             'meshDescriptors' => ['abc2'],
             'position' => 0,
-            'startDate' => date_format(new \DateTime('2 days ago'), 'c'),
+            'startDate' => date_format(new DateTime('2 days ago'), 'c'),
             'endDate' => null,
         ];
 
@@ -60,7 +61,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => 6,
             'meshDescriptors' => ['abc2'],
             'position' => 0,
-            'startDate' => date_format(new \DateTime('+2 days'), 'c'),
+            'startDate' => date_format(new DateTime('+2 days'), 'c'),
             'endDate' => null,
         ];
 
@@ -74,7 +75,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => ['abc2'],
             'position' => 0,
             'startDate' => null,
-            'endDate' => date_format(new \DateTime('+ 2 days'), 'c'),
+            'endDate' => date_format(new DateTime('+ 2 days'), 'c'),
         ];
 
         $arr[] = [
@@ -87,7 +88,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => ['abc2'],
             'position' => 0,
             'startDate' => null,
-            'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
+            'endDate' => date_format(new DateTime('2 days ago'), 'c'),
         ];
 
         $arr[] = [
@@ -99,8 +100,8 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => 9,
             'meshDescriptors' => ['abc2'],
             'position' => 0,
-            'startDate' => date_format(new \DateTime('2 days ago'), 'c'),
-            'endDate' => date_format(new \DateTime('+2 days'), 'c'),
+            'startDate' => date_format(new DateTime('2 days ago'), 'c'),
+            'endDate' => date_format(new DateTime('+2 days'), 'c'),
         ];
 
         $arr[] = [
@@ -112,14 +113,14 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'learningMaterial' => 10,
             'meshDescriptors' => ['abc2'],
             'position' => 0,
-            'startDate' => date_format(new \DateTime('4 days ago'), 'c'),
-            'endDate' => date_format(new \DateTime('2 days ago'), 'c'),
+            'startDate' => date_format(new DateTime('4 days ago'), 'c'),
+            'endDate' => date_format(new DateTime('2 days ago'), 'c'),
         ];
 
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 9,
@@ -135,7 +136,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'session' => 11

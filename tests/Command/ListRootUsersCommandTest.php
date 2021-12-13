@@ -32,9 +32,6 @@ class ListRootUsersCommandTest extends KernelTestCase
      */
     protected $commandTester;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -48,9 +45,6 @@ class ListRootUsersCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

@@ -37,9 +37,6 @@ trait ProgramYearObjectivesEntity
         $this->programYearObjectives->removeElement($programYearObjective);
     }
 
-    /**
-     * @return Collection|ProgramYearObjectiveInterface[]
-     */
     public function getProgramYearObjectives(): Collection
     {
         return $this->programYearObjectives;

@@ -22,8 +22,5 @@ interface CategorizableEntityInterface
 
     public function removeTerm(TermInterface $term);
 
-    /**
-     * @return ArrayCollection|TermInterface[]
-     */
-    public function getTerms();
+    public function getTerms(): Collection;
 }

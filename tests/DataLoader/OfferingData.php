@@ -8,7 +8,7 @@ use App\Entity\DTO\OfferingDTO;
 
 class OfferingData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -122,7 +122,7 @@ class OfferingData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 9,
@@ -138,7 +138,7 @@ class OfferingData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

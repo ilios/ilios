@@ -25,7 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AamcResourceType implements AamcResourceTypeInterface
 {
     use IdentifiableEntity;
-    use DescribableEntity;
     use TitledEntity;
     use StringableIdEntity;
     use CategorizableEntity;
@@ -88,9 +87,6 @@ class AamcResourceType implements AamcResourceTypeInterface
         $this->terms = new ArrayCollection();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addTerm(TermInterface $term)
     {
         if (!$this->terms->contains($term)) {
@@ -99,14 +95,21 @@ class AamcResourceType implements AamcResourceTypeInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeTerm(TermInterface $term)
     {
         if ($this->terms->contains($term)) {
             $this->terms->removeElement($term);
             $term->removeAamcResourceType($this);
         }
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 }

@@ -27,10 +27,7 @@ class MeshDescriptorTest extends AbstractMeshTest
 {
     protected string $testName =  'meshDescriptors';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadMeshDescriptorData::class,
@@ -52,7 +49,7 @@ class MeshDescriptorTest extends AbstractMeshTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 'abc1']],
@@ -73,7 +70,7 @@ class MeshDescriptorTest extends AbstractMeshTest
         ];
     }
 
-    protected function getTimeStampFields()
+    protected function getTimeStampFields(): array
     {
         return ['updatedAt', 'createdAt'];
     }

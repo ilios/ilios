@@ -128,9 +128,8 @@ trait JsonControllerTest
     /**
      * Logs the 'newuser' user in and returns the user's JSON Web Token (JWT).
      * @param KernelBrowser $browser
-     * @return string the JWT
      */
-    protected function getAuthenticatedUserToken(KernelBrowser $browser)
+    protected function getAuthenticatedUserToken(KernelBrowser $browser): string
     {
         return $this->getTokenForUser($browser, 2);
     }
@@ -141,9 +140,8 @@ trait JsonControllerTest
      *
      * @param KernelBrowser $browser
      * @param string $userId
-     * @return string the JWT
      */
-    protected function getTokenForUser(KernelBrowser $browser, $userId)
+    protected function getTokenForUser(KernelBrowser $browser, $userId): string
     {
         static $tokens;
 

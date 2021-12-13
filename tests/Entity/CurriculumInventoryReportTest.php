@@ -7,6 +7,7 @@ namespace App\Tests\Entity;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Entity\School;
+use DateTime;
 use Mockery as m;
 
 /**
@@ -38,8 +39,8 @@ class CurriculumInventoryReportTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setYear(2001);
-        $this->object->setStartDate(new \DateTime());
-        $this->object->setEndDate(new \DateTime());
+        $this->object->setStartDate(new DateTime());
+        $this->object->setEndDate(new DateTime());
         $this->validate(0);
     }
 

@@ -8,7 +8,7 @@ use App\Entity\DTO\VocabularyDTO;
 
 class VocabularyData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -28,7 +28,7 @@ class VocabularyData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 3,
@@ -39,7 +39,7 @@ class VocabularyData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'school' => 555,

@@ -6,8 +6,8 @@ namespace App\Entity;
 
 use App\Traits\CourseObjectivesEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
+use App\Traits\TitledNullableEntityInterface;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
 use App\Traits\ArchivableEntityInterface;
@@ -20,7 +20,6 @@ use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\StudentAdvisorsEntityInterface;
-use App\Traits\TitledEntityInterface;
 use App\Traits\StringableEntityInterface;
 use App\Traits\SessionsEntityInterface;
 
@@ -29,7 +28,7 @@ use App\Traits\SessionsEntityInterface;
  */
 interface CourseInterface extends
     IdentifiableEntityInterface,
-    TitledEntityInterface,
+    TitledNullableEntityInterface,
     StringableEntityInterface,
     LockableEntityInterface,
     ArchivableEntityInterface,
@@ -51,34 +50,22 @@ interface CourseInterface extends
      */
     public function setLevel($level);
 
-    /**
-     * @return int
-     */
-    public function getLevel();
+    public function getLevel(): int;
 
     /**
      * @param int $year
      */
     public function setYear($year);
 
-    /**
-     * @return int
-     */
-    public function getYear();
+    public function getYear(): int;
 
     public function setStartDate(DateTime $startDate);
 
-    /**
-     * @return DateTime
-     */
-    public function getStartDate();
+    public function getStartDate(): DateTime;
 
     public function setEndDate(DateTime $endDate);
 
-    /**
-     * @return DateTime
-     */
-    public function getEndDate();
+    public function getEndDate(): DateTime;
 
     /**
      * @todo: Possible rename.
@@ -88,16 +75,12 @@ interface CourseInterface extends
 
     /**
      * @todo: Possible rename.
-     * @return string
      */
-    public function getExternalId();
+    public function getExternalId(): ?string;
 
-    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType);
+    public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType);
 
-    /**
-     * @return \App\Entity\CourseClerkshipType
-     */
-    public function getClerkshipType();
+    public function getClerkshipType(): ?CourseClerkshipTypeInterface;
 
     public function setLearningMaterials(Collection $learningMaterials = null);
 
@@ -105,22 +88,13 @@ interface CourseInterface extends
 
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
 
-    /**
-     * @return ArrayCollection|CourseLearningMaterialInterface[]
-     */
-    public function getLearningMaterials();
+    public function getLearningMaterials(): Collection;
 
     public function setAncestor(CourseInterface $ancestor);
 
-    /**
-     * @return CourseInterface
-     */
-    public function getAncestor();
+    public function getAncestor(): ?CourseInterface;
 
-    /**
-     * @return CourseInterface
-     */
-    public function getAncestorOrSelf();
+    public function getAncestorOrSelf(): CourseInterface;
 
     public function setDescendants(Collection $children);
 
@@ -128,10 +102,7 @@ interface CourseInterface extends
 
     public function removeDescendant(CourseInterface $child);
 
-    /**
-     * @return ArrayCollection|CourseInterface[]
-     */
-    public function getDescendants();
+    public function getDescendants(): Collection;
 
     public function setSequenceBlocks(Collection $sequenceBlocks);
 
@@ -139,8 +110,5 @@ interface CourseInterface extends
 
     public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
 
-    /**
-     * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
-     */
-    public function getSequenceBlocks();
+    public function getSequenceBlocks(): Collection;
 }

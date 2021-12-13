@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\FindUserCommand;
 use App\Service\Directory;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -73,7 +74,7 @@ class FindUserCommandTest extends KernelTestCase
 
     public function testTermRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

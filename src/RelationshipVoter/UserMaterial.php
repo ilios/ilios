@@ -14,10 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class UserMaterial extends AbstractVoter
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof Material && $attribute === self::VIEW;
     }
@@ -26,9 +23,8 @@ class UserMaterial extends AbstractVoter
      * @param string $attribute
      * @param Material $material
      * @param TokenInterface $token
-     * @return bool
      */
-    protected function voteOnAttribute($attribute, $material, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $material, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

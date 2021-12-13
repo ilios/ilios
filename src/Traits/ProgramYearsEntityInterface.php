@@ -20,8 +20,5 @@ interface ProgramYearsEntityInterface
 
     public function removeProgramYear(ProgramYearInterface $programYear);
 
-    /**
-    * @return ProgramYearInterface[]|ArrayCollection
-    */
-    public function getProgramYears();
+    public function getProgramYears(): Collection;
 }

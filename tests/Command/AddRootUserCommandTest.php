@@ -6,6 +6,8 @@ namespace App\Tests\Command;
 
 use App\Command\AddRootUserCommand;
 use App\Repository\UserRepository;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -31,9 +33,6 @@ class AddRootUserCommandTest extends KernelTestCase
      */
     protected $commandTester;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -47,9 +46,6 @@ class AddRootUserCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();
@@ -87,7 +83,7 @@ class AddRootUserCommandTest extends KernelTestCase
      */
     public function testMissingInput()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command' => AddRootUserCommand::COMMAND_NAME
         ]);
@@ -101,7 +97,7 @@ class AddRootUserCommandTest extends KernelTestCase
         $userId = 0;
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn(null);
 
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command' => AddRootUserCommand::COMMAND_NAME,
             'userId' => $userId

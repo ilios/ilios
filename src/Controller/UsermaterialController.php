@@ -29,8 +29,6 @@ class UsermaterialController extends AbstractController
      *
      * @param string $version
      * @param int $id of the user
-     *
-     * @return Response
      */
     public function getAction(
         $version,
@@ -40,7 +38,7 @@ class UsermaterialController extends AbstractController
         UserRepository $userRepository,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
-    ) {
+    ): Response {
         /** @var UserInterface $user */
         $user = $userRepository->findOneBy(['id' => $id]);
 
@@ -76,7 +74,7 @@ class UsermaterialController extends AbstractController
         // or if the requesting user does not have elevated privileges
         $hasElevatedPrivileges = $sessionUser->isRoot() || $sessionUser->performsNonLearnerFunction();
         if ($sessionUser->getId() !== $user->getId() || ! $hasElevatedPrivileges) {
-            $now = new \DateTime();
+            $now = new DateTime();
             $materials = $this->clearDraftMaterials($materials);
             $this->clearTimedMaterials($materials, $now);
         }
@@ -94,7 +92,7 @@ class UsermaterialController extends AbstractController
     /**
      * @param UserMaterial[] $materials
      */
-    protected function clearTimedMaterials(array $materials, \DateTime $dateTime)
+    protected function clearTimedMaterials(array $materials, DateTime $dateTime)
     {
         foreach ($materials as $material) {
             $material->clearTimedMaterial($dateTime);
@@ -103,8 +101,6 @@ class UsermaterialController extends AbstractController
 
     /**
      * @param UserMaterial[] $materials
-     *
-     * @return array;
      */
     protected function clearDraftMaterials(array $materials): array
     {

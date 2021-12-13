@@ -24,23 +24,17 @@ interface MeshTreeInterface extends
 
     /**
      * Get treeNumber
-     *
-     * @return string
      */
-    public function getTreeNumber();
+    public function getTreeNumber(): string;
 
     /**
      * Set meshDescriptor
      *
-     *
-     * @return MeshTree
      */
-    public function setDescriptor(MeshDescriptorInterface $descriptor);
+    public function setDescriptor(MeshDescriptorInterface $descriptor): MeshTree;
 
     /**
      * Get meshDescriptor
-     *
-     * @return MeshDescriptorInterface
      */
-    public function getDescriptor();
+    public function getDescriptor(): MeshDescriptorInterface;
 }

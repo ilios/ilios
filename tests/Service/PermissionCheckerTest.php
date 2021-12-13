@@ -33,9 +33,6 @@ class PermissionCheckerTest extends TestCase
      */
     protected $permissionMatrix;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -43,9 +40,6 @@ class PermissionCheckerTest extends TestCase
         $this->permissionChecker = new PermissionChecker($this->permissionMatrix);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

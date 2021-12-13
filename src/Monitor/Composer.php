@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Monitor;
 
+use Laminas\Diagnostics\Result\ResultInterface;
 use Composer\Autoload\ClassLoader;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
@@ -11,10 +12,7 @@ use Laminas\Diagnostics\Result\Success;
 
 class Composer implements CheckInterface
 {
-    /**
-     * @inheritdoc
-     */
-    public function check()
+    public function check(): ResultInterface
     {
         // get the composer autoloader so we can check it's options
         /** @var ClassLoader $loader */
@@ -32,10 +30,7 @@ class Composer implements CheckInterface
         return new Success('is correct');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return 'Composer Autoload Setup';
     }

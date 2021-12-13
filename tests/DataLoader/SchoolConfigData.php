@@ -8,7 +8,7 @@ use App\Entity\DTO\SchoolConfigDTO;
 
 class SchoolConfigData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -32,7 +32,7 @@ class SchoolConfigData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 4,
@@ -42,7 +42,7 @@ class SchoolConfigData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'name' => null,

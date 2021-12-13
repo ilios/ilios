@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,9 +26,6 @@ class RolloverCurriculumInventoryReportCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -61,10 +59,7 @@ class RolloverCurriculumInventoryReportCommand extends Command
             );
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $reportId = $input->getArgument('reportId');
         $name = $input->getOption('name');
@@ -74,7 +69,7 @@ class RolloverCurriculumInventoryReportCommand extends Command
         /* @var CurriculumInventoryReportInterface $report */
         $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
-            throw new \Exception(
+            throw new Exception(
                 "No curriculum inventory report with id #{$reportId} was found."
             );
         }

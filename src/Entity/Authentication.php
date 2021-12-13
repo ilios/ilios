@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Attribute as IA;
 use App\Repository\AuthenticationRepository;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
@@ -63,34 +64,22 @@ class Authentication implements AuthenticationInterface, Stringable
     #[IA\Type('dateTime')]
     protected $invalidateTokenIssuedBefore;
 
-    /**
-     * @inheritdoc
-     */
     public function setUsername($username)
     {
         $this->username = $username;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setPasswordHash($passwordHash)
     {
         $this->passwordHash = $passwordHash;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPasswordHash()
+    public function getPasswordHash(): string
     {
         return $this->passwordHash;
     }
@@ -98,46 +87,31 @@ class Authentication implements AuthenticationInterface, Stringable
     /**
      * @inheritDoc
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->getPasswordHash();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setUser(UserInterface $user)
     {
         $this->user = $user;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUser()
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setInvalidateTokenIssuedBefore(\DateTime $invalidateTokenIssuedBefore = null)
+    public function setInvalidateTokenIssuedBefore(DateTime $invalidateTokenIssuedBefore = null)
     {
         $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInvalidateTokenIssuedBefore()
+    public function getInvalidateTokenIssuedBefore(): ?DateTime
     {
         return $this->invalidateTokenIssuedBefore;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function __toString(): string
     {
         return (string) $this->user;

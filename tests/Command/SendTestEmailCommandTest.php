@@ -43,9 +43,6 @@ class SendTestEmailCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function tearDown(): void
     {
         parent::tearDown();
@@ -54,7 +51,6 @@ class SendTestEmailCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
-     *
      */
     public function testExecute()
     {

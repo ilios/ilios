@@ -64,7 +64,7 @@ class MeshConceptTest extends EntityBase
      */
     public function testSetPreferred()
     {
-        $this->basicSetTest('preferred', 'string');
+        $this->basicSetTest('preferred', 'boolean');
     }
 
     /**

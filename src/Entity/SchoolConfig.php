@@ -42,6 +42,7 @@ class SchoolConfig implements SchoolConfigInterface
     /**
      * @var string
      * @Assert\Type(type="string")
+     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 200
@@ -55,6 +56,7 @@ class SchoolConfig implements SchoolConfigInterface
     /**
      * @var string
      * @Assert\Type(type="string")
+     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 65000
@@ -75,17 +77,11 @@ class SchoolConfig implements SchoolConfigInterface
     #[IA\Type('entity')]
     protected $school;
 
-    /**
-     * @inheritdoc
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setValue($value)
     {
         $this->value = $value;

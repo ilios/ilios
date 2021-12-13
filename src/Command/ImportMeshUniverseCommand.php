@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
 use Ilios\MeSH\Parser;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -39,9 +40,6 @@ class ImportMeshUniverseCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -69,10 +67,7 @@ class ImportMeshUniverseCommand extends Command
             );
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->lock()) {
             $output->writeln('The command is already running in another process.');
@@ -120,10 +115,7 @@ class ImportMeshUniverseCommand extends Command
         return 0;
     }
 
-    /**
-     * @return string
-     */
-    private function getUri(InputInterface $input)
+    private function getUri(InputInterface $input): string
     {
         $path = trim((string) $input->getOption('path'));
         $url = trim((string) $input->getOption('url'));
@@ -143,7 +135,7 @@ class ImportMeshUniverseCommand extends Command
             $year = (int)$year;
             if (!in_array($year, $supportedYears)) {
                 $this->release();
-                throw new \RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
+                throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
             }
 
             return self::YEARS[$year];

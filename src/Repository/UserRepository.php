@@ -10,6 +10,7 @@ use App\Entity\UserRoleInterface;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
@@ -44,7 +45,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param string $q
      * @param int $limit
      * @param int $offset
-     * @return UserDTO[]
      */
     public function findDTOsByQ(
         $q,
@@ -105,7 +105,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     }
 
     /**
-     * Find and hydrate as DTOs @return UserDTO[]
+     * Find and hydrate as DTOs
      */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
@@ -118,10 +118,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Find and hydrate as DTOs
      *
-     *
-     * @return UserDTO[]
      */
-    public function findAllMatchingDTOsByCampusIds(array $campusIds)
+    public function findAllMatchingDTOsByCampusIds(array $campusIds): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('u')
@@ -135,9 +133,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Find all of the events for a user id between two dates
      * @param int $id
-     * @return UserEvent[]
      */
-    public function findEventsForUser($id, DateTime $from, DateTime $to)
+    public function findEventsForUser($id, DateTime $from, DateTime $to): array
     {
         //These joins are DQL representations to go from a user to an offerings
         $joins = $this->getUserToOfferingJoins();
@@ -194,7 +191,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Find all of the events for a user in a session
-     * @return UserEvent[]
      */
     public function findSessionEventsForUser(int $userId, int $sessionId): array
     {
@@ -218,9 +214,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Get a list of users who do not have the former student role filtered by campus id
-     * @return ArrayCollection
      */
-    public function findUsersWhoAreNotFormerStudents(array $campusIds = []): ArrayCollection
+    public function findUsersWhoAreNotFormerStudents(array $campusIds = []): Collection
     {
         $qb = $this->_em->createQueryBuilder();
         $formerStudentRole = $qb->select()
@@ -283,10 +278,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @param bool $includeDisabled
      * @param bool $includeSyncIgnore
-     *
-     * @return array
      */
-    public function getIds($includeDisabled = true, $includeSyncIgnore = true)
+    public function getIds($includeDisabled = true, $includeSyncIgnore = true): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u.id')->from('App\Entity\User', 'u');
@@ -305,10 +298,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      *
      * @param bool $includeDisabled
      * @param bool $includeSyncIgnore
-     *
-     * @return array
      */
-    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true)
+    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('u.campusId')->from('App\Entity\User', 'u');
@@ -340,7 +331,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * offering based user events
      *
      * @param int $id
-     * @return CalendarEvent[]
      */
     protected function getOfferingEventsFor(
         $id,
@@ -387,8 +377,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Use the query builder and the $joins to get a set of
      * ILMSession based user events
-     *
-     * @return UserEvent[]
      */
     protected function getIlmSessionEventsFor(int $id, DateTime $from, DateTime $to, array $joins): array
     {
@@ -429,10 +417,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Adds instructors to a given list of events.
      * @param UserEvent[] $events A list of events
-     *
-     * @return UserEvent[] The events list with instructors added.
      */
-    public function addInstructorsToEvents(array $events)
+    public function addInstructorsToEvents(array $events): array
     {
         return $this->attachInstructorsToEvents($events, $this->_em);
     }
@@ -441,7 +427,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Adds pre- and post-requisites for a given user to a given list of events.
      * @param int $id The user id.
      * @param UserEvent[] $events A list of events.
-     * @return UserEvent[] The events list with pre- and post-requisites added.
      */
     public function addPreAndPostRequisites($id, array $events): array
     {
@@ -453,9 +438,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Attaches user-events for a given user as pre-requisites to a given list of given events.
      * @param int $id The user id.
      * @param UserEvent[] $events A list of events.
-     * @return array The events list with pre-requisites attached.
      */
-    protected function attachPreRequisitesToEvents($id, array $events)
+    protected function attachPreRequisitesToEvents($id, array $events): array
     {
         if (empty($events)) {
             return $events;
@@ -586,9 +570,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Attaches user-events for a given user as post-requisites to a given list of given events.
      * @param int $id The user id.
      * @param array $events A list of events.
-     * @return array The events list with post-requisites attached.
      */
-    protected function attachPostRequisitesToEvents($id, array $events)
+    protected function attachPostRequisitesToEvents($id, array $events): array
     {
         if (empty($events)) {
             return $events;
@@ -918,10 +901,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    /**
-     * @return UserDTO[]
-     */
-    protected function createUserDTOs(AbstractQuery $query)
+    protected function createUserDTOs(AbstractQuery $query): array
     {
         $dtos = [];
         foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -1000,10 +980,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Find all of the assigned materials for a user
      * @param int $id
      * @param array $criteria
-     *
-     * @return UserMaterial[]
      */
-    public function findMaterialsForUser($id, $criteria)
+    public function findMaterialsForUser($id, $criteria): array
     {
         $factory = $this->factory;
         $offIdQb = $this->_em->createQueryBuilder();
@@ -1128,9 +1106,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Finds and adds learning materials to a given list of calendar events.
      *
      * @param UserEvent[] $events
-     * @return UserEvent[]
      */
-    public function addMaterialsToEvents(array $events)
+    public function addMaterialsToEvents(array $events): array
     {
         return $this->attachMaterialsToEvents($events, $this->factory, $this->_em);
     }
@@ -1139,9 +1116,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Finds and adds course- and session-objectives and their competencies to a given list of calendar events.
      *
      * @param UserEvent[] $events
-     * @return UserEvent[]
      */
-    public function addSessionDataToEvents(array $events)
+    public function addSessionDataToEvents(array $events): array
     {
         return $this->attachSessionDataToEvents($events, $this->_em);
     }
@@ -1207,9 +1183,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Returns an assoc. array of ids of courses administered by the given user,
      * and the ids of schools owning these administered courses.
      * @param int $userId
-     * @return array
      */
-    public function getAdministeredCourseAndSchoolIds($userId)
+    public function getAdministeredCourseAndSchoolIds($userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];
@@ -1345,7 +1320,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns a list of ids of schools which own learner groups instructed by the given user.
      * @param int $userId
-     * @return array
      */
     public function getInstructedLearnerGroupSchoolIds($userId): array
     {
@@ -1365,7 +1339,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns a list of ids of learner groups that the given user is a member of.
      * @param int $userId
-     * @return array
      */
     public function getLearnerGroupIds($userId): array
     {
@@ -1381,7 +1354,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns a list of ids of instructor groups that the given user is a member of.
      * @param int $userId
-     * @return array
      */
     public function getInstructorGroupIds($userId): array
     {
@@ -1397,7 +1369,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns a list of ids of schools owning instructor groups that the given user is part of.
      * @param int $userId
-     * @return array
      */
     public function getInstructorGroupSchoolIds($userId): array
     {
@@ -1415,7 +1386,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Returns an assoc. array of ids of courses that are linked to the programs directed by the given user,
      * and the ids of cohorts, program years and directed programs in this chain of associations.
      * @param int $userId
-     * @return array
      */
     public function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId): array
     {
@@ -1449,7 +1419,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Returns an assoc. array of ids of ILMs and offerings instructed by the given user,
      * and the ids of schools, courses, and sessions owning these instructed and offerings.
      * @param int $userId
-     * @return array
      */
     public function getInstructedOfferingIlmSessionCourseAndSchoolIds($userId): array
     {
@@ -1540,7 +1509,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Returns an assoc. array of ids of programs directed by the given user,
      * and the ids of schools owning these directed programs.
      * @param int $userId
-     * @return array
      */
     public function getDirectedProgramAndSchoolIds($userId): array
     {
@@ -1567,7 +1535,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Returns an assoc. array of ids of program-years directed by the given user,
      * and the ids of programs and schools owning these directed program years.
      * @param int $userId
-     * @return array
      */
     public function getDirectedProgramYearProgramAndSchoolIds($userId): array
     {

@@ -43,8 +43,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 
     /**
      * Find by a string query.
-     *
-     * @return MeshDescriptorDTO[]|array
      */
     public function findDTOsByQ(
         string $q,
@@ -82,7 +80,6 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 
     /**
      * Hydrate as DTOs
-     * @return MeshDescriptorDTO[]
      */
     protected function createDTOs(AbstractQuery $query): array
     {
@@ -133,10 +130,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         $terms = explode(' ', $q);
         return array_filter($terms, 'strlen');
     }
-    /**
-     * @return Query
-     */
-    protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset)
+    protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset): Query
     {
         $qb = $this->_em->createQueryBuilder()
             ->select('DISTINCT d')
@@ -537,8 +531,6 @@ EOL;
      * Create Descriptor objects for a set of Ids
      *
      * @todo these are not complete, they only have the information needed for the search Index
-     *
-     * @return Descriptor[]
      */
     public function getIliosMeshDescriptorsById(array $ids): array
     {

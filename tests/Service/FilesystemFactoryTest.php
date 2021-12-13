@@ -8,6 +8,7 @@ use App\Classes\LocalCachingFilesystemDecorator;
 use App\Service\Config;
 use App\Service\FilesystemFactory;
 use App\Tests\TestCase;
+use Exception;
 use League\Flysystem\FilesystemInterface;
 use Mockery as m;
 
@@ -26,9 +27,6 @@ class FilesystemFactoryTest extends TestCase
         $this->filesystemFactory = new FilesystemFactory($this->config, '/tmp');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();
@@ -47,7 +45,7 @@ class FilesystemFactoryTest extends TestCase
 
     public function testGetFilesystemFailsFromBadS3Url()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->config->shouldReceive('get')->with('storage_s3_url')->andReturn('bad');
         $this->filesystemFactory->getFilesystem();
     }

@@ -18,10 +18,7 @@ interface SchoolConfigInterface extends
     IdentifiableEntityInterface,
     StringableEntityInterface
 {
-    /**
-     * @return string
-     */
-    public function getValue();
+    public function getValue(): string;
 
     /**
      * @param string $value

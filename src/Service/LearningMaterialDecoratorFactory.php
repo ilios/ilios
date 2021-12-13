@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Traits\StringableEntityInterface;
 use App\Entity\LearningMaterialInterface;
+use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -19,12 +20,11 @@ class LearningMaterialDecoratorFactory
 
     /**
      * @param mixed $object
-     * @return LearningMaterialDTO
      */
-    public function create($object)
+    public function create($object): LearningMaterialDTO
     {
         if (!$object instanceof LearningMaterialInterface && !$object instanceof LearningMaterialDTO) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Object must by a learning material entity or DTO got " . $object::class
             );
         }
@@ -35,10 +35,7 @@ class LearningMaterialDecoratorFactory
         return $this->decorateDto($object);
     }
 
-    /**
-     * @return LearningMaterialDTO
-     */
-    protected function entityToDto(LearningMaterialInterface $learningMaterial)
+    protected function entityToDto(LearningMaterialInterface $learningMaterial): LearningMaterialDTO
     {
         $dto = new LearningMaterialDTO(
             $learningMaterial->getId(),
@@ -69,10 +66,7 @@ class LearningMaterialDecoratorFactory
         return $dto;
     }
 
-    /**
-     * @return LearningMaterialDTO
-     */
-    protected function decorateDto(LearningMaterialDTO $learningMaterialDTO)
+    protected function decorateDto(LearningMaterialDTO $learningMaterialDTO): LearningMaterialDTO
     {
         if ($learningMaterialDTO->filename) {
             $link = $this->router->generate(

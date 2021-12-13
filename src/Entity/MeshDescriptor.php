@@ -234,17 +234,11 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->annotation = $annotation;
     }
 
-    /**
-     * @return string
-     */
-    public function getAnnotation()
+    public function getAnnotation(): string
     {
         return $this->annotation;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setSessionLearningMaterials(Collection $sessionLearningMaterials)
     {
         $this->sessionLearningMaterials = new ArrayCollection();
@@ -254,9 +248,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
         if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
@@ -265,9 +256,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
     {
         if ($this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
@@ -276,17 +264,11 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSessionLearningMaterials()
+    public function getSessionLearningMaterials(): Collection
     {
         return $this->sessionLearningMaterials;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setCourseLearningMaterials(Collection $courseLearningMaterials)
     {
         $this->courseLearningMaterials = new ArrayCollection();
@@ -296,9 +278,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
         if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
@@ -307,9 +286,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
     {
         if ($this->courseLearningMaterials->contains($courseLearningMaterial)) {
@@ -318,17 +294,11 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getCourseLearningMaterials()
+    public function getCourseLearningMaterials(): Collection
     {
         return $this->courseLearningMaterials;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setQualifiers(Collection $qualifiers)
     {
         $this->qualifiers = new ArrayCollection();
@@ -338,9 +308,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addQualifier(MeshQualifierInterface $qualifier)
     {
         if (!$this->qualifiers->contains($qualifier)) {
@@ -349,9 +316,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeQualifier(MeshQualifierInterface $qualifier)
     {
         if ($this->qualifiers->contains($qualifier)) {
@@ -360,17 +324,11 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getQualifiers()
+    public function getQualifiers(): Collection
     {
         return $this->qualifiers;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setTrees(Collection $trees)
     {
         $this->trees = new ArrayCollection();
@@ -380,9 +338,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addTree(MeshTreeInterface $tree)
     {
         if (!$this->trees->contains($tree)) {
@@ -397,33 +352,21 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTrees()
+    public function getTrees(): Collection
     {
         return $this->trees;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setPreviousIndexing(MeshPreviousIndexingInterface $previousIndexing = null)
     {
         $this->previousIndexing = $previousIndexing;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPreviousIndexing()
+    public function getPreviousIndexing(): MeshPreviousIndexingInterface
     {
         return $this->previousIndexing;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCourse(CourseInterface $course)
     {
         if (!$this->courses->contains($course)) {
@@ -432,9 +375,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCourse(CourseInterface $course)
     {
         if ($this->courses->contains($course)) {
@@ -443,9 +383,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addSession(SessionInterface $session)
     {
         if (!$this->sessions->contains($session)) {
@@ -454,9 +391,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeSession(SessionInterface $session)
     {
         if ($this->sessions->contains($session)) {
@@ -465,9 +399,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addConcept(MeshConceptInterface $concept)
     {
         if (!$this->concepts->contains($concept)) {
@@ -476,9 +407,6 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeConcept(MeshConceptInterface $concept)
     {
         if ($this->concepts->contains($concept)) {
@@ -487,17 +415,11 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isDeleted()
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use ArrayObject;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
@@ -20,8 +21,11 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
     {
     }
 
-    public function normalize($object, string $format = null, array $context = [])
-    {
+    public function normalize(
+        $object,
+        string $format = null,
+        array $context = [],
+    ): array|string|int|float|bool|ArrayObject|null {
         $reflection = new ReflectionClass($object);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
 
@@ -42,9 +46,8 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
      * Converts value into the type dictated by it's annotation on the entity
      *
      * @param mixed $value
-     * @return mixed
      */
-    protected function convertValueByType(ReflectionProperty $property, $value)
+    protected function convertValueByType(ReflectionProperty $property, $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'string') {
@@ -79,7 +82,7 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
      * Check to see if we can normalize the object or class
      * {@inheritdoc}
      */
-    public function supportsNormalization($classNameOrObject, string $format = null)
+    public function supportsNormalization($classNameOrObject, string $format = null): bool
     {
         return $format === 'json' && $this->entityMetadata->isAnIliosDto($classNameOrObject);
     }

@@ -13,6 +13,7 @@ use App\Command\AddUserCommand;
 use App\Entity\AuthenticationInterface;
 use App\Entity\SchoolInterface;
 use App\Tests\Helper\TestQuestionHelper;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -109,7 +110,7 @@ class AddUserCommandTest extends KernelTestCase
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute(
             [
                 'command' => self::COMMAND_NAME,

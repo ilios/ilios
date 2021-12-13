@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AuditLog;
-use Mockery as m;
+
+use function method_exists;
 
 /**
  * Tests for Entity AuditLog
@@ -64,9 +65,12 @@ class AuditLogTest extends EntityBase
      * @covers \App\Entity\AuditLog::setObjectId
      * @covers \App\Entity\AuditLog::getObjectId
      */
-    public function testSetObjectId()
+    public function testSetObjectIdConvertsIntToString()
     {
-        $this->basicSetTest('objectId', 'integer');
+        $this->assertTrue(method_exists($this->object, 'setObjectId'));
+        $this->assertTrue(method_exists($this->object, 'getObjectId'));
+        $this->object->setObjectId(11);
+        $this->assertSame('11', $this->object->getObjectId());
     }
 
     /**

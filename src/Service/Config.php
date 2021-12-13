@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
+use Exception;
 
 use function Stringy\create as s;
 
@@ -25,7 +26,7 @@ class Config
     /**
      * Config constructor.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(protected ApplicationConfigRepository $applicationConfigRepository)
     {
@@ -36,10 +37,8 @@ class Config
      * go ahead and ignore the DB
      *
      * @param string $name
-     *
-     * @return string | null
      */
-    public function get($name)
+    public function get($name): string|bool|null
     {
         $result = $this->getValueFromEnv($name);
         if (null === $result) {
@@ -53,9 +52,8 @@ class Config
      * See if there is an environmental variable for this var
      *
      * @param string $name
-     * @return string | null
      */
-    protected function getValueFromEnv($name)
+    protected function getValueFromEnv($name): string|bool|null
     {
         $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
         $result = null;
@@ -84,9 +82,8 @@ class Config
      * just return null
      *
      * @param string $name
-     * @return string | null
      */
-    protected function getValueFromDb($name)
+    protected function getValueFromDb($name): string|null
     {
         try {
             return $this->applicationConfigRepository->getValue($name);
@@ -102,11 +99,9 @@ class Config
      * Since the database stores all of these as long_text we need to cast them back
      *
      * @param string $name
-     * @param string|boolean $result
-     *
-     * @return mixed
+     * @param string|bool|null $result
      */
-    protected function castResult($name, $result)
+    protected function castResult($name, $result): string|bool|null
     {
         if (null !== $result && !is_bool($result) && in_array($name, self::BOOLEAN_NAMES)) {
             return (bool) json_decode($result);

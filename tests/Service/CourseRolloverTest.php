@@ -113,9 +113,6 @@ class CourseRolloverTest extends TestCase
     protected $service;
 
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -143,9 +140,6 @@ class CourseRolloverTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();
@@ -677,6 +671,7 @@ class CourseRolloverTest extends TestCase
         $sessionXObjective = new SessionObjective();
         $sessionXObjective->addCourseObjective(new CourseObjective());
         $sessionXObjective->addCourseObjective($courseXObjective);
+        $sessionXObjective->setTitle('test session');
         $session->addSessionObjective($sessionXObjective);
         $course->addSession($session);
 
@@ -1157,10 +1152,8 @@ class CourseRolloverTest extends TestCase
 
     /**
      * Gets a basic filled out course
-     *
-     * @return Course
      */
-    protected function createTestCourse()
+    protected function createTestCourse(): Course
     {
         $course = new Course();
         $course->setId(10);
@@ -1196,9 +1189,8 @@ class CourseRolloverTest extends TestCase
 
     /**
      * Gets a course with a bunch of relationships attached
-     * @return Course
      */
-    protected function createTestCourseWithAssociations()
+    protected function createTestCourseWithAssociations(): Course
     {
         $course = $this->createTestCourse();
 
@@ -1341,10 +1333,8 @@ class CourseRolloverTest extends TestCase
 
     /**
      * Gets a course with a few offerings to use in date testing
-     *
-     * @return Course
      */
-    protected function createTestCourseWithOfferings()
+    protected function createTestCourseWithOfferings(): Course
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -1371,10 +1361,8 @@ class CourseRolloverTest extends TestCase
      * @param CourseInterface $course
      * @param CourseInterface $newCourse
      * @param int $interval the length of time in the future for the new academic year
-     *
-     * @return int
      */
-    protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1)
+    protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1): int
     {
         $newYear = $course->getYear() + $interval;
         $this->courseRepository->shouldReceive('findOneBy')

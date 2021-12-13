@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,9 +29,6 @@ class AddRootUserCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -44,16 +42,13 @@ class AddRootUserCommand extends Command
             );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $userId = $input->getArgument('userId');
         /* @var UserInterface $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
-            throw new \Exception("No user with id #{$userId} was found.");
+            throw new Exception("No user with id #{$userId} was found.");
         }
         $user->setRoot(true);
         $this->userRepository->update($user, true, true);

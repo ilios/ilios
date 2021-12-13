@@ -38,10 +38,7 @@ interface MeshDescriptorInterface extends
      */
     public function setAnnotation($annotation);
 
-    /**
-     * @return string
-     */
-    public function getAnnotation();
+    public function getAnnotation(): string;
 
     public function setSessionLearningMaterials(Collection $sessionLearningMaterials);
 
@@ -49,10 +46,7 @@ interface MeshDescriptorInterface extends
 
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
 
-    /**
-     * @return Collection
-     */
-    public function getSessionLearningMaterials();
+    public function getSessionLearningMaterials(): Collection;
 
     public function setCourseLearningMaterials(Collection $courseLearningMaterials);
 
@@ -60,10 +54,7 @@ interface MeshDescriptorInterface extends
 
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
 
-    /**
-     * @return Collection
-     */
-    public function getCourseLearningMaterials();
+    public function getCourseLearningMaterials(): Collection;
 
     public function setQualifiers(Collection $qualifiers);
 
@@ -71,10 +62,7 @@ interface MeshDescriptorInterface extends
 
     public function removeQualifier(MeshQualifierInterface $qualifier);
 
-    /**
-     * @return Collection
-     */
-    public function getQualifiers();
+    public function getQualifiers(): Collection;
 
     public function setTrees(Collection $trees);
 
@@ -82,22 +70,13 @@ interface MeshDescriptorInterface extends
 
     public function removeTree(MeshTreeInterface $tree);
 
-    /**
-     * @return Collection
-     */
-    public function getTrees();
+    public function getTrees(): Collection;
 
     public function setPreviousIndexing(MeshPreviousIndexingInterface $previousIndexing);
 
-    /**
-     * @return MeshPreviousIndexingInterface
-     */
-    public function getPreviousIndexing();
+    public function getPreviousIndexing(): MeshPreviousIndexingInterface;
 
-    /**
-     * @return bool
-     */
-    public function isDeleted();
+    public function isDeleted(): bool;
 
     /**
      * @param bool $deleted

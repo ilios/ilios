@@ -47,9 +47,6 @@ class UserMaterialTest extends TestCase
         $this->userMaterial->endDate = null;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->userMaterial);

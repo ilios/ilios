@@ -24,7 +24,6 @@ use App\Traits\StringableIdEntity;
 class AamcMethod implements AamcMethodInterface
 {
     use IdentifiableEntity;
-    use DescribableEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
     use ActivatableEntity;
@@ -84,9 +83,6 @@ class AamcMethod implements AamcMethodInterface
         $this->active = true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addSessionType(SessionTypeInterface $sessionType)
     {
         if (!$this->sessionTypes->contains($sessionType)) {
@@ -99,5 +95,15 @@ class AamcMethod implements AamcMethodInterface
     {
         $this->sessionTypes->removeElement($sessionType);
         $sessionType->removeAamcMethod($this);
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 }

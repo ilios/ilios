@@ -8,7 +8,7 @@ use App\Entity\DTO\UserDTO;
 
 class UserData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -218,7 +218,7 @@ class UserData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 6,
@@ -270,7 +270,7 @@ class UserData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

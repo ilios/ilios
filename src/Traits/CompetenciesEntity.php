@@ -36,10 +36,7 @@ trait CompetenciesEntity
         }
     }
 
-    /**
-    * @return CompetencyInterface[]|ArrayCollection
-    */
-    public function getCompetencies()
+    public function getCompetencies(): Collection
     {
         return $this->competencies;
     }

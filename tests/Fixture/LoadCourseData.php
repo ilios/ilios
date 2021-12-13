@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Course;
+use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -36,8 +37,8 @@ class LoadCourseData extends AbstractFixture implements
             $entity->setTitle($arr['title']);
             $entity->setLevel($arr['level']);
             $entity->setYear($arr['year']);
-            $entity->setStartDate(new \DateTime($arr['startDate']));
-            $entity->setEndDate(new \DateTime($arr['endDate']));
+            $entity->setStartDate(new DateTime($arr['startDate']));
+            $entity->setEndDate(new DateTime($arr['endDate']));
             $entity->setExternalId($arr['externalId']);
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);

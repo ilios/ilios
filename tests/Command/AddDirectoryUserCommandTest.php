@@ -9,6 +9,8 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Service\Directory;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -131,7 +133,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             ->shouldReceive('getId')->andReturn(1)
             ->mock();
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn($user);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
@@ -143,7 +145,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',
@@ -153,7 +155,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 
     public function testUserRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'schoolId'         => '1'
@@ -162,7 +164,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 
     public function testSchoolRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'campusId'         => '1',

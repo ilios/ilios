@@ -18,10 +18,7 @@ use App\Tests\AbstractEndpointTest;
  */
 class UsermaterialsTest extends AbstractEndpointTest
 {
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadOfferingData::class,

@@ -19,9 +19,8 @@ class CrossingGuard
 
     /**
      * Check if the crossing guard is down
-     * @return bool
      */
-    public function isStopped()
+    public function isStopped(): bool
     {
         return $this->fs->hasLock(self::GUARD);
     }

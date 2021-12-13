@@ -14,10 +14,7 @@ class UserMaterialFactory
     {
     }
 
-    /**
-     * @return UserMaterial
-     */
-    public function create(array $material)
+    public function create(array $material): UserMaterial
     {
         if (array_key_exists('filename', $material) && !empty($material['filename'])) {
             $absoluteFileUri = $this->router->generate(

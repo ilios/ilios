@@ -38,9 +38,6 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
      */
     protected $path;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -57,9 +54,6 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();

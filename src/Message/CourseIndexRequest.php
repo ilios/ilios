@@ -30,9 +30,6 @@ class CourseIndexRequest
         $this->courseIds = $courseIds;
     }
 
-    /**
-     * @return int[]
-     */
     public function getCourseIds(): array
     {
         return $this->courseIds;

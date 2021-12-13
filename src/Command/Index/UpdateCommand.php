@@ -34,9 +34,6 @@ class UpdateCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -44,10 +41,7 @@ class UpdateCommand extends Command
             ->setDescription('Queue everything to be updated in the index.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->queueUsers($output);
         //temporarily disable LM indexing for performance reasons.

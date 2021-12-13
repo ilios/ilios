@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\LearningMaterialRelationshipEntity;
 use App\Traits\MeshDescriptorsEntity;
@@ -131,7 +132,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $position;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
@@ -139,7 +140,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     protected $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
@@ -158,10 +159,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         $this->session = $session;
     }
 
-    /**
-     * @return SessionInterface
-     */
-    public function getSession()
+    public function getSession(): SessionInterface
     {
         return $this->session;
     }

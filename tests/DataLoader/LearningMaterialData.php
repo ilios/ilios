@@ -6,14 +6,12 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialStatusInterface;
+use Exception;
 
 class LearningMaterialData extends AbstractDataLoader
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -186,10 +184,7 @@ class LearningMaterialData extends AbstractDataLoader
         return $arr;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 11,
@@ -208,10 +203,8 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function createCitation()
+
+    public function createCitation(): array
     {
         return [
             'id' => 11,
@@ -228,10 +221,8 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function createLink()
+
+    public function createLink(): array
     {
         return [
             'id' => 11,
@@ -249,7 +240,7 @@ class LearningMaterialData extends AbstractDataLoader
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function createFile()
     {
@@ -268,20 +259,16 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function createInvalid()
+
+    public function createInvalid(): array
     {
         return [
             'id' => 12
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function createInvalidCitation()
+
+    public function createInvalidCitation(): array
     {
         return [
             'id' => 11,
@@ -297,10 +284,8 @@ class LearningMaterialData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function createInvalidLink()
+
+    public function createInvalidLink(): array
     {
         return [
             'id' => 11,
@@ -318,7 +303,7 @@ class LearningMaterialData extends AbstractDataLoader
 
     public function createInvalidFile()
     {
-        throw new \Exception('Not implemented yet');
+        throw new Exception('Not implemented yet');
     }
 
     public function getDtoClass(): string

@@ -28,10 +28,7 @@ class SessionTest extends ReadWriteEndpointTest
 
     protected string $testName =  'sessions';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadSessionData::class,
@@ -54,7 +51,7 @@ class SessionTest extends ReadWriteEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'title' => ['title', $this->getFaker()->text()],
@@ -96,7 +93,7 @@ class SessionTest extends ReadWriteEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -114,7 +111,7 @@ class SessionTest extends ReadWriteEndpointTest
      * can be found in the data loader
      * the second item is the filter we are testing
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -148,7 +145,7 @@ class SessionTest extends ReadWriteEndpointTest
         ];
     }
 
-    protected function getTimeStampFields()
+    protected function getTimeStampFields(): array
     {
         return ['updatedAt'];
     }

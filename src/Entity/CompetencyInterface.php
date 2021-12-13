@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ProgramYearObjectivesEntityInterface;
+use App\Traits\TitledNullableEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SchoolEntityInterface;
-use App\Traits\TitledEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
 
 /**
@@ -17,7 +17,7 @@ use App\Traits\ProgramYearsEntityInterface;
  */
 interface CompetencyInterface extends
     IdentifiableEntityInterface,
-    TitledEntityInterface,
+    TitledNullableEntityInterface,
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,
@@ -26,10 +26,7 @@ interface CompetencyInterface extends
 {
     public function setParent(CompetencyInterface $parent);
 
-    /**
-     * @return CompetencyInterface
-     */
-    public function getParent();
+    public function getParent(): ?CompetencyInterface;
 
     public function setChildren(Collection $children);
 
@@ -37,15 +34,9 @@ interface CompetencyInterface extends
 
     public function removeChild(CompetencyInterface $child);
 
-    /**
-     * @return Collection
-     */
-    public function getChildren();
+    public function getChildren(): Collection;
 
-    /**
-     * @return bool
-     */
-    public function hasChildren();
+    public function hasChildren(): bool;
 
     public function setAamcPcrses(Collection $aamcPcrses);
 
@@ -53,8 +44,5 @@ interface CompetencyInterface extends
 
     public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs);
 
-    /**
-     * @return Collection
-     */
-    public function getAamcPcrses();
+    public function getAamcPcrses(): Collection;
 }

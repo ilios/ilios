@@ -18,10 +18,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'curriculumInventorySequenceBlocks';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadCurriculumInventorySequenceBlockData::class,
@@ -32,7 +29,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'title' => ['title', $this->getFaker()->text()],
@@ -59,7 +56,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -69,7 +66,7 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -688,9 +685,8 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
     /**
      * Sorts the blocks in a given sequence by their 'order in sequence' values.
      * @param CurriculumInventorySequenceBlockInterface[] $sequence The unsorted sequence.
-     * @return CurriculumInventorySequenceBlockInterface[] The sorted sequence.
      */
-    protected function sortOrderedSequence(array $sequence)
+    protected function sortOrderedSequence(array $sequence): array
     {
         $sortedSequence = array_values($sequence); // cheap-o way of copying the array
         usort($sortedSequence, fn($a, $b) => ((int) $a['orderInSequence'] > (int) $b['orderInSequence']) ? 1 : -1);

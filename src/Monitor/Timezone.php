@@ -13,10 +13,8 @@ class Timezone implements CheckInterface
 {
     /**
      * Perform the actual check and return a ResultInterface
-     *
-     * @return ResultInterface
      */
-    public function check()
+    public function check(): ResultInterface
     {
         $tz = date_default_timezone_get();
 
@@ -29,10 +27,8 @@ class Timezone implements CheckInterface
 
     /**
      * Return a label describing this test instance.
-     *
-     * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return 'Default Timezone';
     }

@@ -28,9 +28,6 @@ class AuthControllerTest extends WebTestCase
     protected string $jwtKey;
     protected KernelBrowser $kernelBrowser;
 
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();

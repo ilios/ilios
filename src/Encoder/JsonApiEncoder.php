@@ -19,7 +19,7 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
     {
     }
 
-    public function decode(string $data, string $format, array $context = [])
+    public function decode(string $data, string $format, array $context = []): mixed
     {
         $obj = json_decode($data);
         $rhett = [];
@@ -34,12 +34,12 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
         return $rhett;
     }
 
-    public function supportsDecoding(string $format)
+    public function supportsDecoding(string $format): bool
     {
         return self::FORMAT === $format;
     }
 
-    public function encode($data, string $format, array $context = [])
+    public function encode($data, string $format, array $context = []): string
     {
         $shaped = $this->dataShaper->shapeData($data, $context['sideLoadFields']);
 
@@ -50,7 +50,7 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
         return json_encode($shaped);
     }
 
-    public function supportsEncoding(string $format)
+    public function supportsEncoding(string $format): bool
     {
         return self::FORMAT === $format;
     }

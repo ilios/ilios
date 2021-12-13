@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Monitor;
 
+use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
@@ -11,10 +12,7 @@ use Laminas\Diagnostics\Result\Warning;
 
 class PhpConfiguration implements CheckInterface
 {
-    /**
-     * @inheritdoc
-     */
-    public function check()
+    public function check(): ResultInterface
     {
         $opcacheEnabled = (extension_loaded('Zend OPcache') && ini_get('opcache.enable'));
         if (!$opcacheEnabled) {
@@ -61,10 +59,7 @@ class PhpConfiguration implements CheckInterface
         return new Success('is correct');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return 'PHP Configuration';
     }

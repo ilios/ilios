@@ -26,10 +26,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
 
     protected string $testName =  'cohorts';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadCohortData::class,
@@ -44,7 +41,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'title' => ['title', $this->getFaker()->text(60)],
@@ -57,7 +54,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -67,7 +64,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -154,9 +151,8 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     /**
      * Get programYear data from loader by id
      * @param int $id
-     * @return array
      */
-    protected function getProgramYear($id)
+    protected function getProgramYear($id): array
     {
         $programYearDataLoader = self::getContainer()->get(ProgramYearData::class);
         $allProgramYears = $programYearDataLoader->getAll();

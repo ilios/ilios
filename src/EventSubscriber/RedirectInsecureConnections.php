@@ -22,7 +22,7 @@ class RedirectInsecureConnections implements EventSubscriberInterface
         $this->requireSecureConnection = $config->get('requireSecureConnection');
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         // return the subscribed events, their methods and priorities
         return [

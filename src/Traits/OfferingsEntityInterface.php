@@ -20,8 +20,5 @@ interface OfferingsEntityInterface
 
     public function removeOffering(OfferingInterface $offering);
 
-    /**
-    * @return OfferingInterface[]|ArrayCollection
-    */
-    public function getOfferings();
+    public function getOfferings(): Collection;
 }

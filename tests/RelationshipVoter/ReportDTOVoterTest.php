@@ -19,9 +19,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class ReportDTOVoterTest extends AbstractBase
 {
-    /**
-     * @inheritdoc
-     */
     public function setUp(): void
     {
         parent::setUp();

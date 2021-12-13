@@ -36,9 +36,6 @@ class CleanupS3FilesystemCacheCommand extends Command
         $this->localCacheDirectory = $filesystemFactory->getLocalS3CacheDirectory();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -46,10 +43,7 @@ class CleanupS3FilesystemCacheCommand extends Command
             ->setDescription('Remove stale files if the cache disk space is low');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Checking for available disk space.</info>');
         $percentageFree = $this->getFreeSpace();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\AuthenticationRepository;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +57,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
      * If the user is logged in, but no account exists send an error
      * If the user is authenticated send a JWT
      *
-     * @throws \Exception when the shibboleth attributes do not contain a value for the configured user id attribute
+     * @throws Exception when the shibboleth attributes do not contain a value for the configured user id attribute
      */
     public function login(Request $request): JsonResponse
     {

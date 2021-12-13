@@ -16,10 +16,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'aamcMethods';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadAamcMethodData::class,
@@ -30,7 +27,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'description' => ['description', $this->getFaker()->text()],
@@ -44,7 +41,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [];
     }
@@ -52,7 +49,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 'AM001']],

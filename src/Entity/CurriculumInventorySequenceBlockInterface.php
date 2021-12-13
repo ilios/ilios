@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\DescribableEntityInterface;
@@ -54,101 +55,65 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setRequired($required);
 
-    /**
-     * @return int
-     */
-    public function getRequired();
+    public function getRequired(): int;
 
     /**
      * @param int $childSequenceOrder
      */
     public function setChildSequenceOrder($childSequenceOrder);
 
-    /**
-     * @return int
-     */
-    public function getChildSequenceOrder();
+    public function getChildSequenceOrder(): ?int;
 
     /**
      * @param int $orderInSequence
      */
     public function setOrderInSequence($orderInSequence);
 
-    /**
-     * @return int
-     */
-    public function getOrderInSequence();
+    public function getOrderInSequence(): ?int;
 
     /**
      * @param int $minimum
      */
     public function setMinimum($minimum);
 
-    /**
-     * @return int
-     */
-    public function getMinimum();
+    public function getMinimum(): ?int;
 
     /**
      * @param int $maximum
      */
     public function setMaximum($maximum);
 
-    /**
-     * @return int
-     */
-    public function getMaximum();
+    public function getMaximum(): ?int;
 
     /**
      * @param bool $track
      */
     public function setTrack($track);
 
-    /**
-     * @return bool
-     */
-    public function hasTrack();
+    public function hasTrack(): bool;
 
-    public function setStartDate(\DateTime $startDate = null);
+    public function setStartDate(DateTime $startDate = null);
 
-    /**
-     * @return \DateTime
-     */
-    public function getStartDate();
+    public function getStartDate(): ?DateTime;
 
-    public function setEndDate(\DateTime $endDate = null);
+    public function setEndDate(DateTime $endDate = null);
 
-    /**
-     * @return \DateTime
-     */
-    public function getEndDate();
+    public function getEndDate(): ?DateTime;
 
     /**
      * @param int $duration
      */
     public function setDuration($duration);
 
-    /**
-     * @return int
-     */
-    public function getDuration();
+    public function getDuration(): ?int;
 
     public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
-    /**
-     * @return CurriculumInventoryAcademicLevelInterface
-     */
-    public function getAcademicLevel();
+    public function getAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
 
-    /**
-     * @param CourseInterface $course|null
-     */
     public function setCourse(CourseInterface $course = null);
 
-    /**
-     * @return CourseInterface|null
-     */
-    public function getCourse();
+    public function getCourse(): ?CourseInterface;
 
     public function setChildren(Collection $children);
 
@@ -156,30 +121,20 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function removeChild(CurriculumInventorySequenceBlockInterface $child);
 
-    /**
-     * @return ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
-    public function getChildren();
+    public function getChildren(): Collection;
 
     public function setReport(CurriculumInventoryReportInterface $report);
 
-    /**
-     * @return CurriculumInventoryReportInterface
-     */
-    public function getReport();
+    public function getReport(): CurriculumInventoryReportInterface;
 
     public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
 
-    /**
-     * @return CurriculumInventorySequenceBlockInterface
-     */
-    public function getParent();
+    public function getParent(): ?CurriculumInventorySequenceBlockInterface;
 
     /**
      * Sorts child sequence blocks according to this entity's child sequence order.
-     * @return CurriculumInventorySequenceBlockInterface[] The sorted list of child sequence blocks.
      */
-    public function getChildrenAsSortedList();
+    public function getChildrenAsSortedList(): array;
 
     public function setExcludedSessions(Collection $sessions);
 
@@ -187,8 +142,5 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function removeExcludedSession(SessionInterface $session);
 
-    /**
-     * @return SessionInterface[]|ArrayCollection
-     */
-    public function getExcludedSessions();
+    public function getExcludedSessions(): Collection;
 }

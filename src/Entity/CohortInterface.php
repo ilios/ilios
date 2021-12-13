@@ -25,20 +25,15 @@ interface CohortInterface extends
 {
     public function setProgramYear(ProgramYearInterface $programYear = null);
 
-    /**
-     * @return ProgramYearInterface
-     */
-    public function getProgramYear();
+    public function getProgramYear(): ?ProgramYearInterface;
 
     /**
      * Get the school we belong to
-     * @return SchoolInterface|null
      */
-    public function getSchool();
+    public function getSchool(): ?SchoolInterface;
 
     /**
      * Gets the program that this cohort belongs to.
-     * @return ProgramInterface|null
      */
-    public function getProgram();
+    public function getProgram(): ?ProgramInterface;
 }

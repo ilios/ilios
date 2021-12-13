@@ -30,10 +30,7 @@ class TermTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'terms';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadAamcResourceTypeData::class,
@@ -58,7 +55,7 @@ class TermTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'description' => ['description', $this->getFaker()->text(200)],
@@ -78,7 +75,7 @@ class TermTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -88,7 +85,7 @@ class TermTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

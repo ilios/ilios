@@ -10,6 +10,8 @@ use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
 use App\Service\Directory;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -174,7 +176,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     public function testBadSchoolId()
     {
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'filter'         => 'FILTER',
@@ -184,7 +186,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
     public function testFilterRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'schoolId'         => '1'
@@ -193,7 +195,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
     public function testSchoolRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'filter'         => '1',

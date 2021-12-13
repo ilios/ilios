@@ -18,7 +18,7 @@ interface PutEndpointTestInterface
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function putsToTest();
+    public function putsToTest(): array;
 
     /**
      * @return array [field, value, id]
@@ -32,7 +32,7 @@ interface PutEndpointTestInterface
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function readOnlyPropertiesToTest();
+    public function readOnlyPropertiesToTest(): array;
 
     /**
      * @param string $key

@@ -25,9 +25,6 @@ class SetSchoolConfigValueCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -52,10 +49,7 @@ class SetSchoolConfigValueCommand extends Command
             );
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $schoolId = $input->getArgument('school');
         $name = $input->getArgument('name');

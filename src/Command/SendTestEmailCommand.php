@@ -23,9 +23,6 @@ class SendTestEmailCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -43,10 +40,7 @@ class SendTestEmailCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $to = $input->getArgument('to');
         $from = $input->getArgument('from');

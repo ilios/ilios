@@ -112,17 +112,11 @@ class Cohort implements CohortInterface
         $this->programYear = $programYear;
     }
 
-    /**
-     * @return ProgramYearInterface
-     */
-    public function getProgramYear()
+    public function getProgramYear(): ?ProgramYearInterface
     {
         return $this->programYear;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCourse(CourseInterface $course)
     {
         if (!$this->courses->contains($course)) {
@@ -131,9 +125,6 @@ class Cohort implements CohortInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCourse(CourseInterface $course)
     {
         if ($this->courses->contains($course)) {
@@ -142,9 +133,6 @@ class Cohort implements CohortInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addUser(UserInterface $user)
     {
         if (!$this->users->contains($user)) {
@@ -153,19 +141,13 @@ class Cohort implements CohortInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeUser(UserInterface $user)
     {
         $this->users->removeElement($user);
         $user->removeCohort($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($programYear = $this->getProgramYear()) {
             return $programYear->getSchool();
@@ -173,10 +155,7 @@ class Cohort implements CohortInterface
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getProgram()
+    public function getProgram(): ?ProgramInterface
     {
         if ($programYear = $this->getProgramYear()) {
             return $programYear->getProgram();

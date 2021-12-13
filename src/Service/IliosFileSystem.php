@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Classes\LocalCachingFilesystemDecorator;
 use App\Exception\IliosFilesystemException;
 use Aws\S3\Exception\S3Exception;
+use Exception;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -52,7 +53,6 @@ class IliosFileSystem
     /**
      *
      * Store a learning material file and return the relativePath
-     * @return string $relativePath
      */
     public function storeLearningMaterialFile(File $file): string
     {
@@ -66,7 +66,6 @@ class IliosFileSystem
 
     /**
      * Store a learning material file and return the relativePath
-     * @return string $relativePath
      */
     public function getLearningMaterialFilePath(File $file): string
     {
@@ -86,9 +85,8 @@ class IliosFileSystem
 
     /**
      * Get a File from a hash
-     * @return string | bool
      */
-    public function getFileContents(string $relativePath)
+    public function getFileContents(string $relativePath): string|false
     {
         if ($this->fileSystem->has($relativePath)) {
             return $this->fileSystem->read($relativePath);
@@ -99,7 +97,6 @@ class IliosFileSystem
 
     /**
      * Get if a learning material has a valid file path
-     *
      */
     public function checkLearningMaterialFilePath(LearningMaterialInterface $lm): bool
     {
@@ -117,7 +114,6 @@ class IliosFileSystem
 
     /**
      * Get the path for a lock file
-     * @return string $relativePath
      */
     protected function getLockFilePath(string $name): string
     {
@@ -235,7 +231,7 @@ class IliosFileSystem
         if ($this->fileSystem->has($relativePath)) {
             $result = $this->fileSystem->readAndDelete($relativePath);
             if ($result === false) {
-                throw new \Exception("Unable to read temporary file ${hash}");
+                throw new Exception("Unable to read temporary file ${hash}");
             }
 
             return $result;

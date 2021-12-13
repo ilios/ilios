@@ -14,6 +14,7 @@ use App\Entity\UserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,8 +35,7 @@ class UsereventController extends AbstractController
      * @param string $version
      * @param int $id of the user
      *
-     * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function getAction(
         $version,
@@ -46,7 +46,7 @@ class UsereventController extends AbstractController
         SessionRepository $sessionRepository,
         SerializerInterface $serializer,
         TokenStorageInterface $tokenStorage
-    ) {
+    ): Response {
         /** @var UserInterface $user */
         $user = $repository->findOneBy(['id' => $id]);
 
@@ -118,7 +118,7 @@ class UsereventController extends AbstractController
         $allEvents = $repository->addMaterialsToEvents($allEvents);
         $allEvents = $repository->addSessionDataToEvents($allEvents);
 
-        $now = new \DateTime();
+        $now = new DateTime();
         foreach ($allEvents as $event) {
             if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
                 $event->clearDataForUnprivilegedUsers($now);

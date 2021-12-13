@@ -16,10 +16,8 @@ class NoDefaultSecret implements CheckInterface
 
     /**
      * Ensure ILIOS_SECRET isn't set to a default value
-     *
-     * @return ResultInterface
      */
-    public function check()
+    public function check(): ResultInterface
     {
         $secret = getenv(self::NAME);
         if (!$secret && isset($_ENV[self::NAME])) {
@@ -48,10 +46,8 @@ class NoDefaultSecret implements CheckInterface
 
     /**
      * Describe this test
-     *
-     * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return 'No Default Secret';
     }

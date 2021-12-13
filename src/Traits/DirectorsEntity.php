@@ -34,10 +34,7 @@ trait DirectorsEntity
         $this->directors->removeElement($director);
     }
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
-    public function getDirectors()
+    public function getDirectors(): Collection
     {
         return $this->directors;
     }

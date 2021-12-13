@@ -19,8 +19,5 @@ interface InstructorsEntityInterface
 
     public function removeInstructor(UserInterface $instructor);
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
-    public function getInstructors();
+    public function getInstructors(): Collection;
 }

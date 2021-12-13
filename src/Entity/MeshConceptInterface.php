@@ -25,40 +25,28 @@ interface MeshConceptInterface extends
      */
     public function setPreferred($preferred);
 
-    /**
-     * @return bool
-     */
-    public function getPreferred();
+    public function getPreferred(): bool;
 
     /**
      * @param string $scopeNote
      */
     public function setScopeNote($scopeNote);
 
-    /**
-     * @return string
-     */
-    public function getScopeNote();
+    public function getScopeNote(): string;
 
     /**
      * @param string $casn1Name
      */
     public function setCasn1Name($casn1Name);
 
-    /**
-     * @return string
-     */
-    public function getCasn1Name();
+    public function getCasn1Name(): string;
 
     /**
      * @param string $registryNumber
      */
     public function setRegistryNumber($registryNumber);
 
-    /**
-     * @return string
-     */
-    public function getRegistryNumber();
+    public function getRegistryNumber(): string;
 
     public function setTerms(Collection $terms);
 
@@ -66,10 +54,7 @@ interface MeshConceptInterface extends
 
     public function removeTerm(MeshTermInterface $term);
 
-    /**
-     * @return ArrayCollection|MeshTermInterface[]
-     */
-    public function getTerms();
+    public function getTerms(): Collection;
 
     public function setDescriptors(Collection $descriptors);
 
@@ -77,8 +62,5 @@ interface MeshConceptInterface extends
 
     public function removeDescriptor(MeshDescriptorInterface $descriptor);
 
-    /**
-     * @return ArrayCollection|MeshDescriptorInterface[]
-     */
-    public function getDescriptors();
+    public function getDescriptors(): Collection;
 }

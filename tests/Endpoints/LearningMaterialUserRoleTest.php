@@ -16,10 +16,7 @@ class LearningMaterialUserRoleTest extends ReadEndpointTest
 {
     protected string $testName =  'learningMaterialUserRoles';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadLearningMaterialUserRoleData::class,
@@ -31,7 +28,7 @@ class LearningMaterialUserRoleTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

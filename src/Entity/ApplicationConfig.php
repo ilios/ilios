@@ -65,17 +65,11 @@ class ApplicationConfig implements ApplicationConfigInterface
     #[IA\Type('string')]
     protected $value;
 
-    /**
-     * @inheritdoc
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setValue($value)
     {
         $this->value = $value;

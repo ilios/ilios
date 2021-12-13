@@ -34,10 +34,7 @@ trait MeshDescriptorsEntity
         $this->meshDescriptors->removeElement($meshDescriptor);
     }
 
-    /**
-    * @return MeshDescriptorInterface[]|ArrayCollection
-    */
-    public function getMeshDescriptors()
+    public function getMeshDescriptors(): Collection
     {
         return $this->meshDescriptors;
     }

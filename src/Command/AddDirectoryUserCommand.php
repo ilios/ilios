@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,9 +32,6 @@ class AddDirectoryUserCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -52,22 +50,19 @@ class AddDirectoryUserCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $campusId = $input->getArgument('campusId');
         $user = $this->userRepository->findOneBy(['campusId' => $campusId]);
         if ($user) {
-            throw new \Exception(
+            throw new Exception(
                 'User #' . $user->getId() . " with campus id {$campusId} already exists."
             );
         }
         $schoolId = $input->getArgument('schoolId');
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
-            throw new \Exception(
+            throw new Exception(
                 "School with id {$schoolId} could not be found."
             );
         }

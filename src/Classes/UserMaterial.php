@@ -31,123 +31,99 @@ class UserMaterial
         'isBlanked',
         'firstOfferingDate',
     ];
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public int $id;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?int $courseLearningMaterial = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?int $sessionLearningMaterial = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?int $session = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?int $course = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $publicNotes = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('boolean')]
     public ?bool $required = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public string $title;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $description = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $originalAuthor = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $absoluteFileUri = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $citation = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $link = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $filename = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?int $filesize = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?int $position = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $mimetype = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $sessionTitle = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $courseTitle = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('dateTime')]
     public ?DateTime $firstOfferingDate = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('array<string>')]
     public array $instructors = [];
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('dateTime')]
     public ?DateTime $startDate = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('dateTime')]
     public ?DateTime $endDate = null;
-    /**
-     */
+
     #[IA\Expose]
     #[IA\Type('boolean')]
     public bool $isBlanked = false;
@@ -157,7 +133,7 @@ class UserMaterial
      * timed-release window (relative to the given date-time).
      * And sets the isBlanked flag to TRUE, as applicable.
      */
-    public function clearTimedMaterial(\DateTime $dateTime)
+    public function clearTimedMaterial(DateTime $dateTime)
     {
         $startDate = $this->startDate;
         $endDate = $this->endDate;

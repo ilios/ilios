@@ -7,9 +7,12 @@ namespace App\Denormalizer;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
+use DateTime;
+use DateTimeZone;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Psr\Log\LoggerInterface;
+use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
@@ -31,7 +34,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
     ) {
     }
 
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
         if (array_key_exists('object_to_populate', $context)) {
             $entity = $context['object_to_populate'];
@@ -39,7 +42,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
             $entity = new $type();
         }
 
-        $reflection = new \ReflectionClass($type);
+        $reflection = new ReflectionClass($type);
         $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
         $readOnlyProperties = $this->entityMetadata->extractReadOnlyProperties($reflection);
 
@@ -95,9 +98,8 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
      * Convert single API value back into what the entity needs
      *
      * @param mixed $value
-     * @return mixed
      */
-    protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value)
+    protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if (in_array($type, ['entity', 'entityCollection'])) {
@@ -148,8 +150,8 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         }
 
         if (null !== $value and $type === 'dateTime') {
-            $defaultTimezone = new \DateTimeZone(date_default_timezone_get());
-            $value = new \DateTime($value);
+            $defaultTimezone = new DateTimeZone(date_default_timezone_get());
+            $value = new DateTime($value);
             $value->setTimezone($defaultTimezone);
         }
 
@@ -172,7 +174,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         return $value;
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null)
+    public function supportsDenormalization($data, string $type, string $format = null): bool
     {
         return $this->entityMetadata->isAnIliosEntity($type);
     }

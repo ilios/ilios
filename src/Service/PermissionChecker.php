@@ -1137,9 +1137,8 @@ class PermissionChecker
 
     /**
      * Checks if a given user can create CI reports in any of its schools.
-     * @return bool
      */
-    public function canCreateCurriculumInventoryReportInAnySchool(SessionUserInterface $sessionUser)
+    public function canCreateCurriculumInventoryReportInAnySchool(SessionUserInterface $sessionUser): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
@@ -1348,9 +1347,8 @@ class PermissionChecker
 
     /**
      * Checks if a given user can create users in any of its schools.
-     * @return bool
      */
-    public function canCreateUsersInAnySchool(SessionUserInterface $sessionUser)
+    public function canCreateUsersInAnySchool(SessionUserInterface $sessionUser): bool
     {
         if ($sessionUser->isRoot()) {
             return true;
@@ -1370,9 +1368,8 @@ class PermissionChecker
 
     /**
      * Checks if a given user can create users in any of its schools.
-     * @return bool
      */
-    public function canCreateOrUpdateUsersInAnySchool(SessionUserInterface $sessionUser)
+    public function canCreateOrUpdateUsersInAnySchool(SessionUserInterface $sessionUser): bool
     {
         if ($sessionUser->isRoot()) {
             return true;

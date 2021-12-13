@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
@@ -30,72 +31,47 @@ interface CurriculumInventoryReportInterface extends
      */
     public function setYear($year);
 
-    /**
-     * @return int
-     */
-    public function getYear();
+    public function getYear(): int;
 
     /**
-     * @param \DateTime $startDate
+     * @param DateTime $startDate
      */
     public function setStartDate($startDate = null);
 
-    /**
-     * @return \DateTime
-     */
-    public function getStartDate();
+    public function getStartDate(): DateTime;
 
     /**
-     * @param \DateTime $endDate
+     * @param DateTime $endDate
      */
     public function setEndDate($endDate = null);
 
-    /**
-     * @return \DateTime
-     */
-    public function getEndDate();
+    public function getEndDate(): DateTime;
 
     public function setExport(CurriculumInventoryExportInterface $export = null);
 
-    /**
-     * @return CurriculumInventoryExportInterface
-     */
-    public function getExport();
+    public function getExport(): ?CurriculumInventoryExportInterface;
 
     public function setSequence(CurriculumInventorySequenceInterface $sequence = null);
 
-    /**
-     * @return CurriculumInventorySequenceInterface
-     */
-    public function getSequence();
+    public function getSequence(): CurriculumInventorySequenceInterface;
 
     public function setProgram(ProgramInterface $program = null);
 
-    /**
-     * @return ProgramInterface
-     */
-    public function getProgram();
+    public function getProgram(): ?ProgramInterface;
     public function setAcademicLevels(Collection $academicLevels = null);
 
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
     public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
-    /**
-     * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
-     */
-    public function getAcademicLevels();
+    public function getAcademicLevels(): Collection;
 
     /**
      * Gets the school that the program being reported on belongs to.
-     * @return SchoolInterface|null
      */
-    public function getSchool();
+    public function getSchool(): ?SchoolInterface;
 
-    /**
-     * @return string
-     */
-    public function getToken();
+    public function getToken(): string;
 
     /**
      * Generate a random token for use in downloading

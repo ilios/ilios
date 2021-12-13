@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\SessionLearningMaterial;
+use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -39,10 +40,10 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
             $entity->setSession($this->getReference('sessions' . $arr['session']));
             $entity->setPosition($arr['position']);
             if (!is_null($arr['startDate'])) {
-                $entity->setStartDate(new \DateTime($arr['startDate']));
+                $entity->setStartDate(new DateTime($arr['startDate']));
             }
             if (!is_null($arr['endDate'])) {
-                $entity->setEndDate(new \DateTime($arr['endDate']));
+                $entity->setEndDate(new DateTime($arr['endDate']));
             }
             if ($arr['learningMaterial']) {
                 $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));

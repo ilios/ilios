@@ -21,8 +21,5 @@ interface ProgramYearObjectivesEntityInterface
 
     public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void;
 
-    /**
-     * @return Collection|ProgramYearObjectiveInterface[]
-     */
     public function getProgramYearObjectives(): Collection;
 }

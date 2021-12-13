@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\InstructorsEntity;
@@ -153,12 +154,10 @@ class IlmSession implements IlmSessionInterface
         $this->hours = $hours;
     }
 
-    /**
-     * @return float
-     */
-    public function getHours()
+    public function getHours(): float
     {
-        return $this->hours;
+        //we have to type cast float because doctrine returns it as a string for precision
+        return (float) $this->hours;
     }
 
     public function setDueDate(DateTime $dueDate = null)
@@ -166,18 +165,12 @@ class IlmSession implements IlmSessionInterface
         $this->dueDate = $dueDate;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getDueDate()
+    public function getDueDate(): DateTime
     {
         return $this->dueDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAllInstructors()
+    public function getAllInstructors(): Collection
     {
         $instructors = $this->getInstructors()->toArray();
         foreach ($this->getInstructorGroups() as $group) {
@@ -192,18 +185,12 @@ class IlmSession implements IlmSessionInterface
         $this->session = $session;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSession()
+    public function getSession(): ?SessionInterface
     {
         return $this->session;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($session = $this->getSession()) {
             if ($course = $session->getCourse()) {

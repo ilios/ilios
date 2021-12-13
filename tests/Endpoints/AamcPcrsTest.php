@@ -18,10 +18,7 @@ class AamcPcrsTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'aamcPcrses';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadAamcPcrsData::class,
@@ -32,7 +29,7 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'description' => ['description', $this->getFaker()->text()],
@@ -44,7 +41,7 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [];
     }
@@ -52,7 +49,7 @@ class AamcPcrsTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 'aamc-pcrs-comp-c0101']],

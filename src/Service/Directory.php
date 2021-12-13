@@ -16,10 +16,8 @@ class Directory
     /**
      * Get directory information for a single user
      * @param  string $campusId
-     *
-     * @return array | false
      */
-    public function findByCampusId($campusId)
+    public function findByCampusId($campusId): ?array
     {
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
 
@@ -29,15 +27,13 @@ class Directory
             return $users[0];
         }
 
-        return false;
+        return null;
     }
 
     /**
      * Get directory information for a list of users
-     *
-     * @return array | false
      */
-    public function findByCampusIds(array $campusIds)
+    public function findByCampusIds(array $campusIds): ?array
     {
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
         $campusIds = array_unique($campusIds);
@@ -57,15 +53,13 @@ class Directory
             return $users;
         }
 
-        return false;
+        return null;
     }
 
     /**
      * Find everyone in the directory matching these terms
-     *
-     * @return array | false
      */
-    public function find(array $searchTerms)
+    public function find(array $searchTerms): ?array
     {
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
         $filterTerms = array_map(function ($term) use ($ldapCampusIdProperty) {
@@ -80,22 +74,20 @@ class Directory
             return $users;
         }
 
-        return false;
+        return null;
     }
 
     /**
      * Find all users matching LDAP filter
      * @param  string $filter
-     *
-     * @return array | false
      */
-    public function findByLdapFilter($filter)
+    public function findByLdapFilter($filter): ?array
     {
         $users = $this->ldapManager->search($filter);
         if ($users !== []) {
             return $users;
         }
 
-        return false;
+        return null;
     }
 }

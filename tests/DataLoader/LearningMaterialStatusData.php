@@ -9,7 +9,7 @@ use App\Entity\LearningMaterialStatusInterface;
 
 class LearningMaterialStatusData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -29,7 +29,7 @@ class LearningMaterialStatusData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 4,
@@ -37,7 +37,7 @@ class LearningMaterialStatusData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

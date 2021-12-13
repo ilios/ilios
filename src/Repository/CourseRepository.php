@@ -16,6 +16,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 use function array_values;
 use function array_keys;
@@ -64,10 +65,7 @@ class CourseRepository extends ServiceEntityRepository implements
         return $this->attachAssociationsToDTOs($dtos);
     }
 
-    /**
-     * @return array
-     */
-    public function getYears()
+    public function getYears(): array
     {
         $dql = 'SELECT DISTINCT c.year FROM App\Entity\Course c ORDER BY c.year ASC';
         $results = $this->getEntityManager()->createQuery($dql)->getArrayResult();
@@ -82,10 +80,8 @@ class CourseRepository extends ServiceEntityRepository implements
 
     /**
      * Get all the IDs
-     *
-     * @return array
      */
-    public function getIds()
+    public function getIds(): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->addSelect('x.id')->from(Course::class, 'x');
@@ -102,7 +98,7 @@ class CourseRepository extends ServiceEntityRepository implements
      * @param null $limit
      * @param null $offset
      * @return CourseDTO[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function findByUserId(
         $userId,
@@ -230,7 +226,7 @@ EOL;
         foreach ($criteria as $name => $value) {
             $i++;
             if (!$meta->hasField($name)) {
-                throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $name));
+                throw new Exception(sprintf('"%s" is not a property of the Course entity.', $name));
             }
 
             $column = $meta->getColumnName($name);
@@ -252,7 +248,7 @@ EOL;
             $sqlFragments = [];
             foreach ($orderBy as $sort => $order) {
                 if (!$meta->hasField($sort)) {
-                    throw new \Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
+                    throw new Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
                 }
                 $column = $meta->getColumnName($sort);
                 $sqlFragments[] = "{$column} " . ('desc' === strtolower($order) ? 'DESC' : 'ASC');
@@ -497,10 +493,8 @@ EOL;
     /**
      * Create course index objects for a set of courses
      *
-     *
-     * @return IndexableCourse[]
      */
-    public function getCourseIndexesFor(array $courseIds)
+    public function getCourseIndexesFor(array $courseIds): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
@@ -635,10 +629,8 @@ EOL;
     }
 
     /**
-     *
-     * @return array
      */
-    protected function joinResults(string $from, string $rel, string $select, array $ids)
+    protected function joinResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
@@ -655,10 +647,8 @@ EOL;
     }
 
     /**
-     *
-     * @return array
      */
-    protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids)
+    protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
@@ -674,10 +664,7 @@ EOL;
         return $rhett;
     }
 
-    /**
-     * @return IndexableSession[]
-     */
-    protected function sessionDataForIndex(array $sessionIds)
+    protected function sessionDataForIndex(array $sessionIds): array
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select(

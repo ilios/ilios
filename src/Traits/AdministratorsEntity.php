@@ -34,10 +34,7 @@ trait AdministratorsEntity
         $this->administrators->removeElement($administrator);
     }
 
-    /**
-    * @return UserInterface[]|ArrayCollection
-    */
-    public function getAdministrators()
+    public function getAdministrators(): Collection
     {
         return $this->administrators;
     }

@@ -6,6 +6,7 @@ namespace App\Service\GraphQL;
 
 use App\Entity\DTO\SchoolDTO;
 use App\Repository\SchoolRepository;
+use ArrayAccess;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;
 
@@ -20,7 +21,7 @@ class FieldResolver
         $fieldName = $info->fieldName;
         $property = null;
 
-        if (is_array($source) || $source instanceof \ArrayAccess) {
+        if (is_array($source) || $source instanceof ArrayAccess) {
             if (isset($source[$fieldName])) {
                 $property = $source[$fieldName];
             }

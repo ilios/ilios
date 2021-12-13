@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
 use App\Service\TemporaryFileSystem;
+use ErrorException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,9 +28,6 @@ class FixLearningMaterialMimeTypesCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -38,10 +36,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
             ->setDescription('Cleanup incorrectly stored mime types for learning materials.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $totalLearningMaterialsCount = $this->learningMaterialRepository->getTotalLearningMaterialCount();
 
@@ -80,7 +75,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
                             } else {
                                 try {
                                     $newMimeType = $file->getMimeType();
-                                } catch (\ErrorException) {
+                                } catch (ErrorException) {
                                     $fileName = $lm->getFilename();
                                     $newMimeType = $this->getMimetypeForFileName($fileName);
                                 }

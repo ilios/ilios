@@ -4,23 +4,28 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Service\CasAuthentication as Cas;
+use App\Service\FormAuthentication as Form;
+use App\Service\LdapAuthentication as Ldap;
+use App\Service\ShibbolethAuthentication as Shibboleth;
+use Exception;
+
 class AuthenticationFactory
 {
     public function __construct(
         protected Config $config,
-        protected CasAuthentication $casAuthentication,
-        protected FormAuthentication $formAuthentication,
-        protected LdapAuthentication $ldapAuthentication,
-        protected ShibbolethAuthentication $shibbolethAuthentication
+        protected Cas $casAuthentication,
+        protected Form $formAuthentication,
+        protected Ldap $ldapAuthentication,
+        protected Shibboleth $shibbolethAuthentication
     ) {
     }
 
     /**
      * Create the correct service for authentication
-     * @return CasAuthentication|FormAuthentication|LdapAuthentication|ShibbolethAuthentication
-     * @throws \Exception
+     * @throws Exception
      */
-    public function createAuthenticationService()
+    public function createAuthenticationService(): Cas|Form|Ldap|Shibboleth
     {
         $authenticationType = $this->config->get('authentication_type');
         switch ($authenticationType) {
@@ -34,6 +39,6 @@ class AuthenticationFactory
                 return $this->casAuthentication;
         }
 
-        throw new \Exception("{$authenticationType} is not a valid ilios authenticator");
+        throw new Exception("{$authenticationType} is not a valid ilios authenticator");
     }
 }

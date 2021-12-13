@@ -8,7 +8,7 @@ use App\Entity\DTO\LearningMaterialUserRoleDTO;
 
 class LearningMaterialUserRoleData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -25,7 +25,7 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 3,
@@ -33,7 +33,7 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }

@@ -12,6 +12,9 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\PendingUserUpdateRepository;
 use App\Repository\UserRepository;
 use App\Service\Directory;
+use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -77,7 +80,7 @@ class SyncUserCommandTest extends KernelTestCase
         $pendingUpdate = m::mock(PendingUserUpdateInterface::class);
         $user = m::mock(UserInterface::class)
             ->shouldReceive('getFirstName')->andReturn('old-first')
-            ->shouldReceive('getPendingUserUpdates')->andReturn([$pendingUpdate])
+            ->shouldReceive('getPendingUserUpdates')->andReturn(new ArrayCollection([$pendingUpdate]))
             ->shouldReceive('getLastName')->andReturn('old-last')
             ->shouldReceive('getEmail')->andReturn('old-email')
             ->shouldReceive('getDisplayName')->andReturn('old-display')
@@ -126,7 +129,7 @@ class SyncUserCommandTest extends KernelTestCase
     public function testBadUserId()
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
             'userId' => '1'
@@ -135,7 +138,7 @@ class SyncUserCommandTest extends KernelTestCase
 
     public function testUserRequired()
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);
     }
 }

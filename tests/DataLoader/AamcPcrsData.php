@@ -8,7 +8,7 @@ use App\Entity\DTO\AamcPcrsDTO;
 
 class AamcPcrsData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
         $arr[] = [
@@ -25,7 +25,7 @@ class AamcPcrsData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 'fk-',
@@ -34,7 +34,7 @@ class AamcPcrsData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [
             'id' => $this->faker->text(),
@@ -42,10 +42,7 @@ class AamcPcrsData extends AbstractDataLoader
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

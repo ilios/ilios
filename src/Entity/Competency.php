@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ProgramYearObjectivesEntity;
+use App\Traits\TitledNullableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,6 @@ use App\Traits\StringableIdEntity;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
@@ -28,7 +28,7 @@ use App\Repository\CompetencyRepository;
 class Competency implements CompetencyInterface
 {
     use IdentifiableEntity;
-    use TitledEntity;
+    use TitledNullableEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
     use StringableIdEntity;
@@ -142,10 +142,7 @@ class Competency implements CompetencyInterface
         $this->parent = $parent;
     }
 
-    /**
-     * @return CompetencyInterface
-     */
-    public function getParent()
+    public function getParent(): ?CompetencyInterface
     {
         return $this->parent;
     }
@@ -172,18 +169,12 @@ class Competency implements CompetencyInterface
         $child->setParent(null);
     }
 
-    /**
-     * @return ArrayCollection|CompetencyInterface[]
-     */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return (!$this->children->isEmpty()) ? true : false;
     }
@@ -205,9 +196,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs)
     {
         if ($this->aamcPcrses->contains($aamcPcrs)) {
@@ -216,17 +204,11 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @return ArrayCollection|AamcPcrsInterface[]
-     */
-    public function getAamcPcrses()
+    public function getAamcPcrses(): Collection
     {
         return $this->aamcPcrses;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
@@ -235,9 +217,6 @@ class Competency implements CompetencyInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeProgramYear(ProgramYearInterface $programYear)
     {
         if ($this->programYears->contains($programYear)) {

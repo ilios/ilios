@@ -9,13 +9,7 @@ namespace App\Traits;
  */
 interface ActivatableEntityInterface
 {
-    /**
-     * @return bool
-     */
-    public function isActive();
+    public function isActive(): bool;
 
-    /**
-     * @param bool $active
-     */
     public function setActive($active);
 }

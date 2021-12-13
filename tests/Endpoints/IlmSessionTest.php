@@ -8,6 +8,8 @@ use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\ReadWriteEndpointTest;
+use DateTime;
+use DateTimeZone;
 
 /**
  * IlmSession API endpoint Test.
@@ -17,10 +19,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'ilmSessions';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadIlmSessionData::class,
@@ -31,7 +30,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'hours' => ['hours', $this->getFaker()->randomFloat(2)],
@@ -46,7 +45,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -56,7 +55,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -111,8 +110,8 @@ class IlmSessionTest extends ReadWriteEndpointTest
 
     public function testDueDateInSystemTimeZone()
     {
-        $systemTimeZone = new \DateTimeZone(date_default_timezone_get());
-        $now = new \DateTime('now', $systemTimeZone);
+        $systemTimeZone = new DateTimeZone(date_default_timezone_get());
+        $now = new DateTime('now', $systemTimeZone);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['dueDate'] = $now->format('c');
@@ -122,15 +121,15 @@ class IlmSessionTest extends ReadWriteEndpointTest
 
     public function testDueDateConvertedToSystemTimeZone()
     {
-        $americaLa = new \DateTimeZone('America/Los_Angeles');
-        $utc = new \DateTimeZone('UTC');
+        $americaLa = new DateTimeZone('America/Los_Angeles');
+        $utc = new DateTimeZone('UTC');
         $systemTimeZone = date_default_timezone_get();
         if ($systemTimeZone === 'UTC') {
             $systemTime = $utc;
-            $now = new \DateTime('now', $americaLa);
+            $now = new DateTime('now', $americaLa);
         } else {
             $systemTime = $americaLa;
-            $now = new \DateTime('now', $utc);
+            $now = new DateTime('now', $utc);
         }
 
         $dataLoader = $this->getDataLoader();

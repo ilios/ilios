@@ -29,10 +29,7 @@ class UserTest extends ReadWriteEndpointTest
 {
     protected string $testName =  'users';
 
-    /**
-     * @inheritdoc
-     */
-    protected function getFixtures()
+    protected function getFixtures(): array
     {
         return [
             LoadUserData::class,
@@ -55,7 +52,7 @@ class UserTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest()
+    public function putsToTest(): array
     {
         return [
             'lastName' => ['lastName', $this->getFaker()->text(30)],
@@ -102,7 +99,7 @@ class UserTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
+    public function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -112,7 +109,7 @@ class UserTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest()
+    public function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],

@@ -10,6 +10,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use OutOfRangeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -238,7 +239,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         $minRange = 1;
         $maxRange = count($blocks) + 1;
         if ($newValue < $minRange || $newValue > $maxRange) {
-            throw new \OutOfRangeException(
+            throw new OutOfRangeException(
                 "The given order-in-sequence value {$newValue} falls outside the range {$minRange} - {$maxRange}."
             );
         }

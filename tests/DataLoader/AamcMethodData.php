@@ -8,7 +8,7 @@ use App\Entity\DTO\AamcMethodDTO;
 
 class AamcMethodData extends AbstractDataLoader
 {
-    protected function getData()
+    protected function getData(): array
     {
         $arr = [];
 
@@ -29,7 +29,7 @@ class AamcMethodData extends AbstractDataLoader
         return $arr;
     }
 
-    public function create()
+    public function create(): array
     {
         return [
             'id' => 'FK',
@@ -39,15 +39,12 @@ class AamcMethodData extends AbstractDataLoader
         ];
     }
 
-    public function createInvalid()
+    public function createInvalid(): array
     {
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function createMany($count)
+    public function createMany($count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

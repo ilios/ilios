@@ -14,10 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ReportDTOVoter extends AbstractVoter
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         return $subject instanceof ReportDTO && self::VIEW === $attribute;
     }
@@ -26,9 +23,8 @@ class ReportDTOVoter extends AbstractVoter
      * @param string $attribute
      * @param ReportDTO $report
      * @param TokenInterface $token
-     * @return bool
      */
-    protected function voteOnAttribute($attribute, $report, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $report, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

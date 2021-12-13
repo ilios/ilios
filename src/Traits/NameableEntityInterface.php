@@ -14,8 +14,5 @@ interface NameableEntityInterface
      */
     public function setName($name);
 
-    /**
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 }

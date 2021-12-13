@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -83,7 +84,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $year;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'start_date', type: 'date')]
@@ -92,7 +93,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     protected $startDate;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'end_date', type: 'date')]
@@ -181,42 +182,33 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->year = $year;
     }
 
-    /**
-     * @return int
-     */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
 
     /**
-     * @param \DateTime $startDate
+     * @param DateTime $startDate
      */
     public function setStartDate($startDate = null)
     {
         $this->startDate = $startDate;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getStartDate()
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
     /**
-     * @param \DateTime $endDate
+     * @param DateTime $endDate
      */
     public function setEndDate($endDate = null)
     {
         $this->endDate = $endDate;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getEndDate()
+    public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
@@ -229,10 +221,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->export = $export;
     }
 
-    /**
-     * @return CurriculumInventoryExportInterface
-     */
-    public function getExport()
+    public function getExport(): ?CurriculumInventoryExportInterface
     {
         return $this->export;
     }
@@ -245,10 +234,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->sequence = $sequence;
     }
 
-    /**
-     * @return CurriculumInventorySequenceInterface
-     */
-    public function getSequence()
+    public function getSequence(): CurriculumInventorySequenceInterface
     {
         return $this->sequence;
     }
@@ -258,10 +244,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->program = $program;
     }
 
-    /**
-     * @return ProgramInterface
-     */
-    public function getProgram()
+    public function getProgram(): ?ProgramInterface
     {
         return $this->program;
     }
@@ -289,18 +272,12 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->academicLevels->removeElement($academicLevel);
     }
 
-    /**
-     * @return ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
-     */
-    public function getAcademicLevels()
+    public function getAcademicLevels(): Collection
     {
         return $this->academicLevels;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSchool()
+    public function getSchool(): ?SchoolInterface
     {
         if ($program = $this->getProgram()) {
             return $program->getSchool();
@@ -308,17 +285,11 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return null;
     }
 
-    /**
-     * @return string
-     */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function generateToken()
     {
         $random = random_bytes(128);
@@ -331,9 +302,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->token = hash('sha256', $key);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAdministrator(UserInterface $administrator)
     {
         if (!$this->administrators->contains($administrator)) {
@@ -342,9 +310,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAdministrator(UserInterface $administrator)
     {
         if ($this->administrators->contains($administrator)) {

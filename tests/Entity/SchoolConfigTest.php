@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\School;
 use App\Entity\SchoolConfig;
 use Mockery as m;
 
@@ -26,12 +27,31 @@ class SchoolConfigTest extends EntityBase
         $this->object = new SchoolConfig();
     }
 
-    /**
-     * @covers \App\Entity\SchoolConfig
-     */
-    public function testConstructor()
+    public function testNotBlankValidation()
     {
-        $this->assertEmpty($this->object->getValue());
+        $notBlank = [
+            'name',
+            'value'
+        ];
+        $this->object->setSchool(new School());
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setName('worstRoommate');
+        $this->object->setValue('Jasper');
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation()
+    {
+        $this->object->setName('smallestDog');
+        $this->object->setValue('Jayden');
+        $notNull = [
+            'school'
+        ];
+        $this->validateNotNulls($notNull);
+
+        $this->object->setSchool(new School());
+        $this->validate(0);
     }
 
     /**

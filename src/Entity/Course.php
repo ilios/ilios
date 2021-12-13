@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Traits\CourseObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
+use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
@@ -39,7 +39,7 @@ use App\Repository\CourseRepository;
 class Course implements CourseInterface
 {
     use IdentifiableEntity;
-    use TitledEntity;
+    use TitledNullableEntity;
     use StringableIdEntity;
     use LockableEntity;
     use ArchivableEntity;
@@ -349,105 +349,66 @@ class Course implements CourseInterface
         $this->locked = false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setLevel($level)
     {
         $this->level = $level;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->level;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setYear($year)
     {
         $this->year = $year;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setStartDate(DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getStartDate()
+    public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setEndDate(DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getEndDate()
+    public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setExternalId($externalId)
     {
         $this->externalId = $externalId;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExternalId()
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType = null)
+    public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType = null)
     {
         $this->clerkshipType = $clerkshipType;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getClerkshipType()
+    public function getClerkshipType(): ?CourseClerkshipTypeInterface
     {
         return $this->clerkshipType;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setLearningMaterials(Collection $learningMaterials = null)
     {
         $this->learningMaterials = new ArrayCollection();
@@ -460,9 +421,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
@@ -470,9 +428,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
     {
         if ($this->learningMaterials->contains($learningMaterial)) {
@@ -480,43 +435,28 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getLearningMaterials()
+    public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setAncestor(CourseInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAncestor()
+    public function getAncestor(): ?CourseInterface
     {
         return $this->ancestor;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAncestorOrSelf()
+    public function getAncestorOrSelf(): CourseInterface
     {
         $ancestor = $this->getAncestor();
 
         return $ancestor ? $ancestor : $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setDescendants(Collection $descendants)
     {
         $this->descendants = new ArrayCollection();
@@ -526,33 +466,21 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addDescendant(CourseInterface $descendant)
     {
         $this->descendants->add($descendant);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeDescendant(CourseInterface $descendant)
     {
         $this->descendants->removeElement($descendant);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDescendants()
+    public function getDescendants(): Collection
     {
         return $this->descendants;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addDirector(UserInterface $director)
     {
         if (!$this->directors->contains($director)) {
@@ -561,9 +489,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeDirector(UserInterface $director)
     {
         if ($this->directors->contains($director)) {
@@ -572,9 +497,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCohort(CohortInterface $cohort)
     {
         if (!$this->cohorts->contains($cohort)) {
@@ -583,9 +505,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCohort(CohortInterface $cohort)
     {
         if ($this->cohorts->contains($cohort)) {
@@ -594,9 +513,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addTerm(TermInterface $term)
     {
         if (!$this->terms->contains($term)) {
@@ -605,9 +521,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeTerm(TermInterface $term)
     {
         if ($this->terms->contains($term)) {
@@ -616,9 +529,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAdministrator(UserInterface $administrator)
     {
         if (!$this->administrators->contains($administrator)) {
@@ -627,9 +537,6 @@ class Course implements CourseInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAdministrator(UserInterface $administrator)
     {
         if ($this->administrators->contains($administrator)) {
@@ -691,10 +598,7 @@ class Course implements CourseInterface
         $this->sequenceBlocks->removeElement($sequenceBlock);
     }
 
-    /**
-     * @return CurriculumInventorySequenceBlockInterface[]|ArrayCollection
-     */
-    public function getSequenceBlocks()
+    public function getSequenceBlocks(): Collection
     {
         return $this->sequenceBlocks;
     }

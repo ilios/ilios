@@ -29,9 +29,6 @@ class MeshDescriptorIndexRequest
         $this->descriptorIds = $descriptorIds;
     }
 
-    /**
-     * @return int[]
-     */
     public function getDescriptorIds(): array
     {
         return $this->descriptorIds;

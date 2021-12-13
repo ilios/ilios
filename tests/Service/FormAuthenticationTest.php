@@ -31,9 +31,6 @@ class FormAuthenticationTest extends TestCase
      */
     protected $obj;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -53,9 +50,6 @@ class FormAuthenticationTest extends TestCase
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->authenticationRepository);

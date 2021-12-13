@@ -31,9 +31,6 @@ class SyncFormerStudentsCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -47,10 +44,7 @@ class SyncFormerStudentsCommand extends Command
             );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Starting former student synchronization process.</info>');
         $filter = $input->getArgument('filter');

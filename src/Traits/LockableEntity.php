@@ -17,10 +17,7 @@ trait LockableEntity
         $this->locked = $locked;
     }
 
-    /**
-     * @return bool
-     */
-    public function isLocked()
+    public function isLocked(): bool
     {
         return $this->locked;
     }

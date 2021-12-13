@@ -63,10 +63,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
         $this->descriptor = $descriptor;
     }
 
-    /**
-     * @return MeshDescriptorInterface
-     */
-    public function getDescriptor()
+    public function getDescriptor(): MeshDescriptorInterface
     {
         return $this->descriptor;
     }
@@ -79,10 +76,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
         $this->previousIndexing = $previousIndexing;
     }
 
-    /**
-     * @return string
-     */
-    public function getPreviousIndexing()
+    public function getPreviousIndexing(): string
     {
         return $this->previousIndexing;
     }

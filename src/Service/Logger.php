@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\AuditLogRepository;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use App\Classes\SessionUserInterface;
@@ -61,7 +62,7 @@ class Logger
         $andFlush = true
     ) {
         if (!$this->userId) {
-            throw new \Exception('Attempted to log something but there is no authenticated user.');
+            throw new Exception('Attempted to log something but there is no authenticated user.');
         }
         $log = [
             'action' => $action,
@@ -85,7 +86,7 @@ class Logger
         try {
             $this->repository->writeLogs($this->entries);
             $this->entries = [];
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->frameworkLogger->alert('Unable to write logs: ' . $e->getMessage(), ['exception' => $e]);
         }
     }

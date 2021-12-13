@@ -27,9 +27,6 @@ class ListRootUsersCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -38,10 +35,7 @@ class ListRootUsersCommand extends Command
             ->setDescription('Lists all users with root-level privileges.');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $users = $this->userRepository->findDTOsBy(['root' => true]);
 

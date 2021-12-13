@@ -32,9 +32,6 @@ class SyncAllUsersCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -43,10 +40,7 @@ class SyncAllUsersCommand extends Command
             ->setDescription('Sync all users against the directory by their campus ID.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Starting User Sync Process.</info>');
         $this->userRepository->resetExaminedFlagForAllUsers();

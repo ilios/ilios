@@ -199,9 +199,6 @@ class Term implements TermInterface
         $this->active = true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addCourse(CourseInterface $course)
     {
         if (!$this->courses->contains($course)) {
@@ -210,9 +207,6 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeCourse(CourseInterface $course)
     {
         if ($this->courses->contains($course)) {
@@ -221,9 +215,6 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addProgramYear(ProgramYearInterface $programYear)
     {
         if (!$this->programYears->contains($programYear)) {
@@ -232,9 +223,6 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeProgramYear(ProgramYearInterface $programYear)
     {
         if ($this->programYears->contains($programYear)) {
@@ -243,9 +231,6 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addSession(SessionInterface $session)
     {
         if (!$this->sessions->contains($session)) {
@@ -254,9 +239,6 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeSession(SessionInterface $session)
     {
         if ($this->sessions->contains($session)) {
@@ -265,49 +247,31 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getVocabulary()
+    public function getVocabulary(): VocabularyInterface
     {
         return $this->vocabulary;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setVocabulary(VocabularyInterface $vocabulary)
     {
         $this->vocabulary = $vocabulary;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getParent()
+    public function getParent(): ?TermInterface
     {
         return $this->parent;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setParent(TermInterface $parent = null)
     {
         $this->parent = $parent;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getChildren()
+    public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setChildren(Collection $children)
     {
         $this->children = new ArrayCollection();
@@ -317,9 +281,6 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addChild(TermInterface $child)
     {
         if (!$this->children->contains($child)) {
@@ -327,25 +288,16 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeChild(TermInterface $child)
     {
         $this->children->removeElement($child);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasChildren()
+    public function hasChildren(): bool
     {
         return (!$this->children->isEmpty()) ? true : false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function setAamcResourceTypes(Collection $aamcResourceTypes)
     {
         $this->aamcResourceTypes = new ArrayCollection();
@@ -355,9 +307,6 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType)
     {
         if (!$this->aamcResourceTypes->contains($aamcResourceType)) {
@@ -365,18 +314,12 @@ class Term implements TermInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType)
     {
         $this->aamcResourceTypes->removeElement($aamcResourceType);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAamcResourceTypes()
+    public function getAamcResourceTypes(): Collection
     {
         return $this->aamcResourceTypes;
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
+use DateTime;
+use DateTimeZone;
 use Exception;
 
 /**
@@ -11,13 +13,10 @@ use Exception;
  */
 class AuditLogData extends AbstractDataLoader
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function getData()
+    protected function getData(): array
     {
         $arr[] = [
-            'createdAt' => new \DateTime('1 day ago', new \DateTimeZone('UTC')),
+            'createdAt' => new DateTime('1 day ago', new DateTimeZone('UTC')),
             // bogus class name, we'll use this to peel entries out of the command output by this.
             'objectClass' => 'YesterdaysEvent',
             'action' => $this->faker->text(10),
@@ -26,7 +25,7 @@ class AuditLogData extends AbstractDataLoader
         ];
 
         $arr[] = [
-            'createdAt' => new \DateTime('1 year ago', new \DateTimeZone('UTC')),
+            'createdAt' => new DateTime('1 year ago', new DateTimeZone('UTC')),
             'objectClass' => 'LastYearsEvent',
             'action' => $this->faker->text(10),
             'valuesChanged' => $this->faker->text(10),
@@ -34,7 +33,7 @@ class AuditLogData extends AbstractDataLoader
         ];
 
         $arr[] = [
-            'createdAt' => new \DateTime('midnight today', new \DateTimeZone('UTC')),
+            'createdAt' => new DateTime('midnight today', new DateTimeZone('UTC')),
             'objectClass' => 'TodaysEvent',
             'action' => $this->faker->text(10),
             'valuesChanged' => $this->faker->text(10),
@@ -49,7 +48,7 @@ class AuditLogData extends AbstractDataLoader
      *
      * @throws Exception
      */
-    public function create()
+    public function create(): array
     {
         throw new Exception('Not implemented');
     }
@@ -59,7 +58,7 @@ class AuditLogData extends AbstractDataLoader
      *
      * @throws Exception
      */
-    public function createInvalid()
+    public function createInvalid(): array
     {
         throw new Exception('Not implemented');
     }

@@ -9,6 +9,8 @@ use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -36,9 +38,6 @@ class AddUserCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -75,9 +74,9 @@ class AddUserCommand extends Command
 
     /**
      * {@inheritdoc}
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $schoolId = $input->getOption('schoolId');
         if (!$schoolId) {
@@ -97,7 +96,7 @@ class AddUserCommand extends Command
         }
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
-            throw new \Exception(
+            throw new Exception(
                 "School with id {$schoolId} could not be found."
             );
         }
@@ -120,13 +119,13 @@ class AddUserCommand extends Command
 
         $user = $this->userRepository->findOneBy(['campusId' => $userRecord['campusId']]);
         if ($user) {
-            throw new \Exception(
+            throw new Exception(
                 'User #' . $user->getId() . " with campus id {$userRecord['campusId']} already exists."
             );
         }
         $user = $this->userRepository->findOneBy(['email' => $userRecord['email']]);
         if ($user) {
-            throw new \Exception(
+            throw new Exception(
                 'User #' . $user->getId() . " with email address {$userRecord['email']} already exists."
             );
         }
@@ -212,7 +211,7 @@ class AddUserCommand extends Command
             $question = new Question("What is the user's password? ");
             $question->setValidator(function ($answer) {
                 if (strlen($answer) < 7) {
-                    throw new \RuntimeException(
+                    throw new RuntimeException(
                         "Password must be at least 7 character"
                     );
                 }
@@ -226,7 +225,7 @@ class AddUserCommand extends Command
             $question = new Question("What is the user's Email Address? ");
             $question->setValidator(function ($answer) {
                 if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
-                    throw new \RuntimeException(
+                    throw new RuntimeException(
                         "Email is not valid"
                     );
                 }
@@ -249,12 +248,12 @@ class AddUserCommand extends Command
         $question = new Question("What is the user's {$what}? ");
         $question->setValidator(function ($answer) use ($what, $min, $max) {
             if (strlen($answer) < $min) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     "{$what} must be at least {$min} character"
                 );
             }
             if (strlen($answer) >= $max) {
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     "{$what} must be less than {$max} characters"
                 );
             }
