@@ -84,7 +84,7 @@ jobs:
       env:
         ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=5.7
       run: |
-        sudo /etc/init.d/mysql start
+        sudo systemctl start mysql.service
         bin/console doctrine:database:drop --if-exists --force
         bin/console doctrine:database:create
         bin/console doctrine:migrations:migrate  --no-interaction
@@ -126,7 +126,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Drop, Create Database to use everywhere else
       run: |
-        sudo /etc/init.d/mysql start
+        sudo systemctl start mysql.service
         mysql -uroot -proot -e "DROP DATABASE IF EXISTS ilios"
         mysql -uroot -proot -e "CREATE DATABASE ilios"
     - name: Migrate Database
