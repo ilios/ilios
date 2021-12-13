@@ -271,7 +271,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->childSequenceOrder = $childSequenceOrder;
     }
 
-    public function getChildSequenceOrder(): int
+    public function getChildSequenceOrder(): ?int
     {
         return $this->childSequenceOrder;
     }
@@ -284,7 +284,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->orderInSequence = $orderInSequence;
     }
 
-    public function getOrderInSequence(): int
+    public function getOrderInSequence(): ?int
     {
         return $this->orderInSequence;
     }
@@ -297,7 +297,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->minimum = $minimum;
     }
 
-    public function getMinimum(): int
+    public function getMinimum(): ?int
     {
         return $this->minimum;
     }
@@ -310,7 +310,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->maximum = $maximum;
     }
 
-    public function getMaximum(): int
+    public function getMaximum(): ?int
     {
         return $this->maximum;
     }
@@ -356,7 +356,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->duration = $duration;
     }
 
-    public function getDuration(): int
+    public function getDuration(): ?int
     {
         return $this->duration;
     }

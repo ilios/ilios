@@ -62,28 +62,28 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setChildSequenceOrder($childSequenceOrder);
 
-    public function getChildSequenceOrder(): int;
+    public function getChildSequenceOrder(): ?int;
 
     /**
      * @param int $orderInSequence
      */
     public function setOrderInSequence($orderInSequence);
 
-    public function getOrderInSequence(): int;
+    public function getOrderInSequence(): ?int;
 
     /**
      * @param int $minimum
      */
     public function setMinimum($minimum);
 
-    public function getMinimum(): int;
+    public function getMinimum(): ?int;
 
     /**
      * @param int $maximum
      */
     public function setMaximum($maximum);
 
-    public function getMaximum(): int;
+    public function getMaximum(): ?int;
 
     /**
      * @param bool $track
@@ -105,7 +105,7 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function setDuration($duration);
 
-    public function getDuration(): int;
+    public function getDuration(): ?int;
 
     public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
 
