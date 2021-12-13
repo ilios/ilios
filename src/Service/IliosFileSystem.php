@@ -86,7 +86,7 @@ class IliosFileSystem
     /**
      * Get a File from a hash
      */
-    public function getFileContents(string $relativePath): string
+    public function getFileContents(string $relativePath): string|false
     {
         if ($this->fileSystem->has($relativePath)) {
             return $this->fileSystem->read($relativePath);
