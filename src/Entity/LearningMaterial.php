@@ -522,7 +522,7 @@ class LearningMaterial implements LearningMaterialInterface
     {
         $sessions = [];
         foreach ($this->getSessionLearningMaterials() as $sessionLearningMaterial) {
-            $sessions = array_merge($sessions, $sessionLearningMaterial->getSessions());
+            $sessions = array_merge($sessions, $sessionLearningMaterial->getSessions()->toArray());
         }
 
         return new ArrayCollection(array_unique($sessions));
