@@ -394,7 +394,7 @@ class Course implements CourseInterface
         $this->externalId = $externalId;
     }
 
-    public function getExternalId(): string
+    public function getExternalId(): ?string
     {
         return $this->externalId;
     }

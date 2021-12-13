@@ -34,7 +34,7 @@ interface LearnerGroupInterface extends
      */
     public function setLocation($location);
 
-    public function getLocation(): string;
+    public function getLocation(): ?string;
 
     public function setCohort(CohortInterface $cohort);
 
@@ -42,7 +42,7 @@ interface LearnerGroupInterface extends
 
     public function setParent(LearnerGroupInterface $parent = null);
 
-    public function getParent(): LearnerGroupInterface;
+    public function getParent(): ?LearnerGroupInterface;
 
     public function setChildren(Collection $children);
 

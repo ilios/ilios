@@ -25,7 +25,7 @@ interface LearningMaterialRelationshipInterface extends
      */
     public function setNotes($notes);
 
-    public function getNotes(): string;
+    public function getNotes(): ?string;
 
     /**
      * @param bool $required

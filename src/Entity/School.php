@@ -270,7 +270,7 @@ class School implements SchoolInterface
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
 
-    public function getCurriculumInventoryInstitution(): CurriculumInventoryInstitutionInterface
+    public function getCurriculumInventoryInstitution(): ?CurriculumInventoryInstitutionInterface
     {
         return $this->curriculumInventoryInstitution;
     }

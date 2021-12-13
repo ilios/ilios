@@ -153,7 +153,7 @@ class Report implements ReportInterface
         $this->prepositionalObject = $prepositionalObject;
     }
 
-    public function getPrepositionalObject(): string
+    public function getPrepositionalObject(): ?string
     {
         return $this->prepositionalObject;
     }
@@ -166,7 +166,7 @@ class Report implements ReportInterface
         $this->prepositionalObjectTableRowId = $prepositionalObjectTableRowId;
     }
 
-    public function getPrepositionalObjectTableRowId(): string
+    public function getPrepositionalObjectTableRowId(): ?string
     {
         return $this->prepositionalObjectTableRowId;
     }

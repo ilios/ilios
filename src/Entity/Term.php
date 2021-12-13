@@ -257,7 +257,7 @@ class Term implements TermInterface
         $this->vocabulary = $vocabulary;
     }
 
-    public function getParent(): TermInterface
+    public function getParent(): ?TermInterface
     {
         return $this->parent;
     }

@@ -43,7 +43,7 @@ interface TermInterface extends
 
     public function setParent(TermInterface $parent = null);
 
-    public function getParent(): TermInterface;
+    public function getParent(): ?TermInterface;
 
     public function setChildren(Collection $children);
 

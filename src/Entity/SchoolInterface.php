@@ -63,7 +63,7 @@ interface SchoolInterface extends
      */
     public function setCurriculumInventoryInstitution($curriculumInventoryInstitution);
 
-    public function getCurriculumInventoryInstitution(): CurriculumInventoryInstitutionInterface;
+    public function getCurriculumInventoryInstitution(): ?CurriculumInventoryInstitutionInterface;
 
     public function setVocabularies(Collection $vocabularies);
 

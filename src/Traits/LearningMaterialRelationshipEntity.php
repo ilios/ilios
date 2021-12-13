@@ -23,7 +23,7 @@ trait LearningMaterialRelationshipEntity
         $this->notes = $notes;
     }
 
-    public function getNotes(): string
+    public function getNotes(): ?string
     {
         return $this->notes;
     }

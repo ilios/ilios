@@ -44,7 +44,7 @@ interface SessionTypeInterface extends
 
     public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null);
 
-    public function getAssessmentOption(): AssessmentOptionInterface;
+    public function getAssessmentOption(): ?AssessmentOptionInterface;
 
     public function setAamcMethods(Collection $aamcMethods);
 

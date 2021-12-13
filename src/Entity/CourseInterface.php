@@ -76,7 +76,7 @@ interface CourseInterface extends
     /**
      * @todo: Possible rename.
      */
-    public function getExternalId(): string;
+    public function getExternalId(): ?string;
 
     public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType);
 

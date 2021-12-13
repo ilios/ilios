@@ -31,14 +31,14 @@ interface ReportInterface extends
      */
     public function setPrepositionalObject($prepositionalObject);
 
-    public function getPrepositionalObject(): string;
+    public function getPrepositionalObject(): ?string;
 
     /**
      * @param string $prepositionalObjectTableRowId
      */
     public function setPrepositionalObjectTableRowId($prepositionalObjectTableRowId);
 
-    public function getPrepositionalObjectTableRowId(): string;
+    public function getPrepositionalObjectTableRowId(): ?string;
 
     public function setUser(UserInterface $user);
 

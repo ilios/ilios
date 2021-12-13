@@ -220,7 +220,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->location = $location;
     }
 
-    public function getLocation(): string
+    public function getLocation(): ?string
     {
         return $this->location;
     }
@@ -256,7 +256,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->parent = $parent;
     }
 
-    public function getParent(): LearnerGroupInterface
+    public function getParent(): ?LearnerGroupInterface
     {
         return $this->parent;
     }

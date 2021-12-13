@@ -566,7 +566,7 @@ class User implements UserInterface
         $this->displayName = $displayName;
     }
 
-    public function getDisplayName(): string
+    public function getDisplayName(): ?string
     {
         return $this->displayName;
     }
@@ -657,7 +657,7 @@ class User implements UserInterface
         $this->otherId = $otherId;
     }
 
-    public function getOtherId(): string
+    public function getOtherId(): ?string
     {
         return $this->otherId;
     }

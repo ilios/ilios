@@ -69,7 +69,7 @@ interface UserInterface extends
      */
     public function setDisplayName($displayName);
 
-    public function getDisplayName(): string;
+    public function getDisplayName(): ?string;
 
     /**
      * @param string $phone
@@ -118,7 +118,7 @@ interface UserInterface extends
      */
     public function setOtherId($otherId);
 
-    public function getOtherId(): string;
+    public function getOtherId(): ?string;
 
     /**
      * @param bool $examined
