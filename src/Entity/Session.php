@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Traits\DescribableEntity;
 use App\Traits\SessionObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
+use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AdministratorsEntity;
@@ -18,7 +19,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attribute as IA;
-use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\OfferingsEntity;
@@ -37,7 +37,7 @@ use App\Repository\SessionRepository;
 class Session implements SessionInterface
 {
     use IdentifiableEntity;
-    use TitledEntity;
+    use TitledNullableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
     use OfferingsEntity;
@@ -337,7 +337,7 @@ class Session implements SessionInterface
         $this->attireRequired = $attireRequired;
     }
 
-    public function isAttireRequired(): bool
+    public function isAttireRequired(): ?bool
     {
         return $this->attireRequired;
     }
@@ -350,7 +350,7 @@ class Session implements SessionInterface
         $this->equipmentRequired = $equipmentRequired;
     }
 
-    public function isEquipmentRequired(): bool
+    public function isEquipmentRequired(): ?bool
     {
         return $this->equipmentRequired;
     }
@@ -363,7 +363,7 @@ class Session implements SessionInterface
         $this->supplemental = $supplemental;
     }
 
-    public function isSupplemental(): bool
+    public function isSupplemental(): ?bool
     {
         return $this->supplemental;
     }
@@ -376,7 +376,7 @@ class Session implements SessionInterface
         $this->attendanceRequired = $attendanceRequired;
     }
 
-    public function isAttendanceRequired(): bool
+    public function isAttendanceRequired(): ?bool
     {
         return $this->attendanceRequired;
     }
@@ -419,7 +419,7 @@ class Session implements SessionInterface
         }
     }
 
-    public function getIlmSession(): IlmSessionInterface
+    public function getIlmSession(): ?IlmSessionInterface
     {
         return $this->ilmSession;
     }
@@ -522,7 +522,7 @@ class Session implements SessionInterface
         $this->postrequisite = $postrequisite;
     }
 
-    public function getPostrequisite(): SessionInterface
+    public function getPostrequisite(): ?SessionInterface
     {
         return $this->postrequisite;
     }

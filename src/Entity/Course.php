@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Traits\CourseObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
+use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
@@ -39,7 +39,7 @@ use App\Repository\CourseRepository;
 class Course implements CourseInterface
 {
     use IdentifiableEntity;
-    use TitledEntity;
+    use TitledNullableEntity;
     use StringableIdEntity;
     use LockableEntity;
     use ArchivableEntity;
@@ -399,12 +399,12 @@ class Course implements CourseInterface
         return $this->externalId;
     }
 
-    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType = null)
+    public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType = null)
     {
         $this->clerkshipType = $clerkshipType;
     }
 
-    public function getClerkshipType(): CourseClerkshipTypeInterface
+    public function getClerkshipType(): ?CourseClerkshipTypeInterface
     {
         return $this->clerkshipType;
     }

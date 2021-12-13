@@ -221,7 +221,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->export = $export;
     }
 
-    public function getExport(): CurriculumInventoryExportInterface
+    public function getExport(): ?CurriculumInventoryExportInterface
     {
         return $this->export;
     }

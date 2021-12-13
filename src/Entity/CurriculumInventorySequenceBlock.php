@@ -333,7 +333,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->startDate = $startDate;
     }
 
-    public function getStartDate(): DateTime
+    public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
@@ -343,7 +343,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->endDate = $endDate;
     }
 
-    public function getEndDate(): DateTime
+    public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }
@@ -386,7 +386,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->parent = $parent;
     }
 
-    public function getParent(): CurriculumInventorySequenceBlockInterface
+    public function getParent(): ?CurriculumInventorySequenceBlockInterface
     {
         return $this->parent;
     }

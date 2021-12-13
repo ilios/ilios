@@ -605,7 +605,7 @@ class User implements UserInterface
         $this->preferredEmail = $email;
     }
 
-    public function getPreferredEmail(): string
+    public function getPreferredEmail(): ?string
     {
         return $this->preferredEmail;
     }

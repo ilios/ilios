@@ -90,7 +90,7 @@ interface UserInterface extends
      */
     public function setPreferredEmail($email);
 
-    public function getPreferredEmail(): string;
+    public function getPreferredEmail(): ?string;
 
     /**
      * @param bool $addedViaIlios

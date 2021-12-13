@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ProgramYearObjectivesEntityInterface;
+use App\Traits\TitledNullableEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SchoolEntityInterface;
-use App\Traits\TitledEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
 
 /**
@@ -17,7 +17,7 @@ use App\Traits\ProgramYearsEntityInterface;
  */
 interface CompetencyInterface extends
     IdentifiableEntityInterface,
-    TitledEntityInterface,
+    TitledNullableEntityInterface,
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,

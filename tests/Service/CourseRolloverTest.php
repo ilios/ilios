@@ -671,6 +671,7 @@ class CourseRolloverTest extends TestCase
         $sessionXObjective = new SessionObjective();
         $sessionXObjective->addCourseObjective(new CourseObjective());
         $sessionXObjective->addCourseObjective($courseXObjective);
+        $sessionXObjective->setTitle('test session');
         $session->addSessionObjective($sessionXObjective);
         $course->addSession($session);
 

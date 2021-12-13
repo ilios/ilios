@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\ProgramYearObjectivesEntity;
+use App\Traits\TitledNullableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,6 @@ use App\Traits\StringableIdEntity;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
@@ -28,7 +28,7 @@ use App\Repository\CompetencyRepository;
 class Competency implements CompetencyInterface
 {
     use IdentifiableEntity;
-    use TitledEntity;
+    use TitledNullableEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
     use StringableIdEntity;

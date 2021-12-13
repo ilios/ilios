@@ -16,6 +16,8 @@ use App\Traits\StringableIdEntity;
 use App\Attribute as IA;
 use App\Repository\LearningMaterialRepository;
 
+use function array_unique;
+
 /**
  * Class LearningMaterial
  * Learning materials are not serialized like other entities.  They are decorated by the controller and
@@ -351,7 +353,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->citation = $citation;
     }
 
-    public function getCitation(): string
+    public function getCitation(): ?string
     {
         return $this->citation;
     }
@@ -364,7 +366,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->relativePath = $path;
     }
 
-    public function getRelativePath(): string
+    public function getRelativePath(): ?string
     {
         return $this->relativePath;
     }
@@ -377,7 +379,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->copyrightPermission = $copyrightPermission;
     }
 
-    public function hasCopyrightPermission(): bool
+    public function hasCopyrightPermission(): ?bool
     {
         return $this->copyrightPermission;
     }
@@ -390,7 +392,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->copyrightRationale = $copyrightRationale;
     }
 
-    public function getCopyrightRationale(): string
+    public function getCopyrightRationale(): ?string
     {
         return $this->copyrightRationale;
     }
@@ -403,7 +405,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->filename = $filename;
     }
 
-    public function getFilename(): string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
@@ -416,7 +418,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->filesize = $filesize;
     }
 
-    public function getFilesize(): string
+    public function getFilesize(): ?string
     {
         return $this->filesize;
     }
@@ -429,7 +431,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->mimetype = $mimetype;
     }
 
-    public function getMimetype(): string
+    public function getMimetype(): ?string
     {
         return $this->mimetype;
     }
@@ -445,7 +447,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->link = $link;
     }
 
-    public function getLink(): string
+    public function getLink(): ?string
     {
         return $this->link;
     }
@@ -523,7 +525,7 @@ class LearningMaterial implements LearningMaterialInterface
             $sessions = array_merge($sessions, $sessionLearningMaterial->getSessions());
         }
 
-        return array_unique($sessions);
+        return new ArrayCollection(array_unique($sessions));
     }
 
     /**

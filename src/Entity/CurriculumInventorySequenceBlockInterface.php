@@ -94,11 +94,11 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function setStartDate(DateTime $startDate = null);
 
-    public function getStartDate(): DateTime;
+    public function getStartDate(): ?DateTime;
 
     public function setEndDate(DateTime $endDate = null);
 
-    public function getEndDate(): DateTime;
+    public function getEndDate(): ?DateTime;
 
     /**
      * @param int $duration
@@ -129,7 +129,7 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
 
-    public function getParent(): CurriculumInventorySequenceBlockInterface;
+    public function getParent(): ?CurriculumInventorySequenceBlockInterface;
 
     /**
      * Sorts child sequence blocks according to this entity's child sequence order.

@@ -55,35 +55,35 @@ interface LearningMaterialInterface extends
      */
     public function setCitation($citation);
 
-    public function getCitation(): string;
+    public function getCitation(): ?string;
 
     /**
      * @param string $link
      */
     public function setLink($link);
 
-    public function getLink(): string;
+    public function getLink(): ?string;
 
     /**
      * @param string $path
      */
     public function setRelativePath($path);
 
-    public function getRelativePath(): string;
+    public function getRelativePath(): ?string;
 
     /**
      * @param bool $copyrightPermission
      */
     public function setCopyrightPermission($copyrightPermission);
 
-    public function hasCopyrightPermission(): bool;
+    public function hasCopyrightPermission(): ?bool;
 
     /**
      * @param string $copyrightRationale
      */
     public function setCopyrightRationale($copyrightRationale);
 
-    public function getCopyrightRationale(): string;
+    public function getCopyrightRationale(): ?string;
 
     public function getUploadDate(): DateTime;
 
@@ -92,14 +92,14 @@ interface LearningMaterialInterface extends
      */
     public function setMimetype($mimetype);
 
-    public function getMimetype(): string;
+    public function getMimetype(): ?string;
 
     /**
      * @param string $filesize
      */
     public function setFilesize($filesize);
 
-    public function getFilesize(): string;
+    public function getFilesize(): ?string;
 
 
     /**
@@ -107,7 +107,7 @@ interface LearningMaterialInterface extends
      */
     public function setFilename($filename);
 
-    public function getFilename(): string;
+    public function getFilename(): ?string;
 
     public function setCourseLearningMaterials(Collection $courseLearningMaterials = null);
 

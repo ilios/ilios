@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\ReportRepository;
@@ -23,7 +23,7 @@ class Report implements ReportInterface
 {
     use IdentifiableEntity;
     use StringableIdEntity;
-    use TitledEntity;
+    use TitledNullableEntity;
 
     /**
      * @var int

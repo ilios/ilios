@@ -8,7 +8,7 @@ use App\Traits\DescribableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\SessionObjectivesEntityInterface;
 use App\Traits\StudentAdvisorsEntityInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Traits\TitledNullableEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
 use App\Traits\CategorizableEntityInterface;
@@ -16,7 +16,6 @@ use App\Traits\IdentifiableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
-use App\Traits\TitledEntityInterface;
 use App\Traits\StringableEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\OfferingsEntityInterface;
@@ -26,7 +25,7 @@ use App\Traits\OfferingsEntityInterface;
  */
 interface SessionInterface extends
     IdentifiableEntityInterface,
-    TitledEntityInterface,
+    TitledNullableEntityInterface,
     StringableEntityInterface,
     TimestampableEntityInterface,
     OfferingsEntityInterface,
@@ -46,28 +45,28 @@ interface SessionInterface extends
      */
     public function setAttireRequired($attireRequired);
 
-    public function isAttireRequired(): bool;
+    public function isAttireRequired(): ?bool;
 
     /**
      * @param bool $equipmentRequired
      */
     public function setEquipmentRequired($equipmentRequired);
 
-    public function isEquipmentRequired(): bool;
+    public function isEquipmentRequired(): ?bool;
 
     /**
      * @param bool $supplemental
      */
     public function setSupplemental($supplemental);
 
-    public function isSupplemental(): bool;
+    public function isSupplemental(): ?bool;
 
     /**
      * @param bool $attendanceRequired
      */
     public function setAttendanceRequired($attendanceRequired);
 
-    public function isAttendanceRequired(): bool;
+    public function isAttendanceRequired(): ?bool;
 
     public function getInstructionalNotes(): ?string;
 
@@ -83,7 +82,7 @@ interface SessionInterface extends
 
     public function setIlmSession(IlmSessionInterface $ilmSession = null);
 
-    public function getIlmSession(): IlmSessionInterface;
+    public function getIlmSession(): ?IlmSessionInterface;
 
     public function setLearningMaterials(Collection $learningMaterials = null);
 
@@ -105,7 +104,7 @@ interface SessionInterface extends
 
     public function setPostrequisite(SessionInterface $ancestor);
 
-    public function getPostrequisite(): SessionInterface;
+    public function getPostrequisite(): ?SessionInterface;
 
     public function setPrerequisites(Collection $children);
 

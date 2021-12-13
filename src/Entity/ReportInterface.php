@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SchoolEntityInterface;
-use App\Traits\TitledEntityInterface;
+use App\Traits\TitledNullableEntityInterface;
 use DateTime;
 
 /**
@@ -14,7 +13,7 @@ use DateTime;
  */
 interface ReportInterface extends
     IdentifiableEntityInterface,
-    TitledEntityInterface,
+    TitledNullableEntityInterface,
     LoggableEntityInterface
 {
 

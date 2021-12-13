@@ -6,8 +6,8 @@ namespace App\Entity;
 
 use App\Traits\CourseObjectivesEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
+use App\Traits\TitledNullableEntityInterface;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
 use App\Traits\ArchivableEntityInterface;
@@ -20,7 +20,6 @@ use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\StudentAdvisorsEntityInterface;
-use App\Traits\TitledEntityInterface;
 use App\Traits\StringableEntityInterface;
 use App\Traits\SessionsEntityInterface;
 
@@ -29,7 +28,7 @@ use App\Traits\SessionsEntityInterface;
  */
 interface CourseInterface extends
     IdentifiableEntityInterface,
-    TitledEntityInterface,
+    TitledNullableEntityInterface,
     StringableEntityInterface,
     LockableEntityInterface,
     ArchivableEntityInterface,
@@ -79,9 +78,9 @@ interface CourseInterface extends
      */
     public function getExternalId(): string;
 
-    public function setClerkshipType(CourseClerkshipTypeInterface $clerkshipType);
+    public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType);
 
-    public function getClerkshipType(): CourseClerkshipTypeInterface;
+    public function getClerkshipType(): ?CourseClerkshipTypeInterface;
 
     public function setLearningMaterials(Collection $learningMaterials = null);
 
