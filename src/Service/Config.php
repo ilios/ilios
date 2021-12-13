@@ -99,9 +99,9 @@ class Config
      * Since the database stores all of these as long_text we need to cast them back
      *
      * @param string $name
-     * @param string|boolean $result
+     * @param string|bool|null $result
      */
-    protected function castResult($name, $result): mixed
+    protected function castResult($name, $result): string|bool|null
     {
         if (null !== $result && !is_bool($result) && in_array($name, self::BOOLEAN_NAMES)) {
             return (bool) json_decode($result);
