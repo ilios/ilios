@@ -156,7 +156,8 @@ class IlmSession implements IlmSessionInterface
 
     public function getHours(): float
     {
-        return $this->hours;
+        //we have to type cast float because doctrine returns it as a string for precision
+        return (float) $this->hours;
     }
 
     public function setDueDate(DateTime $dueDate = null)
