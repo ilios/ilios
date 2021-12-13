@@ -99,7 +99,7 @@ interface LearningMaterialInterface extends
      */
     public function setFilesize($filesize);
 
-    public function getFilesize(): ?string;
+    public function getFilesize(): ?int;
 
 
     /**

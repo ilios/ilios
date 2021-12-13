@@ -418,7 +418,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->filesize = $filesize;
     }
 
-    public function getFilesize(): ?string
+    public function getFilesize(): ?int
     {
         return $this->filesize;
     }
