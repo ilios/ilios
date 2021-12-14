@@ -18,7 +18,6 @@ use Exception;
  */
 class DownloadController extends AbstractController
 {
-
     public function learningMaterialAction(
         $token,
         LearningMaterialRepository $learningMaterialRepository,

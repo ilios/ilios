@@ -12,7 +12,6 @@ use App\Attribute as IA;
 #[IA\DTO('academicYears')]
 class AcademicYear
 {
-
     #[IA\Id]
     #[IA\Expose]
     #[IA\Type('string')]

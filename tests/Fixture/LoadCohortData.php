@@ -17,7 +17,6 @@ class LoadCohortData extends AbstractFixture implements
     DependentFixtureInterface,
     ContainerAwareInterface
 {
-
     private $container;
 
     public function setContainer(ContainerInterface $container = null)

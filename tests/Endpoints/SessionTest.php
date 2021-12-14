@@ -25,7 +25,6 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class SessionTest extends ReadWriteEndpointTest
 {
-
     protected string $testName =  'sessions';
 
     protected function getFixtures(): array

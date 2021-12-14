@@ -16,7 +16,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
 {
-
     public function __construct(protected EntityMetadata $entityMetadata)
     {
     }

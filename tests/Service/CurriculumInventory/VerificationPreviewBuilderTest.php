@@ -26,7 +26,6 @@ use Mockery as m;
  */
 class VerificationPreviewBuilderTest extends TestCase
 {
-
     /**
      * @var VerificationPreviewBuilder
      */

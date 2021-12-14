@@ -30,7 +30,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ProgramYears extends ReadWriteController
 {
-
     public function __construct(
         protected ProgramYearRepository $programYearRepository,
         protected CohortRepository $cohortRepository,

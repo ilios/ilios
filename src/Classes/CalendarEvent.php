@@ -13,7 +13,6 @@ use DateTime;
  */
 class CalendarEvent
 {
-
     #[IA\Expose]
     #[IA\Type('string')]
     public string $name = '';

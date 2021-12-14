@@ -14,7 +14,6 @@ use scandir;
  */
 class Filesystem extends SymfonyFileSystem
 {
-
     /**
      * Read the contents of a file and return it as a string
      */

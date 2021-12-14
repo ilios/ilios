@@ -16,7 +16,6 @@ interface ReportInterface extends
     TitledNullableEntityInterface,
     LoggableEntityInterface
 {
-
     public function getCreatedAt(): DateTime;
 
     /**

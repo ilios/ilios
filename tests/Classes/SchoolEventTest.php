@@ -18,7 +18,6 @@ use DateTime;
  */
 class SchoolEventTest extends TestCase
 {
-
     /**
      * @var SchoolEvent
      */

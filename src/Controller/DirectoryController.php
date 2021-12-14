@@ -20,7 +20,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DirectoryController extends AbstractController
 {
-
     public function __construct(
         protected TokenStorageInterface $tokenStorage,
         protected UserRepository $userRepository,

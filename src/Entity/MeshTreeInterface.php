@@ -14,7 +14,6 @@ interface MeshTreeInterface extends
     StringableEntityInterface,
     IdentifiableEntityInterface
 {
-
     /**
      * Set treeNumber
      *

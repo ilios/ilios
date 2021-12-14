@@ -17,7 +17,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class UploadController extends AbstractController
 {
-
     public function uploadAction(
         Request $request,
         IliosFileSystem $iliosFileSystem,

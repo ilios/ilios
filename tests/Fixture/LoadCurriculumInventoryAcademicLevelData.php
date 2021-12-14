@@ -17,7 +17,6 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
     DependentFixtureInterface,
     ContainerAwareInterface
 {
-
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
