@@ -47,7 +47,7 @@ class DTOInfo
         if (!array_key_exists($type, $this->types)) {
             throw new Exception("Invalid Type. No DTO for ${type}");
         }
-        return $this->types[$type]['ref'];
+        return new ReflectionClass($this->types[$type]['name']);
     }
 
     public function isGraphQL(ReflectionClass $class): bool
@@ -84,7 +84,6 @@ class DTOInfo
 
             $rhett[$type] = [
                 'name' => $className,
-                'ref' => $ref,
                 'isGraphQL' => $this->isGraphQL($ref),
             ];
         }
