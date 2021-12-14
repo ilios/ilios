@@ -47,25 +47,25 @@
     "symfony/console": "@stable",
     "symfony/doctrine-messenger": "@stable",
     "symfony/dotenv": "@stable",
-    "symfony/flex": "^1.1",
+    "symfony/flex": "@stable",
     "symfony/framework-bundle": "@stable",
     "symfony/http-client": "@stable",
-    "symfony/ldap": "5.2.*",
+    "symfony/ldap": "@stable",
     "symfony/lock": "@stable",
     "symfony/mailchimp-mailer": "@stable",
     "symfony/mailer": "@stable",
     "symfony/mailgun-mailer": "@stable",
     "symfony/messenger": "@stable",
-    "symfony/monolog-bundle": "^3.1.0",
+    "symfony/monolog-bundle": "@stable",
     "symfony/postmark-mailer": "@stable",
-    "symfony/property-access": "5.3.*",
-    "symfony/property-info": "5.3.*",
-    "symfony/proxy-manager-bridge": "5.3.*",
-    "symfony/requirements-checker": "^1.1",
+    "symfony/property-access": "@stable",
+    "symfony/property-info": "@stable",
+    "symfony/proxy-manager-bridge": "@stable",
+    "symfony/requirements-checker": "@stable",
     "symfony/runtime": "@stable",
     "symfony/security-bundle": "@stable",
     "symfony/sendgrid-mailer": "@stable",
-    "symfony/serializer": "5.3.*",
+    "symfony/serializer": "@stable",
     "symfony/twig-bundle": "@stable",
     "symfony/validator": "@stable",
     "symfony/web-link": "@stable",
@@ -83,12 +83,12 @@
     "phpstan/phpstan-symfony": "^0.12.6",
     "phpunit/phpunit": "^9.5",
     "squizlabs/php_codesniffer": "@stable",
-    "symfony/browser-kit": "5.3.*",
-    "symfony/css-selector": "5.3.*",
-    "symfony/debug-bundle": "5.3.*",
+    "symfony/browser-kit": "@stable",
+    "symfony/css-selector": "@stable",
+    "symfony/debug-bundle": "@stable",
     "symfony/phpunit-bridge": "^5.3",
-    "symfony/stopwatch": "5.3.*",
-    "symfony/web-profiler-bundle": "5.3.*"
+    "symfony/stopwatch": "@stable",
+    "symfony/web-profiler-bundle": "@stable"
   },
   "config": {
     "platform": {
@@ -140,7 +140,8 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "5.4.*"
+      "require": "5.4.*",
+      "docker": false
     }
   }
 }
