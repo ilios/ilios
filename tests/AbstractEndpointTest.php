@@ -180,7 +180,7 @@ abstract class AbstractEndpointTest extends WebTestCase
                 }
             } else {
                 $this->assertArrayHasKey($key, $expected);
-                $this->assertEquals($expected[$key], $value);
+                $this->assertEquals($expected[$key], $value, "'${key}' doesn't match");
             }
         }
     }
