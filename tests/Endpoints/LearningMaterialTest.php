@@ -24,7 +24,6 @@ use App\Tests\ReadWriteEndpointTest;
  */
 class LearningMaterialTest extends ReadWriteEndpointTest
 {
-
     private const UNBLANKED_ATTRIBUTES = [
         'id',
         'title',

@@ -13,7 +13,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class LearningMaterialDecoratorFactory
 {
-
     public function __construct(protected RouterInterface $router)
     {
     }

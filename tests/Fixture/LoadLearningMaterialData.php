@@ -20,7 +20,6 @@ class LoadLearningMaterialData extends AbstractFixture implements
     DependentFixtureInterface,
     ContainerAwareInterface
 {
-
     /**
      * @var ContainerInterface
      */

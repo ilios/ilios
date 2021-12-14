@@ -10,7 +10,6 @@ use Exception;
 
 class LearningMaterialData extends AbstractDataLoader
 {
-
     protected function getData(): array
     {
         $arr = [];

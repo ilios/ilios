@@ -20,7 +20,6 @@ interface MeshTermInterface extends
     ConceptsEntityInterface,
     CreatedAtEntityInterface
 {
-
     /**
      * @param string $meshTermUid
      */

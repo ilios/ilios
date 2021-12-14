@@ -19,7 +19,6 @@ use App\Service\IliosFileSystem;
  */
 class ValidateLearningMaterialPathsCommand extends Command
 {
-
     public function __construct(
         protected IliosFileSystem $iliosFileSystem,
         protected LearningMaterialRepository $learningMaterialRepository

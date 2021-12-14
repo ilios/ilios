@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiRequestParser
 {
-
     public function __construct(
         protected EndpointResponseNamer $endpointResponseNamer,
         protected SerializerInterface $serializer,

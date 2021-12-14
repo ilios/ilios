@@ -23,7 +23,6 @@ interface LearningMaterialInterface extends
     SessionStampableInterface,
     IndexableCoursesEntityInterface
 {
-
     /**
      * @param string $orignalAuthor
      */

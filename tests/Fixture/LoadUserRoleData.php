@@ -15,7 +15,6 @@ class LoadUserRoleData extends AbstractFixture implements
     ORMFixtureInterface,
     ContainerAwareInterface
 {
-
     private $container;
 
     public function setContainer(ContainerInterface $container = null)

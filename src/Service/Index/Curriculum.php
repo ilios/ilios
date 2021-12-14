@@ -11,7 +11,6 @@ use InvalidArgumentException;
 
 class Curriculum extends ElasticSearchBase
 {
-
     public const INDEX = 'ilios-curriculum';
     public const SESSION_ID_PREFIX = 'session_';
 

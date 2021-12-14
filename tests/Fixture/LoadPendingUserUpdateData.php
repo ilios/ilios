@@ -17,7 +17,6 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
     DependentFixtureInterface,
     ContainerAwareInterface
 {
-
     /**
      * @var ContainerInterface
      */

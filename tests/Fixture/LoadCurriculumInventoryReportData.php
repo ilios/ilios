@@ -18,7 +18,6 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
     ContainerAwareInterface,
     DependentFixtureInterface
 {
-
     private $container;
 
     public function setContainer(ContainerInterface $container = null)
