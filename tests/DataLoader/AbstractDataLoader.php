@@ -8,9 +8,10 @@ use App\Attribute\Id;
 use App\Attribute\Related;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
+use App\Tests\GetFakerTrait;
 use Closure;
 use DateTime;
-use Faker\Factory as FakerFactory;
+use Faker\Generator;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -23,16 +24,17 @@ use function array_values;
  */
 abstract class AbstractDataLoader implements DataLoaderInterface
 {
+    use GetFakerTrait;
+
     protected $data;
 
-    protected $faker;
+    protected Generator $faker;
 
     public function __construct(
         protected EntityMetadata $entityMetadata,
         protected EntityRepositoryLookup $entityManagerLookup
     ) {
-        $this->faker = FakerFactory::create();
-        $this->faker->seed(1234);
+        $this->faker = $this->getFaker();
     }
 
     /**

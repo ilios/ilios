@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\GetFakerTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
-use Faker\Factory as FakerFactory;
 
 class ErrorControllerTest extends WebTestCase
 {
     use JsonControllerTest;
+    use GetFakerTrait;
 
     protected KernelBrowser $kernelBrowser;
 
@@ -36,7 +37,7 @@ class ErrorControllerTest extends WebTestCase
 
     public function testIndex()
     {
-        $faker = FakerFactory::create();
+        $faker = $this->getFaker();
 
         $data = [
             'mainMessage' => $faker->text(100),
@@ -56,7 +57,7 @@ class ErrorControllerTest extends WebTestCase
 
     public function testAnonymousAccessDenied()
     {
-        $faker = FakerFactory::create();
+        $faker = $this->getFaker();
 
         $data = [
             'mainMessage' => $faker->text(100),

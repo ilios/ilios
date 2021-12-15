@@ -18,7 +18,6 @@ use App\Tests\Traits\JsonControllerTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Faker\Factory as FakerFactory;
 use Faker\Generator as FakerGenerator;
 
 use function array_key_exists;
@@ -37,12 +36,12 @@ abstract class AbstractEndpointTest extends WebTestCase
 {
     use JsonControllerTest;
     use GetUrlTrait;
+    use GetFakerTrait;
 
     protected string $apiVersion = 'v3';
     protected string $testName;
     protected KernelBrowser $kernelBrowser;
     protected AbstractDatabaseTool $databaseTool;
-    private FakerGenerator $faker;
     private Inflector $inflector;
     protected ReferenceRepository $fixtures;
 
@@ -70,7 +69,6 @@ abstract class AbstractEndpointTest extends WebTestCase
         parent::tearDown();
         unset($this->kernelBrowser);
         unset($this->fixtures);
-        unset($this->faker);
     }
 
 
@@ -103,17 +101,6 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $pluralized = $this->getCamelCasedPluralName();
         return $this->inflector->singularize($pluralized);
-    }
-
-
-    protected function getFaker(): FakerGenerator
-    {
-        if (!isset($this->faker)) {
-            $this->faker = FakerFactory::create();
-            $this->faker->seed(17105);
-        }
-
-        return $this->faker;
     }
 
     /**
