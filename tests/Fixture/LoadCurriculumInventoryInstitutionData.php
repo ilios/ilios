@@ -44,7 +44,7 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
             $entity->setAddressCountryCode($arr['addressCountryCode']);
 
             $manager->persist($entity);
-            $this->addReference('curriculumInventoryInstitutions' . $arr['name'], $entity);
+            $this->addReference('curriculumInventoryInstitutions' . $arr['id'], $entity);
         }
 
         $manager->flush();
