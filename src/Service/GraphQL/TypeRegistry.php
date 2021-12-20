@@ -17,7 +17,6 @@ use function array_key_exists;
 
 class TypeRegistry
 {
-    private const CACHE_KEY = 'ilios-graphql-type-registry';
     protected array $types = [];
 
     public function __construct(
@@ -30,14 +29,6 @@ class TypeRegistry
     }
 
     public function getTypes(): array
-    {
-        return $this->appCache->get(
-            self::CACHE_KEY,
-            fn () => $this->createTypeRegistry()
-        );
-    }
-
-    protected function createTypeRegistry(): array
     {
         $types = [];
         foreach ($this->dtoInfo->getGraphQLTypeList() as $name) {
