@@ -52,4 +52,14 @@ class AuthenticationTest extends EntityBase
     {
         $this->basicSetTest('invalidateTokenIssuedBefore', 'datetime');
     }
+
+    /**
+     * @covers \App\Entity\Authentication::setPasswordHash
+     * @covers \App\Entity\Authentication::getPasswordHash
+     */
+    public function testPasswordHash()
+    {
+        $this->assertNull($this->object->getPasswordHash());
+        $this->basicSetTest('passwordHash', 'string');
+    }
 }

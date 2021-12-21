@@ -24,7 +24,7 @@ interface AuthenticationInterface extends LoggableEntityInterface
      */
     public function setPasswordHash($passwordHash);
 
-    public function getPasswordHash(): string;
+    public function getPasswordHash(): ?string;
 
     public function getPassword(): string;
 

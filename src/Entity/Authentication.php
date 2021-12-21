@@ -79,7 +79,7 @@ class Authentication implements AuthenticationInterface, Stringable
         $this->passwordHash = $passwordHash;
     }
 
-    public function getPasswordHash(): string
+    public function getPasswordHash(): ?string
     {
         return $this->passwordHash;
     }
