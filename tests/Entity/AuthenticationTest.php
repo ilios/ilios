@@ -32,6 +32,7 @@ class AuthenticationTest extends EntityBase
      */
     public function testSetUsername()
     {
+        $this->assertNull($this->object->getUsername());
         $this->basicSetTest('username', 'string');
     }
 
@@ -61,5 +62,15 @@ class AuthenticationTest extends EntityBase
     {
         $this->assertNull($this->object->getPasswordHash());
         $this->basicSetTest('passwordHash', 'string');
+    }
+
+    /**
+     * @covers \App\Entity\Authentication::getPassword
+     */
+    public function testPassword()
+    {
+        $this->assertNull($this->object->getPassword());
+        $this->object->setPasswordHash('test');
+        $this->assertEquals('test', $this->object->getPassword());
     }
 }

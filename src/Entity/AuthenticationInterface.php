@@ -17,7 +17,7 @@ interface AuthenticationInterface extends LoggableEntityInterface
      */
     public function setUsername($username);
 
-    public function getUsername(): string;
+    public function getUsername(): ?string;
 
     /**
      * @param string $passwordHash
@@ -26,7 +26,7 @@ interface AuthenticationInterface extends LoggableEntityInterface
 
     public function getPasswordHash(): ?string;
 
-    public function getPassword(): string;
+    public function getPassword(): ?string;
 
     public function setUser(UserInterface $user);
 

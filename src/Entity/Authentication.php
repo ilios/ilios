@@ -69,7 +69,7 @@ class Authentication implements AuthenticationInterface, Stringable
         $this->username = $username;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
@@ -84,10 +84,7 @@ class Authentication implements AuthenticationInterface, Stringable
         return $this->passwordHash;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->getPasswordHash();
     }
