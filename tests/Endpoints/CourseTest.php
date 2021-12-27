@@ -345,7 +345,7 @@ class CourseTest extends ReadWriteEndpointTest
          * with YYYY being last year.
          * [ST 2018/01/02].
          */
-        $course['year'] = intval(strftime('%Y'), 10) - 1;
+        $course['year'] = intval(date('Y'), 10) - 1;
         $newCourseTitle = 'New (very cool) course title';
 
         $newCourse = $this->rolloverCourse([
