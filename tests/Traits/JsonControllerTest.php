@@ -137,31 +137,12 @@ trait JsonControllerTest
 
     /**
      * Logs in a specific user and returns the token for them
-     *
-     * @param KernelBrowser $browser
-     * @param string $userId
      */
-    protected function getTokenForUser(KernelBrowser $browser, $userId): string
+    protected function getTokenForUser(KernelBrowser $browser, int $userId): string
     {
-        static $tokens;
-
-        if (!is_array($tokens)) {
-            $tokens = [];
-        }
-        $userId = (int) $userId;
-
-        if (!array_key_exists($userId, $tokens)) {
-            /** @var ContainerInterface $container **/
-            $container = $browser->getContainer();
-
-            /** @var JsonWebTokenManager $jwtManager **/
-            $jwtManager = $container->get(JsonWebTokenManager::class);
-            $token = $jwtManager->createJwtFromUserId($userId);
-
-            $tokens[$userId] = $token;
-        }
-
-        return $tokens[$userId];
+        $container = $browser->getContainer();
+        $jwtManager = $container->get(JsonWebTokenManager::class);
+        return $jwtManager->createJwtFromUserId($userId);
     }
 
     /**
