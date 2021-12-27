@@ -9,8 +9,6 @@ use App\Service\Config;
 use Mockery as m;
 use App\Tests\TestCase;
 
-use function Stringy\create as s;
-
 /**
  * Class LoggerQueueTest
  * @package App\Tests\Classes
@@ -23,7 +21,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertEquals($value, $result);
@@ -47,7 +45,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = 'false';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === false);
@@ -60,7 +58,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = 'true';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === true);
@@ -72,7 +70,7 @@ class ConfigTest extends TestCase
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = 'null';
         $repository->shouldReceive('getValue')->with($key)->once();
         $config->get($key);
@@ -85,7 +83,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = 'FALSE';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === false);
@@ -98,7 +96,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = 'TRUE';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = $value;
         $result = $config->get($key);
         $this->assertTrue($result === true);
@@ -110,7 +108,7 @@ class ConfigTest extends TestCase
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = 'NULL';
         $repository->shouldReceive('getValue')->with($key)->once();
         $config->get($key);
@@ -123,7 +121,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = $value;
         $_SERVER[$envKey] = 'bad';
         $result = $config->get($key);
@@ -138,7 +136,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_ENV[$envKey] = null;
         $_SERVER[$envKey] = $value;
         $result = $config->get($key);
@@ -153,7 +151,7 @@ class ConfigTest extends TestCase
         $config = new Config($repository);
         $value = '123Test';
         $key = 'random-key-99';
-        $envKey = 'ILIOS_' . s($key)->underscored()->toUpperCase();
+        $envKey = 'ILIOS_RANDOM_KEY_99';
         $_SERVER[$envKey] = $value;
         $result = $config->get($key);
         $this->assertEquals($value, $result);

@@ -41,9 +41,6 @@
     "composer/xdebug-handler": {
         "version": "2.0.2"
     },
-    "danielstjules/stringy": {
-        "version": "3.1.0"
-    },
     "dealerdirect/phpcodesniffer-composer-installer": {
         "version": "v0.7.1"
     },

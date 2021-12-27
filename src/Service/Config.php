@@ -9,7 +9,8 @@ use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
 use Exception;
 
-use function Stringy\create as s;
+use function preg_replace;
+use function strtoupper;
 
 class Config
 {
@@ -55,7 +56,8 @@ class Config
      */
     protected function getValueFromEnv($name): string|bool|null
     {
-        $envName = 'ILIOS_' .  s($name)->underscored()->toUpperCase();
+        $snakeName = $this->camelToSnake($name);
+        $envName = 'ILIOS_' .  strtoupper($snakeName);
         $result = null;
         if (isset($_ENV[$envName])) {
             $result = $_ENV[$envName];
@@ -108,5 +110,15 @@ class Config
         }
 
         return $result;
+    }
+
+    /**
+     * Convert camelCaseString to camel_case_string
+     */
+    protected function camelToSnake(string $str): string
+    {
+        $rhett = preg_replace('/[A-Z]/', '_$0', $str);
+        $rhett = preg_replace('/[-\s]/', '_', $rhett);
+        return strtolower($rhett);
     }
 }
