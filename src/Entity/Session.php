@@ -59,7 +59,7 @@ class Session implements SessionInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     protected $id;
 
     /**
@@ -137,7 +137,7 @@ class Session implements SessionInterface
      */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $updatedAt;
 

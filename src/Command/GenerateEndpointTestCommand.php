@@ -69,7 +69,7 @@ class GenerateEndpointTestCommand extends Command
         $propertyReflection = $this->entityMetadata->extractExposedProperties($reflection);
         $filters = array_map($mapProperties, $propertyReflection);
 
-        $propertyReflection = $this->entityMetadata->extractReadOnlyProperties($reflection);
+        $propertyReflection = $this->entityMetadata->extractOnlyReadableProperties($reflection);
         $readOnlies = array_map($mapProperties, $propertyReflection);
 
         $plural = $this->inflector->pluralize($entity);

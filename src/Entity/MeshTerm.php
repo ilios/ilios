@@ -43,7 +43,7 @@ class MeshTerm implements MeshTermInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     protected $id;
 
     /**
@@ -117,14 +117,14 @@ class MeshTerm implements MeshTermInterface
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $createdAt;
 
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $updatedAt;
 

@@ -33,7 +33,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     protected $id;
 
     /**
@@ -73,7 +73,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
      */
     #[ORM\Column(name: 'created_on', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $createdAt;
 

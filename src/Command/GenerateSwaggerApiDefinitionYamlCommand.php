@@ -62,7 +62,7 @@ class GenerateSwaggerApiDefinitionYamlCommand extends Command
             }
             return [
                 'name' => $property->getName(),
-                'readOnly' => $this->entityMetadata->isPropertyReadOnly($property),
+                'readOnly' => $this->entityMetadata->isPropertyOnlyReadable($property),
                 'type' => $type
             ];
         };

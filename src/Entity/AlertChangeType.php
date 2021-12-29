@@ -38,7 +38,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     protected $id;
 
     /**

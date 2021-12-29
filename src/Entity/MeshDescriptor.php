@@ -90,7 +90,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $createdAt;
 
@@ -99,7 +99,7 @@ class MeshDescriptor implements MeshDescriptorInterface
      */
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $updatedAt;
 

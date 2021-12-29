@@ -8,7 +8,7 @@ use App\Attribute\DTO;
 use App\Attribute\Entity;
 use App\Attribute\Expose;
 use App\Attribute\Id;
-use App\Attribute\ReadOnly;
+use App\Attribute\OnlyReadable;
 use App\Attribute\Related;
 use App\Attribute\RemoveMarkup;
 use App\Attribute\Type;
@@ -236,7 +236,7 @@ class EntityMetadata
 
     /**
      * Get all of the properties of a class which are
-     * not annotated as ReadOnly
+     * not annotated as OnlyReadable
      */
     public function extractWritableProperties(ReflectionClass $reflection): array
     {
@@ -244,20 +244,20 @@ class EntityMetadata
 
         return array_filter(
             $exposedProperties,
-            fn(ReflectionProperty $property) => !$this->isPropertyReadOnly($property)
+            fn(ReflectionProperty $property) => !$this->isPropertyOnlyReadable($property)
         );
     }
 
     /**
-     * Get all of the annotated ReadOnly properties of a class
+     * Get all of the annotated OnlyReadable properties of a class
      */
-    public function extractReadOnlyProperties(ReflectionClass $reflection): array
+    public function extractOnlyReadableProperties(ReflectionClass $reflection): array
     {
         $exposedProperties = $this->extractExposedProperties($reflection);
 
         return array_filter(
             $exposedProperties,
-            fn(ReflectionProperty $property) => $this->isPropertyReadOnly($property)
+            fn(ReflectionProperty $property) => $this->isPropertyOnlyReadable($property)
         );
     }
 
@@ -290,11 +290,11 @@ class EntityMetadata
     }
 
     /**
-     * Check if a property has the ReadOnly annotation
+     * Check if a property has the OnlyReadable annotation
      */
-    public function isPropertyReadOnly(ReflectionProperty $property): bool
+    public function isPropertyOnlyReadable(ReflectionProperty $property): bool
     {
-        return $property->getAttributes(ReadOnly::class) !== [];
+        return $property->getAttributes(OnlyReadable::class) !== [];
     }
 
     /**

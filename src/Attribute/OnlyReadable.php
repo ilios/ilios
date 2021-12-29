@@ -12,6 +12,6 @@ use Attribute;
  * them will be silently ignored in the API.
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class ReadOnly
+class OnlyReadable
 {
 }

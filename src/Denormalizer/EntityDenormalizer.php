@@ -44,7 +44,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
 
         $reflection = new ReflectionClass($type);
         $writableProperties = $this->entityMetadata->extractWritableProperties($reflection);
-        $readOnlyProperties = $this->entityMetadata->extractReadOnlyProperties($reflection);
+        $readOnlyProperties = $this->entityMetadata->extractOnlyReadableProperties($reflection);
 
         //remove all the read only properties from the input
         $readOnlyFields = array_column($readOnlyProperties, "name");

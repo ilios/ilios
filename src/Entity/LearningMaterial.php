@@ -43,7 +43,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     protected $id;
 
     /**
@@ -80,7 +80,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'upload_date', type: 'datetime')]
     #[IA\Expose]
-    #[IA\ReadOnly]
+    #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     protected $uploadDate;
 
