@@ -22,6 +22,9 @@ class IliosFileSystem implements CheckInterface
     public function check(): ResultInterface
     {
         $path = $this->config->get('file_system_storage_path');
+        if (!$path) {
+            return new Failure("No storage path on the filesystem. You need to configure this value.");
+        }
         if (!is_writable($path)) {
             return new Failure("${path} is not writable");
         }

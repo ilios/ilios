@@ -16,8 +16,11 @@ class FilesystemFactory
 {
     private const LOCAL_S3_CACHE_DIR = '/ilios/s3-cache';
 
-    public function __construct(protected Config $config, private string $kernelCacheDir)
-    {
+    public function __construct(
+        protected Config $config,
+        private string $kernelCacheDir,
+        private string $kernelProjectDir,
+    ) {
     }
 
     public function getFilesystem(): FilesystemOperator
@@ -40,8 +43,7 @@ class FilesystemFactory
             return new Filesystem($adapter);
         }
 
-        $path = $this->config->get('file_system_storage_path');
-        $localAdapter = new LocalFilesystemAdapter($path);
+        $localAdapter = new LocalFilesystemAdapter($this->getLocalPath());
 
         return new Filesystem($localAdapter, ['visibility' => 'private']);
     }
@@ -91,8 +93,7 @@ class FilesystemFactory
 
     protected function getLocalFilesystem(): FilesystemOperator
     {
-        $path = $this->config->get('file_system_storage_path');
-        $adapter = $this->getLocalAdapter($path);
+        $adapter = $this->getLocalAdapter($this->getLocalPath());
 
         return new Filesystem($adapter, ['visibility' => 'private']);
     }
@@ -117,5 +118,20 @@ class FilesystemFactory
             'version' => 'latest',
             'bucket' => $matches[4]
         ];
+    }
+
+    /**
+     * Uses the configured file system, but if there isn't one
+     * stores files in the project root.
+     * @return string
+     */
+    protected function getLocalPath(): string
+    {
+        $path = $this->config->get('file_system_storage_path');
+        if (!$path) {
+            $path = $this->kernelProjectDir . '/files';
+        }
+
+        return $path;
     }
 }
