@@ -41,9 +41,6 @@
     "composer/xdebug-handler": {
         "version": "2.0.2"
     },
-    "dealerdirect/phpcodesniffer-composer-installer": {
-        "version": "v0.7.1"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -327,9 +324,6 @@
     },
     "php-http/promise": {
         "version": "1.1.0"
-    },
-    "phpcompatibility/php-compatibility": {
-        "version": "9.3.5"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
