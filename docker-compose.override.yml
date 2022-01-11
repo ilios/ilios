@@ -1,0 +1,66 @@
+version: '3.5'
+services:
+  db:
+    build:
+      context: .
+      target: mysql-demo
+    ports:
+      - "13306:3306"
+  nginx:
+    build:
+      context: .
+      target: nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/ilios:delegated
+    depends_on:
+      - php
+  php:
+    build:
+      context: .
+      target: fpm-dev
+    environment:
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
+      - ILIOS_REQUIRE_SECURE_CONNECTION=false
+      - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+    volumes:
+      - ./:/var/www/ilios:delegated
+    depends_on:
+      - db
+  messages:
+    build:
+      context: .
+      target: consume-messages
+    environment:
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
+      - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+    depends_on:
+        - db
+    volumes:
+      - ./:/var/www/ilios:delegated
+  elasticsearch:
+    build:
+      context: .
+      target: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+  apache:
+    build:
+      context: .
+      target: php-apache
+    environment:
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
+      - ILIOS_REQUIRE_SECURE_CONNECTION=false
+      - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+    ports:
+      - "8001:80"
+    volumes:
+      - ./:/var/www/ilios:delegated
