@@ -177,6 +177,7 @@ FROM mysql:5.7 as mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_RANDOM_ROOT_PASSWORD yes
 COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf
+RUN chmod 755 /etc/mysql/conf.d/ilios.cnf
 
 ###############################################################################
 # Setup a mysql server running the demo database for use in development
