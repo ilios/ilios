@@ -1,52 +1,18 @@
 version: '3.5'
+volumes:
+  public:
 services:
-    db:
-        build:
-            context: .
-            target: mysql-demo
-        ports:
-            - "13306:3306"
-#    nginx:
-#        build:
-#            context: .
-#            target: nginx
-#        environment:
-#            - FPM_CONTAINERS=php:9000
-#        ports:
-#            - "8000:80"
-#        volumes:
-#            - ./:/var/www/ilios:delegated
-#    php:
-#        build:
-#            context: .
-#            target: fpm-dev
-#        environment:
-#            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
-#            - ILIOS_REQUIRE_SECURE_CONNECTION=false
-#            - ILIOS_ERROR_CAPTURE_ENABLED=false
-#            - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
-#            - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
-#        volumes:
-#            - ./:/var/www/ilios:delegated
-#    apache:
-#        build:
-#            context: .
-#            target: php-apache
-#        environment:
-#            - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
-#            - ILIOS_REQUIRE_SECURE_CONNECTION=false
-#            - ILIOS_ERROR_CAPTURE_ENABLED=false
-#            - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
-#            - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
-#        ports:
-#            - "8000:80"
-#        volumes:
-#            - ./:/var/www/ilios:delegated
-    elasticsearch:
-        build:
-            context: .
-            target: elasticsearch
-        environment:
-            - discovery.type=single-node
-        ports:
-            - "9200:9200"
+  nginx:
+    image: ilios/nginx:v3
+    environment:
+      - FPM_CONTAINERS=php:9000
+    depends_on:
+      - php
+    volumes:
+      - public:/var/www/ilios/public:ro
+  php:
+    image: ilios/fpm:v3
+    volumes:
+      - public:/var/www/ilios/public
+  messages:
+    image: ilios/consume-messages:v3

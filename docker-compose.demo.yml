@@ -1,0 +1,29 @@
+version: '3.5'
+services:
+  nginx:
+    ports:
+      - "8000:80"
+  db:
+    image: ilios/mysql-demo
+  php:
+    environment:
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
+      - ILIOS_REQUIRE_SECURE_CONNECTION=false
+      - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+    depends_on:
+      - db
+  messages:
+    environment:
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
+      - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+    depends_on:
+        - db
+  elasticsearch:
+    image: ilios/elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
