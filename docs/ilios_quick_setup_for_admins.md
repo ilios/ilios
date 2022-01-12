@@ -32,8 +32,6 @@ You will need Docker and Docker compose:
 - [Windows](https://www.docker.com/docker-windows)
 - [Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
 
-Then install [Symfony](https://symfony.com/download)
-
 ### Running a local development server
 
 From your ILIOS_CODE directory run:
@@ -41,7 +39,6 @@ From your ILIOS_CODE directory run:
 ```bash
 $ docker-compose pull
 $ docker-compose up -d
-$ symfony server:start -d
 ```
 
 ### Accessing Ilios
@@ -54,6 +51,5 @@ by visiting [http://localhost:8000](http://localhost:8000) in your browser.
 From your ILIOS_CODE directory run:
 
 ```bash
-$ symfony server:stop
 $ docker-compose down
 ```
