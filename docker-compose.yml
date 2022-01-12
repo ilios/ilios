@@ -1,4 +1,6 @@
 version: '3.5'
+volumes:
+  public:
 services:
   nginx:
     image: ilios/nginx:v3
@@ -6,7 +8,11 @@ services:
       - FPM_CONTAINERS=php:9000
     depends_on:
       - php
+    volumes:
+      - public:/var/www/ilios/public:ro
   php:
     image: ilios/fpm:v3
+    volumes:
+      - public:/var/www/ilios/public
   messages:
     image: ilios/consume-messages:v3
