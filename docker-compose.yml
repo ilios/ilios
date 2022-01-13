@@ -16,3 +16,5 @@ services:
       - public:/var/www/ilios/public
   messages:
     image: ilios/consume-messages:v3
+  migrate:
+    image: ilios/migrate-database:v3
