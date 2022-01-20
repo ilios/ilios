@@ -14,10 +14,7 @@ class Manager extends ElasticSearchBase
             return;
         }
         $indexes = [
-            Users::INDEX,
-            Mesh::INDEX,
-            Curriculum::INDEX,
-            LearningMaterials::INDEX,
+            ...$this->listCurrentIndexes(),
             'ilios-public-curriculum',
             'ilios-public-mesh',
             'ilios-private-users',
@@ -53,5 +50,29 @@ class Manager extends ElasticSearchBase
             'index' => LearningMaterials::INDEX,
             'body' => LearningMaterials::getMapping()
         ]);
+    }
+
+    public function hasBeenCreated(): bool
+    {
+        if (!$this->enabled) {
+            return false;
+        }
+        foreach ($this->listCurrentIndexes() as $index) {
+            if (!$this->client->indices()->exists(['index' => $index])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    protected function listCurrentIndexes(): array
+    {
+        return [
+            Users::INDEX,
+            Mesh::INDEX,
+            Curriculum::INDEX,
+            LearningMaterials::INDEX,
+        ];
     }
 }
