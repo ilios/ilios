@@ -35,6 +35,7 @@ services:
       context: .
       target: consume-messages
     environment:
+      - APP_ENV=dev
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
@@ -49,6 +50,7 @@ services:
       context: .
       target: migrate-database
     environment:
+      - APP_ENV=dev
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
