@@ -162,7 +162,7 @@ class Curriculum extends ElasticSearchBase
                     ]
                 ]
             ];
-            $results = $this->client->search($params);
+            $results = $this->doSearch($params);
 
             $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
                 $result = $hit['_source'];
