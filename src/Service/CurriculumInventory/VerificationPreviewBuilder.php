@@ -225,7 +225,8 @@ class VerificationPreviewBuilder
 
             $row = [
                 'title' => $sequenceBlock->getTitle(),
-                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
+                'starting_level' => $sequenceBlock->getStartingAcademicLevel()->getLevel(),
+                'ending_level' => $sequenceBlock->getEndingAcademicLevel()->getLevel(),
                 'instructional_methods' => [],
                 'total' => 0,
             ];
@@ -257,7 +258,9 @@ class VerificationPreviewBuilder
         $methods = array_values($methods);
         array_multisort(array_column($methods, 'title'), SORT_ASC, $methods);
         array_multisort(
-            array_column($rows, 'level'),
+            array_column($rows, 'starting_level'),
+            SORT_ASC,
+            array_column($rows, 'ending_level'),
             SORT_ASC,
             array_column($rows, 'title'),
             SORT_ASC,
@@ -513,7 +516,8 @@ class VerificationPreviewBuilder
 
             $row = [
                 'title' => $sequenceBlock->getTitle(),
-                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
+                'starting_level' => $sequenceBlock->getStartingAcademicLevel()->getLevel(),
+                'ending_level' => $sequenceBlock->getEndingAcademicLevel()->getLevel(),
                 'methods' => array_fill_keys($methods, false),
                 'num_exams' => 0,
                 'has_formative_assessments' => false,
@@ -552,7 +556,9 @@ class VerificationPreviewBuilder
             }
         }
         array_multisort(
-            array_column($rows, 'level'),
+            array_column($rows, 'starting_level'),
+            SORT_ASC,
+            array_column($rows, 'ending_level'),
             SORT_ASC,
             array_column($rows, 'title'),
             SORT_ASC,
@@ -626,14 +632,17 @@ class VerificationPreviewBuilder
 
             $rows[] = [
                 'title' => $sequenceBlock->getTitle(),
-                'level' => $sequenceBlock->getAcademicLevel()->getLevel(),
+                'starting_level' => $sequenceBlock->getStartingAcademicLevel()->getLevel(),
+                'ending_level' => $sequenceBlock->getEndingAcademicLevel()->getLevel(),
                 'weeks' => $weeks,
                 'avg' => round(($time / 60) / ($duration / 5), 2),
             ];
         }
 
         array_multisort(
-            array_column($rows, 'level'),
+            array_column($rows, 'starting_level'),
+            SORT_ASC,
+            array_column($rows, 'ending_level'),
             SORT_ASC,
             array_column($rows, 'title'),
             SORT_ASC,

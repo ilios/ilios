@@ -41,7 +41,7 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
             'name' => [[1], ['name' => 'second name']],
             'description' => [[0], ['description' => 'first description']],
             'level' => [[1], ['level' => 2]],
-            'report' => [[0, 1], ['report' => '1']],
+            'report' => [[0, 1, 2], ['report' => '1']],
             'sequenceBlocks' => [[1], ['sequenceBlocks' => [2]], $skipped = true],
         ];
     }

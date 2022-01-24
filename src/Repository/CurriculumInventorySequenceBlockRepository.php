@@ -57,22 +57,26 @@ class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository
         $qb = $this->_em->createQueryBuilder()
             ->select(
                 'x.id as xId, report.id AS reportId, school.id AS schoolId, ' .
-                'academicLevel.id AS academicLevelId, course.id AS courseId, parent.id AS parentId '
+                'startingAcademicLevel.id AS startingAcademicLevelId, ' .
+                'endingAcademicLevel.id AS endingAcademicLevelId, course.id AS courseId, parent.id AS parentId '
             )
             ->from('App\Entity\CurriculumInventorySequenceBlock', 'x')
             ->join('x.report', 'report')
             ->join('report.program', 'program')
             ->join('program.school', 'school')
+            ->join('x.startingAcademicLevel', 'startingAcademicLevel')
+            ->join('x.endingAcademicLevel', 'endingAcademicLevel')
             ->leftJoin('x.parent', 'parent')
             ->leftJoin('x.course', 'course')
-            ->leftJoin('x.academicLevel', 'academicLevel')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $curriculumInventorySequenceBlockIds);
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $dtos[$arr['xId']]->report = (int) $arr['reportId'];
-            $dtos[$arr['xId']]->academicLevel =
-                $arr['academicLevelId'] ? (int)$arr['academicLevelId'] : null;
+            $dtos[$arr['xId']]->startingAcademicLevel =
+                $arr['startingAcademicLevelId'] ? (int)$arr['startingAcademicLevelId'] : null;
+            $dtos[$arr['xId']]->endingAcademicLevel =
+                $arr['endingAcademicLevelId'] ? (int)$arr['endingAcademicLevelId'] : null;
             $dtos[$arr['xId']]->course = $arr['courseId'] ? (int)$arr['courseId'] : null;
             $dtos[$arr['xId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
             $dtos[$arr['xId']]->school = $arr['schoolId'];

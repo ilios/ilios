@@ -17,7 +17,8 @@ use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Tests\TestCase;
 use Doctrine\Common\Collections\ArrayCollection;
-use Mockery as m;
+use Mockery;
+use Mockery\MockInterface;
 
 /**
  * Class VerificationPreviewBuilderTest
@@ -26,32 +27,17 @@ use Mockery as m;
  */
 class VerificationPreviewBuilderTest extends TestCase
 {
-    /**
-     * @var VerificationPreviewBuilder
-     */
-    protected $builder;
-
-    /**
-     * @var AamcMethodRepository|m\MockInterface
-     */
-    protected $methodRepository;
-
-    /**
-     * @var AamcPcrsRepository|m\MockInterface
-     */
-    protected $pcrsManager;
-
-    /**
-     * @var Aggregator|m\MockInterface
-     */
-    protected $aggregator;
+    protected VerificationPreviewBuilder $builder;
+    protected MockInterface $methodRepository;
+    protected MockInterface $pcrsManager;
+    protected MockInterface $aggregator;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->aggregator = m::mock(Aggregator::class);
-        $this->methodRepository = m::mock(AamcMethodRepository::class);
-        $this->pcrsManager = m::mock(AamcPcrsRepository::class);
+        $this->aggregator = Mockery::mock(Aggregator::class);
+        $this->methodRepository = Mockery::mock(AamcMethodRepository::class);
+        $this->pcrsManager = Mockery::mock(AamcPcrsRepository::class);
         $this->builder = new VerificationPreviewBuilder(
             $this->aggregator,
             $this->methodRepository,
@@ -449,11 +435,14 @@ class VerificationPreviewBuilderTest extends TestCase
         $level1->setLevel(1);
         $level2 = new CurriculumInventoryAcademicLevel();
         $level2->setLevel(2);
+        $level3 = new CurriculumInventoryAcademicLevel();
+        $level3->setLevel(3);
 
         $sequenceBlock1 = new CurriculumInventorySequenceBlock();
         $sequenceBlock1->setId(1);
         $sequenceBlock1->setTitle('Zeppelin Clerkship Year 2');
-        $sequenceBlock1->setAcademicLevel($level2);
+        $sequenceBlock1->setStartingAcademicLevel($level2);
+        $sequenceBlock1->setEndingAcademicLevel($level3);
         $course1 = new Course();
         $course1->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock1->setCourse($course1);
@@ -461,7 +450,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock2 = new CurriculumInventorySequenceBlock();
         $sequenceBlock2->setId(2);
         $sequenceBlock2->setTitle('Zeppelin Clerkship Year 1');
-        $sequenceBlock2->setAcademicLevel($level1);
+        $sequenceBlock2->setStartingAcademicLevel($level1);
+        $sequenceBlock2->setEndingAcademicLevel($level2);
         $course2 = new Course();
         $course2->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock2->setCourse($course2);
@@ -469,7 +459,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock3 = new CurriculumInventorySequenceBlock();
         $sequenceBlock3->setId(3);
         $sequenceBlock3->setTitle('Aardvark Clerkship Year 2');
-        $sequenceBlock3->setAcademicLevel($level2);
+        $sequenceBlock3->setStartingAcademicLevel($level2);
+        $sequenceBlock3->setEndingAcademicLevel($level3);
         $course3 = new Course();
         $course3->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock3->setCourse($course3);
@@ -529,7 +520,8 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $methods);
         $this->assertEquals([
             'title' => 'Zeppelin Clerkship Year 1',
-            'level' => 1,
+            'starting_level' => 1,
+            'ending_level' => 2,
             'methods' => [
                 'Faculty / resident rating' => false,
                 'Internal written exams' => true,
@@ -545,7 +537,8 @@ class VerificationPreviewBuilderTest extends TestCase
 
         $this->assertEquals([
             'title' => 'Aardvark Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'methods' => [
                 'Faculty / resident rating' => false,
                 'Internal written exams' => false,
@@ -561,7 +554,8 @@ class VerificationPreviewBuilderTest extends TestCase
 
         $this->assertEquals([
             'title' => 'Zeppelin Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'methods' => [
                 'Faculty / resident rating' => true,
                 'Internal written exams' => false,
@@ -587,12 +581,15 @@ class VerificationPreviewBuilderTest extends TestCase
         $level1->setLevel(1);
         $level2 = new CurriculumInventoryAcademicLevel();
         $level2->setLevel(2);
+        $level3 = new CurriculumInventoryAcademicLevel();
+        $level3->setLevel(3);
 
         $sequenceBlock1 = new CurriculumInventorySequenceBlock();
         $sequenceBlock1->setId(1);
         $sequenceBlock1->setDuration(30);
         $sequenceBlock1->setTitle('Zeppelin Clerkship Year 2');
-        $sequenceBlock1->setAcademicLevel($level2);
+        $sequenceBlock1->setStartingAcademicLevel($level2);
+        $sequenceBlock1->setEndingAcademicLevel($level3);
         $course1 = new Course();
         $course1->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock1->setCourse($course1);
@@ -601,7 +598,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock2->setId(2);
         $sequenceBlock2->setDuration(5);
         $sequenceBlock2->setTitle('Zeppelin Clerkship Year 1');
-        $sequenceBlock2->setAcademicLevel($level1);
+        $sequenceBlock2->setStartingAcademicLevel($level1);
+        $sequenceBlock2->setEndingAcademicLevel($level2);
         $course2 = new Course();
         $course2->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock2->setCourse($course2);
@@ -610,7 +608,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock3->setId(3);
         $sequenceBlock3->setDuration(7);
         $sequenceBlock3->setTitle('Aardvark Clerkship Year 2');
-        $sequenceBlock3->setAcademicLevel($level2);
+        $sequenceBlock3->setStartingAcademicLevel($level2);
+        $sequenceBlock3->setEndingAcademicLevel($level3);
         $course3 = new Course();
         $course3->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock3->setCourse($course3);
@@ -624,7 +623,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock5 = new CurriculumInventorySequenceBlock();
         $sequenceBlock5->setDuration(0);
         $sequenceBlock5->setTitle('No Duration');
-        $sequenceBlock5->setAcademicLevel($level2);
+        $sequenceBlock5->setStartingAcademicLevel($level2);
+        $sequenceBlock5->setEndingAcademicLevel($level3);
         $course5 = new Course();
         $course5->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock5->setCourse($course5);
@@ -632,7 +632,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock6 = new CurriculumInventorySequenceBlock();
         $sequenceBlock6->setDuration(10);
         $sequenceBlock6->setTitle('No Course');
-        $sequenceBlock6->setAcademicLevel($level2);
+        $sequenceBlock6->setStartingAcademicLevel($level2);
+        $sequenceBlock6->setEndingAcademicLevel($level3);
 
         $report = new CurriculumInventoryReport();
         $report->setSequenceBlocks(
@@ -678,19 +679,22 @@ class VerificationPreviewBuilderTest extends TestCase
         $this->assertCount(3, $rows);
         $this->assertEquals([
             'title' => 'Zeppelin Clerkship Year 1',
-            'level' => 1,
+            'starting_level' => 1,
+            'ending_level' => 2,
             'weeks' => 1.0,
             'avg' => 13.5,
         ], $rows[0]);
         $this->assertEquals([
             'title' => 'Aardvark Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'weeks' => 1.4,
             'avg' => 5,
         ], $rows[1]);
         $this->assertEquals([
             'title' => 'Zeppelin Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'weeks' => 6.0,
             'avg' => 1.67,
         ], $rows[2]);
@@ -748,25 +752,32 @@ class VerificationPreviewBuilderTest extends TestCase
         $level1->setLevel(1);
         $level2 = new CurriculumInventoryAcademicLevel();
         $level2->setLevel(2);
+        $level3 = new CurriculumInventoryAcademicLevel();
+        $level3->setLevel(3);
 
         $sequenceBlock1 = new CurriculumInventorySequenceBlock();
         $sequenceBlock1->setId(1);
         $sequenceBlock1->setTitle('Zeppelin Non-Clerkship Year 2');
-        $sequenceBlock1->setAcademicLevel($level2);
+        $sequenceBlock1->setStartingAcademicLevel($level2);
+        $sequenceBlock1->setEndingAcademicLevel($level3);
+
         $course1 = new Course();
         $sequenceBlock1->setCourse($course1);
 
         $sequenceBlock2 = new CurriculumInventorySequenceBlock();
         $sequenceBlock2->setId(2);
         $sequenceBlock2->setTitle('Zeppelin Non-Clerkship Year 1');
-        $sequenceBlock2->setAcademicLevel($level1);
+        $sequenceBlock2->setStartingAcademicLevel($level1);
+        $sequenceBlock2->setEndingAcademicLevel($level2);
         $course2 = new Course();
         $sequenceBlock2->setCourse($course2);
 
         $sequenceBlock3 = new CurriculumInventorySequenceBlock();
         $sequenceBlock3->setId(3);
         $sequenceBlock3->setTitle('Aardvark Non-Clerkship Year 2');
-        $sequenceBlock3->setAcademicLevel($level2);
+        $sequenceBlock3->setStartingAcademicLevel($level2);
+        $sequenceBlock3->setEndingAcademicLevel($level3);
+
         $course3 = new Course();
         $sequenceBlock3->setCourse($course3);
 
@@ -828,7 +839,8 @@ class VerificationPreviewBuilderTest extends TestCase
 
         $this->assertEquals([
             'title' => 'Zeppelin Non-Clerkship Year 1',
-            'level' => 1,
+            'starting_level' => 1,
+            'ending_level' => 2,
             'methods' => [
                 'Faculty / resident rating' => false,
                 'Internal exams' => true,
@@ -845,7 +857,8 @@ class VerificationPreviewBuilderTest extends TestCase
 
         $this->assertEquals([
             'title' => 'Aardvark Non-Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'methods' => [
                 'Faculty / resident rating' => false,
                 'Internal exams' => false,
@@ -862,7 +875,8 @@ class VerificationPreviewBuilderTest extends TestCase
 
         $this->assertEquals([
             'title' => 'Zeppelin Non-Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'methods' => [
                 'Faculty / resident rating' => true,
                 'Internal exams' => false,
@@ -889,12 +903,15 @@ class VerificationPreviewBuilderTest extends TestCase
         $level1->setLevel(1);
         $level2 = new CurriculumInventoryAcademicLevel();
         $level2->setLevel(2);
+        $level3 = new CurriculumInventoryAcademicLevel();
+        $level3->setLevel(3);
 
         $sequenceBlock1 = new CurriculumInventorySequenceBlock();
         $sequenceBlock1->setId(1);
         $sequenceBlock1->setDuration(30);
         $sequenceBlock1->setTitle('Zeppelin Non-Clerkship Year 2');
-        $sequenceBlock1->setAcademicLevel($level2);
+        $sequenceBlock1->setStartingAcademicLevel($level2);
+        $sequenceBlock1->setEndingAcademicLevel($level3);
         $course1 = new Course();
         $sequenceBlock1->setCourse($course1);
 
@@ -902,7 +919,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock2->setId(2);
         $sequenceBlock2->setDuration(5);
         $sequenceBlock2->setTitle('Zeppelin Non-Clerkship Year 1');
-        $sequenceBlock2->setAcademicLevel($level1);
+        $sequenceBlock2->setStartingAcademicLevel($level1);
+        $sequenceBlock2->setEndingAcademicLevel($level2);
         $course2 = new Course();
         $sequenceBlock2->setCourse($course2);
 
@@ -910,7 +928,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock3->setId(3);
         $sequenceBlock3->setDuration(7);
         $sequenceBlock3->setTitle('Aardvark Non-Clerkship Year 2');
-        $sequenceBlock3->setAcademicLevel($level2);
+        $sequenceBlock3->setStartingAcademicLevel($level2);
+        $sequenceBlock3->setEndingAcademicLevel($level3);
         $course3 = new Course();
         $sequenceBlock3->setCourse($course3);
 
@@ -924,14 +943,16 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock5 = new CurriculumInventorySequenceBlock();
         $sequenceBlock5->setDuration(0);
         $sequenceBlock5->setTitle('No Duration');
-        $sequenceBlock5->setAcademicLevel($level2);
+        $sequenceBlock5->setStartingAcademicLevel($level2);
+        $sequenceBlock5->setEndingAcademicLevel($level3);
         $course5 = new Course();
         $sequenceBlock5->setCourse($course5);
 
         $sequenceBlock6 = new CurriculumInventorySequenceBlock();
         $sequenceBlock6->setDuration(10);
         $sequenceBlock6->setTitle('No Course');
-        $sequenceBlock6->setAcademicLevel($level2);
+        $sequenceBlock6->setStartingAcademicLevel($level2);
+        $sequenceBlock6->setEndingAcademicLevel($level3);
 
         $report = new CurriculumInventoryReport();
         $report->setSequenceBlocks(
@@ -977,27 +998,27 @@ class VerificationPreviewBuilderTest extends TestCase
         $this->assertCount(3, $rows);
         $this->assertEquals([
             'title' => 'Zeppelin Non-Clerkship Year 1',
-            'level' => 1,
+            'starting_level' => 1,
+            'ending_level' => 2,
             'weeks' => 1.0,
             'avg' => 13.5,
         ], $rows[0]);
         $this->assertEquals([
             'title' => 'Aardvark Non-Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'weeks' => 1.4,
             'avg' => 5,
         ], $rows[1]);
         $this->assertEquals([
             'title' => 'Zeppelin Non-Clerkship Year 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'weeks' => 6.0,
             'avg' => 1.67,
         ], $rows[2]);
     }
 
-    /*
-
-     */
     /**
      * @covers ::getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock
      */
@@ -1007,40 +1028,47 @@ class VerificationPreviewBuilderTest extends TestCase
         $level1->setLevel(1);
         $level2 = new CurriculumInventoryAcademicLevel();
         $level2->setLevel(2);
+        $level3 = new CurriculumInventoryAcademicLevel();
+        $level3->setLevel(3);
 
         $report = new CurriculumInventoryReport();
         $sequenceBlock1 = new CurriculumInventorySequenceBlock();
         $sequenceBlock1->setId(1);
         $sequenceBlock1->setTitle('Zeppelin Non-Clerkship Level 2');
-        $sequenceBlock1->setAcademicLevel($level2);
+        $sequenceBlock1->setStartingAcademicLevel($level2);
+        $sequenceBlock1->setEndingAcademicLevel($level3);
         $course1 = new Course();
         $sequenceBlock1->setCourse($course1);
 
         $sequenceBlock2 = new CurriculumInventorySequenceBlock();
         $sequenceBlock2->setId(2);
         $sequenceBlock2->setTitle('Aardvark Non-Clerkship Level 2');
-        $sequenceBlock2->setAcademicLevel($level2);
+        $sequenceBlock2->setStartingAcademicLevel($level2);
+        $sequenceBlock2->setEndingAcademicLevel($level3);
         $course2 = new Course();
         $sequenceBlock2->setCourse($course2);
 
         $sequenceBlock3 = new CurriculumInventorySequenceBlock();
         $sequenceBlock3->setId(3);
         $sequenceBlock3->setTitle('Aardvark Non-Clerkship Level 1');
-        $sequenceBlock3->setAcademicLevel($level1);
+        $sequenceBlock3->setStartingAcademicLevel($level1);
+        $sequenceBlock3->setEndingAcademicLevel($level2);
         $course3 = new Course();
         $sequenceBlock3->setCourse($course3);
 
         $sequenceBlock4 = new CurriculumInventorySequenceBlock();
         $sequenceBlock4->setId(4);
         $sequenceBlock4->setTitle('No events Non-clerkship');
-        $sequenceBlock4->setAcademicLevel($level1);
+        $sequenceBlock4->setStartingAcademicLevel($level1);
+        $sequenceBlock4->setEndingAcademicLevel($level2);
         $course4 = new Course();
         $sequenceBlock4->setCourse($course4);
 
         $sequenceBlock5 = new CurriculumInventorySequenceBlock();
         $sequenceBlock5->setId(5);
         $sequenceBlock5->setTitle('Clerkship');
-        $sequenceBlock5->setAcademicLevel($level1);
+        $sequenceBlock5->setStartingAcademicLevel($level1);
+        $sequenceBlock5->setEndingAcademicLevel($level2);
         $course5 = new Course();
         $course5->setClerkshipType(new CourseClerkshipType());
         $sequenceBlock5->setCourse($course5);
@@ -1091,7 +1119,8 @@ class VerificationPreviewBuilderTest extends TestCase
         $this->assertCount(3, $rows);
         $this->assertEquals([
             'title' => 'Aardvark Non-Clerkship Level 1',
-            'level' => 1,
+            'starting_level' => 1,
+            'ending_level' => 2,
             'instructional_methods' => [
                 'Other' => 30,
             ],
@@ -1099,7 +1128,8 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[0]);
         $this->assertEquals([
             'title' => 'Aardvark Non-Clerkship Level 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'instructional_methods' => [
                 'Other' => 330,
             ],
@@ -1107,7 +1137,8 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[1]);
         $this->assertEquals([
             'title' => 'Zeppelin Non-Clerkship Level 2',
-            'level' => 2,
+            'starting_level' => 2,
+            'ending_level' => 3,
             'instructional_methods' => [
                 'Other' => 60,
                 'Patient Contact' => 120

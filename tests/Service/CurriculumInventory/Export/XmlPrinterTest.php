@@ -45,8 +45,12 @@ class XmlPrinterTest extends TestCase
         $academicLevel1->setLevel(1);
         $academicLevel2 = new CurriculumInventoryAcademicLevel();
         $academicLevel2->setName('Year 2');
-        $academicLevel2->setDescription('Academic Level Year 3');
+        $academicLevel2->setDescription('Academic Level Year 2');
         $academicLevel2->setLevel(2);
+        $academicLevel3 = new CurriculumInventoryAcademicLevel();
+        $academicLevel3->setName('Year 3');
+        $academicLevel3->setDescription('Academic Level Year 3');
+        $academicLevel3->setLevel(3);
         $program = new Program();
         $program->setTitle('Doctor of Rocket Surgery (DRS)');
         $program->setId(100);
@@ -62,6 +66,7 @@ class XmlPrinterTest extends TestCase
         $report->setName('DRS Curriculum Map 2019-2020');
         $report->addAcademicLevel($academicLevel1);
         $report->addAcademicLevel($academicLevel2);
+        $report->addAcademicLevel($academicLevel3);
         $institution = new CurriculumInventoryInstitution();
         $institution->setName('School of Rocket Surgery');
         $institution->setAamcCode('1138');
@@ -81,7 +86,8 @@ class XmlPrinterTest extends TestCase
         $sequenceBlock1->setDuration(10);
         $sequenceBlock1->setStartDate(new DateTime('2019-10-01'));
         $sequenceBlock1->setEndDate(new DateTime('2019-10-10'));
-        $sequenceBlock1->setAcademicLevel($academicLevel1);
+        $sequenceBlock1->setStartingAcademicLevel($academicLevel1);
+        $sequenceBlock1->setEndingAcademicLevel($academicLevel2);
         $sequenceBlock1->setRequired(CurriculumInventorySequenceBlockInterface::OPTIONAL);
         $sequenceBlock1->setChildSequenceOrder(CurriculumInventorySequenceBlockInterface::UNORDERED);
         $sequenceBlock1->setMinimum(2);
@@ -95,7 +101,8 @@ class XmlPrinterTest extends TestCase
         $sequenceBlock2->setDuration(4);
         $sequenceBlock2->setStartDate(new DateTime('2019-10-02'));
         $sequenceBlock2->setEndDate(new DateTime('2019-10-05'));
-        $sequenceBlock2->setAcademicLevel($academicLevel1);
+        $sequenceBlock2->setStartingAcademicLevel($academicLevel1);
+        $sequenceBlock2->setEndingAcademicLevel($academicLevel2);
         $sequenceBlock2->setRequired(CurriculumInventorySequenceBlockInterface::REQUIRED);
         $sequenceBlock2->setChildSequenceOrder(CurriculumInventorySequenceBlockInterface::ORDERED);
         $sequenceBlock2->setMinimum(1);
@@ -103,8 +110,10 @@ class XmlPrinterTest extends TestCase
         $sequenceBlock2->setTrack(true);
         $sequenceBlock2->setCourse($course);
         $sequenceBlock1->addChild($sequenceBlock2);
-        $academicLevel1->addSequenceBlock($sequenceBlock1);
-        $academicLevel1->addSequenceBlock($sequenceBlock2);
+        $academicLevel1->addStartingSequenceBlock($sequenceBlock1);
+        $academicLevel1->addStartingSequenceBlock($sequenceBlock2);
+        $academicLevel2->addEndingSequenceBlock($sequenceBlock1);
+        $academicLevel2->addEndingSequenceBlock($sequenceBlock2);
         $report->addSequenceBlock($sequenceBlock1);
         $createdAt = new DateTime('2020-07-17T17:15:18+00:00');
         $inventory = [
@@ -554,8 +563,8 @@ class XmlPrinterTest extends TestCase
             (string)$relations[5]->Relationship
         );
         // <AcademicLevels>
-        $this->assertEquals('1', (string)$xml->AcademicLevels->LevelsInProgram);
-        $this->assertCount(1, $xml->AcademicLevels->Level);
+        $this->assertEquals('2', (string)$xml->AcademicLevels->LevelsInProgram);
+        $this->assertCount(2, $xml->AcademicLevels->Level);
         $level = $xml->AcademicLevels->Level;
         $this->assertEquals('1', $level->attributes()['number']);
         $this->assertEquals('Year 1', (string)$level->Label);
@@ -574,7 +583,14 @@ class XmlPrinterTest extends TestCase
         $this->assertEquals('P10D', (string)$block->Timing->Duration);
         $this->assertEquals('2019-10-01', (string)$block->Timing->Dates->StartDate);
         $this->assertEquals('2019-10-10', (string)$block->Timing->Dates->EndDate);
-        $this->assertEquals('/CurriculumInventory/AcademicLevels/Level[@number=\'1\']', (string)$block->Level);
+        $this->assertEquals(
+            '/CurriculumInventory/AcademicLevels/Level[@number=\'1\']',
+            (string)$block->SequenceBlockLevels->StartingAcademicLevel
+        );
+        $this->assertEquals(
+            '/CurriculumInventory/AcademicLevels/Level[@number=\'2\']',
+            (string)$block->SequenceBlockLevels->EndingAcademicLevel
+        );
         $this->assertEquals(
             '/CurriculumInventory/Sequence/SequenceBlock[@id=\'2\']',
             (string)$block->SequenceBlockReference
@@ -591,7 +607,14 @@ class XmlPrinterTest extends TestCase
         $this->assertEquals('P4D', (string)$block->Timing->Duration);
         $this->assertEquals('2019-10-02', (string)$block->Timing->Dates->StartDate);
         $this->assertEquals('2019-10-05', (string)$block->Timing->Dates->EndDate);
-        $this->assertEquals('/CurriculumInventory/AcademicLevels/Level[@number=\'1\']', (string)$block->Level);
+        $this->assertEquals(
+            '/CurriculumInventory/AcademicLevels/Level[@number=\'1\']',
+            (string)$block->SequenceBlockLevels->StartingAcademicLevel
+        );
+        $this->assertEquals(
+            '/CurriculumInventory/AcademicLevels/Level[@number=\'2\']',
+            (string)$block->SequenceBlockLevels->EndingAcademicLevel
+        );
         $this->assertEquals('rotation', (string)$block->ClerkshipModel);
         $this->assertCount(4, $block->CompetencyObjectReference);
         $this->assertEquals(

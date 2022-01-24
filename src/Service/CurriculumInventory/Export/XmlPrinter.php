@@ -240,7 +240,8 @@ class XmlPrinter
                 $institutionDomain
             );
             $this->writeCompetencyObjectNode(
-                $xw, $programObjective['title'],
+                $xw,
+                $programObjective['title'],
                 $uri,
                 self::CATEGORY_TERM_PROGRAM_LEVEL_COMPETENCY
             );
@@ -253,7 +254,8 @@ class XmlPrinter
                 $institutionDomain
             );
             $this->writeCompetencyObjectNode(
-                $xw, $courseObjective['title'],
+                $xw,
+                $courseObjective['title'],
                 $uri,
                 self::CATEGORY_TERM_SEQUENCE_BLOCK_LEVEL_COMPETENCY
             );
@@ -266,7 +268,8 @@ class XmlPrinter
                 $institutionDomain
             );
             $this->writeCompetencyObjectNode(
-                $xw, $sessionObjective['title'],
+                $xw,
+                $sessionObjective['title'],
                 $uri,
                 self::CATEGORY_TERM_EVENT_LEVEL_COMPETENCY
             );
@@ -279,7 +282,8 @@ class XmlPrinter
         // Academic Levels
         //
         $levels = $report->getAcademicLevels()->filter(
-            fn(CurriculumInventoryAcademicLevelInterface $level) => $level->getSequenceBlocks()->count() > 0
+            fn(CurriculumInventoryAcademicLevelInterface $level)
+            => $level->getStartingSequenceBlocks()->count() > 0 || $level->getEndingSequenceBlocks()->count() > 0
         );
 
         $xw->startElement('AcademicLevels');
@@ -524,11 +528,18 @@ class XmlPrinter
         }
         $xw->endElement(); // </Timing>
 
-        // academic level
+        // academicLevels
+        $xw->startElement('SequenceBlockLevels');
         $xw->writeElement(
-            'Level',
-            "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getAcademicLevel()->getLevel()}']"
+            'StartingAcademicLevel',
+            "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getStartingAcademicLevel()->getLevel()}']"
         );
+        $xw->writeElement(
+            'EndingAcademicLevel',
+            "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getEndingAcademicLevel()->getLevel()}']"
+        );
+        $xw->endElement(); // </SequenceBlockLevels>
+
 
         // clerkship type
         // map course clerkship type to "Clerkship Model"

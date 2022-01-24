@@ -24,7 +24,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => ['1', '2', '3', '4', '5'],
-            'academicLevels' => ['1', '2'],
+            'academicLevels' => ['1', '2', '3'],
             'administrators' => ['1'],
         ];
 

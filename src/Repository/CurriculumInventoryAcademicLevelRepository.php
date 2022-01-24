@@ -64,7 +64,7 @@ class CurriculumInventoryAcademicLevelRepository extends ServiceEntityRepository
 
         $dtos = $this->attachRelatedToDtos(
             $dtos,
-            ['sequenceBlocks'],
+            ['startingSequenceBlocks', 'endingSequenceBlocks'],
         );
 
         return array_values($dtos);
@@ -78,15 +78,25 @@ class CurriculumInventoryAcademicLevelRepository extends ServiceEntityRepository
         ?int $limit,
         ?int $offset
     ): void {
-        if (array_key_exists('sequenceBlocks', $criteria)) {
-            $ids = is_array($criteria['sequenceBlocks']) ? $criteria['sequenceBlocks'] : [$criteria['sequenceBlocks']];
-            $qb->join('x.sequenceBlocks', 'sb');
-            $qb->andWhere($qb->expr()->in('sb.id', ':sequenceBlocks'));
-            $qb->setParameter(':sequenceBlocks', $ids);
+        if (array_key_exists('startingSequenceBlocks', $criteria)) {
+            $ids = is_array($criteria['startingSequenceBlocks'])
+                ? $criteria['startingSequenceBlocks'] : [$criteria['startingSequenceBlocks']];
+            $qb->join('x.startingSequenceBlocks', 'sb');
+            $qb->andWhere($qb->expr()->in('sb.id', ':startingSequenceBlocks'));
+            $qb->setParameter(':startingSequenceBlocks', $ids);
+        }
+
+        if (array_key_exists('endingSequenceBlocks', $criteria)) {
+            $ids = is_array($criteria['endingSequenceBlocks'])
+                ? $criteria['endingSequenceBlocks'] : [$criteria['endingSequenceBlocks']];
+            $qb->join('x.endingSequenceBlocks', 'sb');
+            $qb->andWhere($qb->expr()->in('sb.id', ':endingSequenceBlocks'));
+            $qb->setParameter(':endingSequenceBlocks', $ids);
         }
 
         //cleanup all the possible relationship filters
-        unset($criteria['sequenceBlocks']);
+        unset($criteria['startingSequenceBlocks']);
+        unset($criteria['endingSequenceBlocks']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

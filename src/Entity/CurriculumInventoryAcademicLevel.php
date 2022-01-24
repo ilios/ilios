@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SequenceBlocksEntity;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +13,6 @@ use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
-use App\Entity\CurriculumInventoryReportInterface;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 
 /**
@@ -31,7 +29,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     use NameableEntity;
     use DescribableEntity;
     use StringableIdEntity;
-    use SequenceBlocksEntity;
 
     /**
      * @var int
@@ -71,7 +68,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[IA\Expose]
     #[IA\Type('string')]
     protected $description;
-
     /**
      * @var int
      * @Assert\NotBlank()
@@ -94,15 +90,25 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     /**
      * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
      */
-    #[ORM\OneToMany(mappedBy: 'academicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OneToMany(mappedBy: 'startingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sequenceBlocks;
+    protected $startingSequenceBlocks;
+
+    /**
+     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
+     */
+    #[ORM\OneToMany(mappedBy: 'endingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
+    protected $endingSequenceBlocks;
 
     public function __construct()
     {
-        $this->sequenceBlocks = new ArrayCollection();
+        $this->startingSequenceBlocks = new ArrayCollection();
+        $this->endingSequenceBlocks = new ArrayCollection();
     }
 
     /**
@@ -126,5 +132,61 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
+    }
+
+    public function setStartingSequenceBlocks(Collection $sequenceBlocks): void
+    {
+        $this->startingSequenceBlocks = new ArrayCollection();
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addStartingSequenceBlock($sequenceBlock);
+        }
+    }
+
+    public function addStartingSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        if (!$this->startingSequenceBlocks->contains($sequenceBlock)) {
+            $this->startingSequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    public function removeStartingSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        $this->startingSequenceBlocks->removeElement($sequenceBlock);
+    }
+
+    public function getStartingSequenceBlocks(): Collection
+    {
+        return $this->startingSequenceBlocks;
+    }
+
+    public function setEndingSequenceBlocks(Collection $sequenceBlocks): void
+    {
+        $this->startingSequenceBlocks = new ArrayCollection();
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addEndingSequenceBlock($sequenceBlock);
+        }
+    }
+
+    public function addEndingSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        if (!$this->endingSequenceBlocks->contains($sequenceBlock)) {
+            $this->endingSequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    public function removeEndingSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        $this->endingSequenceBlocks->removeElement($sequenceBlock);
+    }
+
+    public function getEndingSequenceBlocks(): Collection
+    {
+        return $this->endingSequenceBlocks;
     }
 }

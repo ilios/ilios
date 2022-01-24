@@ -409,7 +409,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             $originalLevel = $levelsByLevel[$level['level']];
             $this->assertSame($originalLevel['name'], $level['name']);
             $this->assertSame($originalLevel['description'], $level['description']);
-            $this->assertSame(count($originalLevel['sequenceBlocks']), count($level['sequenceBlocks']));
+            $this->assertSame(count($originalLevel['startingSequenceBlocks']), count($level['startingSequenceBlocks']));
+            $this->assertSame(count($originalLevel['endingSequenceBlocks']), count($level['endingSequenceBlocks']));
         }
         $this->assertSame(count($levels), count($newLevels));
 
@@ -449,8 +450,12 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             $this->assertSame($block['endDate'], $newBlock['endDate']);
             $this->assertSame($block['duration'], $newBlock['duration']);
             $this->assertSame(
-                $levelsById[$block['academicLevel']]['level'],
-                $newLevelsById[$newBlock['academicLevel']]['level']
+                $levelsById[$block['startingAcademicLevel']]['level'],
+                $newLevelsById[$newBlock['startingAcademicLevel']]['level']
+            );
+            $this->assertSame(
+                $levelsById[$block['endingAcademicLevel']]['level'],
+                $newLevelsById[$newBlock['endingAcademicLevel']]['level']
             );
             $this->assertFalse(array_key_exists('course', $newBlock));
             $this->assertEmpty($newBlock['sessions']);
