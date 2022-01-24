@@ -19,6 +19,10 @@ use XMLWriter;
  */
 class XmlPrinter
 {
+    public const CATEGORY_TERM_PROGRAM_LEVEL_COMPETENCY = 'program-level-competency';
+    public const CATEGORY_TERM_PROGRAM_OBJECTIVE_DOMAIN = 'program-objective-domain';
+    public const CATEGORY_TERM_SEQUENCE_BLOCK_LEVEL_COMPETENCY = 'sequence-block-level-competency';
+    public const CATEGORY_TERM_EVENT_LEVEL_COMPETENCY = 'event-level-competency';
     /**
      * Creates an XML representation of the given curriculum inventory.
      * @param array $inventory An associated array, containing the inventory.
@@ -235,7 +239,11 @@ class XmlPrinter
                 'program_objective',
                 $institutionDomain
             );
-            $this->writeCompetencyObjectNode($xw, $programObjective['title'], $uri, 'program-level-competency');
+            $this->writeCompetencyObjectNode(
+                $xw, $programObjective['title'],
+                $uri,
+                self::CATEGORY_TERM_PROGRAM_LEVEL_COMPETENCY
+            );
         }
         // course objectives
         foreach ($expectations['course_objectives'] as $courseObjective) {
@@ -244,7 +252,11 @@ class XmlPrinter
                 'course_objective',
                 $institutionDomain
             );
-            $this->writeCompetencyObjectNode($xw, $courseObjective['title'], $uri, 'sequence-block-level-competency');
+            $this->writeCompetencyObjectNode(
+                $xw, $courseObjective['title'],
+                $uri,
+                self::CATEGORY_TERM_SEQUENCE_BLOCK_LEVEL_COMPETENCY
+            );
         }
         // session objectives
         foreach ($expectations['session_objectives'] as $sessionObjective) {
@@ -253,7 +265,11 @@ class XmlPrinter
                 'session_objective',
                 $institutionDomain
             );
-            $this->writeCompetencyObjectNode($xw, $sessionObjective['title'], $uri, 'event-level-competency');
+            $this->writeCompetencyObjectNode(
+                $xw, $sessionObjective['title'],
+                $uri,
+                self::CATEGORY_TERM_EVENT_LEVEL_COMPETENCY
+            );
         }
         // add competency framework
         $this->writeCompetencyFrameworkNode($xw, $report, $reportId, $institutionDomain, $expectations);
@@ -617,7 +633,7 @@ class XmlPrinter
      * @param XmlWriter $xw
      * @param string $title The competency object's title.
      * @param string $uri An URI that uniquely identifies the competency object.
-     * @param string $category 'program-level-competency', 'sequence-block-level-competency or 'event-level-competency'.
+     * @param string $category
      */
     protected function writeCompetencyObjectNode(XmlWriter $xw, string $title, string $uri, string $category): void
     {
