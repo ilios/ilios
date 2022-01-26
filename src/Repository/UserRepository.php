@@ -218,8 +218,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     public function findUsersWhoAreNotFormerStudents(array $campusIds = []): Collection
     {
         $qb = $this->_em->createQueryBuilder();
-        $formerStudentRole = $qb->select()
-            ->from('App\Entity\UserRole', 'r')
+        $formerStudentRole = $qb->select('r')
+            ->from(UserRole::class, 'r')
             ->where($qb->expr()->eq('r.title', ':fs_role_title'))
             ->setParameter('fs_role_title', 'Former Student')
             ->getQuery()
