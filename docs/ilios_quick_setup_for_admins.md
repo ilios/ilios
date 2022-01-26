@@ -37,7 +37,7 @@ You will need Docker and Docker compose:
 From your ILIOS_CODE directory run:
 
 ```bash
-$ compose install
+$ composer install
 $ bin/console cache:warmup
 $ docker compose up -d
 ```
