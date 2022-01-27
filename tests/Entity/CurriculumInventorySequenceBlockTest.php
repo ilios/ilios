@@ -38,7 +38,6 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
             'orderInSequence',
             'minimum',
             'maximum',
-            'duration'
         ];
         $this->object->setReport(m::mock(CurriculumInventoryReportInterface::class));
         $this->validateNotBlanks($notBlank);
@@ -50,7 +49,6 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setMaximum(521);
         $this->object->setStartDate(new DateTime());
         $this->object->setEndDate(new DateTime());
-        $this->object->setDuration(60);
         $this->validate(0);
     }
 

@@ -100,12 +100,9 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function getEndDate(): ?DateTime;
 
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration);
+    public function setDuration(int $duration);
 
-    public function getDuration(): ?int;
+    public function getDuration(): int;
 
     public function setCourse(CourseInterface $course = null);
 

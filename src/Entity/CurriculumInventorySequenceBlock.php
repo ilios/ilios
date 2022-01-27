@@ -160,7 +160,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[ORM\Column(name: 'duration', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    protected $duration;
+    protected int $duration;
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
@@ -263,6 +263,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->excludedSessions = new ArrayCollection();
         $this->required = self::OPTIONAL;
         $this->track = false;
+        $this->duration = 0;
     }
 
     /**
@@ -363,15 +364,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->endDate;
     }
 
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration)
+    public function setDuration(int $duration)
     {
         $this->duration = $duration;
     }
 
-    public function getDuration(): ?int
+    public function getDuration(): int
     {
         return $this->duration;
     }
