@@ -8,6 +8,7 @@ use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\GetUrlTrait;
 use Firebase\JWT\JWT;
 use DateTime;
+use Firebase\JWT\Key;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -78,7 +79,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
 
-        $token = (array) JWT::decode($data->jwt, $this->jwtKey, ['HS256']);
+        $token = $this->decode($data->jwt);
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(2, $token['user_id']);
     }
@@ -97,7 +98,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertSame($data->status, 'success');
         $this->assertTrue(property_exists($data, 'jwt'));
 
-        $token = (array) JWT::decode($data->jwt, $this->jwtKey, ['HS256']);
+        $token = $this->decode($data->jwt);
         $this->assertTrue(array_key_exists('user_id', $token));
         $this->assertSame(2, $token['user_id']);
     }
@@ -175,7 +176,7 @@ class AuthControllerTest extends WebTestCase
     public function testGetToken()
     {
         $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
-        $token = (array) JWT::decode($jwt, $this->jwtKey, ['HS256']);
+        $token = $this->decode($jwt);
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
@@ -185,7 +186,7 @@ class AuthControllerTest extends WebTestCase
         );
         $response = $this->kernelBrowser->getResponse();
         $response = json_decode($response->getContent(), true);
-        $token2 = (array) JWT::decode($response['jwt'], $this->jwtKey, ['HS256']);
+        $token2 = $this->decode($response['jwt']);
 
         // figure out the delta between issued and expiration datetime
         $exp = DateTime::createFromFormat('U', $token['exp']);
@@ -218,7 +219,7 @@ class AuthControllerTest extends WebTestCase
 
         $response = $this->kernelBrowser->getResponse();
         $response = json_decode($response->getContent(), true);
-        $token = (array) JWT::decode($response['jwt'], $this->jwtKey, ['HS256']);
+        $token = $this->decode($response['jwt']);
 
 
         $now = new DateTime();
@@ -302,5 +303,11 @@ class AuthControllerTest extends WebTestCase
         $jwt = $jwtManager->createJwtFromUserId($userId, 'PT0S');
         sleep(6); //wait for 5 second leeway to pass
         return $jwt;
+    }
+
+    protected function decode($jwt): array
+    {
+        $decoded = JWT::decode($jwt, new Key($this->jwtKey, JsonWebTokenManager::SIGNING_ALGORITHM));
+        return (array) $decoded;
     }
 }
