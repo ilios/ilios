@@ -146,8 +146,8 @@ class XmlPrinter
             $xw->startElement('Event');
             $xw->writeAttribute('id', 'E' . $event['event_id']);
             $xw->writeElement('Title', $event['title']);
-            $duration = str_pad((string)$event['duration'], 2, '0', STR_PAD_LEFT);
-            $xw->writeElement('EventDuration', 'PT' . $duration . 'M');
+            $duration = 'PT' . str_pad((string)$event['duration'], 2, '0', STR_PAD_LEFT) . 'M';
+            $xw->writeElement('EventDuration', $duration);
             if (is_string($event['description']) && '' !== trim($event['description'])) {
                 $xw->writeElement('Description', (trim(strip_tags($event['description']))));
             }
@@ -220,6 +220,10 @@ class XmlPrinter
             } else {
                 $xw->startElement('InstructionalMethod');
                 $xw->writeAttribute('primary', 'true');
+                // here, we add the event's duration, in full, as instructional method duration.
+                // we can get away with this since there's currently only one instructional method
+                // at the most associated with any given event.
+                $xw->writeAttribute('instructionalMethodDuration', $duration);
                 $xw->text((string) $event['method_id']);
                 $xw->endElement(); // </InstructionalMethod>
             }
