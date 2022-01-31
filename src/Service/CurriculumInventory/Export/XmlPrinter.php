@@ -521,9 +521,7 @@ class XmlPrinter
 
         // add duration and/or start+end date
         $xw->startElement('Timing');
-        if ($block->getDuration()) {
-            $xw->writeElement('Duration', 'P' . $block->getDuration() . 'D'); // duration in days.
-        }
+        $xw->writeElement('Duration', 'P' . $block->getDuration() . 'D'); // duration in days.
         if ($block->getStartDate()) {
             $xw->startElement('Dates');
             $xw->writeElement('StartDate', $block->getStartDate()->format('Y-m-d'));
