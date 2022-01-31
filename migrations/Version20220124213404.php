@@ -36,7 +36,8 @@ final class Version20220124213404 extends MysqlMigration
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block DROP FOREIGN KEY FK_22E6B68062B4C1B6');
         $this->addSql('DROP INDEX IDX_22E6B680145CDCE1 ON curriculum_inventory_sequence_block');
         $this->addSql('DROP INDEX IDX_22E6B68062B4C1B6 ON curriculum_inventory_sequence_block');
-        $this->addSql('ALTER TABLE curriculum_inventory_sequence_block ADD academic_level_id INT NOT NULL, DROP starting_academic_level_id, DROP ending_academic_level_id');
+        $this->addSql('ALTER TABLE curriculum_inventory_sequence_block CHANGE starting_academic_level_id academic_level_id INT NOT NULL');
+        $this->addSql('ALTER TABLE curriculum_inventory_sequence_block DROP ending_academic_level_id');
         $this->addSql('ALTER TABLE curriculum_inventory_sequence_block ADD CONSTRAINT FK_22E6B6806081C3B0 FOREIGN KEY (academic_level_id) REFERENCES curriculum_inventory_academic_level (academic_level_id) ON UPDATE NO ACTION ON DELETE CASCADE');
         $this->addSql('CREATE INDEX IDX_22E6B6806081C3B0 ON curriculum_inventory_sequence_block (academic_level_id)');
     }
