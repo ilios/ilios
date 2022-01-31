@@ -336,7 +336,11 @@ class XmlPrinterTest extends TestCase
         );
         $this->assertEquals('XY001', (string) $event->InstructionalMethod);
         $this->assertEquals('true', $event->InstructionalMethod->attributes()['primary']);
-
+        $this->assertEquals('PT120M', (string) $event->EventDuration);
+        $this->assertEquals(
+            (string) $event->EventDuration,
+            $event->InstructionalMethod->attributes()['instructionalMethodDuration']
+        );
         $event = $xml->Events->children()[1];
         $this->assertEquals('E2000', $event->attributes()['id']);
         $this->assertEquals('something else', (string)$event->Title);
