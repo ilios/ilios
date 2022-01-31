@@ -16,6 +16,7 @@ class JsonWebTokenManager
     public const PREPEND_KEY = 'ilios.jwt.key.';
     private const TOKEN_ISS = 'ilios';
     private const TOKEN_AUD = 'ilios';
+    public const SIGNING_ALGORITHM = 'HS256';
 
     protected string $jwtKey;
 
@@ -66,7 +67,7 @@ class JsonWebTokenManager
 
     protected function decode($jwt)
     {
-        $decoded = JWT::decode($jwt, new Key($this->jwtKey, 'HS256'));
+        $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
         return (array) $decoded;
     }
 
@@ -101,7 +102,7 @@ class JsonWebTokenManager
             'can_create_or_update_user_in_any_school' => $canCreateOrUpdateUserInAnySchool,
         ];
 
-        return JWT::encode($arr, $this->jwtKey);
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     /**

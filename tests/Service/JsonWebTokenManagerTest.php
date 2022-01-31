@@ -159,6 +159,6 @@ class JsonWebTokenManagerTest extends TestCase
 
         $merged = array_merge($default, $values);
 
-        return JWT::encode($merged, $secretKey);
+        return JWT::encode($merged, $secretKey, JsonWebTokenManager::SIGNING_ALGORITHM);
     }
 }
