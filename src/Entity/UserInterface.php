@@ -76,7 +76,7 @@ interface UserInterface extends
      */
     public function setPhone($phone);
 
-    public function getPhone(): string;
+    public function getPhone(): ?string;
 
     /**
      * @param string $email

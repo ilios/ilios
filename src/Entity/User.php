@@ -579,7 +579,7 @@ class User implements UserInterface
         $this->phone = $phone;
     }
 
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
