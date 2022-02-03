@@ -644,7 +644,7 @@ class User implements UserInterface
         $this->campusId = $campusId;
     }
 
-    public function getCampusId(): string
+    public function getCampusId(): ?string
     {
         return $this->campusId;
     }
