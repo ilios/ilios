@@ -551,7 +551,7 @@ class User implements UserInterface
         $this->middleName = $middleName;
     }
 
-    public function getMiddleName(): string
+    public function getMiddleName(): ?string
     {
         return $this->middleName;
     }

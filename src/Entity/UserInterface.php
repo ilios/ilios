@@ -60,7 +60,7 @@ interface UserInterface extends
      */
     public function setMiddleName($middleName);
 
-    public function getMiddleName(): string;
+    public function getMiddleName(): ?string;
 
     public function getFirstAndLastName(): string;
 
