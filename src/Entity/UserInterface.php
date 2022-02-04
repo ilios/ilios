@@ -111,7 +111,7 @@ interface UserInterface extends
      */
     public function setCampusId($campusId);
 
-    public function getCampusId(): string;
+    public function getCampusId(): ?string;
 
     /**
      * @param string $otherId
