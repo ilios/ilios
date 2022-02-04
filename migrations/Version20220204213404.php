@@ -11,7 +11,7 @@ use Doctrine\DBAL\Schema\Schema;
  * Changes curriculum inventory sequence block table to track starting- and ending-academic-level instead
  * of just academic-level.
  */
-final class Version20220124213404 extends MysqlMigration
+final class Version20220204213404 extends MysqlMigration
 {
     public function getDescription(): string
     {
