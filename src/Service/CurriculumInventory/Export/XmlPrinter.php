@@ -63,7 +63,7 @@ class XmlPrinter
         $xw->setIndent(true);
         $xw->setIndentString('  ');
         $xw->startDocument('1.0', 'UTF-8');
-        $xw->startElementNs(null, 'CurriculumInventory', 'http://ns.medbiq.org/curriculuminventory/v1/');
+        $xw->startElementNs(null, 'CurriculumInventory', 'http://ns.medbiq.org/curriculuminventory/v10/');
         $xw->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         $xw->writeAttribute(
             'xsi:schemaLocation',
