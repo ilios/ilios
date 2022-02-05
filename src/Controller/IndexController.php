@@ -152,7 +152,7 @@ class IndexController extends AbstractController
 
         $divs = array_map(fn($obj) => [
             'id' => $obj->id,
-            'class' => $obj->class,
+            'class' => $obj->class ?? '',
             'htmlContent' => $obj->htmlContent,
         ], $json->div);
 
