@@ -302,7 +302,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             if (is_dir($path)) {
                 $this->fs->mirror($path, $this->frontendAssetDirectory . $file);
             } else {
-                $this->fs->copy($path, $this->frontendAssetDirectory . $file);
+                $this->fs->copy($path, $this->frontendAssetDirectory . $file, true);
             }
         }
     }
