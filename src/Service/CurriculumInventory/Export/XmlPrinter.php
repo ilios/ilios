@@ -68,7 +68,7 @@ class XmlPrinter
         $xw->writeAttribute(
             'xsi:schemaLocation',
             'http://ns.medbiq.org/curriculuminventory/v10/'
-            . 'http://ns.medbiq.org/curriculuminventory/v10/curriculuminventory.xsd'
+            . ' http://ns.medbiq.org/curriculuminventory/v10/curriculuminventory.xsd'
         );
         $xw->writeAttribute('xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
         $xw->writeAttribute('xmlns:a', 'http://ns.medbiq.org/address/v1/');
