@@ -77,7 +77,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "2.4",
-            "ref": "032f52ed50a27762b78ca6a2aaf432958c473553"
+            "ref": "f98f1affe028f8153a459d15f220ada3826b5aa2"
         },
         "files": [
             "config/packages/doctrine.yaml",
