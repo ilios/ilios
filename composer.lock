@@ -303,12 +303,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Assert\\": "lib/Assert"
-                },
                 "files": [
                     "lib/Assert/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -6198,28 +6198,28 @@
         },
         {
             "name": "shivas/versioning-bundle",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shivas/versioning-bundle.git",
-                "reference": "3654392b9f9d7fb4f70f9d98ec4f4304208ca6e5"
+                "reference": "a1ff217ad231bd6984a2cc79b8ab6a095322b317"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shivas/versioning-bundle/zipball/3654392b9f9d7fb4f70f9d98ec4f4304208ca6e5",
-                "reference": "3654392b9f9d7fb4f70f9d98ec4f4304208ca6e5",
+                "url": "https://api.github.com/repos/shivas/versioning-bundle/zipball/a1ff217ad231bd6984a2cc79b8ab6a095322b317",
+                "reference": "a1ff217ad231bd6984a2cc79b8ab6a095322b317",
                 "shasum": ""
             },
             "require": {
                 "nikolaposa/version": "^4",
                 "php": "^7.2 || ^8",
-                "symfony/console": "^3.4 || ^4 || ^5",
-                "symfony/framework-bundle": "^3.4 || ^4 || ^5",
-                "symfony/process": "^3.4 || ^4 || ^5"
+                "symfony/console": "^3.4 || ^4 || ^5 || ^6",
+                "symfony/framework-bundle": "^3.4 || ^4 || ^5 || ^6",
+                "symfony/process": "^3.4 || ^4 || ^5 || ^6"
             },
             "require-dev": {
                 "mikey179/vfsstream": "^2",
-                "nyholm/symfony-bundle-test": "^1.7",
+                "nyholm/symfony-bundle-test": "1.x-dev",
                 "phpunit/phpunit": "^7 || ^8",
                 "symfony/phpunit-bridge": "^5",
                 "twig/twig": "^2 || ^3"
@@ -6251,10 +6251,10 @@
             ],
             "support": {
                 "issues": "https://github.com/shivas/versioning-bundle/issues",
-                "source": "https://github.com/shivas/versioning-bundle/tree/4.0.0",
+                "source": "https://github.com/shivas/versioning-bundle/tree/4.0.1",
                 "wiki": "https://github.com/shivas/versioning-bundle/wiki"
             },
-            "time": "2021-05-15T17:44:47+00:00"
+            "time": "2022-02-17T07:56:41+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
