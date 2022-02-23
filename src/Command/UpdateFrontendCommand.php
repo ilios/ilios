@@ -19,6 +19,7 @@ use App\Service\Filesystem;
 use Exception;
 use SplFileObject;
 
+use function filectime;
 use function is_dir;
 
 /**
@@ -272,6 +273,13 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             $this->fs->dumpFile($archivePath, $string);
         }
         $destination = dirname($archivePath) . DIRECTORY_SEPARATOR . $version;
+        if ($this->fs->exists($destination)) {
+            //when we get a new version of the same archive (like for PR previews) we have to remove the old directory
+            $destinationCreatedAt = DateTime::createFromFormat('U', (string) filectime($destination));
+            if ($destinationCreatedAt < $lastModified) {
+                $this->fs->remove([$destination]);
+            }
+        }
         if (!$this->fs->exists($destination)) {
             $tmp = $destination . '-tmp';
             $this->archive::extract($archivePath, $tmp);
