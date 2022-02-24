@@ -3171,12 +3171,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Promise\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -6084,16 +6084,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.2.6",
+            "version": "4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "c3f2c687b45e3e42573372ac75e643c9e4f3f896"
+                "reference": "c231f5c6204fe9d428ab4db94ca4c9d1a9491e62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/c3f2c687b45e3e42573372ac75e643c9e4f3f896",
-                "reference": "c3f2c687b45e3e42573372ac75e643c9e4f3f896",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/c231f5c6204fe9d428ab4db94ca4c9d1a9491e62",
+                "reference": "c231f5c6204fe9d428ab4db94ca4c9d1a9491e62",
                 "shasum": ""
             },
             "require": {
@@ -6114,14 +6114,15 @@
             "require-dev": {
                 "doctrine/dbal": "^2.13||^3.0",
                 "doctrine/doctrine-bundle": "^1.12||^2.5",
-                "friendsofphp/php-cs-fixer": "^2.18",
-                "jangregor/phpstan-prophecy": "^0.8",
+                "friendsofphp/php-cs-fixer": "^2.19||^3.6",
+                "jangregor/phpstan-prophecy": "^1.0",
                 "monolog/monolog": "^1.3||^2.0",
                 "phpspec/prophecy": "!=1.11.0",
                 "phpspec/prophecy-phpunit": "^1.1||^2.0",
                 "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan": "^1.3",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-symfony": "^1.0",
                 "phpunit/phpunit": "^8.5.14||^9.3.9",
                 "symfony/browser-kit": "^3.4.44||^4.4.20||^5.0.11||^6.0",
                 "symfony/cache": "^3.4.44||^4.4.20||^5.0.11||^6.0",
@@ -6182,7 +6183,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.6"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.7"
             },
             "funding": [
                 {
@@ -6194,7 +6195,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-01-10T08:56:54+00:00"
+            "time": "2022-02-23T10:07:22+00:00"
         },
         {
             "name": "shivas/versioning-bundle",
