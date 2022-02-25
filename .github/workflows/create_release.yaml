@@ -24,7 +24,7 @@ jobs:
         NEW_TAG=${GITHUB_REF#refs/tags/}
         echo ${NEW_TAG}
         echo ::set-output name=tag::${NEW_TAG}
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
     - name: Generate Release Notes
       id: notes
       run: |
