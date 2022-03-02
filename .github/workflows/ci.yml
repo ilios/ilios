@@ -22,7 +22,7 @@ jobs:
     name: Code Style
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use PHP ${{ env.latest_php }}
       uses: shivammathur/setup-php@2.17.0
       with:
@@ -54,7 +54,7 @@ jobs:
         php-version: [8.0, 8.1]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@2.17.0
       with:
@@ -71,7 +71,7 @@ jobs:
     needs: code_style
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use PHP ${{ env.latest_php }}
       uses: shivammathur/setup-php@2.17.0
       with:
@@ -100,7 +100,7 @@ jobs:
         php-version: [8.0, 8.1]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@2.17.0
       with:
@@ -123,7 +123,7 @@ jobs:
       ILIOS_SECRET: DifferentSecret
       ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Drop, Create Database to use everywhere else
       run: |
         sudo systemctl start mysql.service
@@ -191,7 +191,7 @@ jobs:
         php-version: [8.0, 8.1]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@2.17.0
         with:
@@ -210,7 +210,7 @@ jobs:
         php-version: [8.0, 8.1]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@2.17.0
         with:
