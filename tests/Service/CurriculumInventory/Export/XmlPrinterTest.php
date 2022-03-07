@@ -105,8 +105,6 @@ class XmlPrinterTest extends TestCase
         $sequenceBlock2->setEndingAcademicLevel($academicLevel2);
         $sequenceBlock2->setRequired(CurriculumInventorySequenceBlockInterface::REQUIRED);
         $sequenceBlock2->setChildSequenceOrder(CurriculumInventorySequenceBlockInterface::ORDERED);
-        $sequenceBlock2->setMinimum(1);
-        $sequenceBlock2->setMaximum(1);
         $sequenceBlock2->setTrack(true);
         $sequenceBlock2->setCourse($course);
         $sequenceBlock1->addChild($sequenceBlock2);
@@ -603,8 +601,8 @@ class XmlPrinterTest extends TestCase
         $this->assertEquals('2', $block->attributes()['id']);
         $this->assertEquals('Required', $block->attributes()['required']);
         $this->assertEquals('Ordered', $block->attributes()['order']);
-        $this->assertEquals('1', $block->attributes()['minimum']);
-        $this->assertEquals('1', $block->attributes()['maximum']);
+        $this->assertEquals('0', $block->attributes()['minimum']);
+        $this->assertEquals('0', $block->attributes()['maximum']);
         $this->assertEquals('true', $block->attributes()['track']);
         $this->assertEquals('Nested Sequence Block 2', (string)$block->Title);
         $this->assertEquals('This is the nested sequence block 2.', (string)$block->Description);
