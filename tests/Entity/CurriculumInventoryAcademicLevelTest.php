@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
-use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventoryAcademicLevel
@@ -44,7 +43,8 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      */
     public function testConstructor()
     {
-        $this->assertEmpty($this->object->getSequenceBlocks());
+        $this->assertEmpty($this->object->getStartingSequenceBlocks());
+        $this->assertEmpty($this->object->getEndingSequenceBlocks());
     }
 
     /**
@@ -84,26 +84,52 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\CurriculumInventoryAcademicLevel::addSequenceBlock
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::addStartingSequenceBlock
      */
-    public function testAddSequenceBlock()
+    public function testAddStartingSequenceBlock()
     {
-        $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+        $this->entityCollectionAddTest('startingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
 
     /**
-     * @covers \App\Entity\CurriculumInventoryAcademicLevel::removeSequenceBlock
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::removeStartingSequenceBlock
      */
-    public function testRemoveSequenceBlock()
+    public function testRemoveStartingSequenceBlock()
     {
-        $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+        $this->entityCollectionRemoveTest('startingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
 
     /**
-     * @covers \App\Entity\CurriculumInventoryAcademicLevel::getSequenceBlocks
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::getStartingSequenceBlocks
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::setStartingSequenceBlocks
      */
-    public function testGetSequenceBlocks()
+    public function testGetStartingSequenceBlocks()
     {
-        $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
+        $this->entityCollectionSetTest('startingSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::addEndingSequenceBlock
+     */
+    public function testAddEndingSequenceBlock()
+    {
+        $this->entityCollectionAddTest('endingSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::removeEndingSequenceBlock
+     */
+    public function testRemoveEndingSequenceBlock()
+    {
+        $this->entityCollectionRemoveTest('endingSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    /**
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::getEndingSequenceBlocks
+     * @covers \App\Entity\CurriculumInventoryAcademicLevel::setEndingSequenceBlocks
+     */
+    public function testGetEndingSequenceBlocks()
+    {
+        $this->entityCollectionSetTest('endingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
 }

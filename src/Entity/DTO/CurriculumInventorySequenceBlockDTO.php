@@ -66,7 +66,12 @@ class CurriculumInventorySequenceBlockDTO
     #[IA\Expose]
     #[IA\Related('curriculumInventoryAcademicLevels')]
     #[IA\Type('integer')]
-    public int $academicLevel;
+    public int $startingAcademicLevel;
+
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryAcademicLevels')]
+    #[IA\Type('integer')]
+    public int $endingAcademicLevel;
 
     #[IA\Expose]
     #[IA\Related('courses')]

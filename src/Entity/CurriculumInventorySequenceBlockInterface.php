@@ -100,16 +100,9 @@ interface CurriculumInventorySequenceBlockInterface extends
 
     public function getEndDate(): ?DateTime;
 
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration);
+    public function setDuration(int $duration);
 
-    public function getDuration(): ?int;
-
-    public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
-
-    public function getAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
+    public function getDuration(): int;
 
     public function setCourse(CourseInterface $course = null);
 
@@ -143,4 +136,12 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function removeExcludedSession(SessionInterface $session);
 
     public function getExcludedSessions(): Collection;
+
+    public function setStartingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
+
+    public function setEndingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
+
+    public function getStartingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
+
+    public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
 }

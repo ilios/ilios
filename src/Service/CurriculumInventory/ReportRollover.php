@@ -148,7 +148,8 @@ class ReportRollover
         /* @var CurriculumInventorySequenceBlockInterface $newBlock */
         $newBlock = $this->sequenceBlockRepository->create();
         $newBlock->setReport($newReport);
-        $newBlock->setAcademicLevel($newLevels[$block->getAcademicLevel()->getLevel()]);
+        $newBlock->setStartingAcademicLevel($newLevels[$block->getStartingAcademicLevel()->getLevel()]);
+        $newBlock->setEndingAcademicLevel($newLevels[$block->getEndingAcademicLevel()->getLevel()]);
         $newBlock->setDescription($block->getDescription());
         $newBlock->setEndDate($block->getEndDate());
         $newBlock->setStartDate($block->getStartDate());

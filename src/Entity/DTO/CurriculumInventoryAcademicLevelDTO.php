@@ -41,7 +41,15 @@ class CurriculumInventoryAcademicLevelDTO
     #[IA\Expose]
     #[IA\Related('curriculumInventorySequenceBlocks')]
     #[IA\Type('array<string>')]
-    public array $sequenceBlocks = [];
+    public array $startingSequenceBlocks = [];
+
+    /**
+     * @var int[]
+     */
+    #[IA\Expose]
+    #[IA\Related('curriculumInventorySequenceBlocks')]
+    #[IA\Type('array<string>')]
+    public array $endingSequenceBlocks = [];
 
     /**
      * Needed for voting not exposed in the API

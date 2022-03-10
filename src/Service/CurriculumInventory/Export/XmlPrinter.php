@@ -19,6 +19,10 @@ use XMLWriter;
  */
 class XmlPrinter
 {
+    public const CATEGORY_TERM_PROGRAM_LEVEL_COMPETENCY = 'program-level-competency';
+    public const CATEGORY_TERM_PROGRAM_OBJECTIVE_DOMAIN = 'program-objective-domain';
+    public const CATEGORY_TERM_SEQUENCE_BLOCK_LEVEL_COMPETENCY = 'sequence-block-level-competency';
+    public const CATEGORY_TERM_EVENT_LEVEL_COMPETENCY = 'event-level-competency';
     /**
      * Creates an XML representation of the given curriculum inventory.
      * @param array $inventory An associated array, containing the inventory.
@@ -59,11 +63,12 @@ class XmlPrinter
         $xw->setIndent(true);
         $xw->setIndentString('  ');
         $xw->startDocument('1.0', 'UTF-8');
-        $xw->startElementNs(null, 'CurriculumInventory', 'http://ns.medbiq.org/curriculuminventory/v1/');
+        $xw->startElementNs(null, 'CurriculumInventory', 'http://ns.medbiq.org/curriculuminventory/v10/');
         $xw->writeAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         $xw->writeAttribute(
             'xsi:schemaLocation',
-            'http://ns.medbiq.org/curriculuminventory/v1/curriculuminventory.xsd'
+            'http://ns.medbiq.org/curriculuminventory/v10/'
+            . ' http://ns.medbiq.org/curriculuminventory/v10/curriculuminventory.xsd'
         );
         $xw->writeAttribute('xmlns:lom', 'http://ltsc.ieee.org/xsd/LOM');
         $xw->writeAttribute('xmlns:a', 'http://ns.medbiq.org/address/v1/');
@@ -142,8 +147,8 @@ class XmlPrinter
             $xw->startElement('Event');
             $xw->writeAttribute('id', 'E' . $event['event_id']);
             $xw->writeElement('Title', $event['title']);
-            $duration = str_pad((string)$event['duration'], 2, '0', STR_PAD_LEFT);
-            $xw->writeElement('EventDuration', 'PT' . $duration . 'M');
+            $duration = 'PT' . str_pad((string)$event['duration'], 2, '0', STR_PAD_LEFT) . 'M';
+            $xw->writeElement('EventDuration', $duration);
             if (is_string($event['description']) && '' !== trim($event['description'])) {
                 $xw->writeElement('Description', (trim(strip_tags($event['description']))));
             }
@@ -216,6 +221,10 @@ class XmlPrinter
             } else {
                 $xw->startElement('InstructionalMethod');
                 $xw->writeAttribute('primary', 'true');
+                // here, we add the event's duration, in full, as instructional method duration.
+                // we can get away with this since there's currently only one instructional method
+                // at the most associated with any given event.
+                $xw->writeAttribute('instructionalMethodDuration', $duration);
                 $xw->text((string) $event['method_id']);
                 $xw->endElement(); // </InstructionalMethod>
             }
@@ -235,7 +244,12 @@ class XmlPrinter
                 'program_objective',
                 $institutionDomain
             );
-            $this->writeCompetencyObjectNode($xw, $programObjective['title'], $uri, 'program-level-competency');
+            $this->writeCompetencyObjectNode(
+                $xw,
+                $programObjective['title'],
+                $uri,
+                self::CATEGORY_TERM_PROGRAM_LEVEL_COMPETENCY
+            );
         }
         // course objectives
         foreach ($expectations['course_objectives'] as $courseObjective) {
@@ -244,7 +258,12 @@ class XmlPrinter
                 'course_objective',
                 $institutionDomain
             );
-            $this->writeCompetencyObjectNode($xw, $courseObjective['title'], $uri, 'sequence-block-level-competency');
+            $this->writeCompetencyObjectNode(
+                $xw,
+                $courseObjective['title'],
+                $uri,
+                self::CATEGORY_TERM_SEQUENCE_BLOCK_LEVEL_COMPETENCY
+            );
         }
         // session objectives
         foreach ($expectations['session_objectives'] as $sessionObjective) {
@@ -253,7 +272,12 @@ class XmlPrinter
                 'session_objective',
                 $institutionDomain
             );
-            $this->writeCompetencyObjectNode($xw, $sessionObjective['title'], $uri, 'event-level-competency');
+            $this->writeCompetencyObjectNode(
+                $xw,
+                $sessionObjective['title'],
+                $uri,
+                self::CATEGORY_TERM_EVENT_LEVEL_COMPETENCY
+            );
         }
         // add competency framework
         $this->writeCompetencyFrameworkNode($xw, $report, $reportId, $institutionDomain, $expectations);
@@ -263,7 +287,8 @@ class XmlPrinter
         // Academic Levels
         //
         $levels = $report->getAcademicLevels()->filter(
-            fn(CurriculumInventoryAcademicLevelInterface $level) => $level->getSequenceBlocks()->count() > 0
+            fn(CurriculumInventoryAcademicLevelInterface $level)
+            => $level->getStartingSequenceBlocks()->count() > 0 || $level->getEndingSequenceBlocks()->count() > 0
         );
 
         $xw->startElement('AcademicLevels');
@@ -472,15 +497,10 @@ class XmlPrinter
                 break;
         }
 
-        $min = $block->getMinimum();
-        if ($min) {
-            $xw->writeAttribute('minimum', (string) $min);
-        }
-
-        $max = $block->getMaximum();
-        if ($max) {
-            $xw->writeAttribute('maximum', (string) $max);
-        }
+        $min = $block->getMinimum() ?? 0;
+        $xw->writeAttribute('minimum', (string) $min);
+        $max = $block->getMaximum() ?? 0;
+        $xw->writeAttribute('maximum', (string) $max);
 
         if ($block->hasTrack()) {
             $xw->writeAttribute('track', 'true');
@@ -497,9 +517,7 @@ class XmlPrinter
 
         // add duration and/or start+end date
         $xw->startElement('Timing');
-        if ($block->getDuration()) {
-            $xw->writeElement('Duration', 'P' . $block->getDuration() . 'D'); // duration in days.
-        }
+        $xw->writeElement('Duration', 'P' . $block->getDuration() . 'D'); // duration in days.
         if ($block->getStartDate()) {
             $xw->startElement('Dates');
             $xw->writeElement('StartDate', $block->getStartDate()->format('Y-m-d'));
@@ -508,11 +526,18 @@ class XmlPrinter
         }
         $xw->endElement(); // </Timing>
 
-        // academic level
+        // academicLevels
+        $xw->startElement('SequenceBlockLevels');
         $xw->writeElement(
-            'Level',
-            "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getAcademicLevel()->getLevel()}']"
+            'StartingAcademicLevel',
+            "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getStartingAcademicLevel()->getLevel()}']"
         );
+        $xw->writeElement(
+            'EndingAcademicLevel',
+            "/CurriculumInventory/AcademicLevels/Level[@number='{$block->getEndingAcademicLevel()->getLevel()}']"
+        );
+        $xw->endElement(); // </SequenceBlockLevels>
+
 
         // clerkship type
         // map course clerkship type to "Clerkship Model"
@@ -617,7 +642,7 @@ class XmlPrinter
      * @param XmlWriter $xw
      * @param string $title The competency object's title.
      * @param string $uri An URI that uniquely identifies the competency object.
-     * @param string $category 'program-level-competency', 'sequence-block-level-competency or 'event-level-competency'.
+     * @param string $category
      */
     protected function writeCompetencyObjectNode(XmlWriter $xw, string $title, string $uri, string $category): void
     {

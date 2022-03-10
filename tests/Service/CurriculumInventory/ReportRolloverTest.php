@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\CurriculumInventory;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReport;
@@ -19,7 +19,10 @@ use App\Service\CurriculumInventory\ReportRollover;
 use App\Tests\TestCase;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Mockery as m;
+use Mockery;
+use Mockery\MockInterface;
+
+use function count;
 
 /**
  * Class ReportRolloverTest
@@ -27,38 +30,19 @@ use Mockery as m;
  */
 class ReportRolloverTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    protected $reportRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $academicLevelRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $sequenceRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $sequenceBlockRepository;
-
-    /**
-     * @var ReportRollover
-     */
-    protected $service;
+    protected MockInterface $reportRepository;
+    protected MockInterface $academicLevelRepository;
+    protected MockInterface $sequenceRepository;
+    protected MockInterface $sequenceBlockRepository;
+    protected ReportRollover $service;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->reportRepository = m::mock(CurriculumInventoryReportRepository::class);
-        $this->academicLevelRepository = m::mock(CurriculumInventoryAcademicLevelRepository::class);
-        $this->sequenceRepository = m::mock(CurriculumInventorySequenceRepository::class);
-        $this->sequenceBlockRepository = m::mock(CurriculumInventorySequenceBlockRepository::class);
+        $this->reportRepository = Mockery::mock(CurriculumInventoryReportRepository::class);
+        $this->academicLevelRepository = Mockery::mock(CurriculumInventoryAcademicLevelRepository::class);
+        $this->sequenceRepository = Mockery::mock(CurriculumInventorySequenceRepository::class);
+        $this->sequenceBlockRepository = Mockery::mock(CurriculumInventorySequenceBlockRepository::class);
         $this->service = new ReportRollover(
             $this->reportRepository,
             $this->academicLevelRepository,
@@ -109,7 +93,11 @@ class ReportRolloverTest extends TestCase
         $academicLevel2->setLevel(2);
         $academicLevel2->setDescription('Level 2 description');
         $academicLevel2->setName('Level 2');
-        $report->setAcademicLevels(new ArrayCollection([$academicLevel1, $academicLevel2]));
+        $academicLevel3 = new CurriculumInventoryAcademicLevel();
+        $academicLevel3->setLevel(3);
+        $academicLevel3->setDescription('Level 3 description');
+        $academicLevel3->setName('Level 3');
+        $report->setAcademicLevels(new ArrayCollection([$academicLevel1, $academicLevel2, $academicLevel3]));
         $sequence = new CurriculumInventorySequence();
         $sequence->setDescription('this is a sequence');
         $report->setSequence($sequence);
@@ -129,18 +117,23 @@ class ReportRolloverTest extends TestCase
         $topLevelBlock1->setRequired(CurriculumInventorySequenceBlockInterface::OPTIONAL);
         $topLevelBlock1->setTitle("Top Level Sequence Block 1");
         $topLevelBlock1->setTrack(true);
-        $topLevelBlock1->setAcademicLevel($academicLevel1);
+        $topLevelBlock1->setStartingAcademicLevel($academicLevel1);
+        $topLevelBlock1->setEndingAcademicLevel($academicLevel2);
         $topLevelBlock2 = new CurriculumInventorySequenceBlock();
-        $topLevelBlock2->setAcademicLevel($academicLevel2);
+        $topLevelBlock2->setStartingAcademicLevel($academicLevel2);
+        $topLevelBlock2->setEndingAcademicLevel($academicLevel3);
         $topLevelBlock2->setTitle("Top Level Sequence Block 2");
         $subLevelBlock1 = new CurriculumInventorySequenceBlock();
-        $subLevelBlock1->setAcademicLevel($academicLevel1);
+        $subLevelBlock1->setStartingAcademicLevel($academicLevel1);
+        $subLevelBlock1->setEndingAcademicLevel($academicLevel2);
         $subLevelBlock1->setTitle("Sub Level Sequence Block 1");
         $subLevelBlock2 = new CurriculumInventorySequenceBlock();
-        $subLevelBlock2->setAcademicLevel($academicLevel2);
+        $subLevelBlock2->setStartingAcademicLevel($academicLevel2);
+        $subLevelBlock2->setEndingAcademicLevel($academicLevel3);
         $subLevelBlock2->setTitle("Sub Level Sequence Block 2");
         $subSubLevelBlock1 = new CurriculumInventorySequenceBlock();
-        $subSubLevelBlock1->setAcademicLevel($academicLevel2);
+        $subSubLevelBlock1->setStartingAcademicLevel($academicLevel2);
+        $subSubLevelBlock1->setEndingAcademicLevel($academicLevel3);
         $subSubLevelBlock1->setTitle("Sub-sub Level Sequence Block 1");
         $subLevelBlock1->setParent($topLevelBlock1);
         $subLevelBlock2->setParent($topLevelBlock1);
@@ -273,8 +266,12 @@ class ReportRolloverTest extends TestCase
         $this->assertEquals($sequenceBlock->hasTrack(), $newSequenceBlock->hasTrack());
         ;
         $this->assertEquals(
-            $sequenceBlock->getAcademicLevel()->getName(),
-            $newSequenceBlock->getAcademicLevel()->getName()
+            $sequenceBlock->getStartingAcademicLevel()->getName(),
+            $newSequenceBlock->getStartingAcademicLevel()->getName()
+        );
+        $this->assertEquals(
+            $sequenceBlock->getEndingAcademicLevel()->getName(),
+            $newSequenceBlock->getEndingAcademicLevel()->getName()
         );
 
         if ($children) {

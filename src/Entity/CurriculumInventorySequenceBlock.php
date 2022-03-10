@@ -31,6 +31,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     use StringableIdEntity;
     use SessionsEntity;
 
+
     /**
      * @var int
      * @Assert\Type(type="integer")
@@ -159,21 +160,35 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[ORM\Column(name: 'duration', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    protected $duration;
+    protected int $duration;
 
     /**
      * @var CurriculumInventoryAcademicLevelInterface
      */
-    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'sequenceBlocks')]
+    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'startingSequenceBlocks')]
     #[ORM\JoinColumn(
-        name: 'academic_level_id',
+        name: 'starting_academic_level_id',
         referencedColumnName: 'academic_level_id',
         nullable: false,
         onDelete: 'cascade'
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $academicLevel;
+    protected CurriculumInventoryAcademicLevelInterface $startingAcademicLevel;
+
+    /**
+     * @var CurriculumInventoryAcademicLevelInterface
+     */
+    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'endingSequenceBlocks')]
+    #[ORM\JoinColumn(
+        name: 'ending_academic_level_id',
+        referencedColumnName: 'academic_level_id',
+        nullable: false,
+        onDelete: 'cascade'
+    )]
+    #[IA\Expose]
+    #[IA\Type('entity')]
+    protected CurriculumInventoryAcademicLevelInterface $endingAcademicLevel;
 
     /**
      * @var CourseInterface
@@ -248,6 +263,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->excludedSessions = new ArrayCollection();
         $this->required = self::OPTIONAL;
         $this->track = false;
+        $this->duration = 0;
     }
 
     /**
@@ -348,27 +364,14 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->endDate;
     }
 
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration)
+    public function setDuration(int $duration)
     {
         $this->duration = $duration;
     }
 
-    public function getDuration(): ?int
+    public function getDuration(): int
     {
         return $this->duration;
-    }
-
-    public function setAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
-    {
-        $this->academicLevel = $academicLevel;
-    }
-
-    public function getAcademicLevel(): CurriculumInventoryAcademicLevelInterface
-    {
-        return $this->academicLevel;
     }
 
     public function setCourse(CourseInterface $course = null)
@@ -474,10 +477,17 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         CurriculumInventorySequenceBlockInterface $a,
         CurriculumInventorySequenceBlockInterface $b
     ) {
-        // 1. academic level id
-        if ($a->getAcademicLevel()->getLevel() > $b->getAcademicLevel()->getLevel()) {
+        // 1. starting academic level id
+        if ($a->getStartingAcademicLevel()->getLevel() > $b->getStartingAcademicLevel()->getLevel()) {
             return 1;
-        } elseif ($a->getAcademicLevel()->getLevel() < $b->getAcademicLevel()->getLevel()) {
+        } elseif ($a->getStartingAcademicLevel()->getLevel() < $b->getStartingAcademicLevel()->getLevel()) {
+            return -1;
+        }
+
+        // 2. ending academic level id
+        if ($a->getEndingAcademicLevel()->getLevel() > $b->getEndingAcademicLevel()->getLevel()) {
+            return 1;
+        } elseif ($a->getEndingAcademicLevel()->getLevel() < $b->getEndingAcademicLevel()->getLevel()) {
             return -1;
         }
 
@@ -530,5 +540,25 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getExcludedSessions(): Collection
     {
         return $this->excludedSessions;
+    }
+
+    public function setStartingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level = null): void
+    {
+        $this->startingAcademicLevel = $level;
+    }
+
+    public function setEndingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level = null): void
+    {
+        $this->endingAcademicLevel = $level;
+    }
+
+    public function getStartingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
+    {
+        return $this->startingAcademicLevel;
+    }
+
+    public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
+    {
+        return $this->endingAcademicLevel;
     }
 }

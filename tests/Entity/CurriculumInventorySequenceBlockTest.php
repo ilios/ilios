@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
+use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use DateTime;
@@ -37,9 +38,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
             'orderInSequence',
             'minimum',
             'maximum',
-            'duration'
         ];
-        $this->object->setReport(m::mock('App\Entity\CurriculumInventoryReportInterface'));
+        $this->object->setReport(m::mock(CurriculumInventoryReportInterface::class));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test title for the block max 200');
@@ -49,7 +49,6 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setMaximum(521);
         $this->object->setStartDate(new DateTime());
         $this->object->setEndDate(new DateTime());
-        $this->object->setDuration(60);
         $this->validate(0);
     }
 
@@ -68,7 +67,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setDuration(60);
         $this->validateNotNulls($notNulls);
 
-        $this->object->setReport(m::mock('App\Entity\CurriculumInventoryReportInterface'));
+        $this->object->setReport(m::mock(CurriculumInventoryReportInterface::class));
         $this->validate(0);
     }
 
@@ -181,12 +180,21 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setAcademicLevel
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getAcademicLevel
+     * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartingAcademicLevel
+     * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartingAcademicLevel
      */
-    public function testSetAcademicLevel()
+    public function testSetStartingAcademicLevel()
     {
-        $this->entitySetTest('academicLevel', 'CurriculumInventoryAcademicLevel');
+        $this->entitySetTest('startingAcademicLevel', 'CurriculumInventoryAcademicLevel');
+    }
+
+    /**
+     * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartingAcademicLevel
+     * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartingAcademicLevel
+     */
+    public function testSetEndingAcademicLevel()
+    {
+        $this->entitySetTest('endingAcademicLevel', 'CurriculumInventoryAcademicLevel');
     }
 
     /**
@@ -292,6 +300,9 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $level1 = new CurriculumInventoryAcademicLevel();
         $level1->setLevel(1);
 
+        $level2 = new CurriculumInventoryAcademicLevel();
+        $level2->setLevel(2);
+
         $level10 = new CurriculumInventoryAcademicLevel();
         $level10->setLevel(10);
 
@@ -299,35 +310,49 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $blockA->setId(1);
         $blockA->setTitle("Alpha");
         $blockA->setStartDate(new DateTime('2015-09-17'));
-        $blockA->setAcademicLevel($level1);
+        $blockA->setStartingAcademicLevel($level1);
+        $blockA->setEndingAcademicLevel($level1);
 
         // same as A but with different level
         $blockB = new CurriculumInventorySequenceBlock();
         $blockB->setId(1);
         $blockB->setTitle("Alpha");
         $blockB->setStartDate(new DateTime('2015-09-17'));
-        $blockB->setAcademicLevel($level10);
+        $blockB->setStartingAcademicLevel($level10);
+        $blockB->setEndingAcademicLevel($level1);
 
         // same as A but with different start date
         $blockC = new CurriculumInventorySequenceBlock();
         $blockC->setId(1);
         $blockC->setTitle("Alpha");
         $blockC->setStartDate(new DateTime('2019-09-17'));
-        $blockC->setAcademicLevel($level1);
+        $blockC->setStartingAcademicLevel($level1);
+        $blockC->setEndingAcademicLevel($level1);
 
-        // same as A but with different title
+        // same as A but with different end level
         $blockD = new CurriculumInventorySequenceBlock();
         $blockD->setId(1);
-        $blockD->setTitle("Beta");
+        $blockD->setTitle("Alpha");
         $blockD->setStartDate(new DateTime('2015-09-17'));
-        $blockD->setAcademicLevel($level1);
+        $blockD->setStartingAcademicLevel($level1);
+        $blockD->setEndingAcademicLevel($level2);
+
+        // same as A but with different title
+        $blockE = new CurriculumInventorySequenceBlock();
+        $blockE->setId(1);
+        $blockE->setTitle("Beta");
+        $blockE->setStartDate(new DateTime('2015-09-17'));
+        $blockE->setStartingAcademicLevel($level1);
+        $blockE->setEndingAcademicLevel($level1);
+
 
         // same as A but with different id
-        $blockE = new CurriculumInventorySequenceBlock();
-        $blockE->setId(2);
-        $blockE->setTitle("Alpha");
-        $blockE->setStartDate(new DateTime('2015-09-17'));
-        $blockE->setAcademicLevel($level1);
+        $blockF = new CurriculumInventorySequenceBlock();
+        $blockF->setId(2);
+        $blockF->setTitle("Alpha");
+        $blockF->setStartDate(new DateTime('2015-09-17'));
+        $blockF->setStartingAcademicLevel($level1);
+        $blockF->setEndingAcademicLevel($level1);
 
         $rhett[] = [ $blockA, $blockA, 0 ];
         $rhett[] = [ $blockB, $blockA, 1 ];
@@ -338,7 +363,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $rhett[] = [ $blockA, $blockD, -1 ];
         $rhett[] = [ $blockE, $blockA, 1 ];
         $rhett[] = [ $blockA, $blockE, -1 ];
-
+        $rhett[] = [ $blockF, $blockA, 1 ];
+        $rhett[] = [ $blockA, $blockF, -1 ];
         return $rhett;
     }
 

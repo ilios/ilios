@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Tests\DataLoader\CurriculumInventorySequenceBlockData;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventorySequenceBlock;
@@ -18,7 +19,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     ContainerAwareInterface,
     DependentFixtureInterface
 {
-    private $container;
+    private ContainerInterface $container;
 
     public function setContainer(ContainerInterface $container = null)
     {
@@ -28,7 +29,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('App\Tests\DataLoader\CurriculumInventorySequenceBlockData')
+            ->get(CurriculumInventorySequenceBlockData::class)
             ->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlock();
@@ -46,7 +47,13 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             $entity->setRequired($arr['required']);
             $entity->setStartDate(new DateTime($arr['startDate']));
             $entity->setEndDate(new DateTime($arr['endDate']));
-            $entity->setAcademicLevel($this->getReference('curriculumInventoryAcademicLevels' . $arr['academicLevel']));
+            $entity->setStartingAcademicLevel(
+                $this->getReference('curriculumInventoryAcademicLevels' . $arr['startingAcademicLevel'])
+            );
+            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
+            $entity->setEndingAcademicLevel(
+                $this->getReference('curriculumInventoryAcademicLevels' . $arr['endingAcademicLevel'])
+            );
             $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
             if (!empty($arr['parent'])) {
                 $entity->setParent($this->getReference('curriculumInventorySequenceBlocks' . $arr['parent']));
@@ -67,9 +74,9 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
     public function getDependencies()
     {
         return [
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
-            'App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData',
-            'App\Tests\Fixture\LoadSessionData',
+            LoadCurriculumInventoryReportData::class,
+            LoadCurriculumInventoryAcademicLevelData::class,
+            LoadSessionData::class,
         ];
     }
 }
