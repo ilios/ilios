@@ -2,22 +2,23 @@
 # Contains all of the ilios src code for use in other containers
 ###############################################################################
 FROM scratch as src
-COPY composer.* symfony.lock LICENSE /src/
-COPY config /src/config/
-COPY custom /src/custom/
-COPY src /src/src/
-COPY templates /src/templates/
-COPY migrations /src/migrations/
-COPY bin/console /src/bin/
-COPY public/index.php /src/public/
-COPY public/theme-overrides/ /src/public/theme-overrides/
+RUN mkdir -p /src/app
+COPY composer.* symfony.lock LICENSE /src/app/
+COPY config /src/app/config/
+COPY custom /src/app/custom/
+COPY src /src/app/src/
+COPY templates /src/app/templates/
+COPY migrations /src/app/migrations/
+COPY bin/console /src/app/bin/
+COPY public/index.php /src/app/public/
+COPY public/theme-overrides/ /src/app/public/theme-overrides/
 
 ###############################################################################
 # Nginx Configured to Run Ilios from an FPM host
 ###############################################################################
 FROM nginx:1.19-alpine as nginx
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-COPY --from=src /src /var/www/ilios
+COPY --from=src /src/app /srv/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 ENV FPM_CONTAINERS=fpm:9000
 ARG ILIOS_VERSION="v0.1.0"
@@ -30,7 +31,7 @@ RUN echo ${ILIOS_VERSION} > VERSION
 FROM php:8.0-fpm as php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY --from=src /src /var/www/ilios
+COPY --from=src /src/app /srv/
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
@@ -61,7 +62,7 @@ ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
-WORKDIR /var/www/ilios
+WORKDIR /srv/app
 RUN /usr/bin/touch .env
 RUN /usr/bin/composer install \
     --prefer-dist \
@@ -101,7 +102,7 @@ RUN sed -i '/^opcache\.preload/d' $PHP_INI_DIR/conf.d/ilios.ini
 RUN sed -i '/^opcache\.validate_timestamps/d' $PHP_INI_DIR/conf.d/ilios.ini
 
 RUN /usr/bin/composer install \
-  --working-dir /var/www/ilios \
+  --working-dir /srv/app \
   --no-progress \
   --no-suggest \
   --no-interaction
@@ -150,12 +151,12 @@ ENTRYPOINT bin/console ilios:wait-for-database; \
 
 ###############################################################################
 # Single purpose container to updates the frontend
-# Can be run on a schedule as needed and MUST share /var/www/ilios with the
+# Can be run on a schedule as needed and MUST share /srv/app with the
 # fpm and nginx containers in order to provide the shared static files that
 # have to be in sync
 ###############################################################################
 FROM php-base as update-frontend
-ENTRYPOINT ["/var/www/ilios/bin/console"]
+ENTRYPOINT ["srv/app/bin/console"]
 CMD ["ilios:update-frontend"]
 
 ###############################################################################

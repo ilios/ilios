@@ -13,7 +13,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/ilios:delegated
+      - ./:/src/app:delegated
     depends_on:
       - php
   php:
@@ -27,7 +27,7 @@ services:
       - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     volumes:
-      - ./:/var/www/ilios:delegated
+      - ./:/src/app:delegated
     depends_on:
       - db
   messages:
@@ -44,7 +44,7 @@ services:
         - db
         - elasticsearch
     volumes:
-      - ./:/var/www/ilios:delegated
+      - ./:/src/app:delegated
   migrate:
     build:
       context: .
@@ -57,7 +57,7 @@ services:
     depends_on:
         - db
     volumes:
-      - ./:/var/www/ilios:delegated
+      - ./:/src/app:delegated
   elasticsearch:
     build:
       context: .

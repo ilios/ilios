@@ -1,7 +1,7 @@
 server {
     listen       80;
     server_name  localhost;
-    root   /var/www/ilios/public;
+    root   /src/app/public;
     server_tokens off;
 
     location / {
