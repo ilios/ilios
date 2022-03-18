@@ -2,7 +2,6 @@
 # Contains all of the ilios src code for use in other containers
 ###############################################################################
 FROM scratch as src
-RUN mkdir -p /src/app
 COPY composer.* symfony.lock LICENSE /src/app/
 COPY config /src/app/config/
 COPY custom /src/app/custom/
@@ -62,6 +61,21 @@ ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
+COPY docker/fpm/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
+
+COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
+
+COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+COPY docker/fpm/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+VOLUME /var/run/php
+
 WORKDIR /srv/app
 RUN /usr/bin/touch .env
 RUN /usr/bin/composer install \
@@ -75,10 +89,6 @@ RUN /usr/bin/composer install \
     && /usr/bin/composer dump-env prod \
     && /usr/bin/composer clear-cache
 
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY ./docker/php.ini $PHP_INI_DIR/conf.d/ilios.ini
-#Override the default entrypoint script with our own
-COPY docker/php-fpm-entrypoint /usr/local/bin/docker-php-entrypoint
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
 

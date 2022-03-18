@@ -12,8 +12,6 @@ services:
       - public:/src/app/public:ro
   php:
     image: ilios/fpm:v3
-    volumes:
-      - public:/src/app/public
   messages:
     image: ilios/consume-messages:v3
   migrate:
