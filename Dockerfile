@@ -17,7 +17,7 @@ COPY public/theme-overrides/ /src/app/public/theme-overrides/
 ###############################################################################
 FROM nginx:1.19-alpine as nginx
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-COPY --from=src /src/app /srv/
+COPY --from=src /src/app /srv/app/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 ENV FPM_CONTAINERS=fpm:9000
 ARG ILIOS_VERSION="v0.1.0"
@@ -30,7 +30,7 @@ RUN echo ${ILIOS_VERSION} > VERSION
 FROM php:8.0-fpm as php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY --from=src /src/app /srv/
+COPY --from=src /src/app /srv/app/
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
