@@ -76,18 +76,20 @@ RUN chmod +x /usr/local/bin/docker-entrypoint
 
 VOLUME /var/run/php
 
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+ENV PATH="${PATH}:/root/.composer/vendor/bin"
 WORKDIR /srv/app
 RUN /usr/bin/touch .env
-RUN /usr/bin/composer install \
-    --prefer-dist \
-    --no-dev \
-    --no-progress \
-    --no-interaction \
-    --no-suggest \
-    --classmap-authoritative \
-    #creates an empty env.php file, real ENV values will control the app
-    && /usr/bin/composer dump-env prod \
-    && /usr/bin/composer clear-cache
+RUN set -eux; \
+	mkdir -p var/cache var/log; \
+	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+	composer dump-autoload --classmap-authoritative --no-dev; \
+	composer symfony:dump-env prod; \
+	composer run-script --no-dev post-install-cmd; \
+	chmod +x bin/console; sync
+VOLUME /srv/app/var
 
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
@@ -110,12 +112,6 @@ ENV APP_DEBUG true
 # Remove opcache production only optimizations
 RUN sed -i '/^opcache\.preload/d' $PHP_INI_DIR/conf.d/ilios.ini
 RUN sed -i '/^opcache\.validate_timestamps/d' $PHP_INI_DIR/conf.d/ilios.ini
-
-RUN /usr/bin/composer install \
-  --working-dir /srv/app \
-  --no-progress \
-  --no-suggest \
-  --no-interaction
 
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
