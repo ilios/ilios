@@ -109,9 +109,8 @@ FROM fpm as fpm-dev
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV APP_ENV dev
 ENV APP_DEBUG true
-# Remove opcache production only optimizations
-RUN sed -i '/^opcache\.preload/d' $PHP_INI_DIR/conf.d/ilios.ini
-RUN sed -i '/^opcache\.validate_timestamps/d' $PHP_INI_DIR/conf.d/ilios.ini
+COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
+
 
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
