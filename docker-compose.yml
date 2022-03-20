@@ -16,5 +16,3 @@ services:
       - public:/srv/app/public
   messages:
     image: ilios/consume-messages:v3
-  migrate:
-    image: ilios/migrate-database:v3

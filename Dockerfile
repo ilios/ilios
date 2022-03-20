@@ -148,14 +148,6 @@ ENTRYPOINT /entrypoint
 HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 
 ###############################################################################
-# Single purpose container that migrates the databse and then dies
-# Should be run once on a new deployment
-###############################################################################
-FROM php-base as migrate-database
-ENTRYPOINT bin/console ilios:wait-for-database; \
-           bin/console doctrine:migrations:migrate -n
-
-###############################################################################
 # Single purpose container to updates the frontend
 # Can be run on a schedule as needed and MUST share /srv/app with the
 # fpm and nginx containers in order to provide the shared static files that
