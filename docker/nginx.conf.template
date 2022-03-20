@@ -1,7 +1,7 @@
 server {
     listen       80;
     server_name  localhost;
-    root   /src/app/public;
+    root   /srv/app/public;
     server_tokens off;
 
     location / {
