@@ -92,6 +92,9 @@ VOLUME /srv/app/var
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
 
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["php-fpm"]
+
 ###############################################################################
 # FPM configured to run ilios
 # Really just a wrapper around php-base, but here in case we need to modify it
