@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 services:
   db:
     build:
@@ -13,7 +13,8 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/src/app:delegated
+      # The "cached" option has no effect on Linux but improves performance on Mac
+      - ./:/srv/app:rw,cached
     depends_on:
       - php
   php:
@@ -27,7 +28,10 @@ services:
       - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     volumes:
-      - ./:/src/app:delegated
+      # The "cached" option has no effect on Linux but improves performance on Mac
+      - ./:/srv/app:rw,cached
+      # Remove the var/ directory from the bind-mount for better performance
+      - /srv/app/var
     depends_on:
       - db
   messages:
@@ -44,7 +48,10 @@ services:
         - db
         - elasticsearch
     volumes:
-      - ./:/src/app:delegated
+      # The "cached" option has no effect on Linux but improves performance on Mac
+      - ./:/srv/app:rw,cached
+      # Remove the var/ directory from the bind-mount for better performance
+      - /srv/app/var
   migrate:
     build:
       context: .
@@ -57,7 +64,10 @@ services:
     depends_on:
         - db
     volumes:
-      - ./:/src/app:delegated
+      # The "cached" option has no effect on Linux but improves performance on Mac
+      - ./:/srv/app:rw,cached
+      # Remove the var/ directory from the bind-mount for better performance
+      - /srv/app/var
   elasticsearch:
     build:
       context: .

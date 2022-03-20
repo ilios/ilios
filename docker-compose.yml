@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 volumes:
   public:
 services:
@@ -9,9 +9,11 @@ services:
     depends_on:
       - php
     volumes:
-      - public:/src/app/public:ro
+      - public:/srv/app/public:ro
   php:
     image: ilios/fpm:v3
+    volumes:
+      - public:/srv/app/public
   messages:
     image: ilios/consume-messages:v3
   migrate:
