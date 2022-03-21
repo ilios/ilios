@@ -73,7 +73,9 @@ RUN set -eux; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
 	composer symfony:dump-env prod; \
 	composer run-script --no-dev post-install-cmd; \
-	chmod +x bin/console; sync
+	chmod +x bin/console; \
+    bin/console cache:warmup; \
+    sync
 VOLUME /srv/app/var
 
 ARG ILIOS_VERSION="v0.1.0"
