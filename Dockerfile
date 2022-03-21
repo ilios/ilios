@@ -61,19 +61,6 @@ ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
-COPY docker/fpm/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
-RUN chmod +x /usr/local/bin/docker-healthcheck
-
-HEALTHCHECK --interval=10s --timeout=3s --retries=3 --start-period=30s CMD ["docker-healthcheck"]
-
-COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
-COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
-
-COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-
-COPY docker/fpm/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-RUN chmod +x /usr/local/bin/docker-entrypoint
-
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
@@ -91,6 +78,19 @@ VOLUME /srv/app/var
 
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
+
+COPY docker/fpm/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 --start-period=30s CMD ["docker-healthcheck"]
+
+COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
+
+COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+COPY docker/fpm/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
 
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
