@@ -58,5 +58,6 @@ services:
       target: elasticsearch
     environment:
       - discovery.type=single-node
+      - logger.level=WARN
     ports:
       - "9200:9200"
