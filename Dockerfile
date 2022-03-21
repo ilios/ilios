@@ -172,7 +172,7 @@ HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 # have to be in sync
 ###############################################################################
 FROM php-base as update-frontend
-ENTRYPOINT ["srv/app/bin/console"]
+ENTRYPOINT ["bin/console"]
 CMD ["ilios:update-frontend"]
 
 ###############################################################################
