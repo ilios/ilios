@@ -55,6 +55,8 @@ ENV \
 COMPOSER_HOME=/tmp \
 APP_ENV=prod \
 APP_DEBUG=false \
+ILIOS_DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" \
+ILIOS_FILE_SYSTEM_STORAGE_PATH="/srv/app/var/tmp/ilios-storage/" \
 MAILER_DSN=null://null \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
