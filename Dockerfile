@@ -35,7 +35,16 @@ COPY --from=src /src/app /srv/app/
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip acl -y \
+    && apt-get install -y \
+        libldap2-dev \
+        libldap-common \
+        zlib1g-dev \
+        libicu-dev \
+        libzip-dev \
+        libzip4 \
+        unzip \
+        acl \
+        libfcgi-bin \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
@@ -83,11 +92,6 @@ VOLUME /srv/app/var
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
 
-COPY docker/fpm/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
-RUN chmod +x /usr/local/bin/docker-healthcheck
-
-HEALTHCHECK --interval=10s --timeout=3s --retries=3 --start-period=30s CMD ["docker-healthcheck"]
-
 COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
 
@@ -105,6 +109,10 @@ CMD ["php-fpm"]
 ###############################################################################
 FROM php-base as fpm
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+COPY docker/fpm/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --timeout=1s --retries=10 CMD ["docker-healthcheck"]
 
 ###############################################################################
 # FPM configured for development
