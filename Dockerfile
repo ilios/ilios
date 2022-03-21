@@ -215,7 +215,7 @@ RUN bin/elasticsearch-plugin install -b ingest-attachment
 FROM php:8.0-apache as php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY --from=src /src /var/www/ilios
+COPY --from=src /src/app /var/www/ilios
 #Copy .htaccess files which are not included in src image
 COPY ./public/.htaccess /var/www/ilios/public
 COPY ./src/.htaccess /var/www/ilios/src
