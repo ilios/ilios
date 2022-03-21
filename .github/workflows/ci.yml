@@ -129,10 +129,6 @@ jobs:
         sudo systemctl start mysql.service
         mysql -uroot -proot -e "DROP DATABASE IF EXISTS ilios"
         mysql -uroot -proot -e "CREATE DATABASE ilios"
-    - name: Migrate Database
-      run: |
-        docker build --target migrate-database -t ilios-migrate-database .
-        docker run --name ilios-migrate-database -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH --network=host ilios-migrate-database
     - name: Consume Messages
       run: |
         docker build --target consume-messages -t ilios-consume-messages .
