@@ -93,6 +93,7 @@ RUN echo ${ILIOS_VERSION} > VERSION
 
 COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
+RUN ln -sf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
@@ -122,7 +123,13 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV APP_ENV dev
 ENV APP_DEBUG true
 COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
-
+RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN set -eux; \
+	composer install --prefer-dist --no-progress --no-interaction; \
+    rm -f .env.local.php; \
+    bin/console cache:warmup; \
+    sync
+RUN
 
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
