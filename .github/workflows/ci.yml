@@ -151,14 +151,12 @@ jobs:
         docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm
         docker ps | grep -q ilios-fpm
         docker exec ilios-fpm php bin/console monitor:health
-        contains(`docker inspect --format='{{json .State.Health.Status}}' ilios-fpm`, 'healthy')
     - name: FPM Dev
       run: |
         docker build --target fpm-dev -t ilios-fpm-dev .
         docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm-dev
         docker ps | grep -q ilios-fpm-dev
         docker exec ilios-fpm-dev php bin/console monitor:health
-        contains(`docker inspect --format='{{json .State.Health.Status}}' ilios-fpm-dev`, 'healthy')
     - name: Admin
       run: |
         docker build --target admin -t ilios-admin .
