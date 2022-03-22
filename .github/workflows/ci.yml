@@ -129,10 +129,6 @@ jobs:
         sudo systemctl start mysql.service
         mysql -uroot -proot -e "DROP DATABASE IF EXISTS ilios"
         mysql -uroot -proot -e "CREATE DATABASE ilios"
-    - name: Migrate Database
-      run: |
-        docker build --target migrate-database -t ilios-migrate-database .
-        docker run --name ilios-migrate-database -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH --network=host ilios-migrate-database
     - name: Consume Messages
       run: |
         docker build --target consume-messages -t ilios-consume-messages .
@@ -154,13 +150,13 @@ jobs:
         docker build --target fpm -t ilios-fpm .
         docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm
         docker ps | grep -q ilios-fpm
-        docker exec ilios-fpm php /var/www/ilios/bin/console monitor:health
+        docker exec ilios-fpm php bin/console monitor:health
     - name: FPM Dev
       run: |
         docker build --target fpm-dev -t ilios-fpm-dev .
         docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm-dev
         docker ps | grep -q ilios-fpm-dev
-        docker exec ilios-fpm-dev php /var/www/ilios/bin/console monitor:health
+        docker exec ilios-fpm-dev php bin/console monitor:health
     - name: Admin
       run: |
         docker build --target admin -t ilios-admin .

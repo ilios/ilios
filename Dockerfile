@@ -2,25 +2,22 @@
 # Contains all of the ilios src code for use in other containers
 ###############################################################################
 FROM scratch as src
-COPY composer.* symfony.lock LICENSE /src/
-COPY config /src/config/
-COPY custom /src/custom/
-COPY src /src/src/
-COPY templates /src/templates/
-COPY migrations /src/migrations/
-COPY bin/console /src/bin/
-COPY public/index.php /src/public/
-COPY public/theme-overrides/ /src/public/theme-overrides/
-
-# Override monolog to send errors to stdout
-COPY ./docker/monolog.yaml /src/config/packages/prod
+COPY composer.* symfony.lock LICENSE /src/app/
+COPY config /src/app/config/
+COPY custom /src/app/custom/
+COPY src /src/app/src/
+COPY templates /src/app/templates/
+COPY migrations /src/app/migrations/
+COPY bin/console /src/app/bin/
+COPY public/index.php /src/app/public/
+COPY public/theme-overrides/ /src/app/public/theme-overrides/
 
 ###############################################################################
 # Nginx Configured to Run Ilios from an FPM host
 ###############################################################################
 FROM nginx:1.19-alpine as nginx
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-COPY --from=src /src /var/www/ilios
+COPY --from=src /src/app /srv/app/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 ENV FPM_CONTAINERS=fpm:9000
 ARG ILIOS_VERSION="v0.1.0"
@@ -33,12 +30,21 @@ RUN echo ${ILIOS_VERSION} > VERSION
 FROM php:8.0-fpm as php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY --from=src /src /var/www/ilios
+COPY --from=src /src/app /srv/app/
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN \
     apt-get update \
-    && apt-get install libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
+    && apt-get install -y \
+        libldap2-dev \
+        libldap-common \
+        zlib1g-dev \
+        libicu-dev \
+        libzip-dev \
+        libzip4 \
+        unzip \
+        acl \
+        libfcgi-bin \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
@@ -55,34 +61,47 @@ RUN \
     && apt-get autoremove -y
 
 ENV \
-COMPOSER_HOME=/tmp \
 APP_ENV=prod \
 APP_DEBUG=false \
+ILIOS_DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" \
+ILIOS_FILE_SYSTEM_STORAGE_PATH="/srv/app/var/tmp/ilios-storage/" \
 MAILER_DSN=null://null \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
-WORKDIR /var/www/ilios
-RUN /usr/bin/touch .env
-RUN /usr/bin/composer install \
-    --prefer-dist \
-    --no-dev \
-    --no-progress \
-    --no-interaction \
-    --no-suggest \
-    --classmap-authoritative \
-    #creates an empty env.php file, real ENV values will control the app
-    && /usr/bin/composer dump-env prod \
-    && /usr/bin/composer clear-cache
+# https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY ./docker/php.ini $PHP_INI_DIR/conf.d/ilios.ini
-#Override the default entrypoint script with our own
-COPY docker/php-fpm-entrypoint /usr/local/bin/docker-php-entrypoint
+ENV PATH="${PATH}:/root/.composer/vendor/bin"
+WORKDIR /srv/app
+RUN /usr/bin/touch .env
+RUN set -eux; \
+	mkdir -p var/cache var/log; \
+	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+	composer dump-autoload --classmap-authoritative --no-dev; \
+	composer symfony:dump-env prod; \
+	composer run-script --no-dev post-install-cmd; \
+	chmod +x bin/console; \
+    bin/console cache:warmup; \
+    sync
+VOLUME /srv/app/var
+
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
+
+COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
+RUN ln -sf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+COPY docker/fpm/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["php-fpm"]
 
 ###############################################################################
 # FPM configured to run ilios
@@ -90,6 +109,10 @@ RUN echo ${ILIOS_VERSION} > VERSION
 ###############################################################################
 FROM php-base as fpm
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+COPY docker/fpm/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+RUN chmod +x /usr/local/bin/docker-healthcheck
+
+HEALTHCHECK --timeout=1s --retries=10 CMD ["docker-healthcheck"]
 
 ###############################################################################
 # FPM configured for development
@@ -99,15 +122,13 @@ FROM fpm as fpm-dev
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV APP_ENV dev
 ENV APP_DEBUG true
-# Remove opcache production only optimizations
-RUN sed -i '/^opcache\.preload/d' $PHP_INI_DIR/conf.d/ilios.ini
-RUN sed -i '/^opcache\.validate_timestamps/d' $PHP_INI_DIR/conf.d/ilios.ini
-
-RUN /usr/bin/composer install \
-  --working-dir /var/www/ilios \
-  --no-progress \
-  --no-suggest \
-  --no-interaction
+COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
+RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN set -eux; \
+	composer install --prefer-dist --no-progress --no-interaction; \
+    rm -f .env.local.php; \
+    bin/console cache:warmup; \
+    sync
 
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
@@ -144,21 +165,13 @@ ENTRYPOINT /entrypoint
 HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 
 ###############################################################################
-# Single purpose container that migrates the databse and then dies
-# Should be run once on a new deployment
-###############################################################################
-FROM php-base as migrate-database
-ENTRYPOINT bin/console ilios:wait-for-database; \
-           bin/console doctrine:migrations:migrate -n
-
-###############################################################################
 # Single purpose container to updates the frontend
-# Can be run on a schedule as needed and MUST share /var/www/ilios with the
+# Can be run on a schedule as needed and MUST share /srv/app with the
 # fpm and nginx containers in order to provide the shared static files that
 # have to be in sync
 ###############################################################################
 FROM php-base as update-frontend
-ENTRYPOINT ["/var/www/ilios/bin/console"]
+ENTRYPOINT ["bin/console"]
 CMD ["ilios:update-frontend"]
 
 ###############################################################################
@@ -208,7 +221,7 @@ RUN bin/elasticsearch-plugin install -b ingest-attachment
 FROM php:8.0-apache as php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY --from=src /src /var/www/ilios
+COPY --from=src /src/app /var/www/ilios
 #Copy .htaccess files which are not included in src image
 COPY ./public/.htaccess /var/www/ilios/public
 COPY ./src/.htaccess /var/www/ilios/src

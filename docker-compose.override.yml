@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 services:
   db:
     build:
@@ -13,7 +13,8 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./:/var/www/ilios:delegated
+      # The "cached" option has no effect on Linux but improves performance on Mac
+      - ./:/srv/app:rw,cached
     depends_on:
       - php
   php:
@@ -25,9 +26,11 @@ services:
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
-      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     volumes:
-      - ./:/var/www/ilios:delegated
+      # The "cached" option has no effect on Linux but improves performance on Mac
+      - ./:/srv/app:rw,cached
+      # Remove the var/ directory from the bind-mount for better performance
+      - /srv/app/var
     depends_on:
       - db
   messages:
@@ -38,31 +41,21 @@ services:
       - APP_ENV=dev
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
       - ILIOS_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
         - db
         - elasticsearch
     volumes:
-      - ./:/var/www/ilios:delegated
-  migrate:
-    build:
-      context: .
-      target: migrate-database
-    environment:
-      - APP_ENV=dev
-      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
-      - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
-    depends_on:
-        - db
-    volumes:
-      - ./:/var/www/ilios:delegated
+      # The "cached" option has no effect on Linux but improves performance on Mac
+      - ./:/srv/app:rw,cached
+      # Remove the var/ directory from the bind-mount for better performance
+      - /srv/app/var
   elasticsearch:
     build:
       context: .
       target: elasticsearch
     environment:
       - discovery.type=single-node
+      - logger.level=WARN
     ports:
       - "9200:9200"
