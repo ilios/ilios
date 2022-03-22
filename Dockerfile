@@ -129,7 +129,6 @@ RUN set -eux; \
     rm -f .env.local.php; \
     bin/console cache:warmup; \
     sync
-RUN
 
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
