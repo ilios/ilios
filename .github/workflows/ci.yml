@@ -16,6 +16,7 @@ env:
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
   MESSENGER_TRANSPORT_DSN: doctrine://default
   latest_php: 8.0
+  DOCKER_BUILDKIT: 1
 
 jobs:
   code_style:
