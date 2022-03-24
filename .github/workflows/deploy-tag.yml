@@ -59,6 +59,7 @@ jobs:
         build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
+        platforms: linux/amd64,linux/arm64
   deploy-docker-containers:
     needs: tags
     name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
@@ -93,6 +94,7 @@ jobs:
         build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
+        platforms: linux/amd64,linux/arm64
 
   sentry-release:
     name: Create Sentry Release

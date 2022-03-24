@@ -132,50 +132,50 @@ jobs:
         mysql -uroot -proot -e "CREATE DATABASE ilios"
     - name: Consume Messages
       run: |
-        docker build --target consume-messages -t ilios-consume-messages .
+        docker build --target consume-messages --platform linux/amd64,linux/arm64 -t ilios-consume-messages .
         docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-consume-messages
         docker ps | grep -q ilios-consume-messages
     - name: Apache PHP
       run: |
-        docker build -t ilios-php-apache-test .
+        docker build --platform linux/amd64,linux/arm64 -t ilios-php-apache-test .
         docker run -d --name ilios-php-apache-test -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-php-apache-test
         docker ps | grep -q ilios-php-apache-test
         docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
     - name: Nginx
       run: |
-        docker build --target nginx -t ilios-nginx .
+        docker build --target nginx --platform linux/amd64,linux/arm64 -t ilios-nginx .
         docker run -d --name ilios-nginx ilios-nginx
         docker ps | grep -q ilios-nginx
     - name: FPM
       run: |
-        docker build --target fpm -t ilios-fpm .
+        docker build --target fpm --platform linux/amd64,linux/arm64 -t ilios-fpm .
         docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm
         docker ps | grep -q ilios-fpm
         docker exec ilios-fpm php bin/console monitor:health
     - name: FPM Dev
       run: |
-        docker build --target fpm-dev -t ilios-fpm-dev .
+        docker build --target fpm-dev --platform linux/amd64,linux/arm64 -t ilios-fpm-dev .
         docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm-dev
         docker ps | grep -q ilios-fpm-dev
         docker exec ilios-fpm-dev php bin/console monitor:health
     - name: Admin
       run: |
-        docker build --target admin -t ilios-admin .
+        docker build --target admin --platform linux/amd64,linux/arm64 -t ilios-admin .
         docker run -d --name ilios-admin ilios-admin
         docker ps | grep -q ilios-admin
     - name: MySQL
       run: |
-        docker build --target mysql -t ilios-mysql .
+        docker build --target mysql --platform linux/amd64,linux/arm64 -t ilios-mysql .
         docker run -d --name mysql ilios-mysql
         docker ps | grep -q ilios-mysql
     - name: MySQL Demo
       run: |
-        docker build --target mysql-demo -t ilios-mysql-demo .
+        docker build --target mysql-demo --platform linux/amd64,linux/arm64 -t ilios-mysql-demo .
         docker run -d --name mysql-demo ilios-mysql-demo
         docker ps | grep -q ilios-mysql-demo
     - name: Elasticsearch
       run: |
-        docker build --target elasticsearch -t ilios-elasticsearch .
+        docker build --target elasticsearch --platform linux/amd64,linux/arm64 -t ilios-elasticsearch .
         docker run -d --name elasticsearch ilios-elasticsearch
         docker ps | grep -q ilios-elasticsearch
 
