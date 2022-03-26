@@ -45,7 +45,7 @@ RUN \
         unzip \
         acl \
         libfcgi-bin \
-    && docker-php-ext-configure ldap --with-libdir=lib/$(gcc -dumpmachine)/ \
+    && docker-php-ext-configure ldap \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo_mysql \
@@ -230,7 +230,7 @@ COPY ./src/.htaccess /var/www/ilios/src
 RUN \
     apt-get update \
     && apt-get install sudo libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
-    && docker-php-ext-configure ldap --with-libdir=lib/$(gcc -dumpmachine)/ \
+    && docker-php-ext-configure ldap \
     && docker-php-ext-install ldap \
     && docker-php-ext-install zip \
     && docker-php-ext-install pdo_mysql \
