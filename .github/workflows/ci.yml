@@ -144,12 +144,12 @@ jobs:
         platforms: linux/amd64,linux/arm64
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        outputs: type=docker,dest=/tmp/images/${{ matrix.image }}.tar
+        outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: builtimages
-        path: /tmp/images/${{ matrix.image }}.tar
+        name: ${{ matrix.image }}-image
+        path: /tmp/${{ matrix.image }}.tar
 
   build_secondary_containers:
     name: Build Container
@@ -180,12 +180,12 @@ jobs:
         platforms: linux/amd64,linux/arm64
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        outputs: type=docker,dest=/tmp/images/${{ matrix.image }}.tar
+        outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: builtimages
-        path: /tmp/images/${{ matrix.image }}.tar
+        name: ${{ matrix.image }}-image
+        path: /tmp/${{ matrix.image }}.tar
 
   run_containers:
     name: Run and Test Containers
@@ -205,20 +205,19 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
-        name: builtimages
-        path: /tmp/images/
+        path: /tmp/
     - name: Load Images
       run: |
-        docker load --input /tmp/images/php-apache.tar
-        docker load --input /tmp/images/nginx.tar
-        docker load --input /tmp/images/fpm.tar
-        docker load --input /tmp/images/fpm-dev.tar
-        docker load --input /tmp/images/admin.tar
-        docker load --input /tmp/images/update-frontend.tar
-        docker load --input /tmp/images/consume-messages.tar
-        docker load --input /tmp/images/mysql.tar
-        docker load --input /tmp/images/mysql-demo.tar
-        docker load --input /tmp/images/elasticsearch.tar
+        docker load --input /tmp/php-apache.tar
+        docker load --input /tmp/nginx.tar
+        docker load --input /tmp/fpm.tar
+        docker load --input /tmp/fpm-dev.tar
+        docker load --input /tmp/admin.tar
+        docker load --input /tmp/update-frontend.tar
+        docker load --input /tmp/consume-messages.tar
+        docker load --input /tmp/mysql.tar
+        docker load --input /tmp/mysql-demo.tar
+        docker load --input /tmp/elasticsearch.tar
         docker image ls -a
     - name: Consume Messages
       run: |
