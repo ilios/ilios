@@ -115,86 +115,17 @@ jobs:
     - name: Second Run
       run: vendor/bin/phpunit --group twice
 
-  build_and_run_containers:
-    name: Build, Run, Test Containers
+  build_primary_containers:
+    name: Build Container
     needs: code_style
     runs-on: ubuntu-latest
-    env:
-      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
-      ILIOS_SECRET: DifferentSecret
-      ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
-    steps:
-    - uses: actions/checkout@v3
-    - name: Drop, Create Database to use everywhere else
-      run: |
-        sudo systemctl start mysql.service
-        mysql -uroot -proot -e "DROP DATABASE IF EXISTS ilios"
-        mysql -uroot -proot -e "CREATE DATABASE ilios"
-    - name: Consume Messages
-      run: |
-        docker build --target consume-messages -t ilios-consume-messages .
-        docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-consume-messages
-        docker ps | grep -q ilios-consume-messages
-    - name: Apache PHP
-      run: |
-        docker build -t ilios-php-apache-test .
-        docker run -d --name ilios-php-apache-test -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-php-apache-test
-        docker ps | grep -q ilios-php-apache-test
-        docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
-    - name: Nginx
-      run: |
-        docker build --target nginx -t ilios-nginx .
-        docker run -d --name ilios-nginx ilios-nginx
-        docker ps | grep -q ilios-nginx
-    - name: FPM
-      run: |
-        docker build --target fpm -t ilios-fpm .
-        docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm
-        docker ps | grep -q ilios-fpm
-        docker exec ilios-fpm php bin/console monitor:health
-    - name: FPM Dev
-      run: |
-        docker build --target fpm-dev -t ilios-fpm-dev .
-        docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH ilios-fpm-dev
-        docker ps | grep -q ilios-fpm-dev
-        docker exec ilios-fpm-dev php bin/console monitor:health
-    - name: Admin
-      run: |
-        docker build --target admin -t ilios-admin .
-        docker run -d --name ilios-admin ilios-admin
-        docker ps | grep -q ilios-admin
-    - name: MySQL
-      run: |
-        docker build --target mysql -t ilios-mysql .
-        docker run -d --name mysql ilios-mysql
-        docker ps | grep -q ilios-mysql
-    - name: MySQL Demo
-      run: |
-        docker build --target mysql-demo -t ilios-mysql-demo .
-        docker run -d --name mysql-demo ilios-mysql-demo
-        docker ps | grep -q ilios-mysql-demo
-    - name: Elasticsearch
-      run: |
-        docker build --target elasticsearch -t ilios-elasticsearch .
-        docker run -d --name elasticsearch ilios-elasticsearch
-        docker ps | grep -q ilios-elasticsearch
-  
-  multiplatform-container-build:
-    name: Multiplatform Container Build
-    runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
       matrix:
         image:
           - php-apache
           - nginx
           - fpm
-          - fpm-dev
-          - admin
-          - update-frontend
-          - consume-messages
           - mysql
-          - mysql-demo
           - elasticsearch
     steps:
     - name: Set up QEMU
@@ -213,6 +144,121 @@ jobs:
         platforms: linux/amd64,linux/arm64
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        outputs: type=docker,dest=/tmp/images/${{ matrix.image }}.tar
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: builtimages
+        path: /tmp/images/${{ matrix.image }}.tar
+
+  build_secondary_containers:
+    name: Build Container
+    needs: build_primary_containers
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - fpm-dev
+          - admin
+          - update-frontend
+          - consume-messages
+          - mysql-demo
+    steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      with:
+        image: tonistiigi/binfmt:latest
+        platforms: linux/amd64,linux/arm64
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Build ${{ matrix.image }}
+      uses: docker/build-push-action@v2
+      with:
+        build-args: ILIOS_VERSION=test
+        target: ${{ matrix.image }}
+        push: false
+        platforms: linux/amd64,linux/arm64
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        outputs: type=docker,dest=/tmp/images/${{ matrix.image }}.tar
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: builtimages
+        path: /tmp/images/${{ matrix.image }}.tar
+
+  run_containers:
+    name: Run and Test Containers
+    needs: build_secondary_containers
+    runs-on: ubuntu-latest
+    env:
+      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
+      ILIOS_SECRET: DifferentSecret
+      ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+    steps:
+    - uses: actions/checkout@v3
+    - name: Drop, Create Database to use everywhere else
+      run: |
+        sudo systemctl start mysql.service
+        mysql -uroot -proot -e "DROP DATABASE IF EXISTS ilios"
+        mysql -uroot -proot -e "CREATE DATABASE ilios"
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: builtimages
+        path: /tmp/images/
+    - name: Load Images
+      run: |
+        docker load --input /tmp/images/php-apache.tar
+        docker load --input /tmp/images/nginx.tar
+        docker load --input /tmp/images/fpm.tar
+        docker load --input /tmp/images/fpm-dev.tar
+        docker load --input /tmp/images/admin.tar
+        docker load --input /tmp/images/update-frontend.tar
+        docker load --input /tmp/images/consume-messages.tar
+        docker load --input /tmp/images/mysql.tar
+        docker load --input /tmp/images/mysql-demo.tar
+        docker load --input /tmp/images/elasticsearch.tar
+        docker image ls -a
+    - name: Consume Messages
+      run: |
+        docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH consume-messages
+        docker ps | grep -q ilios-consume-messages
+    - name: Apache PHP
+      run: |
+        docker run -d --name ilios-php-apache-test -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH php-apache-test
+        docker ps | grep -q ilios-php-apache-test
+        docker exec ilios-php-apache-test php /var/www/ilios/bin/console monitor:health
+    - name: Nginx
+      run: |
+        docker run -d --name ilios-nginx ilios-nginx
+        docker ps | grep -q ilios-nginx
+    - name: FPM
+      run: |
+        docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm
+        docker ps | grep -q ilios-fpm
+        docker exec ilios-fpm php bin/console monitor:health
+    - name: FPM Dev
+      run: |
+        docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm-dev
+        docker ps | grep -q ilios-fpm-dev
+        docker exec ilios-fpm-dev php bin/console monitor:health
+    - name: Admin
+      run: |
+        docker run -d --name ilios-admin admin
+        docker ps | grep -q ilios-admin
+    - name: MySQL
+      run: |
+        docker run -d --name ilios-mysql mysql
+        docker ps | grep -q ilios-mysql
+    - name: MySQL Demo
+      run: |
+        docker run -d --name ilios-mysql-demo mysql-demo
+        docker ps | grep -q ilios-mysql-demo
+    - name: Elasticsearch
+      run: |
+        docker run -d --name ilios-elasticsearch elasticsearch
+        docker ps | grep -q ilios-elasticsearch
 
   check_setup_command:
     name: Setup Command
