@@ -187,7 +187,7 @@ ENTRYPOINT bin/console ilios:wait-for-database; \
 ###############################################################################
 # MySQL configured as needed for Ilios
 ###############################################################################
-FROM mysql:5.7 as mysql
+FROM mysql:8.0-oracle as mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_RANDOM_ROOT_PASSWORD yes
 COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf
@@ -202,8 +202,9 @@ ENV MYSQL_USER ilios
 ENV MYSQL_PASSWORD ilios
 ENV MYSQL_DATABASE ilios
 ENV DEMO_DATABASE_LOCATION https://s3-us-west-2.amazonaws.com/ilios-demo-db.iliosproject.org/latest_db/ilios3_demosite_db.sql.gz
-RUN apt-get update && apt-get install -y wget
-
+RUN set -eux; \
+	microdnf install -y wget; \
+	microdnf clean all;
 COPY docker/fetch-demo-database.sh /fetch-demo-database.sh
 RUN /bin/bash /fetch-demo-database.sh
 
