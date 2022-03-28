@@ -207,16 +207,16 @@ jobs:
         path: /tmp/
     - name: Load Images
       run: |
-        docker load --input /tmp/php-apache.tar
-        docker load --input /tmp/nginx.tar
-        docker load --input /tmp/fpm.tar
-        docker load --input /tmp/fpm-dev.tar
-        docker load --input /tmp/admin.tar
-        docker load --input /tmp/update-frontend.tar
-        docker load --input /tmp/consume-messages.tar
-        docker load --input /tmp/mysql.tar
-        docker load --input /tmp/mysql-demo.tar
-        docker load --input /tmp/elasticsearch.tar
+        docker load --input /tmp/php-apache-image/php-apache.tar
+        docker load --input /tmp/nginx-image/nginx.tar
+        docker load --input /tmp/fpm-image/fpm.tar
+        docker load --input /tmp/fpm-dev-image/fpm-dev.tar
+        docker load --input /tmp/admin-image/admin.tar
+        docker load --input /tmp/update-frontend-image/update-frontend.tar
+        docker load --input /tmp/consume-messages-image/consume-messages.tar
+        docker load --input /tmp/mysql-image/mysql.tar
+        docker load --input /tmp/mysql-demo-image/mysql-demo.tar
+        docker load --input /tmp/elasticsearch-image/elasticsearch.tar
         docker image ls -a
     - name: Consume Messages
       run: |
