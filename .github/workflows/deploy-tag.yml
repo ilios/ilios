@@ -77,7 +77,6 @@ jobs:
           - fpm
           - fpm-dev
           - admin
-          - migrate-database
           - update-frontend
           - consume-messages
           - mysql
