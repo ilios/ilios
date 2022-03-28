@@ -22,7 +22,7 @@ services:
       context: .
       target: fpm-dev
     environment:
-      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
@@ -39,7 +39,7 @@ services:
       target: consume-messages
     environment:
       - APP_ENV=dev
-      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=5.7
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:

@@ -44,6 +44,11 @@ jobs:
           - elasticsearch
     steps:
     - uses: actions/checkout@v3
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      with:
+        image: tonistiigi/binfmt:latest
+        platforms: linux/amd64,linux/arm64
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
     - name: Login to GitHub Container Registry
@@ -59,6 +64,7 @@ jobs:
         build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
+        platforms: linux/amd64,linux/arm64
   deploy-docker-containers:
     needs: tags
     name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
@@ -71,7 +77,6 @@ jobs:
           - fpm
           - fpm-dev
           - admin
-          - migrate-database
           - update-frontend
           - consume-messages
           - mysql
@@ -79,6 +84,11 @@ jobs:
           - elasticsearch
     steps:
     - uses: actions/checkout@v3
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      with:
+        image: tonistiigi/binfmt:latest
+        platforms: linux/amd64,linux/arm64
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
     - name: Login to DockerHub
@@ -93,6 +103,7 @@ jobs:
         build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
+        platforms: linux/amd64,linux/arm64
 
   sentry-release:
     name: Create Sentry Release

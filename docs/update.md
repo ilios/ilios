@@ -53,8 +53,8 @@ sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interacti
 ### Upgrading to Ilios 3.71.0
 
 1. The `ILIOS_DATABASE_MYSQL_VERSION` parameter has been removed, instead the MySQL version should be specified in the `ILIOS_DATABASE_URL`
-as `?serverVersion=5.7`. for example 
-`ILIOS_DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7`.
+as `?serverVersion=8.0`. for example 
+`ILIOS_DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=8.0`.
 
 ### Upgrading to Ilios 3.69.1
 
