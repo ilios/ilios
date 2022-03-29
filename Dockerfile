@@ -32,10 +32,10 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /srv/app/
 
-# configure Apache and the PHP extensions required for Ilios and delete the source files after install
-RUN \
-    apt-get update \
-    && apt-get install -y \
+# configure PHP extensions required for Ilios and delete the source files after install
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y \
         libldap2-dev \
         libldap-common \
         zlib1g-dev \
@@ -44,21 +44,21 @@ RUN \
         libzip4 \
         unzip \
         acl \
-        libfcgi-bin \
-    && docker-php-ext-configure ldap \
-    && docker-php-ext-install ldap \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install intl \
-    && mkdir -p /usr/src/php/ext/apcu \
-    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-    && docker-php-ext-install apcu \
-    && docker-php-ext-enable apcu \
-    && docker-php-ext-enable opcache \
-    && rm -rf /var/lib/apt/lists/* \
+        libfcgi-bin; \
+    docker-php-ext-configure ldap; \
+    docker-php-ext-install ldap; \
+    docker-php-ext-install zip; \
+    docker-php-ext-install pdo_mysql; \
+    docker-php-ext-install intl; \
+    mkdir -p /usr/src/php/ext/apcu; \
+    curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1; \
+    docker-php-ext-install apcu; \
+    docker-php-ext-enable apcu; \
+    docker-php-ext-enable opcache; \
+    rm -rf /var/lib/apt/lists/*; \
     # remove the apt source files to save space
-    && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
-    && apt-get autoremove -y
+    apt-get purge libldap2-dev zlib1g-dev libicu-dev -y; \
+    apt-get autoremove -y;
 
 ENV \
 APP_ENV=prod \
@@ -228,24 +228,24 @@ COPY ./public/.htaccess /var/www/ilios/public
 COPY ./src/.htaccess /var/www/ilios/src
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
-RUN \
-    apt-get update \
-    && apt-get install sudo libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y \
-    && docker-php-ext-configure ldap \
-    && docker-php-ext-install ldap \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install intl \
-    && mkdir -p /usr/src/php/ext/apcu \
-    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-    && docker-php-ext-install apcu \
-    && docker-php-ext-enable opcache \
+RUN set -eux; \
+	apt-get update; \
+    apt-get install sudo libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y; \
+    docker-php-ext-configure ldap; \
+    docker-php-ext-install ldap; \
+    docker-php-ext-install zip; \
+    docker-php-ext-install pdo_mysql; \
+    docker-php-ext-install intl; \
+    mkdir -p /usr/src/php/ext/apcu; \
+    curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1; \
+    docker-php-ext-install apcu; \
+    docker-php-ext-enable opcache; \
     # enable modules
-    && a2enmod rewrite mpm_prefork deflate headers \
-    && rm -rf /var/lib/apt/lists/* \
+    a2enmod rewrite mpm_prefork deflate headers; \
+    rm -rf /var/lib/apt/lists/*; \
     # remove the apt source files to save space
-    && apt-get purge libldap2-dev zlib1g-dev libicu-dev -y \
-    && apt-get autoremove -y
+    apt-get purge libldap2-dev zlib1g-dev libicu-dev -y; \
+    apt-get autoremove -y;
 
 COPY ./docker/php.ini $PHP_INI_DIR
 COPY ./docker/apache.conf /etc/apache2/sites-available/000-default.conf
