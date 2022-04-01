@@ -30,7 +30,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'description' => ['description', $this->getFaker()->text()],
+            'description' => ['description', 'lorem ipsum'],
             'sessionTypes' => ['sessionTypes', [1]],
             'id' => ['id', 'NEW1', $skip = true],
             'active' => ['active', false],

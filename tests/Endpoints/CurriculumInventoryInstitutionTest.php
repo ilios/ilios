@@ -31,13 +31,13 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'name' => ['name', $this->getFaker()->text(100)],
-            'aamcCode' => ['aamcCode', $this->getFaker()->text(10)],
-            'addressStreet' => ['addressStreet', $this->getFaker()->text(10)],
-            'addressCity' => ['addressCity', $this->getFaker()->text(100)],
-            'addressStateOrProvince' => ['addressStateOrProvince', $this->getFaker()->text(50)],
-            'addressZipCode' => ['addressZipCode', $this->getFaker()->text(10)],
-            'addressCountryCode' => ['addressCountryCode', $this->getFaker()->word()],
+            'name' => ['name', 'school of learning'],
+            'aamcCode' => ['aamcCode', '0123456789'],
+            'addressStreet' => ['addressStreet', 'alte salzstrasse'],
+            'addressCity' => ['addressCity', 'halle'],
+            'addressStateOrProvince' => ['addressStateOrProvince', 'KI'],
+            'addressZipCode' => ['addressZipCode', '4020'],
+            'addressCountryCode' => ['addressCountryCode', 'dd'],
             'school' => ['school', 3],
         ];
     }

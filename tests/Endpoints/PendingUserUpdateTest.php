@@ -36,9 +36,9 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     public function putsToTest(): array
     {
         return [
-            'type' => ['type', $this->getFaker()->text(15)],
-            'property' => ['property', $this->getFaker()->text(5)],
-            'value' => ['value', $this->getFaker()->text(25)],
+            'type' => ['type', 'something'],
+            'property' => ['property', 'else'],
+            'value' => ['value', 'nyet'],
             'user' => ['user', 2],
         ];
     }

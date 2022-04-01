@@ -43,8 +43,8 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text()],
-            'position' => ['position', $this->getFaker()->randomDigit()],
+            'title' => ['title', 'enough with the salt already'],
+            'position' => ['position', 10],
             'notActive' => ['active', false],
             'course' => ['course', 5],
             'terms' => ['terms', [1, 4]],

@@ -44,7 +44,7 @@ class InstructorGroupTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text(60)],
+            'title' => ['title', 'admin group'],
             'school' => ['school', 2],
             'learnerGroups' => ['learnerGroups', [2, 3]],
             'ilmSessions' => ['ilmSessions', [1, 2]],

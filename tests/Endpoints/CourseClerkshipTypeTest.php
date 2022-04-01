@@ -30,7 +30,7 @@ class CourseClerkshipTypeTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text(20)],
+            'title' => ['title', 'too much salt!'],
             'courses' => ['courses', [3]],
         ];
     }

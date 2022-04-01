@@ -31,8 +31,8 @@ class SchoolConfigTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'value' => ['value', $this->getFaker()->text(100)],
-            'name' => ['name', $this->getFaker()->text(50)],
+            'value' => ['value', 'lorem'],
+            'name' => ['name', 'ipsum'],
             'school' => ['school', 2],
         ];
     }

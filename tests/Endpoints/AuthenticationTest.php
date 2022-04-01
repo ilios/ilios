@@ -53,8 +53,8 @@ class AuthenticationTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'username' => ['username', $this->getFaker()->text(100)],
-            'password' => ['password', $this->getFaker()->password()],
+            'username' => ['username', 'devnull'],
+            'password' => ['password', 'geheimsache'],
         ];
     }
 
@@ -350,11 +350,9 @@ class AuthenticationTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $faker = $this->getFaker();
-        foreach ($all as $data) {
-            $data['username'] = $faker->text(50);
+        foreach ($all as $i => $data) {
+            $data['username'] = 'randomuser' . $i;
             unset($data['passwordHash']);
-
             $this->putTest($data, $data, $data['user']);
         }
     }
@@ -368,9 +366,8 @@ class AuthenticationTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $faker = $this->getFaker();
-        foreach ($all as $data) {
-            $data['username'] = $faker->text(50);
+        foreach ($all as $i => $data) {
+            $data['username'] = 'randomuser' . $i;
             unset($data['passwordHash']);
             $jsonApiData = $dataLoader->createJsonApi($data);
             $this->patchJsonApiTest($data, $jsonApiData);

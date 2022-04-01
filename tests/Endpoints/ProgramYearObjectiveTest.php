@@ -43,8 +43,8 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text()],
-            'position' => ['position', $this->getFaker()->randomDigit()],
+            'title' => ['title', 'gather all the salt'],
+            'position' => ['position', 9],
             'notActive' => ['active', false],
             'programYear' => ['programYear', 2],
             'terms' => ['terms', [1, 4]],

@@ -48,7 +48,7 @@ class CompetencyTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text()],
+            'title' => ['title', 'rhababerbarbara'],
             'school' => ['school', 3],
             'parent' => ['parent', 2],
             'children' => ['children', [1], $skipped = true],

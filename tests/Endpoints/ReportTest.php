@@ -31,10 +31,10 @@ class ReportTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text(25)],
+            'title' => ['title', 'lorem ipsum'],
             'school' => ['school', 3],
-            'subject' => ['subject', $this->getFaker()->text(5)],
-            'prepositionalObject' => ['prepositionalObject', $this->getFaker()->text(32)],
+            'subject' => ['subject', 'what'],
+            'prepositionalObject' => ['prepositionalObject', 'ever'],
             'prepositionalObjectTableRowId' => ['prepositionalObjectTableRowId', '9'],
             'prepositionalObjectTableRowIdString' => ['prepositionalObjectTableRowId', 'DC123'],
         ];
