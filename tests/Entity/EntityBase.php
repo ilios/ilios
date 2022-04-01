@@ -6,7 +6,6 @@ namespace App\Tests\Entity;
 
 use DateTime;
 use Exception;
-use Faker\Factory;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Symfony\Component\Validator\Validation;
@@ -347,25 +346,24 @@ class EntityBase extends TestCase
 
     protected function getValueForType(string $type): DateTime|float|int|bool|string
     {
-        $faker = Factory::create();
         switch ($type) {
             case 'integer':
-                return $faker->randomNumber();
+                return 10;
             case 'float':
-                return $faker->randomFloat();
+                return 10.5;
             case 'string':
-                return $faker->text();
+                return 'lorem ipsum';
             case 'hexcolor':
-                return $faker->hexColor();
+                return '#fa3cc2';
             case 'email':
-                return $faker->email();
+                return 'dev.null@example.com';
             case 'phone':
-                return $faker->phoneNumber();
+                return '000-000-0000';
             case 'datetime':
-                return $faker->dateTime();
+                return new DateTime();
             case 'bool':
             case 'boolean':
-                return $faker->boolean;
+                return true;
             default:
                 throw new Exception("No values for type {$type}");
         }
