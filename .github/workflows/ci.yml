@@ -259,7 +259,19 @@ jobs:
       run: |
         docker run -d --name ilios-elasticsearch elasticsearch:testing
         docker ps | grep -q ilios-elasticsearch
-
+    - name: Output Docker Logs
+      if: failure()
+      run: |
+        docker logs ilios-php-apache
+        docker logs ilios-nginx
+        docker logs ilios-fpm
+        docker logs ilios-fpm-dev
+        docker logs ilios-admin
+        docker logs ilios-update-frontend
+        docker logs ilios-consume-messages
+        docker logs ilios-mysql
+        docker logs ilios-mysql-demo
+        docker logs ilios-elasticsearch
   check_setup_command:
     name: Setup Command
     needs: code_style
