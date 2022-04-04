@@ -36,11 +36,9 @@ class ErrorControllerTest extends WebTestCase
 
     public function testIndex()
     {
-        $faker = FakerFactory::create();
-
         $data = [
-            'mainMessage' => $faker->text(100),
-            'stack' => $faker->text(1000)
+            'mainMessage' => 'dev/null',
+            'stack' => 'lorem ipsum'
         ];
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -56,11 +54,9 @@ class ErrorControllerTest extends WebTestCase
 
     public function testAnonymousAccessDenied()
     {
-        $faker = FakerFactory::create();
-
         $data = [
-            'mainMessage' => $faker->text(100),
-            'stack' => $faker->text(1000)
+            'mainMessage' => 'lorem ipsum',
+            'stack' => 'dev/null'
         ];
         $this->makeJsonRequest(
             $this->kernelBrowser,
