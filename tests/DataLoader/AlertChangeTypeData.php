@@ -15,7 +15,7 @@ class AlertChangeTypeData extends AbstractDataLoader
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_TIME,
-            'title' => $this->faker->text(25),
+            'title' => 'first title',
             'alerts' => ['1', '2']
         ];
 
@@ -27,37 +27,37 @@ class AlertChangeTypeData extends AbstractDataLoader
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNING_MATERIAL,
-            'title' => $this->faker->text(25),
+            'title' => 'third title',
             'alerts' => []
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR,
-            'title' => $this->faker->text(25),
+            'title' => 'fourth title',
             'alerts' => []
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_COURSE_DIRECTOR,
-            'title' => $this->faker->text(25),
+            'title' => 'fifth title',
             'alerts' => []
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP,
-            'title' => $this->faker->text(25),
+            'title' => 'sixth title',
             'alerts' => []
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
-            'title' => $this->faker->text(25),
+            'title' => 'seventh title',
             'alerts' => []
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_SESSION_PUBLISH,
-            'title' => $this->faker->text(25),
+            'title' => 'eighth title',
             'alerts' => []
         ];
 
@@ -68,7 +68,7 @@ class AlertChangeTypeData extends AbstractDataLoader
     {
         return [
             'id' => 9,
-            'title' => $this->faker->text(10),
+            'title' => 'ninth title',
             'alerts' => ['1']
         ];
     }
@@ -76,7 +76,7 @@ class AlertChangeTypeData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'id' => $this->faker->text(),
+            'id' => 'something',
             'alerts' => [424524]
         ];
     }

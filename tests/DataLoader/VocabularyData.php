@@ -13,7 +13,7 @@ class VocabularyData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => 1,
-            'title' => $this->faker->text(100),
+            'title' => 'first vocabulary',
             'active' => true,
             'school' => 1,
             'terms' => ['1', '2', '3']
@@ -32,11 +32,23 @@ class VocabularyData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'title' => $this->faker->text(100),
+            'title' => 'third vocabulary',
             'active' => true,
             'school' => 2,
             'terms' => []
         ];
+    }
+
+    public function createMany($count): array
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] + $i;
+            $arr['title'] = 'vocabulary' . $i;
+            $data[] = $arr;
+        }
+        return $data;
     }
 
     public function createInvalid(): array

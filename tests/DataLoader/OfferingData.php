@@ -14,9 +14,9 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
-            'url' => $this->faker->url(),
+            'room' => 'room 123',
+            'site' => 'location A',
+            'url' => 'https://example.org',
             'startDate' => "2016-09-08T15:00:00+00:00",
             'endDate' => "2016-09-08T17:00:00+00:00",
             'session' => 1,
@@ -28,8 +28,8 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 2,
-            'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
+            'room' => 'second room',
+            'site' => 'location B',
             'startDate' => $this->getFormattedDate('now'),
             'endDate' => $this->getFormattedDate('+1 hour'),
             'session' => 1,
@@ -42,7 +42,7 @@ class OfferingData extends AbstractDataLoader
         $arr[] = [
             'id' => 3,
             'room' => 'room 3',
-            'site' => $this->faker->text(10),
+            'site' => 'yet another location',
             'startDate' => "2014-10-15T15:00:00+00:00",
             'endDate' => "2014-10-15T17:00:00+00:00",
             'session' => 2,
@@ -54,7 +54,7 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 4,
-            'room' => $this->faker->text(10),
+            'room' => 'room 77',
             'site' => 'site 4',
             'startDate' => "2014-11-15T15:00:00+00:00",
             'endDate' => "2014-11-15T17:00:00+00:00",
@@ -67,8 +67,8 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 5,
-            'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
+            'room' => 'conference room 22',
+            'site' => 'offsite',
             'url' => 'http://example.com',
             'startDate' => "2014-12-15T15:00:00+00:00",
             'endDate' => "2014-12-15T17:00:00+00:00",
@@ -81,8 +81,8 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 6,
-            'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
+            'room' => 'lobby',
+            'site' => 'library',
             'startDate' => "2015-01-15T15:00:00+00:00",
             'endDate' => "2015-02-15T17:00:00+00:00",
             'session' => 3,
@@ -94,8 +94,8 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 7,
-            'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
+            'room' => 'vertical shaft',
+            'site' => 'mcb',
             'startDate' => "2015-02-15T15:00:00+00:00",
             'endDate' => "2015-02-15T17:00:00+00:00",
             'session' => 3,
@@ -107,8 +107,8 @@ class OfferingData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 8,
-            'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
+            'room' => 'hub',
+            'site' => 'main campus',
             'startDate' => $this->getFormattedDate('now'),
             'endDate' => $this->getFormattedDate('+30 minutes'),
             'session' => 3,
@@ -126,8 +126,8 @@ class OfferingData extends AbstractDataLoader
     {
         return [
             'id' => 9,
-            'room' => $this->faker->text(10),
-            'site' => $this->faker->text(10),
+            'room' => 'example room',
+            'site' => 'other campus',
             'startDate' => "2014-09-15T15:00:00+00:00",
             'endDate' => "2014-09-15T17:00:00+00:00",
             'session' => 1,

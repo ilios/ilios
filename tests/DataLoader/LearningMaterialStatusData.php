@@ -33,7 +33,7 @@ class LearningMaterialStatusData extends AbstractDataLoader
     {
         return [
             'id' => 4,
-            'title' => $this->faker->text(10)
+            'title' => 'new status'
         ];
     }
 

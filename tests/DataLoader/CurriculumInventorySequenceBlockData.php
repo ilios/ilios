@@ -6,13 +6,14 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
+use DateTime;
 
 class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 {
     protected function getData(): array
     {
         $arr = [];
-        $dt = $this->faker->dateTime();
+        $dt = new DateTime();
         $dt->setTime(0, 0, 0);
         $arr[] = [
             'id' => 1,
@@ -62,11 +63,11 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 
     public function create(): array
     {
-        $dt = $this->faker->dateTime();
+        $dt = new DateTime();
         $dt->setTime(0, 0, 0);
         return [
             'id' => 6,
-            'title' => $this->faker->text(10),
+            'title' => 'sixth sequence block',
             'report' => 1,
             'childSequenceOrder' => 1,
             'orderInSequence' => 1,

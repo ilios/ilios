@@ -147,12 +147,12 @@ class CourseData extends AbstractDataLoader
     {
         return [
             'id' => 6,
-            'title' => $this->faker->text(25),
+            'title' => 'sixth Course',
             'level' => 1,
             'year' => 2013,
             'startDate' => "2013-09-01T00:00:00+00:00",
             'endDate' => "2013-12-14T00:00:00+00:00",
-            'externalId' => $this->faker->text(10),
+            'externalId' => '12344321',
             'locked' => false,
             'archived' => false,
             'publishedAsTbd' => false,

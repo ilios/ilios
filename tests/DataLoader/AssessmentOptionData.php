@@ -14,7 +14,7 @@ class AssessmentOptionData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'name' => $this->faker->word(),
+            'name' => 'first option',
             'sessionTypes' => [1]
         ];
 
@@ -30,7 +30,7 @@ class AssessmentOptionData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'name' => $this->faker->text(10),
+            'name' => 'third option',
             'sessionTypes' => []
         ];
     }
@@ -39,7 +39,7 @@ class AssessmentOptionData extends AbstractDataLoader
     {
         return [
             'id' => 'something',
-            'name' => $this->faker->text()
+            'name' => str_repeat('0123456789', 20),
         ];
     }
 
@@ -49,7 +49,7 @@ class AssessmentOptionData extends AbstractDataLoader
         for ($i = 0; $i < $count; $i++) {
             $arr = $this->create();
             $arr['id'] = $arr['id'] + $i;
-            $arr['name'] = $arr['id'] . $this->faker->word();
+            $arr['name'] = $arr['id'] . 'name';
             $data[] = $arr;
         }
 

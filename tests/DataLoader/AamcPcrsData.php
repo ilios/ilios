@@ -13,7 +13,7 @@ class AamcPcrsData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => 'aamc-pcrs-comp-c0101',
-            'description' => $this->faker->text(),
+            'description' => 'first description',
             'competencies' => [1,2]
         ];
         $arr[] = [
@@ -29,7 +29,7 @@ class AamcPcrsData extends AbstractDataLoader
     {
         return [
             'id' => 'fk-',
-            'description' => $this->faker->text(),
+            'description' => 'some other description',
             'competencies' => [1]
         ];
     }
@@ -37,7 +37,7 @@ class AamcPcrsData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'id' => $this->faker->text(),
+            'id' => 'key',
             'competencies' => [454098430958]
         ];
     }

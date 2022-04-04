@@ -13,17 +13,17 @@ class ApplicationConfigData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => 1,
-            'name' => '1' . $this->faker->text(50),
-            'value' => $this->faker->text(100),
+            'name' => '1name',
+            'value' => 'first value',
         ];
         $arr[] = [
             'id' => 2,
             'name' => 'second name',
-            'value' => $this->faker->text(100),
+            'value' => 'second value',
         ];
         $arr[] = [
             'id' => 3,
-            'name' => '2' . $this->faker->text(50),
+            'name' => '2name',
             'value' => 'third value',
         ];
         $arr[] = [
@@ -39,9 +39,22 @@ class ApplicationConfigData extends AbstractDataLoader
     {
         return [
             'id' => 5,
-            'name' => '5' . $this->faker->text(50),
-            'value' => $this->faker->text(100),
+            'name' => '5name',
+            'value' => 'fifth value',
         ];
+    }
+
+    public function createMany($count): array
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] + $i;
+            $arr['name'] = 'name' . $i;
+            $arr['value'] = 'value ' . $i;
+            $data[] = $arr;
+        }
+        return $data;
     }
 
     public function createInvalid(): array

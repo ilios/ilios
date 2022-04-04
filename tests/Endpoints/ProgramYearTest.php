@@ -335,7 +335,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
                 'mapped_course_objective',
             ],
             [
-                'Miss',
+                'first program',
                 '2013 - 2014',
                 'program year objective 1',
                 'first competency',

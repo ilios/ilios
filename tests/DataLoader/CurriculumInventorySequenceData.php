@@ -15,7 +15,7 @@ class CurriculumInventorySequenceData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'report' => 1,
-            'description' => $this->faker->text(100),
+            'description' => 'first description',
         ];
 
         $arr[] = [
@@ -32,7 +32,7 @@ class CurriculumInventorySequenceData extends AbstractDataLoader
         return [
             'id' => 3,
             'report' => 3,
-            'description' => $this->faker->text(100),
+            'description' => 'third description',
         ];
     }
 

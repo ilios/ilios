@@ -13,7 +13,7 @@ class MeshQualifierData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => '1',
-            'name' => 'qual' . $this->faker->text(5),
+            'name' => 'qual one',
             'descriptors' => ['abc1']
         ];
         $arr[] = [
@@ -29,7 +29,7 @@ class MeshQualifierData extends AbstractDataLoader
     {
         return [
             'id' => '3',
-            'name' => $this->faker->text(5),
+            'name' => 'third qualifier',
             'descriptors' => []
         ];
     }

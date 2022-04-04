@@ -13,19 +13,19 @@ class SchoolConfigData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => 1,
-            'name' => '1' . $this->faker->text(50),
-            'value' => $this->faker->text(100),
+            'name' => '1bar',
+            'value' => 'lorem ipsum',
             'school' => 1,
         ];
         $arr[] = [
             'id' => 2,
             'name' => 'second config',
-            'value' => $this->faker->text(100),
+            'value' => 'dev/null',
             'school' => 1,
         ];
         $arr[] = [
             'id' => 3,
-            'name' => '3' . $this->faker->text(50),
+            'name' => '3foo',
             'value' => 'third value',
             'school' => 2,
         ];
@@ -36,10 +36,23 @@ class SchoolConfigData extends AbstractDataLoader
     {
         return [
             'id' => 4,
-            'name' => '4' . $this->faker->text(50),
-            'value' => $this->faker->text(100),
+            'name' => '4baz',
+            'value' => 'fourth value',
             'school' => 1,
         ];
+    }
+
+    public function createMany($count): array
+    {
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $this->create();
+            $arr['id'] = $arr['id'] + $i;
+            $arr['name'] = 'name' . $i;
+            $arr['value'] = 'value ' . $i;
+            $data[] = $arr;
+        }
+        return $data;
     }
 
     public function createInvalid(): array

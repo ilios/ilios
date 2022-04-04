@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\IlmSessionDTO;
+use DateTime;
 
 class IlmSessionData extends AbstractDataLoader
 {
     protected function getData(): array
     {
         $arr = [];
-        $dt = $this->faker->dateTime();
+        $dt = new DateTime();
         $dt->setTime(0, 0, 0);
         $dt->setDate(2016, 1, 1);
         $arr[] = [
             'id' => 1,
-            'hours' => $this->faker->randomFloat(2),
+            'hours' => 10.0,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => ['1', '3'],
             'instructorGroups' => ['1'],
@@ -39,7 +40,7 @@ class IlmSessionData extends AbstractDataLoader
         $dt->modify('+1 month');
         $arr[] = [
             'id' => 3,
-            'hours' => $this->faker->randomFloat(2),
+            'hours' => 1.50,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => [],
             'instructorGroups' => [],
@@ -51,7 +52,7 @@ class IlmSessionData extends AbstractDataLoader
         $dt->modify('+1 month');
         $arr[] = [
             'id' => 4,
-            'hours' => $this->faker->randomFloat(2),
+            'hours' => 10.75,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => [],
             'instructorGroups' => [],
@@ -65,11 +66,11 @@ class IlmSessionData extends AbstractDataLoader
 
     public function create(): array
     {
-        $dt = $this->faker->dateTime();
+        $dt = new DateTime();
         $dt->setTime(0, 0, 0);
         return [
             'id' => 5,
-            'hours' => $this->faker->randomFloat(2),
+            'hours' => 12.5,
             'dueDate' => $dt->format('c'),
             'learnerGroups' => ['1', '2'],
             'instructorGroups' => ['1', '2'],

@@ -10,7 +10,6 @@ use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
 use Closure;
 use DateTime;
-use Faker\Factory as FakerFactory;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -25,14 +24,11 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 {
     protected $data;
 
-    protected $faker;
 
     public function __construct(
         protected EntityMetadata $entityMetadata,
         protected EntityRepositoryLookup $entityManagerLookup
     ) {
-        $this->faker = FakerFactory::create();
-        $this->faker->seed(1234);
     }
 
     /**
