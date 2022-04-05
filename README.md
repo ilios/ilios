@@ -13,15 +13,44 @@
 
 ---
 
-# About
+The **Ilios Curriculum Management System** addresses the needs <br>
+of the **Health Professions** educational community by providing a <br>
+*user-friendly*, *flexible*, and *robust* web application.
 
-The Ilios Curriculum Management System addresses the needs of the Health Professions educational community by providing a user-friendly, flexible, and robust web application to collect, manage, analyze and deliver curricular information.
+This system not only provides a comprehensive overview of events, <br>
+learning content and activities but also allows for the *collection*, <br>
+*management*, *analysis* and *delivery* of curricular information.
 
-Ilios creates a comprehensive view of curricula by tracking events, learning content and activities over time. The system facilitates day-to-day administration and the delivery of information to learners; enhances curricular development, review and innovation; and reduces overhead for internal and accreditation reporting. The end result is a powerful tool creating complete and accurate pictures of complex, integrated, multi-year curricula.
 
-Ilios manages learners and instructors and their relationships to curricular materials and activities, enabling the tracking of educational hours, roles and role transitions for participants both internal and external to an institution. Ilios also provides a robust, scalable delivery mechanism for user-centric calendar and scheduling information, with direct access to critical course information, materials, and other educational systems and services.
+## Eases
 
-Ilios leverages the power of your existing online learning. With its comprehensive API, Ilios allows you to integrate with external data sources and systems. For schools using online learning systems such as Moodle or Canvas, Ilios provides a backbone of curricular information to make that deployment more robust and to complement the rich online tools, activities and materials already in use.
+- Enhancements of curricular development / review / innovation
+- Reduces overhead for internal and accreditation reporting
+- Simplifies delivery of information to learners
+- Assists Day-to-day administration 
+
+## Records
+
+Keep track of **Internal** & **External** participant relationships <br>
+to curricular **Material** as well as **Activities** such as:
+
+- Educational Hours
+- Role Transitions
+- Roles
+
+## Adjusts
+
+Provides user adjusted services for:
+
+- Course Information
+- Calenders
+- Schedules
+- Materials
+
+## Integrates
+
+Comes with a comprehensive **[API]** as well as <br>
+the ability to integrate with **[Moodle]** / **[Canvas]**.
 
 <!----------------------------------------------------------------------------->
 
@@ -36,4 +65,6 @@ Ilios leverages the power of your existing online learning. With its comprehensi
 [Building]: docs/ilios_quick_setup_for_admins.md
 
 [Website]: https://iliosproject.org
+[Moodle]: https://moodle.org/
+[Canvas]: https://its.sdsu.edu/tools/canvas
 
