@@ -1,4 +1,6 @@
-# Ilios: Curriculum Management from UCSF
+# Ilios [![Badge License]][License]
+
+***Curriculum Management*** *from* ***UCSF***
 
 # About
 
@@ -51,3 +53,11 @@ Email: info@iliosproject.org
 # Development of Ilios
 
 To get a development instance of Ilios up and running quickly, please review the steps in our [Quick Setup Guide for Ilios](https://github.com/ilios/ilios/blob/master/docs/ilios_quick_setup_for_admins.md) for what is recommended and required.
+
+
+<!----------------------------------------------------------------------------->
+
+[Badge License]: https://img.shields.io/badge/License-MIT-yellow.svg
+
+[License]: LICENSE
+
