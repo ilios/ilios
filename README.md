@@ -37,7 +37,7 @@ learning content and activities but also allows for the *collection*, <br>
 
 ## Records
 
-Keep track of **Internal** & **External** participant relationships <br>
+Keeps track of **Internal** & **External** participant relationships <br>
 to curricular **Material** as well as **Activities** such as:
 
 - Educational Hours
