@@ -21,7 +21,7 @@ COPY --from=src /src/app /srv/app/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
 ENV FPM_CONTAINERS=fpm:9000
 ARG ILIOS_VERSION="v0.1.0"
-RUN echo ${ILIOS_VERSION} > VERSION
+RUN echo ${ILIOS_VERSION} > /srv/app/VERSION
 
 ###############################################################################
 # Dependencies we need in all PHP containers

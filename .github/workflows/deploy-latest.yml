@@ -39,7 +39,7 @@ jobs:
       with:
         tags: |
             ilios/${{ matrix.image }}:latest
-        build-args: ILIOS_VERSION=dev
+        build-args: ILIOS_VERSION=3.0.0-dev
         target: ${{ matrix.image }}
         push: true
         platforms: linux/amd64,linux/arm64
