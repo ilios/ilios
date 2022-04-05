@@ -8,6 +8,7 @@
  **⸢ [Install] ⸥**
  **⸢ [Update] ⸥**
  **⸢ [API] ⸥**
+ **⸢ [Customize] ⸥**
  **⸢ [Contact] ⸥**
 
 ---
@@ -22,16 +23,6 @@ Ilios manages learners and instructors and their relationships to curricular mat
 
 Ilios leverages the power of your existing online learning. With its comprehensive API, Ilios allows you to integrate with external data sources and systems. For schools using online learning systems such as Moodle or Canvas, Ilios provides a backbone of curricular information to make that deployment more robust and to complement the rich online tools, activities and materials already in use.
 
-## Frontend Theming
-
-For information about customizing the look and feel of the Ilios frontend for your respective institution, please visit [docs/custom_theming.md](docs/custom_theming.md) for more information.
-
-## Interacting with Ilios from the command line
-
-Ilios provides a command line interface, see [docs/custom_cli_commands.md](docs/custom_cli_commands.md) 
-for a list of available commands and how to use them. 
-
-
 <!----------------------------------------------------------------------------->
 
 [Badge License]: https://img.shields.io/badge/License-MIT-yellow.svg
@@ -41,6 +32,7 @@ for a list of available commands and how to use them.
 [Update]: docs/update.md
 [API]: docs/ilios_api.md
 [Contact]: docs/Contact.md
+[Customize]: docs/Customize.md
 [Building]: docs/ilios_quick_setup_for_admins.md
 
 [Website]: https://iliosproject.org
