@@ -13,6 +13,9 @@
 
 ---
 
+<br>
+<br>
+
 The **Ilios Curriculum Management System** addresses the needs <br>
 of the **Health Professions** educational community by providing a <br>
 *user-friendly*, *flexible*, and *robust* web application.
@@ -21,6 +24,7 @@ This system not only provides a comprehensive overview of events, <br>
 learning content and activities but also allows for the *collection*, <br>
 *management*, *analysis* and *delivery* of curricular information.
 
+<br>
 
 ## Eases
 
@@ -28,6 +32,8 @@ learning content and activities but also allows for the *collection*, <br>
 - Reduces overhead for internal and accreditation reporting
 - Simplifies delivery of information to learners
 - Assists Day-to-day administration 
+
+<br>
 
 ## Records
 
@@ -38,6 +44,8 @@ to curricular **Material** as well as **Activities** such as:
 - Role Transitions
 - Roles
 
+<br>
+
 ## Adjusts
 
 Provides user adjusted services for:
@@ -47,10 +55,14 @@ Provides user adjusted services for:
 - Schedules
 - Materials
 
+<br>
+
 ## Integrates
 
 Comes with a comprehensive **[API]** as well as <br>
 the ability to integrate with **[Moodle]** / **[Canvas]**.
+
+<br>
 
 <!----------------------------------------------------------------------------->
 
