@@ -230,7 +230,7 @@ COPY ./src/.htaccess /var/www/ilios/src
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN set -eux; \
 	apt-get update; \
-    apt-get install sudo libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y; \
+    apt-get install acl libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y; \
     docker-php-ext-configure ldap; \
     docker-php-ext-install ldap; \
     docker-php-ext-install zip; \
@@ -280,7 +280,6 @@ ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
 
 USER root
-RUN chown -R www-data:www-data /var/www/ilios
 ENTRYPOINT ["php-apache-entrypoint"]
 CMD ["apache2-foreground"]
 EXPOSE 80

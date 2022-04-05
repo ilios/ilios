@@ -2,8 +2,18 @@
 # started with https://github.com/docker-library/php/blob/d97098c8c6af46ae1211e65ff052278ab39ba45c/7.2/stretch/apache/docker-php-entrypoint
 set -e
 
-# We need to warmup the cache in addition to starting apache
-sudo -E -u www-data /var/www/ilios/bin/console cache:warmup
+mkdir -p var/cache var/log
+if [ "$ILIOS_DATABASE_URL" ]; then
+	echo "Waiting for db to be ready..."
+	bin/console ilios:wait-for-database
+	echo "The db is now ready and reachable"
+
+	bin/console cache:warmup
+	bin/console doctrine:migrations:migrate --no-interaction
+fi
+
+setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
+setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
