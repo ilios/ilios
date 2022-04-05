@@ -2,6 +2,16 @@
 
 ***Curriculum Management*** *from* ***UCSF***
 
+---
+
+ **⸢ [Website] ⸥**
+ **⸢ [Install] ⸥**
+ **⸢ [Update] ⸥**
+ **⸢ [API] ⸥**
+ **⸢ [Contact] ⸥**
+
+---
+
 # About
 
 The Ilios Curriculum Management System addresses the needs of the Health Professions educational community by providing a user-friendly, flexible, and robust web application to collect, manage, analyze and deliver curricular information.
@@ -12,36 +22,14 @@ Ilios manages learners and instructors and their relationships to curricular mat
 
 Ilios leverages the power of your existing online learning. With its comprehensive API, Ilios allows you to integrate with external data sources and systems. For schools using online learning systems such as Moodle or Canvas, Ilios provides a backbone of curricular information to make that deployment more robust and to complement the rich online tools, activities and materials already in use.
 
-More Information and user documentation is available at [iliosproject.org](http://iliosproject.org)
-
-# Install and Update Instructions
-[Instructions for a new Install](docs/install.md)
-
-[Update Ilios](docs/update.md)
-
-[Upgrading From Ilios 2.x](docs/upgrade_ilios_2_to_3.md)
-
 ## Frontend Theming
 
 For information about customizing the look and feel of the Ilios frontend for your respective institution, please visit [docs/custom_theming.md](docs/custom_theming.md) for more information.
-
-## API Information
-
-If you want to connect to the Ilios API a good place to start is [docs/ilios_api.md](docs/ilios_api.md).
 
 ## Interacting with Ilios from the command line
 
 Ilios provides a command line interface, see [docs/custom_cli_commands.md](docs/custom_cli_commands.md) 
 for a list of available commands and how to use them. 
-
-# Get Ilios
-
-Download the [latest distribution](https://github.com/ilios/ilios/releases) or clone the [codebase](https://github.com/ilios/ilios).
-
-
-# Development of Ilios
-
-To get a development instance of Ilios up and running quickly, please review the steps in our [Quick Setup Guide for Ilios](https://github.com/ilios/ilios/blob/master/docs/ilios_quick_setup_for_admins.md) for what is recommended and required.
 
 
 <!----------------------------------------------------------------------------->
@@ -49,4 +37,11 @@ To get a development instance of Ilios up and running quickly, please review the
 [Badge License]: https://img.shields.io/badge/License-MIT-yellow.svg
 
 [License]: LICENSE
+[Install]: docs/install.md
+[Update]: docs/update.md
+[API]: docs/ilios_api.md
+[Contact]: docs/Contact.md
+[Building]: docs/ilios_quick_setup_for_admins.md
+
+[Website]: https://iliosproject.org
 
