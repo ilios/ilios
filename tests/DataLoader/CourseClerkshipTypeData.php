@@ -14,7 +14,7 @@ class CourseClerkshipTypeData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'title' => $this->faker->text(10),
+            'title' => 'first clerkship type',
             'courses' => ['1', '2']
         ];
 
@@ -32,7 +32,7 @@ class CourseClerkshipTypeData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'title' => $this->faker->text(10),
+            'title' => 'third clerkship type',
             'courses' => []
         ];
     }

@@ -33,7 +33,7 @@ class IlmSessionTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'hours' => ['hours', $this->getFaker()->randomFloat(2)],
+            'hours' => ['hours', 10.25],
             'session' => ['session', 1],
             'learnerGroups' => ['learnerGroups', [1]],
             'instructorGroups' => ['instructorGroups', [2, 3]],

@@ -65,7 +65,7 @@ class CohortData extends AbstractDataLoader
     {
         return [
             'id' => 6,
-            'title' => $this->faker->text(15),
+            'title' => 'sixth cohort',
             'programYear' => "5",
             'courses' => ['1'],
             'learnerGroups' => [],

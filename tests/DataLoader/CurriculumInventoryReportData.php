@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\CurriculumInventoryReportDTO;
+use DateTime;
 
 class CurriculumInventoryReportData extends AbstractDataLoader
 {
@@ -12,15 +13,15 @@ class CurriculumInventoryReportData extends AbstractDataLoader
     {
         $arr = [];
 
-        $dt = $this->faker->dateTime();
+        $dt = new DateTime();
         $dt->setTime(0, 0, 0);
         $arr[] = [
             'id' => 1,
             'program' => 1,
             'sequence' => 1,
             'year' => '2014',
-            'name' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'name' => 'first report',
+            'description' => 'no description',
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => ['1', '2', '3', '4', '5'],
@@ -35,7 +36,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'sequence' => 2,
             'year' => '2015',
             'name' => 'second report',
-            'description' => $this->faker->text(200),
+            'description' => 'something else',
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => [],
@@ -47,7 +48,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'export' => 2,
             'program' => 1,
             'year' => '2016',
-            'name' => $this->faker->text(100),
+            'name' => 'third report',
             'description' => 'third report',
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
@@ -61,14 +62,14 @@ class CurriculumInventoryReportData extends AbstractDataLoader
 
     public function create(): array
     {
-        $dt = $this->faker->dateTime();
+        $dt = new DateTime();
         $dt->setTime(0, 0, 0);
         return [
             'id' => 4,
             'program' => 2,
-            'year' => $this->faker->date('Y'),
-            'name' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'year' => 2021,
+            'name' => 'fourth report',
+            'description' => 'lirum larum loeffelstiel',
             'startDate' => $dt->format('c'),
             'endDate' => $dt->format('c'),
             'sequenceBlocks' => [],

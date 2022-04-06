@@ -13,7 +13,7 @@ class MeshTreeData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => 1,
-            'treeNumber' => $this->faker->text(31),
+            'treeNumber' => 'tree1',
             'descriptor' => 'abc1'
         ];
         $arr[] = [
@@ -29,7 +29,7 @@ class MeshTreeData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'treeNumber' => $this->faker->word(),
+            'treeNumber' => 'tree3',
             'descriptor' => 'abc2'
         ];
     }

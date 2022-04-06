@@ -30,7 +30,7 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'name' => ['name', $this->getFaker()->text(18)],
+            'name' => ['name', 'lorem ipsum'],
             'sessionTypes' => ['sessionTypes', [2, 3], $skipped = true],
         ];
     }
@@ -62,9 +62,8 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $faker = $this->getFaker();
         foreach ($all as $key => $data) {
-            $data['name'] = $faker->text(10) . $key;
+            $data['name'] = 'text' . $key;
 
             $this->putTest($data, $data, $data['id']);
         }
@@ -74,9 +73,8 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $faker = $this->getFaker();
         foreach ($all as $key => $data) {
-            $data['name'] = $faker->text(10) . $key;
+            $data['name'] = 'text' . $key;
             $jsonApiData = $dataLoader->createJsonApi($data);
             $this->patchJsonApiTest($data, $jsonApiData);
         }

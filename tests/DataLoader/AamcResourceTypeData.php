@@ -18,21 +18,21 @@ class AamcResourceTypeData extends AbstractDataLoader
         $arr[] = [
             'id' => 'RE001',
             'title' => 'first title',
-            'description' => $this->faker->text(),
+            'description' => 'first description',
             'terms' => ['1','2'],
         ];
 
         $arr[] = [
             'id' => 'RE002',
-            'title' => $this->faker->text(100),
+            'title' => 'second title',
             'description' => 'second description',
             'terms' => ['2', '3'],
         ];
 
         $arr[] = [
             'id' => 'RE003',
-            'title' => $this->faker->text(100),
-            'description' => $this->faker->text(),
+            'title' => 'third title',
+            'description' => 'third description',
             'terms' => [],
         ];
 
@@ -44,8 +44,8 @@ class AamcResourceTypeData extends AbstractDataLoader
     {
         return [
             'id' => 'FKRE',
-            'title' => $this->faker->text(100),
-            'description' => $this->faker->text(),
+            'title' => 'new title',
+            'description' => 'new description',
             'terms' => [],
         ];
     }

@@ -40,9 +40,9 @@ class LearnerGroupTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text(60)],
-            'location' => ['location', $this->getFaker()->text(100)],
-            'url' => ['url', $this->getFaker()->url(100)],
+            'title' => ['title', 'group of learners'],
+            'location' => ['location', 'lorem ipsum'],
+            'url' => ['url', 'http://dev.null'],
             'needsAccommodation' => ['needsAccommodation', true],
             'cohort' => ['cohort', 3],
             'parent' => ['parent', 2],

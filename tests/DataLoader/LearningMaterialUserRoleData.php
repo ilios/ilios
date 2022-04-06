@@ -14,7 +14,7 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'title' => $this->faker->text(10)
+            'title' => 'first lm user role'
         ];
 
         $arr[] = [
@@ -29,7 +29,7 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'title' => $this->faker->text(10)
+            'title' => 'third lm user role'
         ];
     }
 

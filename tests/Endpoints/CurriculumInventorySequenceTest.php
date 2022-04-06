@@ -31,7 +31,7 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'description' => ['description', $this->getFaker()->text()],
+            'description' => ['description', 'some text here'],
         ];
     }
 

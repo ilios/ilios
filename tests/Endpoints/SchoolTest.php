@@ -44,10 +44,10 @@ class SchoolTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'iliosAdministratorEmail' => ['iliosAdministratorEmail', $this->getFaker()->email()],
-            'title' => ['title', $this->getFaker()->text(60)],
-            'templatePrefix' => ['templatePrefix', $this->getFaker()->text(8)],
-            'changeAlertRecipients' => ['changeAlertRecipients', $this->getFaker()->email()],
+            'iliosAdministratorEmail' => ['iliosAdministratorEmail', 'lorem.ipsum@dev.null'],
+            'title' => ['title', 'university 123'],
+            'templatePrefix' => ['templatePrefix', 'u213'],
+            'changeAlertRecipients' => ['changeAlertRecipients', 'please.dont@email.me'],
             'competencies' => ['competencies', [1], $skipped = true],
             'courses' => ['courses', [1], $skipped = true],
             'programs' => ['programs', [1], $skipped = true],

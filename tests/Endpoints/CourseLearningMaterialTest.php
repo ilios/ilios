@@ -34,7 +34,7 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'notes' => ['notes', $this->getFaker()->text()],
+            'notes' => ['notes', 'needs more salt'],
             'emptyNotes' => ['notes', ''],
             'nullNotes' => ['notes', null],
             'required' => ['required', false],
@@ -42,7 +42,7 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
             'course' => ['course', 4],
             'learningMaterial' => ['learningMaterial', 2],
             'meshDescriptors' => ['meshDescriptors', ['abc3']],
-            'position' => ['position', $this->getFaker()->randomDigit()],
+            'position' => ['position', 2],
         ];
     }
 

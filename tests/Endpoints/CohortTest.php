@@ -44,7 +44,7 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text(60)],
+            'title' => ['title', 'dev null'],
             'courses' => ['courses', [1]],
             'learnerGroups' => ['learnerGroups', [1], $skipped = true],
             'users' => ['users', [1]],

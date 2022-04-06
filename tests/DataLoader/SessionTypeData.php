@@ -14,12 +14,12 @@ class SessionTypeData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'title' => $this->faker->text(50),
+            'title' => 'salt',
             'assessmentOption' => 1,
             'school' => 1,
             'aamcMethods' => ['AM001'],
             'sessions' => ['1', '5', '6', '7', '8'],
-            'calendarColor' => $this->faker->hexColor(),
+            'calendarColor' =>  '#cccc00',
             'assessment' => false,
             'active' => false,
         ];
@@ -44,11 +44,11 @@ class SessionTypeData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'title' => $this->faker->text(50),
+            'title' => 'no salt',
             'school' => 1,
             'aamcMethods' => ['AM001'],
             'sessions' => ['1'],
-            'calendarColor' => $this->faker->hexColor(),
+            'calendarColor' => '#ff0000',
             'assessment' => false,
             'active' => false,
         ];

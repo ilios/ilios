@@ -49,7 +49,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'startYear' => ['startYear', $this->getFaker()->randomDigitNotNull()],
+            'startYear' => ['startYear', 2012],
             'locked' => ['locked', true],
             'archived' => ['archived', true],
             'program' => ['program', 2],
@@ -335,7 +335,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
                 'mapped_course_objective',
             ],
             [
-                'Miss',
+                'first program',
                 '2013 - 2014',
                 'program year objective 1',
                 'first competency',

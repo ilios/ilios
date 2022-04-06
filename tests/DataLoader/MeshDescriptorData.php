@@ -13,7 +13,7 @@ class MeshDescriptorData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => 'abc1',
-            'name' => 'desc1' . $this->faker->text(),
+            'name' => 'desc1',
             'annotation' => 'annotation1',
             'courses' => ["1"],
             'sessionLearningMaterials' => ['1'],
@@ -30,8 +30,8 @@ class MeshDescriptorData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 'abc2',
-            'name' => 'desc2' . $this->faker->text(),
-            'annotation' => 'annotation2' . $this->faker->text(),
+            'name' => 'desc2',
+            'annotation' => 'annotation2',
             'courses' => [],
             'sessionLearningMaterials' => ["2", "3", "4", "5", "6", "7", "8"],
             'courseLearningMaterials' => [],
@@ -48,7 +48,7 @@ class MeshDescriptorData extends AbstractDataLoader
         $arr[] = [
             'id' => 'abc3',
             'name' => 'desc3',
-            'annotation' => 'annotation3' . $this->faker->text(),
+            'annotation' => 'annotation3',
             'courses' => [],
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
@@ -69,8 +69,8 @@ class MeshDescriptorData extends AbstractDataLoader
     {
         return [
             'id' => 'abc4',
-            'name' => $this->faker->text(20),
-            'annotation' => $this->faker->text(),
+            'name' => 'desc4',
+            'annotation' => 'yes no up down',
             'courses' => ['1'],
             'sessionLearningMaterials' => ['1'],
             'courseLearningMaterials' => ['1'],

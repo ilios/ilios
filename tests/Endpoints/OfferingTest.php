@@ -53,9 +53,9 @@ class OfferingTest extends ReadWriteEndpointTest
     public function changeTypePutsToTest()
     {
         return [
-            'room' => ['room', $this->getFaker()->text(), AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
-            'site' => ['site', $this->getFaker()->text(), AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
-            'url' => ['url', $this->getFaker()->url(), AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'room' => ['room', 'room 101', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'site' => ['site', 'main campus', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
+            'url' => ['url', 'https://lorem.ipsum', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
             'startDate' => ['startDate', '1980-12-31T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
             'endDate' => ['endDate', '1981-05-06T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
             'learnerGroups' => ['learnerGroups', [1], AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP],
@@ -271,7 +271,7 @@ class OfferingTest extends ReadWriteEndpointTest
     {
         $dataLoader = self::getContainer()->get(LearnerGroupData::class);
         $data = $dataLoader->getOne();
-        $data['title'] = $this->getFaker()->text(50);
+        $data['title'] = 'lorem ipsum';
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'learnergroups', 'learnerGroup', $data);
     }
 
@@ -279,7 +279,7 @@ class OfferingTest extends ReadWriteEndpointTest
     {
         $dataLoader = self::getContainer()->get(InstructorGroupData::class);
         $data = $dataLoader->getOne();
-        $data['title'] = $this->getFaker()->text(20);
+        $data['title'] = 'lorem ipsum';
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'instructorgroups', 'instructorGroup', $data);
     }
 

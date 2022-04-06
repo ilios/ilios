@@ -55,19 +55,19 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text(60)],
-            'description' => ['description', $this->getFaker()->text()],
+            'title' => ['title', 'a document'],
+            'description' => ['description', 'lorem ipsum'],
             'nullDescription' => ['description', null],
-            'originalAuthor' => ['originalAuthor', $this->getFaker()->text(80)],
+            'originalAuthor' => ['originalAuthor', 'someone'],
             'userRole' => ['userRole', 2],
             'status' => ['status', LearningMaterialStatusInterface::IN_DRAFT],
             'owningUser' => ['owningUser', 2],
             'sessionLearningMaterials' => ['sessionLearningMaterials', [2], $skipped = true],
             'courseLearningMaterials' => ['courseLearningMaterials', [1], $skipped = true],
-            'citation' => ['citation', $this->getFaker()->text()],
+            'citation' => ['citation', 'dev/null'],
             'copyrightPermission' => ['copyrightPermission', false],
-            'copyrightRationale' => ['copyrightRationale', $this->getFaker()->text()],
-            'link' => ['link', $this->getFaker()->text(), $skipped = true],
+            'copyrightRationale' => ['copyrightRationale', 'fair use'],
+            'link' => ['link', 'http://lorem.ipsum', $skipped = true],
         ];
     }
 
@@ -79,9 +79,9 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         return [
             'id' => ['id', 1, 99],
             'uploadDate' => ['uploadDate', 1, 99],
-            'fileName' => ['uploadDate', 1, $this->getFaker()->text()],
-            'mimeType' => ['uploadDate', 1, $this->getFaker()->text()],
-            'filesize' => ['uploadDate', 1, $this->getFaker()->randomDigitNotNull()],
+            'fileName' => ['uploadDate', 1, 'some text'],
+            'mimeType' => ['uploadDate', 1, 'other text'],
+            'filesize' => ['uploadDate', 1, 1648856844],
         ];
     }
 

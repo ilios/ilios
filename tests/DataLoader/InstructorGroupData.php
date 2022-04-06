@@ -14,7 +14,7 @@ class InstructorGroupData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'title' => $this->faker->text(10),
+            'title' => 'first instructor group',
             'school' => 1,
             'learnerGroups' => ['1'],
             'ilmSessions' => ['1'],
@@ -34,7 +34,7 @@ class InstructorGroupData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 3,
-            'title' => $this->faker->text(10),
+            'title' => 'third instructor group',
             'school' => 1,
             'learnerGroups' => [],
             'ilmSessions' => ['2'],
@@ -44,7 +44,7 @@ class InstructorGroupData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 4,
-            'title' => $this->faker->text(10),
+            'title' => 'fourth instructor group',
             'school' => 2,
             'learnerGroups' => [],
             'ilmSessions' => [],
@@ -60,7 +60,7 @@ class InstructorGroupData extends AbstractDataLoader
     {
         return [
             'id' => 5,
-            'title' => $this->faker->text(10),
+            'title' => 'fifth instructor group',
             'school' => 1,
             'learnerGroups' => ['1'],
             'ilmSessions' => ['1'],

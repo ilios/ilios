@@ -58,9 +58,9 @@ class TermTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'description' => ['description', $this->getFaker()->text(200)],
+            'description' => ['description', 'lorem'],
             'descriptionNull' => ['description', null],
-            'title' => ['title', $this->getFaker()->text(100)],
+            'title' => ['title', 'ipsum'],
             'courses' => ['courses', [1]],
             'parent' => ['parent', 2],
             'children' => ['children', [1], $skipped = true],

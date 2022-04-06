@@ -26,9 +26,6 @@
     "composer/metadata-minifier": {
         "version": "1.0.0"
     },
-    "composer/package-versions-deprecated": {
-        "version": "1.11.99.1"
-    },
     "composer/pcre": {
         "version": "1.0.0"
     },
@@ -166,9 +163,6 @@
     "ezyang/htmlpurifier": {
         "version": "v4.13.0"
     },
-    "fakerphp/faker": {
-        "version": "v1.12.1"
-    },
     "firebase/php-jwt": {
         "version": "v5.2.0"
     },
@@ -208,9 +202,6 @@
     "laminas/laminas-diagnostics": {
         "version": "1.6.0"
     },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.1.1"
-    },
     "league/csv": {
         "version": "9.6.2"
     },
@@ -225,9 +216,6 @@
     },
     "league/mime-type-detection": {
         "version": "1.5.1"
-    },
-    "liip/functional-test-bundle": {
-        "version": "3.0.0-rc1"
     },
     "liip/monitor-bundle": {
         "version": "2.6",
@@ -274,12 +262,6 @@
     "nikolaposa/version": {
         "version": "4.1.0"
     },
-    "ocramius/package-versions": {
-        "version": "1.5.1"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.7.1"
-    },
     "pear/archive_tar": {
         "version": "1.4.14"
     },
@@ -298,20 +280,11 @@
     "phar-io/version": {
         "version": "3.1.0"
     },
-    "php": {
-        "version": "7.4.0"
-    },
     "php-http/client-common": {
         "version": "2.3.0"
     },
-    "php-http/curl-client": {
-        "version": "2.1.0"
-    },
     "php-http/discovery": {
         "version": "1.13.0"
-    },
-    "php-http/guzzle6-adapter": {
-        "version": "v2.0.1"
     },
     "php-http/httplug": {
         "version": "2.2.0"
@@ -401,9 +374,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "ramsey/uuid": {
-        "version": "3.9.2"
     },
     "react/promise": {
         "version": "v2.8.0"
@@ -639,9 +609,6 @@
     },
     "symfony/http-kernel": {
         "version": "v5.2.0"
-    },
-    "symfony/inflector": {
-        "version": "v5.1.0"
     },
     "symfony/ldap": {
         "version": "v5.2.2"
@@ -930,25 +897,10 @@
     "twig/twig": {
         "version": "v3.1.1"
     },
-    "webimpress/safe-writer": {
-        "version": "2.1.0"
-    },
     "webmozart/assert": {
         "version": "1.9.1"
     },
     "webonyx/graphql-php": {
         "version": "v14.9.0"
-    },
-    "zendframework/zend-code": {
-        "version": "3.4.1"
-    },
-    "zendframework/zend-diactoros": {
-        "version": "2.2.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
-    },
-    "zendframework/zenddiagnostics": {
-        "version": "v1.6.0"
     }
 }

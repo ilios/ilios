@@ -16,13 +16,13 @@ class LearningMaterialData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'title' => 'firstlm' . $this->faker->text(30),
+            'title' => 'firstlmtitle',
             'description' => 'desc1',
             'originalAuthor' => 'author1',
             'userRole' => "1",
             'status' => LearningMaterialStatusInterface::FINALIZED,
             'owningUser' => "1",
-            'copyrightRationale' => $this->faker->text(),
+            'copyrightRationale' => 'lorem ipsum',
             'copyrightPermission' => true,
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => ['1', '3'],
@@ -32,13 +32,13 @@ class LearningMaterialData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 2,
-            'title' => 'secondlm' . $this->faker->text(30),
-            'description' => 'desc2' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'title' => 'secondlmtitle',
+            'description' => 'desc2',
+            'originalAuthor' => 'some name',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::IN_DRAFT,
             'owningUser' => "1",
-            'copyrightRationale' => $this->faker->text(),
+            'copyrightRationale' => 'lorem ipsum',
             'copyrightPermission' => false,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
@@ -49,8 +49,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 3,
             'title' => 'thirdlm',
-            'description' => 'desc3' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc3',
+            'originalAuthor' => 'hans dampf',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -66,8 +66,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 4,
             'title' => 'fourthlm',
-            'description' => 'desc4' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc4',
+            'originalAuthor' => 'my name',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -83,8 +83,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 5,
             'title' => 'fifthlm',
-            'description' => 'desc5' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc5',
+            'originalAuthor' => 'someone else',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -100,8 +100,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 6,
             'title' => 'sixthlm',
-            'description' => 'desc6' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc6',
+            'originalAuthor' => 'the author',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -117,8 +117,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 7,
             'title' => 'seventhlm',
-            'description' => 'desc7' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc7',
+            'originalAuthor' => 'someone else',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -134,8 +134,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 8,
             'title' => 'eighthlm',
-            'description' => 'desc8' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc8',
+            'originalAuthor' => 'the original author',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -150,8 +150,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 9,
             'title' => 'ninthlm',
-            'description' => 'desc9' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc9',
+            'originalAuthor' => 'salt',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -166,8 +166,8 @@ class LearningMaterialData extends AbstractDataLoader
         $arr[] = [
             'id' => 10,
             'title' => 'tenthlm',
-            'description' => 'desc10' . $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'description' => 'desc10',
+            'originalAuthor' => 'alpha beta',
             'userRole' => "2",
             'status' => LearningMaterialStatusInterface::REVISED,
             'owningUser' => "1",
@@ -187,17 +187,17 @@ class LearningMaterialData extends AbstractDataLoader
     {
         return [
             'id' => 11,
-            'title' => $this->faker->text(30),
-            'description' => $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'title' => 'new learning material',
+            'description' => 'desc11',
+            'originalAuthor' => 'first last',
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'copyrightRationale' => $this->faker->text(),
+            'copyrightRationale' => 'permissions granted by original author',
             'copyrightPermission' => true,
-            'citation' => $this->faker->text(),
+            'citation' => 'lorem ipsum',
             'mimetype' => 'citation',
         ];
     }
@@ -207,15 +207,15 @@ class LearningMaterialData extends AbstractDataLoader
     {
         return [
             'id' => 11,
-            'title' => $this->faker->text(30),
-            'description' => $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'title' => 'new citation lm',
+            'description' => 'lorem ipsum',
+            'originalAuthor' => '',
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'citation' => $this->faker->text(),
+            'citation' => 'dinner is ready',
             'mimetype' => 'citation',
         ];
     }
@@ -225,15 +225,15 @@ class LearningMaterialData extends AbstractDataLoader
     {
         return [
             'id' => 11,
-            'title' => $this->faker->text(30),
-            'description' => $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'title' => 'new link lm',
+            'description' => 'lorem ipsum',
+            'originalAuthor' => 'yes no',
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'link' => $this->faker->url(),
+            'link' => 'https://example.com',
             'mimetype' => 'link',
         ];
     }
@@ -245,15 +245,15 @@ class LearningMaterialData extends AbstractDataLoader
     {
         return [
             'id' => 11,
-            'title' => $this->faker->text(30),
-            'description' => $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'title' => 'new file lm',
+            'description' => 'lorem ipsum',
+            'originalAuthor' => 'first last',
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
-            'copyrightRationale' => $this->faker->text(),
+            'copyrightRationale' => 'i have permission',
             'copyrightPermission' => true,
         ];
     }
@@ -271,15 +271,15 @@ class LearningMaterialData extends AbstractDataLoader
     {
         return [
             'id' => 11,
-            'title' => $this->faker->text(30),
-            'description' => $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'title' => 'invalid citation',
+            'description' => 'lorem ipsum',
+            'originalAuthor' => 'joe shmoe',
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'citation' => $this->faker->text(1000), // too long
+            'citation' => str_repeat('0123456789', 1000), // too long
         ];
     }
 
@@ -288,15 +288,15 @@ class LearningMaterialData extends AbstractDataLoader
     {
         return [
             'id' => 11,
-            'title' => $this->faker->text(30),
-            'description' => $this->faker->text(),
-            'originalAuthor' => $this->faker->name(),
+            'title' => 'invalid link',
+            'description' => 'lorem ipsum',
+            'originalAuthor' => 'first last',
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'userRole' => "2",
             'status' => "1",
             'owningUser' => "1",
-            'link' => $this->faker->text(600), // too long
+            'link' => 'https://' . str_repeat('0123456789', 1000) . '.org', // too long
         ];
     }
 

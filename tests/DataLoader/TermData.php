@@ -13,8 +13,8 @@ class TermData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => 1,
-            'title' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'title' => 'first term',
+            'description' => 'some text',
             'vocabulary' => 1,
             'children' => ['2', '3'],
             'courses' => ['1', '2'],
@@ -29,7 +29,7 @@ class TermData extends AbstractDataLoader
         $arr[] = [
             'id' => 2,
             'title' => 'second term',
-            'description' => $this->faker->text(200),
+            'description' => 'some description',
             'vocabulary' => 1,
             'parent' => 1,
             'children' => [],
@@ -44,7 +44,7 @@ class TermData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 3,
-            'title' => $this->faker->text(100),
+            'title' => 'third term',
             'description' => 'third description',
             'vocabulary' => 1,
             'parent' => 1,
@@ -61,8 +61,8 @@ class TermData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 4,
-            'title' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'title' => 'fourth term',
+            'description' => 'lorem ipsum dolor et',
             'vocabulary' => 2,
             'children' => [],
             'courses' => ['2'],
@@ -76,8 +76,8 @@ class TermData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 5,
-            'title' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'title' => 'fifth term',
+            'description' => 'salt salt salt',
             'vocabulary' => 2,
             'children' => [],
             'courses' => [],
@@ -91,8 +91,8 @@ class TermData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 6,
-            'title' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'title' => 'sixth term',
+            'description' => 'test description',
             'vocabulary' => 2,
             'children' => [],
             'courses' => ['4'],
@@ -112,8 +112,8 @@ class TermData extends AbstractDataLoader
     {
         return [
             'id' => 7,
-            'title' => $this->faker->text(100),
-            'description' => $this->faker->text(200),
+            'title' => 'seventh term',
+            'description' => 'new description',
             'vocabulary' => 2,
             'children' => [],
             'courses' => ['4'],

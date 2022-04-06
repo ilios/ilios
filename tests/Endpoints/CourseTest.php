@@ -61,12 +61,12 @@ class CourseTest extends ReadWriteEndpointTest
     public function putsToTest(): array
     {
         return [
-            'title' => ['title', $this->getFaker()->text()],
-            'level' => ['level', $this->getFaker()->randomDigit()],
-            'year' => ['year', $this->getFaker()->randomDigit()],
+            'title' => ['title', 'icicles are not a snack'],
+            'level' => ['level', 3],
+            'year' => ['year', 2022],
             'startDate' => ['startDate', '2017-02-14T00:00:00+00:00'],
             'endDate' => ['endDate', '2017-02-14T00:00:00+00:00'],
-            'externalId' => ['externalId', $this->getFaker()->text(5)],
+            'externalId' => ['externalId', 'devnull'],
             'externalIdNull' => ['externalId', null],
             'locked' => ['locked', true],
             'archived' => ['archived', true],

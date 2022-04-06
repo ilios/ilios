@@ -14,7 +14,7 @@ class ProgramData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'title' => $this->faker->title(15),
+            'title' => 'first program',
             'shortTitle' => 'fp',
             'duration' => 3,
             'school' => "1",
@@ -26,7 +26,7 @@ class ProgramData extends AbstractDataLoader
         $arr[] = [
             'id' => 2,
             'title' => 'second program',
-            'shortTitle' => $this->faker->title(5),
+            'shortTitle' => 'sp',
             'duration' => 4,
             'school' => "1",
             'programYears' => ["3"],
@@ -36,8 +36,8 @@ class ProgramData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 3,
-            'title' => $this->faker->title(15),
-            'shortTitle' => $this->faker->title(5),
+            'title' => 'third program',
+            'shortTitle' => 'tp',
             'duration' => 4,
             'school' => "2",
             'programYears' => ["4"],
@@ -53,8 +53,8 @@ class ProgramData extends AbstractDataLoader
     {
         return [
             'id' => 4,
-            'title' => $this->faker->title(15),
-            'shortTitle' => $this->faker->title(5),
+            'title' => 'fourth program',
+            'shortTitle' => 'p4',
             'duration' => 4,
             'school' => "1",
             'programYears' => [],

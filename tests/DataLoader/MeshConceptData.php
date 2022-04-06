@@ -13,11 +13,11 @@ class MeshConceptData extends AbstractDataLoader
         $arr = [];
         $arr[] = [
             'id' => '1',
-            'name' => 'concept' . $this->faker->text(),
+            'name' => 'concept one',
             'preferred' => true,
             'scopeNote' => 'first scopeNote',
-            'casn1Name' => 'casn' . $this->faker->text(120),
-            'registryNumber' => $this->faker->text(20),
+            'casn1Name' => 'casn123456',
+            'registryNumber' => 'abc1234',
             'terms' => ['1', '2'],
             'descriptors' => ['abc1']
         ];
@@ -25,7 +25,7 @@ class MeshConceptData extends AbstractDataLoader
             'id' => '2',
             'name' => 'second concept',
             'preferred' => false,
-            'scopeNote' => 'scopeNote' . $this->faker->text(),
+            'scopeNote' => 'scopeNote two',
             'casn1Name' => 'second casn',
             'registryNumber' => 'abcd',
             'terms' => [],
@@ -39,11 +39,11 @@ class MeshConceptData extends AbstractDataLoader
     {
         return [
             'id' => '3',
-            'name' => 'concept' . $this->faker->text(180),
+            'name' => 'concept three',
             'preferred' => true,
-            'scopeNote' => 'scopeNote' . $this->faker->text(),
-            'casn1Name' => 'casn' . $this->faker->text(120),
-            'registryNumber' => $this->faker->text(20),
+            'scopeNote' => 'scopeNote123',
+            'casn1Name' => 'casn1122433',
+            'registryNumber' => '112233',
             'terms' => ['1'],
             'descriptors' => []
         ];
