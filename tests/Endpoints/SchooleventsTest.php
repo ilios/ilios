@@ -78,6 +78,19 @@ class SchooleventsTest extends AbstractEndpointTest
         }
     }
 
+    public function testUrlIsBlankedForUsersLackingPermissions() {
+        $school = self::getContainer()->get(SchoolData::class)->getOne();
+        $userId = 5;
+        $fullEvents = $this->getEvents($school['id'], 0, 100000000000, $userId);
+
+        $userLoader = self::getContainer()->get(UserData::class);
+        $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty());
+        $blankedEvents = $this->getEvents($newUser['school'], 0, 100000000000, $newUser['id']);
+
+        $this->assertEquals($fullEvents[3]['url'], 'https://example.org');
+        $this->assertArrayNotHasKey('url', $blankedEvents[3]);
+    }
+
     public function testAttachedUserMaterialsAreAvailableToCourseStudentAdvisors()
     {
         /** @var DataLoaderInterface $dataLoader */

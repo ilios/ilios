@@ -30,6 +30,7 @@ class SchoolEvent extends CalendarEvent
     public function clearDataForUnprivilegedUsers()
     {
         $this->instructionalNotes = null;
+        $this->url = null;
         $this->clearDataForDraftOrScheduledEvent();
         $this->removeMaterialsInDraft();
         array_walk($this->learningMaterials, function (UserMaterial $lm) {
