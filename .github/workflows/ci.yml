@@ -147,7 +147,7 @@ jobs:
         outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar
         tags: ${{ matrix.image }}:testing
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.image }}-image
         path: /tmp/${{ matrix.image }}.tar
