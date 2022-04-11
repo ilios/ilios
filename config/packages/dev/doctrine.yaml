@@ -1,4 +1,0 @@
-doctrine:
-  dbal:
-    url: '%env(resolve:ILIOS_DATABASE_URL)%'
-    driver:   'pdo_mysql'
