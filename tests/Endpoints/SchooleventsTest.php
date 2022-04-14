@@ -557,6 +557,20 @@ class SchooleventsTest extends AbstractEndpointTest
         }
     }
 
+
+    public function testNotVirtualLinksForUnprivilegedUser()
+    {
+        /** @var DataLoaderInterface $dataLoader */
+        $userLoader = self::getContainer()->get(UserData::class);
+        $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty());
+
+        $events = $this->getEvents($newUser['school'], 0, 100000000000, $newUser['id']);
+
+        foreach ($events as $event) {
+            $this->assertArrayNotHasKey('url', $event);
+        }
+    }
+
     public function testMultidayEvent()
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
