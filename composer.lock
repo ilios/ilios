@@ -12394,16 +12394,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "5d5ed645361910abe4712b6610222a17c5067d44"
+                "reference": "cd5bfe8a003e61435020edc02f53c2e277d8a9c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/5d5ed645361910abe4712b6610222a17c5067d44",
-                "reference": "5d5ed645361910abe4712b6610222a17c5067d44",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/cd5bfe8a003e61435020edc02f53c2e277d8a9c4",
+                "reference": "cd5bfe8a003e61435020edc02f53c2e277d8a9c4",
                 "shasum": ""
             },
             "require": {
@@ -12476,9 +12476,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.3.0"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.3.1"
             },
-            "time": "2022-04-01T09:14:17+00:00"
+            "time": "2022-04-13T10:53:44+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -15003,7 +15003,6 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
-        "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
@@ -15030,5 +15029,5 @@
     "platform-overrides": {
         "php": "8.0.0"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
