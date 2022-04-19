@@ -23,7 +23,7 @@
     "doctrine/orm": "^2.9",
     "elasticsearch/elasticsearch": "^7.0",
     "eluceo/ical": "^0.16.1",
-    "exercise/htmlpurifier-bundle": "^3.0",
+    "exercise/htmlpurifier-bundle": "^4.0",
     "firebase/php-jwt": "@stable",
     "ilios/mesh-parser": "^2.0",
     "jaybizzle/crawler-detect": "^1.2",
