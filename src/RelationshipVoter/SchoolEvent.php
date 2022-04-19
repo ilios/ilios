@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\RelationshipVoter;
 
+use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent as Event;
 use App\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -13,9 +14,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SchoolEvent extends AbstractCalendarEvent
 {
+    public const VIEW_VIRTUAL_LINK = 'view_virtual_link';
+
     protected function supports($attribute, $subject): bool
     {
-        return $subject instanceof Event && in_array($attribute, [self::VIEW, self::VIEW_DRAFT_CONTENTS]);
+        return $subject instanceof Event
+            && in_array($attribute, [self::VIEW, self::VIEW_DRAFT_CONTENTS, self::VIEW_VIRTUAL_LINK]);
     }
 
     /**
@@ -33,12 +37,6 @@ class SchoolEvent extends AbstractCalendarEvent
         if ($user->isRoot()) {
             return true;
         }
-
-        $sessionId = $event->session;
-        $courseId = $event->course;
-        $schoolId = $event->school;
-        $offeringId = $event->offering;
-        $ilmId = $event->ilmSession;
 
         switch ($attribute) {
             case self::VIEW:
@@ -58,9 +56,25 @@ class SchoolEvent extends AbstractCalendarEvent
                 // can't view draft data on events, unless
                 // the event is being instructed/directed/administered by the current user.
                 return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
-
+            case self::VIEW_VIRTUAL_LINK:
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event)
+                    || $this->isUserLearnerInEvent($user, $event);
             default:
                 return false;
         }
+    }
+
+    /**
+     * @param SessionUserInterface $user
+     * @param Event $event
+     * @return bool
+     */
+    protected function isUserLearnerInEvent(SessionUserInterface $user, Event $event)
+    {
+        $offeringId = $event->offering;
+        $ilmId = $event->ilmSession;
+
+        return ($ilmId && $user->isLearnerInIlm($ilmId))
+            || ($offeringId && $user->isLearnerInOffering($offeringId));
     }
 }

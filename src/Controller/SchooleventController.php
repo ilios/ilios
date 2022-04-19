@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Classes\SessionUserInterface;
 use App\Entity\SessionInterface;
 use App\RelationshipVoter\AbstractCalendarEvent;
+use App\RelationshipVoter\SchoolEvent as SchoolEventVoter;
 use App\RelationshipVoter\AbstractVoter;
 use App\Classes\SchoolEvent;
 use App\Exception\InvalidInputWithSafeUserMessageException;
@@ -126,6 +127,10 @@ class SchooleventController extends AbstractController
                 } else {
                     $event->clearDataForUnprivilegedUsers();
                 }
+            }
+
+            if (! $authorizationChecker->isGranted(SchoolEventVoter::VIEW_VIRTUAL_LINK, $event)) {
+                $event->url = null;
             }
         }
 

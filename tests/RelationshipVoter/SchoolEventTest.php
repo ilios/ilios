@@ -408,7 +408,7 @@ class SchoolEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewDraftDataIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent()
+    public function testCanNotViewDraftDataIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         /* @var SchoolEvent $entity */
@@ -429,6 +429,237 @@ class SchoolEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
 
         $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsSchoolAdministratorInEventowningSchool()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsSchoolDirectorInEventowningSchool()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserisDirectingProgramLinkedToEventowningCoursel()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsCourseAdministratorInEventowningCourse()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsCourseDirectorInEventowningCourse()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsSessionAdministratorInEventowningSession()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsInstructorInEventowningOffering()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsInstructorInEventowningIlm()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsIlmLearnerInEvent()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanViewVirtualLinkIfCurrentUserIsOfferingLearnerInEvent()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInOffering')->with($entity->offering)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanNotViewVirtualLinkIfCurrentUserIsNotAssociatedWithEvent()
+    {
+        $token = $this->createMockTokenWithNonRootSessionUser();
+        /* @var SchoolEvent $entity */
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+        $sessionUser = $token->getUser();
+        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInOffering')->with($entity->offering)->andReturn(false);
+
+        $response = $this->voter->vote($token, $entity, [Voter::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
