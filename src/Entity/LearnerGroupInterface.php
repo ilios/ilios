@@ -85,9 +85,6 @@ interface LearnerGroupInterface extends
 
     public function getNeedsAccommodation(): bool;
 
-    /**
-     * @var string|null $url
-     */
     public function setUrl(?string $url): void;
 
     public function getUrl(): ?string;
