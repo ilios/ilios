@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bbffcb9703bc37b119bfa55d381bd115",
+    "content-hash": "add7bdb415fbed1e2d15bd2bf772e9aa",
     "packages": [
         {
             "name": "async-aws/core",
@@ -2613,26 +2613,33 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "0.16.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "7043337feaeacbc016844e7e52ef41bba504ad8f"
+                "reference": "f9a74fefe5582f7e8444e0e87058e36c62e1b005"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/7043337feaeacbc016844e7e52ef41bba504ad8f",
-                "reference": "7043337feaeacbc016844e7e52ef41bba504ad8f",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/f9a74fefe5582f7e8444e0e87058e36c62e1b005",
+                "reference": "f9a74fefe5582f7e8444e0e87058e36c62e1b005",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1 || ~8.0.0"
+                "ext-mbstring": "*",
+                "php": ">=7.4 || ~8.0.0 || ~8.1.0",
+                "symfony/deprecation-contracts": "^2.1 || ^3.0"
+            },
+            "conflict": {
+                "php": "7.4.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.0"
-            },
-            "suggest": {
-                "ext-mbstring": "Massive performance enhancement of line folding"
+                "ergebnis/composer-normalize": "^2.23.1",
+                "friendsofphp/php-cs-fixer": "^3.4",
+                "infection/infection": "^0.23",
+                "phpmd/phpmd": "^2.11.1",
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^4.8"
             },
             "type": "library",
             "autoload": {
@@ -2647,11 +2654,11 @@
             "authors": [
                 {
                     "name": "Markus Poerschke",
-                    "email": "markus@eluceo.de",
+                    "email": "markus@poerschke.nrw",
                     "role": "Developer"
                 }
             ],
-            "description": "The eluceo/iCal package offers a abstraction layer for creating iCalendars. You can easily create iCal files by using PHP object instead of typing your *.ics file by hand. The output will follow RFC 5545 as best as possible.",
+            "description": "The eluceo/iCal package offers an abstraction layer for creating iCalendars. You can easily create iCal files by using PHP objects instead of typing your *.ics file by hand. The output will follow RFC 5545 as best as possible.",
             "homepage": "https://github.com/markuspoerschke/iCal",
             "keywords": [
                 "calendar",
@@ -2661,10 +2668,12 @@
                 "php calendar"
             ],
             "support": {
+                "docs": "https://ical.poerschke.nrw",
+                "forum": "https://github.com/markuspoerschke/iCal/discussions",
                 "issues": "https://github.com/markuspoerschke/iCal/issues",
                 "source": "https://github.com/markuspoerschke/iCal"
             },
-            "time": "2020-10-04T17:41:11+00:00"
+            "time": "2022-02-13T19:32:24+00:00"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
