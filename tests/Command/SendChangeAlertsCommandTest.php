@@ -85,7 +85,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             $this->alertRepository,
             $this->auditLogRepository,
             $this->offeringRepository,
-            $kernel->getContainer()->get('twig'),
+            static::getContainer()->get('twig'),
             $this->mailer,
             $config,
             $fs,
