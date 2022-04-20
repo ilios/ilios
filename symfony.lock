@@ -472,9 +472,6 @@
             "ref": "9648db3ecae5c8a6b1a5f74715d3907124348815"
         }
     },
-    "symfony/amqp-messenger": {
-        "version": "v5.2.0"
-    },
     "symfony/apache-pack": {
         "version": "1.0",
         "recipe": {
@@ -752,9 +749,6 @@
     "symfony/psr-http-message-bridge": {
         "version": "v2.1.1"
     },
-    "symfony/redis-messenger": {
-        "version": "v5.2.0"
-    },
     "symfony/requirements-checker": {
         "version": "2.0",
         "recipe": {
@@ -796,9 +790,6 @@
         "version": "v5.2.0"
     },
     "symfony/security-csrf": {
-        "version": "v5.2.0"
-    },
-    "symfony/security-guard": {
         "version": "v5.2.0"
     },
     "symfony/security-http": {
