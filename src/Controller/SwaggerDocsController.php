@@ -43,6 +43,24 @@ class SwaggerDocsController extends AbstractController
     }
 
     /**
+     * Get a single YAML file which documents our endpoints
+     */
+    #[Route(
+        '/api/doc/swagger.yml',
+        methods: ['GET'],
+    )]
+    public function yaml(Request $request): Response
+    {
+        $yaml = $this->builder->getDocs($request);
+
+        return new Response(
+            $yaml,
+            Response::HTTP_OK,
+            ['Content-type' => 'application/x-yaml']
+        );
+    }
+
+    /**
      * Fetch the swagger-ui from vendor and send its contents as the response
      */
     #[Route(
@@ -71,23 +89,5 @@ class SwaggerDocsController extends AbstractController
             $response->headers->set('Content-Type', 'text/javascript');
         }
         return $response;
-    }
-
-    /**
-     * Get a single YAML file which documents our endpoints
-     */
-    #[Route(
-        '/api/doc/swagger.yml',
-        methods: ['GET'],
-    )]
-    public function yaml(Request $request): Response
-    {
-        $yaml = $this->builder->getDocs($request);
-
-        return new Response(
-            $yaml,
-            Response::HTTP_OK,
-            ['Content-type' => 'application/x-yaml']
-        );
     }
 }
