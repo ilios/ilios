@@ -175,7 +175,7 @@ class CasAuthentication implements AuthenticationInterface
     protected function getServiceUrl(): string
     {
         $url =  $this->router->generate(
-            'ilios_authentication.login',
+            'app_auth_login',
             [],
             UrlGenerator::NETWORK_PATH
         );
@@ -186,7 +186,7 @@ class CasAuthentication implements AuthenticationInterface
     protected function getRootUrl(): string
     {
         return $this->router->generate(
-            'ilios_index',
+            'app_index_index',
             [],
             UrlGenerator::ABSOLUTE_URL
         );

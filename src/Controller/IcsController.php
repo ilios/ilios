@@ -124,7 +124,7 @@ class IcsController extends AbstractController
             throw new Exception("Event was neither an offering nor an ILM. This isn't a valid state");
         }
         $link = $this->router->generate(
-            'ilios_index',
+            'app_index_index',
             ['fileName' => "events/$slug"],
             UrlGenerator::ABSOLUTE_URL
         );

@@ -652,7 +652,7 @@ class SchooleventsTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_schoolevents',
+            'app_schoolevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
@@ -677,7 +677,7 @@ class SchooleventsTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_schoolevents',
+            'app_schoolevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
@@ -702,7 +702,7 @@ class SchooleventsTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_schoolevents',
+            'app_schoolevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
@@ -725,7 +725,7 @@ class SchooleventsTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_schoolevents',
+            'app_schoolevent_getevents',
             $parameters
         );
 
@@ -758,7 +758,7 @@ class SchooleventsTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'ilios_api_schoolevents',
+            'app_schoolevent_getevents',
             $parameters
         );
 

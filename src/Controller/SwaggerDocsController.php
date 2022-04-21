@@ -35,7 +35,7 @@ class SwaggerDocsController extends AbstractController
     public function index(Request $request): Response
     {
         $yamlRoute = $this->generateUrl(
-            'ilios_swagger_file',
+            'app_swaggerdocs_yaml',
             [],
             UrlGeneratorInterface::NETWORK_PATH
         );
