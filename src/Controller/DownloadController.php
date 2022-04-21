@@ -20,13 +20,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class DownloadController extends AbstractController
 {
     #[Route(
-        '/ci-report-dl/{token}',
+        '/lm/{token}',
         requirements: [
             'token' => '^[a-zA-Z0-9]{64}$',
         ],
         methods: ['GET'],
     )]
-    public function download(
+    public function downloadMaterials(
         string $token,
         LearningMaterialRepository $learningMaterialRepository,
         IliosFileSystem $iliosFileSystem,

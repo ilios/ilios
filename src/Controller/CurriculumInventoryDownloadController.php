@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Entity\CurriculumInventoryReportInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class CurriculumInventoryDownloadController
@@ -20,14 +21,16 @@ class CurriculumInventoryDownloadController extends AbstractController
 {
     /**
      * Downloads the curriculum inventory report document for a given report.
-     *
-     * @param string $token
-     * @param CurriculumInventoryReportRepository $reportRepository
-     * @param CurriculumInventoryExportRepository $exportManager
-     * @param Exporter $exporter
      */
+    #[Route(
+        '/ci-report-dl/{token}',
+        requirements: [
+            'token' => '^[a-zA-Z0-9]{64}$',
+        ],
+        methods: ['GET'],
+    )]
     public function getAction(
-        $token,
+        string $token,
         CurriculumInventoryReportRepository $reportRepository,
         CurriculumInventoryExportRepository $exportManager,
         Exporter $exporter
