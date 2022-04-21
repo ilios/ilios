@@ -49,7 +49,7 @@ class Authentications
 
 
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['GET']
     )]
     public function getOne(string $version, int $id, ApiResponseBuilder $builder, Request $request): Response
@@ -161,7 +161,7 @@ class Authentications
      * can be stored safely in the database
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(
@@ -216,7 +216,7 @@ class Authentications
      * can be stored safely in the database
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PATCH']
     )]
     public function patch(
@@ -275,7 +275,7 @@ class Authentications
      * Deletes a record by userId
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['DELETE']
     )]
     public function delete(

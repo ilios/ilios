@@ -24,7 +24,7 @@ abstract class ReadOnlyController
      * Handles GET request for a single entity
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['GET']
     )]
     public function getOne(

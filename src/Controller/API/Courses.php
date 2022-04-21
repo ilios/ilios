@@ -74,7 +74,7 @@ class Courses extends ReadWriteController
      * object if it does not yet exist.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(
@@ -109,7 +109,7 @@ class Courses extends ReadWriteController
      * Rollover a course by ID
      */
     #[Route(
-        path: '/{id}/rollover',
+        '/{id}/rollover',
         methods: ['POST']
     )]
     public function rolloverAction(

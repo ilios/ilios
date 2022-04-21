@@ -33,7 +33,7 @@ class Cohorts extends ReadOnlyController
      * otherwise edit them as usual.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(

@@ -93,7 +93,7 @@ class CurriculumInventoryReports extends ReadWriteController
      * Rollover (clone) a given curriculum Inventory report, down to the sequence block level.
      */
     #[Route(
-        path: '/{id}/rollover',
+        '/{id}/rollover',
         methods: ['POST']
     )]
     public function rollover(
@@ -153,7 +153,7 @@ class CurriculumInventoryReports extends ReadWriteController
      * @throws Exception
      */
     #[Route(
-        path: '/{id}/verificationpreview',
+        '/{id}/verificationpreview',
         methods: ['GET']
     )]
     public function verificationPreview(

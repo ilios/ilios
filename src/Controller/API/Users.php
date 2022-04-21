@@ -121,7 +121,7 @@ class Users extends ReadWriteController
      * current user object in the session has been modified
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(

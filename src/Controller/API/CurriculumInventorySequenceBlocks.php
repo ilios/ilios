@@ -67,7 +67,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
      * object if it does not yet exist.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(
@@ -120,7 +120,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
      * Handles DELETE requests to remove an element from the API
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['DELETE']
     )]
     public function delete(

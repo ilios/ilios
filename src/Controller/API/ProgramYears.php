@@ -79,7 +79,7 @@ class ProgramYears extends ReadWriteController
      * object if it does not yet exist.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(
@@ -128,7 +128,7 @@ class ProgramYears extends ReadWriteController
     }
 
     #[Route(
-        path: '/{id}/downloadobjectivesmapping',
+        '/{id}/downloadobjectivesmapping',
         methods: ['GET']
     )]
     public function downloadCourseObjectivesReport(

@@ -50,7 +50,7 @@ class LearningMaterials
      * Handles GET request for a single entity
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['GET']
     )]
     public function getOne(
@@ -218,7 +218,7 @@ class LearningMaterials
      * technically read only, but should not be writable when saved.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(
@@ -272,7 +272,7 @@ class LearningMaterials
      * technically read only, but should not be writable when saved.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PATCH']
     )]
     public function patch(
@@ -325,7 +325,7 @@ class LearningMaterials
      * Handles DELETE requests to remove an element from the API
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['DELETE']
     )]
     public function delete(

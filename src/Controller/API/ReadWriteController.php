@@ -55,7 +55,7 @@ abstract class ReadWriteController extends ReadOnlyController
      * object if it does not yet exist.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(
@@ -95,7 +95,7 @@ abstract class ReadWriteController extends ReadOnlyController
      * object if it does not yet exist.
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PATCH']
     )]
     public function patch(
@@ -131,7 +131,7 @@ abstract class ReadWriteController extends ReadOnlyController
      * Handles DELETE requests to remove an element from the API
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['DELETE']
     )]
     public function delete(

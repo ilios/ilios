@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AcademicYears
 {
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['GET']
     )]
     public function getOne(

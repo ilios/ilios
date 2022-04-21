@@ -83,7 +83,7 @@ class Offerings extends ReadWriteController
      *
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PUT']
     )]
     public function put(
@@ -141,7 +141,7 @@ class Offerings extends ReadWriteController
      *
      */
     #[Route(
-        path: '/{id}',
+        '/{id}',
         methods: ['PATCH']
     )]
     public function patch(
