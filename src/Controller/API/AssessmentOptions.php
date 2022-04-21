@@ -7,7 +7,7 @@ namespace App\Controller\API;
 use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route("/api/{version<v3>}/assessmentoptions")]
+#[Route('/api/{version<v3>}/assessmentoptions')]
 class AssessmentOptions extends ReadWriteController
 {
     public function __construct(AssessmentOptionRepository $repository)

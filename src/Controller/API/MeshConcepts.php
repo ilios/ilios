@@ -7,7 +7,7 @@ namespace App\Controller\API;
 use App\Repository\MeshConceptRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route("/api/{version<v3>}/meshconcepts")]
+#[Route('/api/{version<v3>}/meshconcepts')]
 class MeshConcepts extends ReadOnlyController
 {
     public function __construct(MeshConceptRepository $repository)

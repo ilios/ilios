@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-#[Route("/api/{version<v3>}/meshdescriptors")]
+#[Route('/api/{version<v3>}/meshdescriptors')]
 class MeshDescriptors extends ReadOnlyController
 {
     public function __construct(protected MeshDescriptorRepository $meshDescriptorRepository)

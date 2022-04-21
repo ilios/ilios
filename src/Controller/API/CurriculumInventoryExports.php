@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route("/api/{version<v3>}/curriculuminventoryexports")]
+#[Route('/api/{version<v3>}/curriculuminventoryexports')]
 class CurriculumInventoryExports
 {
     use ApiEntityValidation;

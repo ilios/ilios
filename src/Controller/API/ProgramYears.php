@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route("/api/{version<v3>}/programyears")]
+#[Route('/api/{version<v3>}/programyears')]
 class ProgramYears extends ReadWriteController
 {
     public function __construct(

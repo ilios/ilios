@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route("/api/{version<v3>}/courses")]
+#[Route('/api/{version<v3>}/courses')]
 class Courses extends ReadWriteController
 {
     public function __construct(

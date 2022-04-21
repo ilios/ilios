@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
 
-#[Route("/api/{version<v3>}/curriculuminventorysequenceblocks")]
+#[Route('/api/{version<v3>}/curriculuminventorysequenceblocks')]
 class CurriculumInventorySequenceBlocks extends ReadWriteController
 {
     public function __construct(CurriculumInventorySequenceBlockRepository $repository)
