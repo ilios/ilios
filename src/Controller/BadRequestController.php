@@ -25,7 +25,7 @@ class BadRequestController extends AbstractController
             'url' => null,
         ],
         methods: ['GET'],
-        priority: 2,
+        priority: -1,
     )]
     public function indexAction()
     {
