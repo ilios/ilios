@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Eluceo\iCal\Component as ICS;
 use Symfony\Component\Routing\RouterInterface;
@@ -33,7 +34,14 @@ class IcsController extends AbstractController
     ) {
     }
 
-    public function indexAction(Request $request, $key)
+    #[Route(
+        '/ics/{key}',
+        requirements: [
+            'key' => '^[a-zA-Z0-9]{64}$',
+        ],
+        methods: ['GET'],
+    )]
+    public function getICSFeed(Request $request, $key)
     {
         /** @var User $user */
         $user = $this->userRepository->findOneBy(['icsFeedKey' => $key]);

@@ -12,19 +12,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DownloadController
  */
 class DownloadController extends AbstractController
 {
-    public function learningMaterialAction(
-        $token,
+    #[Route(
+        '/ci-report-dl/{token}',
+        requirements: [
+            'token' => '^[a-zA-Z0-9]{64}$',
+        ],
+        methods: ['GET'],
+    )]
+    public function download(
+        string $token,
         LearningMaterialRepository $learningMaterialRepository,
         IliosFileSystem $iliosFileSystem,
         Request $request,
         Config $config
-    ) {
+    ): Response {
         if ($config->get('learningMaterialsDisabled') === true) {
             return new Response(
                 'Learning Materials are disabled on this instance.',

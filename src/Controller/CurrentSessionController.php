@@ -9,6 +9,7 @@ use App\Classes\CurrentSession;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -20,11 +21,19 @@ class CurrentSessionController extends AbstractController
 {
     /**
      * Gets the currently authenticated users Id
-     *
-     * @param string $version
      */
-    public function getAction($version, TokenStorageInterface $tokenStorage, SerializerInterface $serializer): Response
-    {
+    #[Route(
+        '/api/{version}/currentsession',
+        requirements: [
+            'version' => '%ilios_api_valid_api_versions%',
+        ],
+        methods: ['GET'],
+    )]
+    public function getCurrentSession(
+        string $version,
+        TokenStorageInterface $tokenStorage,
+        SerializerInterface $serializer
+    ): Response {
         $sessionUser = $tokenStorage->getToken()->getUser();
         if (!$sessionUser instanceof SessionUserInterface) {
             throw new NotFoundHttpException('No current session');

@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use function sleep;
@@ -27,7 +28,8 @@ class AuthController extends AbstractController
      * Passes off the task of authentication to the service selected by the config
      * option authentication_type.
      */
-    public function loginAction(Request $request, AuthenticationInterface $authenticator): Response
+    #[Route('/auth/login')]
+    public function login(Request $request, AuthenticationInterface $authenticator): Response
     {
         return $authenticator->login($request);
     }
@@ -35,7 +37,8 @@ class AuthController extends AbstractController
     /**
      * Get the id from the currently authenticated user
      */
-    public function whoamiAction(TokenStorageInterface $tokenStorage): JsonResponse
+    #[Route('/auth/whoami')]
+    public function whoami(TokenStorageInterface $tokenStorage): JsonResponse
     {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
@@ -50,7 +53,8 @@ class AuthController extends AbstractController
      * Get a new token
      * Useful when the time limit is approaching but the user is still active
      */
-    public function tokenAction(
+    #[Route('/auth/token')]
+    public function token(
         Request $request,
         TokenStorageInterface $tokenStorage,
         JsonWebTokenManager $jwtManager
@@ -71,7 +75,8 @@ class AuthController extends AbstractController
      * Passes off the task of logout to the service selected by the config
      * option authentication_type.
      */
-    public function logoutAction(Request $request, AuthenticationInterface $authenticator): JsonResponse
+    #[Route('/auth/logout')]
+    public function logout(Request $request, AuthenticationInterface $authenticator): JsonResponse
     {
         return $authenticator->logout($request);
     }
@@ -82,7 +87,8 @@ class AuthController extends AbstractController
      *
      * @throws Exception
      */
-    public function invalidateTokensAction(
+    #[Route('/auth/invalidatetokens')]
+    public function invalidateTokens(
         TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
         AuthenticationRepository $authenticationRepository,

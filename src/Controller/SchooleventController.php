@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -30,15 +31,17 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class SchooleventController extends AbstractController
 {
-    /**
-     * @param string $version of the API requested
-     * @param string $id of the school
-     *
-     * @throws Exception
-     */
-    public function getAction(
-        $version,
-        $id,
+    #[Route(
+        '/api/{version}/userevents/{id}',
+        requirements: [
+            'version' => '%ilios_api_valid_api_versions%',
+            'id' => '\d+',
+        ],
+        methods: ['GET'],
+    )]
+    public function getEvents(
+        string $version,
+        int $id,
         Request $request,
         SchoolRepository $schoolRepository,
         SessionRepository $sessionRepository,

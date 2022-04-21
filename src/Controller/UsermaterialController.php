@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -26,13 +27,18 @@ class UsermaterialController extends AbstractController
 {
     /**
      * Get the materials for a user
-     *
-     * @param string $version
-     * @param int $id of the user
      */
-    public function getAction(
-        $version,
-        $id,
+    #[Route(
+        '/api/{version}/usermaterials/{id}',
+        requirements: [
+            'version' => '%ilios_api_valid_api_versions%',
+            'id' => '\d+',
+        ],
+        methods: ['GET'],
+    )]
+    public function getMaterials(
+        string $version,
+        int $id,
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
         UserRepository $userRepository,
