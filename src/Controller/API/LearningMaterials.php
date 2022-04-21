@@ -34,8 +34,8 @@ use RuntimeException;
  * otherwise the method bodies are copied from
  * the top level API Read and ReadWrite controllers
  *
- * @Route("/api/{version<v3>}/learningmaterials")
  */
+#[Route('/api/{version<v3>}/learningmaterials')]
 
 class LearningMaterials
 {
@@ -48,8 +48,11 @@ class LearningMaterials
 
     /**
      * Handles GET request for a single entity
-     * @Route("/{id}", methods={"GET"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['GET']
+    )]
     public function getOne(
         string $version,
         int $id,
@@ -80,8 +83,8 @@ class LearningMaterials
 
     /**
      * Handles GET request for multiple entities
-     * @Route("", methods={"GET"})
      */
+    #[Route(methods: ['GET'])]
     public function getAll(
         string $version,
         Request $request,
@@ -132,8 +135,8 @@ class LearningMaterials
      * Connects file learning materials to the uploaded file
      * they are referencing and generate a token to use to link
      * to this learning material.
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -213,8 +216,11 @@ class LearningMaterials
      * When saving a learning material do not allow
      * the modification of file fields.  These are not
      * technically read only, but should not be writable when saved.
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         int $id,
@@ -264,8 +270,11 @@ class LearningMaterials
      * When saving a learning material do not allow
      * the modification of file fields.  These are not
      * technically read only, but should not be writable when saved.
-     * @Route("/{id}", methods={"PATCH"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['PATCH']
+    )]
     public function patch(
         string $version,
         int $id,
@@ -314,8 +323,11 @@ class LearningMaterials
 
     /**
      * Handles DELETE requests to remove an element from the API
-     * @Route("/{id}", methods={"DELETE"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['DELETE']
+    )]
     public function delete(
         string $version,
         string $id,

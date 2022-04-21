@@ -13,9 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-/**
- * @Route("/api/{version<v3>}/meshdescriptors")
- */
+#[Route("/api/{version<v3>}/meshdescriptors")]
 class MeshDescriptors extends ReadOnlyController
 {
     public function __construct(protected MeshDescriptorRepository $meshDescriptorRepository)
@@ -25,8 +23,8 @@ class MeshDescriptors extends ReadOnlyController
 
     /**
      * Handle the special 'q' parameter
-     * @Route("", methods={"GET"})
      */
+    #[Route(methods: ['GET'])]
     public function getAll(
         string $version,
         Request $request,

@@ -20,9 +20,7 @@ use function json_encode;
 
 class GraphQL
 {
-    /**
-     * @Route("/api/graphql")
-     */
+    #[Route('/api/graphql')]
     public function index(Request $request, TypeRegistry $typeRegistry, TypeResolver $resolver): Response
     {
         $types = $typeRegistry->getTypes();

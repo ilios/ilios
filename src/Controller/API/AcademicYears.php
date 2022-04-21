@@ -15,14 +15,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * @Route("/api/{version<v3>}/academicyears")
- */
+#[Route('/api/{version<v3>}/academicyears')]
 class AcademicYears
 {
-    /**
-     * @Route("/{id}", methods={"GET"})
-     */
+    #[Route(
+        path: '/{id}',
+        methods: ['GET']
+    )]
     public function getOne(
         string $version,
         int $id,
@@ -64,10 +63,9 @@ class AcademicYears
             );
         }
     }
-
-    /**
-     * @Route("", methods={"GET"})
-     */
+    #[Route(
+        methods: ['GET']
+    )]
     public function getAll(
         string $version,
         Request $request,

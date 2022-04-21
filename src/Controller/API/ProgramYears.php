@@ -25,9 +25,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/api/{version<v3>}/programyears")
- */
+#[Route("/api/{version<v3>}/programyears")]
 class ProgramYears extends ReadWriteController
 {
     public function __construct(
@@ -40,8 +38,8 @@ class ProgramYears extends ReadWriteController
 
    /**
      * Create cohort to match the new program year
-     * @Route("", methods={"POST"})
-     */
+    */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -79,8 +77,11 @@ class ProgramYears extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         string $id,
@@ -126,9 +127,10 @@ class ProgramYears extends ReadWriteController
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
 
-    /**
-     * @Route("/{id}/downloadobjectivesmapping", methods={"GET"})
-     */
+    #[Route(
+        path: '/{id}/downloadobjectivesmapping',
+        methods: ['GET']
+    )]
     public function downloadCourseObjectivesReport(
         string $version,
         int $id

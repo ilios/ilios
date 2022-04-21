@@ -18,9 +18,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/api/{version<v3>}/cohorts")
- */
+#[Route("/api/{version<v3>}/cohorts")]
 class Cohorts extends ReadOnlyController
 {
     use ApiEntityValidation;
@@ -33,8 +31,11 @@ class Cohorts extends ReadOnlyController
     /**
      * Don't allow new cohorts to be created with a PUT request,
      * otherwise edit them as usual.
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         string $id,

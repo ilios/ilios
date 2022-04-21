@@ -7,10 +7,7 @@ namespace App\Controller\API;
 use App\Repository\ProgramRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @package App\Controller\API
- * @Route("/api/{version<v3>}/programs")
- */
+#[Route('/api/{version<v3>}/programs')]
 class Programs extends ReadWriteController
 {
     public function __construct(ProgramRepository $repository)

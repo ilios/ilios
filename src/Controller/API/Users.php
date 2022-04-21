@@ -24,8 +24,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * as well as special handling for ICS feed keys
  * so users needs its own controller
  *
- * @Route("/api/{version<v3>}/users")
  */
+#[Route('/api/{version<v3>}/users')]
 
 class Users extends ReadWriteController
 {
@@ -39,8 +39,8 @@ class Users extends ReadWriteController
 
     /**
      * Handle the special 'q' parameter for courses
-     * @Route("", methods={"GET"})
      */
+    #[Route(methods: ['GET'])]
     public function getAll(
         string $version,
         Request $request,
@@ -78,8 +78,8 @@ class Users extends ReadWriteController
      * the created key.  This happens when new users are created and they don't have a
      * key yet.  Instead of using the blank key we need to keep the one that is generated
      * in the User entity constructor.
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -119,8 +119,11 @@ class Users extends ReadWriteController
      * Only a root user can make other users root.
      * This has to be done here because by the time it reaches the voter the
      * current user object in the session has been modified
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         string $id,

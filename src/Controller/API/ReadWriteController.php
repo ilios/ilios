@@ -26,8 +26,8 @@ abstract class ReadWriteController extends ReadOnlyController
 
     /**
      * Handles POST which creates new data in the API
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -53,8 +53,11 @@ abstract class ReadWriteController extends ReadOnlyController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         string $id,
@@ -90,8 +93,11 @@ abstract class ReadWriteController extends ReadOnlyController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/{id}", methods={"PATCH"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['PATCH']
+    )]
     public function patch(
         string $version,
         string $id,
@@ -123,8 +129,11 @@ abstract class ReadWriteController extends ReadOnlyController
 
     /**
      * Handles DELETE requests to remove an element from the API
-     * @Route("/{id}", methods={"DELETE"})
      */
+    #[Route(
+        path: '/{id}',
+        methods: ['DELETE']
+    )]
     public function delete(
         string $version,
         string $id,

@@ -7,9 +7,7 @@ namespace App\Controller\API;
 use App\Repository\MeshQualifierRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/api/{version<v3>}/meshqualifiers")
- */
+#[Route("/api/{version<v3>}/meshqualifiers")]
 class MeshQualifiers extends ReadOnlyController
 {
     public function __construct(MeshQualifierRepository $repository)

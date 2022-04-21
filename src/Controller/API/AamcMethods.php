@@ -7,9 +7,7 @@ namespace App\Controller\API;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/api/{version<v3>}/aamcmethods")
- */
+#[Route("/api/{version<v3>}/aamcmethods")]
 class AamcMethods extends ReadWriteController
 {
     public function __construct(AamcMethodRepository $repository)

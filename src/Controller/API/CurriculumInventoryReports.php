@@ -27,9 +27,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/api/{version<v3>}/curriculuminventoryreports")
- */
+#[Route("/api/{version<v3>}/curriculuminventoryreports")]
 class CurriculumInventoryReports extends ReadWriteController
 {
     public function __construct(
@@ -45,8 +43,8 @@ class CurriculumInventoryReports extends ReadWriteController
      * Handles POST which creates new data in the API
      * Along with the report create the Sequence and Levels that
      * are necessary for a Report to be at all valid
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -93,8 +91,11 @@ class CurriculumInventoryReports extends ReadWriteController
 
     /**
      * Rollover (clone) a given curriculum Inventory report, down to the sequence block level.
-     * @Route("/{id}/rollover", methods={"POST"})
      */
+    #[Route(
+        path: '/{id}/rollover',
+        methods: ['POST']
+    )]
     public function rollover(
         string $version,
         int $id,
@@ -149,9 +150,12 @@ class CurriculumInventoryReports extends ReadWriteController
 
     /**
      * Build and send the verification preview tables for CI
-     * @Route("/{id}/verificationpreview", methods={"GET"})
      * @throws Exception
      */
+    #[Route(
+        path: '/{id}/verificationpreview',
+        methods: ['GET']
+    )]
     public function verificationPreview(
         string $version,
         int $id,

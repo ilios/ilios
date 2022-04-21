@@ -7,9 +7,7 @@ namespace App\Controller\API;
 use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/api/{version<v3>}/aamcresourcetypes")
- */
+#[Route("/api/{version<v3>}/aamcresourcetypes")]
 class AamcResourceTypes extends ReadWriteController
 {
     public function __construct(AamcResourceTypeRepository $repository)
