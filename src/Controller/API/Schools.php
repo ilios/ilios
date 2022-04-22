@@ -7,10 +7,7 @@ namespace App\Controller\API;
 use App\Repository\SchoolRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @package App\Controller\API
- * @Route("/api/{version<v3>}/schools")
- */
+#[Route('/api/{version<v3>}/schools')]
 class Schools extends ReadWriteController
 {
     public function __construct(SchoolRepository $repository)

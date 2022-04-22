@@ -112,7 +112,7 @@ class DirectoryControllerTest extends TestCase
         $request = new Request();
         $request->query->add(['searchTerms' => 'a b']);
 
-        $response = $this->directoryController->searchAction($request);
+        $response = $this->directoryController->search($request);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
@@ -164,7 +164,7 @@ class DirectoryControllerTest extends TestCase
         $request = new Request();
         $request->query->add(['searchTerms' => 'a b']);
 
-        $response = $this->directoryController->searchAction($request);
+        $response = $this->directoryController->search($request);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
         $results = json_decode($content, true)['results'];
@@ -209,7 +209,7 @@ class DirectoryControllerTest extends TestCase
             ->shouldReceive('findOneBy')
             ->with(['id' => 1])->andReturn($userMock);
 
-        $response = $this->directoryController->findAction(1);
+        $response = $this->directoryController->find(1);
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
@@ -224,7 +224,7 @@ class DirectoryControllerTest extends TestCase
     {
         $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(false);
         $this->expectException(AccessDeniedException::class);
-        $this->directoryController->findAction(1);
+        $this->directoryController->find(1);
     }
 
     public function testSearchFailsIfUserDoesntHaveProperPermissions()
@@ -233,6 +233,6 @@ class DirectoryControllerTest extends TestCase
         $this->expectException(AccessDeniedException::class);
         $request = new Request();
         $request->query->add(['searchTerms' => 'a b']);
-        $this->directoryController->searchAction($request);
+        $this->directoryController->search($request);
     }
 }

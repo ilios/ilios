@@ -126,7 +126,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.whoami'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_whoami'),
             null,
             $jwt
         );
@@ -151,7 +151,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.whoami'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_whoami'),
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -164,7 +164,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.whoami'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_whoami'),
             null,
             $jwt
         );
@@ -180,7 +180,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_token'),
             null,
             $jwt
         );
@@ -212,7 +212,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token') . '?ttl=P2W',
+            $this->getUrl($this->kernelBrowser, 'app_auth_token') . '?ttl=P2W',
             null,
             $jwt
         );
@@ -233,7 +233,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_token'),
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
@@ -245,7 +245,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.token'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_token'),
             null,
             $jwt
         );
@@ -261,7 +261,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.invalidate_tokens'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_invalidatetokens'),
             null,
             $jwt
         );
@@ -289,7 +289,7 @@ class AuthControllerTest extends WebTestCase
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
-            $this->getUrl($this->kernelBrowser, 'ilios_authentication.invalidate_tokens'),
+            $this->getUrl($this->kernelBrowser, 'app_auth_invalidatetokens'),
         );
 
         $response = $this->kernelBrowser->getResponse();

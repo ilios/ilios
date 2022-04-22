@@ -9,10 +9,15 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ErrorController extends AbstractController
 {
-    public function errorAction(Request $request, LoggerInterface $logger): Response
+    #[Route(
+        '/errors',
+        methods: ['POST'],
+    )]
+    public function postError(Request $request, LoggerInterface $logger): Response
     {
         if ($request->request->has('data')) {
             $data = $request->request->all()['data'];

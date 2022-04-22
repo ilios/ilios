@@ -22,8 +22,11 @@ abstract class ReadOnlyController
 
     /**
      * Handles GET request for a single entity
-     * @Route("/{id}", methods={"GET"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
     public function getOne(
         string $version,
         string $id,
@@ -44,8 +47,10 @@ abstract class ReadOnlyController
 
     /**
      * Handles GET request for multiple entities
-     * @Route("", methods={"GET"})
      */
+    #[Route(
+        methods: ['GET']
+    )]
     public function getAll(
         string $version,
         Request $request,

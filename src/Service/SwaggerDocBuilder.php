@@ -102,12 +102,12 @@ class SwaggerDocBuilder
     protected function getDescription()
     {
         $apiDocsUrl = $this->router->generate(
-            'ilios_swagger_index',
+            'app_swaggerdocs_index',
             [],
             UrlGenerator::ABSOLUTE_URL
         );
         $myprofileUrl = $this->router->generate(
-            'ilios_index',
+            'app_index_index',
             [],
             UrlGenerator::ABSOLUTE_URL
         );

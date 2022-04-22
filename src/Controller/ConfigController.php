@@ -12,19 +12,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class ConfigController
- */
 class ConfigController extends AbstractController
 {
-    public function indexAction(
+    #[Route(
+        '/application/config',
+        methods: ['GET'],
+    )]
+    public function getConfig(
         Request $request,
         Config $config,
         Curriculum $curriculumSearch,
         AuthenticationInterface $authenticationSystem,
         VersionManagerInterface $versionManager,
-    ) {
+    ): JsonResponse {
         $configuration = $authenticationSystem->getPublicConfigurationInformation($request);
         $configuration['locale'] = $this->getParameter('kernel.default_locale');
 

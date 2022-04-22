@@ -22,17 +22,15 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/api/{version<v3>}/curriculuminventoryexports")
- */
+#[Route('/api/{version<v3>}/curriculuminventoryexports')]
 class CurriculumInventoryExports
 {
     use ApiEntityValidation;
 
     /**
      * Create the XML document for a curriculum inventory report
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,

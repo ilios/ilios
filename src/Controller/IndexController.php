@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Command\UpdateFrontendCommand;
+use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 use DateTime;
 
@@ -36,6 +37,16 @@ class IndexController extends AbstractController
     /**
      * Load the index.html file or a nice error message if it doesn't exist
      */
+    #[Route(
+        '/{fileName}',
+        requirements: [
+            'fileName' => '(?!api).+',
+        ],
+        defaults: [
+            'fileName' => null,
+        ],
+        methods: ['GET'],
+    )]
     public function index(Request $request): Response
     {
         $response = $this->authentication->createAuthenticationResponse($request);

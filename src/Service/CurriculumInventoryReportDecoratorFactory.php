@@ -18,7 +18,7 @@ class CurriculumInventoryReportDecoratorFactory
     public function create(CurriculumInventoryReportDTO $report): CurriculumInventoryReportDTO
     {
         $report->absoluteFileUri = $this->router->generate(
-            'ilios_downloadcurriculuminventoryreport',
+            'app_curriculuminventorydownload_get',
             ['token' => $report->token],
             UrlGenerator::ABSOLUTE_URL
         );

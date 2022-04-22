@@ -32,8 +32,8 @@ use RuntimeException;
  * Authentication uses 'user' as the primary key and
  * needs to encode passwords
  * so we have to handle that specially.
- * @Route("/api/{version<v3>}/authentications")
  */
+#[Route('/api/{version<v3>}/authentications')]
 class Authentications
 {
     use ApiEntityValidation;
@@ -47,9 +47,11 @@ class Authentications
     ) {
     }
 
-    /**
-     * @Route("/{id}", methods={"GET"})
-     */
+
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
     public function getOne(string $version, int $id, ApiResponseBuilder $builder, Request $request): Response
     {
         $dto = $this->repository->findDTOBy(['user' => $id]);
@@ -64,8 +66,8 @@ class Authentications
     /**
      * Along with taking input this also encodes the passwords
      * so they can be stored safely in the database
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -127,8 +129,8 @@ class Authentications
 
     /**
      * Handles GET request for multiple entities
-     * @Route("", methods={"GET"})
      */
+    #[Route(methods: ['GET'])]
     public function getAll(
         string $version,
         Request $request,
@@ -157,8 +159,11 @@ class Authentications
     /**
      * Along with taking user input, this also encodes passwords so they
      * can be stored safely in the database
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         int $id,
@@ -209,8 +214,11 @@ class Authentications
     /**
      * Along with taking user input, this also encodes passwords so they
      * can be stored safely in the database
-     * @Route("/{id}", methods={"PATCH"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['PATCH']
+    )]
     public function patch(
         string $version,
         int $id,
@@ -265,8 +273,11 @@ class Authentications
 
     /**
      * Deletes a record by userId
-     * @Route("/{id}", methods={"DELETE"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['DELETE']
+    )]
     public function delete(
         string $version,
         int $id,

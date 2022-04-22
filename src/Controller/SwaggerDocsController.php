@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -27,10 +28,14 @@ class SwaggerDocsController extends AbstractController
     /**
      * Get a single YAML file which documents our endpoints
      */
-    public function indexAction(Request $request): Response
+    #[Route(
+        '/api/doc/',
+        methods: ['GET'],
+    )]
+    public function index(Request $request): Response
     {
         $yamlRoute = $this->generateUrl(
-            'ilios_swagger_file',
+            'app_swaggerdocs_yaml',
             [],
             UrlGeneratorInterface::NETWORK_PATH
         );
@@ -38,9 +43,34 @@ class SwaggerDocsController extends AbstractController
     }
 
     /**
+     * Get a single YAML file which documents our endpoints
+     */
+    #[Route(
+        '/api/doc/swagger.yml',
+        methods: ['GET'],
+    )]
+    public function yaml(Request $request): Response
+    {
+        $yaml = $this->builder->getDocs($request);
+
+        return new Response(
+            $yaml,
+            Response::HTTP_OK,
+            ['Content-type' => 'application/x-yaml']
+        );
+    }
+
+    /**
      * Fetch the swagger-ui from vendor and send its contents as the response
      */
-    public function uiAction(Request $request, $fileName): Response
+    #[Route(
+        '/api/doc/{fileName}',
+        requirements: [
+            'fileName' => '.*',
+        ],
+        methods: ['GET'],
+    )]
+    public function ui(Request $request, $fileName): Response
     {
         $fileName = empty($fileName) ? 'index.html' : $fileName;
         $swaggerDistDir = $this->kernelProjectDir . '/vendor/swagger-api/swagger-ui/dist';
@@ -59,19 +89,5 @@ class SwaggerDocsController extends AbstractController
             $response->headers->set('Content-Type', 'text/javascript');
         }
         return $response;
-    }
-
-    /**
-     * Get a single YAML file which documents our endpoints
-     */
-    public function yamlAction(Request $request): Response
-    {
-        $yaml = $this->builder->getDocs($request);
-
-        return new Response(
-            $yaml,
-            Response::HTTP_OK,
-            ['Content-type' => 'application/x-yaml']
-        );
     }
 }

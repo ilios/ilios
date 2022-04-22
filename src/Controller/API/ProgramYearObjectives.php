@@ -7,10 +7,7 @@ namespace App\Controller\API;
 use App\Repository\ProgramYearObjectiveRepository;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @package App\Controller\API
- * @Route("/api/{version<v3>}/programyearobjectives")
- */
+#[Route('/api/{version<v3>}/programyearobjectives')]
 class ProgramYearObjectives extends ReadWriteController
 {
     public function __construct(ProgramYearObjectiveRepository $repository)

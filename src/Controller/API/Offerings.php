@@ -24,9 +24,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/api/{version<v3>}/offerings")
- */
+#[Route('/api/{version<v3>}/offerings')]
 class Offerings extends ReadWriteController
 {
     public function __construct(
@@ -41,8 +39,8 @@ class Offerings extends ReadWriteController
 
     /**
      * Handles POST which creates new data in the API
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -83,8 +81,11 @@ class Offerings extends ReadWriteController
      *
      * For offerings it also records an alert for the change
      *
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         string $id,
@@ -138,8 +139,11 @@ class Offerings extends ReadWriteController
      *
      * For offerings it also records an alert for the change
      *
-     * @Route("/{id}", methods={"PATCH"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['PATCH']
+    )]
     public function patch(
         string $version,
         string $id,

@@ -11,6 +11,7 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -28,7 +29,11 @@ class DirectoryController extends AbstractController
     ) {
     }
 
-    public function searchAction(Request $request)
+    #[Route(
+        '/application/directory/search',
+        methods: ['GET'],
+    )]
+    public function search(Request $request): JsonResponse
     {
         $sessionUser = $this->tokenStorage->getToken()->getUser();
         if (! $this->permissionChecker->canCreateUsersInAnySchool($sessionUser)) {
@@ -66,7 +71,14 @@ class DirectoryController extends AbstractController
         return new JsonResponse(['results' => $results]);
     }
 
-    public function findAction($id)
+    #[Route(
+        '/application/directory/find/{id}',
+        requirements: [
+            'id' => '\d+',
+        ],
+        methods: ['GET'],
+    )]
+    public function find(int $id): JsonResponse
     {
         $sessionUser = $this->tokenStorage->getToken()->getUser();
         if (!$this->permissionChecker->canCreateUsersInAnySchool($sessionUser)) {

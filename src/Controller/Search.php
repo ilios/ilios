@@ -11,6 +11,7 @@ use App\Service\PermissionChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -29,7 +30,11 @@ class Search extends AbstractController
     ) {
     }
 
-    public function curriculumSearch(Request $request)
+    #[Route(
+        '/api/search/v1/curriculum',
+        methods: ['GET'],
+    )]
+    public function curriculumSearch(Request $request): JsonResponse
     {
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $this->tokenStorage->getToken()->getUser();
@@ -46,7 +51,11 @@ class Search extends AbstractController
         return new JsonResponse(['results' => $result]);
     }
 
-    public function userSearch(Request $request)
+    #[Route(
+        '/api/search/v1/users',
+        methods: ['GET'],
+    )]
+    public function userSearch(Request $request): JsonResponse
     {
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $this->tokenStorage->getToken()->getUser();

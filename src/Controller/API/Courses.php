@@ -21,9 +21,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-/**
- * @Route("/api/{version<v3>}/courses")
- */
+#[Route('/api/{version<v3>}/courses')]
 class Courses extends ReadWriteController
 {
     public function __construct(
@@ -35,8 +33,8 @@ class Courses extends ReadWriteController
 
     /**
      * Handle the special 'my' parameter for courses
-     * @Route("", methods={"GET"})
      */
+    #[Route(methods: ['GET'])]
     public function getAll(
         string $version,
         Request $request,
@@ -74,8 +72,11 @@ class Courses extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         string $id,
@@ -106,8 +107,11 @@ class Courses extends ReadWriteController
 
     /**
      * Rollover a course by ID
-     * @Route("/{id}/rollover", methods={"POST"})
      */
+    #[Route(
+        '/{id}/rollover',
+        methods: ['POST']
+    )]
     public function rolloverAction(
         string $version,
         int $id,

@@ -22,9 +22,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
 
-/**
- * @Route("/api/{version<v3>}/curriculuminventorysequenceblocks")
- */
+#[Route('/api/{version<v3>}/curriculuminventorysequenceblocks')]
 class CurriculumInventorySequenceBlocks extends ReadWriteController
 {
     public function __construct(CurriculumInventorySequenceBlockRepository $repository)
@@ -34,8 +32,8 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
     /**
      * Handles POST which creates new data in the API
-     * @Route("", methods={"POST"})
      */
+    #[Route(methods: ['POST'])]
     public function post(
         string $version,
         Request $request,
@@ -67,8 +65,11 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
-     * @Route("/{id}", methods={"PUT"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['PUT']
+    )]
     public function put(
         string $version,
         string $id,
@@ -117,8 +118,11 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
     /**
      * Handles DELETE requests to remove an element from the API
-     * @Route("/{id}", methods={"DELETE"})
      */
+    #[Route(
+        '/{id}',
+        methods: ['DELETE']
+    )]
     public function delete(
         string $version,
         string $id,
