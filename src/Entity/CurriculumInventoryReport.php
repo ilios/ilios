@@ -37,7 +37,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
@@ -45,11 +44,11 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=200)
@@ -58,11 +57,11 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $name;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -71,34 +70,35 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $description;
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'year', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $year;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'start_date', type: 'date')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $startDate;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'end_date', type: 'date')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $endDate;
 
     /**
@@ -146,13 +146,13 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=64)
      * })
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
+    #[Assert\Type(type: 'string')]
     protected $token;
 
     /**

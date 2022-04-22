@@ -36,7 +36,6 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'learning_material_id', type: 'integer')]
     #[ORM\Id]
@@ -44,25 +43,22 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 120
-     * )
      */
     #[ORM\Column(type: 'string', length: 120)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 120)]
     protected $title;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -72,22 +68,22 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
+    #[Assert\Type(type: 'string')]
     protected $description;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'upload_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $uploadDate;
 
     /**
      * renamed Asset Creator
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=80)
@@ -96,22 +92,22 @@ class LearningMaterial implements LearningMaterialInterface
     #[ORM\Column(name: 'asset_creator', type: 'string', length: 80, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $originalAuthor;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=64)
      * })
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
+    #[Assert\Type(type: 'string')]
     protected $token;
 
     /**
      * @var LearningMaterialUserRoleInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterialUserRole', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
@@ -121,11 +117,11 @@ class LearningMaterial implements LearningMaterialInterface
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $userRole;
 
     /**
      * @var LearningMaterialStatusInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterialStatus', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
@@ -135,16 +131,17 @@ class LearningMaterial implements LearningMaterialInterface
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $status;
 
     /**
      * @var UserInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'owning_user_id', referencedColumnName: 'user_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $owningUser;
 
     /**
@@ -168,45 +165,36 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * renamed from citation
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 512,
-     *      groups={"citation"}
-     * )
      */
     #[ORM\Column(name: 'citation', type: 'string', length: 512, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 512, groups: ['citation'])]
     protected $citation;
 
     /**
      * @var string
      * renamed from relative_file_system_location
-     * @Assert\Type(type="string")
-     * @Assert\NotBlank(groups={"file"})
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 128,
-     *      groups={"file"}
-     * )
      */
     #[ORM\Column(name: 'relative_file_system_location', type: 'string', length: 128, nullable: true)]
+    #[Assert\Type(type: 'string')]
+    #[Assert\NotBlank(groups: ['file'])]
+    #[Assert\Length(min: 1, max: 128, groups: ['file'])]
     protected $relativePath;
 
     /**
      * renamed copyrightownership
      * @var bool
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'copyright_ownership', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\Type(type: 'bool')]
     protected $copyrightPermission;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -215,59 +203,48 @@ class LearningMaterial implements LearningMaterialInterface
     #[ORM\Column(name: 'copyright_rationale', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $copyrightRationale;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 255,
-     *     groups={"file"}
-     * )
      */
     #[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 255, groups: ['file'])]
     protected $filename;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 96,
-     *      groups={"file"}
-     * )
      */
     #[ORM\Column(name: 'mime_type', type: 'string', length: 96, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 96, groups: ['file'])]
     protected $mimetype;
 
     /**
      * @var string
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'filesize', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\Type(type: 'integer')]
     protected $filesize;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 256,
-     *      groups={"link"}
-     * )
      */
     #[ORM\Column(name: 'web_link', type: 'string', length: 256, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 256, groups: ['link'])]
     protected $link;
 
     public function __construct()

@@ -37,7 +37,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'program_year_objective_id', type: 'integer')]
     #[ORM\Id]
@@ -45,26 +44,27 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var ProgramYearInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'ProgramYear', inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $programYear;
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $position;
 
     /**
@@ -85,17 +85,14 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000
-     * )
      */
     #[ORM\Column(type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $title;
 
     /**
@@ -156,12 +153,12 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $active;
 
     public function __construct()

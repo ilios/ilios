@@ -35,7 +35,6 @@ class Cohort implements CohortInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
     #[ORM\Id]
@@ -43,20 +42,18 @@ class Cohort implements CohortInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 60
-     * )
      */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 60)]
     protected $title;
 
     /**

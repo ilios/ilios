@@ -35,7 +35,6 @@ class Program implements ProgramInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
@@ -43,25 +42,22 @@ class Program implements ProgramInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200
-     * )
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 200)]
     protected $title;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=10)
@@ -70,26 +66,27 @@ class Program implements ProgramInterface
     #[ORM\Column(name: 'short_title', type: 'string', length: 10, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $shortTitle;
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'duration', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $duration;
 
     /**
      * @var SchoolInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'programs')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $school;
 
     /**

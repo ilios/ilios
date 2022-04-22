@@ -30,7 +30,6 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'course_clerkship_type_id', type: 'integer')]
     #[ORM\Id]
@@ -38,20 +37,18 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 20
-     * )
      */
     #[ORM\Column(type: 'string', length: 20)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 20)]
     protected $title;
 
     /**

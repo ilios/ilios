@@ -33,27 +33,24 @@ class MeshQualifier implements MeshQualifierInterface
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      */
     #[ORM\Column(name: 'mesh_qualifier_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 60
-     * )
      */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 60)]
     protected $name;
 
 

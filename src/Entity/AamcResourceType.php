@@ -31,46 +31,37 @@ class AamcResourceType implements AamcResourceTypeInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 21
-     * )
      */
     #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 21)]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200
-     * )
      */
     #[ORM\Column(type: 'string', length: 200)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 200)]
     protected $title;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000
-     * )
      */
     #[ORM\Column(name: 'description', type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $description;
 
     /**

@@ -37,7 +37,6 @@ class ProgramYear implements ProgramYearInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'program_year_id', type: 'integer')]
     #[ORM\Id]
@@ -45,46 +44,47 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'start_year', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $startYear;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'locked', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $locked;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'archived', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $archived;
 
     /**
      * @var ProgramInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'programYears')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $program;
 
     /**

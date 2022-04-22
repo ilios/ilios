@@ -29,7 +29,6 @@ class SchoolConfig implements SchoolConfigInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
@@ -37,44 +36,39 @@ class SchoolConfig implements SchoolConfigInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200
-     * )
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 200)]
     protected $name;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000
-     * )
      */
     #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $value;
 
     /**
      * @var SchoolInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'configurations')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $school;
 
     public function getValue(): string

@@ -38,7 +38,6 @@ class InstructorGroup implements InstructorGroupInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
     #[ORM\Id]
@@ -46,30 +45,28 @@ class InstructorGroup implements InstructorGroupInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 60
-     * )
      */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 60)]
     protected $title;
 
     /**
      * @var SchoolInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'instructorGroups')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $school;
 
     /**

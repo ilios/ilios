@@ -33,42 +33,38 @@ class MeshConcept implements MeshConceptInterface
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      */
     #[ORM\Column(name: 'mesh_concept_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 255
-     * )
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 255)]
     protected $name;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'preferred', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $preferred;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -77,11 +73,11 @@ class MeshConcept implements MeshConceptInterface
     #[ORM\Column(name: 'scope_note', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $scopeNote;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=512)
@@ -90,11 +86,11 @@ class MeshConcept implements MeshConceptInterface
     #[ORM\Column(name: 'casn_1_name', type: 'string', length: 512, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $casn1Name;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=30)
@@ -103,6 +99,7 @@ class MeshConcept implements MeshConceptInterface
     #[ORM\Column(name: 'registry_number', type: 'string', length: 30, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $registryNumber;
 
     /**

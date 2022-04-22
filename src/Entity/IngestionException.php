@@ -24,7 +24,6 @@ class IngestionException implements IngestionExceptionInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'ingestion_exception_id', type: 'integer')]
     #[ORM\Id]
@@ -32,20 +31,18 @@ class IngestionException implements IngestionExceptionInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 32
-     * )
      */
     #[ORM\Column(name: 'ingested_wide_uid', type: 'string', length: 32)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 32)]
     protected $uid;
 
     /**

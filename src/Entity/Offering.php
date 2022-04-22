@@ -41,7 +41,6 @@ class Offering implements OfferingInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'offering_id', type: 'integer')]
     #[ORM\Id]
@@ -49,11 +48,11 @@ class Offering implements OfferingInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
@@ -62,11 +61,11 @@ class Offering implements OfferingInterface
     #[ORM\Column(name: 'room', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $room;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
@@ -75,57 +74,56 @@ class Offering implements OfferingInterface
     #[ORM\Column(name: 'site', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $site;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      max = 2000,
-     * )
-     * @Assert\Url
      */
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 2000)]
+    #[Assert\Url]
     protected $url;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'start_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $startDate;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'end_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $endDate;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $updatedAt;
 
     /**
      * @var Session
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'offerings')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $session;
 
     /**

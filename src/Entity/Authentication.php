@@ -22,18 +22,17 @@ class Authentication implements AuthenticationInterface, Stringable
 {
     /**
      * @var UserInterface
-     * @Assert\NotBlank()
      */
     #[ORM\Id]
     #[ORM\OneToOne(inversedBy: 'authentication', targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[IA\Type('entity')]
     #[IA\Expose]
+    #[Assert\NotBlank]
     protected $user;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
@@ -42,26 +41,25 @@ class Authentication implements AuthenticationInterface, Stringable
     #[ORM\Column(name: 'username', type: 'string', length: 100, unique: true, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     private $username;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
      * })
      */
     #[ORM\Column(name: 'password_hash', type: 'string', nullable: true)]
+    #[Assert\Type(type: 'string')]
     private $passwordHash;
 
-    /**
-     * @Assert\Type(DateTimeInterface::class)
-     */
     #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
+    #[Assert\Type(DateTimeInterface::class)]
     protected $invalidateTokenIssuedBefore;
 
     public function setUsername($username)

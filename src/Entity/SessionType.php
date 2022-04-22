@@ -37,7 +37,6 @@ class SessionType implements SessionTypeInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
     #[ORM\Id]
@@ -45,54 +44,49 @@ class SessionType implements SessionTypeInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 100
-     * )
      */
     #[ORM\Column(type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 100)]
     protected $title;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * Validate that this is a valid hex color #000 or #faFAfa
-     * @Assert\Regex(
-     *     pattern = "/^#[0-9a-fA-F]{6}$/",
-     *     message = "This not a valid HTML hex color code. Eg #aaa of #a1B2C3"
-     * )
      */
     #[ORM\Column(name: 'calendar_color', type: 'string', length: 7, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    // Validate that this is a valid hex color #000 or #faFAfa
+    #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/', message: 'This not a valid HTML hex color code. Eg #aaa of #a1B2C3')]
     protected $calendarColor;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $active;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'assessment', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $assessment;
 
     /**
@@ -106,12 +100,12 @@ class SessionType implements SessionTypeInterface
 
     /**
      * @var SchoolInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $school;
 
     /**
