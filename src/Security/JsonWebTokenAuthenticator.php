@@ -17,7 +17,6 @@ use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use UnexpectedValueException;
 
 class JsonWebTokenAuthenticator extends AbstractAuthenticator
@@ -36,7 +35,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         return (bool) preg_match('/^Token \S+$/', $authorizationHeader);
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
         preg_match('/^Token (\S+)$/', $authorizationHeader, $matches);

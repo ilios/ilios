@@ -42,7 +42,7 @@ class AuthController extends AbstractController
     {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
-        if (!$token?->isAuthenticated() || !$sessionUser instanceof SessionUserInterface) {
+        if (!$sessionUser instanceof SessionUserInterface) {
             throw new Exception('Attempted to access whoami with no valid user');
         }
 
@@ -61,7 +61,7 @@ class AuthController extends AbstractController
     ): JsonResponse {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
-        if (!$token?->isAuthenticated() || !$sessionUser instanceof SessionUserInterface) {
+        if (!$sessionUser instanceof SessionUserInterface) {
             throw new Exception('Attempted to access token with no valid user');
         }
 
@@ -97,7 +97,7 @@ class AuthController extends AbstractController
         $now = new DateTime();
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
-        if (!$token?->isAuthenticated() || !$sessionUser instanceof SessionUserInterface) {
+        if (!$sessionUser instanceof SessionUserInterface) {
             throw new Exception('Attempted to access invalidate tokens with no valid user');
         }
 

@@ -34,11 +34,6 @@ class SessionUserProvider implements UserProviderInterface
         return new SessionUser($user, $this->userRepository);
     }
 
-    public function loadUserByUsername($userId): SessionUserInterface
-    {
-        return $this->loadUserByIdentifier($userId);
-    }
-
     public function loadUserByIdentifier($identifier): SessionUserInterface
     {
         /** @var IliosUser $user */
@@ -61,7 +56,7 @@ class SessionUserProvider implements UserProviderInterface
             );
         }
 
-        return $this->loadUserByUsername($user->getUsername());
+        return $this->loadUserByIdentifier($user->getUserIdentifier());
     }
 
     public function supportsClass($class): bool
