@@ -37,7 +37,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'session_learning_material_id', type: 'integer')]
     #[ORM\Id]
@@ -45,11 +44,11 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -59,46 +58,47 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
+    #[Assert\Type(type: 'string')]
     protected $notes;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'required', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $required;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $publicNotes;
 
     /**
      * @var SessionInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $session;
 
     /**
      * @var LearningMaterialInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $learningMaterial;
 
     /**
@@ -123,12 +123,12 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $position;
 
     /**

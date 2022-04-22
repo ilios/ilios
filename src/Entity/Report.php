@@ -27,7 +27,6 @@ class Report implements ReportInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
@@ -35,11 +34,11 @@ class Report implements ReportInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=240)
@@ -48,16 +47,17 @@ class Report implements ReportInterface
     #[ORM\Column(type: 'string', length: 240, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $title;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'creation_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $createdAt;
 
     /**
@@ -71,21 +71,17 @@ class Report implements ReportInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 32
-     * )
      */
     #[ORM\Column(name: 'subject', type: 'string', length: 32)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 32)]
     protected $subject;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=32)
@@ -94,11 +90,11 @@ class Report implements ReportInterface
     #[ORM\Column(name: 'prepositional_object', type: 'string', length: 32, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $prepositionalObject;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=14)
@@ -107,16 +103,17 @@ class Report implements ReportInterface
     #[ORM\Column(name: 'prepositional_object_table_row_id', type: 'string', length: 14, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $prepositionalObjectTableRowId;
 
     /**
      * @var UserInterface $user
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'reports')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'cascade', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $user;
 
     /**

@@ -31,7 +31,6 @@ class AssessmentOption implements AssessmentOptionInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Id]
     #[ORM\Column(name: 'assessment_option_id', type: 'integer', length: 10)]
@@ -39,20 +38,18 @@ class AssessmentOption implements AssessmentOptionInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 18
-     * )
      */
     #[ORM\Column(type: 'string', length: 20)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 18)]
     protected $name;
 
     /**

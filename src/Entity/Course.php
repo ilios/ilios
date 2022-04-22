@@ -56,7 +56,6 @@ class Course implements CourseInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'course_id', type: 'integer')]
     #[ORM\Id]
@@ -64,67 +63,61 @@ class Course implements CourseInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200
-     * )
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 200)]
     protected $title;
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
-     * @Assert\Range(
-     *      min = 1,
-     *      max = 10
-     * )
      */
     #[ORM\Column(type: 'smallint', name: 'course_level')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
+    #[Assert\Range(min: 1, max: 10)]
     protected $level;
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'year', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $year;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'start_date', type: 'date')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $startDate;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'end_date', type: 'date')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $endDate;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=255)
@@ -133,46 +126,47 @@ class Course implements CourseInterface
     #[ORM\Column(name: 'external_id', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $externalId;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $locked;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'boolean')]
     protected $archived;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'published_as_tbd', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $publishedAsTbd;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $published;
 
     /**
@@ -186,12 +180,12 @@ class Course implements CourseInterface
 
     /**
      * @var SchoolInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'courses')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $school;
 
     /**

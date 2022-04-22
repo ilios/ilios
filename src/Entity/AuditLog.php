@@ -23,62 +23,53 @@ class AuditLog implements AuditLogInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 16
-     * )
      */
     #[ORM\Column(type: 'string', length: 16)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 16)]
     protected $action;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(type: 'datetime')]
+    #[Assert\NotBlank]
     protected $createdAt;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\NotBlank()
      */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Type(type: 'string')]
+    #[Assert\NotBlank]
     protected $objectId;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 255
-     * )
      */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 255)]
     protected $objectClass;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 1000
-     * )
      */
     #[ORM\Column(type: 'text', length: 1000)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 1000)]
     protected $valuesChanged;
 
     /**

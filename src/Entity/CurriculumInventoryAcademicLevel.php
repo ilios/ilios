@@ -32,7 +32,6 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Id]
     #[ORM\Column(name: 'academic_level_id', type: 'integer')]
@@ -40,25 +39,22 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 50
-     * )
      */
     #[ORM\Column(type: 'string', length: 50)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 50)]
     protected $name;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -67,15 +63,16 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $description;
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'level', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $level;
 
     /**

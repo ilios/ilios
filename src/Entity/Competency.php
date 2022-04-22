@@ -37,7 +37,6 @@ class Competency implements CompetencyInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'competency_id', type: 'integer')]
     #[ORM\Id]
@@ -45,11 +44,11 @@ class Competency implements CompetencyInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=200)
@@ -58,16 +57,17 @@ class Competency implements CompetencyInterface
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $title;
 
     /**
      * @var SchoolInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'competencies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $school;
 
     /**
@@ -111,12 +111,12 @@ class Competency implements CompetencyInterface
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $active;
 
     /**

@@ -26,7 +26,6 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'export_id', type: 'integer')]
     #[ORM\Id]
@@ -34,6 +33,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
@@ -47,15 +47,12 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 16000000
-     * )
      */
     #[ORM\Column(name: 'document', type: 'text')]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 16000000)]
     protected $document;
 
     /**
@@ -69,12 +66,12 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'created_on', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $createdAt;
 
     public function __construct()

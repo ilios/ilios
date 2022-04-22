@@ -26,7 +26,6 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'sequence_id', type: 'integer')]
     #[ORM\Id]
@@ -34,11 +33,11 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var CurriculumInventoryReportInterface
-     * @Assert\NotNull()
      */
     #[ORM\OneToOne(inversedBy: 'sequence', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(
@@ -50,11 +49,11 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $report;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -63,6 +62,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $description;
 
     public function setReport(CurriculumInventoryReportInterface $report)

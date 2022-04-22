@@ -52,7 +52,6 @@ class Session implements SessionInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
@@ -60,90 +59,87 @@ class Session implements SessionInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 200
-     * )
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 200)]
     protected $title;
 
     /**
      * @var bool
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'attire_required', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\Type(type: 'bool')]
     protected $attireRequired;
 
     /**
      * @var bool
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'equipment_required', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\Type(type: 'bool')]
     protected $equipmentRequired;
 
     /**
      * @var bool
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'supplemental', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\Type(type: 'bool')]
     protected $supplemental;
 
     /**
      * @var bool
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'attendance_required', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\Type(type: 'bool')]
     protected $attendanceRequired;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'published_as_tbd', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $publishedAsTbd;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $published;
 
     /**
      * @var DateTime
-     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
+    #[Assert\NotBlank]
     protected $updatedAt;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -153,11 +149,11 @@ class Session implements SessionInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
+    #[Assert\Type(type: 'string')]
     protected $instructionalNotes;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -167,26 +163,27 @@ class Session implements SessionInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
+    #[Assert\Type(type: 'string')]
     protected $description;
 
     /**
      * @var SessionTypeInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'SessionType', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $sessionType;
 
     /**
      * @var CourseInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', nullable: false, onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $course;
 
     /**

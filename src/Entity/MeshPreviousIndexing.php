@@ -25,7 +25,6 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'mesh_previous_indexing_id', type: 'integer')]
     #[ORM\Id]
@@ -33,6 +32,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
@@ -46,16 +46,13 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000
-     * )
      */
     #[ORM\Column(name: 'previous_indexing', type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $previousIndexing;
 
     public function setDescriptor(MeshDescriptorInterface $descriptor)

@@ -32,7 +32,6 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'course_learning_material_id', type: 'integer')]
     #[ORM\Id]
@@ -40,11 +39,11 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -54,46 +53,47 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
+    #[Assert\Type(type: 'string')]
     protected $notes;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'required', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $required;
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $publicNotes;
 
     /**
      * @var CourseInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $course;
 
     /**
      * @var LearningMaterialInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'courseLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $learningMaterial;
 
     /**
@@ -127,12 +127,12 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 
     /**
      * @var int
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer')]
     protected $position;
 
     /**

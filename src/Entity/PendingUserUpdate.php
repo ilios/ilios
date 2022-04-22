@@ -24,7 +24,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'exception_id', type: 'integer')]
     #[ORM\Id]
@@ -32,58 +31,50 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 32
-     * )
      */
     #[ORM\Column(type: 'string', length: 32)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 32)]
     protected $type;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 32
-     * )
      */
     #[ORM\Column(type: 'string', length: 32, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 32)]
     protected $property;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 255
-     * )
      */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 255)]
     protected $value;
 
     /**
      * @var UserInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'pendingUserUpdates')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $user;
 
     /**

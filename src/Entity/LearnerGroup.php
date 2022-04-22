@@ -38,7 +38,6 @@ class LearnerGroup implements LearnerGroupInterface
 
     /**
      * @var int
-     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'group_id', type: 'integer')]
     #[ORM\Id]
@@ -46,25 +45,22 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
+    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 60
-     * )
      */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 60)]
     protected $title;
 
     /**
      * @var string
-     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
@@ -73,37 +69,32 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\Column(name: 'location', type: 'string', length: 100, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
     protected $location;
 
-    /**
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      max = 2000,
-     * )
-     * @Assert\Url
-     */
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 2000)]
+    #[Assert\Url]
     protected ?string $url;
 
-    /**
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
-     */
     #[ORM\Column(name: 'needs_accommodation', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected bool $needsAccommodation;
 
     /**
      * @var CohortInterface
-     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Cohort', inversedBy: 'learnerGroups')]
     #[ORM\JoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', nullable: false, onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
+    #[Assert\NotNull]
     protected $cohort;
 
     /**

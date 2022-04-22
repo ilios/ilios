@@ -30,32 +30,26 @@ class AamcPcrs implements AamcPcrsInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 21
-     * )
      */
     #[ORM\Column(name: 'pcrs_id', type: 'string', length: 21)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 21)]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000
-     * )
      */
     #[ORM\Column(name: 'description', type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $description;
 
     /**
