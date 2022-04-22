@@ -39,6 +39,7 @@ class SessionObjective implements SessionObjectiveInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'session_objective_id', type: 'integer')]
     #[ORM\Id]
@@ -46,27 +47,26 @@ class SessionObjective implements SessionObjectiveInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var SessionInterface
+     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'sessionObjectives')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    #[Assert\NotNull]
     protected $session;
 
     /**
      * @var int
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'integer')]
     protected $position;
 
     /**
@@ -83,14 +83,17 @@ class SessionObjective implements SessionObjectiveInterface
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
      */
     #[ORM\Column(type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 65000)]
     protected $title;
 
     /**
@@ -145,12 +148,12 @@ class SessionObjective implements SessionObjectiveInterface
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'bool')]
     protected $active;
 
     public function __construct()

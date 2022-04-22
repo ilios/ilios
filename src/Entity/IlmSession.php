@@ -37,6 +37,7 @@ class IlmSession implements IlmSessionInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'ilm_session_facet_id', type: 'integer')]
     #[ORM\Id]
@@ -44,11 +45,11 @@ class IlmSession implements IlmSessionInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var Session
+     * @Assert\NotBlank()
      */
     #[ORM\OneToOne(targetEntity: 'Session', inversedBy: 'ilmSession')]
     #[ORM\JoinColumn(
@@ -60,27 +61,29 @@ class IlmSession implements IlmSessionInterface
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
-    #[Assert\NotBlank]
     protected $session;
 
     /**
      * @var float
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
+     * @Assert\Length(
+     *      min = 0,
+     *      max = 10000
+     * )
      */
     #[ORM\Column(name: 'hours', type: 'decimal', precision: 6, scale: 2)]
     #[IA\Expose]
     #[IA\Type('float')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'numeric')]
-    #[Assert\Length(min: 0, max: 10000)]
     protected $hours;
 
     /**
      * @var DateTime
+     * @Assert\NotBlank()
      */
     #[ORM\Column(name: 'due_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    #[Assert\NotBlank]
     protected $dueDate;
 
     /**

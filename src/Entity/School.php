@@ -45,6 +45,7 @@ class School implements SchoolInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
@@ -52,22 +53,25 @@ class School implements SchoolInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )
      */
     #[ORM\Column(type: 'string', length: 60, unique: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 60)]
     protected $title;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=8)
@@ -76,18 +80,20 @@ class School implements SchoolInterface
     #[ORM\Column(name: 'template_prefix', type: 'string', length: 8, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $templatePrefix;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
      */
     #[ORM\Column(name: 'ilios_administrator_email', type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 100)]
     protected $iliosAdministratorEmail;
 
     /**

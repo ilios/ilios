@@ -29,6 +29,7 @@ class UserRole implements UserRoleInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'user_role_id', type: 'integer')]
     #[ORM\Id]
@@ -36,17 +37,19 @@ class UserRole implements UserRoleInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 60
+     * )
      */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 60)]
     protected $title;
 
     /**

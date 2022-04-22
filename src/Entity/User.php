@@ -43,6 +43,7 @@ class User implements UserInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'user_id', type: 'integer')]
     #[ORM\Id]
@@ -50,33 +51,39 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50
+     * )
      */
     #[ORM\Column(name: 'last_name', type: 'string', length: 50)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 50)]
     protected $lastName;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50
+     * )
      */
     #[ORM\Column(name: 'first_name', type: 'string', length: 50)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 50)]
     protected $firstName;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=20)
@@ -85,11 +92,11 @@ class User implements UserInterface
     #[ORM\Column(name: 'middle_name', type: 'string', length: 20, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $middleName;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=200)
@@ -98,11 +105,11 @@ class User implements UserInterface
     #[ORM\Column(name: 'display_name', type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $displayName;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=30)
@@ -111,22 +118,25 @@ class User implements UserInterface
     #[ORM\Column(name: 'phone', type: 'string', length: 30, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $phone;
 
     /**
      * @var string
+     * @Assert\Email
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 100
+     * )
      */
     #[ORM\Column(name: 'email', type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Email]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 100)]
     protected $email;
 
     /**
      * @var string
+     * @Assert\Email
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=100)
@@ -135,31 +145,31 @@ class User implements UserInterface
     #[ORM\Column(name: 'preferred_email', type: 'string', length: 100, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Email]
     protected $preferredEmail;
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     #[ORM\Column(name: 'added_via_ilios', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'boolean')]
     protected $addedViaIlios;
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     #[ORM\Column(name: 'enabled', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'boolean')]
     protected $enabled;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=16)
@@ -168,11 +178,11 @@ class User implements UserInterface
     #[ORM\Column(name: 'uc_uid', type: 'string', length: 16, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $campusId;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=16)
@@ -181,37 +191,39 @@ class User implements UserInterface
     #[ORM\Column(name: 'other_id', type: 'string', length: 16, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $otherId;
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     #[ORM\Column(name: 'examined', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'boolean')]
     protected $examined;
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     #[ORM\Column(name: 'user_sync_ignore', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'boolean')]
     protected $userSyncIgnore;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 64,
+     *      max = 64
+     * )
      */
     #[ORM\Column(name: 'ics_feed_key', type: 'string', length: 64, unique: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 64, max: 64)]
     protected $icsFeedKey;
 
     /**
@@ -453,12 +465,12 @@ class User implements UserInterface
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
      */
     #[ORM\Column(name: 'root', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'boolean')]
     protected $root;
 
     /**

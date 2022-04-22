@@ -27,6 +27,7 @@ class ApplicationConfig implements ApplicationConfigInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
@@ -34,29 +35,34 @@ class ApplicationConfig implements ApplicationConfigInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 200)]
     protected $name;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 65000
+     * )
      */
     #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 65000)]
     protected $value;
 
     public function getValue(): string

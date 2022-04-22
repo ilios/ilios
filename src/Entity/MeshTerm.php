@@ -36,6 +36,7 @@ class MeshTerm implements MeshTermInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'mesh_term_id', type: 'integer')]
     #[ORM\Id]
@@ -43,33 +44,39 @@ class MeshTerm implements MeshTermInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 12
+     * )
      */
     #[ORM\Column(name: 'mesh_term_uid', type: 'string', length: 12)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 12)]
     protected $meshTermUid;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255
+     * )
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 255)]
     protected $name;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=12)
@@ -78,34 +85,33 @@ class MeshTerm implements MeshTermInterface
     #[ORM\Column(name: 'lexical_tag', type: 'string', length: 12, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $lexicalTag;
 
     /**
      * @var bool
+     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'concept_preferred', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\Type(type: 'bool')]
     protected $conceptPreferred;
 
     /**
      * @var bool
+     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'record_preferred', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\Type(type: 'bool')]
     protected $recordPreferred;
 
     /**
      * @var bool
+     * @Assert\Type(type="bool")
      */
     #[ORM\Column(name: 'permuted', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\Type(type: 'bool')]
     protected $permuted;
 
 

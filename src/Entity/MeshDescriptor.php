@@ -45,6 +45,7 @@ class MeshDescriptor implements MeshDescriptorInterface
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=12)
@@ -55,11 +56,12 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=192)
@@ -68,12 +70,11 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[ORM\Column(type: 'string', length: 192)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
     protected $name;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -82,7 +83,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[ORM\Column(name: 'annotation', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $annotation;
 
     /**

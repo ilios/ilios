@@ -26,6 +26,7 @@ class MeshTree implements MeshTreeInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'mesh_tree_id', type: 'integer')]
     #[ORM\Id]
@@ -33,18 +34,20 @@ class MeshTree implements MeshTreeInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 80
+     * )
      */
     #[ORM\Column(name: 'tree_number', type: 'string', length: 80)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 80)]
     protected $treeNumber;
 
     /**

@@ -34,6 +34,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
     #[ORM\Id]
@@ -41,22 +42,25 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
      */
     #[ORM\Column(type: 'string', length: 200)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 200)]
     protected $title;
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -65,69 +69,71 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $description;
 
     /**
      * @var int
+     * @Assert\NotNull()
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'required', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'integer')]
     protected $required;
 
     /**
      * @var int
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 3,
+     * )
      */
     #[ORM\Column(name: 'child_sequence_order', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'integer')]
-    #[Assert\Range(min: 1, max: 3)]
     protected $childSequenceOrder;
 
     /**
      * @var int
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'order_in_sequence', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'integer')]
     protected $orderInSequence;
 
     /**
      * @var int
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'minimum', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'integer')]
     protected $minimum;
 
     /**
      * @var int
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'maximum', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'integer')]
     protected $maximum;
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      * this field is currently tinyint data type in the db but used like a boolean
      */
     #[ORM\Column(name: 'track', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'bool')]
     protected $track;
 
     /**
@@ -148,12 +154,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var int
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'duration', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'integer')]
     protected int $duration;
 
     /**
@@ -217,12 +223,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var CurriculumInventoryReportInterface
+     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    #[Assert\NotNull]
     protected $report;
 
     /**

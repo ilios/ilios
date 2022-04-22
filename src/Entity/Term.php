@@ -45,6 +45,7 @@ class Term implements TermInterface
 
     /**
      * @var int
+     * @Assert\Type(type="integer")
      */
     #[ORM\Column(name: 'term_id', type: 'integer')]
     #[ORM\Id]
@@ -52,7 +53,6 @@ class Term implements TermInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    #[Assert\Type(type: 'integer')]
     protected $id;
 
     /**
@@ -66,6 +66,7 @@ class Term implements TermInterface
 
     /**
      * @var string
+     * @Assert\Type(type="string")
      * @Assert\AtLeastOneOf({
      *     @Assert\Blank,
      *     @Assert\Length(min=1,max=65000)
@@ -74,7 +75,6 @@ class Term implements TermInterface
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
     protected $description;
 
     /**
@@ -142,23 +142,26 @@ class Term implements TermInterface
 
     /**
      * @var string
+     * @Assert\NotBlank
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 200
+     * )
      */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 200)]
     protected $title;
 
     /**
      * @var VocabularyInterface
+     * @Assert\NotNull()
      */
     #[ORM\ManyToOne(targetEntity: 'Vocabulary', inversedBy: 'terms')]
     #[ORM\JoinColumn(name: 'vocabulary_id', referencedColumnName: 'vocabulary_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
-    #[Assert\NotNull]
     protected $vocabulary;
 
     /**
@@ -175,12 +178,12 @@ class Term implements TermInterface
 
     /**
      * @var bool
+     * @Assert\NotNull()
+     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'bool')]
     protected $active;
 
     public function __construct()
