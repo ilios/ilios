@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\UserInterface;
+use App\Classes\SessionUserInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ErrorController extends AbstractController
 {
@@ -17,14 +19,19 @@ class ErrorController extends AbstractController
         '/errors',
         methods: ['POST'],
     )]
-    public function postError(Request $request, LoggerInterface $logger): Response
-    {
+    public function postError(
+        Request $request,
+        LoggerInterface $logger,
+        TokenStorageInterface $tokenStorage,
+    ): Response {
         if ($request->request->has('data')) {
             $data = $request->request->all()['data'];
-            /** @var UserInterface $user */
-            $user = $this->get('security.token_storage')->getToken()->getUser();
+            $sessionUser = $tokenStorage->getToken()?->getUser();
+            if (!$sessionUser instanceof SessionUserInterface) {
+                throw new Exception('Attempted to access tokens with no valid user');
+            }
             $error = json_decode($data);
-            $error->userId = $user->getId();
+            $error->userId = $sessionUser->getId();
             $logger->error(json_encode($error));
         }
 
