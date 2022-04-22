@@ -12,10 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RedirectInsecureConnections implements EventSubscriberInterface
 {
-    /**
-     * @var string
-     */
-    protected $requireSecureConnection;
+    protected bool $requireSecureConnection;
 
     public function __construct(Config $config)
     {
@@ -38,7 +35,7 @@ class RedirectInsecureConnections implements EventSubscriberInterface
      */
     public function checkAndRedirect(RequestEvent $event)
     {
-        if ($this->requireSecureConnection && $event->isMasterRequest()) {
+        if ($this->requireSecureConnection && $event->isMainRequest()) {
             $request = $event->getRequest();
             if (!$request->isSecure()) {
                 $path = $request->getPathInfo();
