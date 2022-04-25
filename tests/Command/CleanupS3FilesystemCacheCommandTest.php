@@ -8,7 +8,9 @@ use App\Classes\DiskSpace;
 use App\Command\CleanupS3FilesystemCacheCommand;
 use App\Service\FilesystemFactory;
 use App\Service\IliosFileSystem;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\DirectoryListing;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\StorageAttributes;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -26,21 +28,15 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
     private const COMMAND_NAME = 'ilios:cleanup-s3-cache';
     private const CACHE_DIR = __DIR__ . '/test';
 
-    /** @var CommandTester */
-    protected $commandTester;
-
-    /** @var m\Mock */
-    protected $filesystem;
-
-    /** @var m\Mock */
-    protected $diskSpace;
-
+    protected CommandTester $commandTester;
+    protected FilesystemOperator|m\MockInterface $filesystem;
+    protected m\MockInterface|DiskSpace $diskSpace;
 
     public function setUp(): void
     {
         parent::setUp();
         $factory = m::mock(FilesystemFactory::class);
-        $this->filesystem = m::mock(FilesystemInterface::class);
+        $this->filesystem = m::mock(FilesystemOperator::class);
         $this->diskSpace = m::mock(DiskSpace::class);
         $factory->shouldReceive('getS3LocalFilesystemCache')->once()->andReturn($this->filesystem);
         $factory->shouldReceive('getLocalS3CacheDirectory')->once()->andReturn(self::CACHE_DIR);
@@ -88,14 +84,38 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 
         $this->filesystem->shouldReceive('listContents')
             ->with(IliosFileSystem::HASHED_LM_DIRECTORY, true)
-            ->andReturn([
-                ['type' => 'dir', 'path' => 'dir0', 'timestamp' => time()],
-                ['type' => 'dir', 'path' => 'dir0', 'timestamp' => strtotime('1 year ago')],
-                ['type' => 'file', 'path' => 'file0', 'timestamp' => time()],
-                ['type' => 'file', 'path' => 'file1', 'timestamp' => strtotime('3 days ago')],
-                ['type' => 'file', 'path' => 'file2', 'timestamp' => strtotime('1 day ago')],
-                ['type' => 'file', 'path' => 'file3', 'timestamp' => strtotime('1 week ago')],
-            ]);
+            ->andReturn(new DirectoryListing([
+                m::mock(StorageAttributes::class)
+                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_DIRECTORY)
+                    ->shouldNotReceive('path')
+                    ->shouldReceive('lastModified')->andReturn(time())
+                    ->mock(),
+                m::mock(StorageAttributes::class)
+                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_DIRECTORY)
+                    ->shouldNotReceive('path')
+                    ->shouldReceive('lastModified')->andReturn(strtotime('1 year ago'))
+                    ->mock(),
+                m::mock(StorageAttributes::class)
+                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
+                    ->shouldNotReceive('path')
+                    ->shouldReceive('lastModified')->andReturn(time())
+                    ->mock(),
+                m::mock(StorageAttributes::class)
+                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
+                    ->shouldReceive('path')->andReturn('file1')
+                    ->shouldReceive('lastModified')->andReturn(strtotime('3 days ago'))
+                    ->mock(),
+                m::mock(StorageAttributes::class)
+                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
+                    ->shouldNotReceive('path')
+                    ->shouldReceive('lastModified')->andReturn(strtotime('1 days ago'))
+                    ->mock(),
+                m::mock(StorageAttributes::class)
+                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
+                    ->shouldReceive('path')->andReturn('file3')
+                    ->shouldReceive('lastModified')->andReturn(strtotime('1 week ago'))
+                    ->mock(),
+            ]));
         $this->filesystem->shouldReceive('delete')->with('file1');
         $this->filesystem->shouldReceive('delete')->with('file3');
 

@@ -8,8 +8,12 @@ use App\Classes\LocalCachingFilesystemDecorator;
 use App\Exception\IliosFilesystemException;
 use Aws\S3\Exception\S3Exception;
 use Exception;
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToDeleteDirectory;
+use League\Flysystem\UnableToDeleteFile;
+use League\Flysystem\UnableToReadFile;
+use League\Flysystem\UnableToWriteFile;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Entity\LearningMaterialInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -21,44 +25,39 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class IliosFileSystem
 {
     /**
-     * New learning materials who's path is based on their
+     * New learning materials whose path is based on their
      * file hash are stored in this subdirectory of the
      * learning_material directory
-     * @var string
      */
     public const HASHED_LM_DIRECTORY = 'learning_materials/lm';
 
     /**
      * Lock files are stored in this directory
-     * @var string
      */
     public const LOCK_FILE_DIRECTORY = 'locks';
 
     /**
      * Temporary File which need to be shared across servers
-     * @var string
      */
     public const TEMPORARY_SHARED_FILE_DIRECTORY = 'tmp';
 
     /**
      * Testing files are stored in this directory
-     * @var string
      */
     public const TEST_FILE_ROOT = 'crud_tests';
 
-    public function __construct(protected FilesystemInterface $fileSystem)
+    public function __construct(protected FilesystemOperator $fileSystem)
     {
     }
 
     /**
-     *
      * Store a learning material file and return the relativePath
      */
     public function storeLearningMaterialFile(File $file): string
     {
         $relativePath = $this->getLearningMaterialFilePath($file);
         $stream = fopen($file->getPathname(), 'r+');
-        $this->fileSystem->putStream($relativePath, $stream);
+        $this->fileSystem->writeStream($relativePath, $stream);
         fclose($stream);
 
         return $relativePath;
@@ -88,7 +87,7 @@ class IliosFileSystem
      */
     public function getFileContents(string $relativePath): string|false
     {
-        if ($this->fileSystem->has($relativePath)) {
+        if ($this->fileSystem->fileExists($relativePath)) {
             return $this->fileSystem->read($relativePath);
         }
 
@@ -109,7 +108,7 @@ class IliosFileSystem
      */
     public function checkLearningMaterialRelativePath(string $path): bool
     {
-        return $this->fileSystem->has($path);
+        return $this->fileSystem->fileExists($path);
     }
 
     /**
@@ -130,8 +129,8 @@ class IliosFileSystem
             return;
         }
         $relativePath = $this->getLockFilePath($name);
-        if (!$this->fileSystem->has($relativePath)) {
-            $this->fileSystem->put($relativePath, 'LOCK');
+        if (!$this->fileSystem->fileExists($relativePath)) {
+            $this->fileSystem->write($relativePath, 'LOCK');
         }
     }
 
@@ -144,7 +143,7 @@ class IliosFileSystem
             return;
         }
         $relativePath = $this->getLockFilePath($name);
-        if ($this->fileSystem->has($relativePath)) {
+        if ($this->fileSystem->fileExists($relativePath)) {
             $this->fileSystem->delete($relativePath);
         }
     }
@@ -156,7 +155,7 @@ class IliosFileSystem
     {
         $relativePath = $this->getLockFilePath($name);
 
-        return $this->fileSystem->has($relativePath);
+        return $this->fileSystem->fileExists($relativePath);
     }
 
     /**
@@ -172,18 +171,16 @@ class IliosFileSystem
 
     /**
      * Test Create, Read, Update, Delete on our filesystem
-     * @throws IliosFilesystemException
      */
     public function testCRUD(): void
     {
-
         $path = self::TEST_FILE_ROOT . '/test-file-' . uniqid();
         $contents = md5_file(__FILE__);
 
         try {
             //cleanup any existing test files
-            $this->fileSystem->deleteDir(self::TEST_FILE_ROOT);
-        } catch (FileNotFoundException $e) {
+            $this->fileSystem->deleteDirectory(self::TEST_FILE_ROOT);
+        } catch (UnableToDeleteDirectory) {
             //ignore this one
         }
         if ($this->fileSystem instanceof LocalCachingFilesystemDecorator) {
@@ -195,12 +192,16 @@ class IliosFileSystem
             if (!$result || $result !== $contents) {
                 throw new IliosFilesystemException('Unable to Read from Filesystem');
             }
-            $putResult = $this->fileSystem->put($path, $contents . $contents);
-            $result = $this->fileSystem->read($path);
-            if (!$putResult || !$result || $result !==  $contents . $contents) {
+            try {
+                $this->fileSystem->write($path, $contents . $contents);
+                $result = $this->fileSystem->read($path);
+                if ($result !==  $contents . $contents) {
+                    throw new IliosFilesystemException('Unable to Update Filesystem');
+                }
+                $this->fileSystem->delete($path);
+            } catch (FilesystemException | UnableToWriteFile) {
                 throw new IliosFilesystemException('Unable to Update Filesystem');
             }
-            $this->fileSystem->delete($path);
         } catch (S3Exception $e) {
             throw new IliosFilesystemException('Error from AWS: ' . $e->getAwsErrorMessage());
         }
@@ -219,7 +220,7 @@ class IliosFileSystem
         $hash = md5_file($file->getPathname());
         $relativePath = $this->getTemporaryFilePath($hash);
         $stream = fopen($file->getPathname(), 'r+');
-        $this->fileSystem->putStream($relativePath, $stream);
+        $this->fileSystem->writeStream($relativePath, $stream);
         fclose($stream);
 
         return $hash;
@@ -228,13 +229,16 @@ class IliosFileSystem
     public function getUploadedTemporaryFileContentsAndRemoveFile($hash): ?string
     {
         $relativePath = $this->getTemporaryFilePath($hash);
-        if ($this->fileSystem->has($relativePath)) {
-            $result = $this->fileSystem->readAndDelete($relativePath);
-            if ($result === false) {
+        if ($this->fileSystem->fileExists($relativePath)) {
+            try {
+                $result = $this->fileSystem->read($relativePath);
+                $this->fileSystem->delete($relativePath);
+                return $result;
+            } catch (UnableToReadFile) {
                 throw new Exception("Unable to read temporary file ${hash}");
+            } catch (UnableToDeleteFile) {
+                throw new Exception("Unable to delete temporary file ${hash}");
             }
-
-            return $result;
         }
 
         return null;

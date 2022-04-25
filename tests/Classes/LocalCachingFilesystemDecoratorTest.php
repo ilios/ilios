@@ -6,7 +6,8 @@ namespace App\Tests\Classes;
 
 use App\Classes\LocalCachingFilesystemDecorator;
 use App\Tests\TestCase;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToReadFile;
 use Mockery as m;
 
 /**
@@ -15,25 +16,14 @@ use Mockery as m;
  */
 class LocalCachingFilesystemDecoratorTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    private $cacheFileSystem;
-
-    /**
-     * @var m\MockInterface
-     */
-    private $remoteFileSystem;
-
-    /**
-     * @var LocalCachingFilesystemDecorator
-     */
-    private $subject;
+    private FilesystemOperator|m\MockInterface $cacheFileSystem;
+    private FilesystemOperator|m\MockInterface $remoteFileSystem;
+    private LocalCachingFilesystemDecorator $subject;
 
     protected function setUp(): void
     {
-        $this->cacheFileSystem = m::mock(FilesystemInterface::class);
-        $this->remoteFileSystem = m::mock(FilesystemInterface::class);
+        $this->cacheFileSystem = m::mock(FilesystemOperator::class);
+        $this->remoteFileSystem = m::mock(FilesystemOperator::class);
         $this->subject = new LocalCachingFilesystemDecorator(
             $this->cacheFileSystem,
             $this->remoteFileSystem
@@ -50,9 +40,10 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
     public function testReadDoesNotCacheFailures()
     {
         $path = __FILE__;
-        $this->remoteFileSystem->shouldReceive('read')->with($path)->andReturn(false);
-        $this->cacheFileSystem->shouldReceive('has')->with($path)->andReturn(false);
-        $this->cacheFileSystem->shouldNotReceive('put');
+        $this->remoteFileSystem->shouldReceive('read')->with($path)->andThrow(UnableToReadFile::class);
+        $this->cacheFileSystem->shouldReceive('fileExists')->with($path)->andReturn(false);
+        $this->cacheFileSystem->shouldNotReceive('write');
+        $this->expectException(UnableToReadFile::class);
 
         $result = $this->subject->read($path);
         $this->assertFalse($result);
@@ -61,9 +52,10 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
     public function testReadStreamDoesNotCacheFailures()
     {
         $path = __FILE__;
-        $this->remoteFileSystem->shouldReceive('readStream')->with($path)->andReturn(false);
-        $this->cacheFileSystem->shouldReceive('has')->with($path)->andReturn(false);
-        $this->cacheFileSystem->shouldNotReceive('putStream');
+        $this->remoteFileSystem->shouldReceive('readStream')->with($path)->andThrow(UnableToReadFile::class);
+        $this->cacheFileSystem->shouldReceive('fileExists')->with($path)->andReturn(false);
+        $this->cacheFileSystem->shouldNotReceive('writeStream');
+        $this->expectException(UnableToReadFile::class);
 
         $result = $this->subject->readStream($path);
         $this->assertFalse($result);

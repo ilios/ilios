@@ -176,7 +176,7 @@ services:
       tags:
         - { name: liip_monitor.check, group: default }
 
-    League\Flysystem\FilesystemInterface:
+    League\Flysystem\FilesystemOperator:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]
 
     Elasticsearch\Client:

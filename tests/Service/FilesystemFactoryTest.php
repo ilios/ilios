@@ -9,16 +9,13 @@ use App\Service\Config;
 use App\Service\FilesystemFactory;
 use App\Tests\TestCase;
 use Exception;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use Mockery as m;
 
 class FilesystemFactoryTest extends TestCase
 {
-    /** @var m\Mock */
-    private $config;
-
-    /** @var FilesystemFactory */
-    private $filesystemFactory;
+    private m\MockInterface|Config $config;
+    private FilesystemFactory $filesystemFactory;
 
     public function setUp(): void
     {
@@ -39,7 +36,7 @@ class FilesystemFactoryTest extends TestCase
         $this->config->shouldReceive('get')->with('storage_s3_url')->andReturn(null);
         $this->config->shouldReceive('get')->with('file_system_storage_path')->andReturn('/tmp');
         $result = $this->filesystemFactory->getFilesystem();
-        $this->assertInstanceOf(FilesystemInterface::class, $result);
+        $this->assertInstanceOf(FilesystemOperator::class, $result);
         $this->assertNotInstanceOf(LocalCachingFilesystemDecorator::class, $result);
     }
 

@@ -66,7 +66,7 @@ class NonCachingIliosFileSystemTest extends TestCase
         $path = __FILE__;
         $file = m::mock(File::class)
             ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->fileSystem->shouldReceive('putStream');
+        $this->fileSystem->shouldReceive('writeStream');
         $this->iliosFileSystem->storeLearningMaterialFile($file);
     }
 
@@ -90,7 +90,7 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $filename = 'test/file/name';
         $value = 'something something word word';
-        $this->fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
+        $this->fileSystem->shouldReceive('fileExists')->with($filename)->once()->andReturn(true);
         $this->fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
         $result = $this->iliosFileSystem->getFileContents($filename, false);
         $this->assertEquals($value, $result);
@@ -102,7 +102,7 @@ class NonCachingIliosFileSystemTest extends TestCase
         $iliosFileSystem = new IliosFileSystem($fileSystem);
         $filename = 'test/file/name';
         $value = 'something something word word';
-        $fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(true);
+        $fileSystem->shouldReceive('fileExists')->with($filename)->once()->andReturn(true);
         $fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
         $result = $iliosFileSystem->getFileContents($filename, false);
         $this->assertEquals($value, $result);
@@ -111,7 +111,7 @@ class NonCachingIliosFileSystemTest extends TestCase
     public function testMissingGetFileContents()
     {
         $filename = 'test/file/name';
-        $this->fileSystem->shouldReceive('has')->with($filename)->once()->andReturn(false);
+        $this->fileSystem->shouldReceive('fileExists')->with($filename)->once()->andReturn(false);
         $result = $this->iliosFileSystem->getFileContents($filename);
         $this->assertFalse($result);
     }
@@ -124,9 +124,9 @@ class NonCachingIliosFileSystemTest extends TestCase
         $badLm = m::mock(LearningMaterialInterface::class)
             ->shouldReceive('getRelativePath')->andReturn('badfile')
             ->mock();
-        $this->fileSystem->shouldReceive('has')
+        $this->fileSystem->shouldReceive('fileExists')
             ->with('goodfile')->andReturn(true)->once();
-        $this->fileSystem->shouldReceive('has')
+        $this->fileSystem->shouldReceive('fileExists')
             ->with('badfile')->andReturn(false)->once();
         $this->assertTrue($this->iliosFileSystem->checkLearningMaterialFilePath($goodLm));
         $this->assertFalse($this->iliosFileSystem->checkLearningMaterialFilePath($badLm));
@@ -159,8 +159,8 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
-        $this->fileSystem->shouldReceive('put')->with($lockFilePath, 'LOCK');
+        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
+        $this->fileSystem->shouldReceive('write')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->createLock($name);
     }
 
@@ -168,7 +168,7 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(true);
+        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(true);
         $this->fileSystem->shouldReceive('delete')->with($lockFilePath);
         $this->iliosFileSystem->releaseLock($name);
     }
@@ -177,7 +177,7 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
+        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
         $this->iliosFileSystem->releaseLock($name);
     }
 
@@ -185,7 +185,7 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(true);
+        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(true);
         $status = $this->iliosFileSystem->hasLock($name);
         $this->assertTrue($status);
     }
@@ -194,7 +194,7 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
+        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
         $status = $this->iliosFileSystem->hasLock($name);
         $this->assertFalse($status);
     }
@@ -203,8 +203,8 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(false);
-        $this->fileSystem->shouldReceive('put')->with($lockFilePath, 'LOCK');
+        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
+        $this->fileSystem->shouldReceive('write')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->waitForLock($name);
     }
 
@@ -212,8 +212,8 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $name = 'test && file .lock';
         $lockFilePath = $this->getTestFileLock('test-file-.lock');
-        $this->fileSystem->shouldReceive('has')->with($lockFilePath)->andReturn(true);
-        $this->fileSystem->shouldReceive('put')->with($lockFilePath, 'LOCK');
+        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(true);
+        $this->fileSystem->shouldReceive('write')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->createLock($name);
     }
 }
