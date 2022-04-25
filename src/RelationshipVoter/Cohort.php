@@ -25,16 +25,10 @@ class Cohort extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateProgramYear($user, $subject->getProgramYear());
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::EDIT => $this->permissionChecker->canUpdateProgramYear($user, $subject->getProgramYear()),
+            default => false,
+        };
     }
 }

@@ -80,19 +80,12 @@ class CasManager
      */
     protected function getValidationUrl(string $service, string $ticket): string
     {
-        $validate = '';
-        switch ($this->casVersion) {
-            case 1:
-                $validate = 'validate';
-                break;
-            case 2:
-                $validate = 'serviceValidate';
-                break;
-            case 3:
-                $validate = 'p3/serviceValidate';
-                break;
-        }
-
+        $validate = match ($this->casVersion) {
+            1 => 'validate',
+            2 => 'serviceValidate',
+            3 => 'p3/serviceValidate',
+            default => throw new Exception("Unknown CAS version: " . $this->casVersion),
+        };
         return $this->casServer . '/' .
             $validate .
             '?service=' . $service .

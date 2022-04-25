@@ -36,31 +36,22 @@ class CurriculumInventoryReport extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::CREATE:
-            case self::ROLLOVER:
-                return $this->permissionChecker->canCreateCurriculumInventoryReport(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateCurriculumInventoryReport(
-                    $user,
-                    $subject->getId(),
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteCurriculumInventoryReport(
-                    $user,
-                    $subject->getId(),
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::CREATE, self::ROLLOVER => $this->permissionChecker->canCreateCurriculumInventoryReport(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::EDIT => $this->permissionChecker->canUpdateCurriculumInventoryReport(
+                $user,
+                $subject->getId(),
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteCurriculumInventoryReport(
+                $user,
+                $subject->getId(),
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

@@ -25,17 +25,13 @@ class IlmSession extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-            case self::EDIT:
-            case self::CREATE:
-            case self::DELETE:
-                return $this->permissionChecker->canUpdateSession($user, $subject->getSession());
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::EDIT, self::CREATE, self::DELETE => $this->permissionChecker->canUpdateSession(
+                $user,
+                $subject->getSession()
+            ),
+            default => false,
+        };
     }
 }

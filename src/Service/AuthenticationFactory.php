@@ -28,17 +28,12 @@ class AuthenticationFactory
     public function createAuthenticationService(): Cas|Form|Ldap|Shibboleth
     {
         $authenticationType = $this->config->get('authentication_type');
-        switch ($authenticationType) {
-            case 'form':
-                return $this->formAuthentication;
-            case 'shibboleth':
-                return $this->shibbolethAuthentication;
-            case 'ldap':
-                return $this->ldapAuthentication;
-            case 'cas':
-                return $this->casAuthentication;
-        }
-
-        throw new Exception("{$authenticationType} is not a valid ilios authenticator");
+        return match ($authenticationType) {
+            'form' => $this->formAuthentication,
+            'shibboleth' => $this->shibbolethAuthentication,
+            'ldap' => $this->ldapAuthentication,
+            'cas' => $this->casAuthentication,
+            default => throw new Exception("{$authenticationType} is not a valid ilios authenticator"),
+        };
     }
 }

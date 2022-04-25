@@ -42,16 +42,9 @@ class Report extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::CREATE:
-            case self::VIEW:
-            case self::EDIT:
-            case self::DELETE:
-                return $user->isTheUser($report->getUser());
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::CREATE, self::VIEW, self::EDIT, self::DELETE => $user->isTheUser($report->getUser()),
+            default => false,
+        };
     }
 }

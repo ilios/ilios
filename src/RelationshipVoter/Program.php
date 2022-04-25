@@ -25,30 +25,20 @@ class Program extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateProgram($user, $subject->getSchool()->getId());
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateProgram(
-                    $user,
-                    $subject->getId(),
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteProgram(
-                    $user,
-                    $subject->getId(),
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE => $this->permissionChecker->canCreateProgram($user, $subject->getSchool()->getId()),
+            self::EDIT => $this->permissionChecker->canUpdateProgram(
+                $user,
+                $subject->getId(),
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteProgram(
+                $user,
+                $subject->getId(),
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

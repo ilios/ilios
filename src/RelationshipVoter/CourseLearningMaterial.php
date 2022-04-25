@@ -25,17 +25,13 @@ class CourseLearningMaterial extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $user->performsNonLearnerFunction();
-            case self::EDIT:
-            case self::CREATE:
-            case self::DELETE:
-                return $this->permissionChecker->canUpdateCourse($user, $subject->getCourse());
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => $user->performsNonLearnerFunction(),
+            self::EDIT, self::CREATE, self::DELETE => $this->permissionChecker->canUpdateCourse(
+                $user,
+                $subject->getCourse()
+            ),
+            default => false,
+        };
     }
 }

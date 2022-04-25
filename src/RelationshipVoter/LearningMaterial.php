@@ -35,17 +35,10 @@ class LearningMaterial extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-            case self::CREATE:
-            case self::EDIT:
-            case self::DELETE:
-                return $user->performsNonLearnerFunction();
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE, self::EDIT, self::DELETE => $user->performsNonLearnerFunction(),
+            default => false,
+        };
     }
 }

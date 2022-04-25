@@ -25,28 +25,18 @@ class LearnerGroup extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $this->permissionChecker->canViewLearnerGroup($user, $subject->getId());
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateLearnerGroup($user, $subject->getSchool()->getId());
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateLearnerGroup(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteLearnerGroup(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => $this->permissionChecker->canViewLearnerGroup($user, $subject->getId()),
+            self::CREATE => $this->permissionChecker->canCreateLearnerGroup($user, $subject->getSchool()->getId()),
+            self::EDIT => $this->permissionChecker->canUpdateLearnerGroup(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteLearnerGroup(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }
