@@ -163,7 +163,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 $this->copyAssetsIntoPublicDirectory($currentDistributionPath);
                 $this->activateVersion($currentDistributionPath);
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             print "\n\n**Warning: Unable to load frontend. Please run ilios:maintenance:update-frontend again.**\n\n\n";
         }
 
