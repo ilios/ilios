@@ -139,16 +139,6 @@ class SessionUser implements SessionUserInterface
         return $this->password;
     }
 
-    public function getSalt(): ?string
-    {
-        return '';
-    }
-
-    public function getUsername(): string
-    {
-        return $this->userId;
-    }
-
     public function getUserIdentifier(): string
     {
         return (string) $this->userId;

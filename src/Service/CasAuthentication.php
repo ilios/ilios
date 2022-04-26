@@ -90,7 +90,7 @@ class CasAuthentication implements AuthenticationInterface
             if ($sessionUser->isEnabled()) {
                 $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
                 if ($request->cookies->has(self::REDIRECT_COOKIE)) {
-                    $response = RedirectResponse::create($request->cookies->get(self::REDIRECT_COOKIE));
+                    $response = new RedirectResponse($request->cookies->get(self::REDIRECT_COOKIE));
                     $response->headers->clearCookie(self::REDIRECT_COOKIE);
                 } else {
                     $response = $this->createSuccessResponseFromJWT($jwt);
@@ -112,7 +112,7 @@ class CasAuthentication implements AuthenticationInterface
             $url = $this->getRootUrl();
         }
 
-        $response = RedirectResponse::create($url);
+        $response = new RedirectResponse($url);
         $response->headers->setCookie(Cookie::create(
             self::NO_ACCOUNT_EXISTS_COOKIE,
             $username,
@@ -157,7 +157,7 @@ class CasAuthentication implements AuthenticationInterface
 
         $service = $this->getServiceUrl();
         $url = $this->casManager->getLoginUrl() . "?service=${service}";
-        $response = RedirectResponse::create($url);
+        $response = new RedirectResponse($url);
 
         if (!$request->cookies->has(self::REDIRECT_COOKIE)) {
             $redirectUrl = $this->getAllowedRedirectUrl($request);

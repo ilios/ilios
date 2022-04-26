@@ -11,7 +11,6 @@ use App\Attribute as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ActivatableEntity;
-use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 
@@ -30,32 +29,26 @@ class AamcMethod implements AamcMethodInterface
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 10
-     * )
      */
     #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 10)]
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 65000
-     * )
      */
     #[ORM\Column(name: 'description', type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $description;
 
     /**
@@ -69,12 +62,12 @@ class AamcMethod implements AamcMethodInterface
 
     /**
      * @var bool
-     * @Assert\NotNull()
-     * @Assert\Type(type="bool")
      */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'bool')]
     protected $active;
 
     public function __construct()

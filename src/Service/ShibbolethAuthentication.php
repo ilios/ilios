@@ -147,9 +147,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         if (!$applicationId) {
             $configuration = $this->getPublicConfigurationInformation($request);
             $url = $configuration['loginUrl'] . "?target=" . $request->getRequestUri();
-            return RedirectResponse::create(
-                $url
-            );
+            return new RedirectResponse($url);
         }
 
         return new Response();
