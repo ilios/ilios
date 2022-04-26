@@ -118,15 +118,12 @@ class Course implements CourseInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=255)
-     * })
      */
     #[ORM\Column(name: 'external_id', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 255)]
     protected $externalId;
 
     /**

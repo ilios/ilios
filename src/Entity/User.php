@@ -77,41 +77,32 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=20)
-     * })
      */
     #[ORM\Column(name: 'middle_name', type: 'string', length: 20, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 20)]
     protected $middleName;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=200)
-     * })
      */
     #[ORM\Column(name: 'display_name', type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 200)]
     protected $displayName;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=30)
-     * })
      */
     #[ORM\Column(name: 'phone', type: 'string', length: 30, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 30)]
     protected $phone;
 
     /**
@@ -127,15 +118,12 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=100)
-     * })
      */
     #[ORM\Column(name: 'preferred_email', type: 'string', length: 100, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Email]
+    #[Assert\Length(min: 1, max: 100)]
     protected $preferredEmail;
 
     /**
@@ -160,28 +148,22 @@ class User implements UserInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=16)
-     * })
      */
     #[ORM\Column(name: 'uc_uid', type: 'string', length: 16, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 16)]
     protected $campusId;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=16)
-     * })
      */
     #[ORM\Column(name: 'other_id', type: 'string', length: 16, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 16)]
     protected $otherId;
 
     /**

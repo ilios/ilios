@@ -33,26 +33,20 @@ class Authentication implements AuthenticationInterface, Stringable
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=100)
-     * })
      */
     #[ORM\Column(name: 'username', type: 'string', length: 100, unique: true, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 100)]
     private $username;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=255)
-     * })
      */
     #[ORM\Column(name: 'password_hash', type: 'string', nullable: true)]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 255)]
     private $passwordHash;
 
     #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]

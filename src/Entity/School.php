@@ -68,15 +68,12 @@ class School implements SchoolInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=8)
-     * })
      */
     #[ORM\Column(name: 'template_prefix', type: 'string', length: 8, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 8)]
     protected $templatePrefix;
 
     /**

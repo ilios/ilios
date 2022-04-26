@@ -49,28 +49,22 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=200)
-     * })
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 200)]
     protected $name;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $description;
 
     /**
@@ -146,13 +140,10 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=64)
-     * })
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 64)]
     protected $token;
 
     /**

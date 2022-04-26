@@ -58,15 +58,12 @@ class Program implements ProgramInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=10)
-     * })
      */
     #[ORM\Column(name: 'short_title', type: 'string', length: 10, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 10)]
     protected $shortTitle;
 
     /**

@@ -59,16 +59,13 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $description;
 
     /**
@@ -84,26 +81,20 @@ class LearningMaterial implements LearningMaterialInterface
     /**
      * renamed Asset Creator
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=80)
-     * })
      */
     #[ORM\Column(name: 'asset_creator', type: 'string', length: 80, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 80)]
     protected $originalAuthor;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=64)
-     * })
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 64)]
     protected $token;
 
     /**
@@ -195,15 +186,12 @@ class LearningMaterial implements LearningMaterialInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'copyright_rationale', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 65000)]
     protected $copyrightRationale;
 
     /**
