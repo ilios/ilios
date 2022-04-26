@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\CurriculumInventoryInstitution;
+use App\Entity\SchoolInterface;
 use Mockery as m;
 
 /**
@@ -37,7 +38,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
             'addressZipCode',
             'addressCountryCode'
         ];
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('10lenMAX');

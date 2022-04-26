@@ -8,6 +8,7 @@ use App\Entity\Course;
 use App\Entity\Offering;
 use App\Entity\School;
 use App\Entity\Session;
+use App\Entity\SessionInterface;
 use DateTime;
 use Mockery as m;
 
@@ -36,7 +37,7 @@ class OfferingTest extends EntityBase
             'startDate',
             'endDate'
         ];
-        $this->object->setSession(m::mock('App\Entity\SessionInterface'));
+        $this->object->setSession(m::mock(SessionInterface::class));
 
         $this->validateNotBlanks($notBlank);
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\LearningMaterialInterface;
+use App\Entity\SessionInterface;
 use App\Entity\SessionLearningMaterial;
 use Mockery as m;
 
@@ -32,6 +34,21 @@ class SessionLearningMaterialTest extends EntityBase
     public function testConstructor()
     {
         $this->assertEmpty($this->object->getMeshDescriptors());
+    }
+
+    public function testNotBlankValidation()
+    {
+        $notNull = [
+            'required',
+            'session',
+            'learningMaterial',
+        ];
+        $this->validateNotNulls($notNull);
+
+        $this->object->setRequired(false);
+        $this->object->setSession(m::mock(SessionInterface::class));
+        $this->object->setLearningMaterial(m::mock(LearningMaterialInterface::class));
+        $this->validate(0);
     }
 
     /**

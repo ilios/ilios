@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterial;
+use App\Entity\LearningMaterialInterface;
 use Mockery as m;
 
 /**
@@ -24,6 +26,19 @@ class CourseLearningMaterialTest extends EntityBase
     protected function setUp(): void
     {
         $this->object = new CourseLearningMaterial();
+    }
+
+    public function testNotBlankValidation()
+    {
+        $notNull = [
+            'course',
+            'learningMaterial',
+        ];
+        $this->validateNotNulls($notNull);
+
+        $this->object->setCourse(m::mock(CourseInterface::class));
+        $this->object->setLearningMaterial(m::mock(LearningMaterialInterface::class));
+        $this->validate(0);
     }
 
     /**

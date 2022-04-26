@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Program;
+use App\Entity\ProgramInterface;
 use App\Entity\ProgramYear;
 use App\Entity\ProgramYearObjective;
 use App\Entity\School;
@@ -34,7 +35,7 @@ class ProgramYearTest extends EntityBase
         $notBlank = [
             'startYear',
         ];
-        $this->object->setProgram(m::mock('App\Entity\ProgramInterface'));
+        $this->object->setProgram(m::mock(ProgramInterface::class));
 
         $this->validateNotBlanks($notBlank);
 

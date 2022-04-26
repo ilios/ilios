@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Authentication;
+use App\Entity\UserInterface;
 use Mockery as m;
 
 /**
@@ -24,6 +25,17 @@ class AuthenticationTest extends EntityBase
     protected function setUp(): void
     {
         $this->object = new Authentication();
+    }
+
+    public function testNotBlankValidation()
+    {
+        $notBlank = [
+            'user',
+        ];
+        $this->validateNotBlanks($notBlank);
+
+        $this->object->setUser(m::mock(UserInterface::class));
+        $this->validate(0);
     }
 
     /**

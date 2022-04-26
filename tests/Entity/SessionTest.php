@@ -8,6 +8,7 @@ use App\Entity\Course;
 use App\Entity\CourseInterface;
 use App\Entity\School;
 use App\Entity\Session;
+use App\Entity\SessionTypeInterface;
 use Mockery as m;
 
 /**
@@ -34,8 +35,8 @@ class SessionTest extends EntityBase
         $notBlank = [
 
         ];
-        $this->object->setSessionType(m::mock('App\Entity\SessionTypeInterface'));
-        $this->object->setCourse(m::mock('App\Entity\CourseInterface'));
+        $this->object->setSessionType(m::mock(SessionTypeInterface::class));
+        $this->object->setCourse(m::mock(CourseInterface::class));
 
         $this->validateNotBlanks($notBlank);
         $this->validate(0);
