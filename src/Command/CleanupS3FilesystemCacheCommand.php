@@ -7,7 +7,8 @@ namespace App\Command;
 use App\Classes\DiskSpace;
 use App\Service\FilesystemFactory;
 use App\Service\IliosFileSystem;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\StorageAttributes;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,15 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CleanupS3FilesystemCacheCommand extends Command
 {
-    /**
-     * @var FilesystemInterface
-     */
-    protected $filesystem;
-
-    /**
-     * @var string
-     */
-    protected $localCacheDirectory;
+    protected FilesystemOperator $filesystem;
+    protected string $localCacheDirectory;
 
     public function __construct(FilesystemFactory $filesystemFactory, protected DiskSpace $diskSpace)
     {
@@ -56,9 +50,10 @@ class CleanupS3FilesystemCacheCommand extends Command
         $contents = $this->filesystem->listContents(IliosFileSystem::HASHED_LM_DIRECTORY, true);
         $deleteBefore = strtotime("-48 hours");
         $deletedFiles = 0;
+        /** @var StorageAttributes $object */
         foreach ($contents as $object) {
-            if ($object['type'] === 'file' && $object['timestamp'] < $deleteBefore) {
-                $this->filesystem->delete($object['path']);
+            if ($object->type() === 'file' && $object->lastModified() < $deleteBefore) {
+                $this->filesystem->delete($object->path());
                 $deletedFiles++;
             }
         }

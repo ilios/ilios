@@ -7,14 +7,10 @@ namespace App\Service;
 use App\Classes\LocalCachingFilesystemDecorator;
 use Aws\S3\S3Client;
 use Exception;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Cached\CachedAdapter;
-use League\Flysystem\Cached\Storage\Adapter;
-use League\Flysystem\Cached\Storage\Memory as MemoryStore;
-use League\Flysystem\Filesystem as LeagueFilesystem;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
+use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class FilesystemFactory
 {
@@ -24,7 +20,7 @@ class FilesystemFactory
     {
     }
 
-    public function getFilesystem(): FilesystemInterface
+    public function getFilesystem(): FilesystemOperator
     {
         $s3Url = $this->config->get('storage_s3_url');
 
@@ -35,19 +31,19 @@ class FilesystemFactory
         return $this->getLocalFilesystem();
     }
 
-    public function getNonCachingFilesystem(): FilesystemInterface
+    public function getNonCachingFilesystem(): FilesystemOperator
     {
         $s3Url = $this->config->get('storage_s3_url');
 
         if ($s3Url) {
             $adapter = $this->getS3Adapter($s3Url);
-            return new LeagueFilesystem($adapter);
+            return new Filesystem($adapter);
         }
 
         $path = $this->config->get('file_system_storage_path');
-        $localAdapter = new Local($path);
+        $localAdapter = new LocalFilesystemAdapter($path);
 
-        return new LeagueFilesystem($localAdapter, ['visibility' => 'private']);
+        return new Filesystem($localAdapter, ['visibility' => 'private']);
     }
 
     /**
@@ -61,26 +57,22 @@ class FilesystemFactory
     /**
      * Get a filesystem for the local S3 cache
      */
-    public function getS3LocalFilesystemCache(): FilesystemInterface
+    public function getS3LocalFilesystemCache(): FilesystemOperator
     {
         $localAdapter = $this->getLocalAdapter($this->getLocalS3CacheDirectory());
-        return new LeagueFilesystem($localAdapter, ['visibility' => 'private']);
+        return new Filesystem($localAdapter, ['visibility' => 'private']);
     }
 
-    protected function getS3FilesystemWithCache(string $s3Url): FilesystemInterface
+    protected function getS3FilesystemWithCache(string $s3Url): FilesystemOperator
     {
         $s3 = $this->getS3Adapter($s3Url);
-        $localAdapter = $this->getLocalAdapter($this->getLocalS3CacheDirectory());
-
-        $cache = new Adapter($localAdapter, 'file');
-        $s3Adapter = new CachedAdapter($s3, $cache);
-        $remoteFileSystem = new LeagueFilesystem($s3Adapter, ['visibility' => 'private']);
+        $remoteFileSystem = new Filesystem($s3, ['visibility' => 'private']);
         $localCache = $this->getS3LocalFilesystemCache();
 
         return new LocalCachingFilesystemDecorator($localCache, $remoteFileSystem);
     }
 
-    protected function getS3Adapter(string $s3Url): AwsS3Adapter
+    protected function getS3Adapter(string $s3Url): AwsS3V3Adapter
     {
         $configuration = $this->parseS3URL($s3Url);
         //extract bucket from configuration, it's not required here
@@ -89,22 +81,20 @@ class FilesystemFactory
 
         $client = new S3Client($configuration);
 
-        return new AwsS3Adapter($client, $bucket);
+        return new AwsS3V3Adapter($client, $bucket);
     }
 
-    protected function getLocalAdapter($path): AdapterInterface
+    protected function getLocalAdapter(string $path): LocalFilesystemAdapter
     {
-        $localAdapter = new Local($path);
-        $cacheStore = new MemoryStore();
-        return new CachedAdapter($localAdapter, $cacheStore);
+        return new LocalFilesystemAdapter($path);
     }
 
-    protected function getLocalFilesystem(): FilesystemInterface
+    protected function getLocalFilesystem(): FilesystemOperator
     {
         $path = $this->config->get('file_system_storage_path');
         $adapter = $this->getLocalAdapter($path);
 
-        return new LeagueFilesystem($adapter, ['visibility' => 'private']);
+        return new Filesystem($adapter, ['visibility' => 'private']);
     }
 
     protected function parseS3URL(string $url): array
