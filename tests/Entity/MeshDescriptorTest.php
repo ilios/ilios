@@ -39,7 +39,12 @@ class MeshDescriptorTest extends EntityBase
         ];
         $this->validateNotBlanks($notBlank);
 
+        $this->object->setId('');
         $this->object->setName('test name');
+        $this->object->setAnnotation('');
+        $this->validate(0);
+        $this->object->setId('test');
+        $this->object->setAnnotation('test');
         $this->validate(0);
     }
     /**

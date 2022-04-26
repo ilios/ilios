@@ -35,6 +35,9 @@ class CurriculumInventorySequenceTest extends EntityBase
         $this->validateNotNulls($notNull);
 
         $this->object->setReport(m::mock(CurriculumInventoryReportInterface::class));
+        $this->object->setDescription('');
+        $this->validate(0);
+        $this->object->setDescription('test');
         $this->validate(0);
     }
 

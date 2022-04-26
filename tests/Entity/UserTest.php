@@ -39,6 +39,19 @@ class UserTest extends EntityBase
         $this->object->setLastName('Andrews');
         $this->object->setFirstName('Julia');
         $this->object->setEmail('sanders@ucsf.edu');
+        $this->object->setMiddleName('');
+        $this->object->setDisplayName('');
+        $this->object->setPhone('');
+        $this->object->setPreferredEmail('');
+        $this->object->setCampusId('');
+        $this->object->setOtherId('');
+        $this->validate(0);
+        $this->object->setMiddleName('test');
+        $this->object->setDisplayName('test');
+        $this->object->setPhone('test');
+        $this->object->setPreferredEmail('test@example.com');
+        $this->object->setCampusId('test');
+        $this->object->setOtherId('test');
         $this->validate(0);
     }
 

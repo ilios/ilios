@@ -50,6 +50,9 @@ class CourseTest extends EntityBase
         $this->object->setYear(2004);
         $this->object->setStartDate(new DateTime());
         $this->object->setEndDate(new DateTime());
+        $this->object->setExternalId('');
+        $this->validate(0);
+        $this->object->setExternalId('test');
         $this->validate(0);
     }
 

@@ -54,7 +54,10 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 200)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 200),
+    ])]
     protected $name;
 
     /**
@@ -64,7 +67,10 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 65000)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 65000),
+    ])]
     protected $description;
 
     /**
@@ -143,7 +149,10 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 64)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 64),
+    ])]
     protected $token;
 
     /**

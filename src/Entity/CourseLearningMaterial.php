@@ -50,7 +50,10 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 65000)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 65000),
+    ])]
     protected $notes;
 
     /**

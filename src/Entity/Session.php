@@ -146,7 +146,10 @@ class Session implements SessionInterface
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 65000)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 65000),
+    ])]
     protected $instructionalNotes;
 
     /**
@@ -157,7 +160,10 @@ class Session implements SessionInterface
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 65000)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 65000),
+    ])]
     protected $description;
 
     /**

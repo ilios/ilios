@@ -52,7 +52,10 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 12)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 12),
+    ])]
     protected $id;
 
     /**
@@ -73,7 +76,10 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 65000)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 65000),
+    ])]
     protected $annotation;
 
     /**

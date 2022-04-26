@@ -48,6 +48,9 @@ class SessionLearningMaterialTest extends EntityBase
         $this->object->setRequired(false);
         $this->object->setSession(m::mock(SessionInterface::class));
         $this->object->setLearningMaterial(m::mock(LearningMaterialInterface::class));
+        $this->object->setNotes('');
+        $this->validate(0);
+        $this->object->setNotes('test');
         $this->validate(0);
     }
 

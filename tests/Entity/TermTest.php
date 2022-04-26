@@ -51,6 +51,9 @@ class TermTest extends EntityBase
 
         $this->object->setVocabulary(m::mock(VocabularyInterface::class));
         $this->object->setTitle('test');
+        $this->object->setDescription('');
+        $this->validate(0);
+        $this->object->setDescription('test');
         $this->validate(0);
     }
 

@@ -73,7 +73,10 @@ class School implements SchoolInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 8)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 8),
+    ])]
     protected $templatePrefix;
 
     /**

@@ -39,6 +39,8 @@ class CourseLearningMaterialTest extends EntityBase
         $this->object->setCourse(m::mock(CourseInterface::class));
         $this->object->setLearningMaterial(m::mock(LearningMaterialInterface::class));
         $this->validate(0);
+        $this->object->setNotes('');
+        $this->validate(0);
     }
 
     /**

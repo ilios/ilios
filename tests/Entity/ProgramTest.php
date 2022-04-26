@@ -39,6 +39,9 @@ class ProgramTest extends EntityBase
 
         $this->object->setTitle('DVc');
         $this->object->setDuration(30);
+        $this->object->setShortTitle('');
+        $this->validate(0);
+        $this->object->setShortTitle('test');
         $this->validate(0);
     }
 

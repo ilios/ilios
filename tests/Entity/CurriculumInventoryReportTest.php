@@ -41,6 +41,11 @@ class CurriculumInventoryReportTest extends EntityBase
         $this->object->setYear(2001);
         $this->object->setStartDate(new DateTime());
         $this->object->setEndDate(new DateTime());
+        $this->object->setName('');
+        $this->object->setDescription('');
+        $this->validate(0);
+        $this->object->setName('test');
+        $this->object->setDescription('test');
         $this->validate(0);
     }
 

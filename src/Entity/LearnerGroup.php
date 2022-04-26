@@ -66,7 +66,10 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 100)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 100),
+    ])]
     protected $location;
 
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]

@@ -70,7 +70,10 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 65000)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 65000),
+    ])]
     protected $scopeNote;
 
     /**
@@ -80,7 +83,10 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 512)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 512),
+    ])]
     protected $casn1Name;
 
     /**
@@ -90,7 +96,10 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(min: 1, max: 30)]
+    #[Assert\AtLeastOneOf([
+        new Assert\Blank(),
+        new Assert\Length(min: 1, max: 30),
+    ])]
     protected $registryNumber;
 
     /**

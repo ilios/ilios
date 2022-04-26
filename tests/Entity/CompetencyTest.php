@@ -35,6 +35,9 @@ class CompetencyTest extends EntityBase
         $this->validateNotNulls($notNull);
 
         $this->object->setSchool(m::mock(SchoolInterface::class));
+        $this->object->setTitle('');
+        $this->validate(0);
+        $this->object->setTitle('test');
         $this->validate(0);
     }
 

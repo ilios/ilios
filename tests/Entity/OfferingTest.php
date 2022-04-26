@@ -43,6 +43,11 @@ class OfferingTest extends EntityBase
 
         $this->object->setStartDate(new DateTime());
         $this->object->setEndDate(new DateTime());
+        $this->object->setRoom('');
+        $this->object->setSite('');
+        $this->validate(0);
+        $this->object->setRoom('test');
+        $this->object->setSite('test');
         $this->validate(0);
     }
 

@@ -35,6 +35,11 @@ class AuthenticationTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setUser(m::mock(UserInterface::class));
+        $this->object->setUsername('');
+        $this->object->setPasswordHash('');
+        $this->validate(0);
+        $this->object->setUsername('test');
+        $this->object->setPasswordHash('test');
         $this->validate(0);
     }
 

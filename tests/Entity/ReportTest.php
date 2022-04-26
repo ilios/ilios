@@ -45,6 +45,13 @@ class ReportTest extends EntityBase
 
         $this->object->setUser(m::mock(UserInterface::class));
         $this->object->setSubject('test');
+        $this->object->setTitle('');
+        $this->object->setPrepositionalObject('');
+        $this->object->setPrepositionalObjectTableRowId('');
+        $this->validate(0);
+        $this->object->setTitle('test');
+        $this->object->setPrepositionalObject('test');
+        $this->object->setPrepositionalObjectTableRowId('test');
         $this->validate(0);
     }
 

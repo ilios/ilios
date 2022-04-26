@@ -32,13 +32,13 @@ class SessionTest extends EntityBase
 
     public function testNotBlankValidation()
     {
-        $notBlank = [
-
-        ];
         $this->object->setSessionType(m::mock(SessionTypeInterface::class));
         $this->object->setCourse(m::mock(CourseInterface::class));
-
-        $this->validateNotBlanks($notBlank);
+        $this->object->setInstructionalNotes('');
+        $this->object->setDescription('');
+        $this->validate(0);
+        $this->object->setInstructionalNotes('test');
+        $this->object->setDescription('test');
         $this->validate(0);
     }
 
@@ -50,8 +50,8 @@ class SessionTest extends EntityBase
         ];
         $this->validateNotNulls($notNull);
 
-        $this->object->setSessionType(m::mock('App\Entity\SessionTypeInterface'));
-        $this->object->setCourse(m::mock('App\Entity\CourseInterface'));
+        $this->object->setSessionType(m::mock(SessionTypeInterface::class));
+        $this->object->setCourse(m::mock(CourseInterface::class));
 
         $this->validate(0);
     }

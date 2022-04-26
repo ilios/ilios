@@ -49,6 +49,9 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->object->setMaximum(521);
         $this->object->setStartDate(new DateTime());
         $this->object->setEndDate(new DateTime());
+        $this->object->setDescription('');
+        $this->validate(0);
+        $this->object->setDescription('test');
         $this->validate(0);
     }
 
