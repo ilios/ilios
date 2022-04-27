@@ -44,16 +44,13 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 65000)]
     protected $notes;
 
     /**

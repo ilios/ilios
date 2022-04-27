@@ -37,6 +37,9 @@ class SchoolTest extends EntityBase
 
         $this->object->setTitle('test');
         $this->object->setIliosAdministratorEmail('dartajax@winner.net');
+        $this->object->setTemplatePrefix('');
+        $this->validate(0);
+        $this->object->setTemplatePrefix('test');
         $this->validate(0);
     }
 

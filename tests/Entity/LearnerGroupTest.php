@@ -40,6 +40,9 @@ class LearnerGroupTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
+        $this->object->setLocation('');
+        $this->validate(0);
+        $this->object->setLocation('test');
         $this->validate(0);
     }
 

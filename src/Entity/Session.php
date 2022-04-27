@@ -140,30 +140,24 @@ class Session implements SessionInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'instructionalNotes', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 65000)]
     protected $instructionalNotes;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 65000)]
     protected $description;
 
     /**

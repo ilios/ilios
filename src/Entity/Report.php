@@ -39,15 +39,12 @@ class Report implements ReportInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=240)
-     * })
      */
     #[ORM\Column(type: 'string', length: 240, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 240)]
     protected $title;
 
     /**
@@ -82,28 +79,22 @@ class Report implements ReportInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=32)
-     * })
      */
     #[ORM\Column(name: 'prepositional_object', type: 'string', length: 32, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 32)]
     protected $prepositionalObject;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=14)
-     * })
      */
     #[ORM\Column(name: 'prepositional_object_table_row_id', type: 'string', length: 14, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 14)]
     protected $prepositionalObjectTableRowId;
 
     /**

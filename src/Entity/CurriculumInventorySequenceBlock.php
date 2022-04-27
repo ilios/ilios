@@ -57,15 +57,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 65000)]
     protected $description;
 
     /**

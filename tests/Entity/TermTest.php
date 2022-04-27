@@ -7,6 +7,7 @@ namespace App\Tests\Entity;
 use App\Entity\CourseInterface;
 use App\Entity\SessionInterface;
 use App\Entity\Term;
+use App\Entity\VocabularyInterface;
 use Mockery as m;
 
 /**
@@ -38,6 +39,22 @@ class TermTest extends EntityBase
         $this->assertEmpty($this->object->getSessions());
         $this->assertEmpty($this->object->getChildren());
         $this->assertEmpty($this->object->getAamcResourceTypes());
+    }
+
+    public function testNotBlankValidation()
+    {
+        $errors = $this->validate(2);
+        $this->assertEquals([
+            "title" => "NotBlank",
+            "vocabulary" => "NotNull",
+        ], $errors);
+
+        $this->object->setVocabulary(m::mock(VocabularyInterface::class));
+        $this->object->setTitle('test');
+        $this->object->setDescription('');
+        $this->validate(0);
+        $this->object->setDescription('test');
+        $this->validate(0);
     }
 
     /**

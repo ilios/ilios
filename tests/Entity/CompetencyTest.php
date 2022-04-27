@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Competency;
+use App\Entity\SchoolInterface;
 use Mockery as m;
 
 /**
@@ -24,6 +25,20 @@ class CompetencyTest extends EntityBase
     protected function setUp(): void
     {
         $this->object = new Competency();
+    }
+
+    public function testNotBlankValidation()
+    {
+        $notNull = [
+            'school',
+        ];
+        $this->validateNotNulls($notNull);
+
+        $this->object->setSchool(m::mock(SchoolInterface::class));
+        $this->object->setTitle('');
+        $this->validate(0);
+        $this->object->setTitle('test');
+        $this->validate(0);
     }
 
     /**

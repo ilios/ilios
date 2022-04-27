@@ -49,15 +49,12 @@ class Competency implements CompetencyInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=200)
-     * })
      */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 200)]
     protected $title;
 
     /**

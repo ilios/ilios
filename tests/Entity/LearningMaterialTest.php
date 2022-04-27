@@ -44,6 +44,11 @@ class LearningMaterialTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
+        $this->object->setDescription('');
+        $this->object->setOriginalAuthor('');
+        $this->validate(0);
+        $this->object->setDescription('test');
+        $this->object->setOriginalAuthor('test');
         $this->validate(0);
     }
 

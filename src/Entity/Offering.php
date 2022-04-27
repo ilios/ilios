@@ -53,28 +53,22 @@ class Offering implements OfferingInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=255)
-     * })
      */
     #[ORM\Column(name: 'room', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 255)]
     protected $room;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=255)
-     * })
      */
     #[ORM\Column(name: 'site', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 255)]
     protected $site;
 
     /**

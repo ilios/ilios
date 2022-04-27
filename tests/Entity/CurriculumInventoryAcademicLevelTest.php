@@ -35,6 +35,9 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
 
         $this->object->setName('50 char max name test');
         $this->object->setLevel(4);
+        $this->object->setDescription('');
+        $this->validate(0);
+        $this->object->setDescription('test');
         $this->validate(0);
     }
 

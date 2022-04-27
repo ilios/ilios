@@ -36,6 +36,9 @@ class MeshTermTest extends EntityBase
 
         $this->object->setName('test up to 192 in length search string');
         $this->object->setMeshTermUid('boots!');
+        $this->object->setLexicalTag('');
+        $this->validate(0);
+        $this->object->setLexicalTag('test');
         $this->validate(0);
     }
 

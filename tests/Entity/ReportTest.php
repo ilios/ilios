@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Report;
+use App\Entity\UserInterface;
 use Mockery as m;
 
 /**
@@ -32,6 +33,26 @@ class ReportTest extends EntityBase
     public function testConstructor()
     {
         $this->assertNotEmpty($this->object->getCreatedAt());
+    }
+
+    public function testNotBlankValidation()
+    {
+        $errors = $this->validate(2);
+        $this->assertEquals([
+            "subject" => "NotBlank",
+            "user" => "NotNull",
+        ], $errors);
+
+        $this->object->setUser(m::mock(UserInterface::class));
+        $this->object->setSubject('test');
+        $this->object->setTitle('');
+        $this->object->setPrepositionalObject('');
+        $this->object->setPrepositionalObjectTableRowId('');
+        $this->validate(0);
+        $this->object->setTitle('test');
+        $this->object->setPrepositionalObject('test');
+        $this->object->setPrepositionalObjectTableRowId('test');
+        $this->validate(0);
     }
 
     /**

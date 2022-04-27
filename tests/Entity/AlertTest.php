@@ -36,6 +36,9 @@ class AlertTest extends EntityBase
 
         $this->object->setTableRowId(3215);
         $this->object->setTableName('zippeedee doo dah');
+        $this->object->setAdditionalText('');
+        $this->validate(0);
+        $this->object->setAdditionalText('test');
         $this->validate(0);
     }
 

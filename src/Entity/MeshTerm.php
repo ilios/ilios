@@ -70,15 +70,12 @@ class MeshTerm implements MeshTermInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=12)
-     * })
      */
     #[ORM\Column(name: 'lexical_tag', type: 'string', length: 12, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 12)]
     protected $lexicalTag;
 
     /**

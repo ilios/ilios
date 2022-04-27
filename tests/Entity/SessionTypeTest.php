@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\SchoolInterface;
 use App\Entity\SessionType;
 use Exception;
 use Mockery as m;
@@ -32,7 +33,7 @@ class SessionTypeTest extends EntityBase
         $notBlank = [
             'title'
         ];
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
 
         $this->validateNotBlanks($notBlank);
 

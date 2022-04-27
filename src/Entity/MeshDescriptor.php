@@ -45,10 +45,6 @@ class MeshDescriptor implements MeshDescriptorInterface
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=12)
-     * })
      */
     #[ORM\Column(name: 'mesh_descriptor_uid', type: 'string', length: 12)]
     #[ORM\Id]
@@ -56,33 +52,28 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 12)]
     protected $id;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=192)
-     * })
      */
     #[ORM\Column(type: 'string', length: 192)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(min: 1, max: 192)]
     protected $name;
 
     /**
      * @var string
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Blank,
-     *     @Assert\Length(min=1,max=65000)
-     * })
      */
     #[ORM\Column(name: 'annotation', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
+    #[Assert\Length(max: 65000)]
     protected $annotation;
 
     /**

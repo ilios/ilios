@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Program;
+use App\Entity\SchoolInterface;
 use Mockery as m;
 
 /**
@@ -32,12 +33,15 @@ class ProgramTest extends EntityBase
             'title',
             'duration'
         ];
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
 
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('DVc');
         $this->object->setDuration(30);
+        $this->object->setShortTitle('');
+        $this->validate(0);
+        $this->object->setShortTitle('test');
         $this->validate(0);
     }
 

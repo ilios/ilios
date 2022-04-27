@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\SchoolInterface;
 use App\Entity\Vocabulary;
 use Mockery as m;
 
@@ -32,6 +33,19 @@ class VocabularyTest extends EntityBase
     public function testConstructor()
     {
         $this->assertEmpty($this->object->getTerms());
+    }
+
+    public function testNotEmptyValidation()
+    {
+        $errors = $this->validate(2);
+        $this->assertEquals([
+            "title" => "NotBlank",
+            "school" => "NotNull",
+        ], $errors);
+
+        $this->object->setSchool(m::mock(SchoolInterface::class));
+        $this->object->setTitle('Jackson is the best dog!');
+        $this->validate(0);
     }
 
     /**
