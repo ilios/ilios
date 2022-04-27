@@ -353,10 +353,10 @@ class Curriculum extends ElasticSearchBase
             $courseMatches = array_map(function (string $match) {
                 $split = explode('.', $match);
                 $field = strtolower(substr($split[0], strlen('course')));
-                if (strpos($field, 'meshdescriptor') !== false) {
+                if (str_contains($field, 'meshdescriptor')) {
                     $field = 'meshdescriptors';
                 }
-                if (strpos($field, 'learningmaterial') !== false) {
+                if (str_contains($field, 'learningmaterial')) {
                     $field = 'learningmaterials';
                 }
 
@@ -365,10 +365,10 @@ class Curriculum extends ElasticSearchBase
             $sessionMatches = array_map(function (string $match) {
                 $split = explode('.', $match);
                 $field = strtolower(substr($split[0], strlen('session')));
-                if (strpos($field, 'meshdescriptor') !== false) {
+                if (str_contains($field, 'meshdescriptor')) {
                     $field = 'meshdescriptors';
                 }
-                if (strpos($field, 'learningmaterial') !== false) {
+                if (str_contains($field, 'learningmaterial')) {
                     $field = 'learningmaterials';
                 }
 
