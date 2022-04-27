@@ -153,6 +153,20 @@ class SyncAllUsersCommand extends Command
                     );
                     $user->setDisplayName($recordArray['displayName']);
                 }
+                if ($fixSmallThings && $user->getPronouns() != $recordArray['pronouns']) {
+                    $update = true;
+                    if ($recordArray['pronouns']) {
+                        $output->writeln(
+                            '  <comment>[I] Updating pronouns from "' . $user->getPronouns() .
+                            '" to "' . $recordArray['pronouns'] . '".</comment>'
+                        );
+                    } else {
+                        $output->writeln(
+                            '  <comment>[I] Removing "' . $user->getPronouns() . '" pronoun.</comment>'
+                        );
+                    }
+                    $user->setPronouns($recordArray['pronouns']);
+                }
                 if ($fixSmallThings && $user->getPhone() != $recordArray['telephoneNumber']) {
                     $update = true;
                     $output->writeln(

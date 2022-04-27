@@ -27,6 +27,7 @@ class LdapManager
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
         $ldapUsernameProperty = $this->config->get('ldap_directory_username_property');
         $ldapDisplayNameProperty = $this->config->get('ldap_directory_display_name_property');
+        $ldapPronounsProperty = $this->config->get('ldap_directory_pronouns_property');
 
         $rhett = [];
         try {
@@ -41,6 +42,7 @@ class LdapManager
                 $ldapCampusIdProperty => 'campusId',
                 $ldapUsernameProperty => 'username',
                 $ldapDisplayNameProperty => 'displayName',
+                $ldapPronounsProperty => 'pronouns',
             ];
 
             foreach ($results as $userData) {

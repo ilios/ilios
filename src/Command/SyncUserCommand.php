@@ -72,6 +72,7 @@ class SyncUserCommand extends Command
                 'First',
                 'Last',
                 'Display Name',
+                'Pronouns',
                 'Email',
                 'Phone Number'
             ])
@@ -82,6 +83,7 @@ class SyncUserCommand extends Command
                     $user->getFirstName(),
                     $user->getLastName(),
                     $user->getDisplayName(),
+                    $user->getPronouns(),
                     $user->getEmail(),
                     $user->getPhone()
                 ],
@@ -91,6 +93,7 @@ class SyncUserCommand extends Command
                     $userRecord['firstName'],
                     $userRecord['lastName'],
                     $userRecord['displayName'],
+                    $userRecord['pronouns'],
                     $userRecord['email'],
                     $userRecord['telephoneNumber']
                 ]
@@ -110,6 +113,7 @@ class SyncUserCommand extends Command
             $user->setFirstName($userRecord['firstName']);
             $user->setLastName($userRecord['lastName']);
             $user->setDisplayName($userRecord['displayName']);
+            $user->setPronouns($userRecord['pronouns']);
             $user->setEmail($userRecord['email']);
             $user->setPhone($userRecord['telephoneNumber']);
             $authentication = $user->getAuthentication();
