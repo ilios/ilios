@@ -34,7 +34,7 @@
     "nelmio/cors-bundle": "^2.0",
     "pear/archive_tar": "^1.4",
     "phpdocumentor/reflection-docblock": "^5.2",
-    "psr/log": "^2.0.0",
+    "psr/log": "^3.0.0",
     "sentry/sentry-symfony": "^4.2",
     "shivas/versioning-bundle": "^4.0",
     "swagger-api/swagger-ui": "^4.0",
