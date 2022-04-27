@@ -126,6 +126,12 @@ class User implements UserInterface
     #[Assert\Length(max: 100)]
     protected $preferredEmail;
 
+    #[ORM\Column(name: 'pronouns', type: 'string', length: 50, nullable: true)]
+    #[IA\Expose]
+    #[IA\Type('string')]
+    #[Assert\Length(max: 50)]
+    protected ?string $pronouns;
+
     /**
      * @var bool
      */
@@ -578,6 +584,16 @@ class User implements UserInterface
     public function getPreferredEmail(): ?string
     {
         return $this->preferredEmail;
+    }
+
+    public function setPronouns(?string $pronouns)
+    {
+        $this->pronouns = $pronouns;
+    }
+
+    public function getPronouns(): ?string
+    {
+        return $this->pronouns;
     }
 
     /**

@@ -26,6 +26,9 @@ User:
   preferredEmail:
    description: Preferred Email
    type: string
+  pronouns:
+   description: Pronouns
+   type: string
   addedViaIlios:
    description: A flag indicating whether this user directly entered into Ilios, or imported from an external source.
    type: boolean

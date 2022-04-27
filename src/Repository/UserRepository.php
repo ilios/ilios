@@ -914,6 +914,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
                 $arr['phone'],
                 $arr['email'],
                 $arr['preferredEmail'],
+                $arr['pronouns'],
                 $arr['addedViaIlios'],
                 $arr['enabled'],
                 $arr['campusId'],

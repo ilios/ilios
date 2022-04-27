@@ -48,6 +48,10 @@ class UserDTO
     public ?string $preferredEmail;
 
     #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $pronouns;
+
+    #[IA\Expose]
     #[IA\Type('boolean')]
     public bool $addedViaIlios;
 
@@ -281,6 +285,7 @@ class UserDTO
         ?string $phone,
         string $email,
         ?string $preferredEmail,
+        ?string $pronouns,
         bool $addedViaIlios,
         bool $enabled,
         ?string $campusId,
@@ -298,6 +303,7 @@ class UserDTO
         $this->phone = $phone;
         $this->email = $email;
         $this->preferredEmail = $preferredEmail;
+        $this->pronouns = $pronouns;
         $this->addedViaIlios = $addedViaIlios;
         $this->enabled = $enabled;
         $this->campusId = $campusId;

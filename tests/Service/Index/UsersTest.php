@@ -148,6 +148,7 @@ class UsersTest extends TestCase
             null,
             "${id}@${id}}.com",
             null,
+            null,
             true,
             true,
             null,
