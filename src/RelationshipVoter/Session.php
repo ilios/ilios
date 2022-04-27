@@ -25,22 +25,12 @@ class Session extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $user->performsNonLearnerFunction();
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateSession($user, $subject);
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateSession($user, $subject->getCourse());
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteSession($user, $subject);
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => $user->performsNonLearnerFunction(),
+            self::EDIT => $this->permissionChecker->canUpdateSession($user, $subject),
+            self::CREATE => $this->permissionChecker->canCreateSession($user, $subject->getCourse()),
+            self::DELETE => $this->permissionChecker->canDeleteSession($user, $subject),
+            default => false,
+        };
     }
 }

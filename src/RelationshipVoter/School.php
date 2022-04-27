@@ -25,19 +25,13 @@ class School extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateSchool(
-                    $user,
-                    $subject->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::EDIT => $this->permissionChecker->canUpdateSchool(
+                $user,
+                $subject->getId()
+            ),
+            default => false,
+        };
     }
 }

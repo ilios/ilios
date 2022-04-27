@@ -25,31 +25,21 @@ class Competency extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateCompetency(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateCompetency(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteCompetency(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE => $this->permissionChecker->canCreateCompetency(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::EDIT => $this->permissionChecker->canUpdateCompetency(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteCompetency(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

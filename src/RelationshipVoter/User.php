@@ -25,28 +25,18 @@ class User extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $user->isTheUser($subject) || $user->performsNonLearnerFunction();
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateUser($user, $subject->getSchool()->getId());
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateUser(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteUser(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => $user->isTheUser($subject) || $user->performsNonLearnerFunction(),
+            self::CREATE => $this->permissionChecker->canCreateUser($user, $subject->getSchool()->getId()),
+            self::EDIT => $this->permissionChecker->canUpdateUser(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteUser(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

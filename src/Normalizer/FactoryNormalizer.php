@@ -31,25 +31,19 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
     }
 
     public function normalize(
-        $object,
+        $o,
         string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
-        $class = $object::class;
-        switch ($class) {
-            case LearningMaterial::class:
-            case LearningMaterialDTO::class:
-                $object = $this->learningMaterialDecoratorFactory->create($object);
-                break;
-            case CurriculumInventoryReportDTO::class:
-                $object = $this->curriculumInventoryReportDecoratorFactory->create($object);
-                break;
-            default:
-                throw new Exception("${class} fell through switch statement, should it have been decorated?");
-        }
+        $class = $o::class;
+        $o = match ($class) {
+            LearningMaterial::class, LearningMaterialDTO::class => $this->learningMaterialDecoratorFactory->create($o),
+            CurriculumInventoryReportDTO::class => $this->curriculumInventoryReportDecoratorFactory->create($o),
+            default => throw new Exception("${class} fell through match statement, should it have been decorated?"),
+        };
 
         $context[self::ALREADY_CALLED] = true;
-        return $this->normalizer->normalize($object, $format, $context);
+        return $this->normalizer->normalize($o, $format, $context);
     }
 
     /*

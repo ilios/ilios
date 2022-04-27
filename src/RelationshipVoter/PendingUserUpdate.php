@@ -25,19 +25,11 @@ class PendingUserUpdate extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $user->performsNonLearnerFunction();
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateUser($user, $subject->getUser()->getSchool()->getId());
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canUpdateUser($user, $subject->getUser()->getSchool()->getId());
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => $user->performsNonLearnerFunction(),
+            self::EDIT => $this->permissionChecker->canUpdateUser($user, $subject->getUser()->getSchool()->getId()),
+            self::DELETE => $this->permissionChecker->canUpdateUser($user, $subject->getUser()->getSchool()->getId()),
+            default => false,
+        };
     }
 }

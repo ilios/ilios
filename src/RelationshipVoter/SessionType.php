@@ -25,28 +25,18 @@ class SessionType extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateSessionType($user, $subject->getSchool()->getId());
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateSessionType(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteSessionType(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE => $this->permissionChecker->canCreateSessionType($user, $subject->getSchool()->getId()),
+            self::EDIT => $this->permissionChecker->canUpdateSessionType(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteSessionType(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

@@ -25,13 +25,9 @@ class IngestionException extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $user->performsNonLearnerFunction();
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => $user->performsNonLearnerFunction(),
+            default => false,
+        };
     }
 }

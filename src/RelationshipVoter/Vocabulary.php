@@ -25,28 +25,18 @@ class Vocabulary extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateVocabulary($user, $subject->getSchool()->getId());
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateVocabulary(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteVocabulary(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE => $this->permissionChecker->canCreateVocabulary($user, $subject->getSchool()->getId()),
+            self::EDIT => $this->permissionChecker->canUpdateVocabulary(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteVocabulary(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

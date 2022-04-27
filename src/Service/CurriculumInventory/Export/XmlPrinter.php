@@ -545,15 +545,10 @@ class XmlPrinter
         $clerkshipModel = false;
         if ($course) {
             $clerkshipType = $course->getClerkshipType() ? $course->getClerkshipType()->getId() : null;
-            switch ($clerkshipType) {
-                case CourseClerkshipTypeInterface::INTEGRATED:
-                    $clerkshipModel = 'integrated';
-                    break;
-                case CourseClerkshipTypeInterface::BLOCK:
-                case CourseClerkshipTypeInterface::LONGITUDINAL:
-                    $clerkshipModel = 'rotation';
-                    break;
-            }
+            $clerkshipModel = match ($clerkshipType) {
+                CourseClerkshipTypeInterface::INTEGRATED => 'integrated',
+                CourseClerkshipTypeInterface::BLOCK, CourseClerkshipTypeInterface::LONGITUDINAL => 'rotation',
+            };
         }
         if ($clerkshipModel) {
             $xw->writeElement('ClerkshipModel', $clerkshipModel);

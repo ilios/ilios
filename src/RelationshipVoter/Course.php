@@ -33,31 +33,15 @@ class Course extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateCourse($user, $subject->getSchool());
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateCourse($user, $subject);
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteCourse($user, $subject);
-                break;
-            case self::UNLOCK:
-                return $this->permissionChecker->canUnlockCourse($user, $subject);
-                break;
-            case self::ARCHIVE:
-                return $this->permissionChecker->canArchiveCourse($user, $subject);
-                break;
-            case self::LOCK:
-                return $this->permissionChecker->canLockCourse($user, $subject);
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE => $this->permissionChecker->canCreateCourse($user, $subject->getSchool()),
+            self::EDIT => $this->permissionChecker->canUpdateCourse($user, $subject),
+            self::DELETE => $this->permissionChecker->canDeleteCourse($user, $subject),
+            self::UNLOCK => $this->permissionChecker->canUnlockCourse($user, $subject),
+            self::ARCHIVE => $this->permissionChecker->canArchiveCourse($user, $subject),
+            self::LOCK => $this->permissionChecker->canLockCourse($user, $subject),
+            default => false,
+        };
     }
 }

@@ -33,31 +33,15 @@ class ProgramYear extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateProgramYear($user, $subject);
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateProgramYear($user, $subject->getProgram());
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteProgramYear($user, $subject);
-                break;
-            case self::UNLOCK:
-                return $this->permissionChecker->canUnlockProgramYear($user, $subject);
-                break;
-            case self::ARCHIVE:
-                return $this->permissionChecker->canArchiveProgramYear($user, $subject);
-                break;
-            case self::LOCK:
-                return $this->permissionChecker->canLockProgramYear($user, $subject);
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::EDIT => $this->permissionChecker->canUpdateProgramYear($user, $subject),
+            self::CREATE => $this->permissionChecker->canCreateProgramYear($user, $subject->getProgram()),
+            self::DELETE => $this->permissionChecker->canDeleteProgramYear($user, $subject),
+            self::UNLOCK => $this->permissionChecker->canUnlockProgramYear($user, $subject),
+            self::ARCHIVE => $this->permissionChecker->canArchiveProgramYear($user, $subject),
+            self::LOCK => $this->permissionChecker->canLockProgramYear($user, $subject),
+            default => false,
+        };
     }
 }

@@ -25,31 +25,21 @@ class CurriculumInventoryInstitution extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateCurriculumInventoryInstitution(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateCurriculumInventoryInstitution(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteCurriculumInventoryInstitution(
-                    $user,
-                    $subject->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE => $this->permissionChecker->canCreateCurriculumInventoryInstitution(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::EDIT => $this->permissionChecker->canUpdateCurriculumInventoryInstitution(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteCurriculumInventoryInstitution(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

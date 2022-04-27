@@ -346,26 +346,16 @@ class EntityBase extends TestCase
 
     protected function getValueForType(string $type): DateTime|float|int|bool|string
     {
-        switch ($type) {
-            case 'integer':
-                return 10;
-            case 'float':
-                return 10.5;
-            case 'string':
-                return 'lorem ipsum';
-            case 'hexcolor':
-                return '#fa3cc2';
-            case 'email':
-                return 'dev.null@example.com';
-            case 'phone':
-                return '000-000-0000';
-            case 'datetime':
-                return new DateTime();
-            case 'bool':
-            case 'boolean':
-                return true;
-            default:
-                throw new Exception("No values for type {$type}");
-        }
+        return match ($type) {
+            'integer' => 10,
+            'float' => 10.5,
+            'string' => 'lorem ipsum',
+            'hexcolor' => '#fa3cc2',
+            'email' => 'dev.null@example.com',
+            'phone' => '000-000-0000',
+            'datetime' => new DateTime(),
+            'bool', 'boolean' => true,
+            default => throw new Exception("No values for type {$type}"),
+        };
     }
 }

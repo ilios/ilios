@@ -25,31 +25,21 @@ class Term extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-                return $this->permissionChecker->canCreateTerm(
-                    $user,
-                    $subject->getVocabulary()->getSchool()->getId()
-                );
-                break;
-            case self::EDIT:
-                return $this->permissionChecker->canUpdateTerm(
-                    $user,
-                    $subject->getVocabulary()->getSchool()->getId()
-                );
-                break;
-            case self::DELETE:
-                return $this->permissionChecker->canDeleteTerm(
-                    $user,
-                    $subject->getVocabulary()->getSchool()->getId()
-                );
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => true,
+            self::CREATE => $this->permissionChecker->canCreateTerm(
+                $user,
+                $subject->getVocabulary()->getSchool()->getId()
+            ),
+            self::EDIT => $this->permissionChecker->canUpdateTerm(
+                $user,
+                $subject->getVocabulary()->getSchool()->getId()
+            ),
+            self::DELETE => $this->permissionChecker->canDeleteTerm(
+                $user,
+                $subject->getVocabulary()->getSchool()->getId()
+            ),
+            default => false,
+        };
     }
 }

@@ -25,18 +25,13 @@ class Offering extends AbstractVoter
         if ($user->isRoot()) {
             return true;
         }
-
-        switch ($attribute) {
-            case self::VIEW:
-                return $user->performsNonLearnerFunction();
-                break;
-            case self::EDIT:
-            case self::CREATE:
-            case self::DELETE:
-                return $this->permissionChecker->canUpdateSession($user, $subject->getSession());
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            self::VIEW => $user->performsNonLearnerFunction(),
+            self::EDIT, self::CREATE, self::DELETE => $this->permissionChecker->canUpdateSession(
+                $user,
+                $subject->getSession()
+            ),
+            default => false,
+        };
     }
 }
