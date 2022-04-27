@@ -65,10 +65,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 65000),
-    ])]
+    #[Assert\Length(max: 65000)]
     protected $description;
 
     /**
@@ -89,10 +86,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 80),
-    ])]
+    #[Assert\Length(max: 80)]
     protected $originalAuthor;
 
     /**
@@ -100,10 +94,7 @@ class LearningMaterial implements LearningMaterialInterface
      */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 64),
-    ])]
+    #[Assert\Length(max: 64)]
     protected $token;
 
     /**

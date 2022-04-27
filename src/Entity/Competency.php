@@ -54,10 +54,7 @@ class Competency implements CompetencyInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 200),
-    ])]
+    #[Assert\Length(max: 200)]
     protected $title;
 
     /**

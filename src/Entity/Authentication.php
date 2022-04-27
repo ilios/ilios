@@ -38,10 +38,7 @@ class Authentication implements AuthenticationInterface, Stringable
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 100),
-    ])]
+    #[Assert\Length(max: 100)]
     private $username;
 
     /**
@@ -49,10 +46,7 @@ class Authentication implements AuthenticationInterface, Stringable
      */
     #[ORM\Column(name: 'password_hash', type: 'string', nullable: true)]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 255),
-    ])]
+    #[Assert\Length(max: 255)]
     private $passwordHash;
 
     #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]

@@ -58,10 +58,7 @@ class Offering implements OfferingInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 255),
-    ])]
+    #[Assert\Length(max: 255)]
     protected $room;
 
     /**
@@ -71,10 +68,7 @@ class Offering implements OfferingInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 255),
-    ])]
+    #[Assert\Length(max: 255)]
     protected $site;
 
     /**

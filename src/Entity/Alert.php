@@ -64,10 +64,7 @@ class Alert implements AlertInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 65000),
-    ])]
+    #[Assert\Length(max: 65000)]
     protected $additionalText;
 
     /**

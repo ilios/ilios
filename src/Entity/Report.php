@@ -44,10 +44,7 @@ class Report implements ReportInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 240),
-    ])]
+    #[Assert\Length(max: 240)]
     protected $title;
 
     /**
@@ -87,10 +84,7 @@ class Report implements ReportInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 32),
-    ])]
+    #[Assert\Length(max: 32)]
     protected $prepositionalObject;
 
     /**
@@ -100,10 +94,7 @@ class Report implements ReportInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 14),
-    ])]
+    #[Assert\Length(max: 14)]
     protected $prepositionalObjectTableRowId;
 
     /**

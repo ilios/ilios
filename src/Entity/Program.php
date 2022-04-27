@@ -63,10 +63,7 @@ class Program implements ProgramInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 10),
-    ])]
+    #[Assert\Length(max: 10)]
     protected $shortTitle;
 
     /**

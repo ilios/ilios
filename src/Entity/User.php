@@ -82,10 +82,7 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 20),
-    ])]
+    #[Assert\Length(max: 20)]
     protected $middleName;
 
     /**
@@ -95,10 +92,7 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 200),
-    ])]
+    #[Assert\Length(max: 200)]
     protected $displayName;
 
     /**
@@ -108,10 +102,7 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 30),
-    ])]
+    #[Assert\Length(max: 30)]
     protected $phone;
 
     /**
@@ -132,10 +123,7 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Email]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 100),
-    ])]
+    #[Assert\Length(max: 100)]
     protected $preferredEmail;
 
     /**
@@ -165,10 +153,7 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 16),
-    ])]
+    #[Assert\Length(max: 16)]
     protected $campusId;
 
     /**
@@ -178,10 +163,7 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\AtLeastOneOf([
-        new Assert\Blank(),
-        new Assert\Length(min: 1, max: 16),
-    ])]
+    #[Assert\Length(max: 16)]
     protected $otherId;
 
     /**
