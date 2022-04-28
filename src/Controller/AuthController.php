@@ -66,7 +66,8 @@ class AuthController extends AbstractController
         }
 
         $ttl = $request->get('ttl') ? $request->get('ttl') : 'PT8H';
-        $jwt = $jwtManager->createJwtFromSessionUser($sessionUser, $ttl);
+        $jwt = $jwtManager->refreshToken($token->getAttribute('jwt'), $ttl);
+
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 

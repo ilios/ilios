@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\CreateUserTokenCommand;
+use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use App\Service\JsonWebTokenManager;
 use Exception;
@@ -60,9 +61,9 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
     public function testNewDefaultToken()
     {
-        $user = m::mock('App\Entity\UserInterface');
+        $user = m::mock(UserInterface::class)->shouldReceive('getId')->andReturn(1)->getMock();
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
-        $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, 'PT8H')->andReturn('123JWT');
+        $this->jwtManager->shouldReceive('createJwtFromUserId')->with(1, 'PT8H')->andReturn('123JWT');
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
@@ -79,10 +80,9 @@ class CreateUserTokenCommandTest extends KernelTestCase
 
     public function testNewTTLToken()
     {
-        $user = m::mock('App\Entity\UserInterface');
+        $user = m::mock(UserInterface::class)->shouldReceive('getId')->andReturn(1)->getMock();
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
-        $this->jwtManager->shouldReceive('createJwtFromUser')->with($user, '108Franks')->andReturn('123JWT');
-
+        $this->jwtManager->shouldReceive('createJwtFromUserId')->with(1, '108Franks')->andReturn('123JWT');
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'       => '1',
