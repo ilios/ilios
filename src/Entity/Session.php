@@ -73,7 +73,7 @@ class Session implements SessionInterface
     protected $title;
 
     /**
-     * @var bool
+     * @var ?bool
      */
     #[ORM\Column(name: 'attire_required', type: 'boolean', nullable: true)]
     #[IA\Expose]
@@ -82,7 +82,7 @@ class Session implements SessionInterface
     protected $attireRequired;
 
     /**
-     * @var bool
+     * @var ?bool
      */
     #[ORM\Column(name: 'equipment_required', type: 'boolean', nullable: true)]
     #[IA\Expose]
@@ -91,7 +91,7 @@ class Session implements SessionInterface
     protected $equipmentRequired;
 
     /**
-     * @var bool
+     * @var ?bool
      */
     #[ORM\Column(name: 'supplemental', type: 'boolean', nullable: true)]
     #[IA\Expose]
@@ -100,7 +100,7 @@ class Session implements SessionInterface
     protected $supplemental;
 
     /**
-     * @var bool
+     * @var ?bool
      */
     #[ORM\Column(name: 'attendance_required', type: 'boolean', nullable: true)]
     #[IA\Expose]

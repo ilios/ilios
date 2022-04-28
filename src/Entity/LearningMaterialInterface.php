@@ -94,7 +94,7 @@ interface LearningMaterialInterface extends
     public function getMimetype(): ?string;
 
     /**
-     * @param string $filesize
+     * @param int $filesize
      */
     public function setFilesize($filesize);
 

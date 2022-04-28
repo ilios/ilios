@@ -52,7 +52,7 @@ class LearningMaterialDTO
     public int $owningUser;
 
     /**
-     * @var int[]
+     * @var string[]
      */
     #[IA\Expose]
     #[IA\Related]
@@ -60,7 +60,7 @@ class LearningMaterialDTO
     public array $sessionLearningMaterials = [];
 
     /**
-     * @var int[]
+     * @var string[]
      */
     #[IA\Expose]
     #[IA\Related]

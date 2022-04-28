@@ -215,7 +215,7 @@ class LearningMaterial implements LearningMaterialInterface
     protected $mimetype;
 
     /**
-     * @var string
+     * @var int
      */
     #[ORM\Column(name: 'filesize', type: 'integer', nullable: true, options: [
         'unsigned' => true,
@@ -375,9 +375,6 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->filename;
     }
 
-    /**
-     * @param string $filesize
-     */
     public function setFilesize($filesize)
     {
         $this->filesize = $filesize;
