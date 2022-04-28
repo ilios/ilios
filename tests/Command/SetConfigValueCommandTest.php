@@ -92,12 +92,47 @@ class SetConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testValueRequired()
+    public function testValueRequiredIfNotRemoving()
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'name'         => 'foo',
         ]);
+    }
+
+    public function testRemoveExistingConfig()
+    {
+        $mockConfig = m::mock(ApplicationConfig::class);
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
+            ->with(['name' => 'foo'])
+            ->once()
+            ->andReturn($mockConfig);
+        $this->applicationConfigRepository->shouldReceive('delete')
+            ->with($mockConfig)
+            ->once();
+
+        $this->commandTester->execute(
+            [
+                'command'      => self::COMMAND_NAME,
+                'name'         => 'foo',
+                '--remove'       => true,
+            ]
+        );
+    }
+    public function testRemoveNonExistentConfig()
+    {
+        $this->applicationConfigRepository->shouldReceive('findOneBy')
+            ->with(['name' => 'foo'])
+            ->once()
+            ->andReturn(null);
+
+        $this->commandTester->execute(
+            [
+                'command'      => self::COMMAND_NAME,
+                'name'         => 'foo',
+                '--remove'       => true,
+            ]
+        );
     }
 }
