@@ -110,7 +110,7 @@ class IndexController extends AbstractController
         $filteredMetas = array_filter(
             $json->meta,
             fn($obj) =>
-                !property_exists($obj, 'name') || !(strncmp($obj->name, "iliosconfig", 11) === 0)
+                !property_exists($obj, 'name') || !(str_starts_with($obj->name, "iliosconfig"))
         );
 
         $metas = array_map(fn($obj) => [
