@@ -4,6 +4,7 @@ server {
     root   /srv/app/public;
     server_tokens off;
     client_max_body_size 105M;
+    resolver ${NGINX_NAMESERVERS} valid=10s;
 
     location / {
         gzip_static on;
@@ -31,7 +32,13 @@ server {
     #Symfony Docs on nginx: https://symfony.com/doc/current/setup/web_server_configuration.html#nginx
     # pass the PHP scripts to FastCGI server listening on :9000
     location ~ ^/index\.php(/|$) {
-        fastcgi_pass ${FPM_CONTAINERS};
+        # Use a local variable here to prevent nginx from attempting
+        # to do a DNS lookup when it first boots. By Disguising the
+        # hostname in this way we get a more resilient NGINX setup
+        set $fpmContainers ${FPM_CONTAINERS};
+
+        # nginx will now start if host is not reachable
+        fastcgi_pass $fpmContainers;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
 
