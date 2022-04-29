@@ -27,7 +27,7 @@ RUN echo ${ILIOS_VERSION} > /srv/app/VERSION
 # Dependencies we need in all PHP containers
 # Production ready composer pacakges installed
 ###############################################################################
-FROM php:8.0-fpm as php-base
+FROM php:8.1-fpm as php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /srv/app/
@@ -219,7 +219,7 @@ RUN bin/elasticsearch-plugin install -b ingest-attachment
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
-FROM php:8.0-apache as php-apache
+FROM php:8.1-apache as php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /var/www/ilios
