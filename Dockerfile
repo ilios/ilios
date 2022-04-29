@@ -19,7 +19,12 @@ FROM nginx:1.19-alpine as nginx
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=src /src/app /srv/app/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
+
+# Setup PHP servers in ENV so we can round robin easily
 ENV FPM_CONTAINERS=fpm:9000
+# Docker builtin nameserver
+ENV NGINX_NAMESERVERS=127.0.0.11
+
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > /srv/app/VERSION
 
