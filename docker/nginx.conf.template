@@ -3,7 +3,7 @@ server {
     server_name  localhost;
     root   /srv/app/public;
     server_tokens off;
-    client_max_body_size: 105M;
+    client_max_body_size 105M;
 
     location / {
         gzip_static on;
