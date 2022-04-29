@@ -232,7 +232,8 @@ jobs:
     - name: Nginx
       run: |
         docker run -d --name ilios-nginx nginx:testing
-        docker ps | grep -q ilios-nginx
+        sleep 15
+        docker ps --filter "health=healthy" | grep -q ilios-nginx
     - name: FPM
       run: |
         docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm:testing

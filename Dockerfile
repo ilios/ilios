@@ -27,6 +27,7 @@ ENV NGINX_NAMESERVERS=127.0.0.11
 
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > /srv/app/VERSION
+HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 localhost 80
 
 ###############################################################################
 # Dependencies we need in all PHP containers
