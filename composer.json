@@ -22,7 +22,7 @@
     "doctrine/inflector": "^2.0",
     "doctrine/orm": "^2.9",
     "elasticsearch/elasticsearch": "^7.0",
-    "eluceo/ical": "^0.16.1",
+    "eluceo/ical": "^2.5.1",
     "exercise/htmlpurifier-bundle": "^4.0",
     "firebase/php-jwt": "@stable",
     "ilios/mesh-parser": "^2.0",
