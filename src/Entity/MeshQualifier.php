@@ -68,7 +68,7 @@ class MeshQualifier implements MeshQualifierInterface
     protected $updatedAt;
 
     /**
-     * @var ArrayCollection|MeshDescriptorInterface[]
+     * @var Collection|MeshDescriptorInterface[]
      */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'qualifiers')]
     #[ORM\JoinTable(name: 'mesh_descriptor_x_qualifier')]

@@ -4,5 +4,5 @@ parameters:
         consoleApplicationLoader: tests/phpstan-console-application.php
     paths:
         - src
-    level: 2
+    level: 3
     reportUnmatchedIgnoredErrors: true

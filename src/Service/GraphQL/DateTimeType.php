@@ -41,7 +41,7 @@ class DateTimeType extends CustomScalarType
         );
     }
 
-    public static function getInstance(): static
+    public static function getInstance(): DateTimeType
     {
         if (!isset(self::$instance)) {
             self::$instance = new DateTimeType();

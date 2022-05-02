@@ -253,9 +253,6 @@ class School implements SchoolInterface
         return $this->changeAlertRecipients;
     }
 
-    /**
-     * @param string $curriculumInventoryInstitution
-     */
     public function setCurriculumInventoryInstitution($curriculumInventoryInstitution)
     {
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;

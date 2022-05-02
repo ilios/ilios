@@ -111,7 +111,7 @@ class Offering implements OfferingInterface
     protected $updatedAt;
 
     /**
-     * @var Session
+     * @var SessionInterface
      */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'offerings')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]

@@ -48,7 +48,7 @@ class IlmSession implements IlmSessionInterface
     protected $id;
 
     /**
-     * @var Session
+     * @var SessionInterface
      */
     #[ORM\OneToOne(targetEntity: 'Session', inversedBy: 'ilmSession')]
     #[ORM\JoinColumn(
