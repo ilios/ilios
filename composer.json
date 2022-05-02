@@ -21,7 +21,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.1",
     "doctrine/inflector": "^2.0",
     "doctrine/orm": "^2.9",
-    "elasticsearch/elasticsearch": "^7.0",
+    "elasticsearch/elasticsearch": "^8.1",
     "eluceo/ical": "^0.16.1",
     "exercise/htmlpurifier-bundle": "^4.0",
     "firebase/php-jwt": "@stable",
