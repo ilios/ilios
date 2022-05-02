@@ -13,25 +13,10 @@ use DOMElement;
  */
 class CasManager
 {
-    /**
-     * @var string
-     */
-    protected $casServer;
-
-    /**
-     * @var string
-     */
-    protected $casVersion;
-
-    /**
-     * @var bool
-     */
-    protected $casVerifySSL;
-
-    /**
-     * @var string
-     */
-    protected $casCertificatePath;
+    protected ?string $casServer;
+    protected ?int $casVersion;
+    protected ?bool $casVerifySSL;
+    protected ?string $casCertificatePath;
 
     public function __construct(Config $config, protected Fetch $fetch)
     {

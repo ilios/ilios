@@ -157,4 +157,37 @@ class ConfigTest extends TestCase
         $this->assertEquals($value, $result);
         unset($_SERVER[$envKey]);
     }
+
+    public function testConvertsCASString3ToInt3()
+    {
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
+        $envKey = 'ILIOS_CAS_AUTHENTICATION_VERSION';
+        $_ENV[$envKey] = '3';
+        $result = $config->get('cas_authentication_version');
+        $this->assertIsInt($result);
+        $this->assertEquals(3, $result);
+        unset($_ENV[$envKey]);
+    }
+
+    public function testConvertsCASString3ToInt3DB()
+    {
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
+        $key = 'cas_authentication_version';
+        $repository->shouldReceive('getValue')->with($key)->once()->andReturn('3');
+        $result = $config->get($key);
+        $this->assertIsInt($result);
+        $this->assertEquals(3, $result);
+    }
+
+    public function testCASAuthEmptyNull()
+    {
+        $repository = m::mock(ApplicationConfigRepository::class);
+        $config = new Config($repository);
+        $key = 'cas_authentication_version';
+        $repository->shouldReceive('getValue')->with($key)->once()->andReturn('');
+        $result = $config->get($key);
+        $this->assertEquals(null, $result);
+    }
 }
