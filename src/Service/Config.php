@@ -24,6 +24,10 @@ class Config
         'academic_year_crosses_calendar_year_boundaries'
     ];
 
+    private const INT_NAMES = [
+        'cas_authentication_version',
+    ];
+
     /**
      * Config constructor.
      *
@@ -39,7 +43,7 @@ class Config
      *
      * @param string $name
      */
-    public function get($name): string|bool|null
+    public function get($name): string|bool|int|null
     {
         $result = $this->getValueFromEnv($name);
         if (null === $result) {
@@ -101,12 +105,15 @@ class Config
      * Since the database stores all of these as long_text we need to cast them back
      *
      * @param string $name
-     * @param string|bool|null $result
+     * @param string|bool|null|int $result
      */
-    protected function castResult($name, $result): string|bool|null
+    protected function castResult($name, $result): string|bool|int|null
     {
         if (null !== $result && !is_bool($result) && in_array($name, self::BOOLEAN_NAMES)) {
             return (bool) json_decode($result);
+        }
+        if (null !== $result && !is_int($result) && in_array($name, self::INT_NAMES)) {
+            return (int) json_decode($result);
         }
 
         return $result;
