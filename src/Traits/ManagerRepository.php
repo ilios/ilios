@@ -100,18 +100,20 @@ trait ManagerRepository
             $this->getClassMetadata()->associationMappings,
             fn (array $arr) => array_key_exists('joinTable', $arr) && in_array($arr['fieldName'], $related)
         );
+        $owningSideSets = $this->extractSetsFromOwningSideMetadata(
+            array_filter($relatedMetadata, fn(array $arr) => $arr['isOwningSide'])
+        );
+        $inverseSideSets = $this->extractSetsFromInverseSideMetadata(
+            array_filter($relatedMetadata, fn(array $arr) => !$arr['isOwningSide'])
+        );
+        $remainingRelated = array_diff($related, array_keys($owningSideSets), array_keys($inverseSideSets));
         $sets = [
-            ...$this->extractSetsFromOwningSideMetadata(
-                array_filter($relatedMetadata, fn(array $arr) => $arr['isOwningSide'])
-            ),
-            ...$this->extractSetsFromInverseSideMetadata(
-                array_filter($relatedMetadata, fn(array $arr) => !$arr['isOwningSide'])
-            ),
+            ...array_values($owningSideSets),
+            ...array_values($inverseSideSets),
         ];
 
         $dtos = $this->attachManySetsToDtos($dtos, $sets);
 
-        $remainingRelated = array_diff($related, array_keys($sets));
         foreach ($remainingRelated as $rel) {
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->select('r.id AS relId, x.id AS xId')->from($this->getEntityName(), 'x')
