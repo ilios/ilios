@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\QueryBuilder;
 
@@ -94,7 +96,23 @@ trait ManagerRepository
         array $related,
     ): array {
         $ids = array_keys($dtos);
-        foreach ($related as $rel) {
+        $relatedMetadata = array_filter(
+            $this->getClassMetadata()->associationMappings,
+            fn (array $arr) => array_key_exists('joinTable', $arr) && in_array($arr['fieldName'], $related)
+        );
+        $sets = [
+            ...$this->extractSetsFromOwningSideMetadata(
+                array_filter($relatedMetadata, fn(array $arr) => $arr['isOwningSide'])
+            ),
+            ...$this->extractSetsFromInverseSideMetadata(
+                array_filter($relatedMetadata, fn(array $arr) => !$arr['isOwningSide'])
+            ),
+        ];
+
+        $dtos = $this->attachManySetsToDtos($dtos, $sets);
+
+        $remainingRelated = array_diff($related, array_keys($sets));
+        foreach ($remainingRelated as $rel) {
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->select('r.id AS relId, x.id AS xId')->from($this->getEntityName(), 'x')
                 ->join("x.{$rel}", 'r')
@@ -107,6 +125,54 @@ trait ManagerRepository
         }
 
         return $dtos;
+    }
+
+    protected function attachManySetsToDtos(array $dtos, array $sets): array
+    {
+        $ids = array_keys($dtos);
+        /** @var Connection $conn */
+        $conn = $this->getEntityManager()->getConnection();
+        foreach ($sets as $arr) {
+            $qb = $conn->createQueryBuilder();
+            $qb->select($arr['relatedIdColumn'], $arr['dtoIdColumn'])
+                ->from($arr['tableName'])
+                ->where("${arr['dtoIdColumn']} IN(:ids)")
+                ->setParameter('ids', $ids, Connection::PARAM_STR_ARRAY);
+            $result = $qb->executeQuery()->fetchAllAssociative();
+            foreach ($result as $row) {
+                $dtos[$row[$arr['dtoIdColumn']]]->{$arr['fieldName']}[] = $row[$arr['relatedIdColumn']];
+            }
+        }
+
+        return $dtos;
+    }
+
+    protected function extractSetsFromOwningSideMetadata(array $arr): array
+    {
+        return array_map(function (array $arr) {
+            return [
+                'fieldName' => $arr['fieldName'],
+                'tableName'  => $arr['joinTable']['name'],
+                'dtoIdColumn'  => $arr['joinTable']['joinColumns'][0]['name'],
+                'relatedIdColumn'  => $arr['joinTable']['inverseJoinColumns'][0]['name'],
+            ];
+        }, $arr);
+    }
+
+    protected function extractSetsFromInverseSideMetadata(array $arr): array
+    {
+        /** @var EntityManager $em */
+        $em = $this->getEntityManager();
+        return array_map(function ($rel) use ($em) {
+            $metadata = $em->getClassMetadata($rel['targetEntity']);
+            $mapping = $metadata->associationMappings[$rel['mappedBy']];
+            return [
+                'fieldName' => $rel['fieldName'],
+                'tableName'  => $mapping['joinTable']['name'],
+                'dtoIdColumn'  => $mapping['joinTable']['inverseJoinColumns'][0]['name'],
+                'relatedIdColumn'  => $mapping['joinTable']['joinColumns'][0]['name'],
+            ];
+        }, $arr);
     }
 
     protected function attachClosingCriteriaToQueryBuilder(
