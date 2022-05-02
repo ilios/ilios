@@ -59,7 +59,7 @@ class CreateUserTokenCommand extends Command
                 "No user with id #{$userId} was found."
             );
         }
-        $jwt = $this->jwtManager->createJwtFromUser($user, $input->getOption('ttl'));
+        $jwt = $this->jwtManager->createJwtFromUserId($user->getId(), $input->getOption('ttl'));
 
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);

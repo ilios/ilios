@@ -202,8 +202,13 @@ class AuthControllerTest extends WebTestCase
         $this->assertSame($token['user_id'], $token2['user_id']);
         $this->assertSame($token['iss'], $token2['iss']);
         $this->assertSame($token['aud'], $token2['aud']);
+        $this->assertSame($token['firstCreatedAt'], $token2['firstCreatedAt']);
         // http://php.net/manual/en/dateinterval.format.php
         $this->assertSame($interval->format('%R%Y/%M/%D %H:%I:%S'), $interval2->format('%R%Y/%M/%D %H:%I:%S'));
+
+        //refresh should increment counter
+        $this->assertEquals(0, $token['refreshCount']);
+        $this->assertEquals(1, $token2['refreshCount']);
     }
 
     public function testGetTokenWithNonDefaultTtl()
@@ -299,6 +304,7 @@ class AuthControllerTest extends WebTestCase
     protected function getExpiredToken(int $userId): string
     {
         $container = $this->kernelBrowser->getContainer();
+        /** @var JsonWebTokenManager $jwtManager */
         $jwtManager = $container->get(JsonWebTokenManager::class);
         $jwt = $jwtManager->createJwtFromUserId($userId, 'PT0S');
         sleep(6); //wait for 5 second leeway to pass

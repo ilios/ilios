@@ -42,7 +42,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         $token = $matches[1];
         try {
             $userId = $this->jwtManager->getUserIdFromToken($token);
-            return new Passport(
+            $passport = new Passport(
                 new UserBadge((string) $userId),
                 new CustomCredentials(
                     function ($token, SessionUserInterface $user) {
@@ -67,6 +67,9 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                     $token
                 )
             );
+            $passport->setAttribute('jwt', $token);
+
+            return $passport;
         } catch (UnexpectedValueException $e) {
             throw new CustomUserMessageAuthenticationException('Invalid JSON Web Token: ' . $e->getMessage());
         } catch (Exception) {
@@ -84,5 +87,13 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     {
         // do nothing - continue with an authenticated user
         return null;
+    }
+
+    public function createToken(Passport $passport, string $firewallName): TokenInterface
+    {
+        $token = parent::createToken($passport, $firewallName);
+        $token->setAttribute('jwt', $passport->getAttribute('jwt'));
+
+        return $token;
     }
 }

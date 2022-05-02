@@ -141,6 +141,7 @@ trait JsonControllerTest
     protected function getTokenForUser(KernelBrowser $browser, int $userId): string
     {
         $container = $browser->getContainer();
+        /** @var JsonWebTokenManager $jwtManager */
         $jwtManager = $container->get(JsonWebTokenManager::class);
         return $jwtManager->createJwtFromUserId($userId);
     }
