@@ -16,7 +16,6 @@ use App\Repository\MeshPreviousIndexingRepository;
  */
 #[ORM\Table(name: 'mesh_previous_indexing')]
 #[ORM\UniqueConstraint(name: 'descriptor_previous', columns: ['mesh_descriptor_uid'])]
-#[ORM\Index(columns: ['previous_indexing'], name: 'idx_mesh_previous_indexing_previous_indexing')]
 #[ORM\Entity(repositoryClass: MeshPreviousIndexingRepository::class)]
 #[IA\Entity]
 class MeshPreviousIndexing implements MeshPreviousIndexingInterface
