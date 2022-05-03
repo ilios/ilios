@@ -23,6 +23,7 @@ use App\Repository\MeshTermRepository;
  */
 #[ORM\Table(name: 'mesh_term')]
 #[ORM\UniqueConstraint(name: 'mesh_term_uid_name', columns: ['mesh_term_uid', 'name'])]
+#[ORM\Index(columns: ['name'], name: 'idx_mesh_description_name')]
 #[ORM\Entity(repositoryClass: MeshTermRepository::class)]
 #[IA\Entity]
 class MeshTerm implements MeshTermInterface

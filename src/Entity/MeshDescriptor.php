@@ -28,6 +28,8 @@ use App\Repository\MeshDescriptorRepository;
  */
 #[ORM\Table(name: 'mesh_descriptor')]
 #[ORM\Entity(repositoryClass: MeshDescriptorRepository::class)]
+#[ORM\Index(columns: ['annotation'], name: 'idx_mesh_descriptor_annotation')]
+#[ORM\Index(columns: ['name'], name: 'idx_mesh_descriptor_name')]
 #[IA\Entity]
 class MeshDescriptor implements MeshDescriptorInterface
 {

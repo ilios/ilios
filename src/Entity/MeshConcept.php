@@ -22,6 +22,9 @@ use App\Repository\MeshConceptRepository;
  */
 #[ORM\Table(name: 'mesh_concept')]
 #[ORM\Entity(repositoryClass: MeshConceptRepository::class)]
+#[ORM\Index(columns: ['name'], name: 'idx_mesh_concept_name')]
+#[ORM\Index(columns: ['casn_1_name'], name: 'idx_mesh_concept_casn_1_name')]
+
 #[IA\Entity]
 class MeshConcept implements MeshConceptInterface
 {
