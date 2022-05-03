@@ -200,6 +200,7 @@ class AuthControllerTest extends WebTestCase
 
         // test for sameness
         $this->assertSame($token['user_id'], $token2['user_id']);
+        $this->assertSame($token['permissions'], $token2['permissions']);
         $this->assertSame($token['iss'], $token2['iss']);
         $this->assertSame($token['aud'], $token2['aud']);
         $this->assertSame($token['firstCreatedAt'], $token2['firstCreatedAt']);
@@ -209,6 +210,10 @@ class AuthControllerTest extends WebTestCase
         //refresh should increment counter
         $this->assertEquals(0, $token['refreshCount']);
         $this->assertEquals(1, $token2['refreshCount']);
+
+        //both tokens have user level permissions
+        $this->assertEquals('user', $token['permissions']);
+        $this->assertEquals('user', $token2['permissions']);
     }
 
     public function testGetTokenWithNonDefaultTtl()
