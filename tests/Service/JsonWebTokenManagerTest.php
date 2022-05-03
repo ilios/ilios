@@ -76,6 +76,12 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertSame($stamp, $this->obj->getExpiresAtFromToken($jwt)->format('U'));
     }
 
+    public function testUserTokensGetUserPermissions()
+    {
+        $jwt = $this->buildToken();
+        $this->assertSame('user', $this->obj->getPermissionsFromToken($jwt));
+    }
+
     public function testCreateJwtFromSessionUser()
     {
         $sessionUser = m::mock(SessionUserInterface::class)

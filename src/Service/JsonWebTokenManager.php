@@ -83,6 +83,12 @@ class JsonWebTokenManager
         return $arr['refreshCount'] ?? 0;
     }
 
+    public function getPermissionsFromToken($jwt): string
+    {
+        $arr = $this->decode($jwt);
+        return $arr['permissions'] ?? 'user';
+    }
+
     protected function decode($jwt): array
     {
         $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
@@ -149,6 +155,7 @@ class JsonWebTokenManager
             'can_create_or_update_user_in_any_school' => $canCreateOrUpdateUserInAnySchool,
             'firstCreatedAt' => $firstCreatedAt->format('U'),
             'refreshCount' => $refreshCount,
+            'permissions' => 'user', //all tokens are user tokens right now and get permissions from the user
         ];
     }
 
