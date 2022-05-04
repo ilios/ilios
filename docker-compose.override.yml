@@ -31,6 +31,8 @@ services:
       - ./:/srv/app:rw,cached
       # Remove the var/ directory from the bind-mount for better performance
       - /srv/app/var
+      # Share the frontend files
+      - ./var/frontend:/srv/app/var/frontend:rw,cached
     depends_on:
       - db
   messages:

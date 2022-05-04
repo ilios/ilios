@@ -30,7 +30,7 @@ class IndexController extends AbstractController
         protected Environment $twig,
         private AuthenticationInterface $authentication,
         private Config $config,
-        protected string $kernelCacheDir
+        protected string $kernelProjectDir
     ) {
     }
 
@@ -57,8 +57,8 @@ class IndexController extends AbstractController
             }
         }
 
-        $path = $this->getFilePath('index.json');
-        if (!$path) {
+        $indexJsonPath = $this->getPathToIndex();
+        if (!$indexJsonPath) {
             $response->setContent(
                 $this->renderView('index/error.html.twig')
             );
@@ -67,10 +67,10 @@ class IndexController extends AbstractController
             $response->headers->addCacheControlDirective('no-store');
             $response->setMaxAge(1);
         } else {
-            $options = $this->extractOptions($path);
+            $options = $this->extractOptions($indexJsonPath);
 
             $content = $this->twig->render(self::DEFAULT_TEMPLATE_NAME, $options);
-            $file = new SplFileObject($path, 'r');
+            $file = new SplFileObject($indexJsonPath, 'r');
             $lastModified = new DateTime();
             $lastModified->setTimestamp($file->getMTime());
             $response = $this->responseFromString($response, $content, $request, $lastModified);
@@ -87,11 +87,10 @@ class IndexController extends AbstractController
     /**
      * Extract the path for a frontend file
      */
-    protected function getFilePath(string $fileName): bool|string
+    protected function getPathToIndex(): bool|string
     {
-        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
-        $path = $assetsPath . $fileName;
-        if ($this->fs->exists($path) && is_readable($path) && !is_dir($path)) {
+        $path = UpdateFrontendCommand::getActiveFrontendIndexPath($this->kernelProjectDir);
+        if ($this->fs->exists($path) && is_readable($path)) {
             return $path;
         }
 

@@ -12,15 +12,13 @@ use Laminas\Diagnostics\Result\Success;
 
 class Frontend implements CheckInterface
 {
-    public function __construct(private string $kernelCacheDir)
+    public function __construct(private string $kernelProjectDir)
     {
     }
 
     public function check(): ResultInterface
     {
-        $assetsPath = $this->kernelCacheDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
-        $path = $assetsPath . 'index.json';
-
+        $path = UpdateFrontendCommand::getActiveFrontendIndexPath($this->kernelProjectDir);
         if (!file_exists($path)) {
             return new Failure("has not been loaded. Run bin/console ilios:maintenance:update-frontend");
         }
