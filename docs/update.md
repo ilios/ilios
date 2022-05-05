@@ -50,7 +50,7 @@ sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interacti
 
 ## Version-specific steps
 
-### Upgrading to Ilios 3.99.0
+### Upgrading to Ilios 3.100.0
 
 1. The `enable_tracking` and `tracking_code` parameters have been removed as google analytics is no longer supported.
 You should remove these parameters from your configuration by running:
