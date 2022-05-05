@@ -19,20 +19,9 @@ class IndexControllerTest extends WebTestCase
     private const COMMAND_NAME = 'ilios:maintenance:update-frontend';
     private const TEST_API_VERSION = '33.14-test';
 
-    /**
-     * @var m\Mock
-     */
-    protected $assetsPath;
-
-    /**
-     * @var Filesystem
-     */
-    protected $fileSystem;
-
-    /**
-     * @var KernelBrowser
-     */
-    protected $kernelBrowser;
+    protected string $jsonPath;
+    protected Filesystem $fileSystem;
+    protected KernelBrowser $kernelBrowser;
 
     /**
      * @var array
@@ -44,8 +33,8 @@ class IndexControllerTest extends WebTestCase
         parent::setUp();
         $this->kernelBrowser = static::createClient();
         $container = $this->kernelBrowser->getContainer();
-        $cacheDir = $container->getParameter('kernel.cache_dir');
-        $this->assetsPath =  $cacheDir . UpdateFrontendCommand::ACTIVE_FRONTEND_VERSION_DIRECTORY;
+        $projectDir = $container->getParameter('kernel.project_dir');
+        $this->jsonPath = UpdateFrontendCommand::getActiveFrontendIndexPath($projectDir);
         $this->fileSystem = new Filesystem();
         $this->testFiles = [];
     }
@@ -66,7 +55,6 @@ class IndexControllerTest extends WebTestCase
 
     public function testIndex()
     {
-        $jsonPath = $this->assetsPath . 'index.json';
         $json = json_encode([
             'meta' => [],
             'link' => [],
@@ -75,7 +63,7 @@ class IndexControllerTest extends WebTestCase
             'noScript' => [],
             'div' => [],
         ]);
-        $this->setupTestFile($jsonPath, $json, false);
+        $this->setupTestFile($this->jsonPath, $json, false);
         $this->kernelBrowser->request('GET', '/');
         $response = $this->kernelBrowser->getResponse();
 
@@ -98,7 +86,6 @@ class IndexControllerTest extends WebTestCase
 
     public function testGzippedWhenRequested()
     {
-        $jsonPath = $this->assetsPath . 'index.json';
         $json = json_encode([
             'meta' => [],
             'link' => [],
@@ -107,7 +94,7 @@ class IndexControllerTest extends WebTestCase
             'noScript' => [],
             'div' => [],
         ]);
-        $this->setupTestFile($jsonPath, $json, false);
+        $this->setupTestFile($this->jsonPath, $json, false);
         $this->kernelBrowser->request(
             'GET',
             '/',
@@ -134,7 +121,6 @@ class IndexControllerTest extends WebTestCase
 
     public function testIndexFromCacheIsTheSameInGzippedAndUnCompressed()
     {
-        $jsonPath = $this->assetsPath . 'index.json';
         $json = json_encode([
             'meta' => [],
             'link' => [],
@@ -143,7 +129,7 @@ class IndexControllerTest extends WebTestCase
             'noScript' => [],
             'div' => [],
         ]);
-        $this->setupTestFile($jsonPath, $json, false);
+        $this->setupTestFile($this->jsonPath, $json, false);
 
         $this->kernelBrowser->request(
             'GET',
@@ -190,7 +176,6 @@ class IndexControllerTest extends WebTestCase
 
     public function testErrorCaptureConfiguration()
     {
-        $jsonPath = $this->assetsPath . 'index.json';
         $json = json_encode([
             'meta' => [],
             'link' => [],
@@ -201,7 +186,7 @@ class IndexControllerTest extends WebTestCase
         ]);
         $orig = $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'];
         $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'] = true;
-        $this->setupTestFile($jsonPath, $json, false);
+        $this->setupTestFile($this->jsonPath, $json, false);
         $this->kernelBrowser->request('GET', '/');
         $response = $this->kernelBrowser->getResponse();
 

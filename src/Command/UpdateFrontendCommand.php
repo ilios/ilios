@@ -31,17 +31,14 @@ use function is_dir;
  */
 class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {
-    /**
-     * @var string
-     */
-    public const ACTIVE_FRONTEND_VERSION_DIRECTORY = '/ilios/frontend/';
-    public const ARCHIVE_FILE_NAME = 'frontend.tar.gz';
-    public const UNPACKED_DIRECTORY = '/deploy-dist/';
+    private const ACTIVE_FRONTEND_VERSION_DIRECTORY = '/active/';
+    private const UNPACKED_DIRECTORY = '/deploy-dist/';
+    private const FRONTEND_FILES = '/var/frontend/';
 
-    public const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
-    public const STAGING_ASSET_LIST = 'https://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
-    public const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
-    public const PRODUCTION_ASSET_LIST = 'https://frontend-archive-production.s3.us-west-2.amazonaws.com/';
+    private const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
+    private const STAGING_ASSET_LIST = 'https://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
+    private const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
+    private const PRODUCTION_ASSET_LIST = 'https://frontend-archive-production.s3.us-west-2.amazonaws.com/';
 
     private const STAGING = 'stage';
     private const PRODUCTION = 'prod';
@@ -57,12 +54,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         protected Filesystem $fs,
         protected Config $config,
         private Archive $archive,
-        protected string $kernelCacheDir,
-        string $kernelProjectDir,
+        protected string $kernelProjectDir,
         protected string $apiVersion,
         protected string $environment
     ) {
-        $temporaryFileStorePath = $kernelProjectDir . '/var/tmp/frontend-update-files';
+        $temporaryFileStorePath = $this->kernelProjectDir . self::FRONTEND_FILES . "/assets";
         $this->fs->mkdir($temporaryFileStorePath);
         $this->productionTemporaryFileStore = $temporaryFileStorePath . '/prod';
         $this->fs->mkdir($this->productionTemporaryFileStore);
@@ -177,10 +173,9 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 
     protected function activateVersion(string $distributionPath): void
     {
-        $frontendPath = $this->kernelCacheDir . self::ACTIVE_FRONTEND_VERSION_DIRECTORY;
+        $frontendPath = self::getActiveFrontendIndexPath($this->kernelProjectDir);
         $this->fs->remove($frontendPath);
-        $this->fs->mkdir($frontendPath);
-        $this->fs->copy("${distributionPath}/index.json", "${frontendPath}/index.json");
+        $this->fs->copy("${distributionPath}/index.json", $frontendPath);
     }
 
     protected function downloadAndExtractAllArchives(string $environment): ?string
@@ -320,5 +315,10 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         if ($this->output) {
             $this->output->writeln("<${type}>${message}</${type}>");
         }
+    }
+
+    public static function getActiveFrontendIndexPath(string $kernelProjectDir): string
+    {
+        return $kernelProjectDir . self::FRONTEND_FILES  . '/index.json';
     }
 }
