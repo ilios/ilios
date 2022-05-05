@@ -629,7 +629,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($sessionId, $events[1]['session']);
     }
 
-    public function testAttachedInstructorsUseDisplayName()
+    public function testAttachedInstructorsUseDisplayNameAndPronouns()
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $events = $this->getEvents($school['id'], 0, 100000000000);
@@ -638,8 +638,10 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertEquals($events[0]['offering'], 3);
 
         $this->assertEquals(2, count($events[0]['instructors']));
-        $this->assertEquals($users[1]['displayName'], $events[0]['instructors'][0]);
+        $this->assertSame("{$users[1]['displayName']} ({$users[1]['pronouns']})", $events[0]['instructors'][0]);
         $this->assertEquals($users[3]['displayName'], $events[0]['instructors'][1]);
+        $this->assertEquals(1, count($events[11]['instructors']));
+        $this->assertEquals($users[2]['firstName'] . ' ' . $users[2]['lastName'], $events[11]['instructors'][0]);
     }
 
     public function testMissingFrom()

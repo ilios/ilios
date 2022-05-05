@@ -50,7 +50,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertEquals('1', $materials[0]['course']);
         $this->assertMatchesRegularExpression('/^firstCourse/', $materials[0]['courseTitle']);
         $this->assertEquals('2016-09-08T15:00:00+00:00', $materials[0]['firstOfferingDate']);
-        $this->assertEquals(['disnom'], $materials[0]['instructors']);
+        $this->assertEquals(['disnom (them)'], $materials[0]['instructors']);
         $this->assertFalse($materials[0]['isBlanked']);
 
         $this->assertEquals(15, count($materials[1]));
