@@ -11,14 +11,20 @@ use App\Repository\IlmSessionRepository;
 use App\Repository\OfferingRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use DateTimeImmutable;
+use Eluceo\iCal\Domain\ValueObject\Location;
 use Exception;
+use Eluceo\iCal\Domain\Entity\Calendar;
+use Eluceo\iCal\Domain\Entity\Event;
+use Eluceo\iCal\Domain\ValueObject\DateTime as IcalDateTime;
+use Eluceo\iCal\Domain\ValueObject\TimeSpan;
+use Eluceo\iCal\Presentation\Factory\CalendarFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
-use Eluceo\iCal\Component as ICS;
 use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends AbstractController
@@ -50,8 +56,9 @@ class IcsController extends AbstractController
             throw new NotFoundHttpException();
         }
 
-        $calendar = new ICS\Calendar('Ilios Calendar for ' . $user->getFirstAndLastName());
-        $calendar->setPublishedTTL('P1H');
+        $calendar = new Calendar();
+        $calendar->setProductIdentifier('Ilios Calendar for ' . $user->getFirstAndLastName());
+        //$calendar->setPublishedTTL('P1H');
 
         $from = new DateTime(self::LOOK_BACK);
         $to =  new DateTime(self::LOOK_FORWARD);
@@ -79,27 +86,32 @@ class IcsController extends AbstractController
 
         /* @var UserEvent $event */
         foreach ($publishedEvents as $event) {
-            $vEvent = new ICS\Event();
-            $vEvent->setDtStart($event->startDate);
-            $vEvent->setDtEnd($event->endDate);
+            $vEvent = new Event();
+            $vEvent->setOccurrence(
+                new TimeSpan(new IcalDateTime($event->startDate, true), new IcalDateTime($event->endDate, true))
+            );
             $vEvent->setSummary($event->name);
-            $vEvent->setLocation($event->location);
+            if ($event->location) {
+                $vEvent->setLocation(new Location($event->location));
+            }
             $vEvent->setDescription($this->getDescriptionForEvent($event));
-            $calendar->addComponent($vEvent);
+            $calendar->addEvent($vEvent);
         }
 
         foreach ($scheduledEvents as $event) {
-            $vEvent = new ICS\Event();
-            $vEvent
-                ->setDtStart($event->startDate)
-                ->setDtEnd($event->endDate)
-                ->setSummary('Scheduled')
-            ;
-            $calendar->addComponent($vEvent);
+            $vEvent = new Event();
+            $vEvent->setOccurrence(
+                new TimeSpan(new IcalDateTime($event->startDate, true), new IcalDateTime($event->endDate, true))
+            );
+            $vEvent->setSummary('Scheduled');
+            $calendar->addEvent($vEvent);
         }
 
+        $componentFactory = new CalendarFactory();
+        $calendarComponent = $componentFactory->createCalendar($calendar);
+
         $response = new Response();
-        $response->setContent($calendar->render());
+        $response->setContent((string) $calendarComponent);
         $response->setCharset('utf-8');
         $response->headers->set('Content-Type', 'text/calendar');
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $key . '.ics"');
