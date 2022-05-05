@@ -1036,8 +1036,6 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertSame(2, count($events[0]['instructors']));
         $this->assertSame("{$users[1]['displayName']} ({$users[1]['pronouns']})", $events[0]['instructors'][0]);
         $this->assertSame($users[3]['displayName'], $events[0]['instructors'][1]);
-        $this->assertSame(1, count($events[11]['instructors']));
-        $this->assertSame($users[2]['firstName'] . ' ' . $users[2]['lastName'], $events[11]['instructors'][0]);
     }
 
     public function testMissingFrom()
