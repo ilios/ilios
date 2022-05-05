@@ -147,6 +147,15 @@ class UserTest extends EntityBase
     }
 
     /**
+     * @covers \App\Entity\User::setPronouns
+     * @covers \App\Entity\User::getPronouns
+     */
+    public function testSetPronouns()
+    {
+        $this->basicSetTest('pronouns', 'string');
+    }
+
+    /**
      * @covers \App\Entity\User::setAddedViaIlios
      * @covers \App\Entity\User::isAddedViaIlios
      */

@@ -84,6 +84,7 @@ class SyncUserCommandTest extends KernelTestCase
             ->shouldReceive('getLastName')->andReturn('old-last')
             ->shouldReceive('getEmail')->andReturn('old-email')
             ->shouldReceive('getDisplayName')->andReturn('old-display')
+            ->shouldReceive('getPronouns')->andReturn('old-pronouns')
             ->shouldReceive('getPhone')->andReturn('old-phone')
             ->shouldReceive('getCampusId')->andReturn('abc')
             ->shouldReceive('getAuthentication')->andReturn($authentication)
@@ -91,6 +92,7 @@ class SyncUserCommandTest extends KernelTestCase
             ->shouldReceive('setLastName')->with('last')
             ->shouldReceive('setEmail')->with('email')
             ->shouldReceive('setDisplayName')->with('display')
+            ->shouldReceive('setPronouns')->with('pronouns')
             ->shouldReceive('setPhone')->with('phone')
             ->mock();
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -102,6 +104,7 @@ class SyncUserCommandTest extends KernelTestCase
             'lastName' => 'last',
             'email' => 'email',
             'displayName' => 'display',
+            'pronouns' => 'pronouns',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'username'
@@ -117,11 +120,81 @@ class SyncUserCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
-            '/Ilios User\s+\| abc\s+\| old-first\s+\| old-last\s+\| old-display\s+\| old-email\s+\| old-phone/',
+            '/Ilios User\s+\| ' .
+            'abc\s+\| ' .
+            'old-first\s+\| ' .
+            'old-last\s+\| ' .
+            'old-display\s+\| ' .
+            'old-pronouns\s+\| ' .
+            'old-email\s+\| ' .
+            'old-phone/',
             $output
         );
         $this->assertMatchesRegularExpression(
-            '/Directory User\s+\| abc\s+\| first\s+\| last\s+\| display\s+\| email\s+\| phone/',
+            '/Directory User\s+\| abc\s+\| first\s+\| last\s+\| display\s+\| pronouns\s+\| email\s+\| phone/',
+            $output
+        );
+    }
+    public function testEmptyPronouns()
+    {
+        $authentication = m::mock(AuthenticationInterface::class)
+            ->shouldReceive('setUsername')->with('username')
+            ->mock();
+        $pendingUpdate = m::mock(PendingUserUpdateInterface::class);
+        $user = m::mock(UserInterface::class)
+            ->shouldReceive('getFirstName')->andReturn('old-first')
+            ->shouldReceive('getPendingUserUpdates')->andReturn(new ArrayCollection([$pendingUpdate]))
+            ->shouldReceive('getLastName')->andReturn('old-last')
+            ->shouldReceive('getEmail')->andReturn('old-email')
+            ->shouldReceive('getDisplayName')->andReturn('old-display')
+            ->shouldReceive('getPronouns')->andReturn('old-pronouns')
+            ->shouldReceive('getPhone')->andReturn('old-phone')
+            ->shouldReceive('getCampusId')->andReturn('abc')
+            ->shouldReceive('getAuthentication')->andReturn($authentication)
+            ->shouldReceive('setFirstName')->with('first')
+            ->shouldReceive('setLastName')->with('last')
+            ->shouldReceive('setEmail')->with('email')
+            ->shouldReceive('setDisplayName')->with('display')
+            ->shouldReceive('setPronouns')->with(null)
+            ->shouldReceive('setPhone')->with('phone')
+            ->mock();
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('update')->with($user);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication, false);
+        $this->pendingUserUpdateRepository->shouldReceive('delete')->with($pendingUpdate)->once();
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'displayName' => 'display',
+            'pronouns' => null,
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'username'
+        ];
+        $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
+        $this->commandTester->setInputs(['Yes']);
+
+        $this->commandTester->execute([
+            'command'      => self::COMMAND_NAME,
+            'userId'         => '1'
+        ]);
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Ilios User\s+\| ' .
+            'abc\s+\| ' .
+            'old-first\s+\| ' .
+            'old-last\s+\| ' .
+            'old-display\s+\| ' .
+            'old-pronouns\s+\| ' .
+            'old-email\s+\| ' .
+            'old-phone/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/Directory User\s+\| abc\s+\| first\s+\| last\s+\| display\s+\| \s+\| email\s+\| phone/',
             $output
         );
     }

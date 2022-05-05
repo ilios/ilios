@@ -71,6 +71,9 @@ interface UserInterface extends
 
     public function getDisplayName(): ?string;
 
+    public function setPronouns(?string $pronouns);
+    public function getPronouns(): ?string;
+
     /**
      * @param string $phone
      */
