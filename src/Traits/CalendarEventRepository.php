@@ -106,7 +106,7 @@ trait CalendarEventRepository
         }
 
         $qb = $em->createQueryBuilder();
-        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName, u.displayName')
+        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName, u.displayName, u.pronouns')
             ->from(User::class, 'u');
         $qb->leftJoin('u.instructedOfferings', 'o');
         $qb->where(
@@ -117,7 +117,7 @@ trait CalendarEventRepository
 
 
         $qb = $em->createQueryBuilder();
-        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName, u.displayName')
+        $qb->select('o.id AS oId, u.id AS userId, u.firstName, u.lastName, u.displayName, u.pronouns')
             ->from(User::class, 'u');
         $qb->leftJoin('u.instructorGroups', 'ig');
         $qb->leftJoin('ig.offerings', 'o');
@@ -134,7 +134,14 @@ trait CalendarEventRepository
             if (! array_key_exists($result['oId'], $offeringInstructors)) {
                 $offeringInstructors[$result['oId']] = [];
             }
-            $name = $result['displayName'] ?? $result['firstName'] . ' ' . $result['lastName'];
+            if (!empty($result['displayName'])) {
+                $name = $result['displayName'];
+            } else {
+                $name = $result['firstName'] . ' ' . $result['lastName'];
+            }
+            if (!empty($result['pronouns'])) {
+                $name .= " ({$result['pronouns']})";
+            }
             $offeringInstructors[$result['oId']][$result['userId']] = $name;
         }
         return $offeringInstructors;
