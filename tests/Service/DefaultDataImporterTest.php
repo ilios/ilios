@@ -12,12 +12,12 @@ use Mockery as m;
 
 /**
  * @package App\Tests\Service
- * @covers \App\Service\DefaultDataImporter
+ * @coversDefaultClass \App\Service\DefaultDataImporter
  */
 class DefaultDataImporterTest extends TestCase
 {
     /**
-     * @covers ::import()
+     * @covers ::import
      */
     public function testImport()
     {

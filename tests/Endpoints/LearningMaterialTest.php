@@ -248,7 +248,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     }
 
     /**
-     * @covers \App\Controller\LearningMaterialController::getAllAction
+     * @covers \App\Controller\API\LearningMaterials::getAll
      */
     public function testFindByQAsLearner()
     {
@@ -266,7 +266,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     }
 
     /**
-     * @covers \App\Controller\LearningMaterialController::getAllAction
+     * @covers \App\Controller\API\LearningMaterials::getAll
      */
     public function testGetAllAsLearner()
     {

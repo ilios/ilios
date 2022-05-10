@@ -305,7 +305,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     }
 
     /**
-     * @covers \App\Controller\ProgramYearController::downloadCourseObjectivesReportAction
+     * @covers \App\Controller\API\ProgramYears::downloadCourseObjectivesReport
      */
     public function testDownloadCourseObjectivesReport()
     {

@@ -28,7 +28,7 @@ class UserDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @covers UserDTOVoter::voteOnAttribute()
+     * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
     public function testCanViewDTOAsNonLearner()
     {
@@ -46,7 +46,7 @@ class UserDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @covers UserDTOVoter::voteOnAttribute()
+     * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
     public function testCanViewDTOifYourself()
     {
@@ -63,7 +63,7 @@ class UserDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @covers UserDTOVoter::voteOnAttribute()
+     * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
     public function testRootCanViewDTO()
     {
@@ -76,7 +76,7 @@ class UserDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @covers UserDTOVoter::voteOnAttribute()
+     * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
     public function testCanNotViewDTO()
     {

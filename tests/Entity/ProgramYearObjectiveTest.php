@@ -162,9 +162,9 @@ class ProgramYearObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\ProgramYearObjective::addSessionObjective
+     * @covers \App\Entity\ProgramYearObjective::addCourseObjective
      */
-    public function testAddSessionObjective()
+    public function testAddCourseObjective()
     {
         $courseObjective = new CourseObjective();
         $this->assertEmpty($this->object->getCourseObjectives());
@@ -174,9 +174,9 @@ class ProgramYearObjectiveTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\ProgramYearObjective::removeSessionObjective
+     * @covers \App\Entity\ProgramYearObjective::removeCourseObjective
      */
-    public function testRemoveSessionObjective()
+    public function testRemoveCourseObjective()
     {
         $courseObjective = new CourseObjective();
         $this->assertEmpty($this->object->getCourseObjectives());
