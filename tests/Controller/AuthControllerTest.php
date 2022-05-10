@@ -45,7 +45,6 @@ class AuthControllerTest extends WebTestCase
     {
         parent::tearDown();
         unset($this->kernelBrowser);
-        unset($this->fixtures);
     }
 
     public function testMissingValues()

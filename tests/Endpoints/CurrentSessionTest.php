@@ -39,7 +39,6 @@ class CurrentSessionTest extends WebTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->fixtures);
     }
 
     public function testGetCurrentSession()
