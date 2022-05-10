@@ -51,7 +51,6 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
     {
         parent::tearDown();
         unset($this->kernelBrowser);
-        unset($this->fixtures);
     }
 
     /**
