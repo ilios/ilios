@@ -4,6 +4,10 @@ FakeTestFiles
 !/public/index.php
 !/public/.htaccess
 !/public/theme-overrides
+/infection.log
+/infection.html
+/infection-summary.log
+/infection-per-mutator.md
 
 # Created by docker build, shouldn't leak into app
 VERSION
