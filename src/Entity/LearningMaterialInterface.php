@@ -36,7 +36,7 @@ interface LearningMaterialInterface extends
     public function getUserRole(): LearningMaterialUserRoleInterface;
 
     public function setOwningUser(UserInterface $user);
-    public function getOwningUser(): ?UserInterface;
+    public function getOwningUser(): UserInterface;
 
     public function setCitation(?string $citation);
     public function getCitation(): ?string;
@@ -82,7 +82,7 @@ interface LearningMaterialInterface extends
     /**
      * Gets the primary school of the LM's owning user.
      */
-    public function getOwningSchool(): ?SchoolInterface;
+    public function getOwningSchool(): SchoolInterface;
 
     /**
      * Use the data in the object to determine which validation

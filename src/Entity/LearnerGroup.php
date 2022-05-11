@@ -77,7 +77,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected ?CohortInterface $cohort = null;
+    protected CohortInterface $cohort;
 
     #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
@@ -173,7 +173,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->cohort = $cohort;
     }
 
-    public function getCohort(): ?CohortInterface
+    public function getCohort(): CohortInterface
     {
         return $this->cohort;
     }
@@ -298,18 +298,12 @@ class LearnerGroup implements LearnerGroupInterface
 
     public function getSchool(): ?SchoolInterface
     {
-        if ($cohort = $this->getCohort()) {
-            return $cohort->getSchool();
-        }
-        return null;
+        return $this->cohort->getSchool();
     }
 
     public function getProgram(): ?ProgramInterface
     {
-        if ($cohort = $this->getCohort()) {
-            return $cohort = $cohort->getProgram();
-        }
-        return null;
+        return $this->cohort->getProgram();
     }
 
     public function getProgramYear(): ?ProgramYearInterface

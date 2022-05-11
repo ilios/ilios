@@ -152,11 +152,6 @@ class CohortTest extends EntityBase
         $cohort->setProgramYear($programYear);
         $this->assertEquals($program, $cohort->getProgram());
 
-        $programYear = new ProgramYear();
-        $cohort = new Cohort();
-        $cohort->setProgramYear($programYear);
-        $this->assertNull($cohort->getProgram());
-
         $cohort = new Cohort();
         $this->assertNull($cohort->getProgram());
     }
@@ -174,18 +169,6 @@ class CohortTest extends EntityBase
         $cohort = new Cohort();
         $cohort->setProgramYear($programYear);
         $this->assertEquals($school, $cohort->getSchool());
-
-        $program = new Program();
-        $programYear = new ProgramYear();
-        $programYear->setProgram($program);
-        $cohort = new Cohort();
-        $cohort->setProgramYear($programYear);
-        $this->assertNull($cohort->getSchool());
-
-        $programYear = new ProgramYear();
-        $cohort = new Cohort();
-        $cohort->setProgramYear($programYear);
-        $this->assertNull($cohort->getSchool());
 
         $cohort = new Cohort();
         $this->assertNull($cohort->getSchool());

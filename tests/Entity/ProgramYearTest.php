@@ -139,14 +139,6 @@ class ProgramYearTest extends EntityBase
         $programYear = new ProgramYear();
         $programYear->setProgram($program);
         $this->assertEquals($school, $programYear->getSchool());
-
-        $program = new Program();
-        $programYear = new ProgramYear();
-        $programYear->setProgram($program);
-        $this->assertNull($programYear->getSchool());
-
-        $programYear = new ProgramYear();
-        $this->assertNull($programYear->getSchool());
     }
 
     /**

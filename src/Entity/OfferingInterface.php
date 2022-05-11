@@ -41,7 +41,7 @@ interface OfferingInterface extends
     public function getEndDate(): DateTime;
 
     public function setSession(SessionInterface $session);
-    public function getSession(): ?SessionInterface;
+    public function getSession(): SessionInterface;
 
     /**
      * Get all the instructors including those in groups
@@ -53,5 +53,5 @@ interface OfferingInterface extends
      */
     public function getAlertProperties(): array;
 
-    public function getSchool(): ?SchoolInterface;
+    public function getSchool(): SchoolInterface;
 }

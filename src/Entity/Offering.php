@@ -91,7 +91,7 @@ class Offering implements OfferingInterface
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected ?SessionInterface $session = null;
+    protected SessionInterface $session;
 
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_group')]
@@ -193,7 +193,7 @@ class Offering implements OfferingInterface
         $this->session = $session;
     }
 
-    public function getSession(): ?SessionInterface
+    public function getSession(): SessionInterface
     {
         return $this->session;
     }
@@ -241,11 +241,8 @@ class Offering implements OfferingInterface
         ];
     }
 
-    public function getSchool(): ?SchoolInterface
+    public function getSchool(): SchoolInterface
     {
-        if ($session = $this->getSession()) {
-            return $session->getSchool();
-        }
-        return null;
+        return $this->session->getSchool();
     }
 }

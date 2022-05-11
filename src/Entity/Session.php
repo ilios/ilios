@@ -354,12 +354,9 @@ class Session implements SessionInterface
         return $this->learningMaterials;
     }
 
-    public function getSchool(): ?SchoolInterface
+    public function getSchool(): SchoolInterface
     {
-        if ($course = $this->getCourse()) {
-            return $course->getSchool();
-        }
-        return null;
+        return $this->course->getSchool();
     }
 
     public function addAdministrator(UserInterface $administrator)

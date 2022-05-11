@@ -26,12 +26,12 @@ interface ProgramYearInterface extends
     public function getStartYear(): int;
 
     public function setProgram(ProgramInterface $program);
-    public function getProgram(): ?ProgramInterface;
+    public function getProgram(): ProgramInterface;
 
     /**
      * Gets the school that this program year belongs to.
      */
-    public function getSchool(): ?SchoolInterface;
+    public function getSchool(): SchoolInterface;
 
     public function setCohort(CohortInterface $cohort);
     public function getCohort(): CohortInterface;

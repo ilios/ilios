@@ -142,11 +142,6 @@ class CurriculumInventoryReportTest extends EntityBase
         $report->setProgram($program);
         $this->assertEquals($school, $report->getSchool());
 
-        $program = new Program();
-        $report = new CurriculumInventoryReport();
-        $report->setProgram($program);
-        $this->assertNull($report->getSchool());
-
         $report = new CurriculumInventoryReport();
         $this->assertNull($report->getSchool());
     }

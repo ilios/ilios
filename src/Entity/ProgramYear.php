@@ -68,7 +68,7 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected ?ProgramInterface $program = null;
+    protected ProgramInterface $program;
 
     #[ORM\OneToOne(targetEntity: 'Cohort', mappedBy: 'programYear')]
     #[IA\Expose]
@@ -133,7 +133,7 @@ class ProgramYear implements ProgramYearInterface
         $this->program = $program;
     }
 
-    public function getProgram(): ?ProgramInterface
+    public function getProgram(): ProgramInterface
     {
         return $this->program;
     }
@@ -148,11 +148,8 @@ class ProgramYear implements ProgramYearInterface
         return $this->cohort;
     }
 
-    public function getSchool(): ?SchoolInterface
+    public function getSchool(): SchoolInterface
     {
-        if ($program = $this->getProgram()) {
-            return $program->getSchool();
-        }
-        return null;
+        return $this->program->getSchool();
     }
 }

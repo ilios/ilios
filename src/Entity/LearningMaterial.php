@@ -104,7 +104,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected ?UserInterface $owningUser = null;
+    protected UserInterface $owningUser;
 
     #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'SessionLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
@@ -222,7 +222,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->owningUser = $user;
     }
 
-    public function getOwningUser(): ?UserInterface
+    public function getOwningUser(): UserInterface
     {
         return $this->owningUser;
     }
@@ -386,12 +386,9 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->sessionLearningMaterials;
     }
 
-    public function getOwningSchool(): ?SchoolInterface
+    public function getOwningSchool(): SchoolInterface
     {
-        if ($user = $this->getOwningUser()) {
-            return $user->getSchool();
-        }
-        return null;
+        return $this->owningUser->getSchool();
     }
 
     public function getSessions(): Collection

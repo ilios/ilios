@@ -66,7 +66,7 @@ interface SessionInterface extends
     public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
     public function getLearningMaterials(): Collection;
 
-    public function getSchool(): ?SchoolInterface;
+    public function getSchool(): SchoolInterface;
 
     public function setExcludedSequenceBlocks(Collection $sequenceBlocks);
     public function addExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);

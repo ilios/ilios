@@ -133,9 +133,6 @@ class Cohort implements CohortInterface
 
     public function getProgram(): ?ProgramInterface
     {
-        if ($programYear = $this->getProgramYear()) {
-            return $programYear->getProgram();
-        }
-        return null;
+        return $this->programYear?->getProgram();
     }
 }

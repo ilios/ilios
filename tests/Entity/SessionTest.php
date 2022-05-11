@@ -221,14 +221,6 @@ class SessionTest extends EntityBase
         $course->setSchool($school);
         $session->setCourse($course);
         $this->assertSame($school, $session->getSchool());
-
-        $course = new Course();
-        $session = new Session();
-        $session->setCourse($course);
-        $this->assertNull($session->getSchool());
-
-        $session = new Session();
-        $this->assertNull($session->getSchool());
     }
 
     /**

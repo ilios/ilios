@@ -6,12 +6,9 @@ namespace App\Traits;
 
 use App\Entity\SchoolInterface;
 
-/**
- * Class SchoolEntity
- */
 trait SchoolEntity
 {
-    public function getSchool(): ?SchoolInterface
+    public function getSchool(): SchoolInterface
     {
         return $this->school;
     }
