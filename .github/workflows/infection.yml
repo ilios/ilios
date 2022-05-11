@@ -27,6 +27,10 @@ jobs:
           extensions: apcu
       - name: install dependencies
         run: composer install --no-interaction --prefer-dist
+      - name: create coverage
+        run:
+          php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-xml=build/coverage --log-junit=build/coverage/phpunit.junit.xml
       - name: infection
         run:
-          vendor/bin/infection --min-msi=60 --threads=4
+          vendor/bin/infection --coverage=build/coverage
+
