@@ -8,59 +8,22 @@ use App\Traits\IdentifiableEntityInterface;
 use App\Traits\StringableEntityToIdInterface;
 use DateTime;
 
-/**
- * Class AuditLogInterface
- *
- */
 interface AuditLogInterface extends
     IdentifiableEntityInterface,
     StringableEntityToIdInterface
 {
-    /**
-     * Set action
-     *
-     * @param string $action
-     */
-    public function setAction($action);
-
-    /**
-     * Get action
-     */
+    public function setAction(string $action);
     public function getAction(): string;
 
-    /**
-     * Get createdAt
-     */
     public function getCreatedAt(): DateTime;
-
-
     public function setCreatedAt(DateTime $createdAt);
 
-    /**
-     * Set objectId
-     *
-     * @param string $objectId
-     */
-    public function setObjectId($objectId);
-
-    /**
-     * Get objectId
-     */
+    public function setObjectId(mixed $objectId);
     public function getObjectId(): string;
 
-    /**
-     * Set objectClass
-     *
-     * @param string $objectClass
-     */
-    public function setObjectClass($objectClass);
-
-    /**
-     * Get objectClass
-     */
+    public function setObjectClass(string $objectClass);
     public function getObjectClass(): string;
 
     public function setUser(UserInterface $user);
-
     public function getUser(): UserInterface;
 }

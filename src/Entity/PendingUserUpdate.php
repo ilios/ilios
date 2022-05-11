@@ -11,9 +11,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\PendingUserUpdateRepository;
 
-/**
- * Class PendingUserUpdate
- */
 #[ORM\Table(name: 'pending_user_update')]
 #[ORM\Entity(repositoryClass: PendingUserUpdateRepository::class)]
 #[IA\Entity]
@@ -22,9 +19,6 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'exception_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -32,55 +26,40 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 32)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 32)]
-    protected $type;
+    protected string $type;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 32, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 32)]
-    protected $property;
+    protected ?string $property;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 255)]
-    protected $value;
+    protected ?string $value;
 
-    /**
-     * @var UserInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'pendingUserUpdates')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $user;
+    protected UserInterface $user;
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+    public function setType(string $type)
     {
         $this->type = $type;
     }
@@ -90,38 +69,22 @@ class PendingUserUpdate implements PendingUserUpdateInterface
         return $this->type;
     }
 
-    /**
-     * Set property
-     *
-     * @param string $property
-     */
-    public function setProperty($property)
+    public function setProperty(?string $property)
     {
         $this->property = $property;
     }
 
-    /**
-     * Get property
-     */
-    public function getProperty(): string
+    public function getProperty(): ?string
     {
         return $this->property;
     }
 
-    /**
-     * Set value
-     *
-     * @param string $value
-     */
-    public function setValue($value)
+    public function setValue(?string $value)
     {
         $this->value = $value;
     }
 
-    /**
-     * Get value
-     */
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }

@@ -15,9 +15,6 @@ use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\LearningMaterialUserRoleRepository;
 
-/**
- * Class LearningMaterialUserRole
- */
 #[ORM\Table(name: 'learning_material_user_role')]
 #[ORM\Entity(repositoryClass: LearningMaterialUserRoleRepository::class)]
 #[IA\Entity]
@@ -28,9 +25,6 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     use StringableIdEntity;
     use LearningMaterialsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'learning_material_user_role_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -38,25 +32,19 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 60)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var ArrayCollection|LearningMaterialInterface[]
-     */
-    #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'userRole')]
+    #[ORM\OneToMany(mappedBy: 'userRole', targetEntity: 'LearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
-    protected $learningMaterials;
+    protected Collection $learningMaterials;
 
     public function __construct()
     {

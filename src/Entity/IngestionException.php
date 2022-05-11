@@ -11,9 +11,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\IngestionExceptionRepository;
 
-/**
- * Class IngestionException
- */
 #[ORM\Entity(repositoryClass: IngestionExceptionRepository::class)]
 #[ORM\Table(name: 'ingestion_exception')]
 #[IA\Entity]
@@ -22,9 +19,6 @@ class IngestionException implements IngestionExceptionInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'ingestion_exception_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -32,28 +26,16 @@ class IngestionException implements IngestionExceptionInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'ingested_wide_uid', type: 'string', length: 32)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 32)]
-    protected $uid;
+    protected string $uid;
 
-    /**
-     * @var UserInterface
-     *      name="user_id",
-     *      referencedColumnName="user_id",
-     *      onDelete="CASCADE",
-     *      unique=true,
-     *      nullable=false
-     * )})
-     */
     #[ORM\OneToOne(targetEntity: 'User')]
     #[ORM\JoinColumn(
         name: 'user_id',
@@ -64,7 +46,7 @@ class IngestionException implements IngestionExceptionInterface
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $user;
+    protected UserInterface $user;
 
     public function setUser(UserInterface $user)
     {
@@ -76,7 +58,7 @@ class IngestionException implements IngestionExceptionInterface
         return $this->user;
     }
 
-    public function setUid($uid)
+    public function setUid(string $uid)
     {
         $this->uid = $uid;
     }

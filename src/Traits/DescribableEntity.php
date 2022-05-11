@@ -4,17 +4,9 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * Class DescribableEntity
- */
 trait DescribableEntity
 {
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(?string $description)
     {
         $this->description = $description;
     }

@@ -40,9 +40,6 @@ class CourseDTO
     #[IA\Type('dateTime')]
     public DateTime $endDate;
 
-    /**
-     * @var string
-     */
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $externalId;

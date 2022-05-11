@@ -12,9 +12,6 @@ use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Repository\CurriculumInventorySequenceRepository;
 
-/**
- * Class CurriculumInventorySequence
- */
 #[ORM\Table(name: 'curriculum_inventory_sequence')]
 #[ORM\Entity(repositoryClass: CurriculumInventorySequenceRepository::class)]
 #[IA\Entity]
@@ -24,9 +21,6 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     use DescribableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'sequence_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -34,11 +28,8 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var CurriculumInventoryReportInterface
-     */
     #[ORM\OneToOne(inversedBy: 'sequence', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(
         name: 'report_id',
@@ -50,17 +41,14 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $report;
+    protected CurriculumInventoryReportInterface $report;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $description;
+    protected ?string $description;
 
     public function setReport(CurriculumInventoryReportInterface $report)
     {

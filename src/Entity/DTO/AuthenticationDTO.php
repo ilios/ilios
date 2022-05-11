@@ -6,9 +6,6 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 
-/**
- * Class Authentication
- */
 #[IA\DTO('authentications')]
 class AuthenticationDTO
 {

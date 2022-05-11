@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\LearningMaterialRelationshipEntity;
 use App\Traits\MeshDescriptorsEntity;
@@ -16,9 +17,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CourseLearningMaterialRepository;
 
-/**
- * Class CourseLearningMaterial
- */
 #[ORM\Table(name: 'course_learning_material')]
 #[ORM\Entity(repositoryClass: CourseLearningMaterialRepository::class)]
 #[IA\Entity]
@@ -30,9 +28,6 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     use SortableEntity;
     use LearningMaterialRelationshipEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'course_learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -40,71 +35,44 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $notes;
+    protected ?string $notes;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'required', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $required;
+    protected bool $required;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $publicNotes;
+    protected bool $publicNotes;
 
-    /**
-     * @var CourseInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $course;
+    protected CourseInterface $course;
 
-    /**
-     * @var LearningMaterialInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'courseLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $learningMaterial;
+    protected LearningMaterialInterface $learningMaterial;
 
-    /**
-     * @var ArrayCollection|MeshDescriptor[]
-     *   joinColumns={
-     *       name="course_learning_material_id",
-     *       referencedColumnName="course_learning_material_id",
-     *       onDelete="CASCADE"
-     *     )
-     *   },
-     *   inverseJoinColumns={
-     *   }
-     * )
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseLearningMaterials')]
     #[ORM\JoinTable(name: 'course_learning_material_x_mesh')]
     #[ORM\JoinColumn(
@@ -120,33 +88,24 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $meshDescriptors;
+    protected Collection $meshDescriptors;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $position;
+    protected int $position;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected $startDate;
+    protected ?DateTime $startDate;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected $endDate;
+    protected ?DateTime $endDate;
 
     public function __construct()
     {
@@ -166,9 +125,6 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         return $this->course;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIndexableCourses(): array
     {
         return [$this->course];

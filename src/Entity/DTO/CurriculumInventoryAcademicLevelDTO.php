@@ -6,9 +6,6 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 
-/**
- * Class CurriculumInventoryAcademicLevelDTO
- */
 #[IA\DTO('curriculumInventoryAcademicLevels')]
 #[IA\ExposeGraphQL]
 class CurriculumInventoryAcademicLevelDTO

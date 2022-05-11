@@ -9,9 +9,6 @@ use App\Traits\NameableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\StringableEntityToIdInterface;
 
-/**
- * Interface SchoolConfigInterface
- */
 interface SchoolConfigInterface extends
     SchoolEntityInterface,
     NameableEntityInterface,
@@ -19,9 +16,5 @@ interface SchoolConfigInterface extends
     StringableEntityToIdInterface
 {
     public function getValue(): string;
-
-    /**
-     * @param string $value
-     */
-    public function setValue($value);
+    public function setValue(string $value);
 }

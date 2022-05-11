@@ -18,9 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProgramYearObjectiveRepository;
 
-/**
- * Class ProgramYearObjective
- */
 #[ORM\Table(name: 'program_year_x_objective')]
 #[ORM\Index(columns: ['program_year_id'], name: 'IDX_7A16FDD6CB2B0673')]
 #[ORM\Entity(repositoryClass: ProgramYearObjectiveRepository::class)]
@@ -35,9 +32,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     use CategorizableEntity;
     use SortableEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'program_year_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,31 +39,22 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var ProgramYearInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'ProgramYear', inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $programYear;
+    protected ProgramYearInterface $programYear;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $position;
+    protected int $position;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_term')]
     #[ORM\JoinColumn(
@@ -81,11 +66,8 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $terms;
+    protected Collection $terms;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
@@ -93,29 +75,20 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var CompetencyInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'competency_id', referencedColumnName: 'competency_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $competency;
+    protected ?CompetencyInterface $competency = null;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'programYearObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courseObjectives;
+    protected Collection $courseObjectives;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_mesh')]
     #[ORM\JoinColumn(
@@ -131,35 +104,26 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $meshDescriptors;
+    protected Collection $meshDescriptors;
 
-    /**
-     * @var ProgramYearObjectiveInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'ProgramYearObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'program_year_objective_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $ancestor;
+    protected ?ProgramYearObjectiveInterface $ancestor = null;
 
-    /**
-     * @var Collection
-     */
     #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $descendants;
+    protected Collection $descendants;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $active;
+    protected bool $active;
 
     public function __construct()
     {

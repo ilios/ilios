@@ -13,9 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 
-/**
- * Class Alert
- */
 #[ORM\Table(name: 'alert')]
 #[ORM\Entity(repositoryClass: AlertRepository::class)]
 #[IA\Entity]
@@ -24,9 +21,6 @@ class Alert implements AlertInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'alert_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -34,52 +28,37 @@ class Alert implements AlertInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'table_row_id', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $tableRowId;
+    protected int $tableRowId;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'table_name', type: 'string', length: 30)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 30)]
-    protected $tableName;
+    protected string $tableName;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'additional_text', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $additionalText;
+    protected string $additionalText;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'dispatched', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $dispatched;
+    protected bool $dispatched;
 
-    /**
-     * @var ArrayCollection|AlertChangeTypeInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'AlertChangeType', inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_change')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
@@ -87,11 +66,8 @@ class Alert implements AlertInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $changeTypes;
+    protected Collection $changeTypes;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_instigator')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
@@ -99,11 +75,8 @@ class Alert implements AlertInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instigators;
+    protected Collection $instigators;
 
-    /**
-     * @var ArrayCollection|SchoolInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'School', inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_recipient')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
@@ -111,7 +84,7 @@ class Alert implements AlertInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $recipients;
+    protected Collection $recipients;
 
     public function __construct()
     {
@@ -121,7 +94,7 @@ class Alert implements AlertInterface
         $this->dispatched = false;
     }
 
-    public function setTableRowId($tableRowId)
+    public function setTableRowId(int $tableRowId)
     {
         $this->tableRowId = $tableRowId;
     }
@@ -131,7 +104,7 @@ class Alert implements AlertInterface
         return $this->tableRowId;
     }
 
-    public function setTableName($tableName)
+    public function setTableName(string $tableName)
     {
         $this->tableName = $tableName;
     }
@@ -141,7 +114,7 @@ class Alert implements AlertInterface
         return $this->tableName;
     }
 
-    public function setAdditionalText($additionalText)
+    public function setAdditionalText(string $additionalText)
     {
         $this->additionalText = $additionalText;
     }
@@ -151,7 +124,7 @@ class Alert implements AlertInterface
         return $this->additionalText;
     }
 
-    public function setDispatched($dispatched)
+    public function setDispatched(bool $dispatched)
     {
         $this->dispatched = $dispatched;
     }

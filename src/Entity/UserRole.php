@@ -8,15 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\UsersEntity;
 use App\Attribute as IA;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\UserRoleRepository;
 
-/**
- * Class UserRole
- */
 #[ORM\Table(name: 'user_role')]
 #[ORM\Entity(repositoryClass: UserRoleRepository::class)]
 #[IA\Entity]
@@ -27,9 +25,6 @@ class UserRole implements UserRoleInterface
     use IdentifiableEntity;
     use UsersEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_role_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -37,26 +32,22 @@ class UserRole implements UserRoleInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 60)]
-    protected $title;
+    protected string $title;
 
     /**
-     * @var ArrayCollection|UserInterface[]
      * Don't put users in the UserRole API it takes too long to load
      */
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'roles')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Type('entityCollection')]
-    protected $users;
+    protected Collection $users;
 
     public function __construct()
     {

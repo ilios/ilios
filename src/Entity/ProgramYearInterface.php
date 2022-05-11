@@ -12,9 +12,6 @@ use App\Traits\DirectorsEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\LockableEntityInterface;
 
-/**
- * Interface ProgramYearInterface
- */
 interface ProgramYearInterface extends
     IdentifiableEntityInterface,
     LockableEntityInterface,
@@ -25,15 +22,10 @@ interface ProgramYearInterface extends
     DirectorsEntityInterface,
     CompetenciesEntityInterface
 {
-    /**
-     * @param int $startYear
-     */
-    public function setStartYear($startYear);
-
+    public function setStartYear(int $startYear);
     public function getStartYear(): int;
 
     public function setProgram(ProgramInterface $program);
-
     public function getProgram(): ?ProgramInterface;
 
     /**
@@ -42,6 +34,5 @@ interface ProgramYearInterface extends
     public function getSchool(): ?SchoolInterface;
 
     public function setCohort(CohortInterface $cohort);
-
     public function getCohort(): CohortInterface;
 }

@@ -6,9 +6,6 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 
-/**
- * Class MeshTreeDTO
- */
 #[IA\DTO('meshTrees')]
 #[IA\ExposeGraphQL]
 class MeshTreeDTO

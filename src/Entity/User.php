@@ -21,9 +21,6 @@ use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
 
-/**
- * Class User
- */
 #[ORM\Table(name: 'user')]
 #[ORM\Index(columns: ["school_id"], name: "fkey_user_school")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -41,9 +38,6 @@ class User implements UserInterface
     use InstructorGroupsEntity;
     use LearningMaterialsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'user_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -51,80 +45,59 @@ class User implements UserInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'last_name', type: 'string', length: 50)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 50)]
-    protected $lastName;
+    protected string $lastName;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'first_name', type: 'string', length: 50)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 50)]
-    protected $firstName;
+    protected string $firstName;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'middle_name', type: 'string', length: 20, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 20)]
-    protected $middleName;
+    protected ?string $middleName = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'display_name', type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 200)]
-    protected $displayName;
+    protected ?string $displayName = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'phone', type: 'string', length: 30, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 30)]
-    protected $phone;
+    protected ?string $phone = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'email', type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Email]
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 100)]
-    protected $email;
+    protected string $email;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'preferred_email', type: 'string', length: 100, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Email]
     #[Assert\Length(max: 100)]
-    protected $preferredEmail;
+    protected ?string $preferredEmail = null;
 
     #[ORM\Column(name: 'pronouns', type: 'string', length: 50, nullable: true)]
     #[IA\Expose]
@@ -132,247 +105,170 @@ class User implements UserInterface
     #[Assert\Length(max: 50)]
     protected ?string $pronouns;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'added_via_ilios', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'boolean')]
-    protected $addedViaIlios;
+    protected bool $addedViaIlios;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'enabled', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'boolean')]
-    protected $enabled;
+    protected bool $enabled;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'uc_uid', type: 'string', length: 16, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 16)]
-    protected $campusId;
+    protected ?string $campusId = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'other_id', type: 'string', length: 16, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 16)]
-    protected $otherId;
+    protected ?string $otherId = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'examined', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'boolean')]
-    protected $examined;
+    protected bool $examined;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'user_sync_ignore', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'boolean')]
-    protected $userSyncIgnore;
+    protected bool $userSyncIgnore;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'ics_feed_key', type: 'string', length: 64, unique: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 64, max: 64)]
-    protected $icsFeedKey;
+    protected string $icsFeedKey;
 
-    /**
-     * @var AuthenticationInterface
-     */
-    #[ORM\OneToOne(targetEntity: 'Authentication', mappedBy: 'user')]
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: 'Authentication')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $authentication;
+    protected ?AuthenticationInterface $authentication = null;
 
-    /**
-     * @var ArrayCollection|AuditLogInterface[]
-     */
-    #[ORM\OneToMany(targetEntity: 'AuditLog', mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'AuditLog')]
     #[ORM\OrderBy(['id' => 'ASC'])]
-    protected $auditLogs;
+    protected Collection $auditLogs;
 
     /**
-     * @var ArrayCollection|LearningMaterialInterface[]
      * Don't put learningMaterials in the user API it takes forever to load them all
      */
     #[ORM\OneToMany(mappedBy: 'owningUser', targetEntity: 'LearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Type('entityCollection')]
-    protected $learningMaterials;
+    protected Collection $learningMaterials;
 
-    /**
-     * @var ArrayCollection|ReportInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $reports;
+    protected Collection $reports;
 
-    /**
-     * @var SchoolInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'School')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $school;
+    protected SchoolInterface $school;
 
-    /**
-     * @var ArrayCollection|CourseInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $directedCourses;
+    protected Collection $directedCourses;
 
-    /**
-     * @var ArrayCollection|CourseInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $administeredCourses;
+    protected Collection $administeredCourses;
 
-    /**
-     * @var ArrayCollection|CourseInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'studentAdvisors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $studentAdvisedCourses;
+    protected Collection $studentAdvisedCourses;
 
-    /**
-     * @var ArrayCollection|SessionInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $administeredSessions;
+    protected Collection $administeredSessions;
 
-    /**
-     * @var ArrayCollection|SessionInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'studentAdvisors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $studentAdvisedSessions;
+    protected Collection $studentAdvisedSessions;
 
-    /**
-     * @var ArrayCollection|LearnerGroupInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'users')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $learnerGroups;
+    protected Collection $learnerGroups;
 
-    /**
-     * @var ArrayCollection|LearnerGroupInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructedLearnerGroups;
+    protected Collection $instructedLearnerGroups;
 
-    /**
-     * @var ArrayCollection|InstructorGroupInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', mappedBy: 'users')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructorGroups;
+    protected Collection $instructorGroups;
 
-    /**
-     * @var ArrayCollection|IlmSessionInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructorIlmSessions;
+    protected Collection $instructorIlmSessions;
 
-    /**
-     * @var ArrayCollection|IlmSessionInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learners')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $learnerIlmSessions;
+    protected Collection $learnerIlmSessions;
 
-    /**
-     * @var ArrayCollection|OfferingInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learners')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $offerings;
+    protected Collection $offerings;
 
-    /**
-     * @var ArrayCollection|OfferingInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructedOfferings;
+    protected Collection $instructedOfferings;
 
-    /**
-     * @var ArrayCollection|ProgramYearInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programYears;
+    protected Collection $programYears;
 
     /**
-     * @var ArrayCollection|AlertInterface[]
      * Don't put alerts in the user API it takes forever to load them all
      */
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'instigators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Type('entityCollection')]
-    protected $alerts;
+    protected Collection $alerts;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'UserRole', inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_x_user_role')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
@@ -380,11 +276,8 @@ class User implements UserInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $roles;
+    protected Collection $roles;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'Cohort', inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_x_cohort')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
@@ -392,71 +285,50 @@ class User implements UserInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $cohorts;
+    protected Collection $cohorts;
 
-    /**
-     * @var CohortInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Cohort')]
     #[ORM\JoinColumn(name: 'primary_cohort_id', referencedColumnName: 'cohort_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $primaryCohort;
+    protected ?CohortInterface $primaryCohort = null;
 
-    /**
-     * @var ArrayCollection|PendingUserUpdateInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'PendingUserUpdate')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $pendingUserUpdates;
+    protected Collection $pendingUserUpdates;
 
-    /**
-     * @var ArrayCollection|SchoolInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'School', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $directedSchools;
+    protected Collection $directedSchools;
 
-    /**
-     * @var ArrayCollection|SchoolInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'School', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $administeredSchools;
+    protected Collection $administeredSchools;
 
-    /**
-     * @var ArrayCollection|ProgramInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Program', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $directedPrograms;
+    protected Collection $directedPrograms;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'root', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'boolean')]
-    protected $root;
+    protected bool $root;
 
-    /**
-     * @var ArrayCollection|CurriculumInventoryReportInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $administeredCurriculumInventoryReports;
+    protected Collection $administeredCurriculumInventoryReports;
 
     public function __construct()
     {
@@ -493,10 +365,7 @@ class User implements UserInterface
         $this->generateIcsFeedKey();
     }
 
-    /**
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
+    public function setLastName(string $lastName)
     {
         $this->lastName = $lastName;
     }
@@ -506,10 +375,7 @@ class User implements UserInterface
         return $this->lastName;
     }
 
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName)
     {
         $this->firstName = $firstName;
     }
@@ -519,10 +385,7 @@ class User implements UserInterface
         return $this->firstName;
     }
 
-    /**
-     * @param string $middleName
-     */
-    public function setMiddleName($middleName)
+    public function setMiddleName(?string $middleName)
     {
         $this->middleName = $middleName;
     }
@@ -537,7 +400,7 @@ class User implements UserInterface
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
-    public function setDisplayName($displayName)
+    public function setDisplayName(?string $displayName)
     {
         $this->displayName = $displayName;
     }
@@ -547,10 +410,7 @@ class User implements UserInterface
         return $this->displayName;
     }
 
-    /**
-     * @param string $phone
-     */
-    public function setPhone($phone)
+    public function setPhone(?string $phone)
     {
         $this->phone = $phone;
     }
@@ -560,10 +420,7 @@ class User implements UserInterface
         return $this->phone;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
+    public function setEmail(string $email)
     {
         $this->email = $email;
     }
@@ -573,10 +430,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setPreferredEmail($email)
+    public function setPreferredEmail(?string $email)
     {
         $this->preferredEmail = $email;
     }
@@ -596,10 +450,7 @@ class User implements UserInterface
         return $this->pronouns;
     }
 
-    /**
-     * @param bool $addedViaIlios
-     */
-    public function setAddedViaIlios($addedViaIlios)
+    public function setAddedViaIlios(bool $addedViaIlios)
     {
         $this->addedViaIlios = $addedViaIlios;
     }
@@ -609,10 +460,7 @@ class User implements UserInterface
         return $this->addedViaIlios;
     }
 
-    /**
-     * @param bool $enabled
-     */
-    public function setEnabled($enabled)
+    public function setEnabled(bool $enabled)
     {
         $this->enabled = $enabled;
     }
@@ -622,10 +470,7 @@ class User implements UserInterface
         return $this->enabled;
     }
 
-    /**
-     * @param string $campusId
-     */
-    public function setCampusId($campusId)
+    public function setCampusId(?string $campusId)
     {
         $this->campusId = $campusId;
     }
@@ -635,10 +480,7 @@ class User implements UserInterface
         return $this->campusId;
     }
 
-    /**
-     * @param string $otherId
-     */
-    public function setOtherId($otherId)
+    public function setOtherId(?string $otherId)
     {
         $this->otherId = $otherId;
     }
@@ -648,10 +490,7 @@ class User implements UserInterface
         return $this->otherId;
     }
 
-    /**
-     * @param bool $examined
-     */
-    public function setExamined($examined)
+    public function setExamined(bool $examined)
     {
         $this->examined = $examined;
     }
@@ -661,10 +500,7 @@ class User implements UserInterface
         return $this->examined;
     }
 
-    /**
-     * @param bool $userSyncIgnore
-     */
-    public function setUserSyncIgnore($userSyncIgnore)
+    public function setUserSyncIgnore(bool $userSyncIgnore)
     {
         $this->userSyncIgnore = $userSyncIgnore;
     }
@@ -685,7 +521,7 @@ class User implements UserInterface
         $this->icsFeedKey = hash('sha256', $key);
     }
 
-    public function setIcsFeedKey($icsFeedKey)
+    public function setIcsFeedKey(string $icsFeedKey)
     {
         $this->icsFeedKey = $icsFeedKey;
     }
@@ -835,7 +671,7 @@ class User implements UserInterface
         return $this->studentAdvisedSessions;
     }
 
-    public function isDirectingCourse($courseId): bool
+    public function isDirectingCourse(int $courseId): bool
     {
         return $this->directedCourses->map(fn(CourseInterface $course) => $course->getId())->contains($courseId);
     }
@@ -1024,7 +860,6 @@ class User implements UserInterface
 
     /**
      * Remove Primary cohort if it is no longer a cohorts
-     * @inheritdoc
      */
     public function setCohorts(Collection $cohorts)
     {
@@ -1039,7 +874,6 @@ class User implements UserInterface
 
     /**
      * Remove Primary cohort if it is no longer a cohorts
-     * @inheritdoc
      */
     public function removeCohort(CohortInterface $cohort)
     {
@@ -1274,7 +1108,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get all the schools an user is affiliated with so we can match
+     * Get all the schools a user is affiliated with, so we can match
      * permissions.
      */
     public function getAllSchools(): Collection
@@ -1313,7 +1147,7 @@ class User implements UserInterface
         return $this->root;
     }
 
-    public function setRoot($root)
+    public function setRoot(bool $root)
     {
         $this->root = $root;
     }

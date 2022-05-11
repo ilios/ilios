@@ -4,15 +4,9 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-/**
- * Class TitledEntity
- */
 trait TitledEntity
 {
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }

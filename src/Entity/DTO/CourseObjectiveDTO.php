@@ -6,9 +6,6 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 
-/**
- * Class CourseObjectiveDTO
- */
 #[IA\DTO('courseObjectives')]
 #[IA\ExposeGraphQL]
 class CourseObjectiveDTO
@@ -18,9 +15,6 @@ class CourseObjectiveDTO
     #[IA\Type('integer')]
     public int $id;
 
-    /**
-     * @var string
-     */
     #[IA\Expose]
     #[IA\Type('string')]
     public string $title;

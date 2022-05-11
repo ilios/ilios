@@ -9,8 +9,8 @@ use App\Traits\IlmSessionsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\UsersEntity;
 use App\Attribute as IA;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
@@ -19,9 +19,6 @@ use App\Traits\OfferingsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\InstructorGroupRepository;
 
-/**
- * Class InstructorGroup
- */
 #[ORM\Table(name: 'instructor_group')]
 #[ORM\Entity(repositoryClass: InstructorGroupRepository::class)]
 #[IA\Entity]
@@ -36,9 +33,6 @@ class InstructorGroup implements InstructorGroupInterface
     use UsersEntity;
     use IlmSessionsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -46,50 +40,35 @@ class InstructorGroup implements InstructorGroupInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 60)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var SchoolInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'instructorGroups')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $school;
+    protected SchoolInterface $school;
 
-    /**
-     * @var ArrayCollection|LearnerGroupInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $learnerGroups;
+    protected Collection $learnerGroups;
 
-    /**
-     * @var ArrayCollection|IlmSession[]
-     */
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $ilmSessions;
+    protected Collection $ilmSessions;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructorGroups')]
     #[ORM\JoinTable(name: 'instructor_group_x_user')]
     #[ORM\JoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
@@ -97,16 +76,13 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $users;
+    protected Collection $users;
 
-    /**
-     * @var ArrayCollection|OfferingInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $offerings;
+    protected Collection $offerings;
 
     public function __construct()
     {

@@ -11,9 +11,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\AuditLogRepository;
 
-/**
- * Class AuditLog
- */
 #[ORM\Table(name: 'audit_log')]
 #[ORM\Entity(repositoryClass: AuditLogRepository::class)]
 class AuditLog implements AuditLogInterface
@@ -21,90 +18,58 @@ class AuditLog implements AuditLogInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 16)]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 16)]
-    protected $action;
+    protected string $action;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(type: 'datetime')]
     #[Assert\NotBlank]
-    protected $createdAt;
+    protected DateTime $createdAt;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Type(type: 'string')]
     #[Assert\NotBlank]
-    protected $objectId;
+    protected string $objectId;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 255)]
-    protected $objectClass;
+    protected string $objectClass;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'text', length: 1000)]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 1000)]
-    protected $valuesChanged;
+    protected string $valuesChanged;
 
-    /**
-     * @var UserInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'auditLogs')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
-    protected $user;
+    protected UserInterface $user;
 
     public function __construct()
     {
         $this->createdAt = new DateTime();
     }
 
-    /**
-     * Set action
-     *
-     * @param string $action
-     */
-    public function setAction($action)
+    public function setAction(string $action)
     {
         $this->action = $action;
     }
 
-    /**
-     * Get action
-     */
     public function getAction(): string
     {
         return $this->action;
     }
 
-    /**
-     * Get createdAt
-     */
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
@@ -116,54 +81,34 @@ class AuditLog implements AuditLogInterface
     }
 
     /**
-     * Set objectId
-     *
-     * @param string $objectId
+     * object ID sometimes comes as an int,
+     * so we need to cast it back to a string for storage
      */
-    public function setObjectId($objectId)
+    public function setObjectId(mixed $objectId)
     {
         $this->objectId = (string) $objectId;
     }
 
-    /**
-     * Get objectId
-     */
     public function getObjectId(): string
     {
         return $this->objectId;
     }
 
-    /**
-     * Set objectClass
-     *
-     * @param string $objectClass
-     */
-    public function setObjectClass($objectClass)
+    public function setObjectClass(string $objectClass)
     {
         $this->objectClass = $objectClass;
     }
 
-    /**
-     * Get objectClass
-     */
     public function getObjectClass(): string
     {
         return $this->objectClass;
     }
 
-    /**
-     * Set valuesChanged
-     *
-     * @param string $valuesChanged
-     */
-    public function setValuesChanged($valuesChanged)
+    public function setValuesChanged(string $valuesChanged)
     {
         $this->valuesChanged = $valuesChanged;
     }
 
-    /**
-     * Get valuesChanged
-     */
     public function getValuesChanged(): string
     {
         return $this->valuesChanged;

@@ -19,7 +19,6 @@ use App\Repository\LearningMaterialRepository;
 use function array_unique;
 
 /**
- * Class LearningMaterial
  * Learning materials are not serialized like other entities.  They are decorated by the controller and
  * then sent as plain php objects in order to insert the absolute path to the file
  */
@@ -34,9 +33,6 @@ class LearningMaterial implements LearningMaterialInterface
     use TitledEntity;
     use DescribableEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -44,62 +40,43 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 120)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 120)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $description;
+    protected ?string $description;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'upload_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     #[Assert\NotBlank]
-    protected $uploadDate;
+    protected DateTime $uploadDate;
 
-    /**
-     * renamed Asset Creator
-     * @var string
-     */
     #[ORM\Column(name: 'asset_creator', type: 'string', length: 80, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 80)]
-    protected $originalAuthor;
+    protected ?string $originalAuthor;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 64)]
-    protected $token;
+    protected string $token;
 
-    /**
-     * @var LearningMaterialUserRoleInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterialUserRole', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
         name: 'learning_material_user_role_id',
@@ -109,11 +86,8 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $userRole;
+    protected LearningMaterialUserRoleInterface $userRole;
 
-    /**
-     * @var LearningMaterialStatusInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterialStatus', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
         name: 'learning_material_status_id',
@@ -123,117 +97,81 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $status;
+    protected LearningMaterialStatusInterface $status;
 
-    /**
-     * @var UserInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'owning_user_id', referencedColumnName: 'user_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $owningUser;
+    protected ?UserInterface $owningUser = null;
 
-    /**
-     * @var ArrayCollection|SessionLearningMaterialInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'SessionLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessionLearningMaterials;
+    protected Collection $sessionLearningMaterials;
 
-    /**
-     * @var ArrayCollection|CourseLearningMaterialInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'CourseLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courseLearningMaterials;
+    protected Collection $courseLearningMaterials;
 
-    /**
-     * renamed from citation
-     * @var string
-     */
     #[ORM\Column(name: 'citation', type: 'string', length: 512, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 512, groups: ['citation'])]
-    protected $citation;
+    protected ?string $citation = null;
 
-    /**
-     * @var string
-     * renamed from relative_file_system_location
-     */
     #[ORM\Column(name: 'relative_file_system_location', type: 'string', length: 128, nullable: true)]
     #[Assert\Type(type: 'string')]
     #[Assert\NotBlank(groups: ['file'])]
     #[Assert\Length(min: 1, max: 128, groups: ['file'])]
-    protected $relativePath;
+    protected ?string $relativePath = null;
 
-    /**
-     * renamed copyrightownership
-     * @var bool
-     */
     #[ORM\Column(name: 'copyright_ownership', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\Type(type: 'bool')]
-    protected $copyrightPermission;
+    protected ?bool $copyrightPermission = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'copyright_rationale', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $copyrightRationale;
+    protected ?string $copyrightRationale = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 255, groups: ['file'])]
-    protected $filename;
+    protected ?string $filename = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'mime_type', type: 'string', length: 96, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 96, groups: ['file'])]
-    protected $mimetype;
+    protected ?string $mimetype = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'filesize', type: 'integer', nullable: true, options: [
         'unsigned' => true,
     ])]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\Type(type: 'integer')]
-    protected $filesize;
+    protected ?int $filesize = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'web_link', type: 'string', length: 256, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 256, groups: ['link'])]
-    protected $link;
+    protected ?string $link = null;
 
     public function __construct()
     {
@@ -242,15 +180,12 @@ class LearningMaterial implements LearningMaterialInterface
         $this->courseLearningMaterials = new ArrayCollection();
     }
 
-    /**
-     * @param string $originalAuthor
-     */
-    public function setOriginalAuthor($originalAuthor)
+    public function setOriginalAuthor(?string $originalAuthor)
     {
         $this->originalAuthor = $originalAuthor;
     }
 
-    public function getOriginalAuthor(): string
+    public function getOriginalAuthor(): ?string
     {
         return $this->originalAuthor;
     }
@@ -307,10 +242,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->uploadDate;
     }
 
-    /**
-     * @param string $citation
-     */
-    public function setCitation($citation)
+    public function setCitation(?string $citation)
     {
         if (!is_null($citation)) {
             $this->mimetype = 'citation';
@@ -323,10 +255,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->citation;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setRelativePath($path)
+    public function setRelativePath(?string $path)
     {
         $this->relativePath = $path;
     }
@@ -336,9 +265,6 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->relativePath;
     }
 
-    /**
-     * @param bool $copyrightPermission
-     */
     public function setCopyrightPermission($copyrightPermission)
     {
         $this->copyrightPermission = $copyrightPermission;
@@ -349,10 +275,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->copyrightPermission;
     }
 
-    /**
-     * @param string $copyrightRationale
-     */
-    public function setCopyrightRationale($copyrightRationale)
+    public function setCopyrightRationale(?string $copyrightRationale)
     {
         $this->copyrightRationale = $copyrightRationale;
     }
@@ -362,10 +285,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->copyrightRationale;
     }
 
-    /**
-     * @param string $filename
-     */
-    public function setFilename($filename)
+    public function setFilename(?string $filename)
     {
         $this->filename = $filename;
     }
@@ -375,7 +295,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->filename;
     }
 
-    public function setFilesize($filesize)
+    public function setFilesize(?int $filesize)
     {
         $this->filesize = $filesize;
     }
@@ -385,10 +305,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->filesize;
     }
 
-    /**
-     * @param string $mimetype
-     */
-    public function setMimetype($mimetype)
+    public function setMimetype(?string $mimetype)
     {
         $this->mimetype = $mimetype;
     }
@@ -398,10 +315,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->mimetype;
     }
 
-    /**
-     * @param string $link
-     */
-    public function setLink($link)
+    public function setLink(?string $link)
     {
         if (!is_null($link)) {
             $this->mimetype = 'link';
@@ -490,9 +404,6 @@ class LearningMaterial implements LearningMaterialInterface
         return new ArrayCollection(array_unique($sessions));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getValidationGroups(): array
     {
         if ($this->getCitation() !== null && strlen(trim($this->getCitation())) > 0) {
@@ -504,9 +415,6 @@ class LearningMaterial implements LearningMaterialInterface
         return ['Default', 'file'];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIndexableCourses(): array
     {
         $directCourses = $this->courseLearningMaterials

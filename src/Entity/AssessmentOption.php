@@ -15,9 +15,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 
-/**
- * Class AssessmentOption
- */
 #[ORM\Table(name: 'assessment_option')]
 #[ORM\UniqueConstraint(name: 'name', columns: ['name'])]
 #[ORM\Entity(repositoryClass: AssessmentOptionRepository::class)]
@@ -29,9 +26,6 @@ class AssessmentOption implements AssessmentOptionInterface
     use StringableIdEntity;
     use SessionTypesEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Id]
     #[ORM\Column(name: 'assessment_option_id', type: 'integer', length: 10)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -39,27 +33,21 @@ class AssessmentOption implements AssessmentOptionInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 20)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 18)]
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var ArrayCollection|SessionTypeInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'assessmentOption', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessionTypes;
+    protected Collection $sessionTypes;
 
     public function __construct()
     {

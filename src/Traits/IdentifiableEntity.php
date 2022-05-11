@@ -4,22 +4,14 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * Class IdentifiableEntity
- */
 trait IdentifiableEntity
 {
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
 
-    public function getId(): mixed
+    public function getId(): int
     {
         return $this->id;
     }

@@ -18,9 +18,6 @@ use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\SessionTypeRepository;
 
-/**
- * SessionType
- */
 #[ORM\Table(name: 'session_type')]
 #[ORM\Index(columns: ['school_id'], name: 'school_id')]
 #[ORM\Index(columns: ['assessment_option_id'], name: 'assessment_option_fkey')]
@@ -35,9 +32,6 @@ class SessionType implements SessionTypeInterface
     use StringableIdEntity;
     use ActivatableEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,72 +39,51 @@ class SessionType implements SessionTypeInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 100)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'calendar_color', type: 'string', length: 7, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     // Validate that this is a valid hex color #000 or #faFAfa
     #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/', message: 'This not a valid HTML hex color code. Eg #aaa of #a1B2C3')]
-    protected $calendarColor;
+    protected string $calendarColor;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $active;
+    protected bool $active;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'assessment', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $assessment;
+    protected bool $assessment;
 
-    /**
-     * @var AssessmentOptionInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'AssessmentOption', inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'assessment_option_id', referencedColumnName: 'assessment_option_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $assessmentOption;
+    protected ?AssessmentOptionInterface $assessmentOption = null;
 
-    /**
-     * @var SchoolInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $school;
+    protected SchoolInterface $school;
 
-    /**
-     * @var ArrayCollection|AamcMethodInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'AamcMethod', inversedBy: 'sessionTypes')]
     #[ORM\JoinTable(name: 'session_type_x_aamc_method')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id')]
@@ -118,16 +91,13 @@ class SessionType implements SessionTypeInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $aamcMethods;
+    protected Collection $aamcMethods;
 
-    /**
-     * @var ArrayCollection|SessionInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'sessionType', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessions;
+    protected Collection $sessions;
 
     public function __construct()
     {
@@ -137,7 +107,7 @@ class SessionType implements SessionTypeInterface
         $this->active = true;
     }
 
-    public function setCalendarColor($color)
+    public function setCalendarColor(string $color)
     {
         $this->calendarColor = $color;
     }
@@ -147,19 +117,11 @@ class SessionType implements SessionTypeInterface
         return $this->calendarColor;
     }
 
-    /**
-     * Set assessment
-     *
-     * @param bool $assessment
-     */
-    public function setAssessment($assessment)
+    public function setAssessment(bool $assessment)
     {
         $this->assessment = $assessment;
     }
 
-    /**
-     * Get assessment
-     */
     public function isAssessment(): bool
     {
         return $this->assessment;

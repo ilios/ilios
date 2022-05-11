@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CreatedAtEntity;
+use App\Traits\IdentifiableStringEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -12,113 +13,83 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshConceptRepository;
 
-/**
- * Class MeshConcept
- */
 #[ORM\Table(name: 'mesh_concept')]
 #[ORM\Entity(repositoryClass: MeshConceptRepository::class)]
 #[IA\Entity]
 class MeshConcept implements MeshConceptInterface
 {
-    use IdentifiableEntity;
+    use IdentifiableStringEntity;
     use NameableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
     use CreatedAtEntity;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'mesh_concept_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    protected $id;
+    protected string $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 255)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 255)]
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'preferred', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $preferred;
+    protected bool $preferred;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'scope_note', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $scopeNote;
+    protected ?string $scopeNote;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'casn_1_name', type: 'string', length: 512, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 512)]
-    protected $casn1Name;
+    protected ?string $casn1Name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'registry_number', type: 'string', length: 30, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 30)]
-    protected $registryNumber;
+    protected ?string $registryNumber;
 
-    /**
-     * @var ArrayCollection|MeshTermInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshTerm', mappedBy: 'concepts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $terms;
-
+    protected Collection $terms;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
-    protected $createdAt;
-
+    protected DateTime $createdAt;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
-    protected $updatedAt;
+    protected DateTime $updatedAt;
 
-    /**
-     * @var ArrayCollection|MeshDescriptorInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'concepts')]
     #[ORM\JoinTable(name: 'mesh_descriptor_x_concept')]
     #[ORM\JoinColumn(name: 'mesh_concept_uid', referencedColumnName: 'mesh_concept_uid')]
@@ -126,7 +97,7 @@ class MeshConcept implements MeshConceptInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $descriptors;
+    protected Collection $descriptors;
 
     public function __construct()
     {
@@ -137,10 +108,7 @@ class MeshConcept implements MeshConceptInterface
         $this->descriptors = new ArrayCollection();
     }
 
-    /**
-     * @param bool $preferred
-     */
-    public function setPreferred($preferred)
+    public function setPreferred(bool $preferred)
     {
         $this->preferred = $preferred;
     }
@@ -150,10 +118,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->preferred;
     }
 
-    /**
-     * @param string $scopeNote
-     */
-    public function setScopeNote($scopeNote)
+    public function setScopeNote(?string $scopeNote)
     {
         $this->scopeNote = $scopeNote;
     }
@@ -163,10 +128,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->scopeNote;
     }
 
-    /**
-     * @param string $casn1Name
-     */
-    public function setCasn1Name($casn1Name)
+    public function setCasn1Name(?string $casn1Name)
     {
         $this->casn1Name = $casn1Name;
     }
@@ -176,10 +138,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->casn1Name;
     }
 
-    /**
-     * @param string $registryNumber
-     */
-    public function setRegistryNumber($registryNumber)
+    public function setRegistryNumber(?string $registryNumber)
     {
         $this->registryNumber = $registryNumber;
     }

@@ -18,9 +18,6 @@ use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
 
-/**
- * Class Competency
- */
 #[ORM\Table(name: 'competency')]
 #[ORM\Index(columns: ['parent_competency_id'], name: 'parent_competency_id_k')]
 #[ORM\Entity(repositoryClass: CompetencyRepository::class)]
@@ -35,9 +32,6 @@ class Competency implements CompetencyInterface
     use ActivatableEntity;
     use ProgramYearObjectivesEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'competency_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,49 +39,34 @@ class Competency implements CompetencyInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 200)]
-    protected $title;
+    protected ?string $title;
 
-    /**
-     * @var SchoolInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'competencies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $school;
+    protected SchoolInterface $school;
 
-    /**
-     * @var CompetencyInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_competency_id', referencedColumnName: 'competency_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $parent;
+    protected ?CompetencyInterface $parent = null;
 
-    /**
-     * @var Collection
-     */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $children;
+    protected Collection $children;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'AamcPcrs', inversedBy: 'competencies')]
     #[ORM\JoinTable(name: 'competency_x_aamc_pcrs')]
     #[ORM\JoinColumn(name: 'competency_id', referencedColumnName: 'competency_id')]
@@ -95,35 +74,26 @@ class Competency implements CompetencyInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $aamcPcrses;
+    protected Collection $aamcPcrses;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'competencies')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programYears;
+    protected Collection $programYears;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $active;
+    protected bool $active;
 
-    /**
-     * @var Collection
-     */
     #[ORM\OneToMany(mappedBy: 'competency', targetEntity: 'ProgramYearObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programYearObjectives;
+    protected Collection $programYearObjectives;
 
     public function __construct()
     {

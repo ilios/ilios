@@ -20,9 +20,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\OfferingRepository;
 
-/**
- * Class Offering
- */
 #[ORM\Table(name: 'offering')]
 #[ORM\Index(columns: ['session_id'], name: 'session_id_k')]
 #[ORM\Index(columns: ['offering_id', 'session_id', 'start_date', 'end_date'], name: 'offering_dates_session_k')]
@@ -39,9 +36,6 @@ class Offering implements OfferingInterface
     use InstructorsEntity;
     use InstructorGroupsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'offering_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -49,80 +43,56 @@ class Offering implements OfferingInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'room', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 255)]
-    protected $room;
+    protected ?string $room = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'site', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 255)]
-    protected $site;
+    protected ?string $site = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 2000)]
     #[Assert\Url]
-    protected $url;
+    protected ?string $url = null;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'start_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
     #[Assert\NotBlank]
-    protected $startDate;
+    protected DateTime $startDate;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'end_date', type: 'datetime')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
     #[Assert\NotBlank]
-    protected $endDate;
+    protected DateTime $endDate;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'last_updated_on', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     #[Assert\NotBlank]
-    protected $updatedAt;
+    protected DateTime $updatedAt;
 
-    /**
-     * @var SessionInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'offerings')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $session;
+    protected ?SessionInterface $session = null;
 
-    /**
-     * @var ArrayCollection|LearnerGroupInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_group')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
@@ -130,11 +100,8 @@ class Offering implements OfferingInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $learnerGroups;
+    protected Collection $learnerGroups;
 
-    /**
-     * @var ArrayCollection|InstructorGroupInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_instructor_group')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
@@ -142,11 +109,8 @@ class Offering implements OfferingInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructorGroups;
+    protected Collection $instructorGroups;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_learner')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
@@ -154,11 +118,8 @@ class Offering implements OfferingInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $learners;
+    protected Collection $learners;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedOfferings')]
     #[ORM\JoinTable(name: 'offering_x_instructor')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
@@ -166,7 +127,7 @@ class Offering implements OfferingInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructors;
+    protected Collection $instructors;
 
     public function __construct()
     {
@@ -176,19 +137,18 @@ class Offering implements OfferingInterface
         $this->learners = new ArrayCollection();
         $this->instructors = new ArrayCollection();
     }
+
     public function setRoom(?string $room)
     {
         $this->room = $room;
     }
+
     public function getRoom(): ?string
     {
         return $this->room;
     }
 
-    /**
-     * @param string $site
-     */
-    public function setSite($site)
+    public function setSite(?string $site)
     {
         $this->site = $site;
     }
@@ -197,10 +157,12 @@ class Offering implements OfferingInterface
     {
         return $this->site;
     }
+
     public function setUrl(?string $url)
     {
         $this->url = $url;
     }
+
     public function getUrl(): ?string
     {
         return $this->url;

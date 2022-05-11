@@ -6,16 +6,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Attribute as IA;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\MeshTreeRepository;
 
-/**
- * Class MeshTree
- */
 #[ORM\Table(name: 'mesh_tree')]
 #[ORM\Entity(repositoryClass: MeshTreeRepository::class)]
 #[IA\Entity]
@@ -24,9 +19,6 @@ class MeshTree implements MeshTreeInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'mesh_tree_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -34,50 +26,32 @@ class MeshTree implements MeshTreeInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'tree_number', type: 'string', length: 80)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 80)]
-    protected $treeNumber;
+    protected string $treeNumber;
 
-    /**
-     * @var MeshDescriptorInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'MeshDescriptor', inversedBy: 'trees')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $descriptor;
+    protected MeshDescriptorInterface $descriptor;
 
-    /**
-     * Set treeNumber
-     *
-     * @param string $treeNumber
-     */
-    public function setTreeNumber($treeNumber)
+    public function setTreeNumber(string $treeNumber)
     {
         $this->treeNumber = $treeNumber;
     }
 
-    /**
-     * Get treeNumber
-     */
     public function getTreeNumber(): string
     {
         return $this->treeNumber;
     }
 
-    /**
-     * Set meshDescriptor
-     *
-     */
     public function setDescriptor(MeshDescriptorInterface $descriptor): MeshTree
     {
         $this->descriptor = $descriptor;
@@ -85,9 +59,6 @@ class MeshTree implements MeshTreeInterface
         return $this;
     }
 
-    /**
-     * Get descriptor
-     */
     public function getDescriptor(): MeshDescriptorInterface
     {
         return $this->descriptor;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
 use App\Traits\DescribableEntityInterface;
@@ -14,9 +13,6 @@ use App\Traits\NameableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
 use App\Traits\StringableEntityToIdInterface;
 
-/**
- * Interface CurriculumInventoryReportInterface
- */
 interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
@@ -26,44 +22,27 @@ interface CurriculumInventoryReportInterface extends
     SequenceBlocksEntityInterface,
     AdministratorsEntityInterface
 {
-    /**
-     * @param int $year
-     */
-    public function setYear($year);
-
+    public function setYear(int $year);
     public function getYear(): int;
 
-    /**
-     * @param DateTime $startDate
-     */
-    public function setStartDate($startDate = null);
-
+    public function setStartDate(DateTime $startDate);
     public function getStartDate(): DateTime;
 
-    /**
-     * @param DateTime $endDate
-     */
-    public function setEndDate($endDate = null);
-
+    public function setEndDate(DateTime $endDate);
     public function getEndDate(): DateTime;
 
     public function setExport(CurriculumInventoryExportInterface $export = null);
-
     public function getExport(): ?CurriculumInventoryExportInterface;
 
     public function setSequence(CurriculumInventorySequenceInterface $sequence = null);
-
     public function getSequence(): CurriculumInventorySequenceInterface;
 
     public function setProgram(ProgramInterface $program = null);
-
     public function getProgram(): ?ProgramInterface;
+
     public function setAcademicLevels(Collection $academicLevels = null);
-
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
-
     public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
-
     public function getAcademicLevels(): Collection;
 
     /**

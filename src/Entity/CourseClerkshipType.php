@@ -15,9 +15,6 @@ use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
 use App\Repository\CourseClerkshipTypeRepository;
 
-/**
- * Class CourseClerkshipType
- */
 #[ORM\Table(name: 'course_clerkship_type')]
 #[ORM\Entity(repositoryClass: CourseClerkshipTypeRepository::class)]
 #[IA\Entity]
@@ -28,9 +25,6 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     use TitledEntity;
     use CoursesEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'course_clerkship_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -38,27 +32,21 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 20)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 20)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var ArrayCollection|CourseInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'clerkshipType', targetEntity: 'Course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courses;
+    protected Collection $courses;
 
     public function __construct()
     {

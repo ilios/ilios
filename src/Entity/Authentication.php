@@ -12,51 +12,39 @@ use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Class Authentication
- */
 #[ORM\Table(name: 'authentication')]
 #[ORM\Entity(repositoryClass: AuthenticationRepository::class)]
 #[IA\Entity]
 class Authentication implements AuthenticationInterface, Stringable
 {
-    /**
-     * @var UserInterface
-     */
     #[ORM\Id]
     #[ORM\OneToOne(inversedBy: 'authentication', targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[IA\Type('entity')]
     #[IA\Expose]
     #[Assert\NotBlank]
-    protected $user;
+    protected UserInterface $user;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'username', type: 'string', length: 100, unique: true, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 100)]
-    private $username;
+    private ?string $username = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'password_hash', type: 'string', nullable: true)]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 255)]
-    private $passwordHash;
+    private ?string $passwordHash = null;
 
     #[ORM\Column(name: 'invalidate_token_issued_before', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     #[Assert\Type(DateTimeInterface::class)]
-    protected $invalidateTokenIssuedBefore;
+    protected ?\DateTime $invalidateTokenIssuedBefore = null;
 
-    public function setUsername($username)
+    public function setUsername(string $username)
     {
         $this->username = $username;
     }
@@ -66,7 +54,7 @@ class Authentication implements AuthenticationInterface, Stringable
         return $this->username;
     }
 
-    public function setPasswordHash($passwordHash)
+    public function setPasswordHash(string $passwordHash)
     {
         $this->passwordHash = $passwordHash;
     }

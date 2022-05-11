@@ -12,9 +12,6 @@ use App\Traits\InstructorsEntityInterface;
 use App\Traits\LearnerGroupsEntityInterface;
 use App\Traits\LearnersEntityInterface;
 
-/**
- * Interface IlmSessionInterface
- */
 interface IlmSessionInterface extends
     IdentifiableEntityInterface,
     LoggableEntityInterface,
@@ -24,15 +21,10 @@ interface IlmSessionInterface extends
     InstructorsEntityInterface,
     LearnersEntityInterface
 {
-    /**
-     * @param float $hours
-     */
-    public function setHours($hours);
-
+    public function setHours(float $hours);
     public function getHours(): float;
 
     public function setDueDate(DateTime $dueDate = null);
-
     public function getDueDate(): DateTime;
 
     /**
@@ -41,7 +33,6 @@ interface IlmSessionInterface extends
     public function getAllInstructors(): Collection;
 
     public function setSession(SessionInterface $session);
-
     public function getSession(): ?SessionInterface;
 
     /**

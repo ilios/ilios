@@ -6,11 +6,7 @@ namespace App\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\AlertInterface;
 
-/**
- * Class AlertableEntity
- */
 trait AlertableEntity
 {
     public function setAlerts(Collection $alerts = null)
