@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Traits\IdentifiableEntityInterface;
+use App\Traits\IdentifiableStringEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
@@ -33,7 +34,7 @@ class Timestamper
         if (!array_key_exists($class, $this->entities[$ts])) {
             $this->entities[$ts][$class] = [];
         }
-        if (!$entity instanceof IdentifiableEntityInterface) {
+        if (!$entity instanceof IdentifiableEntityInterface && !$entity instanceof IdentifiableStringEntityInterface) {
             throw new Exception("Tried to timestamp a non identifiable entity {$class}");
         }
         // When and entity has already been deleted it will lose it's ID so we have to check for that here
