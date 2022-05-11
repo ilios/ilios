@@ -231,7 +231,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 
 
         $mockFile = m::mock(File::class)->shouldReceive('getMimeType')
-            ->once()->andThrow(ErrorException::class)->mock();
+            ->once()->andThrow(new ErrorException())->mock();
         $this->iliosFileSystem->shouldReceive('getFileContents')
             ->once()->with('/tmp/somewhere')->andReturn('some contents');
         $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);
