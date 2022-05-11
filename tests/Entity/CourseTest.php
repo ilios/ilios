@@ -422,7 +422,7 @@ class CourseTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Course::removeObjective
+     * @covers \App\Entity\Course::removeCourseObjective
      */
     public function testRemoveObjectiveWithSessionChildren()
     {

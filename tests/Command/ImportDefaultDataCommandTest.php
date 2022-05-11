@@ -33,7 +33,7 @@ use Mockery as m;
  * Class ImportDefaultDataCommandTest
  * @package App\Tests\Command
  * @group cli
- * @covers \App\Command\ImportDefaultDataCommand
+ * @coversDefaultClass \App\Command\ImportDefaultDataCommand
  */
 class ImportDefaultDataCommandTest extends KernelTestCase
 {
@@ -132,7 +132,7 @@ class ImportDefaultDataCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ::execute()
+     * @covers ::execute
      */
     public function testExecute(): void
     {
@@ -215,7 +215,7 @@ class ImportDefaultDataCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers ::execute()
+     * @covers ::execute
      */
     public function testExecuteFailsIfDatabaseIsNotEmpty(): void
     {
