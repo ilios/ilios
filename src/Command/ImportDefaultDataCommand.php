@@ -74,6 +74,7 @@ class ImportDefaultDataCommand extends Command
         $school = $this->schoolRepository->findDTOBy([]);
         if ($school) {
             $io->error('Your database already contains data. Aborting import process.');
+            $this->release();
             return Command::FAILURE;
         }
 
@@ -190,6 +191,7 @@ class ImportDefaultDataCommand extends Command
                 'An error occurred during data import:',
                 $e->getMessage()
             ]);
+            $this->release();
             return Command::FAILURE;
         }
         $io->text('Completed data import.');
