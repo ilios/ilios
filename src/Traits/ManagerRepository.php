@@ -81,6 +81,11 @@ trait ManagerRepository
         return $meta->getSingleIdentifierFieldName();
     }
 
+    public function isEntityPersisted(object $entity): bool
+    {
+        return $this->getEntityManager()->contains($entity);
+    }
+
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
