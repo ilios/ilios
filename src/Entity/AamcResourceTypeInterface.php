@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Traits\CategorizableEntityInterface;
 use App\Traits\DescribableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
 
 /**
@@ -15,7 +15,7 @@ use App\Traits\TitledEntityInterface;
  */
 interface AamcResourceTypeInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     TitledEntityInterface,
     CategorizableEntityInterface
 {

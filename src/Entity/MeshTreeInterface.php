@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 
 /**
  * Class MeshTreeInterface
  */
 interface MeshTreeInterface extends
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     IdentifiableEntityInterface
 {
     /**

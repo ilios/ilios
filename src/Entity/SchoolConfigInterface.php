@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\NameableEntityInterface;
 use App\Traits\SchoolEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 
 /**
  * Interface SchoolConfigInterface
@@ -16,7 +16,7 @@ interface SchoolConfigInterface extends
     SchoolEntityInterface,
     NameableEntityInterface,
     IdentifiableEntityInterface,
-    StringableEntityInterface
+    StringableEntityToIdInterface
 {
     public function getValue(): string;
 

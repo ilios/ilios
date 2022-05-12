@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AlertableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
 
 /**
@@ -17,7 +17,7 @@ use App\Traits\TitledEntityInterface;
 interface AlertChangeTypeInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     LoggableEntityInterface,
     AlertableEntityInterface
 {

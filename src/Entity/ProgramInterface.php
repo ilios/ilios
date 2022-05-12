@@ -11,7 +11,7 @@ use App\Traits\IdentifiableEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\TitledEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Traits\ProgramYearsEntityInterface;
 
 /**
@@ -20,7 +20,7 @@ use App\Traits\ProgramYearsEntityInterface;
 interface ProgramInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,

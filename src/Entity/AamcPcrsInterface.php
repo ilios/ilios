@@ -10,7 +10,7 @@ use App\Traits\CompetenciesEntityInterface;
 use App\Traits\DescribableEntityInterface;
 use App\Traits\NameableEntityInterface;
 use App\Entity\CompetencyInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Traits\IdentifiableEntityInterface;
 
 /**
@@ -18,7 +18,7 @@ use App\Traits\IdentifiableEntityInterface;
  */
 interface AamcPcrsInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     LoggableEntityInterface,
     CompetenciesEntityInterface
 {
