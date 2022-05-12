@@ -466,6 +466,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock3->setCourse($course3);
 
         $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setId(4);
         $sequenceBlock4->setTitle('Non-clerkship');
         $course4 = new Course();
         $sequenceBlock4->setCourse($course4);
@@ -615,12 +616,14 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock3->setCourse($course3);
 
         $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setId(4);
         $sequenceBlock4->setDuration(5);
         $sequenceBlock4->setTitle('Non-Clerkship');
         $course4 = new Course();
         $sequenceBlock4->setCourse($course4);
 
         $sequenceBlock5 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock5->setId(5);
         $sequenceBlock5->setDuration(0);
         $sequenceBlock5->setTitle('No Duration');
         $sequenceBlock5->setStartingAcademicLevel($level2);
@@ -630,6 +633,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock5->setCourse($course5);
 
         $sequenceBlock6 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock6->setId(6);
         $sequenceBlock6->setDuration(10);
         $sequenceBlock6->setTitle('No Course');
         $sequenceBlock6->setStartingAcademicLevel($level2);
@@ -782,6 +786,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock3->setCourse($course3);
 
         $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setId(4);
         $sequenceBlock4->setTitle('Clerkship');
         $course4 = new Course();
         $course4->setClerkshipType(new CourseClerkshipType());
@@ -934,6 +939,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock3->setCourse($course3);
 
         $sequenceBlock4 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock4->setId(4);
         $sequenceBlock4->setDuration(5);
         $sequenceBlock4->setTitle('Clerkship');
         $course4 = new Course();
@@ -941,6 +947,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock4->setCourse($course4);
 
         $sequenceBlock5 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock5->setId(5);
         $sequenceBlock5->setDuration(0);
         $sequenceBlock5->setTitle('No Duration');
         $sequenceBlock5->setStartingAcademicLevel($level2);
@@ -949,6 +956,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $sequenceBlock5->setCourse($course5);
 
         $sequenceBlock6 = new CurriculumInventorySequenceBlock();
+        $sequenceBlock6->setId(6);
         $sequenceBlock6->setDuration(10);
         $sequenceBlock6->setTitle('No Course');
         $sequenceBlock6->setStartingAcademicLevel($level2);
