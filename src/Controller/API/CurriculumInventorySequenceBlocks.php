@@ -257,7 +257,7 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
             /* @var CurriculumInventorySequenceBlockInterface $current */
             $current = $blocks[$i];
             $j = $i + 1;
-            if ($current->getId() !== $block && $current->getOrderInSequence() !== $j) {
+            if ($current->getOrderInSequence() !== $j) {
                 $current->setOrderInSequence($j);
                 $this->repository->update($current, false, false);
             }
