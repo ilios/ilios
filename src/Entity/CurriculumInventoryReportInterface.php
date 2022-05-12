@@ -12,7 +12,7 @@ use App\Traits\DescribableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\NameableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 
 /**
  * Interface CurriculumInventoryReportInterface
@@ -21,7 +21,7 @@ interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
     DescribableEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     LoggableEntityInterface,
     SequenceBlocksEntityInterface,
     AdministratorsEntityInterface

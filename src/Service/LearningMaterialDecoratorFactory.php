@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\DTO\LearningMaterialDTO;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Entity\LearningMaterialInterface;
 use InvalidArgumentException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -55,12 +55,12 @@ class LearningMaterialDecoratorFactory
         $dto->userRole = $learningMaterial->getUserRole()->getId();
         $dto->owningUser = $learningMaterial->getOwningUser()->getId();
         $dto->status = $learningMaterial->getStatus()->getId();
-        $dto->courseLearningMaterials = $learningMaterial->getCourseLearningMaterials()
-            ->map(fn(StringableEntityInterface $courseLearningMaterial) => (string) $courseLearningMaterial)->toArray();
-        $dto->sessionLearningMaterials = $learningMaterial->getSessionLearningMaterials()
-            ->map(
-                fn(StringableEntityInterface $sessionLearningMaterial) => (string) $sessionLearningMaterial
-            )->toArray();
+        $dto->courseLearningMaterials = $learningMaterial->getCourseLearningMaterials()->map(
+            fn(StringableEntityToIdInterface $courseLearningMaterial) => (string) $courseLearningMaterial
+        )->toArray();
+        $dto->sessionLearningMaterials = $learningMaterial->getSessionLearningMaterials()->map(
+            fn(StringableEntityToIdInterface $sessionLearningMaterial) => (string) $sessionLearningMaterial
+        )->toArray();
 
         return $dto;
     }

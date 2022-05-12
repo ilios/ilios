@@ -11,7 +11,7 @@ use App\Traits\ActivatableEntityInterface;
 use App\Traits\CategorizableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SchoolEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
 
 /**
@@ -20,7 +20,7 @@ use App\Traits\TitledEntityInterface;
 interface VocabularyInterface extends
     IdentifiableEntityInterface,
     SchoolEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     TitledEntityInterface,
     CategorizableEntityInterface,
     ActivatableEntityInterface,

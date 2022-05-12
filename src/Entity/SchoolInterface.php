@@ -15,7 +15,7 @@ use App\Traits\IdentifiableEntityInterface;
 use App\Traits\InstructorGroupsEntityInterface;
 use App\Traits\SessionTypesEntityInterface;
 use App\Traits\TitledEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Traits\CoursesEntityInterface;
 use App\Traits\ProgramsEntityInterface;
 
@@ -25,7 +25,7 @@ use App\Traits\ProgramsEntityInterface;
 interface SchoolInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     CoursesEntityInterface,
     IndexableCoursesEntityInterface,
     ProgramsEntityInterface,

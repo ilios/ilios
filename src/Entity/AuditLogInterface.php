@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use DateTime;
 
 /**
@@ -14,7 +14,7 @@ use DateTime;
  */
 interface AuditLogInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface
+    StringableEntityToIdInterface
 {
     /**
      * Set action

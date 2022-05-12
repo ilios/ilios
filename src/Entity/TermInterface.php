@@ -16,7 +16,7 @@ use App\Traits\DescribableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
 use App\Traits\SessionsEntityInterface;
-use App\Traits\StringableEntityInterface;
+use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
 
 /**
@@ -25,7 +25,7 @@ use App\Traits\TitledEntityInterface;
 interface TermInterface extends
     DescribableEntityInterface,
     IdentifiableEntityInterface,
-    StringableEntityInterface,
+    StringableEntityToIdInterface,
     TitledEntityInterface,
     LoggableEntityInterface,
     ProgramYearsEntityInterface,
