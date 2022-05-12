@@ -46,7 +46,10 @@ class TemporaryFileSystemTest extends TestCase
         $fs->mkdir($this->uploadDirectory);
 
         $this->mockFileSystem = m::mock(SymfonyFileSystem::class);
-        $this->mockFileSystem->shouldReceive('exists')->with($this->uploadDirectory)->andReturn(true);
+        $this->mockFileSystem->shouldReceive('exists')
+            ->with($this->fakeTestFileDir .  '/var/tmp')->andReturn(true);
+        $this->mockFileSystem->shouldReceive('exists')
+            ->with($this->uploadDirectory)->andReturn(true);
 
         $this->tempFileSystem = new TemporaryFileSystem($this->mockFileSystem, $this->fakeTestFileDir);
     }
