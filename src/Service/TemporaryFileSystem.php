@@ -17,7 +17,11 @@ class TemporaryFileSystem
 
     public function __construct(protected SymfonyFileSystem $fileSystem, string $kernelProjectDir)
     {
-        $tmpPath = realpath($kernelProjectDir . '/var/tmp');
+        $varPath = realpath($kernelProjectDir . '/var');
+        $tmpPath = $varPath . '/tmp';
+        if (!$fileSystem->exists($tmpPath)) {
+            $fileSystem->mkdir($tmpPath);
+        }
         $this->temporaryFileStorePath = $tmpPath . '/uploads';
         if (!$fileSystem->exists($this->temporaryFileStorePath)) {
             $fileSystem->mkdir($this->temporaryFileStorePath);

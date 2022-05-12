@@ -2,7 +2,7 @@
 # started with https://github.com/docker-library/php/blob/d97098c8c6af46ae1211e65ff052278ab39ba45c/7.2/stretch/apache/docker-php-entrypoint
 set -e
 
-mkdir -p var/cache var/log
+mkdir -p var/cache var/log var/tmp
 if [ "$ILIOS_DATABASE_URL" ]; then
 	echo "Waiting for db to be ready..."
 	bin/console ilios:wait-for-database
