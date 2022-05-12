@@ -76,7 +76,13 @@ interface RepositoryInterface
 
     /**
      * Get the ID field for this type of entity
-     * Usualy it is "id", but sometimes it isn't
+     * Usually it is "id", but sometimes it isn't
      */
     public function getIdField(): string;
+
+    /**
+     * Check if an entity has been persisted to the DB
+     * Useful when we don't know if something may have an ID or not
+     */
+    public function isEntityPersisted(object $entity): bool;
 }

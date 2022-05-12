@@ -234,10 +234,13 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
 
         $blocks = $parent->getChildrenAsSortedList();
 
-        $blocks = array_filter(
-            $blocks,
-            fn(CurriculumInventorySequenceBlockInterface $sibling) => $sibling->getId() !== $block->getId()
-        );
+        if ($this->repository->isEntityPersisted($block)) {
+            $blocks = array_filter(
+                $blocks,
+                fn(CurriculumInventorySequenceBlockInterface $sibling) => $sibling->getId() !== $block->getId()
+            );
+        }
+
         $blocks = array_values($blocks);
 
         $minRange = 1;
