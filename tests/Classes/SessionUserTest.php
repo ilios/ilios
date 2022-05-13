@@ -1451,6 +1451,17 @@ class SessionUserTest extends TestCase
         $this->assertFalse($sessionUser->isThePrimarySchool($otherSchool));
     }
 
+    public function rolesInSessionProvider(): array
+    {
+        $sessionId = 2;
+        return [
+            [$sessionId, [], [], []],
+            [$sessionId, [$sessionId], [], [UserRoles::SESSION_ADMINISTRATOR]],
+            [$sessionId, [], [$sessionId], [UserRoles::SESSION_INSTRUCTOR]],
+            [$sessionId, [$sessionId], [$sessionId], [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]],
+        ];
+    }
+
     protected function createMockUser(
         int $userId,
         SchoolInterface $school,
@@ -1465,16 +1476,5 @@ class SessionUserTest extends TestCase
         $iliosUser->shouldReceive('isEnabled')->andReturn($enabled);
         $iliosUser->shouldReceive('getAuthentication')->andReturn($authentication);
         return $iliosUser;
-    }
-
-    protected function rolesInSessionProvider(): array
-    {
-        $sessionId = 2;
-        return [
-            [$sessionId, [], [], []],
-            [$sessionId, [$sessionId], [], [UserRoles::SESSION_ADMINISTRATOR]],
-            [$sessionId, [], [$sessionId], [UserRoles::SESSION_INSTRUCTOR]],
-            [$sessionId, [$sessionId], [$sessionId], [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]],
-        ];
     }
 }
