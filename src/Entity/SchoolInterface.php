@@ -36,7 +36,7 @@ interface SchoolInterface extends
     public function setTemplatePrefix(?string $templatePrefix);
     public function getTemplatePrefix(): ?string;
 
-    public function setIliosAdministratorEmail(?string $iliosAdministratorEmail);
+    public function setIliosAdministratorEmail(string $iliosAdministratorEmail);
     public function getIliosAdministratorEmail(): string;
 
     public function setChangeAlertRecipients(?string $changeAlertRecipients);

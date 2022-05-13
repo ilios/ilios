@@ -177,7 +177,7 @@ class School implements SchoolInterface
         return $this->templatePrefix;
     }
 
-    public function setIliosAdministratorEmail(?string $iliosAdministratorEmail)
+    public function setIliosAdministratorEmail(string $iliosAdministratorEmail)
     {
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
     }
