@@ -50,7 +50,7 @@ class Alert implements AlertInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected string $additionalText;
+    protected ?string $additionalText;
 
     #[ORM\Column(name: 'dispatched', type: 'boolean')]
     #[IA\Expose]
@@ -114,12 +114,12 @@ class Alert implements AlertInterface
         return $this->tableName;
     }
 
-    public function setAdditionalText(string $additionalText)
+    public function setAdditionalText(?string $additionalText)
     {
         $this->additionalText = $additionalText;
     }
 
-    public function getAdditionalText(): string
+    public function getAdditionalText(): ?string
     {
         return $this->additionalText;
     }

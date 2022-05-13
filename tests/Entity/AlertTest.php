@@ -40,6 +40,8 @@ class AlertTest extends EntityBase
         $this->validate(0);
         $this->object->setAdditionalText('test');
         $this->validate(0);
+        $this->object->setAdditionalText(null);
+        $this->validate(0);
     }
 
     /**

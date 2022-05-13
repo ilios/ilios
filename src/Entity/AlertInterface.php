@@ -17,8 +17,8 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     public function setTableName(string $tableName);
     public function getTableName(): string;
 
-    public function setAdditionalText(string $additionalText);
-    public function getAdditionalText(): string;
+    public function setAdditionalText(?string $additionalText);
+    public function getAdditionalText(): ?string;
 
     public function setDispatched(bool $dispatched);
     public function isDispatched(): bool;
