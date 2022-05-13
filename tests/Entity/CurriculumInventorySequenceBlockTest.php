@@ -34,10 +34,6 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     {
         $notBlank = [
             'title',
-            'childSequenceOrder',
-            'orderInSequence',
-            'minimum',
-            'maximum',
         ];
         $this->object->setReport(m::mock(CurriculumInventoryReportInterface::class));
         $this->validateNotBlanks($notBlank);

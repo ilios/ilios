@@ -69,7 +69,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'id' => 6,
             'title' => 'sixth sequence block',
             'report' => 1,
-            'childSequenceOrder' => 1,
+            'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::ORDERED,
             'orderInSequence' => 1,
             'startingAcademicLevel' => 2,
             'endingAcademicLevel' => 3,

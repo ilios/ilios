@@ -65,32 +65,29 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
     #[Assert\Range(min: 1, max: 3)]
-    protected ?int $childSequenceOrder = null;
+    protected int $childSequenceOrder;
 
     #[ORM\Column(name: 'order_in_sequence', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected ?int $orderInSequence = null;
+    protected int $orderInSequence;
 
     #[ORM\Column(name: 'minimum', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected ?int $minimum = null;
+    protected int $minimum;
 
     #[ORM\Column(name: 'maximum', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected ?int $maximum = null;
+    protected int $maximum;
 
-    /**
-     * this field is currently tinyint data type in the db but used like a boolean
-     */
     #[ORM\Column(name: 'track', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
@@ -191,6 +188,10 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->sessions = new ArrayCollection();
         $this->excludedSessions = new ArrayCollection();
         $this->required = self::OPTIONAL;
+        $this->childSequenceOrder = self::ORDERED;
+        $this->orderInSequence = 0;
+        $this->maximum = 0;
+        $this->minimum = 0;
         $this->track = false;
         $this->duration = 0;
     }
@@ -205,42 +206,42 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->required;
     }
 
-    public function setChildSequenceOrder(?int $childSequenceOrder)
+    public function setChildSequenceOrder(int $childSequenceOrder)
     {
         $this->childSequenceOrder = $childSequenceOrder;
     }
 
-    public function getChildSequenceOrder(): ?int
+    public function getChildSequenceOrder(): int
     {
         return $this->childSequenceOrder;
     }
 
-    public function setOrderInSequence(?int $orderInSequence)
+    public function setOrderInSequence(int $orderInSequence)
     {
         $this->orderInSequence = $orderInSequence;
     }
 
-    public function getOrderInSequence(): ?int
+    public function getOrderInSequence(): int
     {
         return $this->orderInSequence;
     }
 
-    public function setMinimum(?int $minimum)
+    public function setMinimum(int $minimum)
     {
         $this->minimum = $minimum;
     }
 
-    public function getMinimum(): ?int
+    public function getMinimum(): int
     {
         return $this->minimum;
     }
 
-    public function setMaximum(?int $maximum)
+    public function setMaximum(int $maximum)
     {
         $this->maximum = $maximum;
     }
 
-    public function getMaximum(): ?int
+    public function getMaximum(): int
     {
         return $this->maximum;
     }
