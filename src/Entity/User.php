@@ -103,7 +103,7 @@ class User implements UserInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Length(max: 50)]
-    protected ?string $pronouns;
+    protected ?string $pronouns = null;
 
     #[ORM\Column(name: 'added_via_ilios', type: 'boolean')]
     #[IA\Expose]

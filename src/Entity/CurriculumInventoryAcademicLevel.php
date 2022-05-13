@@ -49,7 +49,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     #[ORM\Column(name: 'level', type: 'integer')]
     #[IA\Expose]

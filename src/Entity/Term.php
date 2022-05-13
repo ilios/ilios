@@ -60,7 +60,7 @@ class Term implements TermInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: 'Term', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_term_id', referencedColumnName: 'term_id')]

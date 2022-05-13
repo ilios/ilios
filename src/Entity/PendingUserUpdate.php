@@ -42,7 +42,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 32)]
-    protected ?string $property;
+    protected ?string $property = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
@@ -50,7 +50,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 255)]
-    protected ?string $value;
+    protected ?string $value = null;
 
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'pendingUserUpdates')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]

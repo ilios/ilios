@@ -53,7 +53,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     #[ORM\Column(name: 'year', type: 'smallint')]
     #[IA\Expose]

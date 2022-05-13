@@ -48,7 +48,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $notes;
+    protected ?string $notes = null;
 
     #[ORM\Column(name: 'required', type: 'boolean')]
     #[IA\Expose]

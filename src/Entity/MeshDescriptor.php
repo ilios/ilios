@@ -62,7 +62,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $annotation;
+    protected ?string $annotation = null;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]

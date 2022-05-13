@@ -56,7 +56,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     #[ORM\Column(name: 'upload_date', type: 'datetime')]
     #[IA\Expose]
@@ -70,7 +70,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 80)]
-    protected ?string $originalAuthor;
+    protected ?string $originalAuthor = null;
 
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     #[Assert\Type(type: 'string')]

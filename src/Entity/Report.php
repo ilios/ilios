@@ -36,7 +36,7 @@ class Report implements ReportInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 240)]
-    protected ?string $title;
+    protected ?string $title = null;
 
     #[ORM\Column(name: 'creation_date', type: 'datetime')]
     #[IA\Expose]

@@ -46,7 +46,7 @@ class Competency implements CompetencyInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 200)]
-    protected ?string $title;
+    protected ?string $title = null;
 
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'competencies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]

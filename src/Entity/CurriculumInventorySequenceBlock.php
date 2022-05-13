@@ -50,7 +50,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     #[ORM\Column(name: 'required', type: 'integer')]
     #[IA\Expose]

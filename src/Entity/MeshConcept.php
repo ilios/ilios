@@ -56,7 +56,7 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $scopeNote;
+    protected ?string $scopeNote = null;
 
     #[ORM\Column(name: 'casn_1_name', type: 'string', length: 512, nullable: true)]
     #[IA\Expose]
@@ -70,7 +70,7 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 30)]
-    protected ?string $registryNumber;
+    protected ?string $registryNumber = null;
 
     #[ORM\ManyToMany(targetEntity: 'MeshTerm', mappedBy: 'concepts')]
     #[ORM\OrderBy(['id' => 'ASC'])]

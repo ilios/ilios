@@ -51,7 +51,7 @@ class Program implements ProgramInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 10)]
-    protected ?string $shortTitle;
+    protected ?string $shortTitle = null;
 
     #[ORM\Column(name: 'duration', type: 'smallint')]
     #[IA\Expose]

@@ -66,7 +66,7 @@ class Course implements CourseInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 200)]
-    protected ?string $title;
+    protected ?string $title = null;
 
     #[ORM\Column(type: 'smallint', name: 'course_level')]
     #[IA\Expose]

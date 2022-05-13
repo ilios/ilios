@@ -61,7 +61,7 @@ class MeshTerm implements MeshTermInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 12)]
-    protected ?string $lexicalTag;
+    protected ?string $lexicalTag = null;
 
     #[ORM\Column(name: 'concept_preferred', type: 'boolean', nullable: true)]
     #[IA\Expose]

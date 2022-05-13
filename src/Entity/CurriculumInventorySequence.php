@@ -48,7 +48,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     public function setReport(CurriculumInventoryReportInterface $report)
     {

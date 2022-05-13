@@ -61,7 +61,7 @@ class Session implements SessionInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 200)]
-    protected ?string $title;
+    protected ?string $title = null;
 
     #[ORM\Column(name: 'attire_required', type: 'boolean', nullable: true)]
     #[IA\Expose]
@@ -122,7 +122,7 @@ class Session implements SessionInterface
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $description;
+    protected ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: 'SessionType', inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id', nullable: false)]
