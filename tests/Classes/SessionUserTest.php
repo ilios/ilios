@@ -13,8 +13,7 @@ use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Tests\TestCase;
 use Mockery as m;
-
-use function Sentry\withScope;
+use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**
  * Class SessionUserTest
@@ -650,20 +649,24 @@ class SessionUserTest extends TestCase
 
     /**
      * @covers ::rolesInSession
+     * @dataProvider rolesInSessionProvider
      */
-    public function testRolesInSession()
-    {
+    public function testRolesInSession(
+        int $sessionId,
+        array $administeredSessions,
+        array $instructedSessions,
+        array $expectedRoles
+    ): void {
         $sessionId = 2;
-        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR];
         $this->userRepository
             ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
             ->with($this->userId)
-            ->andReturn(['sessionIds' => [$sessionId]]);
+            ->andReturn(['sessionIds' => $administeredSessions]);
         $this->userRepository
             ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
             ->with($this->userId)
-            ->andReturn(['sessionIds' => [$sessionId]]);
-        $this->assertEquals($roles, $this->sessionUser->rolesInSession($sessionId));
+            ->andReturn(['sessionIds' => $instructedSessions]);
+        $this->assertEquals($expectedRoles, $this->sessionUser->rolesInSession($sessionId));
     }
 
     /**
@@ -710,6 +713,32 @@ class SessionUserTest extends TestCase
             ->with($this->userId)
             ->andReturn(['reportIds' => [$reportId]]);
         $this->assertEquals($roles, $this->sessionUser->rolesInCurriculumInventoryReport($reportId));
+    }
+
+    /**
+     * @covers ::rolesInCurriculumInventoryReport
+     */
+    public function testRolesInCurriculumInventoryReportNoMatchingReport()
+    {
+        $reportId = 2;
+        $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR];
+        $this->userRepository
+            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
+            ->with($this->userId)
+            ->andReturn(['reportIds' => []]);
+        $this->assertEmpty($this->sessionUser->rolesInCurriculumInventoryReport($reportId));
+    }
+
+    /**
+     * @covers ::rolesInCurriculumInventoryReport
+     */
+    public function testRolesInCurriculumInventoryReportNoMatchingRoles()
+    {
+        $reportId = 2;
+        $this->assertEmpty($this->sessionUser->rolesInCurriculumInventoryReport($reportId, []));
+        $this->assertEmpty(
+            $this->sessionUser->rolesInCurriculumInventoryReport($reportId, [UserRoles::COURSE_DIRECTOR])
+        );
     }
 
     /**
@@ -1380,6 +1409,48 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredCurriculumInventoryReportSchoolIds());
     }
 
+    /**
+     * @covers ::isEqualTo
+     */
+    public function testIsEqualTo(): void
+    {
+        $user1 = new SessionUser($this->createMockUser(1, $this->school), $this->userRepository);
+        $anotherUser1 = new SessionUser($this->createMockUser(1, $this->school), $this->userRepository);
+        $user2 = new SessionUser($this->createMockUser(2, $this->school), $this->userRepository);
+        $notAnIliosSessionUser = m::mock(SymfonyUserInterface::class);
+        $this->assertTrue($user1->isEqualTo($user1));
+        $this->assertTrue($user1->isEqualTo($anotherUser1));
+        $this->assertFalse($user1->isEqualTo($user2));
+        $this->assertFalse($user1->isEqualTo($notAnIliosSessionUser));
+    }
+
+    /**
+     * @covers ::isTheUser
+     */
+    public function testIsTheUser(): void
+    {
+        $iliosUser1 = $this->createMockUser(1, $this->school);
+        $anotherIliosUser1 = $this->createMockUser(1, $this->school);
+        $iliosUser2 = $this->createMockUser(2, $this->school);
+        $sessionUser = new SessionUser($iliosUser1, $this->userRepository);
+
+        $this->assertTrue($sessionUser->isTheUser($iliosUser1));
+        $this->assertTrue($sessionUser->isTheUser($anotherIliosUser1));
+        $this->assertFalse($sessionUser->isTheUser($iliosUser2));
+    }
+
+    /**
+     * @covers ::isThePrimarySchool
+     */
+    public function testIsThePrimarySchool(): void
+    {
+        $otherSchool = new School();
+        $otherSchool->setId(2);
+        $sessionUser = new SessionUser($this->createMockUser(1, $this->school), $this->userRepository);
+        $this->assertTrue($sessionUser->isThePrimarySchool($this->school));
+        $this->assertFalse($sessionUser->isThePrimarySchool($otherSchool));
+    }
+
     protected function createMockUser(
         int $userId,
         SchoolInterface $school,
@@ -1394,5 +1465,16 @@ class SessionUserTest extends TestCase
         $iliosUser->shouldReceive('isEnabled')->andReturn($enabled);
         $iliosUser->shouldReceive('getAuthentication')->andReturn($authentication);
         return $iliosUser;
+    }
+
+    protected function rolesInSessionProvider(): array
+    {
+        $sessionId = 2;
+        return [
+            [$sessionId, [], [], []],
+            [$sessionId, [$sessionId], [], [UserRoles::SESSION_ADMINISTRATOR]],
+            [$sessionId, [], [$sessionId], [UserRoles::SESSION_INSTRUCTOR]],
+            [$sessionId, [$sessionId], [$sessionId], [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]],
+        ];
     }
 }
