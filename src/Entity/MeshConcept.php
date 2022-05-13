@@ -63,7 +63,7 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 512)]
-    protected ?string $casn1Name;
+    protected ?string $casn1Name = null;
 
     #[ORM\Column(name: 'registry_number', type: 'string', length: 30, nullable: true)]
     #[IA\Expose]
