@@ -26,7 +26,6 @@ use App\Repository\CurriculumInventoryReportRepository;
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
     use IdentifiableEntity;
-    use NameableEntity;
     use DescribableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
@@ -46,7 +45,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 200)]
-    protected string $name;
+    protected ?string $name;
 
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
@@ -121,6 +120,15 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->academicLevels = new ArrayCollection();
         $this->sequenceBlocks = new ArrayCollection();
         $this->administrators = new ArrayCollection();
+    }
+
+    public function setName(?string $name)
+    {
+        $this->name = $name;
+    }
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 
     public function setYear(int $year)

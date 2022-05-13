@@ -15,13 +15,15 @@ use App\Traits\StringableEntityToIdInterface;
 
 interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,
-    NameableEntityInterface,
     DescribableEntityInterface,
     StringableEntityToIdInterface,
     LoggableEntityInterface,
     SequenceBlocksEntityInterface,
     AdministratorsEntityInterface
 {
+    public function setName(?string $name);
+    public function getName(): ?string;
+
     public function setYear(int $year);
     public function getYear(): int;
 

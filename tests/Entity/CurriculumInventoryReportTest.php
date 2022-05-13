@@ -47,6 +47,9 @@ class CurriculumInventoryReportTest extends EntityBase
         $this->object->setName('test');
         $this->object->setDescription('test');
         $this->validate(0);
+        $this->object->setName(null);
+        $this->object->setDescription(null);
+        $this->validate(0);
     }
 
     /**
