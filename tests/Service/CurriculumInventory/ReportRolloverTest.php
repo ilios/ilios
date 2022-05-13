@@ -49,8 +49,11 @@ class ReportRolloverTest extends TestCase
             $this->sequenceRepository,
             $this->sequenceBlockRepository
         );
-
-        $this->reportRepository->shouldReceive('create')->andReturnUsing(fn() => new CurriculumInventoryReport());
+        $this->reportRepository->shouldReceive('create')->andReturnUsing(function () {
+            $report = new CurriculumInventoryReport();
+            $report->setId(22);
+            return $report;
+        });
         $this->reportRepository->shouldReceive('update');
         $this->sequenceRepository->shouldReceive('create')->andReturnUsing(fn() => new CurriculumInventorySequence());
         $this->sequenceRepository->shouldReceive('update');
@@ -77,6 +80,7 @@ class ReportRolloverTest extends TestCase
     public function reportProvider()
     {
         $report = new CurriculumInventoryReport();
+        $report->setId(1);
         $report->setStartDate(new DateTime('2019-08-07'));
         $report->setEndDate(new DateTime('2020-06-19'));
         $report->setYear(2019);

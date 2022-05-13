@@ -667,9 +667,13 @@ class CourseRolloverTest extends TestCase
         $course->addCourseObjective($courseXObjective);
 
         $session = new Session();
+        $session->setId(2);
         $session->setSessionType(new SessionType());
         $sessionXObjective = new SessionObjective();
-        $sessionXObjective->addCourseObjective(new CourseObjective());
+        $sessionXObjective->setId(1);
+        $sessionCourseObjective = new CourseObjective();
+        $sessionCourseObjective->setId(2);
+        $sessionXObjective->addCourseObjective($sessionCourseObjective);
         $sessionXObjective->addCourseObjective($courseXObjective);
         $sessionXObjective->setTitle('test session');
         $session->addSessionObjective($sessionXObjective);
@@ -1219,7 +1223,9 @@ class CourseRolloverTest extends TestCase
         $courseXObjective1->addTerm($objectiveTerm1);
         $courseXObjective1->addTerm($objectiveTerm2);
         $courseXObjective1->addTerm($objectiveTerm3);
-        $courseXObjective1->addProgramYearObjective(new ProgramYearObjective());
+        $programYearObjective = new ProgramYearObjective();
+        $programYearObjective->setId(13);
+        $courseXObjective1->addProgramYearObjective($programYearObjective);
 
         $course->addCourseObjective($courseXObjective1);
 
@@ -1253,6 +1259,7 @@ class CourseRolloverTest extends TestCase
         $course->addCohort($cohort);
 
         $session1 = new Session();
+        $session1->setId(1);
         $session1->setDescription('test description');
         $session1->setSessionType(new SessionType());
 
@@ -1316,6 +1323,7 @@ class CourseRolloverTest extends TestCase
         $course->addSession($session1);
 
         $session2 = new Session();
+        $session2->setId(2);
         $session2->setSessionType(new SessionType());
         $ilm = new IlmSession();
         $ilm->setHours(4.3);
@@ -1339,6 +1347,7 @@ class CourseRolloverTest extends TestCase
         $course = $this->createTestCourse();
         $course->setSchool(new School());
         $session = new Session();
+        $session->setId(1);
         $session->setSessionType(new SessionType());
         $offering1 = new Offering();
         $offering1->setStartDate(new DateTime('8am'));
