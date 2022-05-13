@@ -52,7 +52,7 @@ class IlmSession implements IlmSessionInterface
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotBlank]
-    protected ?SessionInterface $session = null;
+    protected SessionInterface $session;
 
     #[ORM\Column(name: 'hours', type: 'decimal', precision: 6, scale: 2)]
     #[IA\Expose]
@@ -152,19 +152,13 @@ class IlmSession implements IlmSessionInterface
         $this->session = $session;
     }
 
-    public function getSession(): ?SessionInterface
+    public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
     public function getSchool(): ?SchoolInterface
     {
-        if ($session = $this->getSession()) {
-            if ($course = $session->getCourse()) {
-                return $course->getSchool();
-            }
-        }
-
-        return null;
+        return $this->session->getCourse()->getSchool();
     }
 }

@@ -33,7 +33,7 @@ interface IlmSessionInterface extends
     public function getAllInstructors(): Collection;
 
     public function setSession(SessionInterface $session);
-    public function getSession(): ?SessionInterface;
+    public function getSession(): SessionInterface;
 
     /**
      * Get the school we belong to
