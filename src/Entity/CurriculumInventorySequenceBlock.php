@@ -205,7 +205,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->required;
     }
 
-    public function setChildSequenceOrder(int $childSequenceOrder)
+    public function setChildSequenceOrder(?int $childSequenceOrder)
     {
         $this->childSequenceOrder = $childSequenceOrder;
     }
@@ -215,7 +215,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->childSequenceOrder;
     }
 
-    public function setOrderInSequence(int $orderInSequence)
+    public function setOrderInSequence(?int $orderInSequence)
     {
         $this->orderInSequence = $orderInSequence;
     }

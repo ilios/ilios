@@ -30,10 +30,10 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function setRequired(int $required);
     public function getRequired(): int;
 
-    public function setChildSequenceOrder(int $childSequenceOrder);
+    public function setChildSequenceOrder(?int $childSequenceOrder);
     public function getChildSequenceOrder(): ?int;
 
-    public function setOrderInSequence(int $orderInSequence);
+    public function setOrderInSequence(?int $orderInSequence);
     public function getOrderInSequence(): ?int;
 
     public function setMinimum(?int $minimum);
