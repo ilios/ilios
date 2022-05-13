@@ -9,9 +9,6 @@
     "@default": true
   },
   "logs": {
-    "text": "infection.log",
-    "html": "infection.html",
-    "summary": "infection-summary.log",
-    "perMutator": "infection-per-mutator.md"
+    "html": "infection.html"
   }
 }
