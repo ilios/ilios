@@ -95,12 +95,12 @@ class SetupAuthenticationCommand extends Command
 
         $question = new ChoiceQuestion(
             'What version of CAS do you want to use (defaults to 3)?: ',
-            [1, 2, 3],
-            3
+            ['1', '2', '3'],
+            '3'
         );
         $question->setErrorMessage('Version %s is invalid.');
         $parameters['cas_authentication_version'] = $helper->ask($input, $output, $question);
-        $parameters['cas_authentication_verify_ssl'] = true;
+        $parameters['cas_authentication_verify_ssl'] = 'true';
         $output->writeln(
             "<info>If necessary set the 'cas_authentication_verify_ssl' " .
             "and 'cas_authentication_certificate_path' variables as well.</info>"
