@@ -6263,16 +6263,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v4.11.0",
+            "version": "v4.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "2e471949f26e1a52a27acbd27eef7cd1aaeab45d"
+                "reference": "c70b9d7b7c4f59229c81e897fc8fd09e0e1361cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/2e471949f26e1a52a27acbd27eef7cd1aaeab45d",
-                "reference": "2e471949f26e1a52a27acbd27eef7cd1aaeab45d",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/c70b9d7b7c4f59229c81e897fc8fd09e0e1361cd",
+                "reference": "c70b9d7b7c4f59229c81e897fc8fd09e0e1361cd",
                 "shasum": ""
             },
             "type": "library",
@@ -6318,9 +6318,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v4.11.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v4.11.1"
             },
-            "time": "2022-05-05T17:48:04+00:00"
+            "time": "2022-05-13T15:41:25+00:00"
         },
         {
             "name": "symfony/amazon-mailer",
