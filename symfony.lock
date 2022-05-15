@@ -183,6 +183,18 @@
     "ilios/mesh-parser": {
         "version": "v2.0.1"
     },
+    "infection/abstract-testframework-adapter": {
+        "version": "0.5.0"
+    },
+    "infection/extension-installer": {
+        "version": "0.1.2"
+    },
+    "infection/include-interceptor": {
+        "version": "0.2.5"
+    },
+    "infection/infection": {
+        "version": "0.26.9"
+    },
     "jaybizzle/crawler-detect": {
         "version": "v1.2.103"
     },
@@ -253,6 +265,9 @@
         "version": "v4.10.5"
     },
     "nikolaposa/version": {
+        "version": "4.1.0"
+    },
+    "ondram/ci-detector": {
         "version": "4.1.0"
     },
     "pear/archive_tar": {
@@ -370,6 +385,12 @@
     },
     "react/promise": {
         "version": "v2.8.0"
+    },
+    "sanmai/later": {
+        "version": "0.1.2"
+    },
+    "sanmai/pipeline": {
+        "version": "v6.1"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -870,6 +891,9 @@
     "symfony/yaml": {
         "version": "v5.2.0"
     },
+    "thecodingmachine/safe": {
+        "version": "v2.1.4"
+    },
     "theseer/tokenizer": {
         "version": "1.2.0"
     },
@@ -878,6 +902,9 @@
     },
     "webmozart/assert": {
         "version": "1.9.1"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
     },
     "webonyx/graphql-php": {
         "version": "v14.9.0"

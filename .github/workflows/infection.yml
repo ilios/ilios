@@ -1,0 +1,41 @@
+name: Infection Test
+
+on:
+  schedule:
+    - cron: '33 3 * * 1' # weekly, on Monday morning
+
+env:
+  MAILER_DSN: null://null
+  ILIOS_LOCALE: en
+  ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
+  ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+  SYMFONY_DEPRECATIONS_HELPER: disabled=1
+  MESSENGER_TRANSPORT_DSN: doctrine://default
+  latest_php: 8.1
+  DOCKER_BUILDKIT: 1
+jobs:
+  infection:
+    name: Infection tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use PHP ${{ env.latest_php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ env.latest_php }}
+          extensions: apcu
+      - name: install dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: create coverage
+        run:
+          php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-xml=build/coverage --log-junit=build/coverage/phpunit.junit.xml
+      - name: infection
+        run:
+          vendor/bin/infection --coverage=build/coverage
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: infection-html
+          path: build/coverage/infection.html
+          retention-days: 1

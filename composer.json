@@ -70,6 +70,7 @@
     "webonyx/graphql-php": "^14.9"
   },
   "require-dev": {
+    "infection/infection": "^0.26.9",
     "liip/test-fixtures-bundle": "@stable",
     "mockery/mockery": "@stable",
     "phpstan/extension-installer": "^1.0",
@@ -96,7 +97,8 @@
       "composer/package-versions-deprecated": true,
       "symfony/flex": true,
       "phpstan/extension-installer": true,
-      "symfony/runtime": true
+      "symfony/runtime": true,
+      "infection/extension-installer": true
     }
   },
   "minimum-stability": "stable",

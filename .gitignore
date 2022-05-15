@@ -4,6 +4,7 @@ FakeTestFiles
 !/public/index.php
 !/public/.htaccess
 !/public/theme-overrides
+/infection.html
 
 # Created by docker build, shouldn't leak into app
 VERSION
