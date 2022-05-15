@@ -65,8 +65,19 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
-      run: vendor/bin/phpunit
-
+      run: vendor/bin/phpunit --log-junit=test-results.xml
+    - run: cat test-results.xml
+    - name: Test Summary
+      uses: test-summary/action@v1
+      with:
+        paths: test-results.xml
+      if: always()
+    - name: Upload test summary
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-summary
+        path: test-summary.md
+      if: always()
   test_migrations_against_mysql:
     name: Test Migrations Against MySQL
     needs: code_style
