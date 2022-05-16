@@ -22,7 +22,6 @@ jobs:
       - name: Use PHP ${{ env.latest_php }}
         uses: shivammathur/setup-php@v2
         with:
-          coverage: none
           php-version: ${{ env.latest_php }}
           extensions: apcu
           ini-values: xdebug.mode=coverage
