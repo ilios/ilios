@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-/**
- * Class ActivatableEntity
- */
 trait ActivatableEntity
 {
     public function isActive(): bool
@@ -14,7 +11,7 @@ trait ActivatableEntity
         return $this->active;
     }
 
-    public function setActive($active)
+    public function setActive(bool $active)
     {
         $this->active = $active;
     }

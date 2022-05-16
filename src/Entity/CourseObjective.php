@@ -18,9 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CourseObjectiveRepository;
 
-/**
- * Class CourseObjective
- */
 #[ORM\Table(name: 'course_x_objective')]
 #[ORM\Index(columns: ['course_id'], name: 'IDX_3B37B1AD591CC992')]
 #[ORM\Entity(repositoryClass: CourseObjectiveRepository::class)]
@@ -35,9 +32,6 @@ class CourseObjective implements CourseObjectiveInterface
     use CategorizableEntity;
     use SortableEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'course_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,31 +39,22 @@ class CourseObjective implements CourseObjectiveInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var CourseInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'courseObjectives')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $course;
+    protected CourseInterface $course;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $position;
+    protected int $position;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'courseObjectives')]
     #[ORM\JoinTable(name: 'course_objective_x_term')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
@@ -77,11 +62,8 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $terms;
+    protected Collection $terms;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
@@ -89,11 +71,8 @@ class CourseObjective implements CourseObjectiveInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', inversedBy: 'courseObjectives')]
     #[ORM\JoinTable('course_objective_x_program_year_objective')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
@@ -105,20 +84,14 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programYearObjectives;
+    protected Collection $programYearObjectives;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'courseObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessionObjectives;
+    protected Collection $sessionObjectives;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseObjectives')]
     #[ORM\JoinTable(name: 'course_objective_x_mesh')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
@@ -130,35 +103,26 @@ class CourseObjective implements CourseObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $meshDescriptors;
+    protected Collection $meshDescriptors;
 
-    /**
-     * @var CourseObjectiveInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'CourseObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'course_objective_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $ancestor;
+    protected ?CourseObjectiveInterface $ancestor = null;
 
-    /**
-     * @var Collection
-     */
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'CourseObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $descendants;
+    protected Collection $descendants;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $active;
+    protected bool $active;
 
     public function __construct()
     {
@@ -181,9 +145,6 @@ class CourseObjective implements CourseObjectiveInterface
         return $this->course;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIndexableCourses(): array
     {
         return [$this->getCourse()];

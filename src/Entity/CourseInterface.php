@@ -23,9 +23,6 @@ use App\Traits\StudentAdvisorsEntityInterface;
 use App\Traits\StringableEntityToIdInterface;
 use App\Traits\SessionsEntityInterface;
 
-/**
- * Interface CourseInterface
- */
 interface CourseInterface extends
     IdentifiableEntityInterface,
     TitledNullableEntityInterface,
@@ -45,70 +42,40 @@ interface CourseInterface extends
     IndexableCoursesEntityInterface,
     CourseObjectivesEntityInterface
 {
-    /**
-     * @param int $level
-     */
-    public function setLevel($level);
-
+    public function setLevel(int $level);
     public function getLevel(): int;
 
-    /**
-     * @param int $year
-     */
-    public function setYear($year);
-
+    public function setYear(int $year);
     public function getYear(): int;
 
     public function setStartDate(DateTime $startDate);
-
     public function getStartDate(): DateTime;
 
     public function setEndDate(DateTime $endDate);
-
     public function getEndDate(): DateTime;
 
-    /**
-     * @todo: Possible rename.
-     * @param string $externalId
-     */
-    public function setExternalId($externalId);
-
-    /**
-     * @todo: Possible rename.
-     */
+    public function setExternalId(?string $externalId);
     public function getExternalId(): ?string;
 
     public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType);
-
     public function getClerkshipType(): ?CourseClerkshipTypeInterface;
 
     public function setLearningMaterials(Collection $learningMaterials = null);
-
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
-
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
-
     public function getLearningMaterials(): Collection;
 
     public function setAncestor(CourseInterface $ancestor);
-
     public function getAncestor(): ?CourseInterface;
-
     public function getAncestorOrSelf(): CourseInterface;
 
     public function setDescendants(Collection $children);
-
     public function addDescendant(CourseInterface $child);
-
     public function removeDescendant(CourseInterface $child);
-
     public function getDescendants(): Collection;
 
     public function setSequenceBlocks(Collection $sequenceBlocks);
-
     public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
-
     public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock);
-
     public function getSequenceBlocks(): Collection;
 }

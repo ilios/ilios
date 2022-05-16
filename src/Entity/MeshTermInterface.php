@@ -10,9 +10,6 @@ use App\Traits\NameableEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 
-/**
- * Interface MeshTermInterface
- */
 interface MeshTermInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
@@ -20,38 +17,18 @@ interface MeshTermInterface extends
     ConceptsEntityInterface,
     CreatedAtEntityInterface
 {
-    /**
-     * @param string $meshTermUid
-     */
-    public function setMeshTermUid($meshTermUid);
-
+    public function setMeshTermUid(string $meshTermUid);
     public function getMeshTermUid(): string;
 
-    /**
-     * @param string $lexicalTag
-     */
-    public function setLexicalTag($lexicalTag);
+    public function setLexicalTag(?string $lexicalTag);
+    public function getLexicalTag(): ?string;
 
-    public function getLexicalTag(): string;
+    public function setConceptPreferred(?bool $conceptPreferred);
+    public function isConceptPreferred(): ?bool;
 
-    /**
-     * @param bool $conceptPreferred
-     */
-    public function setConceptPreferred($conceptPreferred);
+    public function setRecordPreferred(?bool $recordPreferred);
+    public function isRecordPreferred(): ?bool;
 
-    public function isConceptPreferred(): bool;
-
-    /**
-     * @param bool $recordPreferred
-     */
-    public function setRecordPreferred($recordPreferred);
-
-    public function isRecordPreferred(): bool;
-
-    /**
-     * @param bool $permuted
-     */
-    public function setPermuted($permuted);
-
-    public function isPermuted(): bool;
+    public function setPermuted(?bool $permuted);
+    public function isPermuted(): ?bool;
 }

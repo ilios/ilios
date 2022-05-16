@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\DirectorsEntity;
-use App\Traits\PublishableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attribute as IA;
 use App\Traits\IdentifiableEntity;
@@ -18,9 +17,6 @@ use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\ProgramRepository;
 
-/**
- * Class Program
- */
 #[ORM\Table(name: 'program')]
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
 #[IA\Entity]
@@ -33,9 +29,6 @@ class Program implements ProgramInterface
     use SchoolEntity;
     use DirectorsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -43,70 +36,49 @@ class Program implements ProgramInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 200)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'short_title', type: 'string', length: 10, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 10)]
-    protected $shortTitle;
+    protected ?string $shortTitle = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'duration', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $duration;
+    protected int $duration;
 
-    /**
-     * @var SchoolInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'programs')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $school;
+    protected SchoolInterface $school;
 
-    /**
-     * @var ArrayCollection|ProgramYearInterface[]
-     */
     #[ORM\OneToMany(targetEntity: 'ProgramYear', mappedBy: 'program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programYears;
+    protected Collection $programYears;
 
-    /**
-     * @var ArrayCollection|CurriculumInventoryReportInterface[]
-     */
     #[ORM\OneToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $curriculumInventoryReports;
+    protected Collection $curriculumInventoryReports;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedPrograms')]
     #[ORM\JoinTable(name: 'program_director')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id', onDelete: 'CASCADE')]
@@ -114,7 +86,7 @@ class Program implements ProgramInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $directors;
+    protected Collection $directors;
 
     public function __construct()
     {
@@ -123,23 +95,17 @@ class Program implements ProgramInterface
         $this->directors = new ArrayCollection();
     }
 
-    /**
-     * @param string $shortTitle
-     */
-    public function setShortTitle($shortTitle)
+    public function setShortTitle(?string $shortTitle)
     {
         $this->shortTitle = $shortTitle;
     }
 
-    public function getShortTitle(): string
+    public function getShortTitle(): ?string
     {
         return $this->shortTitle;
     }
 
-    /**
-     * @param int $duration
-     */
-    public function setDuration($duration)
+    public function setDuration(int $duration)
     {
         $this->duration = $duration;
     }

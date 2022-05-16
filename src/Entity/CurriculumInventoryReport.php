@@ -18,9 +18,6 @@ use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryReportRepository;
 
-/**
- * Class CurriculumInventoryReport
- */
 #[ORM\Table(name: 'curriculum_inventory_report')]
 #[ORM\Index(columns: ['program_id'], name: 'IDX_6E31899E3EB8070A')]
 #[ORM\UniqueConstraint(name: 'idx_ci_report_token_unique', columns: ['token'])]
@@ -29,15 +26,11 @@ use App\Repository\CurriculumInventoryReportRepository;
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
     use IdentifiableEntity;
-    use NameableEntity;
     use DescribableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
     use AdministratorsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,110 +38,74 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 200)]
-    protected $name;
+    protected ?string $name = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $description;
+    protected ?string $description = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'year', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $year;
+    protected int $year;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'start_date', type: 'date')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
     #[Assert\NotBlank]
-    protected $startDate;
+    protected DateTime $startDate;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'end_date', type: 'date')]
     #[IA\Expose]
     #[IA\Type('dateTime')]
     #[Assert\NotBlank]
-    protected $endDate;
+    protected DateTime $endDate;
 
-    /**
-     * @var CurriculumInventoryExportInterface
-     */
     #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventoryExport')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $export;
+    protected ?CurriculumInventoryExportInterface $export = null;
 
-    /**
-     * @var CurriculumInventorySequenceInterface
-     */
     #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventorySequence')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $sequence;
+    protected CurriculumInventorySequenceInterface $sequence;
 
-    /**
-     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sequenceBlocks;
+    protected Collection $sequenceBlocks;
 
-    /**
-     * @var ProgramInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'curriculumInventoryReports')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $program;
+    protected ?ProgramInterface $program = null;
 
-    /**
-     * @var ArrayCollection|CurriculumInventoryAcademicLevelInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $academicLevels;
+    protected Collection $academicLevels;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 64)]
-    protected $token;
+    protected string $token;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredCurriculumInventoryReports')]
     #[ORM\JoinTable(name: 'curriculum_inventory_report_administrator')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'CASCADE')]
@@ -156,7 +113,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $administrators;
+    protected Collection $administrators;
 
     public function __construct()
     {
@@ -165,10 +122,16 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->administrators = new ArrayCollection();
     }
 
-    /**
-     * @param int $year
-     */
-    public function setYear($year)
+    public function setName(?string $name)
+    {
+        $this->name = $name;
+    }
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setYear(int $year)
     {
         $this->year = $year;
     }
@@ -178,10 +141,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->year;
     }
 
-    /**
-     * @param DateTime $startDate
-     */
-    public function setStartDate($startDate = null)
+    public function setStartDate(DateTime $startDate)
     {
         $this->startDate = $startDate;
     }
@@ -191,10 +151,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->startDate;
     }
 
-    /**
-     * @param DateTime $endDate
-     */
-    public function setEndDate($endDate = null)
+    public function setEndDate(DateTime $endDate)
     {
         $this->endDate = $endDate;
     }
@@ -204,9 +161,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->endDate;
     }
 
-    /**
-     * @param CurriculumInventoryExportInterface|null $export
-     */
     public function setExport(CurriculumInventoryExportInterface $export = null)
     {
         $this->export = $export;
@@ -217,9 +171,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->export;
     }
 
-    /**
-     * @param CurriculumInventorySequenceInterface|null $sequence
-     */
     public function setSequence(CurriculumInventorySequenceInterface $sequence = null)
     {
         $this->sequence = $sequence;

@@ -4,15 +4,9 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-/**
- * Class PublishableEntity
- */
 trait PublishableEntity
 {
-    /**
-     * @param bool $published
-     */
-    public function setPublished($published)
+    public function setPublished(bool $published)
     {
         $this->published = $published;
     }
@@ -22,10 +16,7 @@ trait PublishableEntity
         return $this->published;
     }
 
-    /**
-     * @param bool $publishedAsTbd
-     */
-    public function setPublishedAsTbd($publishedAsTbd)
+    public function setPublishedAsTbd(bool $publishedAsTbd)
     {
         $this->publishedAsTbd = (bool) $publishedAsTbd;
     }

@@ -11,9 +11,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\MeshPreviousIndexingRepository;
 
-/**
- * Class MeshPreviousIndexing
- */
 #[ORM\Table(name: 'mesh_previous_indexing')]
 #[ORM\UniqueConstraint(name: 'descriptor_previous', columns: ['mesh_descriptor_uid'])]
 #[ORM\Entity(repositoryClass: MeshPreviousIndexingRepository::class)]
@@ -23,9 +20,6 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'mesh_previous_indexing_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -33,27 +27,21 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var MeshDescriptorInterface
-     */
     #[ORM\OneToOne(inversedBy: 'previousIndexing', targetEntity: 'MeshDescriptor')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', unique: true)]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $descriptor;
+    protected MeshDescriptorInterface $descriptor;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'previous_indexing', type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $previousIndexing;
+    protected string $previousIndexing;
 
     public function setDescriptor(MeshDescriptorInterface $descriptor)
     {
@@ -65,10 +53,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
         return $this->descriptor;
     }
 
-    /**
-     * @param string $previousIndexing
-     */
-    public function setPreviousIndexing($previousIndexing)
+    public function setPreviousIndexing(string $previousIndexing)
     {
         $this->previousIndexing = $previousIndexing;
     }

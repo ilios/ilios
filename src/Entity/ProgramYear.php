@@ -12,15 +12,13 @@ use App\Traits\DirectorsEntity;
 use App\Traits\StringableIdEntity;
 use App\Attribute as IA;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Repository\ProgramYearRepository;
 
-/**
- * Class ProgramYear
- */
 #[ORM\Table(name: 'program_year')]
 #[ORM\Entity(repositoryClass: ProgramYearRepository::class)]
 #[IA\Entity]
@@ -35,9 +33,6 @@ class ProgramYear implements ProgramYearInterface
     use DirectorsEntity;
     use CompetenciesEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'program_year_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,59 +40,41 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'start_year', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $startYear;
+    protected int $startYear;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'locked', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $locked;
+    protected bool $locked;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'archived', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $archived;
+    protected bool $archived;
 
-    /**
-     * @var ProgramInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'programYears')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $program;
+    protected ProgramInterface $program;
 
-    /**
-     * @var CohortInterface
-     */
     #[ORM\OneToOne(targetEntity: 'Cohort', mappedBy: 'programYear')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $cohort;
+    protected CohortInterface $cohort;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'programYears')]
     #[ORM\JoinTable(name: 'program_year_director')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id')]
@@ -105,11 +82,8 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $directors;
+    protected Collection $directors;
 
-    /**
-     * @var ArrayCollection|CompetencyInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Competency', inversedBy: 'programYears')]
     #[ORM\JoinTable(name: 'program_year_x_competency')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
@@ -117,11 +91,8 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $competencies;
+    protected Collection $competencies;
 
-    /**
-     * @var ArrayCollection|TermInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYears')]
     #[ORM\JoinTable(name: 'program_year_x_term')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
@@ -129,16 +100,13 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $terms;
+    protected Collection $terms;
 
-    /**
-     * @var ArrayCollection|ProgramYearObjective[]
-     */
     #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'programYear')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programYearObjectives;
+    protected Collection $programYearObjectives;
 
     public function __construct()
     {
@@ -150,10 +118,7 @@ class ProgramYear implements ProgramYearInterface
         $this->programYearObjectives = new ArrayCollection();
     }
 
-    /**
-     * @param int $startYear
-     */
-    public function setStartYear($startYear)
+    public function setStartYear(int $startYear)
     {
         $this->startYear = $startYear;
     }
@@ -168,7 +133,7 @@ class ProgramYear implements ProgramYearInterface
         $this->program = $program;
     }
 
-    public function getProgram(): ?ProgramInterface
+    public function getProgram(): ProgramInterface
     {
         return $this->program;
     }
@@ -183,11 +148,8 @@ class ProgramYear implements ProgramYearInterface
         return $this->cohort;
     }
 
-    public function getSchool(): ?SchoolInterface
+    public function getSchool(): SchoolInterface
     {
-        if ($program = $this->getProgram()) {
-            return $program->getSchool();
-        }
-        return null;
+        return $this->program->getSchool();
     }
 }

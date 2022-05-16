@@ -19,9 +19,6 @@ use App\Traits\SessionsEntityInterface;
 use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
 
-/**
- * Interface TermInterface
- */
 interface TermInterface extends
     DescribableEntityInterface,
     IdentifiableEntityInterface,
@@ -38,28 +35,19 @@ interface TermInterface extends
     ProgramYearObjectivesEntityInterface
 {
     public function setVocabulary(VocabularyInterface $vocabulary);
-
     public function getVocabulary(): VocabularyInterface;
 
     public function setParent(TermInterface $parent = null);
-
     public function getParent(): ?TermInterface;
 
     public function setChildren(Collection $children);
-
     public function addChild(TermInterface $child);
-
     public function removeChild(TermInterface $child);
-
     public function getChildren(): Collection;
-
     public function hasChildren(): bool;
 
     public function setAamcResourceTypes(Collection $aamcResourceTypes);
-
     public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType);
-
     public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType);
-
     public function getAamcResourceTypes(): Collection;
 }

@@ -13,9 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\SchoolEntity;
 use App\Repository\SchoolConfigRepository;
 
-/**
- * Class SchoolConfig
- */
 #[ORM\Table(name: 'school_config')]
 #[ORM\UniqueConstraint(name: 'school_conf_uniq', columns: ['school_id', 'name'])]
 #[ORM\Entity(repositoryClass: SchoolConfigRepository::class)]
@@ -27,9 +24,6 @@ class SchoolConfig implements SchoolConfigInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -37,46 +31,37 @@ class SchoolConfig implements SchoolConfigInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 200)]
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $value;
+    protected string $value;
 
-    /**
-     * @var SchoolInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'configurations')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $school;
+    protected SchoolInterface $school;
 
     public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->value = $value;
     }

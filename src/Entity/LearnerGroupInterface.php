@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\IlmSessionsEntityInterface;
@@ -15,9 +14,6 @@ use App\Traits\StringableEntityToIdInterface;
 use App\Traits\OfferingsEntityInterface;
 use App\Traits\UsersEntityInterface;
 
-/**
- * Interface GroupInterface
- */
 interface LearnerGroupInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
@@ -29,27 +25,18 @@ interface LearnerGroupInterface extends
     InstructorsEntityInterface,
     IlmSessionsEntityInterface
 {
-    /**
-     * @param string $location
-     */
-    public function setLocation($location);
-
+    public function setLocation(?string $location);
     public function getLocation(): ?string;
 
     public function setCohort(CohortInterface $cohort);
-
-    public function getCohort(): ?CohortInterface;
+    public function getCohort(): CohortInterface;
 
     public function setParent(LearnerGroupInterface $parent = null);
-
     public function getParent(): ?LearnerGroupInterface;
 
     public function setChildren(Collection $children);
-
     public function addChild(LearnerGroupInterface $child);
-
     public function removeChild(LearnerGroupInterface $child);
-
     public function getChildren(): Collection;
 
     /**
@@ -68,24 +55,18 @@ interface LearnerGroupInterface extends
     public function getProgramYear(): ?ProgramYearInterface;
 
     public function setAncestor(LearnerGroupInterface $ancestor);
-
     public function getAncestor(): ?LearnerGroupInterface;
 
     public function getAncestorOrSelf(): LearnerGroupInterface;
 
     public function setDescendants(Collection $children);
-
     public function addDescendant(LearnerGroupInterface $child);
-
     public function removeDescendant(LearnerGroupInterface $child);
-
     public function getDescendants(): Collection;
 
     public function setNeedsAccommodation(bool $needsAccommodation): void;
-
     public function getNeedsAccommodation(): bool;
 
     public function setUrl(?string $url): void;
-
     public function getUrl(): ?string;
 }

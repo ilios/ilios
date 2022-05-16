@@ -6,15 +6,9 @@ namespace App\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Class NameableEntity
- */
 trait NameableEntity
 {
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }

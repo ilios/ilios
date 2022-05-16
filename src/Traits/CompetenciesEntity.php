@@ -8,9 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\CompetencyInterface;
 
-/**
- * Class CompetenciesEntity
- */
 trait CompetenciesEntity
 {
     public function setCompetencies(Collection $competencies)

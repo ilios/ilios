@@ -7,9 +7,6 @@ namespace App\Entity\DTO;
 use App\Attribute as IA;
 use DateTime;
 
-/**
- * Class IlmSessionDTO
- */
 #[IA\DTO('ilmSessions')]
 #[IA\ExposeGraphQL]
 class IlmSessionDTO

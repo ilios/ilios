@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CreatedAtEntity;
+use App\Traits\IdentifiableStringEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attribute as IA;
@@ -12,64 +13,49 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\NameableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshQualifierRepository;
 
-/**
- * Class MeshQualifier
- */
 #[ORM\Table(name: 'mesh_qualifier')]
 #[ORM\Entity(repositoryClass: MeshQualifierRepository::class)]
 #[IA\Entity]
 class MeshQualifier implements MeshQualifierInterface
 {
-    use IdentifiableEntity;
+    use IdentifiableStringEntity;
     use TimestampableEntity;
     use NameableEntity;
     use StringableIdEntity;
     use CreatedAtEntity;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'mesh_qualifier_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    protected $id;
+    protected string $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 60)]
-    protected $name;
-
+    protected string $name;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
-    protected $createdAt;
-
+    protected DateTime $createdAt;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
-    protected $updatedAt;
+    protected DateTime $updatedAt;
 
-    /**
-     * @var Collection|MeshDescriptorInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'qualifiers')]
     #[ORM\JoinTable(name: 'mesh_descriptor_x_qualifier')]
     #[ORM\JoinColumn(name: 'mesh_qualifier_uid', referencedColumnName: 'mesh_qualifier_uid')]
@@ -77,7 +63,7 @@ class MeshQualifier implements MeshQualifierInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $descriptors;
+    protected Collection $descriptors;
 
     public function __construct()
     {
@@ -88,7 +74,7 @@ class MeshQualifier implements MeshQualifierInterface
 
     public function setDescriptors(Collection $descriptors)
     {
-        $this->descriptors = $descriptors;
+        $this->descriptors = new ArrayCollection();
 
         foreach ($descriptors as $descriptor) {
             $this->addDescriptor($descriptor);

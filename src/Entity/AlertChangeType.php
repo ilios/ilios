@@ -16,9 +16,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 
-/**
- * Class Alert
- */
 #[ORM\Table(name: 'alert_change_type')]
 #[ORM\Entity(repositoryClass: AlertChangeTypeRepository::class)]
 #[IA\Entity]
@@ -29,9 +26,6 @@ class AlertChangeType implements AlertChangeTypeInterface
     use IdentifiableEntity;
     use AlertableEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'alert_change_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -39,27 +33,21 @@ class AlertChangeType implements AlertChangeTypeInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 60)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var ArrayCollection|AlertInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'changeTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $alerts;
+    protected Collection $alerts;
 
     public function __construct()
     {

@@ -58,7 +58,7 @@ class SchoolConfigData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'name' => null,
+            'name' => str_repeat('toolong', 20),
         ];
     }
 

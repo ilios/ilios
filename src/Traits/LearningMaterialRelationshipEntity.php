@@ -16,9 +16,9 @@ use DateTime;
 trait LearningMaterialRelationshipEntity
 {
     /**
-     * @param string $notes
+     * @param string|null $notes
      */
-    public function setNotes($notes)
+    public function setNotes(?string $notes)
     {
         $this->notes = $notes;
     }
@@ -31,7 +31,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @param bool $required
      */
-    public function setRequired($required)
+    public function setRequired(bool $required)
     {
         $this->required = $required;
     }
@@ -44,7 +44,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @param bool $publicNotes
      */
-    public function setPublicNotes($publicNotes)
+    public function setPublicNotes(bool $publicNotes)
     {
         $this->publicNotes = $publicNotes;
     }

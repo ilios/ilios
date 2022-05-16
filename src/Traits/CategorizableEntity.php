@@ -9,14 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\TermInterface;
 
-/**
- * Class CategorizableEntity
- */
 trait CategorizableEntity
 {
-    /**
-     * @param Collection|TermInterface[] $terms
-     */
     public function setTerms(Collection $terms = null)
     {
         $this->terms = new ArrayCollection();

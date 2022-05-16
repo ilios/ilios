@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Traits\CreatedAtEntity;
 use App\Traits\CourseObjectivesEntity;
+use App\Traits\IdentifiableStringEntity;
 use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
 use DateTime;
@@ -15,7 +16,6 @@ use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
@@ -23,15 +23,12 @@ use App\Traits\CoursesEntity;
 use App\Traits\SessionsEntity;
 use App\Repository\MeshDescriptorRepository;
 
-/**
- * Class MeshDescriptor
- */
 #[ORM\Table(name: 'mesh_descriptor')]
 #[ORM\Entity(repositoryClass: MeshDescriptorRepository::class)]
 #[IA\Entity]
 class MeshDescriptor implements MeshDescriptorInterface
 {
-    use IdentifiableEntity;
+    use IdentifiableStringEntity;
     use StringableIdEntity;
     use NameableEntity;
     use TimestampableEntity;
@@ -43,9 +40,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     use CourseObjectivesEntity;
     use ProgramYearObjectivesEntity;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'mesh_descriptor_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -53,152 +47,104 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 12)]
-    protected $id;
+    protected string $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 192)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 192)]
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'annotation', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $annotation;
+    protected ?string $annotation = null;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
-    protected $createdAt;
+    protected DateTime $createdAt;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
-    protected $updatedAt;
+    protected DateTime $updatedAt;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'deleted', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
-    protected $deleted;
+    protected bool $deleted;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courses;
+    protected Collection $courses;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessions;
+    protected Collection $sessions;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshConcept', mappedBy: 'descriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $concepts;
+    protected Collection $concepts;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshQualifier', mappedBy: 'descriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $qualifiers;
+    protected Collection $qualifiers;
 
-    /**
-     * @var Collection
-     */
     #[ORM\OneToMany(mappedBy: 'descriptor', targetEntity: 'MeshTree')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $trees;
+    protected Collection $trees;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessionLearningMaterials;
+    protected Collection $sessionLearningMaterials;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courseLearningMaterials;
+    protected Collection $courseLearningMaterials;
 
-    /**
-     * @var MeshPreviousIndexingInterface
-     */
     #[ORM\OneToOne(targetEntity: 'MeshPreviousIndexing', mappedBy: 'descriptor')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $previousIndexing;
+    protected MeshPreviousIndexingInterface $previousIndexing;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessionObjectives;
+    protected Collection $sessionObjectives;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courseObjectives;
+    protected Collection $courseObjectives;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programYearObjectives;
+    protected Collection $programYearObjectives;
 
     public function __construct()
     {
@@ -217,15 +163,12 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->deleted = false;
     }
 
-    /**
-     * @param string $annotation
-     */
-    public function setAnnotation($annotation)
+    public function setAnnotation(?string $annotation)
     {
         $this->annotation = $annotation;
     }
 
-    public function getAnnotation(): string
+    public function getAnnotation(): ?string
     {
         return $this->annotation;
     }
@@ -411,14 +354,11 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->deleted;
     }
 
-    public function setDeleted($deleted)
+    public function setDeleted(bool $deleted)
     {
         $this->deleted = $deleted;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIndexableCourses(): array
     {
         $courseLmCourses = $this->courseLearningMaterials
@@ -432,7 +372,7 @@ class MeshDescriptor implements MeshDescriptorInterface
 
         $objectiveCourses = $this->courseObjectives
             ->map(fn(CourseObjectiveInterface $objective) => $objective->getIndexableCourses());
-        $flatObjectiveCourses = count($objectiveCourses) ? array_merge(...$objectiveCourses) : [];
+        $flatObjectiveCourses = count($objectiveCourses) ? array_merge(...$objectiveCourses->toArray()) : [];
 
         return array_merge(
             $this->courses->toArray(),

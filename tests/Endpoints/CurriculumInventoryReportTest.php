@@ -44,7 +44,9 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     {
         return [
             'name' => ['name', 'salt'],
+            'nullName' => ['name', null],
             'description' => ['description', 'lorem ipsum'],
+            'nullDescription' => ['description', null],
             'year' => ['year', 2022],
             'startDate' => ['startDate', '2012-03-01', $skipped = true],
             'endDate' => ['endDate', '2012-04-01', $skipped = true],

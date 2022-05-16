@@ -6,19 +6,11 @@ namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
 
-/**
- * Interface IngestionExceptionInterface
- */
 interface IngestionExceptionInterface extends IdentifiableEntityInterface
 {
     public function setUser(UserInterface $user);
-
     public function getUser(): UserInterface;
 
-    /**
-     * @param string $uid
-     */
-    public function setUid($uid);
-
+    public function setUid(string $uid);
     public function getUid(): string;
 }

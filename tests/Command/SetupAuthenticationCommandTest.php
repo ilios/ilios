@@ -81,7 +81,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $versionConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
             ->once()->with('3')->mock();
         $verifySslConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with(true)->mock();
+            ->once()->with('true')->mock();
         $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
         $this->applicationConfigRepository->shouldReceive('findOneBy')

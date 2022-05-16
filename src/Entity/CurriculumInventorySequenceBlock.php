@@ -17,9 +17,6 @@ use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 
-/**
- * Class CurriculumInventorySequenceBlock
- */
 #[ORM\Table(name: 'curriculum_inventory_sequence_block')]
 #[ORM\Entity(repositoryClass: CurriculumInventorySequenceBlockRepository::class)]
 #[IA\Entity]
@@ -31,10 +28,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     use StringableIdEntity;
     use SessionsEntity;
 
-
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -42,110 +35,76 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 200)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 200)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $description;
+    protected ?string $description = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'required', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'integer')]
-    protected $required;
+    protected int $required;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'child_sequence_order', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
     #[Assert\Range(min: 1, max: 3)]
-    protected $childSequenceOrder;
+    protected int $childSequenceOrder;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'order_in_sequence', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $orderInSequence;
+    protected int $orderInSequence;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'minimum', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $minimum;
+    protected int $minimum;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'maximum', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $maximum;
+    protected int $maximum;
 
-    /**
-     * @var bool
-     * this field is currently tinyint data type in the db but used like a boolean
-     */
     #[ORM\Column(name: 'track', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $track;
+    protected bool $track;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'start_date', type: 'date', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected $startDate;
+    protected ?DateTime $startDate = null;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'end_date', type: 'date', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected $endDate;
+    protected ?DateTime $endDate = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'duration', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
@@ -153,9 +112,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[Assert\Type(type: 'integer')]
     protected int $duration;
 
-    /**
-     * @var CurriculumInventoryAcademicLevelInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'startingSequenceBlocks')]
     #[ORM\JoinColumn(
         name: 'starting_academic_level_id',
@@ -167,9 +123,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('entity')]
     protected CurriculumInventoryAcademicLevelInterface $startingAcademicLevel;
 
-    /**
-     * @var CurriculumInventoryAcademicLevelInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'endingSequenceBlocks')]
     #[ORM\JoinColumn(
         name: 'ending_academic_level_id',
@@ -181,18 +134,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('entity')]
     protected CurriculumInventoryAcademicLevelInterface $endingAcademicLevel;
 
-    /**
-     * @var CourseInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $course;
+    protected ?CourseInterface $course = null;
 
-    /**
-     * @var CurriculumInventorySequenceBlockInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventorySequenceBlock', inversedBy: 'children')]
     #[ORM\JoinColumn(
         name: 'parent_sequence_block_id',
@@ -201,30 +148,21 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $parent;
+    protected ?CurriculumInventorySequenceBlockInterface $parent = null;
 
-    /**
-     * @var ArrayCollection|CurriculumInventorySequenceBlockInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $children;
+    protected Collection $children;
 
-    /**
-     * @var CurriculumInventoryReportInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $report;
+    protected CurriculumInventoryReportInterface $report;
 
-    /**
-     * @var ArrayCollection|SessionInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'sequenceBlocks')]
     #[ORM\JoinTable('curriculum_inventory_sequence_block_x_session')]
     #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
@@ -232,11 +170,8 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessions;
+    protected Collection $sessions;
 
-    /**
-     * @var ArrayCollection|SessionInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'excludedSequenceBlocks')]
     #[ORM\JoinTable('curriculum_inventory_sequence_block_x_excluded_session')]
     #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
@@ -244,7 +179,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $excludedSessions;
+    protected Collection $excludedSessions;
 
 
     public function __construct()
@@ -253,14 +188,15 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->sessions = new ArrayCollection();
         $this->excludedSessions = new ArrayCollection();
         $this->required = self::OPTIONAL;
+        $this->childSequenceOrder = self::ORDERED;
+        $this->orderInSequence = 0;
+        $this->maximum = 0;
+        $this->minimum = 0;
         $this->track = false;
         $this->duration = 0;
     }
 
-    /**
-     * @param int $required
-     */
-    public function setRequired($required)
+    public function setRequired(int $required)
     {
         $this->required = $required;
     }
@@ -270,62 +206,47 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->required;
     }
 
-    /**
-     * @param int $childSequenceOrder
-     */
-    public function setChildSequenceOrder($childSequenceOrder)
+    public function setChildSequenceOrder(int $childSequenceOrder)
     {
         $this->childSequenceOrder = $childSequenceOrder;
     }
 
-    public function getChildSequenceOrder(): ?int
+    public function getChildSequenceOrder(): int
     {
         return $this->childSequenceOrder;
     }
 
-    /**
-     * @param int $orderInSequence
-     */
-    public function setOrderInSequence($orderInSequence)
+    public function setOrderInSequence(int $orderInSequence)
     {
         $this->orderInSequence = $orderInSequence;
     }
 
-    public function getOrderInSequence(): ?int
+    public function getOrderInSequence(): int
     {
         return $this->orderInSequence;
     }
 
-    /**
-     * @param int $minimum
-     */
-    public function setMinimum($minimum)
+    public function setMinimum(int $minimum)
     {
         $this->minimum = $minimum;
     }
 
-    public function getMinimum(): ?int
+    public function getMinimum(): int
     {
         return $this->minimum;
     }
 
-    /**
-     * @param int $maximum
-     */
-    public function setMaximum($maximum)
+    public function setMaximum(int $maximum)
     {
         $this->maximum = $maximum;
     }
 
-    public function getMaximum(): ?int
+    public function getMaximum(): int
     {
         return $this->maximum;
     }
 
-    /**
-     * @param bool $track
-     */
-    public function setTrack($track)
+    public function setTrack(bool $track)
     {
         $this->track = $track;
     }
@@ -445,7 +366,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public static function compareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $a,
         CurriculumInventorySequenceBlockInterface $b
-    ) {
+    ): int {
         if ($a->getOrderInSequence() === $b->getOrderInSequence()) {
             return 0;
         }
@@ -467,7 +388,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public static function compareSequenceBlocksWithDefaultStrategy(
         CurriculumInventorySequenceBlockInterface $a,
         CurriculumInventorySequenceBlockInterface $b
-    ) {
+    ): int {
         // 1. starting academic level id
         if ($a->getStartingAcademicLevel()->getLevel() > $b->getStartingAcademicLevel()->getLevel()) {
             return 1;

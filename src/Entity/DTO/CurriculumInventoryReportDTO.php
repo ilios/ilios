@@ -10,9 +10,6 @@ use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use DateTime;
 
-/**
- * Class CurriculumInventoryReport
- */
 #[IA\DTO('curriculumInventoryReports')]
 #[IA\ExposeGraphQL]
 class CurriculumInventoryReportDTO

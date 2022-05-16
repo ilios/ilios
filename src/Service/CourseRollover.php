@@ -207,8 +207,8 @@ class CourseRollover
             $newSession->setEquipmentRequired($origCourseSession->isEquipmentRequired());
             $newSession->setSessionType($origCourseSession->getSessionType());
             $newSession->setSupplemental($origCourseSession->isSupplemental());
-            $newSession->setPublishedAsTbd(0);
-            $newSession->setPublished(0);
+            $newSession->setPublishedAsTbd(false);
+            $newSession->setPublished(false);
             $newSession->setInstructionalNotes($origCourseSession->getInstructionalNotes());
             $newSession->setDescription($origCourseSession->getDescription());
 

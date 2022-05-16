@@ -254,9 +254,6 @@ class LearnerGroupTest extends EntityBase
         $learnerGroup = new LearnerGroup();
         $learnerGroup->setCohort($cohort);
         $this->assertNull($learnerGroup->getProgramYear());
-
-        $learnerGroup = new LearnerGroup();
-        $this->assertNull($learnerGroup->getProgramYear());
     }
 
     /**
@@ -273,19 +270,9 @@ class LearnerGroupTest extends EntityBase
         $learnerGroup->setCohort($cohort);
         $this->assertEquals($program, $learnerGroup->getProgram());
 
-        $programYear = new ProgramYear();
-        $cohort = new Cohort();
-        $cohort->setProgramYear($programYear);
-        $learnerGroup = new LearnerGroup();
-        $learnerGroup->setCohort($cohort);
-        $this->assertNull($learnerGroup->getProgram());
-
         $cohort = new Cohort();
         $learnerGroup = new LearnerGroup();
         $learnerGroup->setCohort($cohort);
-        $this->assertNull($learnerGroup->getProgram());
-
-        $learnerGroup = new LearnerGroup();
         $this->assertNull($learnerGroup->getProgram());
     }
 
@@ -305,28 +292,9 @@ class LearnerGroupTest extends EntityBase
         $learnerGroup->setCohort($cohort);
         $this->assertEquals($school, $learnerGroup->getSchool());
 
-        $program = new Program();
-        $programYear = new ProgramYear();
-        $programYear->setProgram($program);
-        $cohort = new Cohort();
-        $cohort->setProgramYear($programYear);
-        $learnerGroup = new LearnerGroup();
-        $learnerGroup->setCohort($cohort);
-        $this->assertNull($learnerGroup->getSchool());
-
-        $programYear = new ProgramYear();
-        $cohort = new Cohort();
-        $cohort->setProgramYear($programYear);
-        $learnerGroup = new LearnerGroup();
-        $learnerGroup->setCohort($cohort);
-        $this->assertNull($learnerGroup->getSchool());
-
         $cohort = new Cohort();
         $learnerGroup = new LearnerGroup();
         $learnerGroup->setCohort($cohort);
-        $this->assertNull($learnerGroup->getSchool());
-
-        $learnerGroup = new LearnerGroup();
         $this->assertNull($learnerGroup->getSchool());
     }
 

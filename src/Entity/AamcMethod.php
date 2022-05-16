@@ -4,32 +4,27 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\SessionTypesEntity;
 use App\Attribute as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ActivatableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 
-/**
- * Class AamcMethod
- */
 #[ORM\Table(name: 'aamc_method')]
 #[ORM\Entity(repositoryClass: AamcMethodRepository::class)]
 #[IA\Entity]
 class AamcMethod implements AamcMethodInterface
 {
-    use IdentifiableEntity;
+    use IdentifiableStringEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
     use ActivatableEntity;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -38,37 +33,28 @@ class AamcMethod implements AamcMethodInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 10)]
-    protected $id;
+    protected string $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'description', type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $description;
+    protected string $description;
 
-    /**
-     * @var ArrayCollection|SessionTypeInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'SessionType', mappedBy: 'aamcMethods')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessionTypes;
+    protected Collection $sessionTypes;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $active;
+    protected bool $active;
 
     public function __construct()
     {
@@ -90,7 +76,7 @@ class AamcMethod implements AamcMethodInterface
         $sessionType->removeAamcMethod($this);
     }
 
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }

@@ -259,20 +259,5 @@ class OfferingTest extends EntityBase
         $offering = new Offering();
         $offering->setSession($session);
         $this->assertSame($school, $offering->getSchool());
-
-        $course = new Course();
-        $session = new Session();
-        $session->setCourse($course);
-        $offering = new Offering();
-        $offering->setSession($session);
-        $this->assertNull($offering->getSchool());
-
-        $session = new Session();
-        $offering = new Offering();
-        $offering->setSession($session);
-        $this->assertNull($offering->getSchool());
-
-        $offering = new Offering();
-        $this->assertNull($offering->getSchool());
     }
 }

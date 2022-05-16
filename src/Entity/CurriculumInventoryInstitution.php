@@ -13,9 +13,6 @@ use App\Traits\StringableIdEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CurriculumInventoryInstitutionRepository;
 
-/**
- * Class CurriculumInventoryInstitution
- */
 #[ORM\Table(name: 'curriculum_inventory_institution')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryInstitutionRepository::class)]
 #[IA\Entity]
@@ -26,9 +23,6 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     use StringableIdEntity;
     use SchoolEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'institution_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -36,99 +30,72 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 100)]
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'aamc_code', type: 'string', length: 10)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 10)]
-    protected $aamcCode;
+    protected string $aamcCode;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'address_street', type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 100)]
-    protected $addressStreet;
+    protected string $addressStreet;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'address_city', type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 100)]
-    protected $addressCity;
+    protected string $addressCity;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'address_state_or_province', type: 'string', length: 50)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 50)]
-    protected $addressStateOrProvince;
+    protected string $addressStateOrProvince;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'address_zipcode', type: 'string', length: 10)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 10)]
-    protected $addressZipCode;
+    protected string $addressZipCode;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'address_country_code', type: 'string', length: 2)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 2)]
-    protected $addressCountryCode;
+    protected string $addressCountryCode;
 
-    /**
-     * @var SchoolInterface
-     */
     #[ORM\OneToOne(inversedBy: 'curriculumInventoryInstitution', targetEntity: 'School')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', unique: true, nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $school;
+    protected SchoolInterface $school;
 
-    /**
-     * @param string $aamcCode
-     */
-    public function setAamcCode($aamcCode)
+    public function setAamcCode(string $aamcCode)
     {
         $this->aamcCode = $aamcCode;
     }
@@ -138,10 +105,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->aamcCode;
     }
 
-    /**
-     * @param string $addressStreet
-     */
-    public function setAddressStreet($addressStreet)
+    public function setAddressStreet(string $addressStreet)
     {
         $this->addressStreet = $addressStreet;
     }
@@ -151,10 +115,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressStreet;
     }
 
-    /**
-     * @param string $addressCity
-     */
-    public function setAddressCity($addressCity)
+    public function setAddressCity(string $addressCity)
     {
         $this->addressCity = $addressCity;
     }
@@ -164,10 +125,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressCity;
     }
 
-    /**
-     * @param string $addressStateOrProvince
-     */
-    public function setAddressStateOrProvince($addressStateOrProvince)
+    public function setAddressStateOrProvince(string $addressStateOrProvince)
     {
         $this->addressStateOrProvince = $addressStateOrProvince;
     }
@@ -177,12 +135,9 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressStateOrProvince;
     }
 
-    /**
-     * @param string $addressZipCode
-     */
-    public function setAddressZipCode($addressZipCode)
+    public function setAddressZipCode(string $addressZipcode)
     {
-        $this->addressZipCode = $addressZipCode;
+        $this->addressZipCode = $addressZipcode;
     }
 
     public function getAddressZipCode(): string
@@ -190,10 +145,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressZipCode;
     }
 
-    /**
-     * @param string $addressCountryCode
-     */
-    public function setAddressCountryCode($addressCountryCode)
+    public function setAddressCountryCode(string $addressCountryCode)
     {
         $this->addressCountryCode = $addressCountryCode;
     }

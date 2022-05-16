@@ -22,9 +22,6 @@ use App\Traits\CoursesEntity;
 use App\Traits\ProgramsEntity;
 use App\Repository\SchoolRepository;
 
-/**
- * Class School
- */
 #[ORM\Table(name: 'school')]
 #[ORM\UniqueConstraint(name: 'template_prefix', columns: ['template_prefix'])]
 #[ORM\Entity(repositoryClass: SchoolRepository::class)]
@@ -43,9 +40,6 @@ class School implements SchoolInterface
     use DirectorsEntity;
     use AdministratorsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -53,123 +47,88 @@ class School implements SchoolInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60, unique: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 60)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'template_prefix', type: 'string', length: 8, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 8)]
-    protected $templatePrefix;
+    protected ?string $templatePrefix = null;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'ilios_administrator_email', type: 'string', length: 100)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 100)]
-    protected $iliosAdministratorEmail;
+    protected string $iliosAdministratorEmail;
 
     /**
      * @todo: Normalize later. Collection of email addresses. (Add email entity, etc)
-     * @var string
      */
     #[ORM\Column(name: 'change_alert_recipients', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
-    protected $changeAlertRecipients;
+    protected ?string $changeAlertRecipients = null;
 
     /**
-     * @var ArrayCollection|AlertInterface[]
      * Don't put alerts in the school API it takes forever to load them all
      */
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'recipients')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Type('entityCollection')]
-    protected $alerts;
+    protected Collection $alerts;
 
-    /**
-     * @var ArrayCollection|CompetencyInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $competencies;
+    protected Collection $competencies;
 
-    /**
-     * @var ArrayCollection|CourseInterface[]
-     */
     #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courses;
+    protected Collection $courses;
 
-    /**
-     * @var ArrayCollection|ProgramInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $programs;
+    protected Collection $programs;
 
-    /**
-     * @var ArrayCollection|VocabularyInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Vocabulary')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $vocabularies;
+    protected Collection $vocabularies;
 
-    /**
-     * @var ArrayCollection|InstructorGroupInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'InstructorGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructorGroups;
+    protected Collection $instructorGroups;
 
-    /**
-     * @var CurriculumInventoryInstitutionInterface
-     */
     #[ORM\OneToOne(mappedBy: 'school', targetEntity: 'CurriculumInventoryInstitution')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $curriculumInventoryInstitution;
+    protected ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution = null;
 
-    /**
-     * @var ArrayCollection|SessionTypeInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $sessionTypes;
+    protected Collection $sessionTypes;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedSchools')]
     #[ORM\JoinTable(name: 'school_director')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
@@ -177,11 +136,8 @@ class School implements SchoolInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $directors;
+    protected Collection $directors;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredSchools')]
     #[ORM\JoinTable(name: 'school_administrator')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
@@ -189,16 +145,13 @@ class School implements SchoolInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $administrators;
+    protected Collection $administrators;
 
-    /**
-     * @var ArrayCollection|SchoolConfigInterface[]
-     */
     #[ORM\OneToMany(targetEntity: 'SchoolConfig', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $configurations;
+    protected Collection $configurations;
 
     public function __construct()
     {
@@ -214,10 +167,7 @@ class School implements SchoolInterface
         $this->configurations = new ArrayCollection();
     }
 
-    /**
-     * @param string $templatePrefix
-     */
-    public function setTemplatePrefix($templatePrefix)
+    public function setTemplatePrefix(?string $templatePrefix)
     {
         $this->templatePrefix = $templatePrefix;
     }
@@ -227,10 +177,7 @@ class School implements SchoolInterface
         return $this->templatePrefix;
     }
 
-    /**
-     * @param string $iliosAdministratorEmail
-     */
-    public function setIliosAdministratorEmail($iliosAdministratorEmail)
+    public function setIliosAdministratorEmail(string $iliosAdministratorEmail)
     {
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
     }
@@ -240,10 +187,7 @@ class School implements SchoolInterface
         return $this->iliosAdministratorEmail;
     }
 
-    /**
-     * @param string $changeAlertRecipients
-     */
-    public function setChangeAlertRecipients($changeAlertRecipients)
+    public function setChangeAlertRecipients(?string $changeAlertRecipients)
     {
         $this->changeAlertRecipients = $changeAlertRecipients;
     }
@@ -253,8 +197,9 @@ class School implements SchoolInterface
         return $this->changeAlertRecipients;
     }
 
-    public function setCurriculumInventoryInstitution($curriculumInventoryInstitution)
-    {
+    public function setCurriculumInventoryInstitution(
+        ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
+    ) {
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
 
@@ -363,9 +308,6 @@ class School implements SchoolInterface
         return $this->configurations;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIndexableCourses(): array
     {
         return $this->courses->toArray();

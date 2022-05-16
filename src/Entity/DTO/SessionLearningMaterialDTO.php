@@ -7,9 +7,6 @@ namespace App\Entity\DTO;
 use App\Attribute as IA;
 use DateTime;
 
-/**
- * Class SessionLearningMaterialDTO
- */
 #[IA\DTO('sessionLearningMaterials')]
 #[IA\ExposeGraphQL]
 class SessionLearningMaterialDTO

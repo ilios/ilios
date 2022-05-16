@@ -7,9 +7,6 @@ namespace App\Entity\DTO;
 use App\Attribute as IA;
 use DateTime;
 
-/**
- * Class MeshTermDTO
- */
 #[IA\DTO('meshTerms')]
 #[IA\ExposeGraphQL]
 class MeshTermDTO

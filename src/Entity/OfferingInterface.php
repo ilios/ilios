@@ -14,9 +14,6 @@ use App\Traits\LearnersEntityInterface;
 use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TimestampableEntityInterface;
 
-/**
- * Interface OfferingInterface
- */
 interface OfferingInterface extends
     IdentifiableEntityInterface,
     StringableEntityToIdInterface,
@@ -29,31 +26,22 @@ interface OfferingInterface extends
     LearnersEntityInterface
 {
     public function setRoom(?string $room);
-
     public function getRoom(): ?string;
 
-    /**
-     * @param string $site
-     */
-    public function setSite($site);
-
+    public function setSite(?string $site);
     public function getSite(): ?string;
 
     public function setUrl(?string $url);
-
     public function getUrl(): ?string;
 
     public function setStartDate(DateTime $startDate);
-
     public function getStartDate(): DateTime;
 
     public function setEndDate(DateTime $endDate);
-
     public function getEndDate(): DateTime;
 
     public function setSession(SessionInterface $session);
-
-    public function getSession(): ?SessionInterface;
+    public function getSession(): SessionInterface;
 
     /**
      * Get all the instructors including those in groups
@@ -65,5 +53,5 @@ interface OfferingInterface extends
      */
     public function getAlertProperties(): array;
 
-    public function getSchool(): ?SchoolInterface;
+    public function getSchool(): SchoolInterface;
 }

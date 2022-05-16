@@ -12,9 +12,6 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryExportRepository;
 
-/**
- * Class CurriculumInventoryExport
- */
 #[ORM\Table(name: 'curriculum_inventory_export')]
 #[ORM\Index(columns: ['created_by'], name: 'fkey_curriculum_inventory_export_user_id')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryExportRepository::class)]
@@ -24,9 +21,6 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     use IdentifiableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'export_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -34,45 +28,33 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var CurriculumInventoryReportInterface
-     */
     #[ORM\OneToOne(inversedBy: 'export', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', unique: true, nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $report;
+    protected CurriculumInventoryReportInterface $report;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'document', type: 'text')]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 16000000)]
-    protected $document;
+    protected string $document;
 
-    /**
-     * @var UserInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'user_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $createdBy;
+    protected UserInterface $createdBy;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'created_on', type: 'datetime')]
     #[IA\Expose]
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     #[Assert\NotBlank]
-    protected $createdAt;
+    protected DateTime $createdAt;
 
     public function __construct()
     {
@@ -89,10 +71,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         return $this->report;
     }
 
-    /**
-     * @param string $document
-     */
-    public function setDocument($document)
+    public function setDocument(string $document)
     {
         $this->document = $document;
     }

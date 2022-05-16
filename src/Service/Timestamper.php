@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Traits\IdentifiableEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
-use Exception;
 
 class Timestamper
 {
@@ -21,7 +19,6 @@ class Timestamper
 
     /**
      * Add an entity to be time stamped
-     * @throws Exception
      */
     public function add(TimestampableEntityInterface $entity, DateTime $timestamp)
     {
@@ -33,13 +30,8 @@ class Timestamper
         if (!array_key_exists($class, $this->entities[$ts])) {
             $this->entities[$ts][$class] = [];
         }
-        if (!$entity instanceof IdentifiableEntityInterface) {
-            throw new Exception("Tried to timestamp a non identifiable entity {$class}");
-        }
-        // When and entity has already been deleted it will lose it's ID so we have to check for that here
-        if ($id = $entity->getId()) {
-            $this->entities[$ts][$class][] = $id;
-        }
+        // When and entity has already been deleted it will lose it's ID, so we need to record it here
+        $this->entities[$ts][$class][] = (string) $entity;
     }
 
     public function flush()

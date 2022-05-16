@@ -7,9 +7,6 @@ namespace App\Entity\DTO;
 use App\Attribute as IA;
 use DateTime;
 
-/**
- * Class CurriculumInventoryExport
- */
 #[IA\DTO('curriculumInventoryExports')]
 #[IA\ExposeGraphQL]
 class CurriculumInventoryExportDTO

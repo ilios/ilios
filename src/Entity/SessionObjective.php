@@ -19,9 +19,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SessionObjectiveRepository;
 
-/**
- * Class SessionObjective
- */
 #[ORM\Table(name: 'session_x_objective')]
 #[ORM\Index(columns: ['session_id'], name: 'IDX_FA74B40B613FECDF')]
 #[ORM\Entity(repositoryClass: SessionObjectiveRepository::class)]
@@ -37,9 +34,6 @@ class SessionObjective implements SessionObjectiveInterface
     use CategorizableEntity;
     use SortableEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'session_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -47,31 +41,22 @@ class SessionObjective implements SessionObjectiveInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var SessionInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'sessionObjectives')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $session;
+    protected SessionInterface $session;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $position;
+    protected int $position;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable(name: 'session_objective_x_term')]
     #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
@@ -79,11 +64,8 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $terms;
+    protected Collection $terms;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'text')]
     #[IA\Expose]
     #[IA\Type('string')]
@@ -91,11 +73,8 @@ class SessionObjective implements SessionObjectiveInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable('session_objective_x_course_objective')]
     #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
@@ -107,11 +86,8 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courseObjectives;
+    protected Collection $courseObjectives;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionObjectives')]
     #[ORM\JoinTable(name: 'session_objective_x_mesh')]
     #[ORM\JoinColumn(name: 'session_objective_id', referencedColumnName: 'session_objective_id', onDelete: 'CASCADE')]
@@ -123,35 +99,26 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $meshDescriptors;
+    protected Collection $meshDescriptors;
 
-    /**
-     * @var SessionObjectiveInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'SessionObjective', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'session_objective_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $ancestor;
+    protected ?SessionObjectiveInterface $ancestor = null;
 
-    /**
-     * @var Collection
-     */
     #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $descendants;
+    protected Collection $descendants;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $active;
+    protected bool $active;
 
     public function __construct()
     {
@@ -173,9 +140,6 @@ class SessionObjective implements SessionObjectiveInterface
         return $this->session;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIndexableCourses(): array
     {
         return [$this->session->getCourse()];

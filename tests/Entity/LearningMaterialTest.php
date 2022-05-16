@@ -7,10 +7,13 @@ namespace App\Tests\Entity;
 use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\LearningMaterial;
+use App\Entity\LearningMaterialStatusInterface;
+use App\Entity\LearningMaterialUserRoleInterface;
 use App\Entity\School;
 use App\Entity\SessionInterface;
 use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\User;
+use App\Entity\UserInterface;
 use Mockery as m;
 
 /**
@@ -37,9 +40,9 @@ class LearningMaterialTest extends EntityBase
         $notBlank = [
             'title'
         ];
-        $this->object->setUserRole(m::mock('App\Entity\LearningMaterialUserRoleInterface'));
-        $this->object->setStatus(m::mock('App\Entity\LearningMaterialStatusInterface'));
-        $this->object->setOwningUser(m::mock('App\Entity\UserInterface'));
+        $this->object->setUserRole(m::mock(LearningMaterialUserRoleInterface::class));
+        $this->object->setStatus(m::mock(LearningMaterialStatusInterface::class));
+        $this->object->setOwningUser(m::mock(UserInterface::class));
 
         $this->validateNotBlanks($notBlank);
 
@@ -63,9 +66,9 @@ class LearningMaterialTest extends EntityBase
 
         $this->validateNotNulls($notNulls);
 
-        $this->object->setUserRole(m::mock('App\Entity\LearningMaterialUserRoleInterface'));
-        $this->object->setStatus(m::mock('App\Entity\LearningMaterialStatusInterface'));
-        $this->object->setOwningUser(m::mock('App\Entity\UserInterface'));
+        $this->object->setUserRole(m::mock(LearningMaterialUserRoleInterface::class));
+        $this->object->setStatus(m::mock(LearningMaterialStatusInterface::class));
+        $this->object->setOwningUser(m::mock(UserInterface::class));
 
         $this->validate(0);
     }
@@ -111,22 +114,12 @@ class LearningMaterialTest extends EntityBase
      */
     public function testGetOwningSchool()
     {
-        $this->assertNull($this->object->getOwningSchool());
-
         $school = new School();
         $user = new User();
         $user->setSchool($school);
         $lm = new LearningMaterial();
         $lm->setOwningUser($user);
         $this->assertSame($school, $lm->getOwningSchool());
-
-        $user = new User();
-        $lm = new LearningMaterial();
-        $lm->setOwningUser($user);
-        $this->assertNull($lm->getOwningSchool());
-
-        $lm = new LearningMaterial();
-        $this->assertNull($lm->getOwningSchool());
     }
 
     /**

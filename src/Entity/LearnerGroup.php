@@ -19,9 +19,6 @@ use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;
 use App\Repository\LearnerGroupRepository;
 
-/**
- * Class LearnerGroup
- */
 #[ORM\Table(name: '`group`')]
 #[ORM\Entity(repositoryClass: LearnerGroupRepository::class)]
 #[IA\Entity]
@@ -36,9 +33,6 @@ class LearnerGroup implements LearnerGroupInterface
     use InstructorGroupsEntity;
     use IlmSessionsEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'group_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -46,28 +40,22 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 60)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'location', type: 'string', length: 100, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 100)]
-    protected $location;
+    protected ?string $location = null;
 
     #[ORM\Column(name: 'url', type: 'string', length: 2000, nullable: true)]
     #[IA\Expose]
@@ -75,7 +63,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 2000)]
     #[Assert\Url]
-    protected ?string $url;
+    protected ?string $url = null;
 
     #[ORM\Column(name: 'needs_accommodation', type: 'boolean')]
     #[IA\Expose]
@@ -84,73 +72,49 @@ class LearnerGroup implements LearnerGroupInterface
     #[Assert\Type(type: 'bool')]
     protected bool $needsAccommodation;
 
-    /**
-     * @var CohortInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Cohort', inversedBy: 'learnerGroups')]
     #[ORM\JoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', nullable: false, onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $cohort;
+    protected CohortInterface $cohort;
 
-    /**
-     * @var LearnerGroupInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $parent;
+    protected ?LearnerGroupInterface $parent = null;
 
-    /**
-     * @var LearnerGroupInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'group_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $ancestor;
+    protected ?LearnerGroupInterface $ancestor = null;
 
-    /**
-     * @var ArrayCollection|LearnerGroupInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $descendants;
+    protected Collection $descendants;
 
-    /**
-     * @var ArrayCollection|LearnerGroupInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $children;
+    protected Collection $children;
 
-    /**
-     * @var ArrayCollection|IlmSessionInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $ilmSessions;
+    protected Collection $ilmSessions;
 
-    /**
-     * @var ArrayCollection|OfferingInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $offerings;
+    protected Collection $offerings;
 
-    /**
-     * @var ArrayCollection|InstructorGroupInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'learnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor_group')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
@@ -162,11 +126,8 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructorGroups;
+    protected Collection $instructorGroups;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerGroups')]
     #[ORM\JoinTable(name: 'group_x_user')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
@@ -174,11 +135,8 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $users;
+    protected Collection $users;
 
-    /**
-     * @var ArrayCollection|UserInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedLearnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
@@ -186,7 +144,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $instructors;
+    protected Collection $instructors;
 
     public function __construct()
     {
@@ -200,10 +158,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->needsAccommodation = false;
     }
 
-    /**
-     * @param string $location
-     */
-    public function setLocation($location)
+    public function setLocation(?string $location)
     {
         $this->location = $location;
     }
@@ -218,7 +173,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->cohort = $cohort;
     }
 
-    public function getCohort(): ?CohortInterface
+    public function getCohort(): CohortInterface
     {
         return $this->cohort;
     }
@@ -260,7 +215,7 @@ class LearnerGroup implements LearnerGroupInterface
     }
 
     /**
-     * If the objective has no ancestor then we need to objective itself
+     * If the group has no ancestor then we need the material itself
      */
     public function getAncestorOrSelf(): LearnerGroupInterface
     {
@@ -343,18 +298,12 @@ class LearnerGroup implements LearnerGroupInterface
 
     public function getSchool(): ?SchoolInterface
     {
-        if ($cohort = $this->getCohort()) {
-            return $cohort->getSchool();
-        }
-        return null;
+        return $this->cohort->getSchool();
     }
 
     public function getProgram(): ?ProgramInterface
     {
-        if ($cohort = $this->getCohort()) {
-            return $cohort = $cohort->getProgram();
-        }
-        return null;
+        return $this->cohort->getProgram();
     }
 
     public function getProgramYear(): ?ProgramYearInterface
@@ -365,33 +314,21 @@ class LearnerGroup implements LearnerGroupInterface
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setNeedsAccommodation(bool $needsAccommodation): void
     {
         $this->needsAccommodation = $needsAccommodation;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNeedsAccommodation(): bool
     {
         return $this->needsAccommodation;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getUrl(): ?string
     {
         return $this->url;

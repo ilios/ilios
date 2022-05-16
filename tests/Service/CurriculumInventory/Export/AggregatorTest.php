@@ -171,23 +171,6 @@ class AggregatorTest extends TestCase
 
     /**
      * @covers \App\Service\CurriculumInventory\Export\Aggregator::getData
-     */
-    public function testGetFailsIfProgramHasNoSchool()
-    {
-        $this->expectExceptionMessage('No school found for program with id = 1.');
-        $program = m::mock(Program::class);
-        $program->shouldReceive('getSchool')
-            ->andReturn(null);
-        $program->shouldReceive('getId')
-            ->andReturn(1);
-        $report = m::mock(CurriculumInventoryReport::class);
-        $report->shouldReceive('getProgram')
-            ->andReturn($program);
-        $this->aggregator->getData($report);
-    }
-
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\Aggregator::getData
      * @todo Implement this monster of a test. [ST 2018/07/18]
      */
     public function testGetData()

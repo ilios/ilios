@@ -12,9 +12,6 @@ use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SessionsEntityInterface;
 use App\Traits\TitledEntityInterface;
 
-/**
- * Interface CurriculumInventorySequenceBlockInterface
- */
 interface CurriculumInventorySequenceBlockInterface extends
     IdentifiableEntityInterface,
     DescribableEntityInterface,
@@ -22,106 +19,53 @@ interface CurriculumInventorySequenceBlockInterface extends
     LoggableEntityInterface,
     SessionsEntityInterface
 {
-    /**
-     * @var int
-     */
     public const REQUIRED = 1;
-    /**
-     * @var int
-     */
     public const OPTIONAL = 2;
-    /**
-     * @var int
-     */
     public const REQUIRED_IN_TRACK = 3;
 
-    /**
-     * @var int
-     */
     public const ORDERED = 1;
-
-    /**
-     * @var int
-     */
     public const UNORDERED = 2;
-
-    /**
-     * @var int
-     */
     public const PARALLEL = 3;
 
-    /**
-     * @param int $required
-     */
-    public function setRequired($required);
-
+    public function setRequired(int $required);
     public function getRequired(): int;
 
-    /**
-     * @param int $childSequenceOrder
-     */
-    public function setChildSequenceOrder($childSequenceOrder);
+    public function setChildSequenceOrder(int $childSequenceOrder);
+    public function getChildSequenceOrder(): int;
 
-    public function getChildSequenceOrder(): ?int;
+    public function setOrderInSequence(int $orderInSequence);
+    public function getOrderInSequence(): int;
 
-    /**
-     * @param int $orderInSequence
-     */
-    public function setOrderInSequence($orderInSequence);
+    public function setMinimum(int $minimum);
+    public function getMinimum(): int;
 
-    public function getOrderInSequence(): ?int;
+    public function setMaximum(int $maximum);
+    public function getMaximum(): int;
 
-    /**
-     * @param int $minimum
-     */
-    public function setMinimum($minimum);
-
-    public function getMinimum(): ?int;
-
-    /**
-     * @param int $maximum
-     */
-    public function setMaximum($maximum);
-
-    public function getMaximum(): ?int;
-
-    /**
-     * @param bool $track
-     */
-    public function setTrack($track);
-
+    public function setTrack(bool $track);
     public function hasTrack(): bool;
 
     public function setStartDate(DateTime $startDate = null);
-
     public function getStartDate(): ?DateTime;
 
     public function setEndDate(DateTime $endDate = null);
-
     public function getEndDate(): ?DateTime;
 
     public function setDuration(int $duration);
-
     public function getDuration(): int;
 
     public function setCourse(CourseInterface $course = null);
-
     public function getCourse(): ?CourseInterface;
 
     public function setChildren(Collection $children);
-
     public function addChild(CurriculumInventorySequenceBlockInterface $child);
-
     public function removeChild(CurriculumInventorySequenceBlockInterface $child);
-
     public function getChildren(): Collection;
 
     public function setReport(CurriculumInventoryReportInterface $report);
-
     public function getReport(): CurriculumInventoryReportInterface;
 
     public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
-
     public function getParent(): ?CurriculumInventorySequenceBlockInterface;
 
     /**
@@ -130,18 +74,12 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function getChildrenAsSortedList(): array;
 
     public function setExcludedSessions(Collection $sessions);
-
     public function addExcludedSession(SessionInterface $session);
-
     public function removeExcludedSession(SessionInterface $session);
-
     public function getExcludedSessions(): Collection;
 
     public function setStartingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
-
     public function setEndingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
-
     public function getStartingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
-
     public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
 }

@@ -12,9 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 
-/**
- * Class ApplicationConfig
- */
 #[ORM\Table(name: 'application_config')]
 #[ORM\UniqueConstraint(name: 'app_conf_uniq', columns: ['name'])]
 #[ORM\Entity(repositoryClass: ApplicationConfigRepository::class)]
@@ -25,9 +22,6 @@ class ApplicationConfig implements ApplicationConfigInterface
     use NameableEntity;
     use StringableIdEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -35,36 +29,30 @@ class ApplicationConfig implements ApplicationConfigInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 200)]
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'value', type: 'text', nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 65000)]
-    protected $value;
+    protected string $value;
 
     public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->value = $value;
     }

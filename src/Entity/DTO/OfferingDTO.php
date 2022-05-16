@@ -7,9 +7,6 @@ namespace App\Entity\DTO;
 use App\Attribute as IA;
 use DateTime;
 
-/**
- * Class OfferingDTO
- */
 #[IA\DTO('offerings')]
 #[IA\ExposeGraphQL]
 class OfferingDTO

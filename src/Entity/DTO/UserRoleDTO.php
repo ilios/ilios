@@ -6,9 +6,6 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 
-/**
- * Class UserRoleDTO
- */
 #[IA\DTO('userRoles')]
 class UserRoleDTO
 {

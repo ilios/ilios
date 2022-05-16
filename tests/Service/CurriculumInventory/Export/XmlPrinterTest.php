@@ -57,6 +57,7 @@ class XmlPrinterTest extends TestCase
         $sequence = new CurriculumInventorySequence();
         $sequence->setDescription('Lorem Ipsum');
         $report = new CurriculumInventoryReport();
+        $report->setId(999);
         $report->setSequence($sequence);
         $report->setProgram($program);
         $report->setYear(2020);
@@ -264,7 +265,7 @@ class XmlPrinterTest extends TestCase
 
         // <ReportId>
         $reportId = $xml->ReportID;
-        $this->assertEquals('2020x100xx1595006118', (string)$reportId);
+        $this->assertEquals('2020x100x999x1595006118', (string)$reportId);
         $this->assertEquals('idd:example.university.edu:cireport', $reportId->attributes()['domain']);
 
         // <Institution>
@@ -444,7 +445,7 @@ class XmlPrinterTest extends TestCase
         // <CompetencyFramework>
         $competencyFramework = $xml->Expectations->CompetencyFramework;
         $this->assertEquals(
-            'http://example.university.edu/competency_framework/2020x100xx1595006118',
+            'http://example.university.edu/competency_framework/2020x100x999x1595006118',
             (string)$competencyFramework->children('lom', true)->lom->general->identifier->entry
         );
         $this->assertEquals(

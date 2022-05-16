@@ -435,6 +435,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     public function executeNoRecipientsConfiguredProvider(): array
     {
         $school = new School();
+        $school->setId(1);
         $course = new Course();
         $course->setSchool($school);
         $session = new Session();
@@ -454,27 +455,42 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     public function executeDeletedOfferingProvider(): array
     {
+        $school = new School();
         $course = new Course();
+        $course->setSchool($school);
         $session = new Session();
         $session->setCourse($course);
         $offeringA = new Offering();
         $offeringA->setId(1);
         $offeringA->setSession($session);
         $alertA = new Alert();
+        $alertA->setId(1);
         $alertA->setTableName('offering');
         $alertA->setTableRowId($offeringA->getId());
 
-        $session = new Session();
+        $schoolB = new School();
+        $courseB = new Course();
+        $courseB->setSchool($schoolB);
+        $sessionB = new Session();
+        $sessionB->setCourse($courseB);
         $offeringB = new Offering();
         $offeringB->setId(1);
-        $offeringB->setSession($session);
+        $offeringB->setSession($sessionB);
         $alertB = new Alert();
+        $alertB->setId(2);
         $alertB->setTableName('offering');
         $alertB->setTableRowId($offeringB->getId());
 
+        $schoolC = new School();
+        $courseC = new Course();
+        $courseC->setSchool($schoolC);
+        $sessionC = new Session();
+        $sessionC->setCourse($courseC);
         $offeringC = new Offering();
         $offeringC->setId(1);
+        $offeringC->setSession($sessionC);
         $alertC = new Alert();
+        $alertC->setId(3);
         $alertC->setTableName('offering');
         $alertC->setTableRowId($offeringC->getId());
 

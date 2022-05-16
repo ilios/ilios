@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\LearnerGroupsEntityInterface;
 use App\Traits\TitledEntityInterface;
 use App\Traits\CoursesEntityInterface;
 use App\Traits\UsersEntityInterface;
 
-/**
- * Interface CohortInterface
- */
 interface CohortInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
@@ -24,7 +19,6 @@ interface CohortInterface extends
     UsersEntityInterface
 {
     public function setProgramYear(ProgramYearInterface $programYear = null);
-
     public function getProgramYear(): ?ProgramYearInterface;
 
     /**

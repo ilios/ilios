@@ -6,42 +6,17 @@ namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
 
-/**
- * Interface PendingUserUpdateInterface
- */
 interface PendingUserUpdateInterface extends
     IdentifiableEntityInterface
 {
-    /**
-     * @param string $type
-     */
-    public function setType($type);
-
+    public function setType(string $type);
     public function getType(): string;
 
-    /**
-     * Set property
-     *
-     * @param string $property
-     */
-    public function setProperty($property);
+    public function setProperty(?string $property);
+    public function getProperty(): ?string;
 
-    /**
-     * Get property
-     */
-    public function getProperty(): string;
-
-    /**
-     * Set value
-     *
-     * @param string $value
-     */
-    public function setValue($value);
-
-    /**
-     * Get value
-     */
-    public function getValue(): string;
+    public function setValue(?string $value);
+    public function getValue(): ?string;
 
     public function setUser(UserInterface $user);
 

@@ -14,7 +14,7 @@ class ProgramYearData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'startYear' => '2013',
+            'startYear' => 2013,
             'locked' => false,
             'archived' => false,
             'program' => "1",
@@ -26,7 +26,7 @@ class ProgramYearData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 2,
-            'startYear' => "2014",
+            'startYear' => 2014,
             'locked' => false,
             'archived' => false,
             'program' => "1",
@@ -38,7 +38,7 @@ class ProgramYearData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 3,
-            'startYear' => "2015",
+            'startYear' => 2015,
             'locked' => false,
             'archived' => true,
             'program' => "2",
@@ -50,7 +50,7 @@ class ProgramYearData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 4,
-            'startYear' => "2016",
+            'startYear' => 2016,
             'locked' => true,
             'archived' => false,
             'program' => "3",
@@ -62,7 +62,7 @@ class ProgramYearData extends AbstractDataLoader
         ];
         $arr[] = [
             'id' => 5,
-            'startYear' => '2017',
+            'startYear' => 2017,
             'locked' => false,
             'archived' => false,
             'program' => "1",
@@ -80,7 +80,7 @@ class ProgramYearData extends AbstractDataLoader
     {
         return [
             'id' => 6,
-            'startYear' => '2015',
+            'startYear' => 2015,
             'program' => "1",
             'directors' => [],
             'competencies' => [],

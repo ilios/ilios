@@ -72,7 +72,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 
     public function testCommandPassesArgumentsAndDefaultOptions()
     {
-        $reportId  = '1';
+        $reportId  = 1;
         $newReportId = 5;
         $report = new CurriculumInventoryReport();
         $report->setId($reportId);
@@ -107,7 +107,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
             'year' => 2016
         ];
 
-        $reportId  = '1';
+        $reportId  = 1;
         $newReportId = 5;
         $report = new CurriculumInventoryReport();
         $report->setId($reportId);
@@ -142,7 +142,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 
     public function testCommandPrintsOutNewReportIdOnSuccess()
     {
-        $reportId  = '1';
+        $reportId  = 1;
         $newReportId = 5;
 
         $this->service->shouldReceive('rollover')->andReturnUsing(function () use ($newReportId) {

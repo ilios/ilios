@@ -17,9 +17,6 @@ use App\Traits\StringableIdEntity;
 use App\Traits\CoursesEntity;
 use App\Repository\CohortRepository;
 
-/**
- * Class Cohort
- */
 #[ORM\Entity(repositoryClass: CohortRepository::class)]
 #[ORM\Table(name: 'cohort')]
 #[ORM\Index(columns: ['program_year_id', 'cohort_id', 'title'], name: 'whole_k')]
@@ -33,9 +30,6 @@ class Cohort implements CohortInterface
     use LearnerGroupsEntity;
     use UsersEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -43,22 +37,16 @@ class Cohort implements CohortInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 60)]
-    protected $title;
+    protected string $title;
 
-    /**
-     * @var ProgramYearInterface
-     */
     #[ORM\OneToOne(targetEntity: 'ProgramYear', inversedBy: 'cohort')]
     #[ORM\JoinColumn(
         name: 'program_year_id',
@@ -68,34 +56,25 @@ class Cohort implements CohortInterface
     )]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected $programYear;
+    protected ?ProgramYearInterface $programYear = null;
 
-    /**
-     * @var ArrayCollection|CourseInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $courses;
+    protected Collection $courses;
 
-    /**
-     * @var ArrayCollection|LearnerGroupInterface[]
-     */
     #[ORM\OneToMany(mappedBy: 'cohort', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $learnerGroups;
+    protected Collection $learnerGroups;
 
-    /**
-     * @var Collection
-     */
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $users;
+    protected Collection $users;
 
     public function __construct()
     {
@@ -154,9 +133,6 @@ class Cohort implements CohortInterface
 
     public function getProgram(): ?ProgramInterface
     {
-        if ($programYear = $this->getProgramYear()) {
-            return $programYear->getProgram();
-        }
-        return null;
+        return $this->programYear?->getProgram();
     }
 }

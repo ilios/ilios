@@ -12,14 +12,12 @@ use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
 use App\Attribute as IA;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SessionLearningMaterialRepository;
 
-/**
- * Class SessionLearningMaterial
- */
 #[ORM\Table(name: 'session_learning_material')]
 #[ORM\Index(columns: ['session_id', 'learning_material_id'], name: 'session_lm_k')]
 #[ORM\Index(columns: ['learning_material_id'], name: 'learning_material_id_k')]
@@ -35,9 +33,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     use SortableEntity;
     use LearningMaterialRelationshipEntity;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'session_learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -45,62 +40,44 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected $id;
+    protected int $id;
 
-    /**
-     * @var string
-     */
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected $notes;
+    protected ?string $notes = null;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'required', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $required;
+    protected bool $required;
 
-    /**
-     * @var bool
-     */
     #[ORM\Column(name: 'notes_are_public', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
-    protected $publicNotes;
+    protected bool $publicNotes;
 
-    /**
-     * @var SessionInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $session;
+    protected SessionInterface $session;
 
-    /**
-     * @var LearningMaterialInterface
-     */
     #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
-    protected $learningMaterial;
+    protected LearningMaterialInterface $learningMaterial;
 
-    /**
-     * @var ArrayCollection|MeshDescriptorInterface[]
-     */
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinTable(name: 'session_learning_material_x_mesh')]
     #[ORM\JoinColumn(
@@ -116,33 +93,24 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
-    protected $meshDescriptors;
+    protected Collection $meshDescriptors;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'position', type: 'integer')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
     #[Assert\Type(type: 'integer')]
-    protected $position;
+    protected int $position;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected $startDate;
+    protected ?DateTime $startDate = null;
 
-    /**
-     * @var DateTime
-     */
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected $endDate;
+    protected ?DateTime $endDate = null;
 
     public function __construct()
     {
@@ -161,9 +129,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         return $this->session;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getIndexableCourses(): array
     {
         return [$this->session->getCourse()];
