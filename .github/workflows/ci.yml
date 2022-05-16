@@ -15,7 +15,7 @@ env:
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
   MESSENGER_TRANSPORT_DSN: doctrine://default
-  latest_php: 8.0
+  latest_php: 8.1
   DOCKER_BUILDKIT: 1
 
 jobs:
@@ -52,7 +52,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [8.0, 8.1]
+        php-version: [8.1]
 
     steps:
     - uses: actions/checkout@v3
@@ -98,7 +98,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [8.0, 8.1]
+        php-version: [8.1]
 
     steps:
     - uses: actions/checkout@v3
@@ -279,7 +279,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.0, 8.1]
+        php-version: [8.1]
 
     steps:
       - uses: actions/checkout@v3
@@ -298,7 +298,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.0, 8.1]
+        php-version: [8.1]
 
     steps:
       - uses: actions/checkout@v3

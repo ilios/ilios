@@ -1,20 +1,20 @@
 # Ilios and PHP
 
-In an effort to ensure the best security and performance of the application overall, we have adopted a policy of requiring the latest version of PHP 7 for running Ilios.
+In an effort to ensure the best security and performance of the application overall, we have adopted a policy of requiring the latest version of PHP for running Ilios.
   
 ### The Ilios PHP Version Policy
 
-At any given time, the Ilios application will only be supported on the very latest minor version of PHP 7 and, for the first 3 months of that version's release, we will also ensure support for the previous minor version.  After 3 months, only Ilios instances running on the newest version of PHP 7 will continue to be supported.
+At any given time, the Ilios application will only be supported on the very latest minor version of PHP and, for the first 3 months of that version's release, we will also ensure support for the previous minor version.  After 3 months, only Ilios instances running on the newest version of PHP will continue to be supported.
  
 #### Policy Example
 
-For example, the current version of PHP is v8.0.  When PHP v8.1 is released, we will continue to ensure the Ilios code will work on PHP 8.0 for at least 90 days, and then, after that time has passed, we will only offer support for Ilios applications running on PHP 8.1 going forward.
+For example, the current version of PHP is v8.1.  When PHP v8.2 is released, we will continue to ensure the Ilios code will work on PHP 8.1 for at least 90 days, and then, after that time has passed, we will only offer support for Ilios applications running on PHP 8.2 going forward.
 
 ### Currently Supported Versions of PHP
 
 Based on the policy above, Ilios is currently compatible with the following versions of PHP:
 
-* PHP 8.0
+* PHP 8.1
  
 ### Up-To-Date PHP Repositories for CentOS and RHEL
 
