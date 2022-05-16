@@ -67,19 +67,19 @@ class MeshTerm implements MeshTermInterface
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\Type(type: 'bool')]
-    protected ?bool $conceptPreferred;
+    protected ?bool $conceptPreferred = null;
 
     #[ORM\Column(name: 'record_preferred', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\Type(type: 'bool')]
-    protected ?bool $recordPreferred;
+    protected ?bool $recordPreferred = null;
 
     #[ORM\Column(name: 'permuted', type: 'boolean', nullable: true)]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\Type(type: 'bool')]
-    protected ?bool $permuted;
+    protected ?bool $permuted = null;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     #[IA\Expose]

@@ -105,12 +105,12 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[ORM\Column(name: 'start_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected ?DateTime $startDate;
+    protected ?DateTime $startDate = null;
 
     #[ORM\Column(name: 'end_date', type: 'datetime', nullable: true)]
     #[IA\Expose]
     #[IA\Type('dateTime')]
-    protected ?DateTime $endDate;
+    protected ?DateTime $endDate = null;
 
     public function __construct()
     {

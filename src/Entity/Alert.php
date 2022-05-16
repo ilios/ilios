@@ -50,7 +50,7 @@ class Alert implements AlertInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
-    protected ?string $additionalText;
+    protected ?string $additionalText = null;
 
     #[ORM\Column(name: 'dispatched', type: 'boolean')]
     #[IA\Expose]
