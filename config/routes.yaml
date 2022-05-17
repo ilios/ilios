@@ -5,6 +5,16 @@ ilios_apiinfo:
     template:    'apiinfo.html.twig'
     _format:     'html'
 
+app.swagger_ui:
+  path: /api/doc
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+  path: /api/doc.json
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger }
+
 _monitor:
   resource: "@LiipMonitorBundle/Resources/config/routing.xml"
   prefix: /ilios/health
