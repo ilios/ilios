@@ -62,9 +62,6 @@ services:
     App\Controller\ExceptionController:
       public: true
 
-    App\Controller\SwaggerDocsController:
-      public: true
-
     App\EventListener\LogEntityChanges:
       tags:
       - { name: doctrine.event_listener, event: onFlush }
