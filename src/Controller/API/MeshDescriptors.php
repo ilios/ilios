@@ -14,11 +14,25 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 #[Route('/api/{version<v3>}/meshdescriptors')]
-class MeshDescriptors extends ReadOnlyController
+class MeshDescriptors extends AbstractApiController
 {
     public function __construct(protected MeshDescriptorRepository $meshDescriptorRepository)
     {
         parent::__construct($this->meshDescriptorRepository, 'meshdescriptors');
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
+    public function getOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
     }
 
     /**
@@ -53,6 +67,6 @@ class MeshDescriptors extends ReadOnlyController
             return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
         }
 
-        return parent::getAll($version, $request, $authorizationChecker, $builder);
+        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 }

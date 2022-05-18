@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 #[Route('/api/{version<v3>}/users')]
 
-class Users extends ReadWriteController
+class Users extends AbstractApiController
 {
     public function __construct(
         protected UserRepository $userRepository,
@@ -35,6 +35,20 @@ class Users extends ReadWriteController
         protected SerializerInterface $serializer
     ) {
         parent::__construct($userRepository, 'users');
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
+    public function getOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
     }
 
     /**
@@ -70,7 +84,7 @@ class Users extends ReadWriteController
             return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
         }
 
-        return parent::getAll($version, $request, $authorizationChecker, $builder);
+        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 
     /**
@@ -146,6 +160,35 @@ class Users extends ReadWriteController
             }
         }
 
-        return parent::put($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+        return $this->handlePut($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+    }
+
+
+    #[Route(
+        '/{id}',
+        methods: ['PATCH']
+    )]
+    public function patch(
+        string $version,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['DELETE']
+    )]
+    public function delete(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker
+    ): Response {
+        return $this->handleDelete($version, $id, $authorizationChecker);
     }
 }

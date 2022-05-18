@@ -13,6 +13,7 @@ use App\Service\ApiResponseBuilder;
 use OutOfRangeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,16 +24,39 @@ use Exception;
 use RuntimeException;
 
 #[Route('/api/{version<v3>}/curriculuminventorysequenceblocks')]
-class CurriculumInventorySequenceBlocks extends ReadWriteController
+class CurriculumInventorySequenceBlocks extends AbstractApiController
 {
     public function __construct(CurriculumInventorySequenceBlockRepository $repository)
     {
         parent::__construct($repository, 'curriculuminventorysequenceblocks');
     }
 
-    /**
-     * Handles POST which creates new data in the API
-     */
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
+    public function getOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
+    }
+
+    #[Route(
+        methods: ['GET']
+    )]
+    public function getAll(
+        string $version,
+        Request $request,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
+    }
+
     #[Route(methods: ['POST'])]
     public function post(
         string $version,
@@ -62,10 +86,6 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         return $builder->buildResponseForPostRequest($this->endpoint, $dtos, Response::HTTP_CREATED, $request);
     }
 
-    /**
-     * Modifies a single object in the API.  Can also create and
-     * object if it does not yet exist.
-     */
     #[Route(
         '/{id}',
         methods: ['PUT']
@@ -115,10 +135,6 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
 
-
-    /**
-     * Handles DELETE requests to remove an element from the API
-     */
     #[Route(
         '/{id}',
         methods: ['DELETE']
@@ -148,6 +164,52 @@ class CurriculumInventorySequenceBlocks extends ReadWriteController
         } catch (Exception $exception) {
             throw new RuntimeException("Failed to delete entity: " . $exception->getMessage());
         }
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['PATCH']
+    )]
+    public function patch(
+        string $version,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+
+        $entity = $this->repository->findOneBy(['id' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $oldChildSequenceOrder = $entity->getChildSequenceOrder();
+        $oldOrderInSequence = $entity->getOrderInSequence();
+
+        $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
+        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
+
+        $this->reorderChildrenOnChildSequenceOrderChange(
+            $oldChildSequenceOrder,
+            $entity
+        );
+        $this->reorderBlocksInSequenceOnOrderChange(
+            $oldOrderInSequence,
+            $entity
+        );
+
+        $this->repository->update($entity, true, false);
+
+        $dtos = $this->fetchDtosForEntities([$entity]);
+
+        return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
     }
 
     /**
