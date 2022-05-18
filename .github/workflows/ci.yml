@@ -142,8 +142,6 @@ jobs:
         build-args: ILIOS_VERSION=test
         target: ${{ matrix.image }}
         push: false
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
         outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar
         tags: ${{ matrix.image }}:testing
     - name: Upload artifact
@@ -185,8 +183,6 @@ jobs:
          build-args: ILIOS_VERSION=test
          target: ${{ matrix.image }}
          push: false
-         cache-from: type=gha
-         cache-to: type=gha,mode=max
 
   run_containers:
     name: Run and Test Containers
