@@ -1,0 +1,5 @@
+{% extends '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}
+{% block swagger_data %}
+    {# json_encode(65) is for JSON_UNESCAPED_SLASHES|JSON_HEX_TAG to avoid JS XSS #}
+    <script id="swagger-data" type="application/json">{{ swagger_data|insert_api_doc_description|json_encode(65)|raw }}</script>
+{% endblock swagger_data %}
