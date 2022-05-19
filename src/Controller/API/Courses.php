@@ -22,13 +22,27 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/{version<v3>}/courses')]
-class Courses extends ReadWriteController
+class Courses extends AbstractApiController
 {
     public function __construct(
         protected CourseRepository $courseRepository,
         protected TokenStorageInterface $tokenStorage
     ) {
         parent::__construct($courseRepository, 'courses');
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
+    public function getOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
     }
 
     /**
@@ -66,13 +80,21 @@ class Courses extends ReadWriteController
             return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
         }
 
-        return parent::getAll($version, $request, $authorizationChecker, $builder);
+        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 
-    /**
-     * Modifies a single object in the API.  Can also create and
-     * object if it does not yet exist.
-     */
+    #[Route(methods: ['POST'])]
+    public function post(
+        string $version,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handlePost($version, $request, $requestParser, $validator, $authorizationChecker, $builder);
+    }
+
     #[Route(
         '/{id}',
         methods: ['PUT']
@@ -102,7 +124,35 @@ class Courses extends ReadWriteController
             }
         }
 
-        return parent::put($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+        return $this->handlePut($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['PATCH']
+    )]
+    public function patch(
+        string $version,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['DELETE']
+    )]
+    public function delete(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker
+    ): Response {
+        return $this->handleDelete($version, $id, $authorizationChecker);
     }
 
     /**

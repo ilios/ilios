@@ -12,20 +12,44 @@ use App\Traits\ApiEntityValidation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\GoneHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/{version<v3>}/cohorts')]
-class Cohorts extends ReadOnlyController
+class Cohorts extends AbstractApiController
 {
     use ApiEntityValidation;
 
     public function __construct(CohortRepository $repository)
     {
         parent::__construct($repository, 'cohorts');
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
+    public function getOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
+    }
+
+    #[Route(
+        methods: ['GET']
+    )]
+    public function getAll(
+        string $version,
+        Request $request,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 
     /**

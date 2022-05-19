@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\RelationshipVoter\AbstractVoter;
+use App\Repository\RepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Traits\ApiEntityValidation;
@@ -13,22 +14,74 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
 
-abstract class ReadWriteController extends ReadOnlyController
+abstract class AbstractApiController
 {
     use ApiEntityValidation;
+
+    public function __construct(protected RepositoryInterface $repository, protected string $endpoint)
+    {
+    }
+
+    /**
+     * Handles GET request for a single entity
+     */
+    protected function handleGetOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        $dto = $this->repository->findDTOBy(['id' => $id]);
+
+        if (! $dto) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
+
+        return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
+    }
+
+    /**
+     * Handles GET request for multiple entities
+     */
+    protected function handleGetAll(
+        string $version,
+        Request $request,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        $parameters = ApiRequestParser::extractParameters($request);
+
+        $dtos = $this->repository->findDTOsBy(
+            $parameters['criteria'],
+            $parameters['orderBy'],
+            $parameters['limit'],
+            $parameters['offset']
+        );
+
+        $filteredResults = array_filter(
+            $dtos,
+            fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+        );
+
+        //Re-index numerically index the array
+        $values = array_values($filteredResults);
+
+        return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
+    }
 
     /**
      * Handles POST which creates new data in the API
      */
-    #[Route(methods: ['POST'])]
-    public function post(
+    protected function handlePost(
         string $version,
         Request $request,
         ApiRequestParser $requestParser,
@@ -54,11 +107,7 @@ abstract class ReadWriteController extends ReadOnlyController
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
      */
-    #[Route(
-        '/{id}',
-        methods: ['PUT']
-    )]
-    public function put(
+    protected function handlePut(
         string $version,
         string $id,
         Request $request,
@@ -94,11 +143,7 @@ abstract class ReadWriteController extends ReadOnlyController
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
      */
-    #[Route(
-        '/{id}',
-        methods: ['PATCH']
-    )]
-    public function patch(
+    protected function handlePatch(
         string $version,
         string $id,
         Request $request,
@@ -123,29 +168,25 @@ abstract class ReadWriteController extends ReadOnlyController
         $this->repository->update($entity, true, false);
 
         $dtos = $this->fetchDtosForEntities([$entity]);
+
         return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
     }
-
 
     /**
      * Handles DELETE requests to remove an element from the API
      */
-    #[Route(
-        '/{id}',
-        methods: ['DELETE']
-    )]
-    public function delete(
+    protected function handleDelete(
         string $version,
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
         $entity = $this->repository->findOneBy(['id' => $id]);
 
-        if (! $entity) {
+        if (!$entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
+        if (!$authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 

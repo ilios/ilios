@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/{version<v3>}/offerings')]
-class Offerings extends ReadWriteController
+class Offerings extends AbstractApiController
 {
     public function __construct(
         OfferingRepository $repository,
@@ -36,10 +36,32 @@ class Offerings extends ReadWriteController
         parent::__construct($repository, 'offerings');
     }
 
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
+    public function getOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
+    }
 
-    /**
-     * Handles POST which creates new data in the API
-     */
+    #[Route(
+        methods: ['GET']
+    )]
+    public function getAll(
+        string $version,
+        Request $request,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
+    }
+
     #[Route(methods: ['POST'])]
     public function post(
         string $version,
@@ -131,8 +153,6 @@ class Offerings extends ReadWriteController
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
 
-
-
     /**
      * Modifies a single object in the API.  Can also create and
      * object if it does not yet exist.
@@ -184,6 +204,18 @@ class Offerings extends ReadWriteController
 
         $dtos = $this->fetchDtosForEntities([$entity]);
         return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['DELETE']
+    )]
+    public function delete(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker
+    ): Response {
+        return $this->handleDelete($version, $id, $authorizationChecker);
     }
 
     protected function createAlertForNewOffering(OfferingInterface $offering)

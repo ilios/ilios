@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/api/{version<v3>}/programyears')]
-class ProgramYears extends ReadWriteController
+class ProgramYears extends AbstractApiController
 {
     public function __construct(
         protected ProgramYearRepository $programYearRepository,
@@ -36,9 +36,35 @@ class ProgramYears extends ReadWriteController
         parent::__construct($programYearRepository, 'programyears');
     }
 
-   /**
+    #[Route(
+        '/{id}',
+        methods: ['GET']
+    )]
+    public function getOne(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder,
+        Request $request
+    ): Response {
+        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
+    }
+
+    #[Route(
+        methods: ['GET']
+    )]
+    public function getAll(
+        string $version,
+        Request $request,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
+    }
+
+    /**
      * Create cohort to match the new program year
-    */
+     */
     #[Route(methods: ['POST'])]
     public function post(
         string $version,
@@ -91,7 +117,7 @@ class ProgramYears extends ReadWriteController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        /** @var ProgramYearInterface $entity */
+        /* @var ProgramYearInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
@@ -113,6 +139,7 @@ class ProgramYears extends ReadWriteController
             $permission = AbstractVoter::CREATE;
         }
 
+        /* @var ProgramYearInterface $entity */
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
         $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
@@ -125,6 +152,34 @@ class ProgramYears extends ReadWriteController
         $this->repository->flush();
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['PATCH']
+    )]
+    public function patch(
+        string $version,
+        string $id,
+        Request $request,
+        ApiRequestParser $requestParser,
+        ValidatorInterface $validator,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ApiResponseBuilder $builder
+    ): Response {
+        return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+    }
+
+    #[Route(
+        '/{id}',
+        methods: ['DELETE']
+    )]
+    public function delete(
+        string $version,
+        string $id,
+        AuthorizationCheckerInterface $authorizationChecker
+    ): Response {
+        return $this->handleDelete($version, $id, $authorizationChecker);
     }
 
     #[Route(
