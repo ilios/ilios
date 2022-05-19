@@ -132,6 +132,7 @@ jobs:
           - mysql
           - mysql-demo
           - elasticsearch
+          - redis
     steps:
     - uses: actions/checkout@v3
     - name: Set up Docker Buildx
@@ -168,6 +169,7 @@ jobs:
           - mysql
           - mysql-demo
           - elasticsearch
+          - redis
      steps:
      - uses: actions/checkout@v3
      - name: Set up QEMU
@@ -215,6 +217,7 @@ jobs:
         docker load --input /tmp/mysql-image/mysql.tar
         docker load --input /tmp/mysql-demo-image/mysql-demo.tar
         docker load --input /tmp/elasticsearch-image/elasticsearch.tar
+        docker load --input /tmp/redis-image/redis.tar
         docker image ls -a
     - name: Consume Messages
       run: |
@@ -256,6 +259,10 @@ jobs:
       run: |
         docker run -d --name ilios-elasticsearch elasticsearch:testing
         docker ps | grep -q ilios-elasticsearch
+    - name: REdis
+      run: |
+        docker run -d --name ilios-redis redis:testing
+        docker ps | grep -q ilios-redis
     - name: Output Docker Logs
       if: failure()
       run: |
@@ -269,6 +276,7 @@ jobs:
         docker logs ilios-mysql
         docker logs ilios-mysql-demo
         docker logs ilios-elasticsearch
+        docker logs ilios-redis
   check_setup_command:
     name: Setup Command
     needs: code_style

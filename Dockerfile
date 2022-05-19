@@ -222,6 +222,14 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 RUN bin/elasticsearch-plugin install -b ingest-attachment
 
 ###############################################################################
+# Setup redis with needed config
+###############################################################################
+FROM redis:7-alpine as redis
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+COPY docker/redis/redis.conf /usr/local/etc/redis/redis.conf
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+
+###############################################################################
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################

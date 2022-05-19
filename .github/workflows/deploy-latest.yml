@@ -21,6 +21,7 @@ jobs:
           - mysql
           - mysql-demo
           - elasticsearch
+          - redis
     steps:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2

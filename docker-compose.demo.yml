@@ -27,3 +27,7 @@ services:
       - discovery.type=single-node
     ports:
       - "9200:9200"
+  redis:
+    image: ilios/redis
+    ports:
+      - "6379:6379"
