@@ -22,17 +22,15 @@ jobs:
       - name: Use PHP ${{ env.latest_php }}
         uses: shivammathur/setup-php@v2
         with:
-          coverage: none
           php-version: ${{ env.latest_php }}
           extensions: apcu
+          ini-values: xdebug.mode=coverage
       - name: install dependencies
         run: composer install --no-interaction --prefer-dist
       - name: create coverage
-        run:
-          php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-xml=build/coverage --log-junit=build/coverage/phpunit.junit.xml
+        run: vendor/bin/phpunit --coverage-xml=build/coverage --log-junit=build/coverage/phpunit.junit.xml
       - name: infection
-        run:
-          vendor/bin/infection --coverage=build/coverage
+        run: vendor/bin/infection --coverage=build/coverage
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
