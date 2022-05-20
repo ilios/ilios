@@ -15,5 +15,4 @@ class Extension extends AbstractExtension
             new TwigFilter('insert_api_doc_info', [Runtime::class, 'insertApiDocInfo']),
         ];
     }
-
 }
