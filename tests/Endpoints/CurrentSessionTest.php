@@ -45,7 +45,7 @@ class CurrentSessionTest extends WebTestCase
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_currentsession_getcurrentsession',
+            'app_api_currentsession_getcurrentsession',
             ['version' => $this->apiVersion]
         );
         $this->makeJsonRequest(
@@ -72,7 +72,7 @@ class CurrentSessionTest extends WebTestCase
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_currentsession_getcurrentsession',
+            'app_api_currentsession_getcurrentsession',
             ['version' => $this->apiVersion]
         );
         $this->makeJsonRequest(

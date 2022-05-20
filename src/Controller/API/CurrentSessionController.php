@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\API;
 
-use App\Classes\SessionUserInterface;
 use App\Classes\CurrentSession;
+use App\Classes\SessionUserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -23,10 +23,7 @@ class CurrentSessionController extends AbstractController
      * Gets the currently authenticated users Id
      */
     #[Route(
-        '/api/{version}/currentsession',
-        requirements: [
-            'version' => '%ilios_api_valid_api_versions%',
-        ],
+        '/api/{version<v3>}/currentsession',
         methods: ['GET'],
     )]
     public function getCurrentSession(
