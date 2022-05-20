@@ -161,7 +161,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_usermaterial_getmaterials',
+            'app_api_usermaterial_getmaterials',
             $parameters
         );
 
@@ -189,7 +189,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         }
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_usermaterial_getmaterials',
+            'app_api_usermaterial_getmaterials',
             $parameters
         );
 

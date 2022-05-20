@@ -1048,7 +1048,7 @@ class UsereventTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_userevent_getevents',
+            'app_api_userevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
@@ -1073,7 +1073,7 @@ class UsereventTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_userevent_getevents',
+            'app_api_userevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
@@ -1098,7 +1098,7 @@ class UsereventTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_userevent_getevents',
+            'app_api_userevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
@@ -1127,7 +1127,7 @@ class UsereventTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_userevent_getevents',
+            'app_api_userevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
@@ -1162,7 +1162,7 @@ class UsereventTest extends AbstractEndpointTest
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
-            'app_userevent_getevents',
+            'app_api_userevent_getevents',
             $parameters
         );
         $this->createJsonRequest(
