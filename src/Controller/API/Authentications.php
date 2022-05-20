@@ -14,6 +14,7 @@ use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use App\Traits\ApiEntityValidation;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -33,6 +34,7 @@ use RuntimeException;
  * needs to encode passwords
  * so we have to handle that specially.
  */
+#[OA\Tag(name:'Authentications')]
 #[Route('/api/{version<v3>}/authentications')]
 class Authentications
 {

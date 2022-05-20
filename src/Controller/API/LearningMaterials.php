@@ -13,6 +13,7 @@ use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
 use App\Service\TemporaryFileSystem;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -35,6 +36,7 @@ use RuntimeException;
  * the top level API Read and ReadWrite controllers
  *
  */
+#[OA\Tag(name:'Learningmaterials')]
 #[Route('/api/{version<v3>}/learningmaterials')]
 
 class LearningMaterials

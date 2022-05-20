@@ -6,6 +6,7 @@ namespace App\Controller\API;
 
 use App\Classes\CurrentSession;
 use App\Classes\SessionUserInterface;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,6 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Class CurrentSessionController
  * Current session reflects back the user from the token
  */
+#[OA\Tag(name:'Currentsessions')]
 class CurrentSessionController extends AbstractController
 {
     /**

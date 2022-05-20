@@ -7,13 +7,15 @@ namespace App\Controller\API;
 use App\Repository\AamcMethodRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[Route('/api/{version<v3>}/aamcmethods')]
+#[OA\Tag(name:'Aamcmethods')]
+#[Route('/api/{version<v3>}/aamcmethods', defaults: ['version' => 'v3'])]
 class AamcMethods extends AbstractApiController
 {
     public function __construct(AamcMethodRepository $repository)

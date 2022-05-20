@@ -8,11 +8,13 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+#[OA\Tag(name:'Meshdescriptors')]
 #[Route('/api/{version<v3>}/meshdescriptors')]
 class MeshDescriptors extends AbstractApiController
 {

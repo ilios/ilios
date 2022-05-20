@@ -9,6 +9,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,8 +26,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * so users needs its own controller
  *
  */
+#[OA\Tag(name:'Users')]
 #[Route('/api/{version<v3>}/users')]
-
 class Users extends AbstractApiController
 {
     public function __construct(

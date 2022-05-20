@@ -11,6 +11,7 @@ use App\Entity\UserInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\UserRepository;
 use DateTime;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Class UsermaterialController
  */
+#[OA\Tag(name:'Usermaterials')]
 class UsermaterialController extends AbstractController
 {
     /**

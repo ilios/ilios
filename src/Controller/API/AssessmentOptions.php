@@ -7,12 +7,14 @@ namespace App\Controller\API;
 use App\Repository\AssessmentOptionRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[OA\Tag(name:'Assessmentoptions')]
 #[Route('/api/{version<v3>}/assessmentoptions')]
 class AssessmentOptions extends AbstractApiController
 {

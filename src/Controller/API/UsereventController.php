@@ -13,6 +13,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Class UsereventController
  */
+#[OA\Tag(name:'Userevents')]
 class UsereventController extends AbstractController
 {
     /**

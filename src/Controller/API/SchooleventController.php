@@ -14,6 +14,7 @@ use App\RelationshipVoter\SchoolEvent as SchoolEventVoter;
 use App\Repository\SchoolRepository;
 use App\Repository\SessionRepository;
 use DateTime;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  *
  * Search for events happening in a school
  */
+#[OA\Tag(name:'Schoolevents')]
+
 class SchooleventController extends AbstractController
 {
     #[Route(

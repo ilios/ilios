@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Classes\AcademicYear;
 use App\Repository\CourseRepository;
 use App\Service\AcademicYearFactory;
 use App\Service\ApiResponseBuilder;
-use App\Service\Config;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
+#[OA\Tag(name:'Academicyears')]
 #[Route('/api/{version<v3>}/academicyears')]
 class AcademicYears
 {

@@ -6,11 +6,13 @@ namespace App\Controller\API;
 
 use App\Repository\MeshPreviousIndexingRepository;
 use App\Service\ApiResponseBuilder;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+#[OA\Tag(name:'Meshpreviousindexings')]
 #[Route('/api/{version<v3>}/meshpreviousindexings')]
 class MeshPreviousIndexings extends AbstractApiController
 {

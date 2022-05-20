@@ -6,11 +6,13 @@ namespace App\Controller\API;
 
 use App\Repository\IngestionExceptionRepository;
 use App\Service\ApiResponseBuilder;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+#[OA\Tag(name:'Ingestionexceptions')]
 #[Route('/api/{version<v3>}/ingestionexceptions')]
 class IngestionExceptions extends AbstractApiController
 {

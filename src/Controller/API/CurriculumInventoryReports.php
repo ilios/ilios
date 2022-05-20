@@ -18,15 +18,16 @@ use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use Exception;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[OA\Tag(name:'Curriculuminventoryreports')]
 #[Route('/api/{version<v3>}/curriculuminventoryreports')]
 class CurriculumInventoryReports extends AbstractApiController
 {

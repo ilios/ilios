@@ -7,12 +7,14 @@ namespace App\Controller\API;
 use App\Repository\InstructorGroupRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[OA\Tag(name:'Instructorgroups')]
 #[Route('/api/{version<v3>}/instructorgroups')]
 class InstructorGroups extends AbstractApiController
 {
