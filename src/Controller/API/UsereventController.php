@@ -2,37 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\API;
 
-use App\Classes\SessionUserInterface;
+use App\Classes\UserEvent;
 use App\Entity\SessionInterface;
-use App\RelationshipVoter\AbstractCalendarEvent;
-use App\RelationshipVoter\SchoolEvent as SchoolEventVoter;
-use App\RelationshipVoter\AbstractVoter;
-use App\Classes\SchoolEvent;
+use App\Entity\UserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
-use App\Repository\SchoolRepository;
+use App\RelationshipVoter\AbstractCalendarEvent;
+use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionRepository;
-use Exception;
+use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use DateTime;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use function App\Controller\count;
 
 /**
- * Class SchooleventController
- *
- * Search for events happening in a school
+ * Class UsereventController
  */
-class SchooleventController extends AbstractController
+class UsereventController extends AbstractController
 {
+    /**
+     * Get events for a user
+     */
     #[Route(
-        '/api/{version<v3>}/schoolevents/{id}',
+        '/api/{version<v3>}/userevents/{id}',
         requirements: [
             'id' => '\d+',
         ],
@@ -42,16 +42,21 @@ class SchooleventController extends AbstractController
         string $version,
         int $id,
         Request $request,
-        SchoolRepository $schoolRepository,
-        SessionRepository $sessionRepository,
         AuthorizationCheckerInterface $authorizationChecker,
-        TokenStorageInterface $tokenStorage,
-        SerializerInterface $serializer
+        UserRepository $repository,
+        SessionRepository $sessionRepository,
+        SerializerInterface $serializer,
+        TokenStorageInterface $tokenStorage
     ): Response {
-        $school = $schoolRepository->findOneBy(['id' => $id]);
+        /** @var UserInterface $user */
+        $user = $repository->findOneBy(['id' => $id]);
 
-        if (!$school) {
-            throw new NotFoundHttpException(sprintf('The school \'%s\' was not found.', $id));
+        if (!$user) {
+            throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
+        }
+
+        if (!$authorizationChecker->isGranted(AbstractVoter::VIEW, $user)) {
+            throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
         if ($sessionId = $request->get('session')) {
@@ -61,7 +66,7 @@ class SchooleventController extends AbstractController
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
-            $events = $schoolRepository->findSessionEventsForSchool($school->getId(), $session->getId());
+            $events = $repository->findSessionEventsForUser($user->getId(), $session->getId());
         } else {
             $fromTimestamp = $request->get('from') ?? '';
             $toTimestamp = $request->get('to') ?? '';
@@ -74,7 +79,7 @@ class SchooleventController extends AbstractController
             if (!$to) {
                 throw new InvalidInputWithSafeUserMessageException("?to is missing or is not a valid timestamp");
             }
-            $events = $schoolRepository->findEventsForSchool($school->getId(), $from, $to);
+            $events = $repository->findEventsForUser($user->getId(), $from, $to);
         }
 
         $events = array_values(array_filter(
@@ -82,14 +87,11 @@ class SchooleventController extends AbstractController
             fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
         ));
 
-        /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $tokenStorage->getToken()->getUser();
-
-        $events = $schoolRepository->addPreAndPostRequisites($id, $events);
+        $events = $repository->addPreAndPostRequisites($user->getId(), $events);
 
         // run pre-/post-requisite user events through the permissions checker
         for ($i = 0, $n = count($events); $i < $n; $i++) {
-            /** @var SchoolEvent $event */
+            /** @var UserEvent $event */
             $event = $events[$i];
             $event->prerequisites = array_values(
                 array_filter(
@@ -107,36 +109,25 @@ class SchooleventController extends AbstractController
 
         // flatten out nested events, so that we can attach additional data points, and blank out data, in one go.
         $allEvents = [];
+        /** @var UserEvent $event */
         foreach ($events as $event) {
             $allEvents[] = $event;
             $allEvents = array_merge($allEvents, $event->prerequisites);
             $allEvents = array_merge($allEvents, $event->postrequisites);
         }
-        $allEvents = $schoolRepository->addInstructorsToEvents($allEvents);
-        $allEvents = $schoolRepository->addMaterialsToEvents($allEvents);
-        $allEvents = $schoolRepository->addSessionDataToEvents($allEvents);
+        $allEvents = $repository->addInstructorsToEvents($allEvents);
+        $allEvents = $repository->addMaterialsToEvents($allEvents);
+        $allEvents = $repository->addSessionDataToEvents($allEvents);
 
         $now = new DateTime();
         foreach ($allEvents as $event) {
             if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
-                if (
-                    $sessionUser->isStudentAdvisorInCourse($event->course) ||
-                    $sessionUser->isStudentAdvisorInSession($event->session) ||
-                    ($event->offering && $sessionUser->isLearnerInOffering($event->offering)) ||
-                    ($event->ilmSession && $sessionUser->isLearnerInIlm($event->ilmSession))
-                ) {
-                    $event->clearDataForStudentAssociatedWithEvent($now);
-                } else {
-                    $event->clearDataForUnprivilegedUsers();
-                }
-            }
-
-            if (! $authorizationChecker->isGranted(SchoolEventVoter::VIEW_VIRTUAL_LINK, $event)) {
-                $event->url = null;
+                $event->clearDataForUnprivilegedUsers($now);
             }
         }
 
-        $response['events'] = $events ? array_values($events) : [];
+        $response['userEvents'] = $events ? $events : [];
+
         return new Response(
             $serializer->serialize($response, 'json'),
             Response::HTTP_OK,

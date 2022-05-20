@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
-use App\RelationshipVoter\AbstractVoter;
 use App\Classes\UserMaterial;
 use App\Entity\LearningMaterialStatusInterface;
 use App\Entity\UserInterface;
+use App\RelationshipVoter\AbstractVoter;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use DateTime;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
