@@ -23,10 +23,7 @@ class CurrentSessionController extends AbstractController
      * Gets the currently authenticated users Id
      */
     #[Route(
-        '/api/{version}/currentsession',
-        requirements: [
-            'version' => '%ilios_api_valid_api_versions%',
-        ],
+        '/api/{version<v3>}/currentsession',
         methods: ['GET'],
     )]
     public function getCurrentSession(

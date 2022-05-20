@@ -5,7 +5,6 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     ilios_api_version: v3.6
-    ilios_api_valid_api_versions: 'v3'
     env(TRUSTED_PROXIES):
 
 services:

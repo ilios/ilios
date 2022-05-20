@@ -32,9 +32,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 class SchooleventController extends AbstractController
 {
     #[Route(
-        '/api/{version}/schoolevents/{id}',
+        '/api/{version<v3>}/schoolevents/{id}',
         requirements: [
-            'version' => '%ilios_api_valid_api_versions%',
             'id' => '\d+',
         ],
         methods: ['GET'],

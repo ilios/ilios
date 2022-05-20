@@ -34,9 +34,8 @@ class UsereventController extends AbstractController
      * Get events for a user
      */
     #[Route(
-        '/api/{version}/userevents/{id}',
+        '/api/{version<v3>}/userevents/{id}',
         requirements: [
-            'version' => '%ilios_api_valid_api_versions%',
             'id' => '\d+',
         ],
         methods: ['GET'],

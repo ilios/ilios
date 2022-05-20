@@ -29,9 +29,8 @@ class UsermaterialController extends AbstractController
      * Get the materials for a user
      */
     #[Route(
-        '/api/{version}/usermaterials/{id}',
+        '/api/{version<v3>}/usermaterials/{id}',
         requirements: [
-            'version' => '%ilios_api_valid_api_versions%',
             'id' => '\d+',
         ],
         methods: ['GET'],
