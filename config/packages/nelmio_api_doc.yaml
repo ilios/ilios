@@ -2,7 +2,6 @@ nelmio_api_doc:
     documentation:
         info:
             title: Ilios API Documentation
-            version: v3.6
         components:
             securitySchemes:
                 jwt:

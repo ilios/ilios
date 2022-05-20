@@ -24,14 +24,14 @@ class Runtime implements RuntimeExtensionInterface
 
     /**
      * KLUDGE!
-     * Twig filter that injects our descriptions into the API docs data structure before it gets rendered.
+     * Twig filter that injects our descriptions and version into the API docs data structure before it gets rendered.
      * @param array $swaggerData
      * @return array
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function insertApiDocDescription(array $swaggerData): array
+    public function insertApiDocInfo(array $swaggerData): array
     {
         $apiDocsUrl = $this->router->generate(
             'app.swagger_ui',
@@ -53,6 +53,7 @@ class Runtime implements RuntimeExtensionInterface
             'myprofileUrl' => $myprofileUrl . 'myprofile',
             'userApiUrl' => $userApiUrl,
         ]);
+        $swaggerData['spec']['info']['version'] = $this->apiVersion;
         return $swaggerData;
     }
 }

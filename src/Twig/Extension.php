@@ -12,7 +12,7 @@ class Extension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('insert_api_doc_description', [Runtime::class, 'insertApiDocDescription']),
+            new TwigFilter('insert_api_doc_info', [Runtime::class, 'insertApiDocInfo']),
         ];
     }
 
