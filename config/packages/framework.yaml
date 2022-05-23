@@ -25,3 +25,9 @@ when@test:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
+
+when@prod: &prod
+    framework:
+        error_controller: App\Controller\ExceptionController
+
+when@plus: *prod

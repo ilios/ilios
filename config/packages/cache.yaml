@@ -18,3 +18,10 @@ framework:
         pools:
             doctrine.annotation_cache_pool:
                 adapter: cache.system
+
+when@prod: &prod
+    framework:
+        cache:
+            app: cache.adapter.apcu
+
+when@plus: *prod
