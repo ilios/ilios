@@ -14,20 +14,24 @@ use OpenApi\Attributes as OA;
     properties: [
         new OA\Property(
             "id",
-            type:"string"
+            description: "ID",
+            type: "string"
         ),
         new OA\Property(
             "description",
-            type:"string"
+            description: "Description",
+            type: "string"
         ),
         new OA\Property(
             "active",
+            description:"Active",
             type:"boolean"
         ),
         new OA\Property(
             "sessionTypes",
-            type:"array",
-            items: new OA\Items(type: "string"),
+            description: "Sessiontypes",
+            type: "array",
+            items: new OA\Items(type: "string")
         )
     ]
 )]
