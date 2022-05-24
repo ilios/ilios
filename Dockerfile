@@ -60,8 +60,11 @@ RUN set -eux; \
     curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1; \
     docker-php-ext-install apcu; \
     docker-php-ext-enable apcu; \
+    pecl install redis \
+    && docker-php-ext-enable redis; \
     docker-php-ext-enable opcache; \
     rm -rf /var/lib/apt/lists/*; \
+    rm -rf /tmp/pear; \
     # remove the apt source files to save space
     apt-get purge libldap2-dev zlib1g-dev libicu-dev -y; \
     apt-get autoremove -y;
@@ -222,6 +225,14 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 RUN bin/elasticsearch-plugin install -b ingest-attachment
 
 ###############################################################################
+# Setup redis with needed config
+###############################################################################
+FROM redis:7-alpine as redis
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+COPY docker/redis/redis.conf /usr/local/etc/redis/redis.conf
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+
+###############################################################################
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
@@ -246,9 +257,12 @@ RUN set -eux; \
     curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1; \
     docker-php-ext-install apcu; \
     docker-php-ext-enable opcache; \
+    pecl install redis \
+    && docker-php-ext-enable redis; \
     # enable modules
     a2enmod rewrite mpm_prefork deflate headers; \
     rm -rf /var/lib/apt/lists/*; \
+    rm -rf /tmp/pear; \
     # remove the apt source files to save space
     apt-get purge libldap2-dev zlib1g-dev libicu-dev -y; \
     apt-get autoremove -y;

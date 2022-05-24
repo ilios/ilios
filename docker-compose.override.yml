@@ -26,6 +26,7 @@ services:
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_REDIS_URL=redis://redis
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/srv/app:rw,cached
@@ -35,6 +36,7 @@ services:
       - ./var/frontend:/srv/app/var/frontend:rw,cached
     depends_on:
       - db
+      - redis
   messages:
     build:
       context: .
@@ -44,9 +46,11 @@ services:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ILIOS_REDIS_URL=redis://redis
     depends_on:
         - db
         - elasticsearch
+        - redis
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/srv/app:rw,cached
@@ -61,3 +65,9 @@ services:
       - logger.level=WARN
     ports:
       - "9200:9200"
+  redis:
+    build:
+      context: .
+      target: redis
+    ports:
+      - "6379:6379"

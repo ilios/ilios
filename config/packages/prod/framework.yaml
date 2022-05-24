@@ -1,2 +1,2 @@
 framework:
-  error_controller:  App\Controller\ExceptionController
+  error_controller: App\Controller\ExceptionController
