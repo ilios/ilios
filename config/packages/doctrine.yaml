@@ -37,7 +37,7 @@ when@test:
                     logging: false
                     profiling: false
 
-when@prod: &prod
+when@prod:
     doctrine:
         dbal:
             url: '%env(resolve:ILIOS_DATABASE_URL)%'
@@ -58,5 +58,3 @@ when@prod: &prod
                     adapter: cache.app
                 doctrine.system_cache_pool:
                     adapter: cache.system
-
-when@plus: *prod

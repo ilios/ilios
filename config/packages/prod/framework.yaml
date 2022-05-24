@@ -1,0 +1,2 @@
+framework:
+  error_controller: App\Controller\ExceptionController

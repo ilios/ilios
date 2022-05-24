@@ -6,9 +6,7 @@ framework:
         # See https://symfony.com/doc/current/routing.html#generating-urls-in-commands
         #default_uri: http://localhost
 
-when@prod: &prod
+when@prod:
     framework:
         router:
             strict_requirements: null
-
-when@plus: *prod

@@ -18,18 +18,3 @@ framework:
         pools:
             doctrine.annotation_cache_pool:
                 adapter: cache.system
-
-when@prod: &prod
-    framework:
-        cache:
-            app: cache.adapter.apcu
-
-when@plus:
-    framework:
-        cache:
-            app: ilios.cache
-            pools:
-                ilios.cache:
-                    adapters:
-                        - cache.adapter.array
-                        - dynamic_cache_factory
