@@ -18,6 +18,7 @@ services:
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     depends_on:
         - db
