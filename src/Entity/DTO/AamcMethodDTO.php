@@ -27,7 +27,7 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             "sessionTypes",
             type:"array",
-            items: new OA\Items("string"),
+            items: new OA\Items(type: "string"),
         )
     ]
 )]
