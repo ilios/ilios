@@ -6,6 +6,7 @@
 parameters:
     ilios_api_version: v3.6
     env(TRUSTED_PROXIES):
+    env(ILIOS_REDIS_URL):
 
 services:
     # default configuration for services in *this* file
@@ -185,17 +186,7 @@ services:
     http_client:
       class: Symfony\Component\HttpClient\NativeHttpClient
 
-when@plus:
-  services:
-    app.redis_provider:
-      class: \Redis
-      factory: [ 'Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection' ]
-      arguments:
-        - '%env(resolve:ILIOS_REDIS_URL)%'
-        - { retry_interval: 2, timeout: 10 }
-
-    Symfony\Component\Cache\Marshaller\SodiumMarshaller:
-      decorates: cache.default_marshaller
-      arguments:
-        - ['%env(base64:ILIOS_CACHE_DECRYPTION_KEY)%']
-        - '@Symfony\Component\Cache\Marshaller\SodiumMarshaller.inner'
+    dynamic_cache_factory:
+      class: Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
+      factory: [ 'App\Service\DynamicCacheFactory', 'getCache' ]
+      arguments: ['namespace', '%env(resolve:ILIOS_REDIS_URL)%', '%kernel.cache_dir%']

@@ -27,12 +27,9 @@ when@prod: &prod
 when@plus:
     framework:
         cache:
-            app: ilios_cache
+            app: ilios.cache
             pools:
-                ilios_cache:
-                    default_lifetime: 86400  # One day
-                    tags: true
+                ilios.cache:
                     adapters:
                         - cache.adapter.array
-                        - cache.adapter.apcu
-                        - { name: cache.adapter.redis_tag_aware, provider: app.redis_provider }
+                        - dynamic_cache_factory
