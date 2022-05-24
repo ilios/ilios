@@ -5,13 +5,31 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class AamcPcrsDTO
- * Data transfer object for a aamcPcrs
- */
 #[IA\DTO('aamcPcrses')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "AamcPcrs",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "competencies",
+            description: "Competencies",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class AamcPcrsDTO
 {
     #[IA\Id]
