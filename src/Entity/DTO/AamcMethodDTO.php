@@ -22,8 +22,7 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(
             "active",
-            type:"boolean",
-            default: true
+            type:"boolean"
         ),
         new OA\Property(
             "sessionTypes",
