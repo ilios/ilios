@@ -34,7 +34,7 @@ class AamcMethods extends AbstractApiController
         summary: 'Fetch a single AAMC method.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path', schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
         ]
     )]
     #[OA\Response(
@@ -198,7 +198,7 @@ class AamcMethods extends AbstractApiController
         summary: 'Update an AAMC method.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path', schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
             new OA\Parameter(
                 name: 'body',
                 in: 'body',
@@ -273,7 +273,7 @@ class AamcMethods extends AbstractApiController
         summary: 'Delete an AAMC method.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path', schema: new OA\Schema(type: 'integer'))
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
         ]
     )]
     #[OA\Response(response: '204', description: 'Deleted.')]
