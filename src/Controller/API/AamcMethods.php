@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Entity\DTO\AamcMethodDTO;
 use App\Repository\AamcMethodRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +29,31 @@ class AamcMethods extends AbstractApiController
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: "/api/{version}/aamcmethods/{id}",
+        summary: "Get one AAMC method by its id",
+        parameters: [
+            new OA\Parameter(name: 'offset', description: 'Offering', in: 'query'),
+            new OA\Parameter(name: 'limit', description: 'Limit Results', in: 'query')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single Aamcmethod',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    "aamcmethods",
+                    type: "array",
+                    items: new OA\Items(
+                        ref: new Model(type: AamcMethodDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '404', description: 'Not found')]
     public function getOne(
         string $version,
         string $id,
