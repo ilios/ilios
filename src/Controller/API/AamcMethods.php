@@ -30,11 +30,11 @@ class AamcMethods extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
-        path: "/api/{version}/aamcmethods/{id}",
-        summary: "Fetch a single Aamcmethod",
+        path: '/api/{version}/aamcmethods/{id}',
+        summary: 'Fetch a single Aamcmethod',
         parameters: [
-            new OA\Parameter(name: 'offset', description: 'Offering', in: 'query'),
-            new OA\Parameter(name: 'limit', description: 'Limit Results', in: 'query')
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path', schema: new OA\Schema(type: 'integer'))
         ]
     )]
     #[OA\Response(
@@ -43,8 +43,8 @@ class AamcMethods extends AbstractApiController
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
-                    "aamcmethods",
-                    type: "array",
+                    'aamcMethods',
+                    type: 'array',
                     items: new OA\Items(
                         ref: new Model(type: AamcMethodDTO::class)
                     )
@@ -67,6 +67,65 @@ class AamcMethods extends AbstractApiController
     #[Route(
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: "/api/{version}/aamcmethods",
+        summary: "Fetch a single Aamcmethod",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path', required: false),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must by an array ie. &order_by[name]=ASC&order_by[description]=DESC',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array ie. &filters[id]=3',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of aamcmethods',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'aamcMethods',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: AamcMethodDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -77,6 +136,48 @@ class AamcMethods extends AbstractApiController
     }
 
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/aamcmethods',
+        summary: "Create Aamcmethods",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'aamcMethod',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: AamcMethodDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array of newly created aamcmethods',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'aamcMethod',
+                    type: 'object',
+                    items: new OA\Items(
+                        ref: new Model(type: AamcMethodDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Not Bad Request Data')]
+    #[OA\Response(response: '403', description: 'Access Denied')]
     public function post(
         string $version,
         Request $request,
@@ -92,6 +193,48 @@ class AamcMethods extends AbstractApiController
         '/{id}',
         methods: ['PUT']
     )]
+    #[OA\Put(
+        path: '/api/{version}/aamcmethods/{id}',
+        summary: 'Edit Aamcmethod',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path', schema: new OA\Schema(type: 'integer')),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'aamcMethod',
+                            ref: new Model(type: AamcMethodDTO::class),
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single Aamcmethod',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'aamcMethod',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: AamcMethodDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data')]
+    #[OA\Response(response: '403', description: 'Access Denied')]
+    #[OA\Response(response: '404', description: 'Not found')]
     public function put(
         string $version,
         string $id,
@@ -104,6 +247,7 @@ class AamcMethods extends AbstractApiController
         return $this->handlePut($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
+    // @todo add this endpoint to API docs. [ST 2022/05/24]
     #[Route(
         '/{id}',
         methods: ['PATCH']
@@ -123,6 +267,21 @@ class AamcMethods extends AbstractApiController
     #[Route(
         '/{id}',
         methods: ['DELETE']
+    )]
+    #[OA\Delete(
+        path: '/api/{version}/aamcmethods/{id}',
+        summary: 'Delete a Aamcmethod',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path', schema: new OA\Schema(type: 'integer'))
+        ]
+    )]
+    #[OA\Response(response: '204', description: 'Deleted Aamcmethod')]
+    #[OA\Response(response: '403', description: 'Access Denied')]
+    #[OA\Response(response: '404', description: 'Not Found')]
+    #[OA\Response(
+        response: '500',
+        description: 'Failed to delete entity (usually caused by non-cascading relationships)'
     )]
     public function delete(
         string $version,
