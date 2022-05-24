@@ -31,7 +31,7 @@ class AamcMethods extends AbstractApiController
     )]
     #[OA\Get(
         path: "/api/{version}/aamcmethods/{id}",
-        summary: "Get one AAMC method by its id",
+        summary: "Fetch a single Aamcmethod",
         parameters: [
             new OA\Parameter(name: 'offset', description: 'Offering', in: 'query'),
             new OA\Parameter(name: 'limit', description: 'Limit Results', in: 'query')
