@@ -6,13 +6,112 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
 
-/**
- * Class MeshDescriptorDTO
- * Data transfer object for a MeSH descriptor.
- */
 #[IA\DTO('meshDescriptors')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "MeshConcept",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "name",
+            description: "Name",
+            type: "string"
+        ),
+        new OA\Property(
+            "annotation",
+            description: "Annotation",
+            type: "string"
+        ),
+        new OA\Property(
+            "createdAt",
+            description: "Created at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "updatedAt",
+            description: "Updated at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "previousIndexing",
+            description: "MeSH previous indexing",
+            type: "integer"
+        ),
+        new OA\Property(
+            "deleted",
+            description: "Is deleted",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "courses",
+            description: "Courses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessionObjectives",
+            description: "Session objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "courseObjectives",
+            description: "Course objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "programYearObjectives",
+            description: "Program year objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessions",
+            description: "Sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "concepts",
+            description: "MeSH concepts",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "qualifiers",
+            description: "MeSH qualifiers",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "trees",
+            description: "MeSH trees",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessionLearningMaterials",
+            description: "Session learning materials",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "courseLearningMaterials",
+            description: "Course learning materials",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class MeshDescriptorDTO
 {
     #[IA\Id]
@@ -35,6 +134,15 @@ class MeshDescriptorDTO
     #[IA\Expose]
     #[IA\Type('dateTime')]
     public DateTime $updatedAt;
+
+    #[IA\Expose]
+    #[IA\Related('meshPreviousIndexings')]
+    #[IA\Type('integer')]
+    public ?int $previousIndexing = null;
+
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public bool $deleted;
 
     /**
      * @var int[]
@@ -115,15 +223,6 @@ class MeshDescriptorDTO
     #[IA\Related]
     #[IA\Type('array<string>')]
     public array $courseLearningMaterials = [];
-
-    #[IA\Expose]
-    #[IA\Related('meshPreviousIndexings')]
-    #[IA\Type('integer')]
-    public ?int $previousIndexing = null;
-
-    #[IA\Expose]
-    #[IA\Type('boolean')]
-    public bool $deleted;
 
     public function __construct(
         string $id,

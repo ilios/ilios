@@ -6,13 +6,140 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
-/**
- * Class SessionDTO
- * Data transfer object for a session.
- */
 #[IA\DTO('sessions')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "School",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "attireRequired",
+            description: "Is special attire required",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "equipmentRequired",
+            description: "Is equipment required",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "supplemental",
+            description: "Is supplemental",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "attendanceRequired",
+            description: "Is attendance required",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "publishedAsTbd",
+            description: "Is partially published",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "published",
+            description: "Is published",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "instructionalNotes",
+            description: "Instructional notes",
+            type: "string"
+        ),
+        new OA\Property(
+            "updatedAt",
+            description: "Updated at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "sessionType",
+            description: "Session type",
+            type: "integer"
+        ),
+        new OA\Property(
+            "course",
+            description: "Course",
+            type: "integer"
+        ),
+        new OA\Property(
+            "ilmSession",
+            description: "ILM session",
+            type: "integer"
+        ),
+        new OA\Property(
+            "postrequisite",
+            description: "Postrequisite",
+            type: "integer"
+        ),
+        new OA\Property(
+            "terms",
+            description: "Vocabulary terms",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessionObjectives",
+            description: "Session objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "meshDescriptors",
+            description: "MeSH descriptors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "learningMaterials",
+            description: "Session learning materials",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "administrators",
+            description: "Administrators",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "studentAdvisors",
+            description: "Student advisors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "offerings",
+            description: "Offerings",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "prerequisites",
+            description: "Prerequisites",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class SessionDTO
 {
     #[IA\Id]
@@ -75,6 +202,11 @@ class SessionDTO
     #[IA\Type('integer')]
     public ?int $ilmSession = null;
 
+    #[IA\Expose]
+    #[IA\Related('sessions')]
+    #[IA\Type('integer')]
+    public ?int $postrequisite = null;
+
     /**
      * @var int[]
      */
@@ -131,11 +263,6 @@ class SessionDTO
     #[IA\Type('array<string>')]
     public array $offerings = [];
 
-    #[IA\Expose]
-    #[IA\Related('sessions')]
-    #[IA\Type('integer')]
-    public ?int $postrequisite = null;
-
     /**
      * @var int[]
      */
@@ -147,6 +274,7 @@ class SessionDTO
     /**
      * For Voter use, not public
      */
+    #[Ignore]
     public int $school;
 
     public function __construct(

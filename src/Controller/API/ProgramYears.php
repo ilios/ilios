@@ -12,6 +12,7 @@ use App\Repository\CohortRepository;
 use App\Repository\ProgramYearRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Programyears')]
+#[OA\Tag(name:'Program years')]
 #[Route('/api/{version<v3>}/programyears')]
 class ProgramYears extends AbstractApiController
 {
@@ -41,6 +42,31 @@ class ProgramYears extends AbstractApiController
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: '/api/{version}/programyears/{id}',
+        summary: 'Fetch a single program year.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single program year.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'programYears',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: ProgramYearDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -54,6 +80,65 @@ class ProgramYears extends AbstractApiController
     #[Route(
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: "/api/{version}/programyears",
+        summary: "Fetch all program years.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of program years.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'programYears',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: ProgramYearDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -63,10 +148,49 @@ class ProgramYears extends AbstractApiController
         return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 
-    /**
-     * Create cohort to match the new program year
-     */
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/programyears',
+        summary: "Create program years.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'programYears',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: ProgramYearDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array of newly created program years.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'programYears',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: ProgramYearDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -101,14 +225,49 @@ class ProgramYears extends AbstractApiController
         return $builder->buildResponseForPostRequest($this->endpoint, $dtos, Response::HTTP_CREATED, $request);
     }
 
-    /**
-     * Modifies a single object in the API.  Can also create and
-     * object if it does not yet exist.
-     */
     #[Route(
         '/{id}',
         methods: ['PUT']
     )]
+    #[OA\Put(
+        path: '/api/{version}/programyears/{id}',
+        summary: 'Update a program year.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'programYear',
+                            ref: new Model(type: ProgramYearDTO::class),
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'The updated program year.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'programYear',
+                    ref: new Model(type: ProgramYearDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         string $id,
@@ -175,6 +334,21 @@ class ProgramYears extends AbstractApiController
         '/{id}',
         methods: ['DELETE']
     )]
+    #[OA\Delete(
+        path: '/api/{version}/programyears/{id}',
+        summary: 'Delete a program year.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(response: '204', description: 'Deleted.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
+    #[OA\Response(
+        response: '500',
+        description: 'Deletion failed (usually caused by non-cascading relationships).'
+    )]
     public function delete(
         string $version,
         string $id,
@@ -186,6 +360,18 @@ class ProgramYears extends AbstractApiController
     #[Route(
         '/{id}/downloadobjectivesmapping',
         methods: ['GET']
+    )]
+    #[OA\Get(
+        path: '/api/{version}/programyears/{id}/downloadobjectivesmapping',
+        summary: 'Download the objective mapping as CSV.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A CSV file containing the objective mapping.'
     )]
     public function downloadCourseObjectivesReport(
         string $version,

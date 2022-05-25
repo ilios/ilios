@@ -29,7 +29,7 @@ use OpenApi\Attributes as OA;
         ),
         new OA\Property(
             "sessionTypes",
-            description: "Session Types",
+            description: "Session types",
             type: "array",
             items: new OA\Items(type: "string")
         )

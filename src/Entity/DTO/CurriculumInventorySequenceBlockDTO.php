@@ -6,9 +6,121 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[IA\DTO('curriculumInventorySequenceBlocks')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "CurriculumInventorySequenceBlock",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "required",
+            description: "Required",
+            type: "integer"
+        ),
+        new OA\Property(
+            "childSequenceOrder",
+            description: "Child-sequence order",
+            type: "integer"
+        ),
+        new OA\Property(
+            "orderInSequence",
+            description: "Order in sequence",
+            type: "integer"
+        ),
+        new OA\Property(
+            "minimum",
+            description: "Minimum",
+            type: "integer"
+        ),
+        new OA\Property(
+            "maximum",
+            description: "Maximum",
+            type: "integer"
+        ),
+        new OA\Property(
+            "track",
+            description: "Is track",
+            type: "integer"
+        ),
+        new OA\Property(
+            "startDate",
+            description: "Start date",
+            type: "string",
+            format: 'date-time'
+        ),
+        new OA\Property(
+            "endDate",
+            description: "End date",
+            type: "string",
+            format: 'date-time'
+        ),
+        new OA\Property(
+            "duration",
+            description: "Duration",
+            type: "integer"
+        ),
+        new OA\Property(
+            "startingAcademicLevel",
+            description: "Starting academic level",
+            type: "integer"
+        ),
+        new OA\Property(
+            "endingAcademicLevel",
+            description: "Ending academic level",
+            type: "integer"
+        ),
+        new OA\Property(
+            "course",
+            description: "Course",
+            type: "integer"
+        ),
+        new OA\Property(
+            "parent",
+            description: "Parent sequence block",
+            type: "integer"
+        ),
+        new OA\Property(
+            "report",
+            description: "Curriculum inventory report",
+            type: "integer"
+        ),
+        new OA\Property(
+            "children",
+            description: "Child sequence blocks",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessions",
+            description: "Sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "excludedSessions",
+            description: "Excluded sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class CurriculumInventorySequenceBlockDTO
 {
     #[IA\Id]
@@ -80,6 +192,11 @@ class CurriculumInventorySequenceBlockDTO
     #[IA\Type('integer')]
     public ?int $parent = null;
 
+    #[IA\Expose]
+    #[IA\Related('curriculumInventoryReports')]
+    #[IA\Type('integer')]
+    public int $report;
+
     /**
      * @var int[]
      */
@@ -87,11 +204,6 @@ class CurriculumInventorySequenceBlockDTO
     #[IA\Related('curriculumInventorySequenceBlocks')]
     #[IA\Type('array<string>')]
     public array $children = [];
-
-    #[IA\Expose]
-    #[IA\Related('curriculumInventoryReports')]
-    #[IA\Type('integer')]
-    public int $report;
 
     /**
      * @var int[]
@@ -112,6 +224,7 @@ class CurriculumInventorySequenceBlockDTO
     /**
      * Needed for voting not exposed in the API
      */
+    #[Ignore]
     public int $school;
 
     public function __construct(

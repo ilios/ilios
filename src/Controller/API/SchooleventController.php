@@ -14,6 +14,7 @@ use App\RelationshipVoter\SchoolEvent as SchoolEventVoter;
 use App\Repository\SchoolRepository;
 use App\Repository\SessionRepository;
 use DateTime;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,13 +25,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * Class SchooleventController
- *
- * Search for events happening in a school
- */
-#[OA\Tag(name:'Schoolevents')]
-
+#[OA\Tag(name:'School events')]
 class SchooleventController extends AbstractController
 {
     #[Route(
@@ -40,6 +35,46 @@ class SchooleventController extends AbstractController
         ],
         methods: ['GET'],
     )]
+    #[OA\Get(
+        path: "/api/{version}/schoolevents/{id}",
+        summary: "Fetch all events for a given school.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'School ID', in: 'path'),
+            new OA\Parameter(
+                name: 'from',
+                description: 'Date of earliest event',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', format: 'date-time')
+            ),
+            new OA\Parameter(
+                name: 'to',
+                description: 'Date of latest event',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', format: 'date-time')
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of school events.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'schoolEvents',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: SchoolEvent::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function getEvents(
         string $version,
         int $id,
@@ -89,7 +124,7 @@ class SchooleventController extends AbstractController
 
         $events = $schoolRepository->addPreAndPostRequisites($id, $events);
 
-        // run pre-/post-requisite user events through the permissions checker
+        // run pre-/post-requisite school events through the permissions checker
         for ($i = 0, $n = count($events); $i < $n; $i++) {
             /** @var SchoolEvent $event */
             $event = $events[$i];

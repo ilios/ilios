@@ -6,12 +6,14 @@ namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\CourseInterface;
+use App\Entity\DTO\CourseDTO;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CourseRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CourseRollover;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +39,31 @@ class Courses extends AbstractApiController
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: '/api/{version}/courses/{id}',
+        summary: 'Fetch a single course.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single course.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'courses',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: CourseDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -51,6 +78,72 @@ class Courses extends AbstractApiController
      * Handle the special 'my' parameter for courses
      */
     #[Route(methods: ['GET'])]
+    #[OA\Get(
+        path: "/api/{version}/courses",
+        summary: "Fetch all courses.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'my',
+                description: 'My courses only. (any non-falsy value applies)',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of courses.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'courses',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: CourseDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -86,6 +179,48 @@ class Courses extends AbstractApiController
     }
 
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/courses',
+        summary: "Create courses.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'courses',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: CourseDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array of newly created courses.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'courses',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: CourseDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -101,6 +236,45 @@ class Courses extends AbstractApiController
         '/{id}',
         methods: ['PUT']
     )]
+    #[OA\Put(
+        path: '/api/{version}/courses/{id}',
+        summary: 'Update a course.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'course',
+                            ref: new Model(type: CourseDTO::class),
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'The updated course.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'course',
+                    ref: new Model(type: CourseDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         string $id,
@@ -149,6 +323,21 @@ class Courses extends AbstractApiController
         '/{id}',
         methods: ['DELETE']
     )]
+    #[OA\Delete(
+        path: '/api/{version}/courses/{id}',
+        summary: 'Delete a course.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(response: '204', description: 'Deleted.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
+    #[OA\Response(
+        response: '500',
+        description: 'Deletion failed (usually caused by non-cascading relationships).'
+    )]
     public function delete(
         string $version,
         string $id,
@@ -158,12 +347,82 @@ class Courses extends AbstractApiController
     }
 
     /**
-     * Rollover a course by ID
+     * Rollover a course by ID.
      */
     #[Route(
         '/{id}/rollover',
         methods: ['POST']
     )]
+    #[OA\Post(
+        path: '/api/{version}/{id}/rollover',
+        summary: 'Rollover a course by ID.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: [new OA\MediaType(
+            mediaType: 'application/x-www-form-urlencoded',
+            schema: new OA\Schema(
+                properties: [
+                    new OA\Property(
+                        'cohorts[]',
+                        description: 'IDs of cohorts to attach to rolled over course',
+                        type: 'array',
+                        items: new OA\Items(type: 'string')
+                    ),
+                    new OA\Property(
+                        'newStartDate',
+                        description: 'Start date for rolled over course',
+                        type: 'string',
+                        format: 'date'
+                    ),
+                    new OA\Property(
+                        'newStartDate',
+                        description: 'Start date for rolled over course',
+                        type: 'string',
+                        format: 'date'
+                    ),
+                    new OA\Property(
+                        'skip-offerings',
+                        description: 'Skip rolling over offerings',
+                        type: 'boolean',
+                    ),
+                    new OA\Property(
+                        'newCourseTitle',
+                        description: 'Title for rolled over course',
+                        type: 'string',
+                    ),
+                    new OA\Property(
+                        'year',
+                        description: 'Year to rollover course into',
+                        type: 'string',
+                    ),
+                ],
+                type: 'object'
+            )
+        )]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array containing the rolled-over course.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'courses',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: CourseDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function rolloverAction(
         string $version,
         int $id,

@@ -5,13 +5,253 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
-/**
- * Class UserDTO
- * Data transfer object for a user
- */
 #[IA\DTO('users')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "User",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "lastName",
+            description: "Last name",
+            type: "string"
+        ),
+        new OA\Property(
+            "firstName",
+            description: "First name",
+            type: "string"
+        ),
+        new OA\Property(
+            "middleName",
+            description: "Middle name",
+            type: "string"
+        ),
+        new OA\Property(
+            "displayName",
+            description: "Display name",
+            type: "string"
+        ),
+        new OA\Property(
+            "phone",
+            description: "Phone number",
+            type: "string"
+        ),
+        new OA\Property(
+            "email",
+            description: "Email address",
+            type: "string"
+        ),
+        new OA\Property(
+            "preferredEmail",
+            description: "Preferred email address",
+            type: "string"
+        ),
+        new OA\Property(
+            "pronouns",
+            description: "Pronouns",
+            type: "string"
+        ),
+        new OA\Property(
+            "addedViaIlios",
+            description: "Has been added via Ilios",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "enabled",
+            description: "Is enabled",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "campusId",
+            description: "Campus ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "otherId",
+            description: "Other ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "examined",
+            description: "Has been examined",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "userSyncIgnore",
+            description: "Is ignored from user sync",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "root",
+            description: "Is Root user",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "icsFeedKey",
+            description: "ICS feed key",
+            type: "string"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "integer"
+        ),
+        new OA\Property(
+            "authentication",
+            description: "Authentication",
+            type: "integer"
+        ),
+        new OA\Property(
+            "primaryCohort",
+            description: "Primary cohort",
+            type: "integer"
+        ),
+        new OA\Property(
+            "primaryCohort",
+            description: "Primary cohort",
+            type: "integer"
+        ),
+        new OA\Property(
+            "reports",
+            description: "Reports",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "directedCourses",
+            description: "Directed courses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "administeredCourses",
+            description: "Administered courses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "studentAdvisedCourses",
+            description: "Student-advised courses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "learnerGroups",
+            description: "Leaner groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructedLearnerGroups",
+            description: "Instructed learner groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructorGroups",
+            description: "Instructor groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructorIlmSessions",
+            description: "Instructor ILM sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "learnerIlmSessions",
+            description: "Learner ILM sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "offerings",
+            description: "Offerings",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructedOfferings",
+            description: "Instructed offerings",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "programYears",
+            description: "Program years",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "roles",
+            description: "Roles",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "cohort",
+            description: "Cohort",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "pendingUserUpdates",
+            description: "Pending user updates",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "directedSchools",
+            description: "Directed schools",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "administeredSchools",
+            description: "Administered schools",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "administeredSessions",
+            description: "Administered sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "studentAdvisedSessions",
+            description: "Student-advised sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "directedPrograms",
+            description: "Directed programs",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "administeredCurriculumInventoryReports",
+            description: "Administered curriculum inventory reports",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "auditLogs",
+            description: "Audit logs",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class UserDTO
 {
     #[IA\Id]
@@ -76,16 +316,14 @@ class UserDTO
     public bool $userSyncIgnore;
 
     #[IA\Expose]
+    #[IA\Type('boolean')]
+    public bool $root;
+
+
+    #[IA\Expose]
     #[IA\Type('string')]
     public string $icsFeedKey;
 
-    /**
-     * @var int[]
-     */
-    #[IA\Expose]
-    #[IA\Related]
-    #[IA\Type('array<string>')]
-    public array $reports = [];
 
     #[IA\Expose]
     #[IA\Related('schools')]
@@ -96,6 +334,19 @@ class UserDTO
     #[IA\Related('authentications')]
     #[IA\Type('integer')]
     public ?int $authentication = null;
+
+    #[IA\Expose]
+    #[IA\Related('cohorts')]
+    #[IA\Type('integer')]
+    public ?int $primaryCohort = null;
+
+    /**
+     * @var int[]
+     */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
+    public array $reports = [];
 
     /**
      * @var int[]
@@ -201,11 +452,6 @@ class UserDTO
     #[IA\Type('array<string>')]
     public array $cohorts = [];
 
-    #[IA\Expose]
-    #[IA\Related('cohorts')]
-    #[IA\Type('integer')]
-    public ?int $primaryCohort = null;
-
     /**
      * @var int[]
      */
@@ -213,10 +459,6 @@ class UserDTO
     #[IA\Related]
     #[IA\Type('array<string>')]
     public array $pendingUserUpdates = [];
-
-    #[IA\Expose]
-    #[IA\Type('boolean')]
-    public bool $root;
 
     /**
      * @var int[]
@@ -269,11 +511,13 @@ class UserDTO
     /**
      * @var int[]
      */
+    #[Ignore]
     public array $auditLogs = [];
 
     /**
      * For index use, not public
      */
+    #[Ignore]
     public ?string $username = null;
 
     public function __construct(

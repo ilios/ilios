@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Entity\DTO\VocabularyDTO;
 use App\Repository\VocabularyRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +29,31 @@ class Vocabularies extends AbstractApiController
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: '/api/{version}/vocabularies/{id}',
+        summary: 'Fetch a single vocabulary.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single vocabulary.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'vocabularies',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: VocabularyDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -40,6 +67,65 @@ class Vocabularies extends AbstractApiController
     #[Route(
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: "/api/{version}/vocabularies",
+        summary: "Fetch all vocabularies.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of vocabularies.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'vocabularies',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: VocabularyDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -50,6 +136,48 @@ class Vocabularies extends AbstractApiController
     }
 
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/vocabularies',
+        summary: "Create vocabularies.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'vocabularies',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: VocabularyDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array of newly created vocabularies.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'vocabulary',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: VocabularyDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -65,6 +193,45 @@ class Vocabularies extends AbstractApiController
         '/{id}',
         methods: ['PUT']
     )]
+    #[OA\Put(
+        path: '/api/{version}/vocabularies/{id}',
+        summary: 'Update a vocabulary.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'vocabulary',
+                            ref: new Model(type: VocabularyDTO::class),
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'The updated vocabulary.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'vocabulary',
+                    ref: new Model(type: VocabularyDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         string $id,
@@ -97,6 +264,17 @@ class Vocabularies extends AbstractApiController
         '/{id}',
         methods: ['DELETE']
     )]
+    #[OA\Delete(
+        path: '/api/{version}/vocabularies/{id}',
+        summary: 'Delete a vocabulary.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(response: '204', description: 'Deleted.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function delete(
         string $version,
         string $id,

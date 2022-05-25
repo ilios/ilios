@@ -5,9 +5,98 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('learnerGroups')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "LearnerGroup",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "location",
+            description: "Location",
+            type: "string"
+        ),
+        new OA\Property(
+            "url",
+            description: "Virtual learning link",
+            type: "string"
+        ),
+        new OA\Property(
+            "needsAccommodation",
+            description: "One or more learners in this group need special accommodation",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "cohort",
+            description: "Cohort",
+            type: "integer",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "parent",
+            description: "Parent learner group",
+            type: "integer"
+        ),
+        new OA\Property(
+            "parent",
+            description: "Ancestor",
+            type: "integer"
+        ),
+        new OA\Property(
+            "descendants",
+            description: "Descendants",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "children",
+            description: "Child learner groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "ilmSessions",
+            description: "ILM Sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "offerings",
+            description: "Offerings",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructorGroups",
+            description: "Instructor groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "users",
+            description: "Learners",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructors",
+            description: "Instructors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class LearnerGroupDTO
 {
     #[IA\Id]

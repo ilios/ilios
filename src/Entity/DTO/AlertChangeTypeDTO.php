@@ -5,12 +5,30 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class AlertChangeTypeDTO
- * Data transfer object for a alertChangeType
- */
 #[IA\DTO('alertChangeTypes')]
+#[OA\Schema(
+    title: "AlertChangeType",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "alerts",
+            description: "Alerts",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class AlertChangeTypeDTO
 {
     #[IA\Id]

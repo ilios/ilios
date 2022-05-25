@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace App\Classes;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class CurrentSession
- */
 #[IA\DTO('currentSession')]
+#[OA\Schema(
+    title: "CurrentSession",
+    properties: [
+        new OA\Property(
+            "userId",
+            description: "The user ID",
+            type: "string"
+        )
+    ]
+)]
 class CurrentSession
 {
     #[IA\Expose]

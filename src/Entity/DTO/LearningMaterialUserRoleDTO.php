@@ -5,13 +5,25 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class LearningMaterialUserRoleDTO
- * Data transfer object for a learning material user role
- */
 #[IA\DTO('learningMaterialUserRoles')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "LearnerGroup",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+    ]
+)]
 class LearningMaterialUserRoleDTO
 {
     #[IA\Id]

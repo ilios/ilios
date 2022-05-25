@@ -5,8 +5,24 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('userRoles')]
+#[OA\Schema(
+    title: "UserRole",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        )
+    ]
+)]
 class UserRoleDTO
 {
     #[IA\Id]

@@ -6,13 +6,147 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
 
-/**
- * Class CourseDTO
- * Data transfer object for a course
- */
 #[IA\DTO('courses')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Course",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "level",
+            description: "Level",
+            type: "integer"
+        ),
+        new OA\Property(
+            "year",
+            description: "Year",
+            type: "integer"
+        ),
+        new OA\Property(
+            "startDate",
+            description: "Start date",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "endDate",
+            description: "End date",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "externalId",
+            description: "External ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "locked",
+            description: "Is locked",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "archived",
+            description: "Is archived",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "publishedAsTbd",
+            description: "Is published",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "published",
+            description: "Is fully published",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "clerkshipType",
+            description: "Clerkship type",
+            type: "integer"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "integer"
+        ),
+        new OA\Property(
+            "ancestor",
+            description: "Ancestor",
+            type: "integer"
+        ),
+        new OA\Property(
+            "directors",
+            description: "Directors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "administrators",
+            description: "Administrators",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "studentAdvisors",
+            description: "Student advisors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "cohorts",
+            description: "Cohorts",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "terms",
+            description: "Vocabulary terms",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "courseObjectives",
+            description: "Course objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "meshDescriptors",
+            description: "MeSH descriptors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "learningMaterials",
+            description: "Course learning materials",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessions",
+            description: "Sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "descendants",
+            description: "Descendants",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class CourseDTO
 {
     #[IA\Id]
@@ -69,6 +203,11 @@ class CourseDTO
     #[IA\Type('integer')]
     #[IA\Related('schools')]
     public int $school;
+
+    #[IA\Expose]
+    #[IA\Type('integer')]
+    #[IA\Related('courses')]
+    public ?int $ancestor = null;
 
     /**
      * @var int[]
@@ -141,11 +280,6 @@ class CourseDTO
     #[IA\Related]
     #[IA\Type('array<string>')]
     public array $sessions = [];
-
-    #[IA\Expose]
-    #[IA\Type('integer')]
-    #[IA\Related('courses')]
-    public ?int $ancestor = null;
 
     /**
      * @var int[]

@@ -6,9 +6,69 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[IA\DTO('sessionLearningMaterials')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "SessionLearningMaterial",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "notes",
+            description: "Notes",
+            type: "string"
+        ),
+        new OA\Property(
+            "required",
+            description: "Required",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "publicNotes",
+            description: "Has public notes",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "position",
+            description: "Position",
+            type: "integer"
+        ),
+        new OA\Property(
+            "startDate",
+            description: "Start date",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "endDate",
+            description: "End date",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "session",
+            description: "Session",
+            type: "integer"
+        ),
+        new OA\Property(
+            "learningMaterial",
+            description: "Learning material",
+            type: "integer"
+        ),
+        new OA\Property(
+            "meshDescriptors",
+            description: "MeSH descriptors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class SessionLearningMaterialDTO
 {
     #[IA\Id]
@@ -30,6 +90,18 @@ class SessionLearningMaterialDTO
 
     #[IA\Expose]
     #[IA\Type('integer')]
+    public int $position;
+
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
+    public ?DateTime $startDate;
+
+    #[IA\Expose]
+    #[IA\Type('dateTime')]
+    public ?DateTime $endDate;
+
+    #[IA\Expose]
+    #[IA\Type('integer')]
     public int $session;
 
     #[IA\Expose]
@@ -45,47 +117,40 @@ class SessionLearningMaterialDTO
     #[IA\Type('array<string>')]
     public array $meshDescriptors = [];
 
-    #[IA\Expose]
-    #[IA\Type('integer')]
-    public int $position;
-
     /**
      * Needed for Voting, not exposed in the API
      */
     #[IA\Type('integer')]
+    #[Ignore]
     public int $course;
 
     /**
      * Needed for Voting, not exposed in the API
      */
     #[IA\Type('integer')]
+    #[Ignore]
     public int $school;
 
     /**
      * Needed for Voting, not exposed in the API
      */
     #[IA\Type('integer')]
+    #[Ignore]
     public int $status;
 
     /**
      * Needed for Voting, not exposed in the API
      */
     #[IA\Type('boolean')]
+    #[Ignore]
     public bool $courseIsLocked;
 
     /**
      * Needed for Voting, not exposed in the API
      */
     #[IA\Type('boolean')]
+    #[Ignore]
     public bool $courseIsArchived;
-
-    #[IA\Expose]
-    #[IA\Type('dateTime')]
-    public ?DateTime $startDate;
-
-    #[IA\Expose]
-    #[IA\Type('dateTime')]
-    public ?DateTime $endDate;
 
     public function __construct(
         int $id,

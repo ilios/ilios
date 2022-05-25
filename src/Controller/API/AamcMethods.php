@@ -71,7 +71,7 @@ class AamcMethods extends AbstractApiController
         path: "/api/{version}/aamcmethods",
         summary: "Fetch all AAMC methods.",
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path', required: false),
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(
                 name: 'offset',
                 description: 'Offset',
@@ -148,7 +148,7 @@ class AamcMethods extends AbstractApiController
                 schema: new OA\Schema(
                     properties: [
                         new OA\Property(
-                            'aamcMethod',
+                            'aamcMethods',
                             type: 'array',
                             items: new OA\Items(
                                 ref: new Model(type: AamcMethodDTO::class)
@@ -166,8 +166,8 @@ class AamcMethods extends AbstractApiController
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
-                    'aamcMethod',
-                    type: 'object',
+                    'aamcMethods',
+                    type: 'array',
                     items: new OA\Items(
                         ref: new Model(type: AamcMethodDTO::class)
                     )
@@ -223,10 +223,7 @@ class AamcMethods extends AbstractApiController
             properties: [
                 new OA\Property(
                     'aamcMethod',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: AamcMethodDTO::class)
-                    )
+                    ref: new Model(type: AamcMethodDTO::class)
                 )
             ],
             type: 'object'

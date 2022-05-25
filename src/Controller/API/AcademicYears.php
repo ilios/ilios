@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-#[OA\Tag(name:'Academicyears')]
+#[OA\Tag(name:'Academic years')]
 #[Route('/api/{version<v3>}/academicyears')]
 class AcademicYears
 {
@@ -22,6 +22,35 @@ class AcademicYears
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: '/api/{version}/academicyears/{id}',
+        summary: 'Fetch a single academic years.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single academic year.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'academicYears',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property("id", type: "string"),
+                            new OA\Property("title", type: "string")
+                        ],
+                        type: "object"
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         int $id,
@@ -65,6 +94,33 @@ class AcademicYears
     }
     #[Route(
         methods: ['GET']
+    )]
+    #[OA\Get(
+        path: "/api/{version}/academicyears",
+        summary: "Fetch all academic years.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of academic years.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'academicYears',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property("id", type: "string"),
+                            new OA\Property("title", type: "string")
+                        ],
+                        type: "object"
+                    )
+                )
+            ],
+            type: 'object'
+        )
     )]
     public function getAll(
         string $version,

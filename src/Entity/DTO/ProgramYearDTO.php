@@ -5,14 +5,70 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
-use App\Entity\CompetencyInterface;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
-/**
- * Class ProgramYearDTO
- * Data transfer object for a programYear
- */
 #[IA\DTO('programYears')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Program",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "startYear",
+            description: "Start year",
+            type: "string"
+        ),
+        new OA\Property(
+            "locked",
+            description: "Is locked",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "archived",
+            description: "Is archived",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "program",
+            description: "Program",
+            type: "integer"
+        ),
+        new OA\Property(
+            "cohort",
+            description: "Cohort",
+            type: "integer"
+        ),
+        new OA\Property(
+            "directors",
+            description: "Directors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "competencies",
+            description: "Competencies",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "terms",
+            description: "Vocabulary terms",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "programYearObjectives",
+            description: "Program year objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class ProgramYearDTO
 {
     #[IA\Id]
@@ -77,6 +133,7 @@ class ProgramYearDTO
     /**
      * For Voter use, not public
      */
+    #[Ignore]
     public int $school;
 
     public function __construct(

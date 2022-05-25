@@ -5,13 +5,64 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class CompetencyDTO
- * Data transfer object for a competency
- */
 #[IA\DTO('competencies')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Competency",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "school",
+            description:"School",
+            type:"integer"
+        ),
+        new OA\Property(
+            "active",
+            description:"Active",
+            type:"boolean"
+        ),
+        new OA\Property(
+            "parent",
+            description:"Parent competency",
+            type:"integer"
+        ),
+        new OA\Property(
+            "children",
+            description: "Sub-competencies",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "aamcPcrses",
+            description: "AAMC PCRSes",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "programYears",
+            description: "Program years",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "programYearObjectives",
+            description: "Program year objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class CompetencyDTO
 {
     #[IA\Id]
@@ -28,13 +79,9 @@ class CompetencyDTO
     #[IA\Type('integer')]
     public int $school;
 
-    /**
-     * @var int[]
-     */
     #[IA\Expose]
-    #[IA\Related('programYearObjectives')]
-    #[IA\Type('array<string>')]
-    public array $programYearObjectives = [];
+    #[IA\Type('boolean')]
+    public bool $active;
 
     #[IA\Expose]
     #[IA\Related('competencies')]
@@ -65,9 +112,13 @@ class CompetencyDTO
     #[IA\Type('array<string>')]
     public array $programYears = [];
 
+    /**
+     * @var int[]
+     */
     #[IA\Expose]
-    #[IA\Type('boolean')]
-    public bool $active;
+    #[IA\Related('programYearObjectives')]
+    #[IA\Type('array<string>')]
+    public array $programYearObjectives = [];
 
     public function __construct(
         int $id,

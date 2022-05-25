@@ -11,6 +11,7 @@ use App\Entity\UserInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\UserRepository;
 use DateTime;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,12 +25,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Class UsermaterialController
  */
-#[OA\Tag(name:'Usermaterials')]
+#[OA\Tag(name:'User materials')]
 class UsermaterialController extends AbstractController
 {
-    /**
-     * Get the materials for a user
-     */
     #[Route(
         '/api/{version<v3>}/usermaterials/{id}',
         requirements: [
@@ -37,6 +35,46 @@ class UsermaterialController extends AbstractController
         ],
         methods: ['GET'],
     )]
+    #[OA\Get(
+        path: "/api/{version}/usermaterials/{id}",
+        summary: "Fetch all materials for a given user.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'User ID', in: 'path'),
+            new OA\Parameter(
+                name: 'before',
+                description: 'Find materials before date',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', format: 'date-time')
+            ),
+            new OA\Parameter(
+                name: 'before',
+                description: 'Find materials before date',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', format: 'date-time')
+            ),
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of user materials.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'userMaterials',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: UserMaterial::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function getMaterials(
         string $version,
         int $id,

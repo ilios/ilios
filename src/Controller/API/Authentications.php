@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Entity\Authentication;
+use App\Entity\DTO\AuthenticationDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
@@ -14,6 +15,7 @@ use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use App\Traits\ApiEntityValidation;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,12 +30,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
 
-/**
- * Class AuthController
- * Authentication uses 'user' as the primary key and
- * needs to encode passwords
- * so we have to handle that specially.
- */
 #[OA\Tag(name:'Authentications')]
 #[Route('/api/{version<v3>}/authentications')]
 class Authentications
@@ -54,6 +50,31 @@ class Authentications
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: '/api/{version}/authentications/{id}',
+        summary: 'Fetch a single authentication record.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single authentication record.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'authentication',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: AuthenticationDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(string $version, int $id, ApiResponseBuilder $builder, Request $request): Response
     {
         $dto = $this->repository->findDTOBy(['user' => $id]);
@@ -70,6 +91,53 @@ class Authentications
      * so they can be stored safely in the database
      */
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/authentications',
+        summary: "Create authentication records.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'authentications',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property("user", type: "integer"),
+                                    new OA\Property("username", type: "string"),
+                                    new OA\Property("password", type: "string")
+                                ],
+                                type: "object"
+                            )
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array of newly created authentication records.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'authentications',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: AuthenticationDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -129,10 +197,66 @@ class Authentications
         return $builder->buildResponseForPostRequest('authentications', $dtos, Response::HTTP_CREATED, $request);
     }
 
-    /**
-     * Handles GET request for multiple entities
-     */
     #[Route(methods: ['GET'])]
+    #[OA\Get(
+        path: "/api/{version}/authentications",
+        summary: "Fetch all authentication records.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of authentication records.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'authentications',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: AuthenticationDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -158,14 +282,55 @@ class Authentications
         return $builder->buildResponseForGetAllRequest('authentications', $values, Response::HTTP_OK, $request);
     }
 
-    /**
-     * Along with taking user input, this also encodes passwords so they
-     * can be stored safely in the database
-     */
     #[Route(
         '/{id}',
         methods: ['PUT']
     )]
+    #[OA\Put(
+        path: '/api/{version}/authentications/{id}',
+        summary: 'Update an authentication record.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'user id', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'authentication',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property("user", type: "integer"),
+                                    new OA\Property("username", type: "string"),
+                                    new OA\Property("password", type: "string")
+                                ],
+                                type: "object"
+                            )
+                        )
+                    ],
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'The updated authentication record.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'authentication',
+                    ref: new Model(type: AuthenticationDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         int $id,
@@ -213,10 +378,6 @@ class Authentications
         return $builder->buildResponseForPutRequest('authentications', $entity, $code, $request);
     }
 
-    /**
-     * Along with taking user input, this also encodes passwords so they
-     * can be stored safely in the database
-     */
     #[Route(
         '/{id}',
         methods: ['PATCH']
@@ -273,12 +434,24 @@ class Authentications
         return $builder->buildResponseForPatchRequest('authentications', $dtos[0], Response::HTTP_OK, $request);
     }
 
-    /**
-     * Deletes a record by userId
-     */
     #[Route(
         '/{id}',
         methods: ['DELETE']
+    )]
+    #[OA\Delete(
+        path: '/api/{version}/authentications/{id}',
+        summary: 'Delete an authentication record.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+        ]
+    )]
+    #[OA\Response(response: '204', description: 'Deleted.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
+    #[OA\Response(
+        response: '500',
+        description: 'Deletion failed (usually caused by non-cascading relationships).'
     )]
     public function delete(
         string $version,

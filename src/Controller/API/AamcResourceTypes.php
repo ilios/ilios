@@ -71,7 +71,7 @@ class AamcResourceTypes extends AbstractApiController
         path: "/api/{version}/aamcresourcetypes",
         summary: "Fetch all AAMC resource types.",
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path', required: false),
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(
                 name: 'offset',
                 description: 'Offset',
@@ -148,7 +148,7 @@ class AamcResourceTypes extends AbstractApiController
                 schema: new OA\Schema(
                     properties: [
                         new OA\Property(
-                            'aamcResourceType',
+                            'aamcResourceTypes',
                             type: 'array',
                             items: new OA\Items(
                                 ref: new Model(type: AamcResourceTypeDTO::class)
@@ -166,8 +166,8 @@ class AamcResourceTypes extends AbstractApiController
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
-                    'aamcResourceType',
-                    type: 'object',
+                    'aamcResourceTypes',
+                    type: 'array',
                     items: new OA\Items(
                         ref: new Model(type: AamcResourceTypeDTO::class)
                     )
@@ -223,10 +223,7 @@ class AamcResourceTypes extends AbstractApiController
             properties: [
                 new OA\Property(
                     'aamcResourceType',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: AamcResourceTypeDTO::class)
-                    )
+                    ref: new Model(type: AamcResourceTypeDTO::class)
                 )
             ],
             type: 'object'

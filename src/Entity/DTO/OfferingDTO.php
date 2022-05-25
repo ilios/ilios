@@ -6,9 +6,83 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[IA\DTO('offerings')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Offering",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "room",
+            description: "Room",
+            type: "string"
+        ),
+        new OA\Property(
+            "site",
+            description: "Site",
+            type: "string"
+        ),
+        new OA\Property(
+            "url",
+            description: "Virtual learning link",
+            type: "string"
+        ),
+        new OA\Property(
+            "startDate",
+            description: "Start date",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "endDate",
+            description: "End date",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "updatedAt",
+            description: "Update at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "session",
+            description: "Session",
+            type: "integer"
+        ),
+        new OA\Property(
+            "learnerGroups",
+            description: "Learner groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructorGroups",
+            description: "Instructor groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "learners",
+            description: "Learners",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructors",
+            description: "Instructors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class OfferingDTO
 {
     #[IA\Id]
@@ -46,16 +120,6 @@ class OfferingDTO
     public int $session;
 
     /**
-     * For Voter use, not public
-     */
-    public int $course;
-
-    /**
-     * For Voter use, not public
-     */
-    public int $school;
-
-    /**
      * @var int[]
      */
     #[IA\Expose]
@@ -86,6 +150,18 @@ class OfferingDTO
     #[IA\Related('users')]
     #[IA\Type('array<string>')]
     public array $instructors = [];
+
+    /**
+     * For Voter use, not public
+     */
+    #[Ignore]
+    public int $course;
+
+    /**
+     * For Voter use, not public
+     */
+    #[Ignore]
+    public int $school;
 
     public function __construct(
         int $id,

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Entity\DTO\InstructorGroupDTO;
 use App\Repository\InstructorGroupRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Instructorgroups')]
+#[OA\Tag(name:'Instructor groups')]
 #[Route('/api/{version<v3>}/instructorgroups')]
 class InstructorGroups extends AbstractApiController
 {
@@ -27,6 +29,31 @@ class InstructorGroups extends AbstractApiController
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: '/api/{version}/instructorgroups/{id}',
+        summary: 'Fetch a single instructor group.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'A single instructor group.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'instructorGroups',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: InstructorGroupDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -40,6 +67,65 @@ class InstructorGroups extends AbstractApiController
     #[Route(
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: "/api/{version}/instructorgroups",
+        summary: "Fetch all instructor groups.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of instructor groups.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'instructorGroups',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: InstructorGroupDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -50,6 +136,48 @@ class InstructorGroups extends AbstractApiController
     }
 
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/instructorgroups',
+        summary: "Create instructor group.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'instructorGroups',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: InstructorGroupDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array of newly created instructor groups.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'instructorGroups',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: InstructorGroupDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -65,6 +193,45 @@ class InstructorGroups extends AbstractApiController
         '/{id}',
         methods: ['PUT']
     )]
+    #[OA\Put(
+        path: '/api/{version}/instructorgroups/{id}',
+        summary: 'Update an instructor group.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'instructorGroup',
+                            ref: new Model(type: InstructorGroupDTO::class),
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'The updated instructor group.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'instructorGroup',
+                    ref: new Model(type: InstructorGroupDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         string $id,
@@ -97,6 +264,17 @@ class InstructorGroups extends AbstractApiController
         '/{id}',
         methods: ['DELETE']
     )]
+    #[OA\Delete(
+        path: '/api/{version}/instructorgroups/{id}',
+        summary: 'Delete an instructor group.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(response: '204', description: 'Deleted.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function delete(
         string $version,
         string $id,

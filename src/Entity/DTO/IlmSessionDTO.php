@@ -6,9 +6,61 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[IA\DTO('ilmSessions')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "IlmSession",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "session",
+            description: "Session",
+            type: "integer"
+        ),
+        new OA\Property(
+            "hours",
+            description: "Duration in hours",
+            type: "float"
+        ),
+        new OA\Property(
+            "dueDate",
+            description: "Due-date",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "learnerGroups",
+            description: "Learner groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructorGroups",
+            description: "Instructor groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "instructors",
+            description: "Instructors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "learners",
+            description: "Learners",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class IlmSessionDTO
 {
     #[IA\Id]
@@ -64,11 +116,13 @@ class IlmSessionDTO
     /**
      * Needed for voting not exposed in the API
      */
+    #[Ignore]
     public int $course;
 
     /**
      * Needed for voting not exposed in the API
      */
+    #[Ignore]
     public int $school;
 
     public function __construct(int $id, float $hours, DateTime $dueDate)

@@ -5,13 +5,94 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
-/**
- * Class TermDTO
- * Data transfer object for a session.
- */
 #[IA\DTO('terms')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Term",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "active",
+            description: "Is active",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "vocabulary",
+            description: "Vocabulary",
+            type: "integer"
+        ),
+        new OA\Property(
+            "parent",
+            description: "Parent term",
+            type: "integer"
+        ),
+        new OA\Property(
+            "children",
+            description: "Child terms",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "courses",
+            description: "Courses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "programYears",
+            description: "Program years",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessions",
+            description: "Sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "aamcResourceTypes",
+            description: "AAMC resource types",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessionObjectives",
+            description: "Session objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "courseObjectives",
+            description: "Course objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "programYearObjectives",
+            description: "Program year objectives",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class TermDTO
 {
     #[IA\Id]
@@ -26,6 +107,15 @@ class TermDTO
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $description;
+
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public bool $active;
+
+    #[IA\Expose]
+    #[IA\Related('vocabularies')]
+    #[IA\Type('integer')]
+    public int $vocabulary;
 
     #[IA\Expose]
     #[IA\Related('terms')]
@@ -64,11 +154,6 @@ class TermDTO
     #[IA\Type('array<string>')]
     public array $sessions = [];
 
-    #[IA\Expose]
-    #[IA\Related('vocabularies')]
-    #[IA\Type('integer')]
-    public int $vocabulary;
-
     /**
      * @var int[]
      */
@@ -76,15 +161,6 @@ class TermDTO
     #[IA\Related]
     #[IA\Type('array<string>')]
     public array $aamcResourceTypes = [];
-
-    #[IA\Expose]
-    #[IA\Type('boolean')]
-    public bool $active;
-
-    /**
-     * For Voter use, not public
-     */
-    public int $school;
 
     /**
      * @var int[]
@@ -109,6 +185,12 @@ class TermDTO
     #[IA\Related]
     #[IA\Type('array<string>')]
     public array $programYearObjectives = [];
+
+    /**
+     * For Voter use, not public
+     */
+    #[Ignore]
+    public int $school;
 
     public function __construct(
         int $id,

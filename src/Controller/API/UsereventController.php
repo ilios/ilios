@@ -13,6 +13,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +24,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * Class UsereventController
- */
-#[OA\Tag(name:'Userevents')]
+#[OA\Tag(name:'User events')]
 class UsereventController extends AbstractController
 {
-    /**
-     * Get events for a user
-     */
     #[Route(
         '/api/{version<v3>}/userevents/{id}',
         requirements: [
@@ -39,6 +34,46 @@ class UsereventController extends AbstractController
         ],
         methods: ['GET'],
     )]
+    #[OA\Get(
+        path: "/api/{version}/userevents/{id}",
+        summary: "Fetch all events for a given user.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'User ID', in: 'path'),
+            new OA\Parameter(
+                name: 'from',
+                description: 'Date of earliest event',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', format: 'date-time')
+            ),
+            new OA\Parameter(
+                name: 'to',
+                description: 'Date of latest event',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string', format: 'date-time')
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'An array of user events.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'userEvents',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: UserEvent::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
     public function getEvents(
         string $version,
         int $id,

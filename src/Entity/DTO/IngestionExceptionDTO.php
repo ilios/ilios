@@ -5,12 +5,29 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class IngestionExceptionDTO
- * Data transfer object for an ingestionException
- */
 #[IA\DTO('ingestionExceptions')]
+#[OA\Schema(
+    title: "IlmSession",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "uid",
+            description: "UID",
+            type: "string"
+        ),
+        new OA\Property(
+            "user",
+            description: "User",
+            type: "integer"
+        )
+    ]
+)]
 class IngestionExceptionDTO
 {
     #[IA\Id]

@@ -6,6 +6,7 @@ namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\CurriculumInventoryExportInterface;
+use App\Entity\DTO\CurriculumInventoryExportDTO;
 use App\Entity\UserInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventoryExportRepository;
@@ -14,6 +15,7 @@ use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\Exporter;
 use App\Traits\ApiEntityValidation;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +25,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Curriculuminventoryexports')]
+#[OA\Tag(name:'Curriculum inventory exports')]
 #[Route('/api/{version<v3>}/curriculuminventoryexports')]
 class CurriculumInventoryExports
 {
@@ -33,6 +35,48 @@ class CurriculumInventoryExports
      * Create the XML document for a curriculum inventory report
      */
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/curriculuminventoryexports',
+        summary: "Create curriculum inventory exports.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'body',
+                in: 'body',
+                required: true,
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'curriculumInventoryExports',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: CurriculumInventoryExportDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object',
+                )
+            )
+        ]
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'An array of newly created curriculum inventory exports.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'curriculumInventoryExports',
+                    type: 'array',
+                    items: new OA\Items(
+                        ref: new Model(type: CurriculumInventoryExportDTO::class)
+                    )
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(response: '400', description: 'Bad Request Data.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
