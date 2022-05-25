@@ -279,7 +279,7 @@ class AamcPcrses extends AbstractApiController
     #[OA\Response(response: '404', description: 'Not Found.')]
     #[OA\Response(
         response: '500',
-        description: 'Deletion failed (usually caused by non-cascading relationships)'
+        description: 'Deletion failed (usually caused by non-cascading relationships).'
     )]
     public function delete(
         string $version,
