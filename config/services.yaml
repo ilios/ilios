@@ -7,6 +7,7 @@ parameters:
     ilios_api_version: v3.6
     env(TRUSTED_PROXIES):
     env(ILIOS_REDIS_URL):
+    env(ILIOS_CACHE_DECRYPTION_KEY):
 
 services:
     # default configuration for services in *this* file
@@ -189,4 +190,4 @@ services:
     dynamic_cache_factory:
       class: Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
       factory: [ 'App\Service\DynamicCacheFactory', 'getCache' ]
-      arguments: ['namespace', '%env(resolve:ILIOS_REDIS_URL)%', '%kernel.cache_dir%']
+      arguments: ['namespace', '%env(resolve:ILIOS_REDIS_URL)%', '%kernel.cache_dir%', '%env(base64:ILIOS_CACHE_DECRYPTION_KEY)%']
