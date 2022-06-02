@@ -29,16 +29,20 @@ class SessionRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Session::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('updatedAt', $criteria)) {
             $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);
         }
+
+        return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    public function hydrateDTOsFromIds(array $ids): array
+    {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {

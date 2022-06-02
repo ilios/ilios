@@ -32,10 +32,7 @@ class CourseRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Course::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('startDate', $criteria)) {
             $criteria['startDate'] = new DateTime($criteria['startDate']);
@@ -43,8 +40,15 @@ class CourseRepository extends ServiceEntityRepository implements
         if (array_key_exists('endDate', $criteria)) {
             $criteria['endDate'] = new DateTime($criteria['endDate']);
         }
+
+        return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    public function hydrateDTOsFromIds(array $ids): array
+    {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Course::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {

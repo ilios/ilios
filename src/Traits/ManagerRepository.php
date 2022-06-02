@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\QueryBuilder;
@@ -20,7 +21,7 @@ trait ManagerRepository
     abstract protected function getEntityName();
     abstract protected function getEntityManager();
     abstract public function find($id);
-    abstract public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
+    abstract protected function hydrateDTOsFromIds(array $ids): array;
 
     public function getClass(): string
     {
@@ -49,6 +50,32 @@ trait ManagerRepository
         return $results[0] ?? null;
     }
 
+    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        $ids = $this->findIdsBy($criteria, $orderBy, $limit, $offset);
+        return $this->hydrateDTOsFromIds($ids);
+    }
+
+    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    protected function doFindIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        /** @var EntityManager $em */
+        $em = $this->getEntityManager();
+        $metadata = $em->getClassMetadata($this->getEntityName());
+        $idField = $metadata->getSingleIdentifierFieldName();
+        $qb = $em
+            ->createQueryBuilder()
+            ->select("x.${idField} as XID")
+            ->distinct()
+            ->from($this->getEntityName(), 'x');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
+    }
     public function update($entity, $andFlush = true, $forceId = false): void
     {
         $this->getEntityManager()->persist($entity);

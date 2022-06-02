@@ -132,4 +132,9 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
     ): void {
         //empty as DTOs aren't implemented here
     }
+
+    protected function hydrateDTOsFromIds(array $ids): array
+    {
+        throw new Exception('DTOs for AuditLogs are not implemented yet');
+    }
 }
