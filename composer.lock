@@ -12987,16 +12987,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.7.7",
+            "version": "1.7.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "cadad14ac63d8a432e01ae89ac5d0ff6fc3b16ab"
+                "reference": "22e7559489776846e7c9d92ca43e8d1e53d18b94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cadad14ac63d8a432e01ae89ac5d0ff6fc3b16ab",
-                "reference": "cadad14ac63d8a432e01ae89ac5d0ff6fc3b16ab",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/22e7559489776846e7c9d92ca43e8d1e53d18b94",
+                "reference": "22e7559489776846e7c9d92ca43e8d1e53d18b94",
                 "shasum": ""
             },
             "require": {
@@ -13022,7 +13022,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.7.7"
+                "source": "https://github.com/phpstan/phpstan/tree/1.7.9"
             },
             "funding": [
                 {
@@ -13042,7 +13042,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-31T13:58:21+00:00"
+            "time": "2022-06-02T13:27:46+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
@@ -15403,7 +15403,6 @@
         "symfony/yaml": 0,
         "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
-        "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
