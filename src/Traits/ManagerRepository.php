@@ -104,11 +104,11 @@ trait ManagerRepository
 
         //if the only criteria is the IDs we don't need to look that up
         if ($keys === [$idField] && is_null($orderBy) && is_null($limit) && is_null($offset)) {
-            return $criteria[$idField];
+            return is_array($criteria[$idField]) ? $criteria[$idField] : [$criteria[$idField]];
         }
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
-            ->select("x.${idField} as XID")
+            ->select("x.${idField}")
             ->distinct()
             ->from($this->getEntityName(), 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
