@@ -52,6 +52,9 @@ class ProgramYearRepository extends ServiceEntityRepository implements
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $programYearIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder();

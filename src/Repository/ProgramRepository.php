@@ -99,6 +99,9 @@ class ProgramRepository extends ServiceEntityRepository implements
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $qb = $this->_em->createQueryBuilder();
         $qb->select('p.id as programId, s.id as schoolId')
             ->from(Program::class, 'p')

@@ -57,6 +57,9 @@ class TermRepository extends ServiceEntityRepository implements
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $termIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder();

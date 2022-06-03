@@ -304,6 +304,9 @@ EOL;
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $courseIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder();

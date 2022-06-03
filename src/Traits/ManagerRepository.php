@@ -61,17 +61,20 @@ trait ManagerRepository
         $idField = $this->getIdField();
         $cachedIds = array_column($cachedDtos, $idField);
 
+        $missedDtos = [];
         $missedIds = array_diff($ids, $cachedIds);
-        $missedDtos = $this->hydrateDTOsFromIds($missedIds);
-        foreach ($missedDtos as $dto) {
-            $tagger = $this->getCacheTagger();
-            $this->cache->get(
-                $this->getDtoCacheKey($dto->$idField),
-                function (ItemInterface $item) use ($dto, $tagger) {
-                    $tagger->tag($item, $dto);
-                    return $dto;
-                }
-            );
+        if (count($missedIds)) {
+            $missedDtos = $this->hydrateDTOsFromIds($missedIds);
+            foreach ($missedDtos as $dto) {
+                $tagger = $this->getCacheTagger();
+                $this->cache->get(
+                    $this->getDtoCacheKey($dto->$idField),
+                    function (ItemInterface $item) use ($dto, $tagger) {
+                        $tagger->tag($item, $dto);
+                        return $dto;
+                    }
+                );
+            }
         }
 
         $dtos = array_values([...$cachedDtos, ...$missedDtos]);
@@ -190,6 +193,9 @@ trait ManagerRepository
         array $dtos,
         array $related,
     ): array {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $ids = array_keys($dtos);
         $relatedMetadata = array_filter(
             $this->getClassMetadata()->associationMappings,
