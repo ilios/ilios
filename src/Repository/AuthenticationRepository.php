@@ -57,6 +57,28 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
     }
 
     /**
+     * Special case for Authentication since the ID is the user
+     */
+    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        $keys = array_keys($criteria);
+
+        //if the only criteria is the IDs we don't need to look that up
+        if ($keys === ['user'] && is_null($orderBy) && is_null($limit) && is_null($offset)) {
+            return is_array($criteria['user']) ? $criteria['user'] : [$criteria['user']];
+        }
+        $qb = $this->_em
+            ->createQueryBuilder()
+            ->select("x")
+            ->from(Authentication::class, 'x');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $results  = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+        return array_column($results, 'person_id');
+    }
+
+    /**
      * Get all the usernames
      */
     public function getUsernames(): array
@@ -70,7 +92,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Authentication::class, 'x');
-        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->where($qb->expr()->in('x.user', ':ids'));
         $qb->setParameter(':ids', $ids);
 
         $dtos = [];
