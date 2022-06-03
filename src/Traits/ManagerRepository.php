@@ -97,6 +97,12 @@ trait ManagerRepository
     protected function doFindIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $idField = $this->getIdField();
+        $keys = array_keys($criteria);
+
+        //if the only criteria is the IDs we don't need to look that up
+        if ($keys === [$idField] && is_null($orderBy) && is_null($limit) && is_null($offset)) {
+            return $criteria[$idField];
+        }
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select("x.${idField} as XID")
