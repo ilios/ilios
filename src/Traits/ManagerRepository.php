@@ -57,7 +57,36 @@ trait ManagerRepository
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $ids = $this->findIdsBy($criteria, $orderBy, $limit, $offset);
-        return $this->hydrateDTOsFromIds($ids);
+        $cachedDtos = $this->getCachedDTOs($ids);
+        $idField = $this->getIdField();
+        $cachedIds = array_column($cachedDtos, $idField);
+
+        $missedIds = array_diff($ids, $cachedIds);
+        $missedDtos = $this->hydrateDTOsFromIds($missedIds);
+        foreach ($missedDtos as $dto) {
+            $tagger = $this->getCacheTagger();
+            $this->cache->get(
+                $this->getDtoCacheKey($dto->$idField),
+                function (ItemInterface $item) use ($dto, $tagger) {
+                    $tagger->tag($item, $dto);
+                    return $dto;
+                }
+            );
+        }
+
+        $dtos = array_values([...$cachedDtos, ...$missedDtos]);
+
+        // Lots of work here to re-order the results in the same way as originally requested
+        $dtosById = [];
+        foreach ($dtos as $dto) {
+            $dtosById[$dto->$idField] = $dto;
+        }
+        $rhett = [];
+        foreach ($ids as $id) {
+            $rhett[] = $dtosById[$id];
+        }
+
+        return $rhett;
     }
 
     protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
@@ -67,11 +96,8 @@ trait ManagerRepository
 
     protected function doFindIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
-        /** @var EntityManager $em */
-        $em = $this->getEntityManager();
-        $metadata = $em->getClassMetadata($this->getEntityName());
-        $idField = $metadata->getSingleIdentifierFieldName();
-        $qb = $em
+        $idField = $this->getIdField();
+        $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select("x.${idField} as XID")
             ->distinct()
@@ -80,6 +106,33 @@ trait ManagerRepository
 
         return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
     }
+
+    protected function getDtoCacheKey(mixed $id): string
+    {
+        return md5(self::class . 'DTO' . $id);
+    }
+
+    /**
+     * Look into the cache and find any DTOs we already have
+     * But don't persist anything to the cache here, we'll do that after
+     * fetching missing items.
+     */
+    protected function getCachedDTOs(array $ids): array
+    {
+        $dtosOrMisses = array_map(
+            fn(mixed $id) => $this->cache->get(
+                $this->getDtoCacheKey($id),
+                function (ItemInterface $item, bool &$save) {
+                    $save = false;
+                    return false;
+                }
+            ),
+            $ids
+        );
+
+        return array_filter($dtosOrMisses);
+    }
+
     public function update($entity, $andFlush = true, $forceId = false): void
     {
         $this->getEntityManager()->persist($entity);

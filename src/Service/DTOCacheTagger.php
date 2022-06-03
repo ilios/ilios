@@ -15,12 +15,12 @@ class DTOCacheTagger
     }
 
     /**
-     * Tag a cache item with all the relationships and data from a set of DTOs
+     * Tag a cache item with all the relationships and data for a DTO
      */
-    public function tag(ItemInterface $item, array $dtos): void
+    public function tag(ItemInterface $item, object $dto): void
     {
-        $tags = array_map([$this, 'getTagsForDto'], $dtos);
-        $item->tag(array_merge(...$tags));
+        $tags = $this->getTagsForDto($dto);
+        $item->tag($tags);
         $item->expiresAfter(DateInterval::createFromDateString('1 day'));
     }
 
