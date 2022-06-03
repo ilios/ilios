@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\School;
 use App\Entity\Session;
+use App\Service\DTOCacheTagger;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use DateTime;
@@ -19,6 +20,7 @@ use App\Entity\DTO\SchoolDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -32,8 +34,12 @@ class SchoolRepository extends ServiceEntityRepository implements
     use ManagerRepository;
     use ImportableEntityRepository;
 
-    public function __construct(ManagerRegistry $registry, protected UserMaterialFactory $userMaterialFactory)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected UserMaterialFactory $userMaterialFactory,
+        protected TagAwareCacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+    ) {
         parent::__construct($registry, School::class);
     }
 

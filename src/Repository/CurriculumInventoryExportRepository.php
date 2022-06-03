@@ -6,11 +6,13 @@ namespace App\Repository;
 
 use App\Entity\CurriculumInventoryExport;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 use function array_keys;
 
@@ -20,8 +22,11 @@ class CurriculumInventoryExportRepository extends ServiceEntityRepository implem
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected TagAwareCacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+    ) {
         parent::__construct($registry, CurriculumInventoryExport::class);
     }
 

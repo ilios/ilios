@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\ProgramYear;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\ProgramYearDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -21,8 +23,11 @@ class ProgramYearRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected TagAwareCacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+    ) {
         parent::__construct($registry, ProgramYear::class);
     }
 

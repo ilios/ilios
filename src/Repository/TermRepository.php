@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Term;
 use App\Service\DefaultDataImporter;
+use App\Service\DTOCacheTagger;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
@@ -14,6 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -26,8 +28,11 @@ class TermRepository extends ServiceEntityRepository implements
     use ManagerRepository;
     use ImportableEntityRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected TagAwareCacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+    ) {
         parent::__construct($registry, Term::class);
     }
 

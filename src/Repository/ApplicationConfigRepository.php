@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Service\DTOCacheTagger;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -12,6 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\ApplicationConfig;
 use App\Entity\DTO\ApplicationConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class ApplicationConfigRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
@@ -21,8 +23,12 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
     use ManagerRepository;
     use ImportableEntityRepository;
 
-    public function __construct(ManagerRegistry $registry, protected bool $cacheEnabled)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected bool $cacheEnabled,
+        protected TagAwareCacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger
+    ) {
         parent::__construct($registry, ApplicationConfig::class);
     }
 

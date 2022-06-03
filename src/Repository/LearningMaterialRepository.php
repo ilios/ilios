@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\LearningMaterial;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -12,6 +13,7 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\LearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\LearningMaterialInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -20,8 +22,11 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected TagAwareCacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+    ) {
         parent::__construct($registry, LearningMaterial::class);
     }
 

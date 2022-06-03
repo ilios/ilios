@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use App\Service\DTOCacheTagger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 /**
  * Trait ManagerRepository
@@ -250,4 +254,22 @@ trait ManagerRepository
         ?int $limit,
         ?int $offset
     ): void;
+
+    protected function getCache(): TagAwareCacheInterface
+    {
+        if (!isset($this->cache)) {
+            throw new Exception("The 'cache' property is missing from " . self::class);
+        }
+
+        return $this->cache;
+    }
+
+    protected function getCacheTagger(): DTOCacheTagger
+    {
+        if (!isset($this->cacheTagger)) {
+            throw new Exception("The 'cacheTagger' property is missing from " . self::class);
+        }
+
+        return $this->cacheTagger;
+    }
 }

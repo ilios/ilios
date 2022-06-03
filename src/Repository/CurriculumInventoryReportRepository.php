@@ -9,6 +9,7 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\ProgramYearObjective;
 use App\Entity\Session;
 use App\Entity\SessionObjective;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -17,6 +18,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\CurriculumInventoryReportInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -27,8 +29,11 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected TagAwareCacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+    ) {
         parent::__construct($registry, CurriculumInventoryReport::class);
     }
 
