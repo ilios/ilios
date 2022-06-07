@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CourseLearningMaterial;
 use App\Entity\DTO\CourseLearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -25,7 +25,7 @@ class CourseLearningMaterialRepository extends ServiceEntityRepository implement
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, CourseLearningMaterial::class);

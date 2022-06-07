@@ -13,7 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\AamcPcrs;
 use App\Entity\DTO\AamcPcrsDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class AamcPcrsRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
@@ -25,7 +25,7 @@ class AamcPcrsRepository extends ServiceEntityRepository implements
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, AamcPcrs::class);

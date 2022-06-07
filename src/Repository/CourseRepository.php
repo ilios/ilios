@@ -19,7 +19,7 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -32,7 +32,7 @@ class CourseRepository extends ServiceEntityRepository implements
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, Course::class);

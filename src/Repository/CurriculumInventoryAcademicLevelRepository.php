@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -25,7 +25,7 @@ class CurriculumInventoryAcademicLevelRepository extends ServiceEntityRepository
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, CurriculumInventoryAcademicLevel::class);

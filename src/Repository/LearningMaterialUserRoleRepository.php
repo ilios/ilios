@@ -13,7 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearningMaterialUserRole;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class LearningMaterialUserRoleRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
@@ -25,7 +25,7 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, LearningMaterialUserRole::class);

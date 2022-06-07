@@ -13,7 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\ApplicationConfig;
 use App\Entity\DTO\ApplicationConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class ApplicationConfigRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
@@ -26,7 +26,7 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
     public function __construct(
         ManagerRegistry $registry,
         protected bool $cacheEnabled,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger
     ) {
         parent::__construct($registry, ApplicationConfig::class);

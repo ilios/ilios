@@ -24,7 +24,7 @@ use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -37,7 +37,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     public function __construct(
         ManagerRegistry $registry,
         protected UserMaterialFactory $factory,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, User::class);

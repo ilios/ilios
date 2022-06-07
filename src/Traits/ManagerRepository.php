@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
@@ -320,7 +321,7 @@ trait ManagerRepository
         ?int $offset
     ): void;
 
-    protected function getCache(): TagAwareCacheInterface
+    protected function getCache(): CacheInterface
     {
         if (!isset($this->cache)) {
             throw new Exception("The 'cache' property is missing from " . self::class);

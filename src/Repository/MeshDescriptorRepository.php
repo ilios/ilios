@@ -27,7 +27,7 @@ use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use PDO;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -41,7 +41,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     public function __construct(
         ManagerRegistry $registry,
         protected MeshDescriptorSetTransmogrifier $transmogrifier,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, MeshDescriptor::class);

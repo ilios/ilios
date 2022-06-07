@@ -20,7 +20,7 @@ use App\Entity\DTO\SchoolDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -37,7 +37,7 @@ class SchoolRepository extends ServiceEntityRepository implements
     public function __construct(
         ManagerRegistry $registry,
         protected UserMaterialFactory $userMaterialFactory,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, School::class);

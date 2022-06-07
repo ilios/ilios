@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearnerGroup;
 use App\Entity\DTO\LearnerGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -23,7 +23,7 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, LearnerGroup::class);

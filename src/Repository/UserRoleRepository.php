@@ -13,7 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\UserRole;
 use App\Entity\DTO\UserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class UserRoleRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
@@ -25,7 +25,7 @@ class UserRoleRepository extends ServiceEntityRepository implements
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, UserRole::class);

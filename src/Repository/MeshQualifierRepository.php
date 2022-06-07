@@ -12,7 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\MeshQualifier;
 use App\Entity\DTO\MeshQualifierDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 
@@ -22,7 +22,7 @@ class MeshQualifierRepository extends ServiceEntityRepository implements DTORepo
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, MeshQualifier::class);

@@ -14,7 +14,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\Vocabulary;
 use App\Entity\DTO\VocabularyDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -29,7 +29,7 @@ class VocabularyRepository extends ServiceEntityRepository implements
 
     public function __construct(
         ManagerRegistry $registry,
-        protected TagAwareCacheInterface $cache,
+        protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
     ) {
         parent::__construct($registry, Vocabulary::class);
