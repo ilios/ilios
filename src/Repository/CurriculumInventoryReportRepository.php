@@ -18,6 +18,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\CurriculumInventoryReportInterface;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
@@ -33,6 +34,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, CurriculumInventoryReport::class);
     }

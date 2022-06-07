@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
@@ -29,6 +30,7 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, ProgramYearObjective::class);
     }

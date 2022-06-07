@@ -27,6 +27,7 @@ use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use PDO;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
@@ -43,6 +44,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         protected MeshDescriptorSetTransmogrifier $transmogrifier,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, MeshDescriptor::class);
     }

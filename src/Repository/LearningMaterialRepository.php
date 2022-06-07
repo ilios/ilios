@@ -13,6 +13,7 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\LearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\LearningMaterialInterface;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
@@ -26,6 +27,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, LearningMaterial::class);
     }

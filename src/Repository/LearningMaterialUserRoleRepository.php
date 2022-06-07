@@ -13,6 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearningMaterialUserRole;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class LearningMaterialUserRoleRepository extends ServiceEntityRepository implements
@@ -27,6 +28,7 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, LearningMaterialUserRole::class);
     }

@@ -12,6 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\PendingUserUpdate;
 use App\Entity\DTO\PendingUserUpdateDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
@@ -24,6 +25,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, PendingUserUpdate::class);
     }

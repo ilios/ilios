@@ -13,6 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\AamcPcrs;
 use App\Entity\DTO\AamcPcrsDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class AamcPcrsRepository extends ServiceEntityRepository implements
@@ -27,6 +28,7 @@ class AamcPcrsRepository extends ServiceEntityRepository implements
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, AamcPcrs::class);
     }

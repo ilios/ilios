@@ -7,12 +7,15 @@ namespace App\EventListener;
 use App\Service\DTOCacheTagger;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class ClearCachedDto
 {
-    public function __construct(protected TagAwareCacheInterface $cache)
-    {
+    public function __construct(
+        protected TagAwareCacheInterface $cache,
+        protected FeatureManagerInterface $featureManager
+    ) {
     }
 
     /**
@@ -20,6 +23,9 @@ class ClearCachedDto
      */
     public function onFlush(OnFlushEventArgs $eventArgs)
     {
+        if (!$this->featureManager->isActive('dto_caching')) {
+            return;
+        }
         $entityManager = $eventArgs->getEntityManager();
         $uow = $entityManager->getUnitOfWork();
         $actions = [];

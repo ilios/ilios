@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -71,15 +72,17 @@ trait ManagerRepository
         $missedIds = array_diff($ids, $cachedIds);
         if (count($missedIds)) {
             $missedDtos = $this->hydrateDTOsFromIds($missedIds);
-            foreach ($missedDtos as $dto) {
-                $tagger = $this->getCacheTagger();
-                $this->cache->get(
-                    $this->getDtoCacheKey($dto->$idField),
-                    function (ItemInterface $item) use ($dto, $tagger) {
-                        $tagger->tag($item, $dto);
-                        return $dto;
-                    }
-                );
+            if ($this->getFeatureManager()->isActive('dto_caching')) {
+                foreach ($missedDtos as $dto) {
+                    $tagger = $this->getCacheTagger();
+                    $this->getCache()->get(
+                        $this->getDtoCacheKey($dto->$idField),
+                        function (ItemInterface $item) use ($dto, $tagger) {
+                            $tagger->tag($item, $dto);
+                            return $dto;
+                        }
+                    );
+                }
             }
         }
 
@@ -145,8 +148,11 @@ trait ManagerRepository
      */
     protected function getCachedDTOs(array $ids): array
     {
+        if (!$this->getFeatureManager()->isActive('dto_caching')) {
+            return [];
+        }
         $dtosOrMisses = array_map(
-            fn(mixed $id) => $this->cache->get(
+            fn(mixed $id) => $this->getCache()->get(
                 $this->getDtoCacheKey($id),
                 function (ItemInterface $item, bool &$save) {
                     $save = false;
@@ -353,5 +359,14 @@ trait ManagerRepository
         }
 
         return $this->cacheTagger;
+    }
+
+    protected function getFeatureManager(): FeatureManagerInterface
+    {
+        if (!isset($this->featureManager)) {
+            throw new Exception("The 'featureManager' property is missing from " . self::class);
+        }
+
+        return $this->featureManager;
     }
 }

@@ -12,6 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\InstructorGroup;
 use App\Entity\DTO\InstructorGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
@@ -25,6 +26,7 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, InstructorGroup::class);
     }

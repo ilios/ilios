@@ -12,6 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\IngestionException;
 use App\Entity\DTO\IngestionExceptionDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
@@ -26,6 +27,7 @@ class IngestionExceptionRepository extends ServiceEntityRepository implements
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, IngestionException::class);
     }

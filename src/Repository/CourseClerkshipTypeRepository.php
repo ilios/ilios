@@ -13,6 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CourseClerkshipType;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
@@ -29,6 +30,7 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, CourseClerkshipType::class);
     }

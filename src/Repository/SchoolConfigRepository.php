@@ -13,6 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\SchoolConfig;
 use App\Entity\DTO\SchoolConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
@@ -26,6 +27,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, SchoolConfig::class);
     }

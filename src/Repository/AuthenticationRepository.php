@@ -15,6 +15,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function is_array;
@@ -27,6 +28,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, Authentication::class);
     }

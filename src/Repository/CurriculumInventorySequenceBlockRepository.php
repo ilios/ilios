@@ -12,6 +12,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
@@ -27,6 +28,7 @@ class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, CurriculumInventorySequenceBlock::class);
     }

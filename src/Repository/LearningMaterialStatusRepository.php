@@ -13,6 +13,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearningMaterialStatus;
 use App\Entity\DTO\LearningMaterialStatusDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class LearningMaterialStatusRepository extends ServiceEntityRepository implements
@@ -27,6 +28,7 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
         ManagerRegistry $registry,
         protected CacheInterface $cache,
         protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
     ) {
         parent::__construct($registry, LearningMaterialStatus::class);
     }
