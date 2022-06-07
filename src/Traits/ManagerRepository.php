@@ -13,7 +13,6 @@ use Doctrine\ORM\QueryBuilder;
 use Exception;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
-use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 /**
  * Trait ManagerRepository
@@ -55,6 +54,12 @@ trait ManagerRepository
         return $results[0] ?? null;
     }
 
+    /**
+     * Find DTOs by some criteria, first by  looking DTOs in the cache,
+     * otherwise use the IDs from each DTO to build an entry that can be cached
+     *
+     * Return the results sorted by the original criteria
+     */
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $ids = $this->findIdsBy($criteria, $orderBy, $limit, $offset);
@@ -93,11 +98,19 @@ trait ManagerRepository
         return $rhett;
     }
 
+    /**
+     * Overridable find method which takes criteria and queries the DB for matching IDs
+     * This is overridden in repositories when the criteria need to be changed
+     * (for example into a DateTime)
+     */
     protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
     }
 
+    /**
+     * Look in the database for IDs matching this criteria
+     */
     protected function doFindIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $idField = $this->getIdField();
@@ -117,6 +130,9 @@ trait ManagerRepository
         return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
     }
 
+    /**
+     * Construct a consistent cache key for a DTO which doesn't contain reserved characters.
+     */
     protected function getDtoCacheKey(mixed $id): string
     {
         return md5(self::class . 'DTO' . $id);
