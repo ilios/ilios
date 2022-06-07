@@ -381,8 +381,7 @@ class EntityMetadata
     }
 
     /**
-     * Load classes by scanning directories then use
-     * that list to discover classes which have the DTO annotation
+     * Get an Entity class name for each DTO type
      */
     protected function getEntitiesForDtoTypes(): array
     {
