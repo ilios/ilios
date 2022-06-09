@@ -1,9 +1,0 @@
-Authentication:
- type: object
- properties:
-  user:
-   description: User
-   type: string
-  username:
-   description: Username
-   type: string
