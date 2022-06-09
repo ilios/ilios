@@ -359,6 +359,21 @@ class Users extends AbstractApiController
         '/{id}',
         methods: ['DELETE']
     )]
+    #[OA\Delete(
+        path: '/api/{version}/users/{id}',
+        summary: 'Delete a user.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ]
+    )]
+    #[OA\Response(response: '204', description: 'Deleted.')]
+    #[OA\Response(response: '403', description: 'Access Denied.')]
+    #[OA\Response(response: '404', description: 'Not Found.')]
+    #[OA\Response(
+        response: '500',
+        description: 'Deletion failed (usually caused by non-cascading relationships).'
+    )]
     public function delete(
         string $version,
         string $id,

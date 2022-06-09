@@ -178,8 +178,6 @@ class LearningMaterialDTO
     #[IA\Type('string')]
     public ?string $citation;
 
-
-
     /**
      * @var string[]
      */

@@ -160,14 +160,20 @@ use OpenApi\Attributes as OA;
             items: new OA\Items(type: "string")
         ),
         new OA\Property(
+            "competencies",
+            description: "Competencies",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
             "postrequisites",
             description: "Postrequisites",
             type: "array",
             items: new OA\Items(type: "string")
         ),
         new OA\Property(
-            "competencies",
-            description: "Competencies",
+            "cohorts",
+            description: "Cohorts",
             type: "array",
             items: new OA\Items(type: "string")
         ),

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Vocabulary terms')]
+#[OA\Tag(name:'Terms')]
 #[Route('/api/{version<v3>}/terms')]
 class Terms extends AbstractApiController
 {

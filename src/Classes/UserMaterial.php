@@ -7,10 +7,11 @@ namespace App\Classes;
 use App\Attribute as IA;
 use DateTime;
 use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[IA\DTO('userMaterial')]
 #[OA\Schema(
-    title: "LearningMaterial",
+    title: "UserMaterial",
     properties: [
         new OA\Property(
             "id",
@@ -274,6 +275,8 @@ class UserMaterial
     #[IA\Expose]
     #[IA\Type('boolean')]
     public bool $isBlanked = false;
+
+    #[Ignore]
     public ?int $status = null;
     /**
      * Blanks out properties of timed learning materials that are outside their given
