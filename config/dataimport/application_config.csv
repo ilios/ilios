@@ -4,5 +4,4 @@
 3,file_system_storage_path,/CHANGE-ME
 4,timezone,America/Los_Angeles
 5,keep_frontend_updated,true
-6,enable_tracking,false
-7,requireSecureConnection,true
+6,requireSecureConnection,true

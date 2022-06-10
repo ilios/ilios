@@ -17,7 +17,6 @@ class Config
     private const BOOLEAN_NAMES = [
         'keep_frontend_updated',
         'cas_authentication_verify_ssl',
-        'enable_tracking',
         'requireSecureConnection',
         'errorCaptureEnabled',
         'learningMaterialsDisabled',
