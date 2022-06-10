@@ -353,7 +353,7 @@ class LearningMaterials
     )]
     #[OA\Put(
         path: '/api/{version}/learningmaterials/{id}',
-        summary: 'Update a learning material.',
+        summary: 'Update or create a learning material.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -377,6 +377,19 @@ class LearningMaterials
     #[OA\Response(
         response: '200',
         description: 'The updated learning material.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'learningMaterial',
+                    ref: new Model(type: LearningMaterialDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created learning material.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

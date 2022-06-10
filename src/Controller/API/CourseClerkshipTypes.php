@@ -195,7 +195,7 @@ class CourseClerkshipTypes extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/courseclerkshiptypes/{id}',
-        summary: 'Update a course clerkship type.',
+        summary: 'Update or create a course clerkship type.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class CourseClerkshipTypes extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated course clerkship type.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'courseClerkshipType',
+                    ref: new Model(type: CourseClerkshipTypeDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created course clerkship type.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

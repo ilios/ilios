@@ -195,7 +195,7 @@ class Competencies extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/competencies/{id}',
-        summary: 'Update a competency.',
+        summary: 'Update or create a competency.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class Competencies extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated competency.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'competency',
+                    ref: new Model(type: CompetencyDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created competency.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

@@ -195,7 +195,7 @@ class ProgramYearObjectives extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/programyearobjectives/{id}',
-        summary: 'Update a program year objective.',
+        summary: 'Update or create a program year objective.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class ProgramYearObjectives extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated program year objective.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'programYearObjective',
+                    ref: new Model(type: ProgramYearObjectiveDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created program year objective.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

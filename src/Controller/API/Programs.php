@@ -195,7 +195,7 @@ class Programs extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/programs/{id}',
-        summary: 'Update a program.',
+        summary: 'Update or create a program.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class Programs extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated program.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'program',
+                    ref: new Model(type: ProgramDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created program.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

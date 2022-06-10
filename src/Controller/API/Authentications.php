@@ -288,7 +288,7 @@ class Authentications
     )]
     #[OA\Put(
         path: '/api/{version}/authentications/{id}',
-        summary: 'Update an authentication record.',
+        summary: 'Update or create an authentication record.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'user id', in: 'path'),
@@ -318,6 +318,19 @@ class Authentications
     #[OA\Response(
         response: '200',
         description: 'The updated authentication record.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'authentication',
+                    ref: new Model(type: AuthenticationDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created authentication record.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

@@ -195,7 +195,7 @@ class SessionObjectives extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/sessionobjectives/{id}',
-        summary: 'Update a session objective.',
+        summary: 'Update or create a session objective.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class SessionObjectives extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated session objective.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'sessionObjective',
+                    ref: new Model(type: SessionObjectiveDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created session objective.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

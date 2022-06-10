@@ -195,7 +195,7 @@ class ApplicationConfigs extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/applicationconfigs/{id}',
-        summary: 'Update an application configuration item.',
+        summary: 'Update or create an application configuration item.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class ApplicationConfigs extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated application configuration item.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'applicationConfig',
+                    ref: new Model(type: ApplicationConfigDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created application configuration item.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

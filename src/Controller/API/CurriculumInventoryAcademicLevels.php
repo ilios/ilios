@@ -195,7 +195,7 @@ class CurriculumInventoryAcademicLevels extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/curriculuminventoryacademiclevels/{id}',
-        summary: 'Update a curriculum inventory academic level.',
+        summary: 'Update or create a curriculum inventory academic level.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class CurriculumInventoryAcademicLevels extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated curriculum inventory academic level.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'curriculumInventoryAcademicLevel',
+                    ref: new Model(type: CurriculumInventoryAcademicLevelDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created curriculum inventory academic level.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

@@ -194,7 +194,7 @@ class AamcPcrses extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/aamcpcrses/{id}',
-        summary: 'Update an AAMC PCRS.',
+        summary: 'Update or create an AAMC PCRS.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -218,6 +218,19 @@ class AamcPcrses extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated AAMC PCRS.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'aamcPcrs',
+                    ref: new Model(type: AamcPcrsDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created AAMC PCRS.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

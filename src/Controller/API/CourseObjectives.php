@@ -195,7 +195,7 @@ class CourseObjectives extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/courseobjectives/{id}',
-        summary: 'Update a course objective.',
+        summary: 'Update or create a course objective.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class CourseObjectives extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated course objective.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'courseObjective',
+                    ref: new Model(type: CourseObjectiveDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created course objective.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

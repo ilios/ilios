@@ -195,7 +195,7 @@ class SessionLearningMaterials extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/sessionlearningmaterials/{id}',
-        summary: 'Update a session learning material.',
+        summary: 'Update or create a session learning material.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class SessionLearningMaterials extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated session learning material.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'sessionLearningMaterial',
+                    ref: new Model(type: SessionLearningMaterialDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created session learning material.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

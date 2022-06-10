@@ -195,7 +195,7 @@ class Vocabularies extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/vocabularies/{id}',
-        summary: 'Update a vocabulary.',
+        summary: 'Update or create a vocabulary.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class Vocabularies extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated vocabulary.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'vocabulary',
+                    ref: new Model(type: VocabularyDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created vocabulary.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

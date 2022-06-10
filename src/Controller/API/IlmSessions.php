@@ -195,7 +195,7 @@ class IlmSessions extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/ilmsessions/{id}',
-        summary: 'Update an ILM session.',
+        summary: 'Update or create an ILM session.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class IlmSessions extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated ILM session.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'ilmSession',
+                    ref: new Model(type: IlmSessionDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created ILM session.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

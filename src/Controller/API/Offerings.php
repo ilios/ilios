@@ -234,7 +234,7 @@ class Offerings extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/offerings/{id}',
-        summary: 'Update an offering.',
+        summary: 'Update or create an offering.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -258,6 +258,19 @@ class Offerings extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated offering.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'offering',
+                    ref: new Model(type: OfferingDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created offering.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

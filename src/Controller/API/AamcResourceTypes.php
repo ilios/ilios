@@ -195,7 +195,7 @@ class AamcResourceTypes extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/aamcresourcetypes/{id}',
-        summary: 'Update an AAMC resource type.',
+        summary: 'Update or create an AAMC resource type.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class AamcResourceTypes extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated AAMC resource type.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'aamcResourceType',
+                    ref: new Model(type: AamcResourceTypeDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'The newly created AAMC resource type.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

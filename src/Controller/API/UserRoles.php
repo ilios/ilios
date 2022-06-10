@@ -195,7 +195,7 @@ class UserRoles extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/userroles/{id}',
-        summary: 'Update a user role.',
+        summary: 'Update or create a user role.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class UserRoles extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated user role.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'userRole',
+                    ref: new Model(type: UserRoleDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created user role.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

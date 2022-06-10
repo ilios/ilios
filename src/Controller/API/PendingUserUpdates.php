@@ -195,7 +195,7 @@ class PendingUserUpdates extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/pendinguserupdates/{id}',
-        summary: 'Update a pending user update.',
+        summary: 'Update or create a pending user update.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class PendingUserUpdates extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated pending user update.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'pendingUserUpdate',
+                    ref: new Model(type: PendingUserUpdateDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created pending user update.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

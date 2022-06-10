@@ -194,7 +194,7 @@ class AlertChangeTypes extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/alertchangetypes/{id}',
-        summary: 'Update an alert change type.',
+        summary: 'Update or create an alert change type.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -218,6 +218,19 @@ class AlertChangeTypes extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated alert change type.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'alertChangeType',
+                    ref: new Model(type: AlertChangeTypeDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created alert change type.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

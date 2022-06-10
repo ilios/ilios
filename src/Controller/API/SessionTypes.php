@@ -195,7 +195,7 @@ class SessionTypes extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/sessiontypes/{id}',
-        summary: 'Update a session type.',
+        summary: 'Update or create a session type.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class SessionTypes extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated session type.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'sessionType',
+                    ref: new Model(type: SessionTypeDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created session type.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

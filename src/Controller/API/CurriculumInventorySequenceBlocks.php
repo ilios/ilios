@@ -221,7 +221,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/curriculuminventorysequenceblocks/{id}',
-        summary: 'Update a curriculum inventory sequence block.',
+        summary: 'Update or create a curriculum inventory sequence block.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -245,6 +245,19 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated curriculum inventory sequence block.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'curriculumInventorySequenceBlock',
+                    ref: new Model(type: CurriculumInventorySequenceBlockDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created curriculum inventory sequence block.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

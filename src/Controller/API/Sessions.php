@@ -195,7 +195,7 @@ class Sessions extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/sessions/{id}',
-        summary: 'Update a session.',
+        summary: 'Update or create a session.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class Sessions extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated session.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'session',
+                    ref: new Model(type: SessionDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created session.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

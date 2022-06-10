@@ -195,7 +195,7 @@ class LearningMaterialUserRoles extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/learningmaterialuserroles/{id}',
-        summary: 'Update a learning material user role.',
+        summary: 'Update or create a learning material user role.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class LearningMaterialUserRoles extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated learning material user role.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'learningMaterialUserRole',
+                    ref: new Model(type: LearningMaterialUserRoleDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created learning material user role.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

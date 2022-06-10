@@ -195,7 +195,7 @@ class AssessmentOptions extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/assessmentoptions/{id}',
-        summary: 'Update an assessment option.',
+        summary: 'Update or create an assessment option.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class AssessmentOptions extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated assessment option.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'assessmentOption',
+                    ref: new Model(type: AssessmentOptionDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created assessment option.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

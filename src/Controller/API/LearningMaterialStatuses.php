@@ -195,7 +195,7 @@ class LearningMaterialStatuses extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/learningmaterialstatuses/{id}',
-        summary: 'Update a learning material status.',
+        summary: 'Update or create a learning material status.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class LearningMaterialStatuses extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated learning material status.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'learningMaterialStatus',
+                    ref: new Model(type: LearningMaterialStatusDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created learning material status.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

@@ -276,7 +276,7 @@ class Users extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/users/{id}',
-        summary: 'Update a user.',
+        summary: 'Update or create a user.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -300,6 +300,19 @@ class Users extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated user.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'user',
+                    ref: new Model(type: UserDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created user.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

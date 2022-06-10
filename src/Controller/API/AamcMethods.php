@@ -195,7 +195,7 @@ class AamcMethods extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/aamcmethods/{id}',
-        summary: 'Update an AAMC method.',
+        summary: 'Update or create an AAMC method.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class AamcMethods extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated AAMC method.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'aamcMethod',
+                    ref: new Model(type: AamcMethodDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created AAMC method.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

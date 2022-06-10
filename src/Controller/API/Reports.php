@@ -195,7 +195,7 @@ class Reports extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/reports/{id}',
-        summary: 'Update a report.',
+        summary: 'Update or create a report.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class Reports extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated report.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'report',
+                    ref: new Model(type: ReportDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created report.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(

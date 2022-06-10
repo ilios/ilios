@@ -195,7 +195,7 @@ class Schools extends AbstractApiController
     )]
     #[OA\Put(
         path: '/api/{version}/schools/{id}',
-        summary: 'Update an school.',
+        summary: 'Update or  create an school.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path'),
@@ -219,6 +219,19 @@ class Schools extends AbstractApiController
     #[OA\Response(
         response: '200',
         description: 'The updated school.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    'school',
+                    ref: new Model(type: SchoolDTO::class)
+                )
+            ],
+            type: 'object'
+        )
+    )]
+    #[OA\Response(
+        response: '201',
+        description: 'The newly created school.',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
