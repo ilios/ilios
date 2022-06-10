@@ -40,14 +40,12 @@ class ConfigController extends AbstractController
         $configuration['apiVersion'] = $this->getParameter('ilios_api_version');
         $configuration['appVersion'] = $versionManager->getVersion();
 
-        $configuration['trackingEnabled'] = $config->get('enable_tracking');
-        if ($configuration['trackingEnabled']) {
-            $configuration['trackingCode'] = $config->get('tracking_code');
-        }
+        $configuration['trackingEnabled'] = false; //feature removed, but still provided for frontend compatibility
         $configuration['searchEnabled'] = $curriculumSearch->isEnabled();
 
-        $configuration['academicYearCrossesCalendarYearBoundaries']
-            = $config->get('academic_year_crosses_calendar_year_boundaries');
+        $configuration['academicYearCrossesCalendarYearBoundaries'] = $config->get(
+            'academic_year_crosses_calendar_year_boundaries'
+        );
 
         return new JsonResponse(['config' => $configuration]);
     }

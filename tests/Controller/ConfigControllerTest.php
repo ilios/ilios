@@ -65,8 +65,7 @@ class ConfigControllerTest extends WebTestCase
 
     public function testEnvOverrideForConfigItem()
     {
-        $_SERVER['ILIOS_ENABLE_TRACKING'] = true;
-        $_SERVER['ILIOS_TRACKING_CODE'] = '123-code!';
+        $_SERVER['ILIOS_ACADEMIC_YEAR_CROSSES_CALENDAR_YEAR_BOUNDARIES'] = true;
 
         $this->kernelBrowser->request('GET', '/application/config');
 
@@ -88,15 +87,13 @@ class ConfigControllerTest extends WebTestCase
                 'userSearchType' => 'local',
                 'apiVersion' => $container->getParameter('ilios_api_version'),
                 'appVersion' => TestVersionProvider::VERSION,
-                'trackingEnabled' => true,
-                'trackingCode' => '123-code!',
+                'trackingEnabled' => false,
                 'searchEnabled' => false,
-                'academicYearCrossesCalendarYearBoundaries' => false,
+                'academicYearCrossesCalendarYearBoundaries' => true,
             ],
             $data
         );
 
-        unset($_SERVER['ILIOS_ENABLE_TRACKING']);
-        unset($_SERVER['ILIOS_TRACKING_CODE']);
+        unset($_SERVER['ILIOS_ACADEMIC_YEAR_CROSSES_CALENDAR_YEAR_BOUNDARIES']);
     }
 }
