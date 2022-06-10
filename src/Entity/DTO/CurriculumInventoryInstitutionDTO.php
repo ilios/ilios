@@ -33,11 +33,6 @@ use OpenApi\Attributes as OA;
             type: "string"
         ),
         new OA\Property(
-            "addressStreet",
-            description: "Street address",
-            type: "string"
-        ),
-        new OA\Property(
             "addressCity",
             description: "City",
             type: "string"
