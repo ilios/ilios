@@ -114,11 +114,6 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             type: "integer"
         ),
         new OA\Property(
-            "primaryCohort",
-            description: "Primary cohort",
-            type: "integer"
-        ),
-        new OA\Property(
             "reports",
             description: "Reports",
             type: "array",
