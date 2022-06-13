@@ -74,26 +74,6 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             type: "integer"
         ),
         new OA\Property(
-            "absoluteFileUrl",
-            description: "File URL",
-            type: "string"
-        ),
-        new OA\Property(
-            "link",
-            description: "Link",
-            type: "string"
-        ),
-        new OA\Property(
-            "citation",
-            description: "Citation",
-            type: "string"
-        ),
-        new OA\Property(
-            "filename",
-            description: "File name",
-            type: "string"
-        ),
-        new OA\Property(
             "mimetype",
             description: "Mime type",
             type: "string"
