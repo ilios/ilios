@@ -41,7 +41,6 @@ use OpenApi\Attributes as OA;
             "cohort",
             description: "Cohort",
             type: "integer",
-            items: new OA\Items(type: "string")
         ),
         new OA\Property(
             "parent",
