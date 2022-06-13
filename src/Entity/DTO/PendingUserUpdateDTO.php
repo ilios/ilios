@@ -32,11 +32,6 @@ use OpenApi\Attributes as OA;
             type: "string"
         ),
         new OA\Property(
-            "value",
-            description: "Value",
-            type: "string"
-        ),
-        new OA\Property(
             "user",
             description: "User",
             type: "integer"
