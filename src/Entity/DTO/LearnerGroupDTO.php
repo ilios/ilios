@@ -48,7 +48,7 @@ use OpenApi\Attributes as OA;
             type: "integer"
         ),
         new OA\Property(
-            "parent",
+            "ancestor",
             description: "Ancestor",
             type: "integer"
         ),
