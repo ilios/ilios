@@ -28,29 +28,31 @@ class AcademicYears
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single academic year.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'academicYears',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property("id", type: "string"),
+                                    new OA\Property("title", type: "string")
+                                ],
+                                type: "object"
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'A single academic year.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'academicYears',
-                    type: 'array',
-                    items: new OA\Items(
-                        properties: [
-                            new OA\Property("id", type: "string"),
-                            new OA\Property("title", type: "string")
-                        ],
-                        type: "object"
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         int $id,
@@ -100,27 +102,29 @@ class AcademicYears
         summary: "Fetch all academic years.",
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-        ]
-    )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of academic years.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'academicYears',
-                    type: 'array',
-                    items: new OA\Items(
-                        properties: [
-                            new OA\Property("id", type: "string"),
-                            new OA\Property("title", type: "string")
-                        ],
-                        type: "object"
-                    )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of academic years.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'academicYears',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property("id", type: "string"),
+                                    new OA\Property("title", type: "string")
+                                ],
+                                type: "object"
+                            )
+                        )
+                    ],
+                    type: 'object'
                 )
-            ],
-            type: 'object'
-        )
+            )
+        ]
     )]
     public function getAll(
         string $version,

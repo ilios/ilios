@@ -56,25 +56,27 @@ class Authentications
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single authentication record.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'authentication',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: AuthenticationDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'A single authentication record.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'authentication',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: AuthenticationDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(string $version, int $id, ApiResponseBuilder $builder, Request $request): Response
     {
         $dto = $this->repository->findDTOBy(['user' => $id]);
@@ -94,50 +96,50 @@ class Authentications
     #[OA\Post(
         path: '/api/{version}/authentications',
         summary: "Create authentication records.",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'authentications',
+                        type: 'array',
+                        items: new OA\Items(
+                            properties: [
+                                new OA\Property("user", type: "integer"),
+                                new OA\Property("username", type: "string"),
+                                new OA\Property("password", type: "string")
+                            ],
+                            type: "object"
+                        )
+                    )
+                ],
+                type: 'object',
+            )
+        ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(
-                name: 'body',
-                in: 'body',
-                required: true,
-                schema: new OA\Schema(
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array of newly created authentication records.',
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             'authentications',
                             type: 'array',
                             items: new OA\Items(
-                                properties: [
-                                    new OA\Property("user", type: "integer"),
-                                    new OA\Property("username", type: "string"),
-                                    new OA\Property("password", type: "string")
-                                ],
-                                type: "object"
+                                ref: new Model(type: AuthenticationDTO::class)
                             )
                         )
                     ],
-                    type: 'object',
+                    type: 'object'
                 )
-            )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
         ]
     )]
-    #[OA\Response(
-        response: '201',
-        description: 'An array of newly created authentication records.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'authentications',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: AuthenticationDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -239,23 +241,25 @@ class Authentications
                 ),
                 style: "deepObject"
             )
-        ]
-    )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of authentication records.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'authentications',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: AuthenticationDTO::class)
-                    )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of authentication records.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'authentications',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: AuthenticationDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
                 )
-            ],
-            type: 'object'
-        )
+            )
+        ]
     )]
     public function getAll(
         string $version,
@@ -289,61 +293,62 @@ class Authentications
     #[OA\Put(
         path: '/api/{version}/authentications/{id}',
         summary: 'Update or create an authentication record.',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'authentication',
+                        type: 'array',
+                        items: new OA\Items(
+                            properties: [
+                                new OA\Property("user", type: "integer"),
+                                new OA\Property("username", type: "string"),
+                                new OA\Property("password", type: "string")
+                            ],
+                            type: "object"
+                        )
+                    )
+                ],
+                type: 'object',
+            )
+        ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'user id', in: 'path'),
-            new OA\Parameter(
-                name: 'body',
-                in: 'body',
-                required: true,
-                schema: new OA\Schema(
+            new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The updated authentication record.',
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             'authentication',
-                            type: 'array',
-                            items: new OA\Items(
-                                properties: [
-                                    new OA\Property("user", type: "integer"),
-                                    new OA\Property("username", type: "string"),
-                                    new OA\Property("password", type: "string")
-                                ],
-                                type: "object"
-                            )
+                            ref: new Model(type: AuthenticationDTO::class)
                         )
                     ],
+                    type: 'object'
                 )
-            )
+            ),
+            new OA\Response(
+                response: '201',
+                description: 'The newly created authentication record.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'authentication',
+                            ref: new Model(type: AuthenticationDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'The updated authentication record.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'authentication',
-                    ref: new Model(type: AuthenticationDTO::class)
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(
-        response: '201',
-        description: 'The newly created authentication record.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'authentication',
-                    ref: new Model(type: AuthenticationDTO::class)
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         int $id,
@@ -457,14 +462,16 @@ class Authentications
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(response: '204', description: 'Deleted.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.'),
+            new OA\Response(
+                response: '500',
+                description: 'Deletion failed (usually caused by non-cascading relationships).'
+            )
         ]
-    )]
-    #[OA\Response(response: '204', description: 'Deleted.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
-    #[OA\Response(
-        response: '500',
-        description: 'Deletion failed (usually caused by non-cascading relationships).'
     )]
     public function delete(
         string $version,

@@ -55,26 +55,28 @@ class SchooleventController extends AbstractController
                 required: false,
                 schema: new OA\Schema(type: 'string', format: 'date-time')
             )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of school events.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'events',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: SchoolEvent::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of school events.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'schoolEvents',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: SchoolEvent::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
     public function getEvents(
         string $version,
         int $id,

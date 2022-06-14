@@ -33,22 +33,24 @@ class CurrentSessionController extends AbstractController
         summary: "Gets the user ID from the current session.",
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The current user id.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'userId',
+                            type: 'string',
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'The current user id.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userId',
-                    type: 'string',
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '404', description: 'Not found.')]
     public function getCurrentSession(
         string $version,
         TokenStorageInterface $tokenStorage,

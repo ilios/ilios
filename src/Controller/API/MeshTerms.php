@@ -33,25 +33,27 @@ class MeshTerms extends AbstractApiController
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single MeSH term.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'meshTerms',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: MeshTermDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'A single MeSH term.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'meshTerms',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: MeshTermDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -106,23 +108,25 @@ class MeshTerms extends AbstractApiController
                 ),
                 style: "deepObject"
             )
-        ]
-    )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of MeSH terms.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'meshTerms',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: MeshTermDTO::class)
-                    )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of MeSH terms.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'meshTerms',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: MeshTermDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
                 )
-            ],
-            type: 'object'
-        )
+            )
+        ]
     )]
     public function getAll(
         string $version,

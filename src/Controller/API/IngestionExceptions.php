@@ -33,25 +33,27 @@ class IngestionExceptions extends AbstractApiController
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single ingestion exception.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'ingestionExceptions',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: IngestionExceptionDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'A single ingestion exception.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'ingestionExceptions',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: IngestionExceptionDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -106,23 +108,25 @@ class IngestionExceptions extends AbstractApiController
                 ),
                 style: "deepObject"
             )
-        ]
-    )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of ingestion exceptions.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'ingestionExceptions',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: IngestionExceptionDTO::class)
-                    )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of ingestion exceptions.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'ingestionExceptions',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: IngestionExceptionDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
                 )
-            ],
-            type: 'object'
-        )
+            )
+        ]
     )]
     public function getAll(
         string $version,

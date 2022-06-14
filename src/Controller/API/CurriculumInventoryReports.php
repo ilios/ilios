@@ -52,25 +52,27 @@ class CurriculumInventoryReports extends AbstractApiController
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single curriculum inventory reports.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'curriculumInventoryReports',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: CurriculumInventoryReportDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'A single curriculum inventory reports.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'curriculumInventoryReports',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: CurriculumInventoryReportDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -125,23 +127,25 @@ class CurriculumInventoryReports extends AbstractApiController
                 ),
                 style: "deepObject"
             )
-        ]
-    )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of curriculum inventory reports.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'curriculumInventoryReports',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: CurriculumInventoryReportDTO::class)
-                    )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of curriculum inventory reports.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'curriculumInventoryReports',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: CurriculumInventoryReportDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
                 )
-            ],
-            type: 'object'
-        )
+            )
+        ]
     )]
     public function getAll(
         string $version,
@@ -161,13 +165,29 @@ class CurriculumInventoryReports extends AbstractApiController
     #[OA\Post(
         path: '/api/{version}/curriculuminventoryreports',
         summary: "Create curriculum inventory reports.",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'curriculumInventoryReports',
+                        type: 'array',
+                        items: new OA\Items(
+                            ref: new Model(type: CurriculumInventoryReportDTO::class)
+                        )
+                    )
+                ],
+                type: 'object',
+            )
+        ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(
-                name: 'body',
-                in: 'body',
-                required: true,
-                schema: new OA\Schema(
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array of newly created curriculum inventory reports.',
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             'curriculumInventoryReports',
@@ -177,29 +197,13 @@ class CurriculumInventoryReports extends AbstractApiController
                             )
                         )
                     ],
-                    type: 'object',
+                    type: 'object'
                 )
-            )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
         ]
     )]
-    #[OA\Response(
-        response: '201',
-        description: 'An array of newly created curriculum inventory reports.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'curriculumInventoryReports',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: CurriculumInventoryReportDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -251,55 +255,55 @@ class CurriculumInventoryReports extends AbstractApiController
     #[OA\Put(
         path: '/api/{version}/curriculuminventoryreports/{id}',
         summary: 'Update or create a curriculum inventory report.',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'curriculumInventoryReport',
+                        ref: new Model(type: CurriculumInventoryReportDTO::class),
+                        type: 'object'
+                    )
+                ],
+                type: 'object',
+            )
+        ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
-            new OA\Parameter(
-                name: 'body',
-                in: 'body',
-                required: true,
-                schema: new OA\Schema(
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The updated curriculum inventory report.',
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             'curriculumInventoryReport',
-                            ref: new Model(type: CurriculumInventoryReportDTO::class),
-                            type: 'object'
+                            ref: new Model(type: CurriculumInventoryReportDTO::class)
                         )
                     ],
-                    type: 'object',
+                    type: 'object'
                 )
-            )
+            ),
+            new OA\Response(
+                response: '201',
+                description: 'The newly created curriculum inventory report.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'curriculumInventoryReport',
+                            ref: new Model(type: CurriculumInventoryReportDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'The updated curriculum inventory report.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'curriculumInventoryReport',
-                    ref: new Model(type: CurriculumInventoryReportDTO::class)
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(
-        response: '201',
-        description: 'The newly created curriculum inventory report.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'curriculumInventoryReport',
-                    ref: new Model(type: CurriculumInventoryReportDTO::class)
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         string $id,
@@ -338,14 +342,16 @@ class CurriculumInventoryReports extends AbstractApiController
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(response: '204', description: 'Deleted.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.'),
+            new OA\Response(
+                response: '500',
+                description: 'Deletion failed (usually caused by non-cascading relationships).'
+            )
         ]
-    )]
-    #[OA\Response(response: '204', description: 'Deleted.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
-    #[OA\Response(
-        response: '500',
-        description: 'Deletion failed (usually caused by non-cascading relationships).'
     )]
     public function delete(
         string $version,
@@ -365,60 +371,62 @@ class CurriculumInventoryReports extends AbstractApiController
     #[OA\Post(
         path: '/api/{version}/{id}/rollover',
         summary: 'Rollover a report by ID.',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\MediaType(
+                mediaType: 'application/x-www-form-urlencoded',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            'name',
+                            description: 'Name',
+                            type: 'string'
+                        ),
+                        new OA\Property(
+                            'description',
+                            description: 'Description',
+                            type: 'string'
+                        ),
+                        new OA\Property(
+                            'year',
+                            description: 'Year',
+                            type: 'string'
+                        ),
+                        new OA\Property(
+                            'program',
+                            description: 'Program ID',
+                            type: 'string',
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array containing the rolled-over report.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'curriculumInventoryReports',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: CurriculumInventoryReportDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
         ]
     )]
-    #[OA\RequestBody(
-        required: true,
-        content: [new OA\MediaType(
-            mediaType: 'application/x-www-form-urlencoded',
-            schema: new OA\Schema(
-                properties: [
-                    new OA\Property(
-                        'name',
-                        description: 'Name',
-                        type: 'string'
-                    ),
-                    new OA\Property(
-                        'description',
-                        description: 'Description',
-                        type: 'string'
-                    ),
-                    new OA\Property(
-                        'year',
-                        description: 'Year',
-                        type: 'string'
-                    ),
-                    new OA\Property(
-                        'program',
-                        description: 'Program ID',
-                        type: 'string',
-                    )
-                ],
-                type: 'object'
-            )
-        )]
-    )]
-    #[OA\Response(
-        response: '201',
-        description: 'An array containing the rolled-over report.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'curriculumInventoryReports',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: CurriculumInventoryReportDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function rollover(
         string $version,
         int $id,
@@ -485,22 +493,24 @@ class CurriculumInventoryReports extends AbstractApiController
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The verification preview data.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'preview',
+                            type: 'object',
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '403', description: 'Access Denied.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'The verification preview data.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'preview',
-                    type: 'object',
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function verificationPreview(
         string $version,
         int $id,

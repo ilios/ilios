@@ -35,25 +35,27 @@ class UserRoles extends AbstractApiController
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single user role.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'userRoles',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: UserRoleDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'A single user role.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userRoles',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: UserRoleDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '404', description: 'Not found.')]
     public function getOne(
         string $version,
         string $id,
@@ -108,23 +110,25 @@ class UserRoles extends AbstractApiController
                 ),
                 style: "deepObject"
             )
-        ]
-    )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of user roles.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userRoles',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: UserRoleDTO::class)
-                    )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of user roles.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'userRoles',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: UserRoleDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
                 )
-            ],
-            type: 'object'
-        )
+            )
+        ]
     )]
     public function getAll(
         string $version,
@@ -139,13 +143,29 @@ class UserRoles extends AbstractApiController
     #[OA\Post(
         path: '/api/{version}/userroles',
         summary: "Create user roles.",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'userRoles',
+                        type: 'array',
+                        items: new OA\Items(
+                            ref: new Model(type: UserRoleDTO::class)
+                        )
+                    )
+                ],
+                type: 'object',
+            )
+        ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(
-                name: 'body',
-                in: 'body',
-                required: true,
-                schema: new OA\Schema(
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array of newly created user roles.',
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             'userRoles',
@@ -155,29 +175,13 @@ class UserRoles extends AbstractApiController
                             )
                         )
                     ],
-                    type: 'object',
+                    type: 'object'
                 )
-            )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
         ]
     )]
-    #[OA\Response(
-        response: '201',
-        description: 'An array of newly created user roles.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userRoles',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: UserRoleDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,
@@ -196,55 +200,55 @@ class UserRoles extends AbstractApiController
     #[OA\Put(
         path: '/api/{version}/userroles/{id}',
         summary: 'Update or create a user role.',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'userRole',
+                        ref: new Model(type: UserRoleDTO::class),
+                        type: 'object'
+                    )
+                ],
+                type: 'object',
+            )
+        ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
-            new OA\Parameter(
-                name: 'body',
-                in: 'body',
-                required: true,
-                schema: new OA\Schema(
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The updated user role.',
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             'userRole',
-                            ref: new Model(type: UserRoleDTO::class),
-                            type: 'object'
+                            ref: new Model(type: UserRoleDTO::class)
                         )
                     ],
-                    type: 'object',
+                    type: 'object'
                 )
-            )
+            ),
+            new OA\Response(
+                response: '201',
+                description: 'The newly created user role.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'userRole',
+                            ref: new Model(type: UserRoleDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'The updated user role.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userRole',
-                    ref: new Model(type: UserRoleDTO::class)
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(
-        response: '201',
-        description: 'The newly created user role.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userRole',
-                    ref: new Model(type: UserRoleDTO::class)
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
     public function put(
         string $version,
         string $id,
@@ -283,11 +287,13 @@ class UserRoles extends AbstractApiController
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
             new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(response: '204', description: 'Deleted.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
         ]
     )]
-    #[OA\Response(response: '204', description: 'Deleted.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
     public function delete(
         string $version,
         string $id,

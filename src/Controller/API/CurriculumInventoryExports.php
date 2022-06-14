@@ -38,13 +38,27 @@ class CurriculumInventoryExports
     #[OA\Post(
         path: '/api/{version}/curriculuminventoryexports',
         summary: "Create curriculum inventory exports.",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'curriculumInventoryExports',
+                        ref: new Model(type: CurriculumInventoryExportDTO::class),
+                        type: 'object'
+                    )
+                ],
+                type: 'object',
+            )
+        ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(
-                name: 'body',
-                in: 'body',
-                required: true,
-                schema: new OA\Schema(
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array of newly created curriculum inventory exports.',
+                content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             'curriculumInventoryExports',
@@ -54,29 +68,13 @@ class CurriculumInventoryExports
                             )
                         )
                     ],
-                    type: 'object',
+                    type: 'object'
                 )
-            )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
         ]
     )]
-    #[OA\Response(
-        response: '201',
-        description: 'An array of newly created curriculum inventory exports.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'curriculumInventoryExports',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: CurriculumInventoryExportDTO::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '400', description: 'Bad Request Data.')]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
     public function post(
         string $version,
         Request $request,

@@ -54,26 +54,28 @@ class UsereventController extends AbstractController
                 required: false,
                 schema: new OA\Schema(type: 'string', format: 'date-time')
             )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of user events.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'userEvents',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: UserEvent::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of user events.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userEvents',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: UserEvent::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
     public function getEvents(
         string $version,
         int $id,

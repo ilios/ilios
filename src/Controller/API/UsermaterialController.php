@@ -55,26 +55,28 @@ class UsermaterialController extends AbstractController
                 required: false,
                 schema: new OA\Schema(type: 'string', format: 'date-time')
             ),
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of user materials.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'userMaterials',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: UserMaterial::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
         ]
     )]
-    #[OA\Response(
-        response: '200',
-        description: 'An array of user materials.',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    'userMaterials',
-                    type: 'array',
-                    items: new OA\Items(
-                        ref: new Model(type: UserMaterial::class)
-                    )
-                )
-            ],
-            type: 'object'
-        )
-    )]
-    #[OA\Response(response: '403', description: 'Access Denied.')]
-    #[OA\Response(response: '404', description: 'Not Found.')]
     public function getMaterials(
         string $version,
         int $id,
