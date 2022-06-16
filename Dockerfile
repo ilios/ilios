@@ -296,7 +296,7 @@ RUN /usr/bin/composer install \
     --classmap-authoritative \
     #creates an empty env.php file, real ENV values will control the app
     && /usr/bin/composer dump-env prod \
-    && /usr/bin/composer clear-cache
+    && composer run-script --no-dev post-install-cmd
 
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
