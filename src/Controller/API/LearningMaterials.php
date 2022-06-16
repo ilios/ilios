@@ -13,6 +13,8 @@ use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
 use App\Service\TemporaryFileSystem;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -30,11 +32,12 @@ use RuntimeException;
 
 /**
  * learning materials are decorated with additional information
- * and also blanked for non-privleged users
+ * and also blanked for non-privileged users
  * otherwise the method bodies are copied from
  * the top level API Read and ReadWrite controllers
  *
  */
+#[OA\Tag(name:'Learning materials')]
 #[Route('/api/{version<v3>}/learningmaterials')]
 
 class LearningMaterials
@@ -46,12 +49,36 @@ class LearningMaterials
         $this->endpoint = 'learningmaterials';
     }
 
-    /**
-     * Handles GET request for a single entity
-     */
     #[Route(
         '/{id}',
         methods: ['GET']
+    )]
+    #[OA\Get(
+        path: '/api/{version}/learningmaterials/{id}',
+        summary: 'Fetch a single learning material.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single learning material.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'learningMaterials',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: LearningMaterialDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
+        ]
     )]
     public function getOne(
         string $version,
@@ -81,10 +108,75 @@ class LearningMaterials
         return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
-    /**
-     * Handles GET request for multiple entities
-     */
     #[Route(methods: ['GET'])]
+    #[OA\Get(
+        path: "/api/{version}/learningmaterials",
+        summary: "Fetch all learning materials.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'q',
+                description: 'Search filter',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of learning materials.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'learningMaterials',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: LearningMaterialDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ]
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -130,13 +222,55 @@ class LearningMaterials
     }
 
 
-    /**
+    /*
      * Handles POST which creates new data in the API
      * Connects file learning materials to the uploaded file
      * they are referencing and generate a token to use to link
      * to this learning material.
      */
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/learningmaterials',
+        summary: "Create learning materials.",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'learningMaterials',
+                        type: 'array',
+                        items: new OA\Items(
+                            ref: new Model(type: LearningMaterialDTO::class)
+                        )
+                    )
+                ],
+                type: 'object',
+            )
+        ),
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array of newly created learning materials.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'learningMaterials',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: LearningMaterialDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
+        ]
+    )]
     public function post(
         string $version,
         Request $request,
@@ -212,7 +346,7 @@ class LearningMaterials
         return $builder->buildResponseForPostRequest($this->endpoint, $values, Response::HTTP_CREATED, $request);
     }
 
-    /**
+    /*
      * When saving a learning material do not allow
      * the modification of file fields.  These are not
      * technically read only, but should not be writable when saved.
@@ -220,6 +354,58 @@ class LearningMaterials
     #[Route(
         '/{id}',
         methods: ['PUT']
+    )]
+    #[OA\Put(
+        path: '/api/{version}/learningmaterials/{id}',
+        summary: 'Update or create a learning material.',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'learningMaterial',
+                        ref: new Model(type: LearningMaterialDTO::class),
+                        type: 'object'
+                    )
+                ],
+                type: 'object',
+            )
+        ),
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The updated learning material.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'learningMaterial',
+                            ref: new Model(type: LearningMaterialDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(
+                response: '201',
+                description: 'The newly created learning material.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'learningMaterial',
+                            ref: new Model(type: LearningMaterialDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
+        ]
     )]
     public function put(
         string $version,
@@ -266,7 +452,7 @@ class LearningMaterials
         );
     }
 
-    /**
+    /*
      * When saving a learning material do not allow
      * the modification of file fields.  These are not
      * technically read only, but should not be writable when saved.
@@ -321,12 +507,26 @@ class LearningMaterials
         );
     }
 
-    /**
-     * Handles DELETE requests to remove an element from the API
-     */
     #[Route(
         '/{id}',
         methods: ['DELETE']
+    )]
+    #[OA\Delete(
+        path: '/api/{version}/learningmaterials/{id}',
+        summary: 'Delete a learning material.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(response: '204', description: 'Deleted.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.'),
+            new OA\Response(
+                response: '500',
+                description: 'Deletion failed (usually caused by non-cascading relationships).'
+            )
+        ]
     )]
     public function delete(
         string $version,

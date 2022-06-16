@@ -5,13 +5,87 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
-use App\Entity\CurriculumInventoryAcademicLevelInterface;
-use App\Entity\CurriculumInventoryReportInterface;
-use App\Entity\CurriculumInventorySequenceBlockInterface;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[IA\DTO('curriculumInventoryReports')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "CurriculumInventoryReport",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "name",
+            description: "Name",
+            type: "string"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "year",
+            description: "Year",
+            type: "string"
+        ),
+        new OA\Property(
+            "startDate",
+            description: "Start date",
+            type: "string",
+            format: 'date-time'
+        ),
+        new OA\Property(
+            "endDate",
+            description: "End date",
+            type: "string",
+            format: 'date-time'
+        ),
+        new OA\Property(
+            "absoluteFileUri",
+            description: "Report download URL",
+            type: "string"
+        ),
+        new OA\Property(
+            "program",
+            description: "Program",
+            type: "integer"
+        ),
+        new OA\Property(
+            "export",
+            description: "Report export",
+            type: "integer"
+        ),
+        new OA\Property(
+            "sequence",
+            description: "Report sequence",
+            type: "integer"
+        ),
+        new OA\Property(
+            "sequenceBlocks",
+            description: "Sequence blocks",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "academicLevels",
+            description: "Academic Levels",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "administrators",
+            description: "Administrators",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class CurriculumInventoryReportDTO
 {
     #[IA\Id]
@@ -40,6 +114,15 @@ class CurriculumInventoryReportDTO
     public DateTime $endDate;
 
     #[IA\Expose]
+    #[IA\Type('string')]
+    public string $absoluteFileUri;
+
+    #[IA\Expose]
+    #[IA\Related('programs')]
+    #[IA\Type('integer')]
+    public int $program;
+
+    #[IA\Expose]
     #[IA\Related('curriculumInventoryExports')]
     #[IA\Type('integer')]
     public ?int $export = null;
@@ -57,11 +140,6 @@ class CurriculumInventoryReportDTO
     #[IA\Type('array<string>')]
     public array $sequenceBlocks = [];
 
-    #[IA\Expose]
-    #[IA\Related('programs')]
-    #[IA\Type('integer')]
-    public int $program;
-
     /**
      * @var int[]
      */
@@ -70,20 +148,6 @@ class CurriculumInventoryReportDTO
     #[IA\Type('array<string>')]
     public array $academicLevels = [];
 
-    #[IA\Expose]
-    #[IA\Type('string')]
-    public string $absoluteFileUri;
-
-    /**
-     * Needed for voting not exposed in the API
-     */
-    public int $school;
-
-    /**
-     * Needed for creating the absolute URL, not exposed in the API
-     */
-    public ?string $token;
-
     /**
      * @var int[]
      */
@@ -91,6 +155,18 @@ class CurriculumInventoryReportDTO
     #[IA\Related('users')]
     #[IA\Type('array<string>')]
     public array $administrators = [];
+
+    /**
+     * Needed for voting not exposed in the API
+     */
+    #[Ignore]
+    public int $school;
+
+    /**
+     * Needed for creating the absolute URL, not exposed in the API
+     */
+    #[Ignore]
+    public ?string $token;
 
     public function __construct(
         int $id,

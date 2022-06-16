@@ -6,9 +6,68 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('meshTerms')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "MeshTerm",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "meshTermUid",
+            description: "UID",
+            type: "string"
+        ),
+        new OA\Property(
+            "name",
+            description: "Name",
+            type: "string"
+        ),
+        new OA\Property(
+            "lexicalTag",
+            description: "Lexical tag",
+            type: "string"
+        ),
+        new OA\Property(
+            "conceptPreferred",
+            description: "Is concept preferred",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "recordPreferred",
+            description: "Is record preferred",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "permuted",
+            description: "Is permuted",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "createdAt",
+            description: "Created at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "updatedAt",
+            description: "Updated at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "concepts",
+            description: "MeSH concepts",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class MeshTermDTO
 {
     #[IA\Id]

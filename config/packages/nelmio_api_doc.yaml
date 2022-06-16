@@ -1,0 +1,14 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Ilios API Documentation
+        components:
+            securitySchemes:
+                jwt:
+                    type: apiKey
+                    in: header
+                    name: X-JWT-Authorization
+        security:
+            - jwt: []
+    areas:
+        path_patterns: [ ^/api/{version}/.*$ ]

@@ -4,23 +4,54 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Classes\AcademicYear;
 use App\Repository\CourseRepository;
 use App\Service\AcademicYearFactory;
 use App\Service\ApiResponseBuilder;
-use App\Service\Config;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
+#[OA\Tag(name:'Academic years')]
 #[Route('/api/{version<v3>}/academicyears')]
 class AcademicYears
 {
     #[Route(
         '/{id}',
         methods: ['GET']
+    )]
+    #[OA\Get(
+        path: '/api/{version}/academicyears/{id}',
+        summary: 'Fetch a single academic years.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single academic year.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'academicYears',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property("id", type: "string"),
+                                    new OA\Property("title", type: "string")
+                                ],
+                                type: "object"
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
+        ]
     )]
     public function getOne(
         string $version,
@@ -65,6 +96,35 @@ class AcademicYears
     }
     #[Route(
         methods: ['GET']
+    )]
+    #[OA\Get(
+        path: "/api/{version}/academicyears",
+        summary: "Fetch all academic years.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of academic years.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'academicYears',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property("id", type: "string"),
+                                    new OA\Property("title", type: "string")
+                                ],
+                                type: "object"
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ]
     )]
     public function getAll(
         string $version,

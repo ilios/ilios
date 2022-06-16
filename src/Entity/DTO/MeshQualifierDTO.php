@@ -6,9 +6,43 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('meshQualifiers')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "MeshQualifier",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "name",
+            description: "Name",
+            type: "string"
+        ),
+        new OA\Property(
+            "createdAt",
+            description: "Created at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "updatedAt",
+            description: "Updated at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "descriptors",
+            description: "MeSH descriptors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class MeshQualifierDTO
 {
     #[IA\Id]

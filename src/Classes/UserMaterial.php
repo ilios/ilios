@@ -6,11 +6,139 @@ namespace App\Classes;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
-/**
- * Class UserMaterial
- */
 #[IA\DTO('userMaterial')]
+#[OA\Schema(
+    title: "UserMaterial",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID of the learning material",
+            type: "string"
+        ),
+        new OA\Property(
+            "session",
+            description: "Session ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "course",
+            description:"Course ID",
+            type:"string",
+        ),
+        new OA\Property(
+            "publicNotes",
+            description: "Public notes",
+            type: "string"
+        ),
+        new OA\Property(
+            "required",
+            description: "Is required",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "originalAuthor",
+            description: "The creator of this material",
+            type: "string"
+        ),
+        new OA\Property(
+            "absoluteFileUri",
+            description: "File URL",
+            type: "string"
+        ),
+        new OA\Property(
+            "citation",
+            description: "Citation",
+            type: "string"
+        ),
+        new OA\Property(
+            "link",
+            description: "Link",
+            type: "string"
+        ),
+        new OA\Property(
+            "filename",
+            description: "Filesize in bytes",
+            type: "integer"
+        ),
+        new OA\Property(
+            "mimetype",
+            description: "Mime type",
+            type: "string"
+        ),
+        new OA\Property(
+            "sessionTitle",
+            description: "Session title",
+            type: "string"
+        ),
+        new OA\Property(
+            "courseTitle",
+            description: "Course title",
+            type: "string"
+        ),
+        new OA\Property(
+            "firstOfferingDate",
+            description: "The first appearance of this material",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "courseLearningMaterial",
+            description: "ID of the course/learning-material association",
+            type: "string",
+        ),
+        new OA\Property(
+            "sessionLearningMaterial",
+            description: "ID of the session/learning-material association",
+            type: "string",
+        ),
+        new OA\Property(
+            "filesize",
+            description: "Filesize in bytes",
+            type: "string",
+        ),
+        new OA\Property(
+            "position",
+            description: "Sorting position of this material in the context of a course or session association",
+            type: "string",
+        ),
+        new OA\Property(
+            "instructors",
+            description: "Instructor names",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "startDate",
+            description: "Timed-release start date-time",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "endDate",
+            description: "Timed-release end date-time",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "isBlanked",
+            description: "Is blanked",
+            type: "boolean"
+        )
+    ]
+)]
 class UserMaterial
 {
     /**
@@ -127,6 +255,8 @@ class UserMaterial
     #[IA\Expose]
     #[IA\Type('boolean')]
     public bool $isBlanked = false;
+
+    #[Ignore]
     public ?int $status = null;
     /**
      * Blanks out properties of timed learning materials that are outside their given

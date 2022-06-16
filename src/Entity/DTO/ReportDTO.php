@@ -6,9 +6,56 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('reports')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Report",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "createdAt",
+            description: "Created at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "integer"
+        ),
+        new OA\Property(
+            "subject",
+            description: "Subject",
+            type: "string"
+        ),
+        new OA\Property(
+            "prepositionalObject",
+            description: "Prepositional object",
+            type: "string"
+        ),
+        new OA\Property(
+            "prepositionalObjectTableRowId",
+            description: "Prepositional object table row ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "user",
+            description: "User",
+            type: "integer"
+        )
+    ]
+)]
 class ReportDTO
 {
     #[IA\Id]

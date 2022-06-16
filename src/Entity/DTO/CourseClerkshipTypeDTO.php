@@ -5,13 +5,31 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class CourseClerkshipTypeDTO
- * Data transfer object for a course clerkship types
- */
 #[IA\DTO('courseClerkshipTypes')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "CourseClerkshipType",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "courses",
+            description: "Courses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class CourseClerkshipTypeDTO
 {
     #[IA\Id]

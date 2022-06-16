@@ -5,13 +5,36 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class AamcResourceTypeDTO
- * Data transfer object for a aamcResourceType
- */
 #[IA\DTO('aamcResourceTypes')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "AamcResourceType",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "terms",
+            description: "Vocabulary terms",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class AamcResourceTypeDTO
 {
     #[IA\Id]

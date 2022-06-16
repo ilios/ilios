@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
+use App\Entity\DTO\UserDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,8 +28,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * so users needs its own controller
  *
  */
+#[OA\Tag(name:'Users')]
 #[Route('/api/{version<v3>}/users')]
-
 class Users extends AbstractApiController
 {
     public function __construct(
@@ -40,6 +43,33 @@ class Users extends AbstractApiController
     #[Route(
         '/{id}',
         methods: ['GET']
+    )]
+    #[OA\Get(
+        path: '/api/{version}/users/{id}',
+        summary: 'Fetch a single user.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single user.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'users',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: UserDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
+        ]
     )]
     public function getOne(
         string $version,
@@ -55,6 +85,74 @@ class Users extends AbstractApiController
      * Handle the special 'q' parameter for courses
      */
     #[Route(methods: ['GET'])]
+    #[OA\Get(
+        path: "/api/{version}/users",
+        summary: "Fetch all users.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'q',
+                description: 'Search filter',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of users.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'users',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: UserDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ]
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -90,10 +188,52 @@ class Users extends AbstractApiController
     /**
      * When Users are submitted with an empty icsFeedKey value that overrides
      * the created key.  This happens when new users are created and they don't have a
-     * key yet.  Instead of using the blank key we need to keep the one that is generated
+     * key yet. Instead of using the blank key we need to keep the one that is generated
      * in the User entity constructor.
      */
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/users',
+        summary: "Create users.",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'users',
+                        type: 'array',
+                        items: new OA\Items(
+                            ref: new Model(type: UserDTO::class)
+                        )
+                    )
+                ],
+                type: 'object',
+            )
+        ),
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array of newly created users.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'users',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: UserDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
+        ]
+    )]
     public function post(
         string $version,
         Request $request,
@@ -137,6 +277,58 @@ class Users extends AbstractApiController
     #[Route(
         '/{id}',
         methods: ['PUT']
+    )]
+    #[OA\Put(
+        path: '/api/{version}/users/{id}',
+        summary: 'Update or create a user.',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'user',
+                        ref: new Model(type: UserDTO::class),
+                        type: 'object'
+                    )
+                ],
+                type: 'object',
+            )
+        ),
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The updated user.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'user',
+                            ref: new Model(type: UserDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(
+                response: '201',
+                description: 'The newly created user.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'user',
+                            ref: new Model(type: UserDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
+        ]
     )]
     public function put(
         string $version,
@@ -183,6 +375,23 @@ class Users extends AbstractApiController
     #[Route(
         '/{id}',
         methods: ['DELETE']
+    )]
+    #[OA\Delete(
+        path: '/api/{version}/users/{id}',
+        summary: 'Delete a user.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(response: '204', description: 'Deleted.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.'),
+            new OA\Response(
+                response: '500',
+                description: 'Deletion failed (usually caused by non-cascading relationships).'
+            )
+        ]
     )]
     public function delete(
         string $version,

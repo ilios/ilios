@@ -5,13 +5,62 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class SessionTypeDTO
- * Data transfer object for a session type
- */
 #[IA\DTO('sessionTypes')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "SessionType",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "calendarColor",
+            description: "Calendar color",
+            type: "string"
+        ),
+        new OA\Property(
+            "active",
+            description: "Is active",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "assessment",
+            description: "Is an assessment",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "assessmentOption",
+            description: "Assessment option",
+            type: "integer"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "integer"
+        ),
+        new OA\Property(
+            "aamcMethods",
+            description: "AAMC methods",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "sessions",
+            description: "Sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class SessionTypeDTO
 {
     #[IA\Id]

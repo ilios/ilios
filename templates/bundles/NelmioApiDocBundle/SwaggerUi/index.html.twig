@@ -1,0 +1,25 @@
+{% extends '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}
+{% block swagger_data %}
+    {# json_encode(65) is for JSON_UNESCAPED_SLASHES|JSON_HEX_TAG to avoid JS XSS #}
+    <script id="swagger-data" type="application/json">{{ swagger_data|insert_api_doc_info|json_encode(65)|raw }}</script>
+{% endblock swagger_data %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* reclaim space reserved for the header that we're not displaying */
+        body {
+            margin-top: 0;
+        }
+        /* hide the header banner */
+        /* @todo replace the default banner with a custom one instead of hiding it. [ST 2022/05/24] */
+        header {
+            display: none;
+        }
+        /* suppress PATCH method docs. */
+        /* @todo find a better way to ignore those [ST 2022/05/24] */
+        .opblock-patch {
+            display: none;
+        }
+    </style>
+{% endblock stylesheets %}

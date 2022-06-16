@@ -5,9 +5,41 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('vocabularies')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Vocabulary",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "active",
+            description: "Is active",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "integer"
+        ),
+        new OA\Property(
+            "terms",
+            description: "Vocabulary terms",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class VocabularyDTO
 {
     #[IA\Id]
@@ -18,6 +50,10 @@ class VocabularyDTO
     #[IA\Expose]
     #[IA\Type('string')]
     public string $title;
+
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    public bool $active;
 
     #[IA\Expose]
     #[IA\Related('schools')]
@@ -31,10 +67,6 @@ class VocabularyDTO
     #[IA\Related]
     #[IA\Type('array<string>')]
     public array $terms = [];
-
-    #[IA\Expose]
-    #[IA\Type('boolean')]
-    public bool $active;
 
     public function __construct(int $id, string $title, bool $active)
     {

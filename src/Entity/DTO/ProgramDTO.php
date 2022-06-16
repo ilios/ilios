@@ -5,13 +5,58 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class ProgramDTO
- * Data transfer object for a Program
- */
 #[IA\DTO('programs')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "Program",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "shortTitle",
+            description: "Short title",
+            type: "string"
+        ),
+        new OA\Property(
+            "duration",
+            description: "Duration",
+            type: "string"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "integer"
+        ),
+        new OA\Property(
+            "programYears",
+            description: "Program years",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "curriculumInventoryReports",
+            description: "Curriculum inventory reports",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "directors",
+            description: "Directors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class ProgramDTO
 {
     #[IA\Id]

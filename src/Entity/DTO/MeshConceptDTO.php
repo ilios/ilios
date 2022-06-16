@@ -6,9 +6,69 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('meshConcepts')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "MeshConcept",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "name",
+            description: "Name",
+            type: "string"
+        ),
+        new OA\Property(
+            "preferred",
+            description: "Is preferred",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "scopeNote",
+            description: "Scope note",
+            type: "string"
+        ),
+        new OA\Property(
+            "casn1Name",
+            description: "CASN1 name",
+            type: "string"
+        ),
+        new OA\Property(
+            "registryNumber",
+            description: "Registry number",
+            type: "string"
+        ),
+        new OA\Property(
+            "createdAt",
+            description: "Created at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "updatedAt",
+            description: "Updated at",
+            type: "string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "terms",
+            description: "MeSH terms",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "descriptors",
+            description: "MeSH descriptors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class MeshConceptDTO
 {
     #[IA\Id]
@@ -36,14 +96,6 @@ class MeshConceptDTO
     #[IA\Type('string')]
     public ?string $registryNumber;
 
-    /**
-     * @var int[]
-     */
-    #[IA\Expose]
-    #[IA\Related('meshTerms')]
-    #[IA\Type('array<string>')]
-    public array $terms = [];
-
     #[IA\Expose]
     #[IA\Type('dateTime')]
     public DateTime $createdAt;
@@ -51,6 +103,14 @@ class MeshConceptDTO
     #[IA\Expose]
     #[IA\Type('dateTime')]
     public DateTime $updatedAt;
+
+    /**
+     * @var int[]
+     */
+    #[IA\Expose]
+    #[IA\Related('meshTerms')]
+    #[IA\Type('array<string>')]
+    public array $terms = [];
 
     /**
      * @var int[]

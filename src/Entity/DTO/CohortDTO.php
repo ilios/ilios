@@ -5,13 +5,49 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
-/**
- * Class CohortDTO
- * Data transfer object for a cohort
- */
 #[IA\DTO('cohorts')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "AamcMethod",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "programYear",
+            description:"Program year",
+            type:"integer"
+        ),
+        new OA\Property(
+            "courses",
+            description: "Courses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "learnerGroups",
+            description: "Learner groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "users",
+            description: "Users",
+            type: "array",
+            items: new OA\Items(type: "string")
+        )
+    ]
+)]
 class CohortDTO
 {
     #[IA\Id]
@@ -55,11 +91,13 @@ class CohortDTO
     /**
      * For Voter use, not public
      */
+    #[Ignore]
     public int $program;
 
     /**
      * For Voter use, not public
      */
+    #[Ignore]
     public int $school;
 
     public function __construct(

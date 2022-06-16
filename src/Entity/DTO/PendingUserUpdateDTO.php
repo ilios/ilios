@@ -5,8 +5,39 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('pendingUserUpdates')]
+#[OA\Schema(
+    title: "PendingUserUpdate",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "type",
+            description: "Type",
+            type: "string"
+        ),
+        new OA\Property(
+            "property",
+            description: "Property",
+            type: "string"
+        ),
+        new OA\Property(
+            "value",
+            description: "Value",
+            type: "string"
+        ),
+        new OA\Property(
+            "user",
+            description: "User",
+            type: "integer"
+        )
+    ]
+)]
 class PendingUserUpdateDTO
 {
     #[IA\Id]

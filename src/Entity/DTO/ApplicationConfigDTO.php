@@ -5,12 +5,29 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class ApplicationConfigDTO
- * Data transfer object for an applicationConfig
- */
 #[IA\DTO('applicationConfigs')]
+#[OA\Schema(
+    title: "ApplicationConfig",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "name",
+            description: "Name",
+            type: "string"
+        ),
+        new OA\Property(
+            "value",
+            description:"Value",
+            type:"string"
+        ),
+    ]
+)]
 class ApplicationConfigDTO
 {
     #[IA\Id]

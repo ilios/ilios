@@ -6,6 +6,8 @@ namespace App\Entity\DTO;
 
 use App\Attribute as IA;
 use DateTime;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * Class LearningMaterialDTO
@@ -13,6 +15,99 @@ use DateTime;
  */
 #[IA\DTO('learningMaterials')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "LearningMaterial",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "description",
+            description: "Description",
+            type: "string"
+        ),
+        new OA\Property(
+            "uploadDate",
+            description:"Upload date",
+            type:"string",
+            format: "date-time"
+        ),
+        new OA\Property(
+            "originalAuthor",
+            description: "Original author",
+            type: "string"
+        ),
+        new OA\Property(
+            "userRole",
+            description: "Learning material user role",
+            type: "integer"
+        ),
+        new OA\Property(
+            "status",
+            description: "Learning material status",
+            type: "integer"
+        ),
+        new OA\Property(
+            "owningUser",
+            description: "The user who owns this learning material",
+            type: "integer"
+        ),
+        new OA\Property(
+            "copyrightPermission",
+            description: "Has copyright permissions",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "copyrightRationale",
+            description: "Copyright rationale",
+            type: "string"
+        ),
+        new OA\Property(
+            "filename",
+            description: "Filename",
+            type: "string"
+        ),
+        new OA\Property(
+            "mimetype",
+            description: "File mimetype",
+            type: "string"
+        ),
+        new OA\Property(
+            "filesize",
+            description: "Filesize in bytes",
+            type: "integer"
+        ),
+        new OA\Property(
+            "absoluteFileUrl",
+            description: "File URL",
+            type: "string"
+        ),
+        new OA\Property(
+            "link",
+            description: "Link",
+            type: "string"
+        ),
+        new OA\Property(
+            "citation",
+            description: "Citation",
+            type: "string"
+        ),
+        new OA\Property(
+            "sessionLearningMaterials",
+            description: "Session learning materials",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "courseLearningMaterials",
+            description: "Course learning materials",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class LearningMaterialDTO
 {
     #[IA\Id]
@@ -51,26 +146,6 @@ class LearningMaterialDTO
     #[IA\Type('entity')]
     public int $owningUser;
 
-    /**
-     * @var string[]
-     */
-    #[IA\Expose]
-    #[IA\Related]
-    #[IA\Type('array<string>')]
-    public array $sessionLearningMaterials = [];
-
-    /**
-     * @var string[]
-     */
-    #[IA\Expose]
-    #[IA\Related]
-    #[IA\Type('array<string>')]
-    public array $courseLearningMaterials = [];
-
-    #[IA\Expose]
-    #[IA\Type('string')]
-    public ?string $citation;
-
     #[IA\Expose]
     #[IA\Type('boolean')]
     public ?bool $copyrightPermission;
@@ -93,21 +168,43 @@ class LearningMaterialDTO
 
     #[IA\Expose]
     #[IA\Type('string')]
+    public ?string $absoluteFileUri = null;
+
+    #[IA\Expose]
+    #[IA\Type('string')]
     public ?string $link;
 
     #[IA\Expose]
     #[IA\Type('string')]
-    public ?string $absoluteFileUri = null;
+    public ?string $citation;
+
+    /**
+     * @var string[]
+     */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
+    public array $sessionLearningMaterials = [];
+
+    /**
+     * @var string[]
+     */
+    #[IA\Expose]
+    #[IA\Related]
+    #[IA\Type('array<string>')]
+    public array $courseLearningMaterials = [];
 
     /**
      * Not exposed, it is used to build the URI later
      */
     #[IA\Type('string')]
+    #[Ignore]
     public ?string $token;
 
     /**
      * Not exposed, used by indexing
      */
+    #[Ignore]
     public ?string $relativePath;
 
     public function __construct(

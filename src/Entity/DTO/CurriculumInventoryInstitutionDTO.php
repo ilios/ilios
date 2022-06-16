@@ -5,9 +5,60 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
 #[IA\DTO('curriculumInventoryInstitutions')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "CurriculumInventoryInstitution",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "name",
+            description: "Name",
+            type: "string"
+        ),
+        new OA\Property(
+            "aamcCode",
+            description: "AAMC code",
+            type: "string"
+        ),
+        new OA\Property(
+            "addressStreet",
+            description: "Street address",
+            type: "string"
+        ),
+        new OA\Property(
+            "addressCity",
+            description: "City",
+            type: "string"
+        ),
+        new OA\Property(
+            "addressStateOrProvince",
+            description: "State or province",
+            type: "string"
+        ),
+        new OA\Property(
+            "addressZipCode",
+            description: "ZIP code",
+            type: "string"
+        ),
+        new OA\Property(
+            "addressCountryCode",
+            description: "Country code",
+            type: "string"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "string"
+        ),
+    ]
+)]
 class CurriculumInventoryInstitutionDTO
 {
     #[IA\Id]

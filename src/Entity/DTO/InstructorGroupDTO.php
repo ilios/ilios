@@ -5,13 +5,54 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use OpenApi\Attributes as OA;
 
-/**
- * Class InstructorGroupDTO
- * Data transfer object for an instructor group
- */
 #[IA\DTO('instructorGroups')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "InstructorGroup",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "school",
+            description: "School",
+            type: "integer"
+        ),
+        new OA\Property(
+            "learnerGroups",
+            description: "Learner groups",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "ilmSessions",
+            description: "ILM sessions",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "users",
+            description: "Instructors",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
+            "offerings",
+            description: "Offerings",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+    ]
+)]
 class InstructorGroupDTO
 {
     #[IA\Id]

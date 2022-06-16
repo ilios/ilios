@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
+use App\Entity\DTO\OfferingDTO;
 use App\Entity\OfferingInterface;
 use App\Entity\UserInterface;
 use App\RelationshipVoter\AbstractVoter;
@@ -13,17 +14,18 @@ use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\ChangeAlertHandler;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[OA\Tag(name:'Offerings')]
 #[Route('/api/{version<v3>}/offerings')]
 class Offerings extends AbstractApiController
 {
@@ -40,6 +42,33 @@ class Offerings extends AbstractApiController
         '/{id}',
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: '/api/{version}/offerings/{id}',
+        summary: 'Fetch a single offering.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'A single offering.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'offerings',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: OfferingDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '404', description: 'Not found.')
+        ]
+    )]
     public function getOne(
         string $version,
         string $id,
@@ -53,6 +82,67 @@ class Offerings extends AbstractApiController
     #[Route(
         methods: ['GET']
     )]
+    #[OA\Get(
+        path: "/api/{version}/offerings",
+        summary: "Fetch all offerings.",
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'offset',
+                description: 'Offset',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit results',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'order_by',
+                description: 'Order by fields. Must be an array, i.e. <code>&order_by[id]=ASC&order_by[x]=DESC</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            ),
+            new OA\Parameter(
+                name: 'filters',
+                description: 'Filter by fields. Must be an array, i.e. <code>&filters[id]=3</code>',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'array',
+                    items: new OA\Items(type: 'string'),
+                ),
+                style: "deepObject"
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'An array of offerings.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'offerings',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: OfferingDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            )
+        ]
+    )]
     public function getAll(
         string $version,
         Request $request,
@@ -63,6 +153,48 @@ class Offerings extends AbstractApiController
     }
 
     #[Route(methods: ['POST'])]
+    #[OA\Post(
+        path: '/api/{version}/offerings',
+        summary: "Create offerings.",
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'offerings',
+                        type: 'array',
+                        items: new OA\Items(
+                            ref: new Model(type: OfferingDTO::class)
+                        )
+                    )
+                ],
+                type: 'object',
+            )
+        ),
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '201',
+                description: 'An array of newly offerings.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'offerings',
+                            type: 'array',
+                            items: new OA\Items(
+                                ref: new Model(type: OfferingDTO::class)
+                            )
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.')
+        ]
+    )]
     public function post(
         string $version,
         Request $request,
@@ -97,16 +229,64 @@ class Offerings extends AbstractApiController
         return $builder->buildResponseForPostRequest($this->endpoint, $dtos, Response::HTTP_CREATED, $request);
     }
 
-    /**
-     * Modifies a single object in the API.  Can also create and
-     * object if it does not yet exist.
-     *
+    /*
      * For offerings it also records an alert for the change
-     *
      */
     #[Route(
         '/{id}',
         methods: ['PUT']
+    )]
+    #[OA\Put(
+        path: '/api/{version}/offerings/{id}',
+        summary: 'Update or create an offering.',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        'offering',
+                        ref: new Model(type: OfferingDTO::class),
+                        type: 'object'
+                    )
+                ],
+                type: 'object',
+            )
+        ),
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(
+                response: '200',
+                description: 'The updated offering.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'offering',
+                            ref: new Model(type: OfferingDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(
+                response: '201',
+                description: 'The newly created offering.',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            'offering',
+                            ref: new Model(type: OfferingDTO::class)
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: '400', description: 'Bad Request Data.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.')
+        ]
     )]
     public function put(
         string $version,
@@ -153,12 +333,8 @@ class Offerings extends AbstractApiController
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
 
-    /**
-     * Modifies a single object in the API.  Can also create and
-     * object if it does not yet exist.
-     *
+    /*
      * For offerings it also records an alert for the change
-     *
      */
     #[Route(
         '/{id}',
@@ -209,6 +385,23 @@ class Offerings extends AbstractApiController
     #[Route(
         '/{id}',
         methods: ['DELETE']
+    )]
+    #[OA\Delete(
+        path: '/api/{version}/offerings/{id}',
+        summary: 'Delete an offering.',
+        parameters: [
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+        ],
+        responses: [
+            new OA\Response(response: '204', description: 'Deleted.'),
+            new OA\Response(response: '403', description: 'Access Denied.'),
+            new OA\Response(response: '404', description: 'Not Found.'),
+            new OA\Response(
+                response: '500',
+                description: 'Deletion failed (usually caused by non-cascading relationships).'
+            )
+        ]
     )]
     public function delete(
         string $version,

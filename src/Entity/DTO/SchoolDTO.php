@@ -5,14 +5,40 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
-use App\Repository\SchoolRepository;
+use OpenApi\Attributes as OA;
 
-/**
- * Class SchoolDTO
- * Data transfer object for a school.
- */
 #[IA\DTO('schools')]
 #[IA\ExposeGraphQL]
+#[OA\Schema(
+    title: "School",
+    properties: [
+        new OA\Property(
+            "id",
+            description: "ID",
+            type: "integer"
+        ),
+        new OA\Property(
+            "title",
+            description: "Title",
+            type: "string"
+        ),
+        new OA\Property(
+            "templatePrefix",
+            description: "Template prefix",
+            type: "string"
+        ),
+        new OA\Property(
+            "iliosAdministratorEmail",
+            description: "Ilios administrator email",
+            type: "string"
+        ),
+        new OA\Property(
+            "changeAlertRecipients",
+            description: "Change alert recipients",
+            type: "string"
+        )
+    ]
+)]
 class SchoolDTO
 {
     #[IA\Id]
