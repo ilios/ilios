@@ -61,8 +61,8 @@ class DTOCacheTagger
      */
     public static function getTag(string $entity, int|string|false $id): string
     {
-        //remove App\Entity\ namespace from name
-        $name = substr($entity, 11);
+        // backslashes aren't allowed in tags, remove them from our name
+        $name = str_replace('\\', '', $entity);
         return $name . ($id ? "-${id}" : '');
     }
 }
