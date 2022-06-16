@@ -27,6 +27,7 @@ services:
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
       - ILIOS_REDIS_URL=redis://redis
+      - ILIOS_FEATURE_DTO_CACHING=true
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/srv/app:rw,cached
