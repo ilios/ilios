@@ -390,6 +390,7 @@ class EntityMetadata
             $ref = new ReflectionClass($className);
             $type = $this->extractType($ref);
 
+            //drop DTO suffix from the name
             $name = substr($className, 15, -3);
             $class = "App\\Entity\\${name}";
             if (class_exists($class, false)) {
