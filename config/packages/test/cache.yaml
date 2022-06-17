@@ -1,8 +1,0 @@
-framework:
-  cache:
-    app: cache.adapter.null
-
-services:
-  cache.adapter.null:
-    class: Symfony\Component\Cache\Adapter\NullAdapter
-    arguments: [~] # small trick to avoid arguments errors on compile-time.
