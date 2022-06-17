@@ -138,7 +138,9 @@ trait ManagerRepository
      */
     protected function getDtoCacheKey(mixed $id): string
     {
-        return md5(self::class . 'DTO' . $id);
+        // backslashes aren't allowed in keys, remove them from our name
+        $name = str_replace('\\', '', self::class);
+        return $name . 'xxDTOxx' . $id;
     }
 
     /**
