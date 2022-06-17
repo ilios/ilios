@@ -36,25 +36,19 @@ class DynamicCacheFactory
 
         if ($redisUrl) {
             $client = RedisAdapter::createConnection($redisUrl);
-            return new TagAwareAdapter(new ChainAdapter([
-                new ArrayAdapter(self::DEFAULT_LIFETIME_SECONDS),
-                new RedisTagAwareAdapter(
-                    $client,
-                    $namespace,
-                    self::DEFAULT_LIFETIME_SECONDS,
-                    $marshaller,
-                )
-            ]));
-        }
-        return new TagAwareAdapter(new ChainAdapter([
-            new ArrayAdapter(self::DEFAULT_LIFETIME_SECONDS),
-            new FilesystemTagAwareAdapter(
+            return new RedisTagAwareAdapter(
+                $client,
                 $namespace,
                 self::DEFAULT_LIFETIME_SECONDS,
-                $kernelCacheDirectory,
                 $marshaller,
-            )
-        ]));
+            );
+        }
+        return new FilesystemTagAwareAdapter(
+            $namespace,
+            self::DEFAULT_LIFETIME_SECONDS,
+            $kernelCacheDirectory,
+            $marshaller,
+        );
     }
 
     /**
