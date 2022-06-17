@@ -71,18 +71,18 @@ trait ManagerRepository
         $missedDtos = [];
         $missedIds = array_diff($ids, $cachedIds);
         if (count($missedIds)) {
-            $missedDtos = $this->hydrateDTOsFromIds($missedIds);
+            $hydratedDtos = $this->hydrateDTOsFromIds($missedIds);
             if ($this->getFeatureManager()->isActive('dto_caching')) {
-                foreach ($missedDtos as $dto) {
-                    $tagger = $this->getCacheTagger();
-                    $this->getCache()->get(
-                        $this->getDtoCacheKey($dto->$idField),
-                        function (ItemInterface $item) use ($dto, $tagger) {
-                            $tagger->tag($item, $dto);
-                            return $dto;
-                        }
-                    );
-                }
+                $tagger = $this->getCacheTagger();
+                $missedDtos = array_map(fn($dto) => $this->getCache()->get(
+                    $this->getDtoCacheKey($dto->$idField),
+                    function (ItemInterface $item) use ($dto, $tagger) {
+                        $tagger->tag($item, $dto);
+                        return $dto;
+                    }
+                ), $hydratedDtos);
+            } else {
+                $missedDtos = $hydratedDtos;
             }
         }
 
