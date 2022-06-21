@@ -136,6 +136,7 @@ RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN set -eux; \
 	composer install --prefer-dist --no-progress --no-interaction; \
     rm -f .env.local.php; \
+    composer run-script --no-dev post-install-cmd; \
     bin/console cache:warmup; \
     sync
 
@@ -278,6 +279,7 @@ COMPOSER_HOME=/tmp \
 APP_ENV=prod \
 APP_DEBUG=false \
 MAILER_DSN=null://null \
+ILIOS_DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
@@ -294,7 +296,7 @@ RUN /usr/bin/composer install \
     --classmap-authoritative \
     #creates an empty env.php file, real ENV values will control the app
     && /usr/bin/composer dump-env prod \
-    && /usr/bin/composer clear-cache
+    && composer run-script --no-dev post-install-cmd
 
 ARG ILIOS_VERSION="v0.1.0"
 RUN echo ${ILIOS_VERSION} > VERSION
