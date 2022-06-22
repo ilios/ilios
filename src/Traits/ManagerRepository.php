@@ -65,12 +65,15 @@ trait ManagerRepository
         $cacheManager = $this->getCacheManager();
         $idField = $this->getIdField();
         if ($cacheManager->isEnabled()) {
-            $missedIds = $cacheManager->getMissingIds(self::class, $ids);
+            $cachedDtos = $cacheManager->getCachedDtos(self::class, $ids);
+            $cachedIds = array_column($cachedDtos, $idField);
+            $missedDtos = [];
+            $missedIds = array_diff($ids, $cachedIds);
             if (count($missedIds)) {
-                $hydratedDtos = $this->hydrateDTOsFromIds($missedIds);
-                $cacheManager->cacheDtos(self::class, $hydratedDtos, $idField);
+                $missedDtos = $this->hydrateDTOsFromIds($missedIds);
+                $cacheManager->cacheDtos(self::class, $missedDtos, $idField);
             }
-            $dtos = $cacheManager->getCachedDtos(self::class, $ids);
+            $dtos = array_values([...$cachedDtos, ...$missedDtos]);
         } else {
             $dtos = $this->hydrateDTOsFromIds($ids);
         }

@@ -32,24 +32,6 @@ class DTOCacheManager
     }
 
     /**
-     * From a list of IDs determine which are not in the cache
-     * so they can be hydrated.
-     */
-    public function getMissingIds(string $name, array $ids): array
-    {
-        $cacheIds = array_map(fn(mixed $id) => $this->getDtoCacheKey($name, $id), $ids);
-        $items = $this->psr6Cache->getItems($cacheIds);
-        $rhett = [];
-        /** @var CacheItemInterface $item */
-        foreach ($items as $item) {
-            if (!$item->isHit()) {
-                $rhett[] = $this->getDtoIdFromCacheKey($item->getKey());
-            }
-        }
-        return $rhett;
-    }
-
-    /**
      * Cache and tag a set of DTOs
      */
     public function cacheDtos(string $name, array $dtos, string $idField): void
