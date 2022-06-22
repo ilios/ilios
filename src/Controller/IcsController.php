@@ -10,8 +10,8 @@ use App\Entity\User;
 use App\Repository\IlmSessionRepository;
 use App\Repository\OfferingRepository;
 use App\Repository\UserRepository;
+use DateInterval;
 use DateTime;
-use DateTimeImmutable;
 use Eluceo\iCal\Domain\ValueObject\Location;
 use Exception;
 use Eluceo\iCal\Domain\Entity\Calendar;
@@ -58,7 +58,7 @@ class IcsController extends AbstractController
 
         $calendar = new Calendar();
         $calendar->setProductIdentifier('Ilios Calendar for ' . $user->getFirstAndLastName());
-        //$calendar->setPublishedTTL('P1H');
+        $calendar->setPublishedTTL(new DateInterval('PT1H'));
 
         $from = new DateTime(self::LOOK_BACK);
         $to =  new DateTime(self::LOOK_FORWARD);
