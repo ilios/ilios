@@ -17,4 +17,5 @@ return [
     Shivas\VersioningBundle\ShivasVersioningBundle::class => ['all' => true],
     Sentry\SentryBundle\SentryBundle::class => ['prod' => true],
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
+    Flagception\Bundle\FlagceptionBundle\FlagceptionBundle::class => ['all' => true],
 ];

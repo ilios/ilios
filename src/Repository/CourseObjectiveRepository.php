@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\CourseObjective;
 use App\Entity\DTO\CourseObjectiveDTO;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -13,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -21,20 +24,21 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, CourseObjective::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(CourseObjective::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
-        /** @var CourseObjectiveDTO[] $dtos */
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $dtos[$arr['id']] = new CourseObjectiveDTO(

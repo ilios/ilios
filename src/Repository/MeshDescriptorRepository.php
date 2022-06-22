@@ -10,6 +10,7 @@ use App\Entity\MeshPreviousIndexing;
 use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
+use App\Service\DTOCacheTagger;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Traits\ManagerRepository;
 use DateTime;
@@ -26,6 +27,8 @@ use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use PDO;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -36,8 +39,13 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry, protected MeshDescriptorSetTransmogrifier $transmogrifier)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected MeshDescriptorSetTransmogrifier $transmogrifier,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, MeshDescriptor::class);
     }
 
@@ -67,13 +75,11 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         return $dtos;
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(MeshDescriptor::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         return $this->createDTOs($qb->getQuery());
     }

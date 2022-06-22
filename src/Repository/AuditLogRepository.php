@@ -5,19 +5,26 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AuditLog;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, AuditLog::class);
     }
 
@@ -131,5 +138,10 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
         ?int $offset
     ): void {
         //empty as DTOs aren't implemented here
+    }
+
+    protected function hydrateDTOsFromIds(array $ids): array
+    {
+        throw new Exception('DTOs for AuditLogs are not implemented yet');
     }
 }

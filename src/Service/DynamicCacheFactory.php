@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Adapter\ChainAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemTagAwareAdapter;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Cache\Adapter\RedisTagAwareAdapter;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\Marshaller\DefaultMarshaller;
 use Symfony\Component\Cache\Marshaller\DeflateMarshaller;
@@ -20,10 +24,15 @@ class DynamicCacheFactory
     public static function getCache(
         string $namespace,
         ?string $redisUrl,
+        string $environment,
         string $kernelCacheDirectory,
         ?string $cacheDecryptionKey,
     ): TagAwareAdapterInterface {
         $marshaller = self::getMarshaller($cacheDecryptionKey);
+
+        if ($environment === 'test') {
+            return new TagAwareAdapter(new NullAdapter());
+        }
 
         if ($redisUrl) {
             $client = RedisAdapter::createConnection($redisUrl);

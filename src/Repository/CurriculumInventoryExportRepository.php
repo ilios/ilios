@@ -6,11 +6,14 @@ namespace App\Repository;
 
 use App\Entity\CurriculumInventoryExport;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 
@@ -20,19 +23,21 @@ class CurriculumInventoryExportRepository extends ServiceEntityRepository implem
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, CurriculumInventoryExport::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(CurriculumInventoryExport::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {

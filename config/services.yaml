@@ -81,6 +81,10 @@ services:
         - { name: doctrine.event_listener, event: postUpdate }
         - { name: doctrine.event_listener, event: postRemove }
 
+    App\EventListener\ClearCachedDto:
+      tags:
+        - { name: doctrine.event_listener, event: onFlush }
+
     App\Service\Config:
       public: true
 
@@ -184,4 +188,4 @@ services:
     dynamic_cache_factory:
       class: Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
       factory: [ 'App\Service\DynamicCacheFactory', 'getCache' ]
-      arguments: ['namespace', '%env(resolve:ILIOS_REDIS_URL)%', '%kernel.cache_dir%', '%env(base64:ILIOS_CACHE_DECRYPTION_KEY)%']
+      arguments: ['namespace', '%env(resolve:ILIOS_REDIS_URL)%', '%kernel.environment%', '%kernel.cache_dir%', '%env(base64:ILIOS_CACHE_DECRYPTION_KEY)%']

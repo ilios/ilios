@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Service\DTOCacheTagger;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -12,6 +13,8 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\ApplicationConfig;
 use App\Entity\DTO\ApplicationConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class ApplicationConfigRepository extends ServiceEntityRepository implements
     DTORepositoryInterface,
@@ -21,18 +24,21 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
     use ManagerRepository;
     use ImportableEntityRepository;
 
-    public function __construct(ManagerRegistry $registry, protected bool $cacheEnabled)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected bool $cacheEnabled,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, ApplicationConfig::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(ApplicationConfig::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
         $applicationConfigDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $applicationConfigDTOs[] = new ApplicationConfigDTO(

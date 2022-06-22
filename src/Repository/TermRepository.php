@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Term;
 use App\Service\DefaultDataImporter;
+use App\Service\DTOCacheTagger;
 use App\Traits\ImportableEntityRepository;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
@@ -14,6 +15,8 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -26,18 +29,20 @@ class TermRepository extends ServiceEntityRepository implements
     use ManagerRepository;
     use ImportableEntityRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, Term::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Term::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -54,6 +59,9 @@ class TermRepository extends ServiceEntityRepository implements
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $termIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder();

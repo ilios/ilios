@@ -1,0 +1,6 @@
+# See full configuration at https://github.com/bestit/flagception-bundle
+flagception:
+    features:
+        dto_caching:
+            default: false
+            env: ILIOS_FEATURE_DTO_CACHING

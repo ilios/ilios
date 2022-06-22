@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\LearningMaterial;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -12,6 +13,8 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\LearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\LearningMaterialInterface;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -20,19 +23,21 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, LearningMaterial::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')
             ->distinct()->from(LearningMaterial::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         return $this->queryForDTOs($qb);
     }

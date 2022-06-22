@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Program;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\ProgramDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -21,15 +24,20 @@ class ProgramRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, Program::class);
     }
 
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Program::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
         $programDTOs = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $programDTOs[$arr['id']] = new ProgramDTO(
@@ -93,6 +101,9 @@ class ProgramRepository extends ServiceEntityRepository implements
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $qb = $this->_em->createQueryBuilder();
         $qb->select('p.id as programId, s.id as schoolId')
             ->from(Program::class, 'p')

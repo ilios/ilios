@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Session;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
@@ -14,6 +15,8 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -24,21 +27,29 @@ class SessionRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, Session::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('updatedAt', $criteria)) {
             $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);
         }
+
+        return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    public function hydrateDTOsFromIds(array $ids): array
+    {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -62,6 +73,9 @@ class SessionRepository extends ServiceEntityRepository implements
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $qb = $this->_em->createQueryBuilder();
         $qb->select(
             's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .

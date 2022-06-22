@@ -33,6 +33,7 @@ class EntityMetadata
     private array $relatedForClass;
     private array $iliosEntities;
     private array $iliosDtos;
+    private array $entityTypes;
 
     /**
      * EntityMetadata constructor
@@ -59,6 +60,11 @@ class EntityMetadata
         $this->iliosDtos = $appCache->get(
             self::CACHE_KEY_PREFIX . 'dtos',
             fn () => $this->findIliosDtos($kernel)
+        );
+
+        $this->entityTypes = $appCache->get(
+            self::CACHE_KEY_PREFIX . 'entity-types',
+            fn () => $this->getEntitiesForDtoTypes()
         );
     }
 
@@ -314,6 +320,18 @@ class EntityMetadata
     }
 
     /**
+     * Get the entity name for a type
+     */
+    public function getEntityForType(string $type): string
+    {
+        if (!array_key_exists($type, $this->entityTypes)) {
+            throw new Exception("Invalid Type. No DTO for ${type}");
+        }
+
+        return $this->entityTypes[$type];
+    }
+
+    /**
      * Scan filesystem for classes matching an attribute
      */
     protected function findByAttribute(Finder $files, string $namespace, string $attribute): array
@@ -360,5 +378,26 @@ class EntityMetadata
         $classes = $this->findByAttribute($files, 'App\\Classes', DTO::class);
 
         return [...$dtos, ...$classes];
+    }
+
+    /**
+     * Get an Entity class name for each DTO type
+     */
+    protected function getEntitiesForDtoTypes(): array
+    {
+        $rhett = [];
+        foreach ($this->iliosDtos as $className) {
+            $ref = new ReflectionClass($className);
+            $type = $this->extractType($ref);
+
+            //drop DTO suffix from the name
+            $name = substr($className, 15, -3);
+            $class = "App\\Entity\\${name}";
+            if (class_exists($class, false)) {
+                $rhett[$type] = $class;
+            }
+        }
+
+        return $rhett;
     }
 }

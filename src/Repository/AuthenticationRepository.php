@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Authentication;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -14,6 +15,8 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function is_array;
 
@@ -21,8 +24,12 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, Authentication::class);
     }
 
@@ -52,6 +59,28 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
     }
 
     /**
+     * Special case for Authentication since the ID is the user
+     */
+    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        $keys = array_keys($criteria);
+
+        //if the only criteria is the IDs we don't need to look that up
+        if ($keys === ['user'] && is_null($orderBy) && is_null($limit) && is_null($offset)) {
+            return is_array($criteria['user']) ? $criteria['user'] : [$criteria['user']];
+        }
+        $qb = $this->_em
+            ->createQueryBuilder()
+            ->select("x")
+            ->from(Authentication::class, 'x');
+        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+
+        $results  = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+        return array_column($results, 'person_id');
+    }
+
+    /**
      * Get all the usernames
      */
     public function getUsernames(): array
@@ -62,13 +91,11 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
         return array_map(fn(array $arr) => $arr['username'], $qb->getQuery()->getScalarResult());
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Authentication::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.user', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {

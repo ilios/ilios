@@ -8,6 +8,7 @@ use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
 use App\Entity\Session;
+use App\Service\DTOCacheTagger;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
@@ -17,6 +18,8 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Flagception\Manager\FeatureManagerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -27,15 +30,16 @@ class CourseRepository extends ServiceEntityRepository implements
 {
     use ManagerRepository;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        protected CacheInterface $cache,
+        protected DTOCacheTagger $cacheTagger,
+        protected FeatureManagerInterface $featureManager,
+    ) {
         parent::__construct($registry, Course::class);
     }
 
-    /**
-     * Find and hydrate as DTOs
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('startDate', $criteria)) {
             $criteria['startDate'] = new DateTime($criteria['startDate']);
@@ -43,8 +47,15 @@ class CourseRepository extends ServiceEntityRepository implements
         if (array_key_exists('endDate', $criteria)) {
             $criteria['endDate'] = new DateTime($criteria['endDate']);
         }
+
+        return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    public function hydrateDTOsFromIds(array $ids): array
+    {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Course::class, 'x');
-        $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
 
         $dtos = [];
         foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
@@ -294,6 +305,9 @@ EOL;
 
     protected function attachAssociationsToDTOs(array $dtos): array
     {
+        if ($dtos === []) {
+            return $dtos;
+        }
         $courseIds = array_keys($dtos);
 
         $qb = $this->_em->createQueryBuilder();
