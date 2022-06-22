@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\AuditLog;
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
 {
@@ -21,9 +19,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
 
     public function __construct(
         ManagerRegistry $registry,
-        protected CacheInterface $cache,
-        protected DTOCacheTagger $cacheTagger,
-        protected FeatureManagerInterface $featureManager,
+        protected DTOCacheManager $cacheManager,
     ) {
         parent::__construct($registry, AuditLog::class);
     }

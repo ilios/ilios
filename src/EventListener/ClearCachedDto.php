@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
 use Flagception\Manager\FeatureManagerInterface;
@@ -39,10 +39,10 @@ class ClearCachedDto
             foreach ($entities as $entity) {
                 $entityName = $entityManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
                 if ($action === 'create') {
-                    $tags[] = DTOCacheTagger::getTag($entityName, false);
+                    $tags[] = DTOCacheManager::getTag($entityName, false);
                 } else {
                     $id = (string) $entity;
-                    $tags[] = DTOCacheTagger::getTag($entityName, $id);
+                    $tags[] = DTOCacheManager::getTag($entityName, $id);
                 }
             }
         }
@@ -53,12 +53,12 @@ class ClearCachedDto
             foreach ($col->getDeleteDiff() as $entity) {
                 $entityName = $entityManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
                 $id = (string) $entity;
-                $tags[] = DTOCacheTagger::getTag($entityName, $id);
+                $tags[] = DTOCacheManager::getTag($entityName, $id);
             }
             foreach ($col->getInsertDiff() as $entity) {
                 $entityName = $entityManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
                 $id = (string) $entity;
-                $tags[] = DTOCacheTagger::getTag($entityName, $id);
+                $tags[] = DTOCacheManager::getTag($entityName, $id);
             }
         }
 

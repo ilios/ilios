@@ -10,7 +10,7 @@ use App\Entity\MeshPreviousIndexing;
 use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Traits\ManagerRepository;
 use DateTime;
@@ -27,8 +27,6 @@ use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use PDO;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -42,9 +40,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     public function __construct(
         ManagerRegistry $registry,
         protected MeshDescriptorSetTransmogrifier $transmogrifier,
-        protected CacheInterface $cache,
-        protected DTOCacheTagger $cacheTagger,
-        protected FeatureManagerInterface $featureManager,
+        protected DTOCacheManager $cacheManager,
     ) {
         parent::__construct($registry, MeshDescriptor::class);
     }

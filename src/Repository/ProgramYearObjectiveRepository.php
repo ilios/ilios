@@ -6,7 +6,7 @@ namespace App\Repository;
 
 use App\Entity\ProgramYearObjective;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use App\Traits\ManagerRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -14,8 +14,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -28,9 +26,7 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
 
     public function __construct(
         ManagerRegistry $registry,
-        protected CacheInterface $cache,
-        protected DTOCacheTagger $cacheTagger,
-        protected FeatureManagerInterface $featureManager,
+        protected DTOCacheManager $cacheManager,
     ) {
         parent::__construct($registry, ProgramYearObjective::class);
     }

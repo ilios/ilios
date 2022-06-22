@@ -8,7 +8,7 @@ use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
 use App\Entity\Session;
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\DBALException;
@@ -18,8 +18,6 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 use function array_keys;
@@ -32,9 +30,7 @@ class CourseRepository extends ServiceEntityRepository implements
 
     public function __construct(
         ManagerRegistry $registry,
-        protected CacheInterface $cache,
-        protected DTOCacheTagger $cacheTagger,
-        protected FeatureManagerInterface $featureManager,
+        protected DTOCacheManager $cacheManager,
     ) {
         parent::__construct($registry, Course::class);
     }

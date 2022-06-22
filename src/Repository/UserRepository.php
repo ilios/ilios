@@ -7,7 +7,7 @@ namespace App\Repository;
 use App\Entity\Session;
 use App\Entity\UserRole;
 use App\Entity\UserRoleInterface;
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -24,8 +24,6 @@ use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -38,9 +36,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     public function __construct(
         ManagerRegistry $registry,
         protected UserMaterialFactory $factory,
-        protected CacheInterface $cache,
-        protected DTOCacheTagger $cacheTagger,
-        protected FeatureManagerInterface $featureManager,
+        protected DTOCacheManager $cacheManager,
     ) {
         parent::__construct($registry, User::class);
     }
