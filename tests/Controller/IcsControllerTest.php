@@ -324,4 +324,29 @@ class IcsControllerTest extends WebTestCase
         );
         $this->assertFalse(strpos($content, $skipTitle), 'Prerequisite Session Not Included');
     }
+
+    public function testPublishedTTL(): void
+    {
+        $container = $this->kernelBrowser->getContainer();
+        $session = $container->get(SessionData::class)->getOne();
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_sessions_put',
+                ['version' => $this->apiVersion, 'id' => $session['id']]
+            ),
+            json_encode(['session' => $session]),
+            $this->getTokenForUser($this->kernelBrowser, 2)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+
+        $url = '/ics/' . hash('sha256', '1');
+        $this->kernelBrowser->request('GET', $url);
+        $response = $this->kernelBrowser->getResponse();
+        $content = $response->getContent();
+        $this->assertStringContainsString('X-PUBLISHED-TTL:PT1H', $content);
+    }
 }
