@@ -17,19 +17,19 @@ class AuthenticationData extends AbstractDataLoader
         $arr[] = [
             'user' => 1,
             'username' => 'legacyuser',
-            'passwordHash' => 'legacyuserpass',
+            'password' => 'legacyuserpass',
         ];
 
         $arr[] = [
             'user' => 2,
             'username' => 'newuser',
-            'passwordHash' => 'newuserpass'
+            'password' => 'newuserpass'
         ];
 
         $arr[] = [
             'user' => 3,
             'username' => 'secureuser',
-            'passwordHash' => 'pass',
+            'password' => 'pass',
             'invalidateTokenIssuedBefore' => new DateTime(),
         ];
         return $arr;
