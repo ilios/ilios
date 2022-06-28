@@ -12,13 +12,13 @@ use App\Service\LearningMaterialDecoratorFactory;
 use ArrayObject;
 use Exception;
 use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * Applies a factory to decorate the entity or DTO before it is sent
  */
-class FactoryNormalizer implements ContextAwareNormalizerInterface, NormalizationAwareInterface
+class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -50,7 +50,7 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
      * Since we call upon the normalizer chain here we have to avoid recursion by examining
      * the context to avoid calling ourselves again.
      */
-    public function supportsNormalization($classNameOrObject, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         if (isset($context[self::ALREADY_CALLED])) {
             return false;
@@ -65,7 +65,7 @@ class FactoryNormalizer implements ContextAwareNormalizerInterface, Normalizatio
             LearningMaterialDTO::class,
             CurriculumInventoryReportDTO::class,
         ];
-        $class = is_object($classNameOrObject) ? $classNameOrObject::class : $classNameOrObject;
+        $class = is_object($data) ? $data::class : $data;
         return in_array($class, $decoratedTypes);
     }
 }
