@@ -34,7 +34,7 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
         return $rhett;
     }
 
-    public function supportsDecoding(string $format): bool
+    public function supportsDecoding(string $format, array $context = []): bool
     {
         return self::FORMAT === $format;
     }
@@ -50,7 +50,7 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
         return json_encode($shaped);
     }
 
-    public function supportsEncoding(string $format): bool
+    public function supportsEncoding(string $format, array $context = []): bool
     {
         return self::FORMAT === $format;
     }

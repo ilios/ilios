@@ -82,7 +82,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
         return $object->{$property->name};
     }
 
-    public function supportsNormalization($data, string $format = null): bool
+    public function supportsNormalization($data, string $format = null, array $context = []): bool
     {
         return $format === 'json-api' && $this->entityMetadata->isAnIliosDto($data);
     }
