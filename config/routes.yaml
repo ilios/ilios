@@ -18,8 +18,4 @@ ilios_swagger_redirect_docs:
 
 controllers:
     resource: ../src/Controller/
-    type: annotation
-
-kernel:
-    resource: ../src/Kernel.php
-    type: annotation
+    type: attribute
