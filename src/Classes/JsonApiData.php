@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
+use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityRepositoryLookup;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class JsonApiData
@@ -12,17 +14,14 @@ class JsonApiData
     protected array $data = [];
     protected array $includes = [];
     protected array $sideLoadCandidates = [];
-    protected EntityRepositoryLookup $entityRepositoryLookup;
-    protected NormalizerInterface $normalizer;
 
     public function __construct(
-        EntityRepositoryLookup $entityRepositoryLookup,
-        NormalizerInterface $normalizer,
+        protected EntityRepositoryLookup $entityRepositoryLookup,
+        protected NormalizerInterface $normalizer,
+        protected AuthorizationCheckerInterface $authorizationChecker,
         array $data,
         array $sideLoadFields
     ) {
-        $this->entityRepositoryLookup = $entityRepositoryLookup;
-        $this->normalizer = $normalizer;
         foreach ($data as $item) {
             $shapedItem = $this->shapeItem($item);
             $this->data[] = $shapedItem;
@@ -157,16 +156,21 @@ class JsonApiData
             if ($newIds !== []) {
                 $manager = $this->entityRepositoryLookup->getRepositoryForEndpoint($type);
                 $dtos = $manager->findDTOsBy(['id' => $newIds]);
-                foreach ($dtos as $dto) {
+                $filteredDtos = array_filter(
+                    $dtos,
+                    fn($object) => $this->authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+                );
+                foreach ($filteredDtos as $dto) {
                     $data = $this->normalizer->normalize($dto, 'json-api');
                     $shaped = $this->shapeItem($data);
                     $this->includes[] = $shaped;
                 }
             }
             foreach ($ids as $id) {
-                $item = $this->getIncluded((string) $id, $type);
-                foreach ($candidates[$id] as $sideLoadFields) {
-                    $this->extractSideLoadData($item['relationships'], $sideLoadFields);
+                if ($item = $this->getIncluded((string) $id, $type)) {
+                    foreach ($candidates[$id] as $sideLoadFields) {
+                        $this->extractSideLoadData($item['relationships'], $sideLoadFields);
+                    }
                 }
             }
         }

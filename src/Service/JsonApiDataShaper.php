@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\JsonApiData;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
 class JsonApiDataShaper
 {
     use NormalizerAwareTrait;
 
-    public function __construct(protected EntityRepositoryLookup $entityRepositoryLookup)
-    {
+    public function __construct(
+        protected EntityRepositoryLookup $entityRepositoryLookup,
+        protected AuthorizationCheckerInterface $authorizationChecker,
+    ) {
     }
 
     public function shapeData(array $data, array $sideLoadFields): array
@@ -20,6 +23,7 @@ class JsonApiDataShaper
         $jsonApiData = new JsonApiData(
             $this->entityRepositoryLookup,
             $this->normalizer,
+            $this->authorizationChecker,
             $data,
             $sideLoadFields
         );
