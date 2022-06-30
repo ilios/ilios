@@ -9,7 +9,6 @@ use App\Entity\DTO\AamcMethodDTO;
 use App\Repository\AamcMethodRepository;
 use App\Tests\Fixture\LoadAamcMethodData;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
-use Flagception\Manager\FeatureManagerInterface;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
 /**
@@ -64,29 +62,21 @@ trait ManagerRepository
     public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $ids = $this->findIdsBy($criteria, $orderBy, $limit, $offset);
-        $cachedDtos = $this->getCachedDTOs($ids);
+        $cacheManager = $this->getCacheManager();
         $idField = $this->getIdField();
-        $cachedIds = array_column($cachedDtos, $idField);
-
-        $missedDtos = [];
-        $missedIds = array_diff($ids, $cachedIds);
-        if (count($missedIds)) {
-            $hydratedDtos = $this->hydrateDTOsFromIds($missedIds);
-            if ($this->getFeatureManager()->isActive('dto_caching')) {
-                $tagger = $this->getCacheTagger();
-                $missedDtos = array_map(fn($dto) => $this->getCache()->get(
-                    $this->getDtoCacheKey($dto->$idField),
-                    function (ItemInterface $item) use ($dto, $tagger) {
-                        $tagger->tag($item, $dto);
-                        return $dto;
-                    }
-                ), $hydratedDtos);
-            } else {
-                $missedDtos = $hydratedDtos;
+        if ($cacheManager->isEnabled()) {
+            $cachedDtos = $cacheManager->getCachedDtos(self::class, $ids);
+            $cachedIds = array_column($cachedDtos, $idField);
+            $missedDtos = [];
+            $missedIds = array_diff($ids, $cachedIds);
+            if (count($missedIds)) {
+                $missedDtos = $this->hydrateDTOsFromIds($missedIds);
+                $cacheManager->cacheDtos(self::class, $missedDtos, $idField);
             }
+            $dtos = array_values([...$cachedDtos, ...$missedDtos]);
+        } else {
+            $dtos = $this->hydrateDTOsFromIds($ids);
         }
-
-        $dtos = array_values([...$cachedDtos, ...$missedDtos]);
 
         // Lots of work here to re-order the results in the same way as originally requested
         $dtosById = [];
@@ -131,40 +121,6 @@ trait ManagerRepository
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
         return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
-    }
-
-    /**
-     * Construct a consistent cache key for a DTO which doesn't contain reserved characters.
-     */
-    protected function getDtoCacheKey(mixed $id): string
-    {
-        // backslashes aren't allowed in keys, remove them from our name
-        $name = str_replace('\\', '', self::class);
-        return $name . 'xxDTOxx' . $id;
-    }
-
-    /**
-     * Look into the cache and find any DTOs we already have
-     * But don't persist anything to the cache here, we'll do that after
-     * fetching missing items.
-     */
-    protected function getCachedDTOs(array $ids): array
-    {
-        if (!$this->getFeatureManager()->isActive('dto_caching')) {
-            return [];
-        }
-        $dtosOrMisses = array_map(
-            fn(mixed $id) => $this->getCache()->get(
-                $this->getDtoCacheKey($id),
-                function (ItemInterface $item, bool &$save) {
-                    $save = false;
-                    return false;
-                }
-            ),
-            $ids
-        );
-
-        return array_filter($dtosOrMisses);
     }
 
     public function update($entity, $andFlush = true, $forceId = false): void
@@ -345,30 +301,12 @@ trait ManagerRepository
         ?int $offset
     ): void;
 
-    protected function getCache(): CacheInterface
+    protected function getCacheManager(): DTOCacheManager
     {
-        if (!isset($this->cache)) {
-            throw new Exception("The 'cache' property is missing from " . self::class);
+        if (!isset($this->cacheManager)) {
+            throw new Exception("The 'cacheManager' property is missing from " . self::class);
         }
 
-        return $this->cache;
-    }
-
-    protected function getCacheTagger(): DTOCacheTagger
-    {
-        if (!isset($this->cacheTagger)) {
-            throw new Exception("The 'cacheTagger' property is missing from " . self::class);
-        }
-
-        return $this->cacheTagger;
-    }
-
-    protected function getFeatureManager(): FeatureManagerInterface
-    {
-        if (!isset($this->featureManager)) {
-            throw new Exception("The 'featureManager' property is missing from " . self::class);
-        }
-
-        return $this->featureManager;
+        return $this->cacheManager;
     }
 }

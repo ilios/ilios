@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,8 +12,6 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CourseLearningMaterial;
 use App\Entity\DTO\CourseLearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_keys;
 use function array_values;
@@ -26,9 +24,7 @@ class CourseLearningMaterialRepository extends ServiceEntityRepository implement
 
     public function __construct(
         ManagerRegistry $registry,
-        protected CacheInterface $cache,
-        protected DTOCacheTagger $cacheTagger,
-        protected FeatureManagerInterface $featureManager,
+        protected DTOCacheManager $cacheManager,
     ) {
         parent::__construct($registry, CourseLearningMaterial::class);
     }

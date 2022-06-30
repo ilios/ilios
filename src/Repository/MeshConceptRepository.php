@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Service\DTOCacheTagger;
+use App\Service\DTOCacheManager;
 use App\Traits\ManagerRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -12,8 +12,6 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\MeshConcept;
 use App\Entity\DTO\MeshConceptDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use Flagception\Manager\FeatureManagerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_values;
 
@@ -23,9 +21,7 @@ class MeshConceptRepository extends ServiceEntityRepository implements DTOReposi
 
     public function __construct(
         ManagerRegistry $registry,
-        protected CacheInterface $cache,
-        protected DTOCacheTagger $cacheTagger,
-        protected FeatureManagerInterface $featureManager,
+        protected DTOCacheManager $cacheManager,
     ) {
         parent::__construct($registry, MeshConcept::class);
     }
