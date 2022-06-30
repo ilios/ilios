@@ -740,4 +740,37 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertIsArray($includes['instructorGroups']);
         $this->assertEquals(['1', '2'], $includes['instructorGroups']);
     }
+
+    public function testIncludedDataNotLoadedForUnprivilegedUsers()
+    {
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            "app_api_courses_getone",
+            [
+                'version' => $this->apiVersion,
+                'id' => 1,
+                'include' => 'sessions.administrators'
+            ]
+        );
+        $this->createJsonApiRequest(
+            'GET',
+            $url,
+            null,
+            $this->getTokenForUser($this->kernelBrowser, 5)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
+            $this->fail("Unable to load url: {$url}");
+        }
+
+        $this->assertJsonApiResponse($response, Response::HTTP_OK);
+        $content = json_decode($response->getContent());
+        $this->assertObjectHasAttribute('included', $content);
+
+        $types = array_column($content->included, 'type');
+        $this->assertCount(2, $content->included);
+        $this->assertNotContains('users', $types);
+    }
 }
