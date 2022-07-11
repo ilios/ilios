@@ -174,7 +174,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         return $value;
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null): bool
+    public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
         return $this->entityMetadata->isAnIliosEntity($type);
     }

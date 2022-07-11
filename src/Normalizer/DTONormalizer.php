@@ -81,7 +81,7 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
      * Check to see if we can normalize the object or class
      * {@inheritdoc}
      */
-    public function supportsNormalization($classNameOrObject, string $format = null): bool
+    public function supportsNormalization($classNameOrObject, string $format = null, array $context = []): bool
     {
         return $format === 'json' && $this->entityMetadata->isAnIliosDto($classNameOrObject);
     }
