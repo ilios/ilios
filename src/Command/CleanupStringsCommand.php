@@ -36,6 +36,10 @@ class CleanupStringsCommand extends Command
      */
     private const QUERY_LIMIT = 500;
 
+    private const CLEANUP_MODE_OBJECTIVE_TITLE_TRIM_BLANK_SPACE = 1;
+
+    private const CLEANUP_MODE_OBJECTIVE_TITLE_PURIFY_MARKUP = 2;
+
     public function __construct(
         protected HTMLPurifier $purifier,
         protected EntityManagerInterface $em,
@@ -86,6 +90,12 @@ class CleanupStringsCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'Should we attempt to correct learning material links?'
+            )
+            ->addOption(
+                'objective-title-blankspace',
+                null,
+                InputOption::VALUE_NONE,
+                'Should we remove leading and trailing blank space from objective titles?'
             );
     }
 
@@ -108,6 +118,9 @@ class CleanupStringsCommand extends Command
         if ($input->getOption('learningmaterial-links')) {
             $this->correctLearningMaterialLinks($output);
         }
+        if ($input->getOption('objective-title-blankspace')) {
+            $this->removeObjectiveTitleBlankSpace($output);
+        }
 
         return 0;
     }
@@ -117,6 +130,20 @@ class CleanupStringsCommand extends Command
      * @throws Exception
      */
     protected function purifyObjectiveTitle(OutputInterface $output)
+    {
+        $this->cleanupObjectiveTitle($output, self::CLEANUP_MODE_OBJECTIVE_TITLE_PURIFY_MARKUP);
+    }
+
+    /**
+     * Removes leading and trailing blank space from objective titles.
+     * @throws Exception
+     */
+    protected function removeObjectiveTitleBlankSpace(OutputInterface $output): void
+    {
+        $this->cleanupObjectiveTitle($output, self::CLEANUP_MODE_OBJECTIVE_TITLE_TRIM_BLANK_SPACE);
+    }
+
+    protected function cleanupObjectiveTitle(OutputInterface $output, int $mode): void
     {
         $cleanedTitles = 0;
         $limit = self::QUERY_LIMIT;
@@ -140,7 +167,11 @@ class CleanupStringsCommand extends Command
                 $objectives = $objectiveManager->findBy([], ['id' => 'ASC'], $limit, $offset);
                 foreach ($objectives as $objective) {
                     $originalTitle = $objective->getTitle();
-                    $cleanTitle = $this->purifier->purify($originalTitle);
+                    if (self::CLEANUP_MODE_OBJECTIVE_TITLE_TRIM_BLANK_SPACE  === $mode) {
+                        $cleanTitle = trim($originalTitle);
+                    } else {
+                        $cleanTitle = $this->purifier->purify($originalTitle);
+                    }
                     if ($originalTitle != $cleanTitle) {
                         $cleanedTitles++;
                         $objective->setTitle($cleanTitle);

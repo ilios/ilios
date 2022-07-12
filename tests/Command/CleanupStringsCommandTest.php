@@ -102,7 +102,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         unset($this->httpClient);
     }
 
-    public function testObjectiveTitle()
+    public function testPurifyObjectiveTitle()
     {
         $cleanSessionObjective = m::mock(SessionObjectiveInterface::class)
             ->shouldReceive('getTitle')->andReturn('clean title')
@@ -145,6 +145,59 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->commandTester->execute([
             'command'           => self::COMMAND_NAME,
             '--objective-title' => true
+        ]);
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/3 Objective Titles updated/',
+            $output
+        );
+    }
+
+    public function testTrimObjectiveTitle()
+    {
+        $cleanSessionObjective = m::mock(SessionObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn('clean title')
+            ->mock();
+        $dirtySessionObjective = m::mock(SessionObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn("\r\n\t    lorem ipsum  \t \r\n\n\r  \t")
+            ->shouldReceive('setTitle')->with('lorem ipsum')
+            ->mock();
+        $this->sessionObjectiveRepository->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
+            ->andReturn([$cleanSessionObjective, $dirtySessionObjective]);
+        $this->sessionObjectiveRepository->shouldReceive('update')->with($dirtySessionObjective, false);
+        $this->sessionObjectiveRepository->shouldReceive('getTotalObjectiveCount')->andReturn(2);
+
+        $cleanCourseObjective = m::mock(CourseObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn('clean title')
+            ->mock();
+        $dirtyCourseObjective = m::mock(CourseObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn("\r\n\t    lorem ipsum  \t \r\n\n\r  \t")
+            ->shouldReceive('setTitle')->with('lorem ipsum')
+            ->mock();
+        $this->courseObjectiveRepository->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
+            ->andReturn([$cleanCourseObjective, $dirtyCourseObjective]);
+        $this->courseObjectiveRepository->shouldReceive('update')->with($dirtyCourseObjective, false);
+        $this->courseObjectiveRepository->shouldReceive('getTotalObjectiveCount')->andReturn(2);
+
+        $cleanPyObjective = m::mock(ProgramYearObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn('clean title')
+            ->mock();
+        $dirtyProgramYearObjective = m::mock(ProgramYearObjectiveInterface::class)
+            ->shouldReceive('getTitle')->andReturn("\r\n\t    lorem ipsum  \t \r\n\n\r  \t")
+            ->shouldReceive('setTitle')->with('lorem ipsum')
+            ->mock();
+        $this->programYearObjectiveRepository->shouldReceive('findBy')->with([], ['id' => 'ASC'], 500, 0)
+            ->andReturn([$cleanPyObjective, $dirtyProgramYearObjective]);
+        $this->programYearObjectiveRepository->shouldReceive('update')->with($dirtyProgramYearObjective, false);
+        $this->programYearObjectiveRepository->shouldReceive('getTotalObjectiveCount')->andReturn(2);
+
+        $this->em->shouldReceive('flush')->times(3);
+        $this->em->shouldReceive('clear')->times(3);
+        $this->commandTester->execute([
+            'command'           => self::COMMAND_NAME,
+            '--objective-title-blankspace' => true
         ]);
 
 
