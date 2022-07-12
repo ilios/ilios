@@ -95,7 +95,7 @@ class CleanupStringsCommand extends Command
             $this->purifyObjectiveTitle($output);
         }
         if ($input->getOption('learningmaterial-description')) {
-            $this->purifyLearnignMaterialDescription($output);
+            $this->purifyLearningMaterialDescription($output);
         }
         if ($input->getOption('learningmaterial-note')) {
             $this->purifyCourseLearningMaterialNote($output);
@@ -163,7 +163,7 @@ class CleanupStringsCommand extends Command
     /**
      * Purify learning material description
      */
-    protected function purifyLearnignMaterialDescription(OutputInterface $output)
+    protected function purifyLearningMaterialDescription(OutputInterface $output)
     {
         $cleaned = 0;
         $offset = 0;
