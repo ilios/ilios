@@ -113,13 +113,21 @@ trait ManagerRepository
         if ($keys === [$idField] && is_null($orderBy) && is_null($limit) && is_null($offset)) {
             return is_array($criteria[$idField]) ? $criteria[$idField] : [$criteria[$idField]];
         }
-        $qb = $this->getEntityManager()
-            ->createQueryBuilder()
-            ->select("x.${idField}")
-            ->from($this->getEntityName(), 'x');
+        $fields = [$idField];
+        if (is_array($orderBy)) {
+            $fields = array_unique([...$fields, ...array_keys($orderBy)]);
+        }
+        $dqlSelect = implode(', ', array_map(function ($field) {
+            return "x.${field}";
+        }, $fields));
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select($dqlSelect);
+        $qb->distinct();
+        $qb->from($this->getEntityName(), 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
-        return $qb->getQuery()->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN);
+        $results = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY);
+        return array_column($results, $idField);
     }
 
     public function update($entity, $andFlush = true, $forceId = false): void
