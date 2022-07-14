@@ -117,9 +117,7 @@ trait ManagerRepository
         if (is_array($orderBy)) {
             $fields = array_unique([...$fields, ...array_keys($orderBy)]);
         }
-        $dqlSelect = implode(', ', array_map(function ($field) {
-            return "x.${field}";
-        }, $fields));
+        $dqlSelect = implode(', ', array_map(fn ($field) => "x.${field}", $fields));
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($dqlSelect);
         $qb->distinct();
