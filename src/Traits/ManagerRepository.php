@@ -116,7 +116,6 @@ trait ManagerRepository
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select("x.${idField}")
-            ->distinct()
             ->from($this->getEntityName(), 'x');
         $this->attachCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
 
