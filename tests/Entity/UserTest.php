@@ -934,4 +934,45 @@ class UserTest extends EntityBase
             'addAdministrator'
         );
     }
+
+    /**
+     * @covers \App\Entity\User::addSessionMaterialStatus
+     */
+    public function testAddSessionMaterialStatus()
+    {
+        $this->entityCollectionAddTest(
+            'sessionMaterialStatus',
+            'UserSessionMaterialStatus',
+            'getSessionMaterialStatuses',
+            'addSessionMaterialStatus'
+        );
+    }
+
+    /**
+     * @covers \App\Entity\User::removeSessionMaterialStatus
+     */
+    public function testRemoveLearningMaterialStatus()
+    {
+        $this->entityCollectionRemoveTest(
+            'sessionMaterialStatus',
+            'UserSessionMaterialStatus',
+            'getSessionMaterialStatuses',
+            'addSessionMaterialStatus',
+            'removeSessionMaterialStatus'
+        );
+    }
+
+    /**
+     * @covers \App\Entity\User::getSessionMaterialStatuses
+     * @covers \App\Entity\User::setSessionMaterialStatuses
+     */
+    public function testGetSessionLearningMaterialStatuses()
+    {
+        $this->entityCollectionSetTest(
+            'sessionMaterialStatus',
+            'UserSessionMaterialStatus',
+            'getSessionMaterialStatuses',
+            'setSessionMaterialStatuses'
+        );
+    }
 }

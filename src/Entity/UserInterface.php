@@ -173,4 +173,9 @@ interface UserInterface extends
 
     public function setPrimaryCohort(CohortInterface $primaryCohort = null);
     public function getPrimaryCohort(): ?CohortInterface;
+
+    public function setSessionMaterialStatuses(Collection $sessionMaterialStatuses);
+    public function addSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus);
+    public function removeSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus);
+    public function getSessionMaterialStatuses(): Collection;
 }
