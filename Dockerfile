@@ -136,7 +136,7 @@ RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN set -eux; \
 	composer install --prefer-dist --no-progress --no-interaction; \
     rm -f .env.local.php; \
-    composer run-script --no-dev post-install-cmd; \
+    composer run-script post-install-cmd; \
     bin/console cache:warmup; \
     sync
 
