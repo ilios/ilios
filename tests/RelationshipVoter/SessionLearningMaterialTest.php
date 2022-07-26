@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use App\Classes\SessionUserInterface;
 use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\SessionLearningMaterial as Voter;
 use App\Service\PermissionChecker;
@@ -12,6 +13,7 @@ use App\Entity\SessionLearningMaterial;
 use App\Entity\Session;
 use App\Entity\School;
 use App\Service\Config;
+use DateTime;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -39,10 +41,70 @@ class SessionLearningMaterialTest extends AbstractBase
 
     public function testCanNotViewAsLearnerOnly()
     {
-        $token = $this->createMockTokenWithSessionUserPerformingOnlyLearnerFunction();
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInSession')->andReturn(false);
+        $token = $this->createMockTokenWithSessionUser($sessionUser);
         $entity = m::mock(SessionLearningMaterial::class);
+        $session = m::mock(Session::class);
+        $session->shouldReceive('getId')->andReturn(13);
+        $entity->shouldReceive('getStartDate')->andReturn(null);
+        $entity->shouldReceive('getEndDate')->andReturn(null);
+        $entity->shouldReceive('getSession')->andReturn($session);
         $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
+    }
+
+    public function testCanNotViewAsLearnerBeforeStartDate()
+    {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInSession')->andReturn(true);
+        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $entity = m::mock(SessionLearningMaterial::class);
+        $session = m::mock(Session::class);
+        $session->shouldReceive('getId')->andReturn(13);
+        $entity->shouldReceive('getStartDate')->andReturn(new DateTime('tomorrow'));
+        $entity->shouldReceive('getEndDate')->andReturn(null);
+        $entity->shouldReceive('getSession')->andReturn($session);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
+    }
+
+    public function testCanNotViewAsLearnerAfterEndDate()
+    {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInSession')->andReturn(true);
+        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $entity = m::mock(SessionLearningMaterial::class);
+        $session = m::mock(Session::class);
+        $session->shouldReceive('getId')->andReturn(13);
+        $entity->shouldReceive('getStartDate')->andReturn(null);
+        $entity->shouldReceive('getEndDate')->andReturn(new DateTime('yesterday'));
+        $entity->shouldReceive('getSession')->andReturn($session);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
+    }
+
+    public function testCanViewAsLearnerInSession()
+    {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $sessionUser->shouldReceive('isLearnerInSession')->andReturn(true);
+        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $entity = m::mock(SessionLearningMaterial::class);
+        $session = m::mock(Session::class);
+        $session->shouldReceive('getId')->andReturn(13);
+        $entity->shouldReceive('getStartDate')->andReturn(null);
+        $entity->shouldReceive('getEndDate')->andReturn(null);
+        $entity->shouldReceive('getSession')->andReturn($session);
+        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanEdit()

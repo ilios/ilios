@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\SessionUserInterface;
 use App\Entity\DTO\SessionLearningMaterialDTO;
+use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionLearningMaterialRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -12,7 +14,9 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -61,9 +65,24 @@ class SessionLearningMaterials extends AbstractApiController
         string $id,
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder,
-        Request $request
+        Request $request,
+        TokenStorageInterface $tokenStorage,
     ): Response {
-        return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
+        $dto = $this->repository->findDTOBy(['id' => $id]);
+
+        if (! $dto) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
+
+        $currentUser = $tokenStorage->getToken()->getUser();
+        array_walk(
+            $values,
+            fn(SessionLearningMaterialDTO $dto) => $this->cleanDto($currentUser, $dto)
+        );
+
+        return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
     #[Route(
@@ -134,9 +153,33 @@ class SessionLearningMaterials extends AbstractApiController
         string $version,
         Request $request,
         AuthorizationCheckerInterface $authorizationChecker,
-        ApiResponseBuilder $builder
+        ApiResponseBuilder $builder,
+        TokenStorageInterface $tokenStorage
     ): Response {
-        return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
+        $parameters = ApiRequestParser::extractParameters($request);
+
+        $dtos = $this->repository->findDTOsBy(
+            $parameters['criteria'],
+            $parameters['orderBy'],
+            $parameters['limit'],
+            $parameters['offset']
+        );
+
+        $filteredResults = array_filter(
+            $dtos,
+            fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+        );
+
+        $currentUser = $tokenStorage->getToken()->getUser();
+        array_walk(
+            $filteredResults,
+            fn(SessionLearningMaterialDTO $dto) => $this->cleanDto($currentUser, $dto)
+        );
+
+        //Re-index numerically index the array
+        $values = array_values($filteredResults);
+
+        return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
 
     #[Route(methods: ['POST'])]
@@ -304,5 +347,17 @@ class SessionLearningMaterials extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
         return $this->handleDelete($version, $id, $authorizationChecker);
+    }
+
+    /**
+     * Remove notes from DTO for students who don't have permission to see it.
+     */
+    protected function cleanDto(
+        SessionUserInterface $sessionUser,
+        SessionLearningMaterialDTO $dto
+    ): void {
+        if (!$dto->publicNotes && !$sessionUser->performsNonLearnerFunction()) {
+            $dto->notes =  null;
+        }
     }
 }

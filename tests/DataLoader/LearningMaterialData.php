@@ -173,7 +173,7 @@ class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
-            'sessionLearningMaterials' => ['8'],
+            'sessionLearningMaterials' => ['8', '9'],
             'courseLearningMaterials' => ['10'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
