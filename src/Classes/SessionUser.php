@@ -41,6 +41,7 @@ class SessionUser implements SessionUserInterface
     protected array $instructorGroupIds;
     protected array $coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
     protected array $learnerIlmAndOfferingIds;
+    protected array $learnerSessionIds;
     protected UserRepository $userRepository;
 
     public function __construct(IliosUserInterface $user, UserRepository $userRepository)
@@ -349,6 +350,11 @@ class SessionUser implements SessionUserInterface
     public function isLearnerInOffering(int $offeringId): bool
     {
         return in_array($offeringId, $this->getLearnerOfferingsIds());
+    }
+
+    public function isLearnerInSession(int $sessionId): bool
+    {
+        return in_array($sessionId, $this->getLearnerSessionIds());
     }
 
     public function isLearnerInIlm(int $ilmId): bool
@@ -881,6 +887,14 @@ class SessionUser implements SessionUserInterface
                 $this->userRepository->getLearnerIlmAndOfferingIds($this->getId());
         }
         return $this->learnerIlmAndOfferingIds;
+    }
+
+    protected function getLearnerSessionIds(): array
+    {
+        if (!isset($this->learnerSessionIds)) {
+            $this->learnerSessionIds = $this->userRepository->getLearnerSessionIds($this->getId());
+        }
+        return $this->learnerSessionIds;
     }
 
     /**

@@ -117,13 +117,26 @@ class SessionLearningMaterialData extends AbstractDataLoader
             'endDate' => date_format(new DateTime('2 days ago'), 'c'),
         ];
 
+        $arr[] = [
+            'id' => 9,
+            'required' => true,
+            'publicNotes' => true,
+            'notes' => '',
+            'session' => 2,
+            'learningMaterial' => 10,
+            'meshDescriptors' => [],
+            'position' => 1,
+            'startDate' => null,
+            'endDate' => null,
+        ];
+
         return $arr;
     }
 
     public function create(): array
     {
         return [
-            'id' => 9,
+            'id' => 10,
             'required' => false,
             'notes' => 'foo bar baz',
             'publicNotes' => false,

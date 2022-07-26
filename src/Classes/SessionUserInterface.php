@@ -98,6 +98,7 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
     public function isStudentAdvisorInCourse(int $courseId): bool;
     public function isLearnerInOffering(int $offeringId): bool;
     public function isLearnerInIlm(int $ilmId): bool;
+    public function isLearnerInSession(int $sessionId): bool;
 
     public function rolesInSession(
         int $sessionId,
