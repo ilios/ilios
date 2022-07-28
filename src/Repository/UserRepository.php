@@ -970,6 +970,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
                 'studentAdvisedSessions',
                 'directedPrograms',
                 'administeredCurriculumInventoryReports',
+                'sessionMaterialStatuses',
             ],
         );
 

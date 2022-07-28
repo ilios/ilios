@@ -240,6 +240,12 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             items: new OA\Items(type: "string")
         ),
         new OA\Property(
+            "sessionMaterialStatuses",
+            description: "Session Material Statuses",
+            type: "array",
+            items: new OA\Items(type: "string")
+        ),
+        new OA\Property(
             "auditLogs",
             description: "Audit logs",
             type: "array",
@@ -502,6 +508,14 @@ class UserDTO
     #[IA\Related('curriculumInventoryReports')]
     #[IA\Type('array<string>')]
     public array $administeredCurriculumInventoryReports = [];
+
+    /**
+     * @var int[]
+     */
+    #[IA\Expose]
+    #[IA\Related('userSessionMaterialStatuses')]
+    #[IA\Type('array<string>')]
+    public array $sessionMaterialStatuses = [];
 
     /**
      * @var int[]

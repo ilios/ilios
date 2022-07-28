@@ -53,6 +53,7 @@ class UserData extends AbstractDataLoader
             'studentAdvisedSessions' => [],
             'directedPrograms' => ['1'],
             'administeredCurriculumInventoryReports' => ['1'],
+            'sessionMaterialStatuses' => [],
         ];
 
         $arr[] = [
@@ -95,6 +96,7 @@ class UserData extends AbstractDataLoader
             'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
+            'sessionMaterialStatuses' => ['1', '2', '3'],
         ];
 
         $arr[] = [
@@ -137,6 +139,7 @@ class UserData extends AbstractDataLoader
             'studentAdvisedSessions' => ['4'],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
+            'sessionMaterialStatuses' => [],
         ];
 
         $arr[] = [
@@ -177,6 +180,7 @@ class UserData extends AbstractDataLoader
             'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
+            'sessionMaterialStatuses' => [],
         ];
 
         $arr[] = [
@@ -216,6 +220,7 @@ class UserData extends AbstractDataLoader
             'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
+            'sessionMaterialStatuses' => [],
         ];
 
         return $arr;
@@ -260,6 +265,7 @@ class UserData extends AbstractDataLoader
             'studentAdvisedSessions' => [],
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
+            'sessionMaterialStatuses' => [],
         ];
     }
 

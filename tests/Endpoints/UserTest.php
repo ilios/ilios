@@ -18,6 +18,7 @@ use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
+use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -46,6 +47,7 @@ class UserTest extends ReadWriteEndpointTest
             LoadAuthenticationData::class,
             LoadSessionData::class,
             LoadCurriculumInventoryReportData::class,
+            LoadUserSessionMaterialStatusData::class,
         ];
     }
 
