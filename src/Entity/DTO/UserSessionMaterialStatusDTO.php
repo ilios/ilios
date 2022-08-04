@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attribute as IA;
+use DateTime;
 use OpenApi\Attributes as OA;
 
 #[IA\DTO("userSessionMaterialStatuses")]
@@ -32,6 +33,12 @@ use OpenApi\Attributes as OA;
             description: "Status",
             type: "integer"
         ),
+        new OA\Property(
+            "updatedAt",
+            description: "Last Updated At",
+            type: "string",
+            format: "date-time"
+        ),
     ]
 )]
 class UserSessionMaterialStatusDTO
@@ -54,6 +61,9 @@ class UserSessionMaterialStatusDTO
         #[IA\Expose]
         #[IA\Type("integer")]
         public int $status,
+        #[IA\Expose]
+        #[IA\Type("dateTime")]
+        public Datetime $updatedAt,
     ) {
     }
 }

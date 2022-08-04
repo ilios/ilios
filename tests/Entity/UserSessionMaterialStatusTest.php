@@ -46,7 +46,10 @@ class UserSessionMaterialStatusTest extends EntityBase
      */
     public function testConstructor()
     {
+        $now = new DateTime();
         $this->assertInstanceOf(DateTime::class, $this->object->getUpdatedAt());
+        $diff = $now->diff($this->object->getUpdatedAt());
+        $this->assertTrue($diff->s < 2);
     }
 
     /**
