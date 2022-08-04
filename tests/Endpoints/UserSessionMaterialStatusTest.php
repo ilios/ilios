@@ -54,4 +54,9 @@ class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
             'materials' => [[0, 2], ['material' => [1, 5]]],
         ];
     }
+
+    protected function getTimeStampFields(): array
+    {
+        return ['updatedAt'];
+    }
 }

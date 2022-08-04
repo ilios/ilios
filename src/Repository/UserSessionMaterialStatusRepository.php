@@ -43,6 +43,7 @@ class UserSessionMaterialStatusRepository extends ServiceEntityRepository implem
             $dtos[$arr['id']] = new UserSessionMaterialStatusDTO(
                 (int) $arr['id'], //doctrine stores bigint as a string, we need to cast it back
                 $arr['status'],
+                $arr['updatedAt'],
             );
         }
 
