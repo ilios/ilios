@@ -497,10 +497,15 @@ class XmlPrinter
                 break;
         }
 
-        $min = $block->getMinimum() ?? 0;
-        $xw->writeAttribute('minimum', (string) $min);
-        $max = $block->getMaximum() ?? 0;
-        $xw->writeAttribute('maximum', (string) $max);
+        $min = $block->getMinimum();
+        if ($min) {
+            $xw->writeAttribute('minimum', (string) $min);
+        }
+
+        $max = $block->getMaximum();
+        if ($max) {
+            $xw->writeAttribute('maximum', (string) $max);
+        }
 
         if ($block->hasTrack()) {
             $xw->writeAttribute('track', 'true');
