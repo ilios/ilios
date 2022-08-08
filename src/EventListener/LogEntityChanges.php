@@ -27,8 +27,8 @@ class LogEntityChanges
      */
     public function onFlush(OnFlushEventArgs $eventArgs)
     {
-        $entityManager = $eventArgs->getEntityManager();
-        $uow = $entityManager->getUnitOfWork();
+        $objectManager = $eventArgs->getObjectManager();
+        $uow = $objectManager->getUnitOfWork();
         $actions = [];
 
         $actions['create'] = $uow->getScheduledEntityInsertions();
@@ -88,7 +88,7 @@ class LogEntityChanges
         $loggerQueue = $this->container->get(LoggerQueue::class);
         foreach ($updates as $arr) {
             $valuesChanged = implode(',', $arr['changes']);
-            $entityName = $entityManager->getMetadataFactory()->getMetadataFor($arr['entity']::class)->getName();
+            $entityName = $objectManager->getMetadataFactory()->getMetadataFor($arr['entity']::class)->getName();
             $loggerQueue->add($arr['action'], $arr['entity'], $entityName, $valuesChanged);
         }
     }

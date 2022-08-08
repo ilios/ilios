@@ -26,8 +26,8 @@ class ClearCachedDto
         if (!$this->featureManager->isActive('dto_caching')) {
             return;
         }
-        $entityManager = $eventArgs->getEntityManager();
-        $uow = $entityManager->getUnitOfWork();
+        $objectManager = $eventArgs->getObjectManager();
+        $uow = $objectManager->getUnitOfWork();
         $actions = [];
 
         $actions['update'] = $uow->getScheduledEntityUpdates();
@@ -37,7 +37,7 @@ class ClearCachedDto
         $tags = [];
         foreach ($actions as $action => $entities) {
             foreach ($entities as $entity) {
-                $entityName = $entityManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
+                $entityName = $objectManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
                 if ($action === 'create') {
                     $tags[] = DTOCacheManager::getTag($entityName, false);
                 } else {
@@ -51,12 +51,12 @@ class ClearCachedDto
         /** @var PersistentCollection $col */
         foreach ($collections as $col) {
             foreach ($col->getDeleteDiff() as $entity) {
-                $entityName = $entityManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
+                $entityName = $objectManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
                 $id = (string) $entity;
                 $tags[] = DTOCacheManager::getTag($entityName, $id);
             }
             foreach ($col->getInsertDiff() as $entity) {
-                $entityName = $entityManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
+                $entityName = $objectManager->getMetadataFactory()->getMetadataFor($entity::class)->getName();
                 $id = (string) $entity;
                 $tags[] = DTOCacheManager::getTag($entityName, $id);
             }
