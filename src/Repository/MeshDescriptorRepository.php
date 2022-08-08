@@ -324,14 +324,14 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         $conn = $this->_em->getConnection();
         $conn->beginTransaction();
         try {
-            $conn->query('DELETE FROM mesh_concept_x_term');
-            $conn->query('DELETE FROM mesh_descriptor_x_qualifier');
-            $conn->query('DELETE FROM mesh_descriptor_x_concept');
-            $conn->query('DELETE FROM mesh_previous_indexing');
-            $conn->query('DELETE FROM mesh_tree');
-            $conn->query('DELETE FROM mesh_term');
-            $conn->query('DELETE FROM mesh_concept');
-            $conn->query('DELETE FROM mesh_qualifier');
+            $conn->executeQuery('DELETE FROM mesh_concept_x_term');
+            $conn->executeQuery('DELETE FROM mesh_descriptor_x_qualifier');
+            $conn->executeQuery('DELETE FROM mesh_descriptor_x_concept');
+            $conn->executeQuery('DELETE FROM mesh_previous_indexing');
+            $conn->executeQuery('DELETE FROM mesh_tree');
+            $conn->executeQuery('DELETE FROM mesh_term');
+            $conn->executeQuery('DELETE FROM mesh_concept');
+            $conn->executeQuery('DELETE FROM mesh_qualifier');
 
             $sql = <<<EOL
 DELETE FROM mesh_descriptor
@@ -346,7 +346,7 @@ AND mesh_descriptor_uid NOT IN (
   SELECT prepositional_object_table_row_id FROM report where prepositional_object = 'mesh term'
 )
 EOL;
-            $conn->query($sql);
+            $conn->executeQuery($sql);
             $conn->commit();
         } catch (Exception $e) {
             $conn->rollBack();
