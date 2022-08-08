@@ -52,6 +52,8 @@ class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
             ]]],
             'material' => [[1], ['material' => 3]],
             'materials' => [[0, 2], ['material' => [1, 5]]],
+            'user' => [[0, 1, 2], ['user' => 2]],
+            'users' => [[0, 1, 2], ['user' => [2]]],
         ];
     }
 
