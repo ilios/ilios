@@ -20,7 +20,8 @@ class Config
         'requireSecureConnection',
         'errorCaptureEnabled',
         'learningMaterialsDisabled',
-        'academic_year_crosses_calendar_year_boundaries'
+        'academic_year_crosses_calendar_year_boundaries',
+        'material_status_enabled',
     ];
 
     private const INT_NAMES = [

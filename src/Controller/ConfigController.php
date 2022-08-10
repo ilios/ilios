@@ -45,7 +45,11 @@ class ConfigController extends AbstractController
 
         $configuration['academicYearCrossesCalendarYearBoundaries'] = $config->get(
             'academic_year_crosses_calendar_year_boundaries'
-        );
+        ) ?? false;
+
+        $configuration['materialStatusEnabled'] = $config->get(
+            'material_status_enabled'
+        ) ?? false;
 
         return new JsonResponse(['config' => $configuration]);
     }
