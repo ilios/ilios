@@ -172,8 +172,10 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->assertStringContainsString("- {$learner->getFirstName()} {$learner->getLastName()}", $output);
         }
 
+        $courseId = $offering->getSession()->getCourse()->getId();
+        $sessionId  = $offering->getSession()->getId();
         $this->assertStringContainsString(
-            "{$baseUrl}/courses/{$offering->getSession()->getCourse()->getId()}",
+            "{$baseUrl}/courses/{$courseId}/sessions/{$sessionId}",
             $output
         );
 

@@ -42,6 +42,6 @@ The learning objectives listed for this course are:
 - {{ objective.title|striptags|trim|raw }}
 {% endfor %}
 
-For a complete review of the session details and its associated learning materials, visit the session details on your Ilios Calendar at {{ base_url }}/courses/{{ offering.session.course.id }}.
+For a complete review of the session details and its associated learning materials, visit the session details on your Ilios Calendar at {{ base_url }}/courses/{{ offering.session.course.id }}/sessions/{{ offering.session.id }}.
 
 If you would like to edit the details of this session and do not have editing rights in Ilios for this course please contact the School of {{ schoolTitle }}'{% if 's' != schoolTitle|lower|last %}s{% endif %} Curriculum Coordinator at {{ adminEmail }}.
