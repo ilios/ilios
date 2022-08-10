@@ -48,7 +48,7 @@ class ConfigControllerTest extends WebTestCase
         unset($data['maxUploadSize']);
         $container = $this->kernelBrowser->getContainer();
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'type' => 'form',
                 'locale' => 'en',
@@ -58,6 +58,7 @@ class ConfigControllerTest extends WebTestCase
                 'trackingEnabled' => false,
                 'searchEnabled' => false,
                 'academicYearCrossesCalendarYearBoundaries' => false,
+                'materialStatusEnabled' => false,
             ],
             $data
         );
@@ -66,6 +67,7 @@ class ConfigControllerTest extends WebTestCase
     public function testEnvOverrideForConfigItem()
     {
         $_SERVER['ILIOS_ACADEMIC_YEAR_CROSSES_CALENDAR_YEAR_BOUNDARIES'] = true;
+        $_SERVER['ILIOS_MATERIAL_STATUS_ENABLED'] = true;
 
         $this->kernelBrowser->request('GET', '/application/config');
 
@@ -80,7 +82,7 @@ class ConfigControllerTest extends WebTestCase
         unset($data['maxUploadSize']);
         $container = $this->kernelBrowser->getContainer();
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'type' => 'form',
                 'locale' => 'en',
@@ -90,10 +92,12 @@ class ConfigControllerTest extends WebTestCase
                 'trackingEnabled' => false,
                 'searchEnabled' => false,
                 'academicYearCrossesCalendarYearBoundaries' => true,
+                'materialStatusEnabled' => true,
             ],
             $data
         );
 
         unset($_SERVER['ILIOS_ACADEMIC_YEAR_CROSSES_CALENDAR_YEAR_BOUNDARIES']);
+        unset($_SERVER['ILIOS_MATERIAL_STATUS_ENABLED']);
     }
 }
