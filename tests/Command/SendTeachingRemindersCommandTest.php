@@ -157,6 +157,8 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $output
         );
         $this->assertStringContainsString("Location: {$offering->getSite()} {$offering->getRoom()}", $output);
+        $this->assertStringContainsString("Virtual Learning Link: {$offering->getUrl()}", $output);
+
         $this->assertStringContainsString(
             "Coordinator at {$offering->getSession()->getCourse()->getSchool()->getIliosAdministratorEmail()}.",
             $output
@@ -452,6 +454,31 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         );
     }
 
+    public function testExecuteNoVirtualLearningLink()
+    {
+        $sender = 'foo@bar.edu';
+        $baseUrl = 'https://ilios.bar.edu';
+
+        $offering = $this->createOffering();
+        $offering->setUrl(null);
+        $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
+            ->with(7, [1])->andReturn([$offering]);
+        $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
+
+        $this->fs->shouldReceive('exists')->with(
+            $this->testDir . '/custom/templates/email/TEST_' . SendTeachingRemindersCommand::DEFAULT_TEMPLATE_NAME
+        )->once()->andReturn(false);
+
+        $this->commandTester->execute([
+            'sender' => $sender,
+            'base_url' => $baseUrl,
+            '--dry-run' => true,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringNotContainsString("Virtual Learning Link:", $output);
+    }
+
     /**
      * @todo This is truly in bad form. Refactor fixture loading out. [ST 2015/09/25]
      */
@@ -529,6 +556,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $offering->addLearner($learner);
         $offering->addLearnerGroup($learnerGroup);
         $offering->setRoom('Library - Room 119');
+        $offering->setUrl('https://iliosproject.org');
 
         return $offering;
     }

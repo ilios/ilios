@@ -21,6 +21,9 @@ Session:  {{ offering.session.title|striptags|trim|raw }}
 Date:     {{ offering.startDate|date('D M d, Y', timezone) }}
 Time:     {{ offering.startDate|date('h:i a', timezone) }} - {{ offering.endDate|date('h:i a', timezone) }}
 Location: {{ offering.site }} {{ offering.room }}
+{%if offering.url %}
+Virtual Learning Link: {{ offering.url }}
+{% endif %}
 
 The learner groups participating in this session are:
 {% for learnerGroup in offering.learnerGroups %}
