@@ -54,6 +54,12 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
     }
 
+    public function testGetUserIdFromTokenString()
+    {
+        $jwt = $this->buildToken(['user_id' => '123']);
+        $this->assertSame(123, $this->obj->getUserIdFromToken($jwt));
+    }
+
     public function testGetIssuedAtFromToken()
     {
         $yesterday = new DateTime('yesterday');
@@ -160,7 +166,7 @@ class JsonWebTokenManagerTest extends TestCase
             'aud' => 'ilios',
             'iat' => $now->format('U'),
             'exp' => $now->modify('+1 year')->format('U'),
-            'user_id' => 42
+            'user_id' => 42,
         ];
 
         $merged = array_merge($default, $values);

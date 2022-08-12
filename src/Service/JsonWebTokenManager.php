@@ -33,7 +33,7 @@ class JsonWebTokenManager
     public function getUserIdFromToken($jwt): int
     {
         $arr = $this->decode($jwt);
-        return $arr['user_id'];
+        return (int) $arr['user_id'];
     }
 
     public function getIssuedAtFromToken($jwt): DateTimeInterface
