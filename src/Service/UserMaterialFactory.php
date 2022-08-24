@@ -34,6 +34,8 @@ class UserMaterialFactory
         $obj->course = isset($material['courseId']) ? $material['courseId'] : null;
         $obj->sessionTitle = isset($material['sessionTitle']) ? $material['sessionTitle'] : null;
         $obj->courseTitle = isset($material['courseTitle']) ? $material['courseTitle'] : null;
+        $obj->courseExternalId = isset($material['courseExternalId']) ? $material['courseExternalId'] : null;
+        $obj->courseYear = isset($material['courseYear']) ? (int) $material['courseYear'] : null;
         $obj->firstOfferingDate = isset($material['firstOfferingDate']) ? $material['firstOfferingDate'] : null;
         $obj->instructors = isset($material['instructors']) ? $material['instructors'] : [];
         if ($material['publicNotes']) {
