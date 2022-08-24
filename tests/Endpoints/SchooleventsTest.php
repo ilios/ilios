@@ -158,7 +158,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertTrue($events[0]['attendanceRequired'], 'attendanceRequired is correct for event 0');
         $this->assertEquals(
             count($events[0]['learningMaterials']),
-            9,
+            10,
             'Event 0 has the correct number of learning materials'
         );
         $this->assertEquals(
@@ -211,7 +211,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertTrue($events[1]['attendanceRequired'], 'attendanceRequired is correct for event 1');
         $this->assertEquals(
             count($events[1]['learningMaterials']),
-            9,
+            10,
             'Event 1 has the correct number of learning materials'
         );
 
@@ -257,7 +257,7 @@ class SchooleventsTest extends AbstractEndpointTest
         $this->assertTrue($events[2]['attendanceRequired'], 'attendanceRequired is correct for event 2');
         $this->assertEquals(
             count($events[2]['learningMaterials']),
-            9,
+            10,
             'Event 2 has the correct number of learning materials'
         );
         $this->assertEquals(

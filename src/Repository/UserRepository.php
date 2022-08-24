@@ -970,6 +970,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
                 'studentAdvisedSessions',
                 'directedPrograms',
                 'administeredCurriculumInventoryReports',
+                'sessionMaterialStatuses',
             ],
         );
 
@@ -1315,6 +1316,38 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         }
 
         return $this->dedupeSubArrays($rhett);
+    }
+
+    /*
+     * Returns an array of ids of session ids that a student is connected to
+     */
+    public function getLearnerSessionIds(int $userId): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('s1.id AS s1Id, s2.id AS s2Id, s3.id AS s3Id, s4.id AS s4Id')->distinct();
+        $qb->from(User::class, 'u');
+        $qb->leftJoin('u.offerings', 'offering');
+        $qb->leftJoin('u.learnerIlmSessions', 'ilm');
+        $qb->leftJoin('u.learnerGroups', 'learnerGroup');
+        $qb->leftJoin('learnerGroup.offerings', 'offering2');
+        $qb->leftJoin('learnerGroup.ilmSessions', 'ilm2');
+        $qb->leftJoin('offering.session', 's1');
+        $qb->leftJoin('ilm.session', 's2');
+        $qb->leftJoin('offering2.session', 's3');
+        $qb->leftJoin('ilm2.session', 's4');
+        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        $rhett = [];
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            foreach ($arr as $id) {
+                if (!is_null($id)) {
+                    $rhett[] = $id;
+                }
+            }
+        }
+
+        return array_unique($rhett);
     }
 
     /**

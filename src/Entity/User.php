@@ -330,6 +330,11 @@ class User implements UserInterface
     #[IA\Type('entityCollection')]
     protected Collection $administeredCurriculumInventoryReports;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSessionMaterialStatus::class)]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
+    protected Collection $sessionMaterialStatuses;
+
     public function __construct()
     {
         $this->directedCourses = new ArrayCollection();
@@ -356,6 +361,7 @@ class User implements UserInterface
         $this->administeredSchools = new ArrayCollection();
         $this->directedPrograms = new ArrayCollection();
         $this->administeredCurriculumInventoryReports = new ArrayCollection();
+        $this->sessionMaterialStatuses = new ArrayCollection();
         $this->addedViaIlios = false;
         $this->enabled = true;
         $this->examined = false;
@@ -1178,5 +1184,31 @@ class User implements UserInterface
     {
         $this->administeredCurriculumInventoryReports->removeElement($report);
         $report->removeAdministrator($this);
+    }
+
+    public function setSessionMaterialStatuses(Collection $sessionMaterialStatuses)
+    {
+        $this->sessionMaterialStatuses = new ArrayCollection();
+
+        foreach ($sessionMaterialStatuses as $slm) {
+            $this->addSessionMaterialStatus($slm);
+        }
+    }
+
+    public function addSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus)
+    {
+        if (!$this->sessionMaterialStatuses->contains($sessionMaterialStatus)) {
+            $this->sessionMaterialStatuses->add($sessionMaterialStatus);
+        }
+    }
+
+    public function removeSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus)
+    {
+        $this->sessionMaterialStatuses->removeElement($sessionMaterialStatus);
+    }
+
+    public function getSessionMaterialStatuses(): Collection
+    {
+        return $this->sessionMaterialStatuses;
     }
 }

@@ -728,9 +728,9 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertIsArray($includes['meshDescriptors']);
         $this->assertEquals(['abc1', 'abc2'], $includes['meshDescriptors']);
         $this->assertIsArray($includes['sessionLearningMaterials']);
-        $this->assertEquals(['1'], $includes['sessionLearningMaterials']);
+        $this->assertEquals(['1', '9'], $includes['sessionLearningMaterials']);
         $this->assertIsArray($includes['learningMaterials']);
-        $this->assertEquals(['1'], $includes['learningMaterials']);
+        $this->assertEquals(['1', '10'], $includes['learningMaterials']);
         $this->assertIsArray($includes['users']);
         $this->assertEquals(['1', '2', '4', '5'], $includes['users']);
         $this->assertIsArray($includes['offerings']);

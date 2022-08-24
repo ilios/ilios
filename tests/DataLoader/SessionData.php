@@ -49,7 +49,7 @@ class SessionData extends AbstractDataLoader
             'terms' => ['1', '4'],
             'sessionObjectives' => [],
             'meshDescriptors' => [],
-            'learningMaterials' => [],
+            'learningMaterials' => ['9'],
             'offerings' => ['3', '4', '5'],
             'administrators' => [],
             'studentAdvisors' => [],
