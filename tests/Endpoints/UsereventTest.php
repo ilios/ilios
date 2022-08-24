@@ -53,7 +53,7 @@ class UsereventTest extends AbstractEndpointTest
         $lms = $events[0]['learningMaterials'];
 
         $this->assertSame(9, count($lms));
-        $this->assertSame(15, count($lms[0]));
+        $this->assertSame(17, count($lms[0]));
         $this->assertSame('1', $lms[0]['id']);
         $this->assertSame('1', $lms[0]['sessionLearningMaterial']);
         $this->assertSame('1', $lms[0]['session']);
@@ -67,20 +67,22 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertSame('citation', $lms[0]['mimetype']);
         $this->assertSame('session1Title', $lms[0]['sessionTitle']);
         $this->assertSame('firstCourse', $lms[0]['courseTitle']);
+        $this->assertSame(2016, $lms[0]['courseYear']);
+        $this->assertSame('first', $lms[0]['courseExternalId']);
         $this->assertSame('2016-09-04T00:00:00+00:00', $lms[5]['firstOfferingDate']);
         $this->assertSame(0, count($lms[0]['instructors']));
         $this->assertFalse($lms[0]['isBlanked']);
 
-        $this->assertSame(15, count($lms[1]));
+        $this->assertSame(17, count($lms[1]));
         $this->assertFalse($lms[1]['isBlanked']);
 
-        $this->assertSame(17, count($lms[2]));
+        $this->assertSame(19, count($lms[2]));
         $this->assertFalse($lms[2]['isBlanked']);
 
-        $this->assertSame(18, count($lms[3]));
+        $this->assertSame(20, count($lms[3]));
         $this->assertFalse($lms[3]['isBlanked']);
 
-        $this->assertSame(10, count($lms[4]));
+        $this->assertSame(12, count($lms[4]));
         $this->assertSame('6', $lms[4]['id']);
         $this->assertSame('6', $lms[4]['courseLearningMaterial']);
         $this->assertSame('1', $lms[4]['course']);
@@ -92,20 +94,20 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertNotEmpty($lms[4]['startDate']);
         $this->assertTrue($lms[4]['isBlanked']);
 
-        $this->assertSame(18, count($lms[5]));
+        $this->assertSame(20, count($lms[5]));
         $this->assertNotEmpty($lms[5]['endDate']);
         $this->assertFalse($lms[5]['isBlanked']);
 
-        $this->assertSame(10, count($lms[6]));
+        $this->assertSame(12, count($lms[6]));
         $this->assertNotEmpty($lms[6]['endDate']);
         $this->assertTrue($lms[6]['isBlanked']);
 
-        $this->assertSame(19, count($lms[7]));
+        $this->assertSame(21, count($lms[7]));
         $this->assertNotEmpty($lms[7]['startDate']);
         $this->assertNotEmpty($lms[7]['endDate']);
         $this->assertFalse($lms[7]['isBlanked']);
 
-        $this->assertSame(11, count($lms[8]));
+        $this->assertSame(13, count($lms[8]));
         $this->assertNotEmpty($lms[8]['startDate']);
         $this->assertNotEmpty($lms[8]['endDate']);
         $this->assertTrue($lms[8]['isBlanked']);

@@ -40,6 +40,8 @@ class UserMaterialTest extends TestCase
         $this->userMaterial->mimetype = 'plain/text';
         $this->userMaterial->sessionTitle = 'Session 1';
         $this->userMaterial->courseTitle = 'Course 1';
+        $this->userMaterial->courseExternalId = 'ID1234';
+        $this->userMaterial->courseYear = 2022;
         $this->userMaterial->firstOfferingDate = new DateTime();
         $this->userMaterial->instructors = [ 1, 2, 3];
         $this->userMaterial->isBlanked = false;
@@ -156,6 +158,8 @@ class UserMaterialTest extends TestCase
         $this->assertNotNull($material->sessionTitle);
         $this->assertNotNull($material->course);
         $this->assertNotNull($material->courseTitle);
+        $this->assertNotNull($material->courseExternalId);
+        $this->assertNotNull($material->courseYear);
         $this->assertNotNull($material->firstOfferingDate);
         $this->assertNull($material->publicNotes);
         $this->assertNull($material->required);
@@ -185,6 +189,8 @@ class UserMaterialTest extends TestCase
         $this->assertNotNull($material->sessionTitle);
         $this->assertNotNull($material->course);
         $this->assertNotNull($material->courseTitle);
+        $this->assertNotNull($material->courseExternalId);
+        $this->assertNotNull($material->courseYear);
         $this->assertNotNull($material->firstOfferingDate);
         $this->assertNotNull($material->publicNotes);
         $this->assertNotNull($material->required);

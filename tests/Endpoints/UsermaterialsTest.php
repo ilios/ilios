@@ -35,7 +35,7 @@ class UsermaterialsTest extends AbstractEndpointTest
         $materials = $this->getMaterials($userId);
         $this->assertCount(9, $materials, 'All expected materials returned');
 
-        $this->assertEquals(16, count($materials[0]));
+        $this->assertEquals(18, count($materials[0]));
         $this->assertEquals('1', $materials[0]['id']);
         $this->assertEquals('1', $materials[0]['sessionLearningMaterial']);
         $this->assertEquals('1', $materials[0]['session']);
@@ -49,28 +49,30 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertMatchesRegularExpression('/^session1Title/', $materials[0]['sessionTitle']);
         $this->assertEquals('1', $materials[0]['course']);
         $this->assertMatchesRegularExpression('/^firstCourse/', $materials[0]['courseTitle']);
+        $this->assertEquals(2016, $materials[0]['courseYear']);
+        $this->assertEquals('first', $materials[0]['courseExternalId']);
         $this->assertEquals('2016-09-08T15:00:00+00:00', $materials[0]['firstOfferingDate']);
         $this->assertEquals(['disnom (them)'], $materials[0]['instructors']);
         $this->assertFalse($materials[0]['isBlanked']);
 
-        $this->assertEquals(15, count($materials[1]));
+        $this->assertEquals(17, count($materials[1]));
         $this->assertEquals('1', $materials[1]['id']);
         $this->assertEquals('1', $materials[1]['course']);
         $this->assertFalse(array_key_exists('session', $materials[1]));
         $this->assertFalse($materials[1]['isBlanked']);
 
-        $this->assertEquals(17, count($materials[2]));
+        $this->assertEquals(19, count($materials[2]));
         $this->assertEquals('3', $materials[2]['id']);
         $this->assertEquals('1', $materials[2]['course']);
         $this->assertEquals('2016-09-04T00:00:00+00:00', $materials[2]['firstOfferingDate']);
         $this->assertFalse(array_key_exists('session', $materials[2]));
         $this->assertFalse($materials[2]['isBlanked']);
 
-        $this->assertEquals(18, count($materials[3]));
+        $this->assertEquals(20, count($materials[3]));
         $this->assertNotEmpty($materials[3]['startDate']);
         $this->assertFalse($materials[3]['isBlanked']);
 
-        $this->assertEquals(10, count($materials[4]));
+        $this->assertEquals(12, count($materials[4]));
         $this->assertEquals('6', $materials[4]['id']);
         $this->assertEquals('6', $materials[4]['courseLearningMaterial']);
         $this->assertEquals('1', $materials[4]['course']);
@@ -82,11 +84,11 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertNotEmpty($materials[4]['startDate']);
         $this->assertTrue($materials[4]['isBlanked']);
 
-        $this->assertEquals(18, count($materials[5]));
+        $this->assertEquals(20, count($materials[5]));
         $this->assertNotEmpty($materials[5]['endDate']);
         $this->assertFalse($materials[5]['isBlanked']);
 
-        $this->assertEquals(10, count($materials[6]));
+        $this->assertEquals(12, count($materials[6]));
         $this->assertEquals('8', $materials[6]['id']);
         $this->assertEquals('1', $materials[6]['course']);
         $this->assertEquals('eighthlm', $materials[6]['title']);
@@ -95,12 +97,12 @@ class UsermaterialsTest extends AbstractEndpointTest
         $this->assertNotEmpty($materials[6]['endDate']);
         $this->assertTrue($materials[6]['isBlanked']);
 
-        $this->assertEquals(19, count($materials[7]));
+        $this->assertEquals(21, count($materials[7]));
         $this->assertNotEmpty($materials[7]['startDate']);
         $this->assertNotEmpty($materials[7]['endDate']);
         $this->assertFalse($materials[7]['isBlanked']);
 
-        $this->assertEquals(11, count($materials[8]));
+        $this->assertEquals(13, count($materials[8]));
         $this->assertNotEmpty($materials[8]['startDate']);
         $this->assertNotEmpty($materials[8]['endDate']);
         $this->assertTrue($materials[8]['isBlanked']);
