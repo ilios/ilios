@@ -89,6 +89,16 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             type: "string"
         ),
         new OA\Property(
+            "courseExternalId",
+            description: "Course External ID",
+            type: "string"
+        ),
+        new OA\Property(
+            "courseYear",
+            description: "Course Year",
+            type: "integer"
+        ),
+        new OA\Property(
             "firstOfferingDate",
             description: "The first appearance of this material",
             type: "string",
@@ -152,6 +162,8 @@ class UserMaterial
         'title',
         'course',
         'courseTitle',
+        'courseExternalId',
+        'courseYear',
         'session',
         'sessionTitle',
         'startDate',
@@ -235,6 +247,14 @@ class UserMaterial
     #[IA\Expose]
     #[IA\Type('string')]
     public ?string $courseTitle = null;
+
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $courseExternalId = null;
+
+    #[IA\Expose]
+    #[IA\Type('int')]
+    public int $courseYear;
 
     #[IA\Expose]
     #[IA\Type('dateTime')]

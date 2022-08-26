@@ -493,7 +493,7 @@ trait CalendarEventRepository
 
         $qb = $em->createQueryBuilder();
         $what = 's.title as sessionTitle, s.id as sessionId, ' .
-            'c.id as courseId, c.title as courseTitle, ' .
+            'c.id as courseId, c.title as courseTitle, c.year as courseYear, c.externalId as courseExternalId, ' .
             'slm.id as slmId, slm.position, slm.notes, slm.required, slm.publicNotes, slm.startDate, slm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
@@ -542,7 +542,8 @@ trait CalendarEventRepository
         EntityManager $em
     ) {
         $qb = $em->createQueryBuilder();
-        $what = 'c.title as courseTitle, c.id as courseId, c.startDate as firstOfferingDate, ' .
+        $what = 'c.title as courseTitle, c.year as courseYear, c.externalId as courseExternalId, ' .
+            'c.id as courseId, c.startDate as firstOfferingDate, ' .
             'clm.id as clmId, clm.position, clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
