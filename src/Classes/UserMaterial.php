@@ -254,7 +254,7 @@ class UserMaterial
 
     #[IA\Expose]
     #[IA\Type('int')]
-    public ?int $courseYear = null;
+    public int $courseYear;
 
     #[IA\Expose]
     #[IA\Type('dateTime')]
