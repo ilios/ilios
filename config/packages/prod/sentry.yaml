@@ -1,7 +1,0 @@
-parameters:
-  env(SENTRY_DSN): "https://c70286fb157048be9ebc6e918e8c2b79@o200403.ingest.sentry.io/1323198"
-sentry:
-  dsn: '%env(SENTRY_DSN)%'
-  options:
-    before_send: 'App\Service\SentryBeforeSend'
-    send_default_pii: true
