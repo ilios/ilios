@@ -773,4 +773,84 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertCount(2, $content->included);
         $this->assertNotContains('users', $types);
     }
+
+    public function testGraphQLIncludedData()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { courses(id: [${data['id']}]) { id, sessions { id, administrators { id }} }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->courses);
+
+        $result = $content->data->courses;
+        $this->assertCount(1, $result);
+
+        $course = $result[0];
+        $this->assertObjectHasAttribute('id', $course);
+        $this->assertEquals($data['id'], $course->id);
+        $this->assertCount(2, $course->sessions);
+
+        $this->assertObjectHasAttribute('id', $course->sessions[0]);
+        $this->assertEquals(1, $course->sessions[0]->id);
+        $this->assertObjectHasAttribute('administrators', $course->sessions[0]);
+        $this->assertCount(1, $course->sessions[0]->administrators);
+        $this->assertObjectHasAttribute('id', $course->sessions[0]->administrators[0]);
+        $this->assertEquals(1, $course->sessions[0]->administrators[0]->id);
+
+        $this->assertObjectHasAttribute('id', $course->sessions[1]);
+        $this->assertEquals(2, $course->sessions[1]->id);
+        $this->assertObjectHasAttribute('administrators', $course->sessions[1]);
+        $this->assertCount(0, $course->sessions[1]->administrators);
+    }
+
+    public function testGraphQLIncludedDataNotLoadedForUnprivilegedUsers()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { courses(id: [${data['id']}]) { id, sessions { id, administrators { id }} }}"
+            ]),
+            $this->getTokenForUser($this->kernelBrowser, 5)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->courses);
+
+        $result = $content->data->courses;
+        $this->assertCount(1, $result);
+
+        $course = $result[0];
+        $this->assertObjectHasAttribute('id', $course);
+        $this->assertEquals($data['id'], $course->id);
+        $this->assertCount(2, $course->sessions);
+
+        $this->assertObjectHasAttribute('id', $course->sessions[0]);
+        $this->assertEquals(1, $course->sessions[0]->id);
+        $this->assertObjectHasAttribute('administrators', $course->sessions[0]);
+        $this->assertCount(0, $course->sessions[0]->administrators);
+
+        $this->assertObjectHasAttribute('id', $course->sessions[1]);
+        $this->assertEquals(2, $course->sessions[1]->id);
+        $this->assertObjectHasAttribute('administrators', $course->sessions[1]);
+        $this->assertCount(0, $course->sessions[1]->administrators);
+    }
 }
