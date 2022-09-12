@@ -24,7 +24,7 @@ jobs:
         with:
           php-version: ${{ env.latest_php }}
           extensions: apcu
-          ini-values: xdebug.mode=coverage,memory_limit=1G
+          ini-values: xdebug.mode=coverage,memory_limit=2G
       - name: install dependencies
         run: composer install --no-interaction --prefer-dist
       - name: create coverage
