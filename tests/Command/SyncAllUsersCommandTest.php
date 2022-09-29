@@ -131,7 +131,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -195,7 +195,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -260,7 +260,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -325,7 +325,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -389,7 +389,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -462,7 +462,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -527,7 +527,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -592,7 +592,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -656,7 +656,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -720,7 +720,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -788,7 +788,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -868,7 +868,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user1, $user2])
             ->once();
         $this->userRepository
@@ -925,7 +925,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -981,7 +981,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -1037,7 +1037,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -1093,7 +1093,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -1211,7 +1211,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user])
             ->once();
         $this->userRepository
@@ -1289,7 +1289,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->mock();
         $this->userRepository
             ->shouldReceive('findBy')
-            ->with(['campusId' => 'abc', 'enabled' => true, 'userSyncIgnore' => false])
+            ->with(['campusId' => 'abc', 'enabled' => true])
             ->andReturn([$user1])
             ->once();
         $this->userRepository->shouldReceive('update')->with($user1, false)->once();

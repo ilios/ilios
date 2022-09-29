@@ -66,7 +66,6 @@ class SyncAllUsersCommand extends Command
                 $users = $this->userRepository->findBy([
                     'campusId' => $recordArray['campusId'],
                     'enabled' => true,
-                    'userSyncIgnore' => false,
                 ]);
                 if (count($users) == 0) {
                     //this shouldn't happen unless the user gets updated between
