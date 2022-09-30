@@ -276,6 +276,7 @@ COPY docker/php-apache-entrypoint /usr/local/bin/
 
 ENV \
 COMPOSER_HOME=/tmp \
+COMPOSER_ALLOW_SUPERUSER=1 \
 APP_ENV=prod \
 APP_DEBUG=false \
 MAILER_DSN=null://null \
