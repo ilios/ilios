@@ -38,6 +38,7 @@ jobs:
     name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         image:
           - php-apache
@@ -50,7 +51,7 @@ jobs:
           - mysql
           - mysql-demo
           - elasticsearch
-           - redis
+          - redis
     steps:
     - uses: actions/checkout@v3
       with:
