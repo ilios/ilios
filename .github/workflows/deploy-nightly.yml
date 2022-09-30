@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '21 10 * * *' # daily, in the morning (UTC)
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
 
 jobs:
   tags:
@@ -35,7 +37,7 @@ jobs:
         echo "::set-output name=patch::${PATCH_VERSION}"
   deploy-docker-containers:
     needs: tags
-    name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
+    name: ${{ matrix.image }} Docker (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -68,7 +70,7 @@ jobs:
       with:
         username: zorgbort
         password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
-    - name: ${{ matrix.image }} to Docker Registry
+    - name: Deploy to Docker Registry
       uses: docker/build-push-action@v3
       with:
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
@@ -76,3 +78,8 @@ jobs:
         target: ${{ matrix.image }}
         push: true
         platforms: linux/amd64,linux/arm64
+    - uses: act10ns/slack@v1.6.0
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: always()
