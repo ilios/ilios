@@ -79,7 +79,7 @@ jobs:
         push: true
         platforms: linux/amd64,linux/arm64
     - uses: act10ns/slack@v1.6.0
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-        if: always()
+      with:
+        status: ${{ job.status }}
+        steps: ${{ toJson(steps) }}
+      if: always()
