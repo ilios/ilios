@@ -10,6 +10,7 @@ env:
   ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
   future_php: 8.2
 
 jobs:
@@ -29,3 +30,8 @@ jobs:
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
       run: vendor/bin/phpunit
+    - uses: act10ns/slack@v1.6.0
+      with:
+        status: ${{ job.status }}
+        message: PHP v${{ env.latest_php }} (future version) tests failed
+      if: failure()

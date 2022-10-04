@@ -13,6 +13,8 @@ env:
   MESSENGER_TRANSPORT_DSN: doctrine://default
   latest_php: 8.1
   DOCKER_BUILDKIT: 1
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
+
 jobs:
   infection:
     name: Infection tests
@@ -37,3 +39,8 @@ jobs:
           name: infection-html
           path: build/coverage/infection.html
           retention-days: 1
+    - uses: act10ns/slack@v1.6.0
+      with:
+        status: ${{ job.status }}
+        message: Infection tests failed
+      if: failure()

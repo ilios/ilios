@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '15 14 * * 1' # weekly, on Monday morning (UTC)
 
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
+
 jobs:
   update:
     name: Tests
@@ -45,3 +48,8 @@ jobs:
           committer: Zorgbort <info@iliosproject.org>
           author: Zorgbort <info@iliosproject.org>
           labels: dependencies
+    - uses: act10ns/slack@v1.6.0
+      with:
+        status: ${{ job.status }}
+        message: Update Dependency Job Failed
+      if: failure()
