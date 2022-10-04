@@ -10,17 +10,19 @@ env:
   ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
+  future_php: 8.2
 
 jobs:
   test:
-    name: Test
+    name: Test PHP v${{ env.latest_php }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Use PHP 8.1
+    - name: Use PHP ${{ env.latest_php }}
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.1
+        php-version: ${{ env.latest_php }}
         coverage: none
         tools: pecl
         extensions: apcu
@@ -28,3 +30,8 @@ jobs:
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
       run: vendor/bin/phpunit
+    - uses: act10ns/slack@v1.6.0
+      with:
+        status: ${{ job.status }}
+        message: PHP v${{ env.latest_php }} (future version) tests failed
+      if: failure()

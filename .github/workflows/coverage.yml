@@ -11,6 +11,8 @@ env:
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
   CC_TEST_REPORTER_ID: c2e072c72320901c23741e4c25bfd28e149441b5a19ba9abb8cf80ca0363ff9a
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
+
 jobs:
   coverage:
     name: Test and Calculate Coverage
@@ -31,3 +33,8 @@ jobs:
         coverageCommand: vendor/bin/phpunit --coverage-clover build/coverage.xml
         coverageLocations:
           build/coverage.xml:clover
+    - uses: act10ns/slack@v1.6.0
+      with:
+        status: ${{ job.status }}
+        message: Code Coverage Job Failed
+      if: failure()
