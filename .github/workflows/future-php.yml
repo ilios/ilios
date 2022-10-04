@@ -10,17 +10,18 @@ env:
   ILIOS_SECRET: ThisTokenIsNotSoSecretChangeIt
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
+  future_php: 8.2
 
 jobs:
   test:
-    name: Test
+    name: Test PHP v${{ env.latest_php }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Use PHP 8.1
+    - name: Use PHP ${{ env.latest_php }}
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.1
+        php-version: ${{ env.latest_php }}
         coverage: none
         tools: pecl
         extensions: apcu
