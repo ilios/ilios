@@ -39,8 +39,8 @@ jobs:
           name: infection-html
           path: build/coverage/infection.html
           retention-days: 1
-    - uses: act10ns/slack@v1.6.0
-      with:
-        status: ${{ job.status }}
-        message: Infection tests failed
-      if: failure()
+      - uses: act10ns/slack@v1.6.0
+        with:
+          status: ${{ job.status }}
+          message: Infection tests failed
+        if: failure()
