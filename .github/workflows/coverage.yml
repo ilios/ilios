@@ -28,7 +28,7 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: calculate
-      uses: paambaati/codeclimate-action@v3.0.0
+      uses: paambaati/codeclimate-action@v3.1.0
       with:
         coverageCommand: vendor/bin/phpunit --coverage-clover build/coverage.xml
         coverageLocations:
