@@ -1,6 +1,7 @@
 name: Infection Test
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '33 3 * * 1' # weekly, on Monday morning
 
