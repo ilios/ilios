@@ -36,5 +36,5 @@ jobs:
     - uses: act10ns/slack@v1.6.0
       with:
         status: ${{ job.status }}
-        message: Code Coverage [Job Failed]({{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }})
+        message: Code Coverage Job Failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
       if: failure()
