@@ -189,3 +189,7 @@ services:
       class: Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
       factory: [ 'App\Service\DynamicCacheFactory', 'getCache' ]
       arguments: ['namespace', '%env(resolve:ILIOS_REDIS_URL)%', '%kernel.environment%', '%kernel.cache_dir%', '%env(base64:ILIOS_CACHE_DECRYPTION_KEY)%']
+
+    sentry.callback.traces_sampler:
+      class: 'App\Service\SentryTraceSampler'
+      factory: [ '@App\Service\SentryTraceSampler', 'getTracesSampler' ]
