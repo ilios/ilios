@@ -6,7 +6,7 @@ when@prod:
         options:
             before_send: 'App\Service\SentryBeforeSend'
             send_default_pii: true
-            traces_sample_rate: 0.1
+            traces_sampler: 'sentry.callback.traces_sampler'
             integrations:
                 - 'Sentry\Integration\IgnoreErrorsIntegration'
         tracing:
