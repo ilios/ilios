@@ -182,16 +182,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.240.5",
+            "version": "3.240.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "7fb4c933795c5908fe5e2cb32913eed608901195"
+                "reference": "84b8229fc25cf787876047b6a73b202209853e79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/7fb4c933795c5908fe5e2cb32913eed608901195",
-                "reference": "7fb4c933795c5908fe5e2cb32913eed608901195",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/84b8229fc25cf787876047b6a73b202209853e79",
+                "reference": "84b8229fc25cf787876047b6a73b202209853e79",
                 "shasum": ""
             },
             "require": {
@@ -270,9 +270,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.240.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.240.10"
             },
-            "time": "2022-10-28T18:17:24+00:00"
+            "time": "2022-11-04T19:25:00+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -739,16 +739,16 @@
         },
         {
             "name": "composer/pcre",
-            "version": "3.0.0",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/pcre.git",
-                "reference": "e300eb6c535192decd27a85bc72a9290f0d6b3bd"
+                "reference": "4482b6409ca6bfc2af043a5711cd21ac3e7a8dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/pcre/zipball/e300eb6c535192decd27a85bc72a9290f0d6b3bd",
-                "reference": "e300eb6c535192decd27a85bc72a9290f0d6b3bd",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/4482b6409ca6bfc2af043a5711cd21ac3e7a8dfb",
+                "reference": "4482b6409ca6bfc2af043a5711cd21ac3e7a8dfb",
                 "shasum": ""
             },
             "require": {
@@ -790,7 +790,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/pcre/issues",
-                "source": "https://github.com/composer/pcre/tree/3.0.0"
+                "source": "https://github.com/composer/pcre/tree/3.0.2"
             },
             "funding": [
                 {
@@ -806,7 +806,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T20:21:48+00:00"
+            "time": "2022-11-03T20:24:16+00:00"
         },
         {
             "name": "composer/semver",
@@ -12459,16 +12459,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.4.10",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "795be27b3b3bacc8353350cacc663ac5cbcd05cc"
+                "reference": "6bd53355eb6505e1a1825f163dced55c240a3102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/795be27b3b3bacc8353350cacc663ac5cbcd05cc",
-                "reference": "795be27b3b3bacc8353350cacc663ac5cbcd05cc",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/6bd53355eb6505e1a1825f163dced55c240a3102",
+                "reference": "6bd53355eb6505e1a1825f163dced55c240a3102",
                 "shasum": ""
             },
             "require": {
@@ -12476,6 +12476,7 @@
                 "ext-json": "*",
                 "php": ">=7.2",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
+                "symfony/deprecation-contracts": "^2 || ^3",
                 "symfony/finder": ">=2.2",
                 "symfony/yaml": ">=3.3"
             },
@@ -12530,9 +12531,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.4.10"
+                "source": "https://github.com/zircote/swagger-php/tree/4.5.0"
             },
-            "time": "2022-10-19T02:28:50+00:00"
+            "time": "2022-11-03T19:42:57+00:00"
         }
     ],
     "packages-dev": [
@@ -13559,16 +13560,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e08de53a5eec983de78a787a88e72518cf8fe43a"
+                "reference": "a59c8b5bfd4a236f27efc8b5ce72c313c2b54b5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e08de53a5eec983de78a787a88e72518cf8fe43a",
-                "reference": "e08de53a5eec983de78a787a88e72518cf8fe43a",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a59c8b5bfd4a236f27efc8b5ce72c313c2b54b5f",
+                "reference": "a59c8b5bfd4a236f27efc8b5ce72c313c2b54b5f",
                 "shasum": ""
             },
             "require": {
@@ -13598,7 +13599,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.0"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.1"
             },
             "funding": [
                 {
@@ -13614,26 +13615,26 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-03T07:26:48+00:00"
+            "time": "2022-11-04T13:35:59+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "1.2.14",
+            "version": "1.2.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "f7dd737329504115adaa987697a759a66dd2ee8a"
+                "reference": "d6ea16206b1b645ded5b43736d8ef5ae1168eb55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/f7dd737329504115adaa987697a759a66dd2ee8a",
-                "reference": "f7dd737329504115adaa987697a759a66dd2ee8a",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/d6ea16206b1b645ded5b43736d8ef5ae1168eb55",
+                "reference": "d6ea16206b1b645ded5b43736d8ef5ae1168eb55",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.8.2"
+                "phpstan/phpstan": "^1.9.1"
             },
             "conflict": {
                 "symfony/framework-bundle": "<3.0"
@@ -13683,9 +13684,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.2.14"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.2.16"
             },
-            "time": "2022-10-05T11:19:29+00:00"
+            "time": "2022-11-04T13:16:15+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -15920,6 +15921,7 @@
         "symfony/yaml": 0,
         "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
+        "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
