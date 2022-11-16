@@ -18,7 +18,7 @@ class SentryTraceSampler
     {
         return function (SamplingContext $context): float {
             $tags = $context->getTransactionContext()->getTags();
-            if (in_array($tags['route'], self::SKIP_ROUTES)) {
+            if (array_key_exists('route', $tags) && in_array($tags['route'], self::SKIP_ROUTES)) {
                 return 0;
             }
             return 0.1;
