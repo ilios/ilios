@@ -33,7 +33,7 @@ jobs:
         coverageCommand: vendor/bin/phpunit --coverage-clover build/coverage.xml
         coverageLocations:
           build/coverage.xml:clover
-    - uses: act10ns/slack@v1.6.0
+    - uses: act10ns/slack@v2.0.0
       with:
         status: ${{ job.status }}
         message: Code Coverage Job Failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
