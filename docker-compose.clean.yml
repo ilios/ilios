@@ -1,0 +1,48 @@
+version: '3.5'
+volumes:
+ db-data:
+services:
+  nginx:
+    ports:
+      - "8000:80"
+  db:
+    image: ilios/ilios-mysql-clean-install
+    ports:
+      - 3306:3306
+      - 33060:33060
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=ilios
+      - MYSQL_USER=ilios
+      - MYSQL_PASSWORD=ilios
+    volumes:
+      - db-data:/var/lib/mysql
+  php:
+    environment:
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
+      - ILIOS_REQUIRE_SECURE_CONNECTION=false
+      - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+      - ILIOS_AUTHENTICATION_TYPE=form
+      - ILIOS_SECRET=lkA$du2d872ldjs89els9qkw0w0
+    depends_on:
+      - db
+  messages:
+    environment:
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
+      - ILIOS_ERROR_CAPTURE_ENABLED=false
+      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+    depends_on:
+        - db
+  elasticsearch:
+    image: ilios/elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+  redis:
+    image: ilios/redis
+    ports:
+      - "6379:6379"
