@@ -89,7 +89,7 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
     {
         // `id`, `name`,`value`
         $entity = new ApplicationConfig();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setName($data[1]);
         $entity->setValue($data[2]);
         $this->importEntity($entity);

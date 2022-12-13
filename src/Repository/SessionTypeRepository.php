@@ -251,7 +251,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
     {
         // `session_type_id`,`title`,`school_id`,`calendar_color`,`assessment`,`assessment_option_id`, `active`
         $entity = new SessionType();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setTitle($data[1]);
         $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[2]]);
         $entity->setCalendarColor($data[3]);

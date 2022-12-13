@@ -104,7 +104,7 @@ class VocabularyRepository extends ServiceEntityRepository implements
     {
         // `vocabulary_id`,`title`,`school_id`, `active`
         $entity = new Vocabulary();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setTitle($data[1]);
         $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[2]]);
         $entity->setActive((bool) $data[3]);

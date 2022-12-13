@@ -335,7 +335,7 @@ class TermRepository extends ServiceEntityRepository implements
     {
         // `term_id`,`title`,`parent_term_id`, `description`, `vocabulary_id`, `active`
         $entity = new Term();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setTitle($data[1]);
         if (! empty($data[2])) {
             $entity->setParent($referenceMap[$type . $data[2]]);

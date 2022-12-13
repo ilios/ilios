@@ -62,7 +62,7 @@ class LearningMaterialStatusRepository extends ServiceEntityRepository implement
     {
         // `learning_material_status_id`,`title`
         $entity = new LearningMaterialStatus();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setTitle($data[1]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;

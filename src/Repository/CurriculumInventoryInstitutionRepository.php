@@ -94,7 +94,7 @@ class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository i
         $entity->setAddressStateOrProvince($data[5]);
         $entity->setAddressZipCode($data[6]);
         $entity->setAddressCountryCode($data[7]);
-        $entity->setId($data[8]);
+        $entity->setId((int) $data[8]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;

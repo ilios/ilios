@@ -81,7 +81,7 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
     {
         // `course_clerkship_type_id`,`title`
         $entity = new CourseClerkshipType();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setTitle($data[1]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;

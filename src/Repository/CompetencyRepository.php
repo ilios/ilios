@@ -196,7 +196,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
     {
         // `competency_id`,`title`,`parent_competency_id`,`school_id`, `active`
         $entity = new Competency();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setTitle($data[1]);
         if (! empty($data[2])) {
             $entity->setParent($referenceMap[$type . $data[2]]);

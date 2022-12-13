@@ -76,7 +76,7 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
     {
         // `alert_change_type_id`,`title`
         $entity = new AlertChangeType();
-        $entity->setId($data[0]);
+        $entity->setId((int) $data[0]);
         $entity->setTitle($data[1]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
