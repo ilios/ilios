@@ -555,7 +555,7 @@ class SchoolRepository extends ServiceEntityRepository implements
     {
         // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`
         $entity = new School();
-        $entity->setId((int) $data[0]);
+        $entity->setId($data[0]);
         $entity->setTemplatePrefix($data[1]);
         $entity->setTitle($data[2]);
         $entity->setIliosAdministratorEmail($data[3]);

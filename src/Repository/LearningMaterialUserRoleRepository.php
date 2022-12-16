@@ -63,7 +63,7 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
     {
         // `learning_material_user_role_id`,`title`
         $entity = new LearningMaterialUserRole();
-        $entity->setId((int) $data[0]);
+        $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;

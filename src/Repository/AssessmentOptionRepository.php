@@ -76,7 +76,7 @@ class AssessmentOptionRepository extends ServiceEntityRepository implements
     {
         // `assessment_option_id`,`name`
         $entity = new AssessmentOption();
-        $entity->setId((int) $data[0]);
+        $entity->setId($data[0]);
         $entity->setName($data[1]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;

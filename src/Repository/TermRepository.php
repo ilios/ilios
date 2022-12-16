@@ -335,14 +335,14 @@ class TermRepository extends ServiceEntityRepository implements
     {
         // `term_id`,`title`,`parent_term_id`, `description`, `vocabulary_id`, `active`
         $entity = new Term();
-        $entity->setId((int) $data[0]);
+        $entity->setId($data[0]);
         $entity->setTitle($data[1]);
         if (! empty($data[2])) {
             $entity->setParent($referenceMap[$type . $data[2]]);
         }
         $entity->setDescription($data[3]);
         $entity->setVocabulary($referenceMap[DefaultDataImporter::VOCABULARY . $data[4]]);
-        $entity->setActive((bool) $data[5]);
+        $entity->setActive($data[5]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
