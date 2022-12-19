@@ -202,7 +202,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
             $entity->setParent($referenceMap[$type . $data[2]]);
         }
         $entity->setSchool($referenceMap[DefaultDataImporter::SCHOOL . $data[3]]);
-        $entity->setActive((bool) $data[4]);
+        $entity->setActive($data[4]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;

@@ -80,7 +80,7 @@ class AamcMethodRepository extends ServiceEntityRepository implements
         $entity = new AamcMethod();
         $entity->setId($data[0]);
         $entity->setDescription($data[1]);
-        $entity->setActive((bool) $data[2]);
+        $entity->setActive($data[2]);
         $this->importEntity($entity);
         $referenceMap[$type . $entity->getId()] = $entity;
         return $referenceMap;
