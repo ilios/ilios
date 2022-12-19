@@ -55,7 +55,6 @@ trait GetEndpointTestable
         }
         if (empty($filterParts)) {
             $this->markTestSkipped('Missing filters tests for this endpoint');
-            return;
         }
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -65,6 +64,32 @@ trait GetEndpointTestable
             $filters["filters[{$key}]"] = $value;
         }
         $this->filterTest($filters, $expectedData);
+    }
+
+    /**
+     * @dataProvider graphQLFiltersToTest
+     */
+    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
+    {
+        if (!property_exists($this, 'isGraphQLTestable') || !$this->isGraphQLTestable) {
+            $this->markTestSkipped();
+        }
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
+        if (empty($filterParts)) {
+            $this->markTestSkipped('Missing filters tests for this endpoint');
+        }
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $idField = $dataLoader->getIdField();
+        $expectedIds = array_map(fn($i) => (string) $all[$i][$idField], $dataKeys);
+        $this->graphQLFilterTest($filterParts, $expectedIds);
+    }
+
+    public function graphQLFiltersToTest(): array
+    {
+        return $this->filtersToTest();
     }
 
     public function testAccessDenied()
