@@ -91,14 +91,14 @@ class DirectoryTest extends TestCase
         $firstFilters = '(|';
         for ($i = 0; $i < 50; $i++) {
             $ids[] = $i;
-            $firstFilters .= "(campusId=${i})";
+            $firstFilters .= "(campusId={$i})";
         }
         $firstFilters .= ')';
 
         $secondFilters = '(|';
         for ($i = 50; $i < 100; $i++) {
             $ids[] = $i;
-            $secondFilters .= "(campusId=${i})";
+            $secondFilters .= "(campusId={$i})";
         }
         $secondFilters .= ')';
 

@@ -37,7 +37,7 @@ class Curriculum extends ElasticSearchBase
             $carry[$field] = [
                 'prefix' => $query,
                 'completion' => [
-                    'field' => "${field}.cmp",
+                    'field' => "{$field}.cmp",
                     'skip_duplicates' => true,
                 ]
             ];
@@ -105,7 +105,7 @@ class Curriculum extends ElasticSearchBase
             $clean = array_filter($errors);
             $str = join(';', array_unique($clean));
             $count = count($clean);
-            throw new Exception("Failed to index all courses ${count} errors. Error text: ${str}");
+            throw new Exception("Failed to index all courses {$count} errors. Error text: {$str}");
         }
 
         return true;
@@ -291,7 +291,7 @@ class Curriculum extends ElasticSearchBase
             $shouldFields,
             function (array $carry, string $field) use ($query) {
                 $matches = array_map(function (string $type) use ($field, $query) {
-                    $fullField = "${field}.${type}";
+                    $fullField = "{$field}.{$type}";
                     return [ 'match' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
                 }, ['english', 'raw']);
 

@@ -96,7 +96,7 @@ class AbstractBase extends TestCase
         $token = $this->createMockTokenWithSessionUser($sessionUser);
         foreach ($entityAttrs as $attr) {
             $response = $this->voter->vote($token, $mockEntity, [$attr]);
-            $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${attr} allowed");
+            $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "{$attr} allowed");
         }
     }
 

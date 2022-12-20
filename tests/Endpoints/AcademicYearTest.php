@@ -63,7 +63,7 @@ class AcademicYearTest extends ReadEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 ['version' => $this->apiVersion]
             ),
             null,

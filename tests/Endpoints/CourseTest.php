@@ -694,7 +694,7 @@ class CourseTest extends ReadWriteEndpointTest
             'terms.vocabulary',
             'meshDescriptors.trees',
         ];
-        $sessionIncludes = array_reduce($sessionRelationships, fn($carry, $item) => "${carry}sessions.${item},", '');
+        $sessionIncludes = array_reduce($sessionRelationships, fn($carry, $item) => "{$carry}sessions.{$item},", '');
 
         $includes = $this->getJsonApiIncludes(
             'courses',
@@ -781,8 +781,7 @@ class CourseTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' =>
-                "query { courses(id: [${data['id']}]) { id, school { id }, sessions { id, administrators { id }} }}"
+                'query' => "query { courses(id: [{$data['id']}]) { id, sessions { id, administrators { id }} }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -826,7 +825,7 @@ class CourseTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { courses(id: [${data['id']}]) { id, sessions { id, administrators { id }} }}"
+                'query' => "query { courses(id: [{$data['id']}]) { id, sessions { id, administrators { id }} }}"
             ]),
             $this->getTokenForUser($this->kernelBrowser, 5)
         );

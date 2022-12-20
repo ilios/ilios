@@ -460,7 +460,7 @@ class CourseRolloverTest extends TestCase
                 } elseif ($newStartWeekOfYear < $oldStartWeekOfYear) {
                     /* @link http://stackoverflow.com/a/21480444 */
                     $yearPreviousToNewYear = $newStart->format('Y') - 1;
-                    $weeksInPreviousYear = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                    $weeksInPreviousYear = (int) (new DateTime("December 28th, {$yearPreviousToNewYear}"))->format('W');
                     $weeksDiff = ($weeksInPreviousYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
                 }
                 return (
@@ -481,7 +481,7 @@ class CourseRolloverTest extends TestCase
                 $weeksDiff = $newEndWeekOfYear - $oldEndWeekOfYear;
             } elseif ($newEndWeekOfYear < $oldEndWeekOfYear) {
                 $yearPreviousToNewYear = $newEnd->format('Y') - 1;
-                $weeksInPreviousYear = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                $weeksInPreviousYear = (int) (new DateTime("December 28th, {$yearPreviousToNewYear}"))->format('W');
                 $weeksDiff = ($weeksInPreviousYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
             }
             return (
@@ -509,7 +509,7 @@ class CourseRolloverTest extends TestCase
                     } elseif ($newStartWeekOfYear < $oldStartWeekOfYear) {
                         $yearPreviousToNewYear = $newStart->format('Y') - 1;
                         $weeksInPreviousYear
-                            = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                            = (int) (new DateTime("December 28th, {$yearPreviousToNewYear}"))->format('W');
                         $weeksDiff = ($weeksInPreviousYear - $oldStartWeekOfYear) + $newStartWeekOfYear;
                     }
                     return (
@@ -529,7 +529,7 @@ class CourseRolloverTest extends TestCase
                     } elseif ($newEndWeekOfYear < $oldEndWeekOfYear) {
                         $yearPreviousToNewYear = $newEnd->format('Y') - 1;
                         $weeksInPreviousYear
-                            = (int) (new DateTime("December 28th, ${yearPreviousToNewYear}"))->format('W');
+                            = (int) (new DateTime("December 28th, {$yearPreviousToNewYear}"))->format('W');
                         $weeksDiff = ($weeksInPreviousYear - $oldEndWeekOfYear) + $newEndWeekOfYear;
                     }
                     return (

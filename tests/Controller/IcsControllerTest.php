@@ -254,7 +254,7 @@ class IcsControllerTest extends WebTestCase
         $format = $today->format('Ymd');
 
         $this->assertMatchesRegularExpression(
-            "#http://localhost/events/U${format}O2#",
+            "#http://localhost/events/U{$format}O2#",
             $firstDescription,
             'Event Links are absolute paths'
         );
@@ -268,7 +268,7 @@ class IcsControllerTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_post",
+                "app_api_{$endpoint}_post",
                 ['version' => $this->apiVersion]
             ),
             json_encode([$key => [$postData]]),

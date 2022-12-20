@@ -237,8 +237,8 @@ class ReportRolloverTest extends TestCase
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', null);
         $year = $report->getYear();
         $followingYear = $year + 1;
-        $this->assertEquals("07/01/${year}", $newReport->getStartDate()->format('m/d/Y'));
-        $this->assertEquals("06/30/${followingYear}", $newReport->getEndDate()->format('m/d/Y'));
+        $this->assertEquals("07/01/{$year}", $newReport->getStartDate()->format('m/d/Y'));
+        $this->assertEquals("06/30/{$followingYear}", $newReport->getEndDate()->format('m/d/Y'));
     }
 
     /**

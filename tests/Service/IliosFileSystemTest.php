@@ -210,9 +210,9 @@ class IliosFileSystemTest extends TestCase
     {
         $hash = md5_file(__FILE__);
         $testContents = file_get_contents(__FILE__);
-        $this->fileSystem->shouldReceive('fileExists')->with("tmp/${hash}")->andReturn(true);
-        $this->fileSystem->shouldReceive('read')->with("tmp/${hash}")->andReturn($testContents);
-        $this->fileSystem->shouldReceive('delete')->with("tmp/${hash}");
+        $this->fileSystem->shouldReceive('fileExists')->with("tmp/{$hash}")->andReturn(true);
+        $this->fileSystem->shouldReceive('read')->with("tmp/{$hash}")->andReturn($testContents);
+        $this->fileSystem->shouldReceive('delete')->with("tmp/{$hash}");
         $contents = $this->iliosFileSystem->getUploadedTemporaryFileContentsAndRemoveFile($hash);
         $this->assertSame($contents, $testContents);
     }

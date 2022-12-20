@@ -115,7 +115,7 @@ class DTOCacheManager
     {
         // backslashes aren't allowed in tags, remove them from our name
         $name = str_replace('\\', '', $entity);
-        return $name . ($id ? "-${id}" : '');
+        return $name . ($id ? "-{$id}" : '');
     }
 
     /**

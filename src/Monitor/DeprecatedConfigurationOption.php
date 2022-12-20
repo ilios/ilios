@@ -33,7 +33,7 @@ class DeprecatedConfigurationOption implements CheckInterface
             if (!is_null($value)) {
                 if ($shouldFail) {
                     return new Failure(
-                        "'${key}' has been removed."
+                        "'{$key}' has been removed."
                         . $this->getUpdateDocs()
                     );
                 } else {

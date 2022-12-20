@@ -165,7 +165,7 @@ abstract class AbstractEndpointTest extends WebTestCase
                 }
             } else {
                 $this->assertArrayHasKey($key, $expected);
-                $this->assertEquals($expected[$key], $value, "'${key}' doesn't match");
+                $this->assertEquals($expected[$key], $value, "'{$key}' doesn't match");
             }
         }
     }
@@ -299,7 +299,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $version = $version ?: $this->apiVersion;
         $url = $this->getUrl(
             $this->kernelBrowser,
-            "app_api_${endpoint}_getone",
+            "app_api_{$endpoint}_getone",
             ['version' => $version, 'id' => $id]
         );
         $this->createJsonRequest(
@@ -329,7 +329,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
-            "app_api_${endpoint}_getone",
+            "app_api_{$endpoint}_getone",
             ['version' => $this->apiVersion, 'id' => $id]
         );
         $this->createJsonApiRequest(
@@ -375,7 +375,7 @@ abstract class AbstractEndpointTest extends WebTestCase
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
-            "app_api_${endpoint}_getone",
+            "app_api_{$endpoint}_getone",
             ['version' => $this->apiVersion, 'id' => $id, 'include' => $include]
         );
         $this->createJsonApiRequest(
@@ -411,7 +411,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 ['version' => $this->apiVersion]
             ),
             null,
@@ -449,7 +449,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 ['version' => $this->apiVersion, 'limit' => 1, 'offset' => 0]
             ),
             null,
@@ -486,7 +486,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 ['version' => $this->apiVersion]
             ),
             null,
@@ -533,7 +533,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 ['version' => $this->apiVersion, 'limit' => 1, 'offset' => 0]
             ),
             null,
@@ -576,7 +576,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $data = $loader->getAll();
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { ${name} { ${fields} }}"
+                'query' => "query { {$name} { {$fields} }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -623,7 +623,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { ${name}(${idField}: [${idValue}]) { ${idField} }}"
+                'query' => "query { {$name}({$idField}: [{$idValue}]) { {$idField} }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -793,7 +793,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_post",
+                "app_api_{$endpoint}_post",
                 ['version' => $version]
             ),
             json_encode([$postKey => $postData]),
@@ -815,7 +815,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_post",
+                "app_api_{$endpoint}_post",
                 ['version' => $this->apiVersion]
             ),
             json_encode($postData),
@@ -846,7 +846,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_post",
+                "app_api_{$endpoint}_post",
                 ['version' => $version]
             ),
             json_encode([$responseKey => $postData]),
@@ -868,7 +868,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_post",
+                "app_api_{$endpoint}_post",
                 ['version' => $this->apiVersion]
             ),
             json_encode($postData),
@@ -901,7 +901,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_post",
+                "app_api_{$endpoint}_post",
                 ['version' => $this->apiVersion]
             ),
             json_encode([$responseKey => [$data]]),
@@ -924,7 +924,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_post",
+                "app_api_{$endpoint}_post",
                 ['version' => $this->apiVersion]
             ),
             json_encode([$responseKey => [$data]]),
@@ -948,7 +948,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_put",
+                "app_api_{$endpoint}_put",
                 ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode([$responseKey => [$data]]),
@@ -971,7 +971,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_put",
+                "app_api_{$endpoint}_put",
                 ['version' => $this->apiVersion, 'id' => $data['id']]
             ),
             json_encode([$responseKey => [$data]]),
@@ -1061,7 +1061,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_put",
+                "app_api_{$endpoint}_put",
                 ['version' => $version, 'id' => $id]
             ),
             json_encode([$responseKey => $data]),
@@ -1084,7 +1084,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'PATCH',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_patch",
+                "app_api_{$endpoint}_patch",
                 ['version' => $this->apiVersion, 'id' => $data->data->id]
             ),
             json_encode($data),
@@ -1138,7 +1138,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'PATCH',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_patch",
+                "app_api_{$endpoint}_patch",
                 ['version' => $this->apiVersion, 'id' => $data['id']]
             ),
             json_encode([$responseKey => [$data]]),
@@ -1175,7 +1175,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_delete",
+                "app_api_{$endpoint}_delete",
                 ['version' => $version, 'id' => $id]
             ),
             null,
@@ -1201,7 +1201,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getone",
+                "app_api_{$endpoint}_getone",
                 ['version' => $this->apiVersion, 'id' => $badId]
             ),
             null,
@@ -1225,7 +1225,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getone",
+                "app_api_{$endpoint}_getone",
                 ['version' => $this->apiVersion, 'id' => $data['id']]
             ),
         );
@@ -1246,7 +1246,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 ['version' => $this->apiVersion]
             ),
         );
@@ -1299,7 +1299,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 $parameters
             ),
             null,
@@ -1347,7 +1347,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 $parameters
             ),
             null,
@@ -1376,7 +1376,7 @@ abstract class AbstractEndpointTest extends WebTestCase
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 $parameters
             ),
             null,

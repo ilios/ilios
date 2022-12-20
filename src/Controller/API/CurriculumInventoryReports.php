@@ -464,7 +464,7 @@ class CurriculumInventoryReports extends AbstractApiController
             /* @var ProgramInterface $program */
             $program = $this->programRepository->findOneById($programId);
             if (! $program) {
-                throw new InvalidInputWithSafeUserMessageException("no program with id = ${programId} exists.");
+                throw new InvalidInputWithSafeUserMessageException("no program with id = {$programId} exists.");
             }
         }
 

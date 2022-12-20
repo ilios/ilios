@@ -42,7 +42,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         /* @var CurriculumInventoryReportInterface $report */
         $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
-            $output->writeln("<error>No report with id #${reportId} was found.</error>");
+            $output->writeln("<error>No report with id #{$reportId} was found.</error>");
             return Command::FAILURE;
         }
 
@@ -117,8 +117,8 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $summaryRow = [
             '',
             '<options=bold>TOTAL</>',
-            "<options=bold>${primaryMethodTotal}</>",
-            "<options=bold>${nonPrimaryMethodTotal}</>"
+            "<options=bold>{$primaryMethodTotal}</>",
+            "<options=bold>{$nonPrimaryMethodTotal}</>"
         ];
         $table->addRow($summaryRow);
         $table->render();
@@ -145,8 +145,8 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $summaryRow = [
             '',
             '<options=bold>TOTAL</>',
-            "<options=bold>${summativeAssessmentsTotal}</>",
-            "<options=bold>${formativeAssessmentsTotal}</>"
+            "<options=bold>{$summativeAssessmentsTotal}</>",
+            "<options=bold>{$formativeAssessmentsTotal}</>"
         ];
         $table->addRow($summaryRow);
         $table->render();
@@ -243,8 +243,8 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->addRow(
             array_merge(
                 ['<options=bold>TOTAL</>', ''],
-                array_map(fn($total) => "<options=bold>${total}</>", $totals),
-                [ "<options=bold>${sumTotal}</>" ]
+                array_map(fn($total) => "<options=bold>{$total}</>", $totals),
+                [ "<options=bold>{$sumTotal}</>" ]
             )
         );
 
@@ -347,7 +347,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
     protected function printTableHeadline(OutputInterface $output, $title): void
     {
         $output->writeln('');
-        $output->writeln("<options=bold,underscore>${title}</>");
+        $output->writeln("<options=bold,underscore>{$title}</>");
         $output->writeln('');
     }
 }

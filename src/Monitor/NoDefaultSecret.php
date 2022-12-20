@@ -37,7 +37,7 @@ class NoDefaultSecret implements CheckInterface
 
         if (in_array(trim(strtolower($secret)), $badSecrets)) {
             return new Failure(
-                "\nILIOS_SECRET: Set to a ${secret}. This isn't safe and should be changed"
+                "\nILIOS_SECRET: Set to a {$secret}. This isn't safe and should be changed"
             );
         }
 

@@ -24,7 +24,7 @@ class Mesh extends ElasticSearchBase
             'body' => [
                 'query' => [
                     'query_string' => [
-                        'query' => "*${query}*",
+                        'query' => "*{$query}*",
                     ]
                 ],
                 "_source" => [

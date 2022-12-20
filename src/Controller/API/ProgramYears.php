@@ -437,7 +437,7 @@ class ProgramYears extends AbstractApiController
 
         /* @var CohortInterface $cohort */
         $cohort = $this->cohortRepository->create();
-        $cohort->setTitle("Class of ${graduationYear}");
+        $cohort->setTitle("Class of {$graduationYear}");
         $cohort->setProgramYear($programYear);
         $programYear->setCohort($cohort);
 

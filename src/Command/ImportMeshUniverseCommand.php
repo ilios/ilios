@@ -77,22 +77,22 @@ class ImportMeshUniverseCommand extends Command
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
         $uri = $this->getUri($input);
-        $output->writeln("1/${steps}: Parsing MeSH XML retrieved from ${uri}.");
+        $output->writeln("1/{$steps}: Parsing MeSH XML retrieved from {$uri}.");
         $descriptorSet = $this->parser->parse($uri);
         $descriptorIds = $descriptorSet->getDescriptorUis();
-        $output->writeln("2/${steps}: Clearing database of existing MeSH data.");
+        $output->writeln("2/{$steps}: Clearing database of existing MeSH data.");
         $this->repository->clearExistingData();
         $existingDescriptors = $this->repository->findDTOsBy([]);
         $existingDescriptorIds = array_column($existingDescriptors, 'id');
         $updateDescriptorIds = array_intersect($existingDescriptorIds, $descriptorIds);
         $deletedDescriptorIds = array_diff($existingDescriptorIds, $descriptorIds);
-        $output->writeln("3/${steps}: Importing MeSH data into database.");
+        $output->writeln("3/{$steps}: Importing MeSH data into database.");
         $this->repository->upsertMeshUniverse($descriptorSet, $updateDescriptorIds);
-        $output->writeln("4/${steps}: Flagging orphaned MeSH descriptors as deleted.");
+        $output->writeln("4/{$steps}: Flagging orphaned MeSH descriptors as deleted.");
         $this->repository->flagDescriptorsAsDeleted($deletedDescriptorIds);
 
         if ($this->meshIndex->isEnabled()) {
-            $output->writeln("5/${steps}: Adding MeSH data to the search index.");
+            $output->writeln("5/{$steps}: Adding MeSH data to the search index.");
             $allDescriptors = $descriptorSet->getDescriptors();
             $progressBar = new ProgressBar($output, count($allDescriptors));
             $progressBar->setMessage('Adding MeSH...');
@@ -109,7 +109,7 @@ class ImportMeshUniverseCommand extends Command
         $endTime = time();
         $duration = $endTime - $startTime;
         $output->writeln('');
-        $output->writeln("Finished MeSH universe import in ${duration} seconds.");
+        $output->writeln("Finished MeSH universe import in {$duration} seconds.");
         $this->release();
 
         return 0;

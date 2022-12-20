@@ -239,7 +239,7 @@ EOL;
             $column = $meta->getColumnName($name);
             $label = ':param' . $i;
             if (is_array($value)) {
-                $labels = array_map(fn($j) => "${label}_${j}", range(0, count($value) - 1));
+                $labels = array_map(fn($j) => "{$label}_{$j}", range(0, count($value) - 1));
                 $params[$name] = $labels;
                 $sqlFragments[] = "{$column} IN (" . implode(', ', $labels) . ")";
             } else {
@@ -643,7 +643,7 @@ EOL;
     protected function joinResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
+        $qb->select("f.id AS fromId, {$select}")->from($from, 'f')
             ->join("f.{$rel}", 'r')
             ->where($qb->expr()->in('f.id', ':ids'))
             ->setParameter('ids', $ids);
@@ -661,7 +661,7 @@ EOL;
     protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select("f.id AS fromId, ${select}")->from($from, 'f')
+        $qb->select("f.id AS fromId, {$select}")->from($from, 'f')
             ->join("f.{$rel}", 'o')
             ->where($qb->expr()->in('f.id', ':ids'))
             ->setParameter('ids', $ids);

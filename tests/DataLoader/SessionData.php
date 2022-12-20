@@ -114,7 +114,7 @@ class SessionData extends AbstractDataLoader
                 'instructionalNotes' => 'foo bar',
                 'sessionType' => 1,
                 'course' => 2,
-                'ilmSession' => "${ilmSession}",
+                'ilmSession' => "{$ilmSession}",
                 'terms' => [],
                 'sessionObjectives' => [],
                 'meshDescriptors' => [],

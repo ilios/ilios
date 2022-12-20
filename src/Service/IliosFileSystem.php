@@ -235,9 +235,9 @@ class IliosFileSystem
                 $this->fileSystem->delete($relativePath);
                 return $result;
             } catch (UnableToReadFile) {
-                throw new Exception("Unable to read temporary file ${hash}");
+                throw new Exception("Unable to read temporary file {$hash}");
             } catch (UnableToDeleteFile) {
-                throw new Exception("Unable to delete temporary file ${hash}");
+                throw new Exception("Unable to delete temporary file {$hash}");
             }
         }
 

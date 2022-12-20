@@ -71,7 +71,7 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
                     $errorValue = null == $value ? 'null' : $value;
                     $this->logger->error(
                         'Denormalization error ' . self::class . ' line ' . __LINE__ . ': ' .
-                        "Unable to set '${name}' to '${errorValue}' on '${type}'.  Message: " .
+                        "Unable to set '{$name}' to '{$errorValue}' on '{$type}'.  Message: " .
                         $exception->getMessage()
                     );
                 }

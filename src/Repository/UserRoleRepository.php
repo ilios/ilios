@@ -62,10 +62,10 @@ class UserRoleRepository extends ServiceEntityRepository implements
             if (array_key_exists($rel, $criteria)) {
                 $ids = is_array($criteria[$rel]) ?
                     $criteria[$rel] : [$criteria[$rel]];
-                $alias = "alias_${rel}";
-                $param = ":${rel}";
-                $qb->join("x.${rel}", $alias);
-                $qb->andWhere($qb->expr()->in("${alias}.id", $param));
+                $alias = "alias_{$rel}";
+                $param = ":{$rel}";
+                $qb->join("x.{$rel}", $alias);
+                $qb->andWhere($qb->expr()->in("{$alias}.id", $param));
                 $qb->setParameter($param, $ids);
             }
             unset($criteria[$rel]);

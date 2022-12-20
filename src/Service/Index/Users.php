@@ -78,7 +78,7 @@ class Users extends ElasticSearchBase
             $carry[$field] = [
                 'prefix' => $query,
                 'completion' => [
-                    'field' => "${field}",
+                    'field' => "{$field}",
                     'skip_duplicates' => true,
                 ]
             ];

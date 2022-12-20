@@ -90,7 +90,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("Started MeSH universe import, this will take a while...", $output);
-        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
         $this->assertStringContainsString("2/4: Clearing database of existing MeSH data.", $output);
         $this->assertStringContainsString("3/4: Importing MeSH data into database.", $output);
         $this->assertStringContainsString("4/4: Flagging orphaned MeSH descriptors as deleted.", $output);
@@ -116,7 +116,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${path}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$path}.", $output);
     }
 
     /**
@@ -138,7 +138,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
     /**
@@ -161,7 +161,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
     /**
@@ -184,7 +184,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ]
         );
         $output = $this->commandTester->getDisplay();
-        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
     /**
@@ -237,7 +237,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("Started MeSH universe import, this will take a while...", $output);
-        $this->assertStringContainsString("1/5: Parsing MeSH XML retrieved from ${url}.", $output);
+        $this->assertStringContainsString("1/5: Parsing MeSH XML retrieved from {$url}.", $output);
         $this->assertStringContainsString("2/5: Clearing database of existing MeSH data.", $output);
         $this->assertStringContainsString("3/5: Importing MeSH data into database.", $output);
         $this->assertStringContainsString("4/5: Flagging orphaned MeSH descriptors as deleted.", $output);

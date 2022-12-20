@@ -45,7 +45,7 @@ trait ApiEntityValidation
         foreach ($validator->validate($entity) as $violation) {
             $property = $violation->getPropertyPath();
             $message = $violation->getMessage();
-            $errors[] = "Error in *${property}*: ${message}";
+            $errors[] = "Error in *{$property}*: {$message}";
         }
         if (count($errors)) {
             $errorsString = implode("\n", $errors);

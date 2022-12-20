@@ -69,10 +69,10 @@ class SetConfigValueCommand extends Command
         if ($isRemoving) {
             if ($config) {
                 $this->applicationConfigRepository->delete($config);
-                $output->writeln("${name} removed.");
+                $output->writeln("{$name} removed.");
                 return Command::SUCCESS;
             } else {
-                $output->writeln("<error>There was no value in the databse for ${name}</error>");
+                $output->writeln("<error>There was no value in the databse for {$name}</error>");
                 return Command::FAILURE;
             }
         }

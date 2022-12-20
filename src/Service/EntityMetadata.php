@@ -165,7 +165,7 @@ class EntityMetadata
                 fn (ReflectionProperty $property) => $property->getAttributes(Id::class) !== []
             );
             if (!$ids) {
-                throw new Exception("${className} has no property annotated with @Id");
+                throw new Exception("{$className} has no property annotated with @Id");
             }
 
             $this->idForClasses[$className] = array_values($ids)[0]->getName();
@@ -223,13 +223,13 @@ class EntityMetadata
             $attributes = $reflection->getAttributes(DTO::class);
             if ($attributes === []) {
                 throw new Exception(
-                    "Missing Type attribute ${className} DTO Attribute"
+                    "Missing Type attribute {$className} DTO Attribute"
                 );
             }
             $arguments = $attributes[0]->getArguments();
             if ($arguments === []) {
                 throw new Exception(
-                    "Missing Type argument on ${className} DTO Attribute"
+                    "Missing Type argument on {$className} DTO Attribute"
                 );
             }
             $type = $arguments[0];
@@ -280,13 +280,13 @@ class EntityMetadata
             $attributes = $property->getAttributes(Type::class);
             if ($attributes === []) {
                 throw new Exception(
-                    "Missing Type attribute on ${className}::${propertyName}"
+                    "Missing Type attribute on {$className}::{$propertyName}"
                 );
             }
             $arguments = $attributes[0]->getArguments();
             if ($arguments === []) {
                 throw new Exception(
-                    "Missing Type argument on ${className}::${$propertyName}"
+                    "Missing Type argument on {$className}::{$propertyName}"
                 );
             }
             $this->typeForProperties[$key] = $arguments[0];
@@ -325,7 +325,7 @@ class EntityMetadata
     public function getEntityForType(string $type): string
     {
         if (!array_key_exists($type, $this->entityTypes)) {
-            throw new Exception("Invalid Type. No DTO for ${type}");
+            throw new Exception("Invalid Type. No DTO for {$type}");
         }
 
         return $this->entityTypes[$type];
@@ -392,7 +392,7 @@ class EntityMetadata
 
             //drop DTO suffix from the name
             $name = substr($className, 15, -3);
-            $class = "App\\Entity\\${name}";
+            $class = "App\\Entity\\{$name}";
             if (class_exists($class, false)) {
                 $rhett[$type] = $class;
             }

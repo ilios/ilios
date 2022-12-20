@@ -30,14 +30,14 @@ class PhpConfiguration implements CheckInterface
             $value = (int) ini_get($option);
             if ($value < $required) {
                 return new Warning(
-                    "`${option}` set to `${value}`. That is too low, should be at least `${required}`"
+                    "`{$option}` set to `{$value}`. That is too low, should be at least `{$required}`"
                 );
             }
         }
         $maxExecutionTimeConfig = (int) ini_get('max_execution_time');
         if ($maxExecutionTimeConfig !== 0 && $maxExecutionTimeConfig < 300) {
             return new Warning(
-                "`max_execution_time` set to `${maxExecutionTimeConfig}`. " .
+                "`max_execution_time` set to `{$maxExecutionTimeConfig}`. " .
                 "That is too low, should be at least `300`"
             );
         }
