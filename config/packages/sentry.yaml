@@ -18,6 +18,7 @@ when@prod:
                 $options:
                     ignore_exceptions:
                         - Symfony\Component\Security\Core\Exception\AccessDeniedException
+                        - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 
 #    If you are using Monolog, you also need these additional configuration and services to log the errors correctly:
 #    https://docs.sentry.io/platforms/php/guides/symfony/#monolog-integration
