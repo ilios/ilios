@@ -37,14 +37,18 @@ class TypeResolver
         if ($source) {
             //we have already fetched an object and just need to fetch
             //things related to it
-            $ids = $source->{$fieldName};
-            $this->buffer->bufferRequest($type, $ids);
-            $filter = [$this, 'filterValues'];
-            $buffer = $this->buffer;
-            return new Deferred(function () use ($buffer, $filter, $type, $ids) {
-                $values = $buffer->getValuesForType($type, $ids);
-                return call_user_func($filter, $values);
-            });
+            $value = $source->$fieldName;
+            if (is_array($value)) {// one-to-many and many-to-many relationships are arrays
+                $this->buffer->bufferRequest($type, $value);
+                return new Deferred(
+                    fn() => call_user_func([$this, 'filterValues'], $this->buffer->getValuesForType($type, $value))
+                );
+            } else {// one-to-one and many-to-one relationships are a single value
+                $this->buffer->bufferRequest($type, [$value]);
+                return new Deferred(
+                    fn() => call_user_func([$this, 'authorizeValue'], $this->buffer->getValueForType($type, $value))
+                );
+            }
         }
 
         //we can pass $ars directly because our GraphQL library will reject
@@ -61,6 +65,15 @@ class TypeResolver
         } else {
             return $this->dtoInfo->getRefForType($fieldName);
         }
+    }
+
+    protected function authorizeValue(object $value): ?object
+    {
+        if ($this->authorizationChecker->isGranted(AbstractVoter::VIEW, $value)) {
+            return $value;
+        }
+
+        return null;
     }
 
     protected function filterValues(array $values): array

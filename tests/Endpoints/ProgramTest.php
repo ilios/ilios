@@ -167,4 +167,28 @@ class ProgramTest extends ReadWriteEndpointTest
             )
         );
     }
+    public function testGraphQLIncludedData()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { programs(id: [${data['id']}]) { id, school { id } }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertGraphQLResponse($response);
+        $content = json_decode($response->getContent());
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->programs);
+        $this->assertCount(1, $content->data->programs);
+        $program = $content->data->programs[0];
+        $this->assertObjectHasAttribute('id', $program);
+        $this->assertEquals($data['id'], $program->id);
+        $this->assertObjectHasAttribute('school', $program);
+        $this->assertObjectHasAttribute('id', $program->school);
+        $this->assertEquals($data['school'], $program->school->id);
+    }
 }

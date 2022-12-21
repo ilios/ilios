@@ -214,4 +214,30 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
+
+    public function testGraphQLIncludedData()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { courseObjectives(id: [${data['id']}]) { id, course { id } }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertGraphQLResponse($response);
+        $content = json_decode($response->getContent());
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->courseObjectives);
+        $this->assertCount(1, $content->data->courseObjectives);
+
+        $courseObjective = $content->data->courseObjectives[0];
+        $this->assertObjectHasAttribute('id', $courseObjective);
+        $this->assertEquals($data['id'], $courseObjective->id);
+        $this->assertObjectHasAttribute('course', $courseObjective);
+        $this->assertObjectHasAttribute('id', $courseObjective->course);
+        $this->assertEquals($data['course'], $courseObjective->course->id);
+    }
 }
