@@ -6,6 +6,8 @@ namespace App\Traits;
 
 trait DescribableEntity
 {
+    protected ?string $description;
+
     public function setDescription(?string $description)
     {
         $this->description = $description;

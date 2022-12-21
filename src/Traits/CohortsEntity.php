@@ -13,6 +13,8 @@ use App\Entity\CohortInterface;
  */
 trait CohortsEntity
 {
+    protected Collection $cohorts;
+
     public function setCohorts(Collection $cohorts)
     {
         $this->cohorts = new ArrayCollection();

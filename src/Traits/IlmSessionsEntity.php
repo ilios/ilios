@@ -13,6 +13,8 @@ use App\Entity\IlmSessionInterface;
  */
 trait IlmSessionsEntity
 {
+    protected Collection $ilmSessions;
+
     public function setIlmSessions(Collection $ilmSessions)
     {
         $this->ilmSessions = new ArrayCollection();

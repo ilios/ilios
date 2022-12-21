@@ -13,6 +13,8 @@ use App\Entity\UserInterface;
  */
 trait UsersEntity
 {
+    protected Collection $users;
+
     public function setUsers(Collection $users)
     {
         $this->users = new ArrayCollection();

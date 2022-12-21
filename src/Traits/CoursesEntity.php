@@ -14,6 +14,8 @@ use App\Entity\CourseInterface;
  */
 trait CoursesEntity
 {
+    protected Collection $courses;
+
     public function setCourses(Collection $courses)
     {
         $this->courses = new ArrayCollection();

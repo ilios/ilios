@@ -13,6 +13,8 @@ use App\Entity\MeshConceptInterface;
  */
 trait ConceptsEntity
 {
+    protected Collection $concepts;
+
     public function setConcepts(Collection $concepts)
     {
         $this->concepts = new ArrayCollection();

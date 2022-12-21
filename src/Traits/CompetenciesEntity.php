@@ -10,6 +10,8 @@ use App\Entity\CompetencyInterface;
 
 trait CompetenciesEntity
 {
+    protected Collection $competencies;
+
     public function setCompetencies(Collection $competencies)
     {
         $this->competencies = new ArrayCollection();

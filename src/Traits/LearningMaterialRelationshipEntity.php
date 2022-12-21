@@ -15,6 +15,8 @@ use DateTime;
  */
 trait LearningMaterialRelationshipEntity
 {
+    protected ?string $notes;
+
     /**
      * @param string|null $notes
      */

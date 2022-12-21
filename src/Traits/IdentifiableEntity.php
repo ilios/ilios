@@ -6,6 +6,8 @@ namespace App\Traits;
 
 trait IdentifiableEntity
 {
+    protected int $id;
+
     public function setId(int $id)
     {
         $this->id = $id;

@@ -6,6 +6,9 @@ namespace App\Traits;
 
 trait PublishableEntity
 {
+    protected bool $published;
+    protected bool $publishedAsTbd;
+
     public function setPublished(bool $published)
     {
         $this->published = $published;

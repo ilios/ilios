@@ -11,6 +11,8 @@ use App\Entity\TermInterface;
 
 trait CategorizableEntity
 {
+    protected Collection $terms;
+
     public function setTerms(Collection $terms = null)
     {
         $this->terms = new ArrayCollection();

@@ -9,6 +9,8 @@ namespace App\Traits;
  */
 trait ArchivableEntity
 {
+    protected bool $archived;
+
     public function isArchived(): bool
     {
         return $this->archived;

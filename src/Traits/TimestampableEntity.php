@@ -11,6 +11,8 @@ use DateTime;
  */
 trait TimestampableEntity
 {
+    protected DateTime $updatedAt;
+
     public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;

@@ -13,6 +13,8 @@ use App\Entity\UserInterface;
  */
 trait DirectorsEntity
 {
+    protected Collection $directors;
+
     public function setDirectors(Collection $directors)
     {
         $this->directors = new ArrayCollection();

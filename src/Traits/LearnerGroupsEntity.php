@@ -13,6 +13,8 @@ use App\Entity\LearnerGroupInterface;
  */
 trait LearnerGroupsEntity
 {
+    protected Collection $learnerGroups;
+
     public function setLearnerGroups(Collection $learnerGroups)
     {
         $this->learnerGroups = new ArrayCollection();

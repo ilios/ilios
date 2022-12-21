@@ -10,6 +10,8 @@ use App\Entity\UserInterface;
 
 trait StudentAdvisorsEntity
 {
+    protected Collection $studentAdvisors;
+
     public function setStudentAdvisors(Collection $studentAdvisors)
     {
         $this->studentAdvisors = new ArrayCollection();

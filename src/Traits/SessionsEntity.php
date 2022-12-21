@@ -14,6 +14,8 @@ use App\Entity\SessionInterface;
  */
 trait SessionsEntity
 {
+    protected Collection $sessions;
+
     public function setSessions(Collection $sessions)
     {
         $this->sessions = new ArrayCollection();

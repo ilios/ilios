@@ -6,6 +6,8 @@ namespace App\Traits;
 
 trait TitledEntity
 {
+    protected string $title;
+
     public function setTitle(string $title)
     {
         $this->title = $title;

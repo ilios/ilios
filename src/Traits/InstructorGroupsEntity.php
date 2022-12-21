@@ -13,6 +13,8 @@ use App\Entity\InstructorGroupInterface;
  */
 trait InstructorGroupsEntity
 {
+    protected Collection $instructorGroups;
+
     public function setInstructorGroups(Collection $instructorGroups)
     {
         $this->instructorGroups = new ArrayCollection();
