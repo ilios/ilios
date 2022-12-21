@@ -8,7 +8,7 @@ use App\Entity\ProgramYearObjectiveInterface;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * Interface DescribableEntityInterface
+ * Interface ProgramYearObjectivesEntityInterface
  */
 interface ProgramYearObjectivesEntityInterface
 {
