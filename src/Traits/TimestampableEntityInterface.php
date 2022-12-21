@@ -6,7 +6,7 @@ namespace App\Traits;
 
 use DateTime;
 
-interface TimestampableEntityInterface extends StringableEntityToIdInterface
+interface TimestampableEntityInterface extends StringableEntityInterface
 {
     public function getUpdatedAt(): DateTime;
 

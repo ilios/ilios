@@ -10,12 +10,12 @@ use App\Traits\AdministratorsEntityInterface;
 use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
+use App\Traits\StringableEntityInterface;
 
 interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,
     DescribableNullableEntityInterface,
-    StringableEntityToIdInterface,
+    StringableEntityInterface,
     LoggableEntityInterface,
     SequenceBlocksEntityInterface,
     AdministratorsEntityInterface

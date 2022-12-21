@@ -16,14 +16,14 @@ use App\Traits\IdentifiableEntityInterface;
 use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
+use App\Traits\StringableEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\OfferingsEntityInterface;
 
 interface SessionInterface extends
     IdentifiableEntityInterface,
     TitledNullableEntityInterface,
-    StringableEntityToIdInterface,
+    StringableEntityInterface,
     TimestampableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,

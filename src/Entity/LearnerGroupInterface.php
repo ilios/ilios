@@ -10,14 +10,14 @@ use App\Traits\IlmSessionsEntityInterface;
 use App\Traits\InstructorGroupsEntityInterface;
 use App\Traits\InstructorsEntityInterface;
 use App\Traits\TitledEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
+use App\Traits\StringableEntityInterface;
 use App\Traits\OfferingsEntityInterface;
 use App\Traits\UsersEntityInterface;
 
 interface LearnerGroupInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityToIdInterface,
+    StringableEntityInterface,
     OfferingsEntityInterface,
     LoggableEntityInterface,
     UsersEntityInterface,

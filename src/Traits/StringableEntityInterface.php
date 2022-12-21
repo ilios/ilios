@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-interface StringableEntityToIdInterface
+interface StringableEntityInterface
 {
     public function __toString(): string;
 }
