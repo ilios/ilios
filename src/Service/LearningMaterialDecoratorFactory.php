@@ -11,7 +11,6 @@ use Stringable;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 
-
 class LearningMaterialDecoratorFactory
 {
     public function __construct(protected RouterInterface $router)
