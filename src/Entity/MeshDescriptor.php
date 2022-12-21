@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
-use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\CoursesEntity;
 use App\Traits\SessionsEntity;
@@ -29,7 +28,6 @@ use App\Repository\MeshDescriptorRepository;
 class MeshDescriptor implements MeshDescriptorInterface
 {
     use IdentifiableStringEntity;
-    use StringableIdEntity;
     use NameableEntity;
     use TimestampableEntity;
     use CoursesEntity;
@@ -381,5 +379,10 @@ class MeshDescriptor implements MeshDescriptorInterface
             $sessionCourses->toArray(),
             $flatObjectiveCourses
         );
+    }
+
+    public function __toString(): string
+    {
+        return $this->id ?? '';
     }
 }

@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\CategorizableEntity;
-use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Attribute as IA;
 use App\Repository\AamcResourceTypeRepository;
@@ -22,7 +21,6 @@ class AamcResourceType implements AamcResourceTypeInterface
 {
     use IdentifiableStringEntity;
     use TitledEntity;
-    use StringableIdEntity;
     use CategorizableEntity;
 
     #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
@@ -86,5 +84,10 @@ class AamcResourceType implements AamcResourceTypeInterface
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id ?? '';
     }
 }

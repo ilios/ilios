@@ -13,7 +13,6 @@ use App\Attribute as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ActivatableEntity;
-use App\Traits\StringableIdEntity;
 
 #[ORM\Table(name: 'aamc_method')]
 #[ORM\Entity(repositoryClass: AamcMethodRepository::class)]
@@ -21,7 +20,6 @@ use App\Traits\StringableIdEntity;
 class AamcMethod implements AamcMethodInterface
 {
     use IdentifiableStringEntity;
-    use StringableIdEntity;
     use SessionTypesEntity;
     use ActivatableEntity;
 
@@ -84,5 +82,10 @@ class AamcMethod implements AamcMethodInterface
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id ?? '';
     }
 }
