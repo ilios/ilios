@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\StringableEntityInterface;
+use Stringable;
 
 /**
  * Loggable entities have all changes logged automatically
  */
-interface LoggableEntityInterface extends StringableEntityInterface
+interface LoggableEntityInterface extends Stringable
 {
 }

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityInterface;
+use Stringable;
 
 interface MeshTreeInterface extends
-    StringableEntityInterface,
-    IdentifiableEntityInterface
+    IdentifiableEntityInterface,
+    Stringable
 {
     public function setTreeNumber(string $treeNumber);
     public function getTreeNumber(): string;

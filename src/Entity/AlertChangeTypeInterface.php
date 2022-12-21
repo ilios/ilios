@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use App\Traits\AlertableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityInterface;
 use App\Traits\TitledEntityInterface;
 
 interface AlertChangeTypeInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface,
     LoggableEntityInterface,
     AlertableEntityInterface
 {

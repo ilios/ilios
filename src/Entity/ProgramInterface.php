@@ -9,13 +9,11 @@ use App\Traits\DirectorsEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\TitledEntityInterface;
-use App\Traits\StringableEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
 
 interface ProgramInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityInterface,
     ProgramYearsEntityInterface,
     SchoolEntityInterface,
     LoggableEntityInterface,

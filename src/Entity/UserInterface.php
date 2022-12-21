@@ -11,14 +11,12 @@ use App\Traits\InstructorGroupsEntityInterface;
 use App\Traits\LearnerGroupsEntityInterface;
 use App\Traits\LearningMaterialsEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityInterface;
 use App\Traits\OfferingsEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
 use App\Traits\SchoolEntityInterface;
 
 interface UserInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface,
     OfferingsEntityInterface,
     ProgramYearsEntityInterface,
     LoggableEntityInterface,

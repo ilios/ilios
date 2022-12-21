@@ -11,6 +11,7 @@ use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\SortableEntityInterface;
 use App\Traits\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
+use Stringable;
 
 interface ProgramYearObjectiveInterface extends
     IdentifiableEntityInterface,
@@ -18,7 +19,8 @@ interface ProgramYearObjectiveInterface extends
     MeshDescriptorsEntityInterface,
     ActivatableEntityInterface,
     CategorizableEntityInterface,
-    SortableEntityInterface
+    SortableEntityInterface,
+    Stringable
 {
     public function setProgramYear(ProgramYearInterface $programYear): void;
     public function getProgramYear(): ProgramYearInterface;

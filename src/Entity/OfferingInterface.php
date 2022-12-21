@@ -11,12 +11,10 @@ use App\Traits\InstructorGroupsEntityInterface;
 use App\Traits\InstructorsEntityInterface;
 use App\Traits\LearnerGroupsEntityInterface;
 use App\Traits\LearnersEntityInterface;
-use App\Traits\StringableEntityInterface;
 use App\Traits\TimestampableEntityInterface;
 
 interface OfferingInterface extends
     IdentifiableEntityInterface,
-    StringableEntityInterface,
     TimestampableEntityInterface,
     LoggableEntityInterface,
     SessionStampableInterface,

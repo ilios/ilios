@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
+use Stringable;
 
 interface PendingUserUpdateInterface extends
-    IdentifiableEntityInterface
+    IdentifiableEntityInterface,
+    Stringable
 {
     public function setType(string $type);
     public function getType(): string;

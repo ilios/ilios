@@ -15,13 +15,11 @@ use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
 use App\Traits\SessionsEntityInterface;
-use App\Traits\StringableEntityInterface;
 use App\Traits\TitledEntityInterface;
 
 interface TermInterface extends
     DescribableNullableEntityInterface,
     IdentifiableEntityInterface,
-    StringableEntityInterface,
     TitledEntityInterface,
     LoggableEntityInterface,
     ProgramYearsEntityInterface,

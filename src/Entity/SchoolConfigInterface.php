@@ -7,13 +7,13 @@ namespace App\Entity;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\NameableEntityInterface;
 use App\Traits\SchoolEntityInterface;
-use App\Traits\StringableEntityInterface;
+use Stringable;
 
 interface SchoolConfigInterface extends
     SchoolEntityInterface,
     NameableEntityInterface,
     IdentifiableEntityInterface,
-    StringableEntityInterface
+    Stringable
 {
     public function getValue(): string;
     public function setValue(string $value);
