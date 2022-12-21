@@ -9,7 +9,7 @@ use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableEntity;
+use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
@@ -24,7 +24,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
 {
     use IdentifiableEntity;
     use NameableEntity;
-    use DescribableEntity;
+    use DescribableNullableEntity;
     use StringableIdEntity;
 
     #[ORM\Id]

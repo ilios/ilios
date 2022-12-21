@@ -7,14 +7,14 @@ namespace App\Entity;
 use App\Traits\IndexableCoursesEntityInterface;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableEntityInterface;
+use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\TitledEntityInterface;
 
 interface LearningMaterialInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    DescribableEntityInterface,
+    DescribableNullableEntityInterface,
     LoggableEntityInterface,
     SessionStampableInterface,
     IndexableCoursesEntityInterface

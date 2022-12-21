@@ -8,11 +8,10 @@ use App\Traits\CourseObjectivesEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\ProgramYearObjectivesEntityInterface;
 use App\Traits\SessionObjectivesEntityInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\CoursesEntityInterface;
-use App\Traits\DescribableEntityInterface;
+use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\ProgramYearsEntityInterface;
 use App\Traits\SessionsEntityInterface;
@@ -20,7 +19,7 @@ use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
 
 interface TermInterface extends
-    DescribableEntityInterface,
+    DescribableNullableEntityInterface,
     IdentifiableEntityInterface,
     StringableEntityToIdInterface,
     TitledEntityInterface,

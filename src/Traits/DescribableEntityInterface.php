@@ -6,6 +6,6 @@ namespace App\Traits;
 
 interface DescribableEntityInterface
 {
-    public function setDescription(?string $description);
-    public function getDescription(): ?string;
+    public function setDescription(string $description);
+    public function getDescription(): string;
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableEntity;
+use App\Traits\DescribableNullableEntity;
 use App\Traits\SessionObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
@@ -45,7 +45,7 @@ class Session implements SessionInterface
     use AdministratorsEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
-    use DescribableEntity;
+    use DescribableNullableEntity;
 
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]

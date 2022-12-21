@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableEntity;
+use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
@@ -31,7 +31,7 @@ class LearningMaterial implements LearningMaterialInterface
     use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
-    use DescribableEntity;
+    use DescribableNullableEntity;
 
     #[ORM\Column(name: 'learning_material_id', type: 'integer')]
     #[ORM\Id]

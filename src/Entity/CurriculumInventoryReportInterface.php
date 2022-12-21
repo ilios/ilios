@@ -7,15 +7,14 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AdministratorsEntityInterface;
-use App\Traits\DescribableEntityInterface;
+use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\NameableEntityInterface;
 use App\Traits\SequenceBlocksEntityInterface;
 use App\Traits\StringableEntityToIdInterface;
 
 interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,
-    DescribableEntityInterface,
+    DescribableNullableEntityInterface,
     StringableEntityToIdInterface,
     LoggableEntityInterface,
     SequenceBlocksEntityInterface,

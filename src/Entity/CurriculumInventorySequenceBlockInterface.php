@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableEntityInterface;
+use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SessionsEntityInterface;
 use App\Traits\TitledEntityInterface;
 
 interface CurriculumInventorySequenceBlockInterface extends
     IdentifiableEntityInterface,
-    DescribableEntityInterface,
+    DescribableNullableEntityInterface,
     TitledEntityInterface,
     LoggableEntityInterface,
     SessionsEntityInterface

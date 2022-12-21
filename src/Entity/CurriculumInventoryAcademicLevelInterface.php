@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableEntityInterface;
+use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\NameableEntityInterface;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
 interface CurriculumInventoryAcademicLevelInterface extends
     IdentifiableEntityInterface,
     NameableEntityInterface,
-    DescribableEntityInterface,
+    DescribableNullableEntityInterface,
     LoggableEntityInterface
 {
     public function setLevel(int $level);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableEntityInterface;
+use App\Traits\DescribableNullableEntityInterface;
 use App\Traits\IndexableCoursesEntityInterface;
 use App\Traits\SessionObjectivesEntityInterface;
 use App\Traits\StudentAdvisorsEntityInterface;
@@ -35,7 +35,7 @@ interface SessionInterface extends
     StudentAdvisorsEntityInterface,
     IndexableCoursesEntityInterface,
     SessionObjectivesEntityInterface,
-    DescribableEntityInterface
+    DescribableNullableEntityInterface
 {
     public function setAttireRequired(?bool $attireRequired);
     public function isAttireRequired(): ?bool;
