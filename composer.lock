@@ -2722,21 +2722,21 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "2.7.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "a10295c70529f5da4304bef145efdc7ad3be46cf"
+                "reference": "229f02a9fcf517c7bc0f5e08448ed1927866ba9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/a10295c70529f5da4304bef145efdc7ad3be46cf",
-                "reference": "a10295c70529f5da4304bef145efdc7ad3be46cf",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/229f02a9fcf517c7bc0f5e08448ed1927866ba9e",
+                "reference": "229f02a9fcf517c7bc0f5e08448ed1927866ba9e",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=7.4 || ~8.0.0 || ~8.1.0",
+                "php": ">=7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0",
                 "symfony/deprecation-contracts": "^2.1 || ^3.0"
             },
             "conflict": {
@@ -2745,10 +2745,10 @@
             "require-dev": {
                 "ergebnis/composer-normalize": "^2.23.1",
                 "friendsofphp/php-cs-fixer": "^3.4",
-                "infection/infection": "^0.23",
-                "phpmd/phpmd": "^2.11.1",
+                "infection/infection": "^0.23 || ^0.26",
+                "phpmd/phpmd": "^2.13",
                 "phpunit/phpunit": "^9.5",
-                "vimeo/psalm": "^4.8"
+                "vimeo/psalm": "^4.8 || ^5.0"
             },
             "type": "library",
             "autoload": {
@@ -2782,7 +2782,7 @@
                 "issues": "https://github.com/markuspoerschke/iCal/issues",
                 "source": "https://github.com/markuspoerschke/iCal"
             },
-            "time": "2022-06-21T14:23:15+00:00"
+            "time": "2022-12-23T11:40:27+00:00"
         },
         {
             "name": "enlightn/security-checker",
@@ -16022,8 +16022,10 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
+        "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
         "phpstan/phpstan": 0,
+        "phpstan/phpstan-symfony": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
         "symfony/css-selector": 0,
