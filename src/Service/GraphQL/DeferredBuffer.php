@@ -43,6 +43,12 @@ class DeferredBuffer
         return $nonNullValues;
     }
 
+    public function getValueForType(string $type, string|int $id): object
+    {
+        $this->processBuffer($type);
+        return $this->cachedValues[$type][$id];
+    }
+
     protected function processBuffer(string $type): void
     {
         $ids = $this->buffer[$type] ?? [];

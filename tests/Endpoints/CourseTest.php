@@ -781,7 +781,8 @@ class CourseTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { courses(id: [${data['id']}]) { id, sessions { id, administrators { id }} }}"
+                'query' =>
+                "query { courses(id: [${data['id']}]) { id, school { id }, sessions { id, administrators { id }} }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -800,6 +801,9 @@ class CourseTest extends ReadWriteEndpointTest
         $course = $result[0];
         $this->assertObjectHasAttribute('id', $course);
         $this->assertEquals($data['id'], $course->id);
+        $this->assertObjectHasAttribute('school', $course);
+        $this->assertObjectHasAttribute('id', $course->school);
+        $this->assertEquals($data['school'], $course->school->id);
         $this->assertCount(2, $course->sessions);
 
         $this->assertObjectHasAttribute('id', $course->sessions[0]);
