@@ -20,7 +20,7 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'POST',
-            '/api/' . $this->apiVersion . "/${endpoint}/",
+            '/api/' . $this->apiVersion . "/{$endpoint}/",
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -36,7 +36,7 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'PUT',
-            '/api/' . $this->apiVersion . "/${endpoint}/1",
+            '/api/' . $this->apiVersion . "/{$endpoint}/1",
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -52,7 +52,7 @@ abstract class AbstractMeshTest extends ReadEndpointTest
 
         $this->createJsonRequest(
             'DELETE',
-            '/api/' . $this->apiVersion . "/${endpoint}/1",
+            '/api/' . $this->apiVersion . "/{$endpoint}/1",
             json_encode([$responseKey => []]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );

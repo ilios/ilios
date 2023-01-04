@@ -10,14 +10,12 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 
 #[ORM\Table(name: 'user_session_material_status')]
 #[ORM\Entity(repositoryClass: UserSessionMaterialStatusRepository::class)]
 #[IA\Entity]
 class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
 {
-    use StringableIdEntity;
     use TimestampableEntity;
 
     #[ORM\Column(name: 'id', type: 'bigint')]
@@ -115,5 +113,10 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     public function getStatus(): int
     {
         return $this->status;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id ?? '';
     }
 }

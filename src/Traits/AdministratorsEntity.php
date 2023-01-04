@@ -13,6 +13,8 @@ use App\Entity\UserInterface;
  */
 trait AdministratorsEntity
 {
+    protected Collection $administrators;
+
     public function setAdministrators(Collection $administrators)
     {
         $this->administrators = new ArrayCollection();

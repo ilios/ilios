@@ -127,7 +127,7 @@ class CurriculumInventoryReportTest extends AbstractBase
         $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
         foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
             $response = $this->voter->vote($token, $entity, [ $attr ]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "{$attr} allowed");
         }
     }
 
@@ -138,7 +138,7 @@ class CurriculumInventoryReportTest extends AbstractBase
         $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
         foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
             $response = $this->voter->vote($token, $entity, [ $attr ]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "{$attr} allowed");
         }
     }
 }

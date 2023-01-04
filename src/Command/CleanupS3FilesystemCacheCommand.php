@@ -43,10 +43,10 @@ class CleanupS3FilesystemCacheCommand extends Command
         $percentageFree = $this->getFreeSpace();
 
         if ($percentageFree > 30) {
-            $output->writeln("<info>${percentageFree}% free space. Not cleaning up any files.</info>");
+            $output->writeln("<info>{$percentageFree}% free space. Not cleaning up any files.</info>");
             return 0;
         }
-        $output->writeln("<info>${percentageFree}% free space. Will cleanup old files...</info>");
+        $output->writeln("<info>{$percentageFree}% free space. Will cleanup old files...</info>");
         $contents = $this->filesystem->listContents(IliosFileSystem::HASHED_LM_DIRECTORY, true);
         $deleteBefore = strtotime("-48 hours");
         $deletedFiles = 0;
@@ -58,9 +58,9 @@ class CleanupS3FilesystemCacheCommand extends Command
             }
         }
 
-        $output->writeln("<info>${deletedFiles} file(s) cleaned up!</info>");
+        $output->writeln("<info>{$deletedFiles} file(s) cleaned up!</info>");
         $percentageFree = $this->getFreeSpace();
-        $output->writeln("<info>${percentageFree}% free space now.</info>");
+        $output->writeln("<info>{$percentageFree}% free space now.</info>");
 
         return 0;
     }

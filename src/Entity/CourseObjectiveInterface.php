@@ -12,6 +12,7 @@ use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\SortableEntityInterface;
 use App\Traits\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
+use Stringable;
 
 interface CourseObjectiveInterface extends
     IdentifiableEntityInterface,
@@ -20,7 +21,8 @@ interface CourseObjectiveInterface extends
     MeshDescriptorsEntityInterface,
     ActivatableEntityInterface,
     CategorizableEntityInterface,
-    SortableEntityInterface
+    SortableEntityInterface,
+    Stringable
 {
     public function setCourse(CourseInterface $course): void;
     public function getCourse(): CourseInterface;

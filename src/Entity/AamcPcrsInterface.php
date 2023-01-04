@@ -6,11 +6,9 @@ namespace App\Entity;
 
 use App\Traits\IdentifiableStringEntityInterface;
 use App\Traits\CompetenciesEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
 
 interface AamcPcrsInterface extends
     IdentifiableStringEntityInterface,
-    StringableEntityToIdInterface,
     LoggableEntityInterface,
     CompetenciesEntityInterface
 {

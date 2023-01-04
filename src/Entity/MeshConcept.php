@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
-use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshConceptRepository;
 
@@ -24,7 +23,6 @@ class MeshConcept implements MeshConceptInterface
 {
     use IdentifiableStringEntity;
     use NameableEntity;
-    use StringableIdEntity;
     use TimestampableEntity;
     use CreatedAtEntity;
 
@@ -202,5 +200,10 @@ class MeshConcept implements MeshConceptInterface
     public function getDescriptors(): Collection
     {
         return $this->descriptors;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id ?? '';
     }
 }

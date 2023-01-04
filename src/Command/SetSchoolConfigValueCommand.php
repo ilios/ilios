@@ -58,7 +58,7 @@ class SetSchoolConfigValueCommand extends Command
         /** @var SchoolInterface $school */
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
-            $output->writeln("<error>There are no schools with id ${schoolId}.</error>");
+            $output->writeln("<error>There are no schools with id {$schoolId}.</error>");
             return 1;
         }
 

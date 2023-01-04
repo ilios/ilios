@@ -13,6 +13,8 @@ use App\Entity\MeshDescriptorInterface;
  */
 trait MeshDescriptorsEntity
 {
+    protected Collection $meshDescriptors;
+
     public function setMeshDescriptors(Collection $meshDescriptors)
     {
         $this->meshDescriptors = new ArrayCollection();

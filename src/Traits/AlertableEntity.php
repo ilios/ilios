@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\Collection;
 
 trait AlertableEntity
 {
+    protected Collection $alerts;
+
     public function setAlerts(Collection $alerts = null)
     {
         $this->alerts = new ArrayCollection();

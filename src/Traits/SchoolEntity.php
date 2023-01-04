@@ -8,6 +8,8 @@ use App\Entity\SchoolInterface;
 
 trait SchoolEntity
 {
+    protected SchoolInterface $school;
+
     public function getSchool(): SchoolInterface
     {
         return $this->school;

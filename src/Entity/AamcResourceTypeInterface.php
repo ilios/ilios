@@ -6,12 +6,10 @@ namespace App\Entity;
 
 use App\Traits\CategorizableEntityInterface;
 use App\Traits\IdentifiableStringEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
 
 interface AamcResourceTypeInterface extends
     IdentifiableStringEntityInterface,
-    StringableEntityToIdInterface,
     TitledEntityInterface,
     CategorizableEntityInterface
 {

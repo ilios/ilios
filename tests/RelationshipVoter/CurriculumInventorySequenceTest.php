@@ -150,7 +150,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity->shouldReceive('getReport')->andReturn($report);
         foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
             $response = $this->voter->vote($token, $entity, [ $attr ]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "{$attr} allowed");
         }
     }
 
@@ -163,7 +163,7 @@ class CurriculumInventorySequenceTest extends AbstractBase
         $entity->shouldReceive('getReport')->andReturn($report);
         foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
             $response = $this->voter->vote($token, $entity, [ $attr ]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} allowed");
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "{$attr} allowed");
         }
     }
 }

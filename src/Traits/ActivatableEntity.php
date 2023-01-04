@@ -6,6 +6,8 @@ namespace App\Traits;
 
 trait ActivatableEntity
 {
+    protected bool $active;
+
     public function isActive(): bool
     {
         return $this->active;

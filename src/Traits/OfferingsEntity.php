@@ -14,6 +14,8 @@ use App\Entity\OfferingInterface;
  */
 trait OfferingsEntity
 {
+    protected Collection $offerings;
+
     public function setOfferings(Collection $offerings)
     {
         $this->offerings = new ArrayCollection();

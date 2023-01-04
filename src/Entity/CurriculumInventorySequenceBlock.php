@@ -11,7 +11,7 @@ use App\Attribute as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableEntity;
+use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
@@ -23,7 +23,7 @@ use App\Repository\CurriculumInventorySequenceBlockRepository;
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
     use IdentifiableEntity;
-    use DescribableEntity;
+    use DescribableNullableEntity;
     use TitledEntity;
     use StringableIdEntity;
     use SessionsEntity;

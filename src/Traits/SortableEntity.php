@@ -9,6 +9,8 @@ namespace App\Traits;
  */
 trait SortableEntity
 {
+    protected int $position;
+
     /**
      * @param int $position
      */

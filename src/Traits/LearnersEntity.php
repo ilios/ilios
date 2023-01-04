@@ -13,6 +13,8 @@ use App\Entity\UserInterface;
  */
 trait LearnersEntity
 {
+    protected Collection $learners;
+
     public function setLearners(Collection $learners)
     {
         $this->learners = new ArrayCollection();

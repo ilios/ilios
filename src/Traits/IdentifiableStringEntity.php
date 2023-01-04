@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
-
 trait IdentifiableStringEntity
 {
+    protected string $id;
+
     public function setId(string $id)
     {
         $this->id = $id;

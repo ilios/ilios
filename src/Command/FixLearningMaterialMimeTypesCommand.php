@@ -121,7 +121,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
             }
             if ($errors !== []) {
                 foreach ($errors as $message) {
-                    $output->writeln("<error>${message}</error>");
+                    $output->writeln("<error>{$message}</error>");
                 }
             }
 

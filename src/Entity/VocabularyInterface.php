@@ -9,16 +9,16 @@ use App\Traits\ActivatableEntityInterface;
 use App\Traits\CategorizableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\SchoolEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
 use App\Traits\TitledEntityInterface;
+use Stringable;
 
 interface VocabularyInterface extends
     IdentifiableEntityInterface,
     SchoolEntityInterface,
-    StringableEntityToIdInterface,
     TitledEntityInterface,
     CategorizableEntityInterface,
     ActivatableEntityInterface,
-    IndexableCoursesEntityInterface
+    IndexableCoursesEntityInterface,
+    Stringable
 {
 }

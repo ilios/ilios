@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
+use Stringable;
 
 interface MeshPreviousIndexingInterface extends
     IdentifiableEntityInterface,
-    StringableEntityToIdInterface
+    Stringable
 {
     public function setDescriptor(MeshDescriptorInterface $descriptor);
     public function getDescriptor(): MeshDescriptorInterface;

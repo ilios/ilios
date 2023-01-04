@@ -8,6 +8,8 @@ use DateTime;
 
 trait CreatedAtEntity
 {
+    protected DateTime $createdAt;
+
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;

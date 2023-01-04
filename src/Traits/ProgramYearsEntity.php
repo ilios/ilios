@@ -14,6 +14,8 @@ use App\Entity\ProgramYearInterface;
  */
 trait ProgramYearsEntity
 {
+    protected Collection $programYears;
+
     public function setProgramYears(Collection $programYears)
     {
         $this->programYears = new ArrayCollection();

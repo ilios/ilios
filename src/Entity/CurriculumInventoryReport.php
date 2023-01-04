@@ -12,9 +12,8 @@ use App\Traits\AdministratorsEntity;
 use App\Traits\SequenceBlocksEntity;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableEntity;
+use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
-use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryReportRepository;
 
@@ -26,7 +25,7 @@ use App\Repository\CurriculumInventoryReportRepository;
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
     use IdentifiableEntity;
-    use DescribableEntity;
+    use DescribableNullableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
     use AdministratorsEntity;

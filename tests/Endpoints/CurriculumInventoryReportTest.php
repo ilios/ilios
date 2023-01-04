@@ -129,7 +129,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
-                "app_api_${endpoint}_getall",
+                "app_api_{$endpoint}_getall",
                 ['version' => $this->apiVersion]
             ),
             null,

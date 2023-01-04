@@ -6,13 +6,11 @@ namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\TitledEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
 use App\Traits\CoursesEntityInterface;
 
 interface CourseClerkshipTypeInterface extends
     IdentifiableEntityInterface,
     TitledEntityInterface,
-    StringableEntityToIdInterface,
     CoursesEntityInterface,
     LoggableEntityInterface
 {

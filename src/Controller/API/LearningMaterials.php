@@ -559,7 +559,7 @@ class LearningMaterials
         foreach ($validator->validate($lm, null, $lm->getValidationGroups()) as $violation) {
             $property = $violation->getPropertyPath();
             $message = $violation->getMessage();
-            $errors[] = "Error in *${property}*: ${message}";
+            $errors[] = "Error in *{$property}*: {$message}";
         }
         if ($errors !== []) {
             $errorsString = implode("\n", $errors);

@@ -13,6 +13,8 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
  */
 trait SequenceBlocksEntity
 {
+    protected Collection $sequenceBlocks;
+
     public function setSequenceBlocks(Collection $sequenceBlocks)
     {
         $this->sequenceBlocks = new ArrayCollection();

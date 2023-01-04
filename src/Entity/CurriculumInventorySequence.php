@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\StringableIdEntity;
 use App\Attribute as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableEntity;
+use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Repository\CurriculumInventorySequenceRepository;
 
@@ -18,7 +18,7 @@ use App\Repository\CurriculumInventorySequenceRepository;
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
     use IdentifiableEntity;
-    use DescribableEntity;
+    use DescribableNullableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'sequence_id', type: 'integer')]

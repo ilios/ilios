@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
-
 trait NameableEntity
 {
+    protected string $name;
+
     public function setName(string $name)
     {
         $this->name = $name;

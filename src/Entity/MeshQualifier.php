@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\NameableEntity;
-use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshQualifierRepository;
 
@@ -25,7 +24,6 @@ class MeshQualifier implements MeshQualifierInterface
     use IdentifiableStringEntity;
     use TimestampableEntity;
     use NameableEntity;
-    use StringableIdEntity;
     use CreatedAtEntity;
 
     #[ORM\Column(name: 'mesh_qualifier_uid', type: 'string', length: 12)]
@@ -96,5 +94,10 @@ class MeshQualifier implements MeshQualifierInterface
     public function getDescriptors(): Collection
     {
         return $this->descriptors;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id ?? '';
     }
 }

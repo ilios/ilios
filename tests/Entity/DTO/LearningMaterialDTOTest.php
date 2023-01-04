@@ -76,7 +76,7 @@ class LearningMaterialDTOTest extends TestCase
 
         $props = array_keys(get_object_vars($this->dto));
         foreach ($props as $prop) {
-            $this->assertNotNull($this->dto->$prop, "${prop} is set");
+            $this->assertNotNull($this->dto->$prop, "{$prop} is set");
         }
 
         $this->dto->clearMaterial();
@@ -96,9 +96,9 @@ class LearningMaterialDTOTest extends TestCase
                 'relativePath',
                 ])
             ) {
-                $this->assertNull($this->dto->$prop, "${prop} is cleared");
+                $this->assertNull($this->dto->$prop, "{$prop} is cleared");
             } else {
-                $this->assertNotNull($this->dto->$prop, "${prop} is not cleared");
+                $this->assertNotNull($this->dto->$prop, "{$prop} is not cleared");
             }
         }
     }

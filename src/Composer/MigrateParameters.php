@@ -72,7 +72,7 @@ class MigrateParameters
     protected static function writeParameters($parametersPath, $parameters)
     {
         if (!is_writable($parametersPath)) {
-            throw new Exception("Unable to write parameters file at ${parametersPath}");
+            throw new Exception("Unable to write parameters file at {$parametersPath}");
         }
 
         $string = Yaml::dump(['parameters' => $parameters]);

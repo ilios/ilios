@@ -34,7 +34,7 @@ class MysqlMigrationTest extends WebTestCase
             if (str_starts_with($class, 'Ilios\\Migrations\\')) {
                 $parts = explode('\\', $class);
                 $baseName = end($parts);
-                include "${path}/${baseName}.php";
+                include "{$path}/{$baseName}.php";
             }
         });
         $classesThatDontExtendCorrectly = array_filter($classNames, function (string $name) {

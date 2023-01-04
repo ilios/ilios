@@ -13,6 +13,8 @@ use App\Entity\CourseObjectiveInterface;
  */
 trait CourseObjectivesEntity
 {
+    protected Collection $courseObjectives;
+
     public function setCourseObjectives(Collection $courseObjectives = null): void
     {
         $this->courseObjectives = new ArrayCollection();

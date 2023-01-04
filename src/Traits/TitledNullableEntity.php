@@ -6,6 +6,8 @@ namespace App\Traits;
 
 trait TitledNullableEntity
 {
+    protected ?string $title = null;
+
     public function setTitle(?string $title)
     {
         $this->title = $title;

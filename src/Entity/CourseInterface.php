@@ -20,13 +20,11 @@ use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\PublishableEntityInterface;
 use App\Traits\SchoolEntityInterface;
 use App\Traits\StudentAdvisorsEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
 use App\Traits\SessionsEntityInterface;
 
 interface CourseInterface extends
     IdentifiableEntityInterface,
     TitledNullableEntityInterface,
-    StringableEntityToIdInterface,
     LockableEntityInterface,
     ArchivableEntityInterface,
     SessionsEntityInterface,

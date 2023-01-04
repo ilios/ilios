@@ -39,7 +39,7 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
         $o = match ($class) {
             LearningMaterial::class, LearningMaterialDTO::class => $this->learningMaterialDecoratorFactory->create($o),
             CurriculumInventoryReportDTO::class => $this->curriculumInventoryReportDecoratorFactory->create($o),
-            default => throw new Exception("${class} fell through match statement, should it have been decorated?"),
+            default => throw new Exception("{$class} fell through match statement, should it have been decorated?"),
         };
 
         $context[self::ALREADY_CALLED] = true;

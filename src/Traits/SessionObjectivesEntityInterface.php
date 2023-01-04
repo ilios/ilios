@@ -8,7 +8,7 @@ use App\Entity\SessionObjectiveInterface;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * Interface DescribableEntityInterface
+ * Interface SessionObjectivesEntityInterface
  */
 interface SessionObjectivesEntityInterface
 {

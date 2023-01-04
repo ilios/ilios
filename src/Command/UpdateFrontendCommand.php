@@ -64,7 +64,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fs->mkdir($this->productionTemporaryFileStore);
         $this->stagingTemporaryFileStore = $temporaryFileStorePath . '/stage';
         $this->fs->mkdir($this->stagingTemporaryFileStore);
-        $this->frontendAssetDirectory = "${kernelProjectDir}/public/";
+        $this->frontendAssetDirectory = "{$kernelProjectDir}/public/";
         $this->output = null;
 
         parent::__construct();
@@ -124,11 +124,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 $this->copyAssetsIntoPublicDirectory($currentDistributionPath);
                 $this->activateVersion($currentDistributionPath);
             }
-            $output->writeln("<info>Frontend updated successfully${message}!</info>");
+            $output->writeln("<info>Frontend updated successfully{$message}!</info>");
 
             return 0;
         } catch (Exception) {
-            $output->writeln("<error>No matching frontend found${message}!</error>");
+            $output->writeln("<error>No matching frontend found{$message}!</error>");
 
             return 1;
         }
@@ -175,7 +175,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     {
         $frontendPath = self::getActiveFrontendIndexPath($this->kernelProjectDir);
         $this->fs->remove($frontendPath);
-        $this->fs->copy("${distributionPath}/index.json", $frontendPath);
+        $this->fs->copy("{$distributionPath}/index.json", $frontendPath);
     }
 
     protected function downloadAndExtractAllArchives(string $environment): ?string
@@ -313,7 +313,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected function optionalOutput(string $message, string $type = 'info'): void
     {
         if ($this->output) {
-            $this->output->writeln("<${type}>${message}</${type}>");
+            $this->output->writeln("<{$type}>{$message}</{$type}>");
         }
     }
 

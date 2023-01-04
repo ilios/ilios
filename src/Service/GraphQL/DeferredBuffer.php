@@ -62,7 +62,7 @@ class DeferredBuffer
             $ref = $this->dtoInfo->getRefForType($type);
             $idField = $this->entityMetadata->extractId($ref);
             $values = $repository->findDTOsBy([
-                "${idField}" => $uncachedIds
+                "{$idField}" => $uncachedIds
             ]);
             foreach ($values as $dto) {
                 $this->cachedValues[$type][$dto->{$idField}] = $dto;

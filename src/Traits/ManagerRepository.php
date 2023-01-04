@@ -117,7 +117,7 @@ trait ManagerRepository
         if (is_array($orderBy)) {
             $fields = array_unique([...$fields, ...array_keys($orderBy)]);
         }
-        $dqlSelect = implode(', ', array_map(fn ($field) => "x.${field}", $fields));
+        $dqlSelect = implode(', ', array_map(fn ($field) => "x.{$field}", $fields));
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select($dqlSelect);
         $qb->distinct();
@@ -225,7 +225,7 @@ trait ManagerRepository
             $qb = $conn->createQueryBuilder();
             $qb->select($arr['relatedIdColumn'], $arr['dtoIdColumn'])
                 ->from($arr['tableName'])
-                ->where("${arr['dtoIdColumn']} IN(:ids)")
+                ->where("{$arr['dtoIdColumn']} IN(:ids)")
                 ->setParameter('ids', $ids, Connection::PARAM_STR_ARRAY);
             $result = $qb->executeQuery()->fetchAllAssociative();
             foreach ($result as $row) {

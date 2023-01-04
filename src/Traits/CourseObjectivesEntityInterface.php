@@ -8,7 +8,7 @@ use App\Entity\CourseObjectiveInterface;
 use Doctrine\Common\Collections\Collection;
 
 /**
- * Interface DescribableEntityInterface
+ * Interface CourseObjectivesEntityInterface
  */
 interface CourseObjectivesEntityInterface
 {

@@ -12,6 +12,7 @@ use App\Traits\MeshDescriptorsEntityInterface;
 use App\Traits\SortableEntityInterface;
 use App\Traits\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
+use Stringable;
 
 interface SessionObjectiveInterface extends
     IdentifiableEntityInterface,
@@ -21,7 +22,8 @@ interface SessionObjectiveInterface extends
     MeshDescriptorsEntityInterface,
     ActivatableEntityInterface,
     CategorizableEntityInterface,
-    SortableEntityInterface
+    SortableEntityInterface,
+    Stringable
 {
     public function setSession(SessionInterface $session): void;
     public function getSession(): SessionInterface;

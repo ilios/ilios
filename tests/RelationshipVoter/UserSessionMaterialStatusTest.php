@@ -32,7 +32,7 @@ class UserSessionMaterialStatusTest extends AbstractBase
             $entity->shouldReceive('getUser')->andReturn($user);
             $sessionUser->shouldReceive('isTheUser')->with($user)->andReturn(true);
             $response = $this->voter->vote($token, $entity, [$attr]);
-            $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "${attr} granted");
+            $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "{$attr} granted");
         }
     }
 
@@ -48,7 +48,7 @@ class UserSessionMaterialStatusTest extends AbstractBase
             $entity->shouldReceive('getUser')->andReturn($user2);
             $sessionUser->shouldReceive('isTheUser')->with($user2)->andReturn(false);
             $response = $this->voter->vote($token, $entity, [$attr]);
-            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "${attr} grandeniedted");
+            $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "{$attr} grandeniedted");
         }
     }
 }

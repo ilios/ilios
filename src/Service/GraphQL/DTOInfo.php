@@ -45,7 +45,7 @@ class DTOInfo
     public function getRefForType(string $type): ReflectionClass
     {
         if (!array_key_exists($type, $this->types)) {
-            throw new Exception("Invalid Type. No DTO for ${type}");
+            throw new Exception("Invalid Type. No DTO for {$type}");
         }
         return new ReflectionClass($this->types[$type]['name']);
     }

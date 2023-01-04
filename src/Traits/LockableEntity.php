@@ -9,6 +9,8 @@ namespace App\Traits;
  */
 trait LockableEntity
 {
+    protected bool $locked;
+
     /**
      * @param bool $locked
      */

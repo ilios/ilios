@@ -13,6 +13,8 @@ use App\Entity\SessionTypeInterface;
  */
 trait SessionTypesEntity
 {
+    protected Collection $sessionTypes;
+
     public function setSessionTypes(Collection $sessionTypes)
     {
         $this->sessionTypes = new ArrayCollection();

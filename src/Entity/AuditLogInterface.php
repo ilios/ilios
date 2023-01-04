@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
-use App\Traits\StringableEntityToIdInterface;
 use DateTime;
+use Stringable;
 
 interface AuditLogInterface extends
     IdentifiableEntityInterface,
-    StringableEntityToIdInterface
+    Stringable
 {
     public function setAction(string $action);
     public function getAction(): string;

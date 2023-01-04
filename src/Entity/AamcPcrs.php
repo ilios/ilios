@@ -12,7 +12,6 @@ use App\Traits\CompetenciesEntity;
 use App\Attribute as IA;
 use App\Repository\AamcPcrsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 
 #[ORM\Entity(repositoryClass: AamcPcrsRepository::class)]
 #[ORM\Table(name: 'aamc_pcrs')]
@@ -20,7 +19,6 @@ use App\Traits\StringableIdEntity;
 class AamcPcrs implements AamcPcrsInterface
 {
     use IdentifiableStringEntity;
-    use StringableIdEntity;
     use CompetenciesEntity;
 
     #[ORM\Column(name: 'pcrs_id', type: 'string', length: 21)]
@@ -76,5 +74,10 @@ class AamcPcrs implements AamcPcrsInterface
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id ?? '';
     }
 }

@@ -60,7 +60,7 @@ class UpdateCommand extends Command
         foreach ($chunks as $ids) {
             $this->bus->dispatch(new UserIndexRequest($ids));
         }
-        $output->writeln("<info>${count} users have been queued for indexing.</info>");
+        $output->writeln("<info>{$count} users have been queued for indexing.</info>");
     }
 
     protected function queueCourses(OutputInterface $output)
@@ -71,7 +71,7 @@ class UpdateCommand extends Command
         foreach ($chunks as $ids) {
             $this->bus->dispatch(new CourseIndexRequest($ids));
         }
-        $output->writeln("<info>${count} courses have been queued for indexing.</info>");
+        $output->writeln("<info>{$count} courses have been queued for indexing.</info>");
     }
 
     protected function queueLearningMaterials(OutputInterface $output)
@@ -81,7 +81,7 @@ class UpdateCommand extends Command
         foreach ($allIds as $id) {
             $this->bus->dispatch(new LearningMaterialIndexRequest($id));
         }
-        $output->writeln("<info>${count} learning materials have been queued for indexing.</info>");
+        $output->writeln("<info>{$count} learning materials have been queued for indexing.</info>");
     }
 
     protected function queueMesh(OutputInterface $output)
@@ -92,6 +92,6 @@ class UpdateCommand extends Command
         foreach ($chunks as $ids) {
             $this->bus->dispatch(new MeshDescriptorIndexRequest($ids));
         }
-        $output->writeln("<info>${count} descriptors have been queued for indexing.</info>");
+        $output->writeln("<info>{$count} descriptors have been queued for indexing.</info>");
     }
 }

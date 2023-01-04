@@ -23,7 +23,7 @@ class IliosFileSystem implements CheckInterface
     {
         $path = $this->config->get('file_system_storage_path');
         if (!is_writable($path)) {
-            return new Failure("${path} is not writable");
+            return new Failure("{$path} is not writable");
         }
 
         $freeSpace = disk_free_space($path);

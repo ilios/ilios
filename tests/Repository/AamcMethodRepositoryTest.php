@@ -74,7 +74,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
             $this->assertInstanceOf(AamcMethodDTO::class, $dtos[1]);
             $this->assertSame('AM002', $dtos[1]->id);
         }
-        putenv("ILIOS_FEATURE_DTO_CACHING=${env}");
+        putenv("ILIOS_FEATURE_DTO_CACHING={$env}");
     }
 
     protected function tearDown(): void

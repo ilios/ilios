@@ -141,12 +141,12 @@ class UsersTest extends TestCase
     {
         return new UserDTO(
             $id,
-            "${id} first",
-            "${id} last",
-            "${id} middle",
+            "{$id} first",
+            "{$id} last",
+            "{$id} middle",
             null,
             null,
-            "${id}@${id}}.com",
+            "{$id}@{$id}}.com",
             null,
             null,
             true,
@@ -155,7 +155,7 @@ class UsersTest extends TestCase
             null,
             true,
             false,
-            "${id}-ics",
+            "{$id}-ics",
             false
         );
     }

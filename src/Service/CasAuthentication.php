@@ -156,7 +156,7 @@ class CasAuthentication implements AuthenticationInterface
         }
 
         $service = $this->getServiceUrl();
-        $url = $this->casManager->getLoginUrl() . "?service=${service}";
+        $url = $this->casManager->getLoginUrl() . "?service={$service}";
         $response = new RedirectResponse($url);
 
         if (!$request->cookies->has(self::REDIRECT_COOKIE)) {
@@ -180,7 +180,7 @@ class CasAuthentication implements AuthenticationInterface
             UrlGenerator::NETWORK_PATH
         );
 
-        return "https:${url}";
+        return "https:{$url}";
     }
 
     protected function getRootUrl(): string
@@ -222,7 +222,7 @@ class CasAuthentication implements AuthenticationInterface
             'search',
         ];
         $or = implode('|', $topLevelRoutes);
-        $pattern = "+^/(${or})/?[\/a-z\-0-9]*$+i";
+        $pattern = "+^/({$or})/?[\/a-z\-0-9]*$+i";
         if (preg_match($pattern, $request->getRequestUri())) {
             return $this->getRootUrl() . ltrim($request->getRequestUri(), '/');
         } else {

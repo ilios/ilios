@@ -6,6 +6,8 @@ namespace App\Traits;
 
 trait StringableIdEntity
 {
+    protected int $id;
+
     public function __toString(): string
     {
         return isset($this->id) ? (string) $this->id : '';

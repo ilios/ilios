@@ -14,6 +14,8 @@ use App\Entity\ProgramInterface;
  */
 trait ProgramsEntity
 {
+    protected Collection $programs;
+
     public function setPrograms(Collection $programs)
     {
         $this->programs = new ArrayCollection();

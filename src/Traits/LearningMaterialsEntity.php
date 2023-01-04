@@ -13,6 +13,8 @@ use App\Entity\LearningMaterialInterface;
  */
 trait LearningMaterialsEntity
 {
+    protected Collection $learningMaterials;
+
     public function setLearningMaterials(Collection $learningMaterials)
     {
         $this->learningMaterials = new ArrayCollection();
