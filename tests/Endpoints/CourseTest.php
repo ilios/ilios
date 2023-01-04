@@ -781,7 +781,8 @@ class CourseTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { courses(id: [{$data['id']}]) { id, sessions { id, administrators { id }} }}"
+                'query' =>
+                    "query { courses(id: [{$data['id']}]) { id, school { id }, sessions { id, administrators { id }} }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
