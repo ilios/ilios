@@ -273,9 +273,12 @@ trait ManagerRepository
     ): void {
         if ($criteria !== []) {
             foreach ($criteria as $key => $value) {
-                $values = is_array($value) ? $value : [$value];
-                $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
-                $qb->setParameter(":{$key}", $values);
+                if (is_array($value)) {
+                    $qb->andWhere($qb->expr()->in("x.{$key}", ":{$key}"));
+                } else {
+                    $qb->andWhere($qb->expr()->eq("x.{$key}", ":{$key}"));
+                }
+                $qb->setParameter(":{$key}", $value);
             }
         }
 
