@@ -57,4 +57,13 @@ class CourseClerkshipTypeTest extends ReadWriteEndpointTest
             'courses' => [[0], ['courses' => [1]]],
         ];
     }
+
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
 }

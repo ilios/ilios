@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
+use App\Attributes\Id;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityMetadata;
 use App\Service\EntityRepositoryLookup;
-use App\Service\InflectorFactory;
 use Doctrine\Inflector\Inflector;
 use GraphQL\Deferred;
 use GraphQL\Type\Definition\ResolveInfo;
 use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use function array_filter;
@@ -25,6 +26,7 @@ class TypeResolver
         protected EntityRepositoryLookup $entityRepositoryLookup,
         protected DeferredBuffer $buffer,
         protected AuthorizationCheckerInterface $authorizationChecker,
+        protected Inflector $inflector,
     ) {
     }
 
@@ -49,6 +51,17 @@ class TypeResolver
                     fn() => call_user_func([$this, 'authorizeValue'], $this->buffer->getValueForType($type, $value))
                 );
             }
+        }
+
+        $idPropertyName = $this->getIdPropertyName($ref);
+        $pluralIdName = $this->inflector->pluralize($idPropertyName);
+        if (array_key_exists($pluralIdName, $args)) {
+            $ids = $args[$pluralIdName];
+            unset($args[$pluralIdName]);
+            if (array_key_exists($idPropertyName, $args)) {
+                $ids[] = $args[$idPropertyName];
+            }
+            $args[$idPropertyName] = $ids;
         }
 
         //we can pass $ars directly because our GraphQL library will reject
@@ -82,5 +95,16 @@ class TypeResolver
             $values,
             fn($value) => $this->authorizationChecker->isGranted(AbstractVoter::VIEW, $value)
         );
+    }
+
+    protected function getIdPropertyName(ReflectionClass $class): string
+    {
+        $properties = $class->getProperties();
+        $ids = array_filter($properties, fn(ReflectionProperty $property) => $property->getAttributes(Id::class) != []);
+        if ($ids != []) {
+            return array_values($ids)[0]->getName();
+        }
+
+        return '';
     }
 }

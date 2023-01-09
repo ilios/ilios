@@ -106,6 +106,14 @@ class OfferingTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[3, 4], ['ids' => [4, 5]]];
+
+        return $filters;
+    }
+
     protected function getTimeStampFields(): array
     {
         return ['updatedAt'];

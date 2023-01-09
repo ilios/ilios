@@ -71,6 +71,14 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
+
     protected function createMany(int $count): array
     {
         $schoolDataLoader = self::getContainer()->get(SchoolData::class);

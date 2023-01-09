@@ -91,6 +91,14 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
+
     protected function compareData(array $expected, array $result)
     {
         unset($result['absoluteFileUri']);

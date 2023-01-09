@@ -69,6 +69,14 @@ class ReportTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
+
     protected function getTimeStampFields(): array
     {
         return ['createdAt'];

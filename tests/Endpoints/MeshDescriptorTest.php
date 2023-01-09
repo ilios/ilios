@@ -70,6 +70,14 @@ class MeshDescriptorTest extends AbstractMeshTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => ['abc2', 'abc3']]];
+
+        return $filters;
+    }
+
     protected function getTimeStampFields(): array
     {
         return ['updatedAt', 'createdAt'];

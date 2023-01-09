@@ -35,4 +35,12 @@ class LearningMaterialStatusTest extends ReadEndpointTest
             'title' => [[1], ['title' => 'Final']],
         ];
     }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
 }

@@ -77,6 +77,14 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
+
     protected function createMany(int $count): array
     {
         $sessionDataLoader = self::getContainer()->get(SessionData::class);

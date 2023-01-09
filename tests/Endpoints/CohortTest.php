@@ -79,6 +79,15 @@ class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
         ];
     }
 
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
+
     public function testPostFails()
     {
         $dataLoader = $this->getDataLoader();

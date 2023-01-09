@@ -51,4 +51,12 @@ class MeshPreviousIndexingTest extends AbstractMeshTest
             'previousIndexing' => [[1], ['previousIndexing' => 'second previous indexing']],
         ];
     }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
 }

@@ -58,6 +58,14 @@ class CurriculumInventorySequenceTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
+
     /**
      * We need to create additional reports to go with each Sequence
      * however when new reports are created a sequence is automatically created

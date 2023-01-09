@@ -36,4 +36,12 @@ class LearningMaterialUserRoleTest extends ReadEndpointTest
             'title' => [[1], ['title' => 'second lm user role']],
         ];
     }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
 }

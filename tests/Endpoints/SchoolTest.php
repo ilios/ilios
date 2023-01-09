@@ -95,6 +95,14 @@ class SchoolTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
+
     /**
      * We can't test deleting schools as sqlite doesn't enforce FK cascades
      * This leaves us with bad data in the database which fails the tests

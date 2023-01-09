@@ -94,6 +94,7 @@ class SessionTypeTest extends ReadWriteEndpointTest
     {
         return [
             'id' => [[0], ['id' => 1]],
+            'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second session type']],
             'assessmentOption' => [[1], ['assessmentOption' => '2']],
             'school' => [[0, 1], ['school' => 1]],
@@ -114,6 +115,14 @@ class SessionTypeTest extends ReadWriteEndpointTest
             'active' => [[1], ['active' => true]],
             'notActive' => [[0], ['active' => false]],
         ];
+    }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
     }
 
     public function removingSessionThrowsError(array $data)

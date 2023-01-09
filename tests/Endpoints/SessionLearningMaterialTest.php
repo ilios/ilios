@@ -85,6 +85,14 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
+
     public function testCanViewOneAsLearnerInSessionWhenAvailable()
     {
         $url = $this->getUrl(

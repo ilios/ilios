@@ -142,6 +142,14 @@ class CourseTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+
+        return $filters;
+    }
+
     public function testGetMyCourses()
     {
         $dataLoader = $this->getDataLoader();

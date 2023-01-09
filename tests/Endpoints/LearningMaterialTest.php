@@ -124,6 +124,14 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+
+        return $filters;
+    }
+
     protected function getTimeStampFields(): array
     {
         return ['uploadDate'];

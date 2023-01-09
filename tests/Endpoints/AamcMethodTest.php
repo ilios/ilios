@@ -60,4 +60,11 @@ class AamcMethodTest extends ReadWriteEndpointTest
             'notActive' => [[1], ['active' => false]],
         ];
     }
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => ['AM001', 'AM002']]];
+
+        return $filters;
+    }
 }

@@ -95,6 +95,13 @@ class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
             'excludedSessions' => [[0], ['sessions' => [1]]],
         ];
     }
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
 
     public function testDeleteBlockFromStartOfOrderedSequence()
     {

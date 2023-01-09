@@ -57,6 +57,13 @@ class AssessmentOptionTest extends ReadWriteEndpointTest
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
         ];
     }
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
 
     public function testPutForAllData()
     {
