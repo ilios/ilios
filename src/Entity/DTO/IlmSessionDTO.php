@@ -61,6 +61,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         )
     ]
 )]
+#[IA\FilterableBy('courses', 'array<integer>')]
+#[IA\FilterableBy('sessions', 'array<integer>')]
 class IlmSessionDTO
 {
     #[IA\Id]

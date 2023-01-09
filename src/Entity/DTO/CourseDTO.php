@@ -147,6 +147,14 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
+#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('ancestors', 'array<integer>')]
+#[IA\FilterableBy('sessions', 'array<integer>')]
+#[IA\FilterableBy('programs', 'array<integer>')]
+#[IA\FilterableBy('instructors', 'array<integer>')]
+#[IA\FilterableBy('instructorGroups', 'array<integer>')]
+#[IA\FilterableBy('programYears', 'array<integer>')]
+#[IA\FilterableBy('competencies', 'array<integer>')]
 class CourseDTO
 {
     #[IA\Id]

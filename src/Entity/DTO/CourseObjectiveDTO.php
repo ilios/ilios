@@ -75,6 +75,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
+#[IA\FilterableBy('courses', 'array<integer>')]
 class CourseObjectiveDTO
 {
     #[IA\Id]

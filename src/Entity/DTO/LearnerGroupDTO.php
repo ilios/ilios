@@ -96,6 +96,7 @@ use OpenApi\Attributes as OA;
         )
     ]
 )]
+#[IA\FilterableBy('cohorts', 'array<integer>')]
 class LearnerGroupDTO
 {
     #[IA\Id]

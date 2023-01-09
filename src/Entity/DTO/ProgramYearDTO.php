@@ -69,6 +69,10 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         )
     ]
 )]
+#[IA\FilterableBy('courses', 'array<integer>')]
+#[IA\FilterableBy('sessions', 'array<integer>')]
+#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('startYears', 'array<integer>')]
 class ProgramYearDTO
 {
     #[IA\Id]

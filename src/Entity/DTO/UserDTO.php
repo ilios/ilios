@@ -253,6 +253,13 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         )
     ]
 )]
+#[IA\FilterableBy('roles', 'array<integer>')]
+#[IA\FilterableBy('instructedCourses', 'array<integer>')]
+#[IA\FilterableBy('instructedSessions', 'array<integer>')]
+#[IA\FilterableBy('instructedSessionTypes', 'array<integer>')]
+#[IA\FilterableBy('instructedLearningMaterials', 'array<integer>')]
+#[IA\FilterableBy('learnerSessions', 'array<integer>')]
+#[IA\FilterableBy('schools', 'array<integer>')]
 class UserDTO
 {
     #[IA\Id]

@@ -61,6 +61,15 @@ use OpenApi\Attributes as OA;
         )
     ]
 )]
+#[IA\FilterableBy('courses', 'array<integer>')]
+#[IA\FilterableBy('learningMaterials', 'array<integer>')]
+#[IA\FilterableBy('instructors', 'array<integer>')]
+#[IA\FilterableBy('instructorGroups', 'array<integer>')]
+#[IA\FilterableBy('programs', 'array<integer>')]
+#[IA\FilterableBy('competencies', 'array<integer>')]
+#[IA\FilterableBy('terms', 'array<integer>')]
+#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('meshDescriptors', 'array<string>')]
 class SessionTypeDTO
 {
     #[IA\Id]

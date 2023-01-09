@@ -69,6 +69,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
+#[IA\FilterableBy('schools', 'array<integer>')]
 class SessionLearningMaterialDTO
 {
     #[IA\Id]

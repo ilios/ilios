@@ -6,8 +6,8 @@ namespace App\Service\GraphQL;
 
 use App\Attributes\Id;
 use App\Service\EntityMetadata;
-use App\Service\InflectorFactory;
 use Doctrine\Inflector\Inflector;
+use GraphQL\Type\Definition\IDType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use ReflectionProperty;
@@ -25,6 +25,7 @@ class TypeRegistry
         protected DTOInfo $dtoInfo,
         protected TypeResolver $typeResolver,
         protected FieldResolver $fieldResolver,
+        protected Inflector $inflector,
     ) {
     }
 
@@ -56,7 +57,7 @@ class TypeRegistry
         ];
 
         if ($includeArgs) {
-            $def['args'] = $this->buildArgs($exposedProperties);
+            $def['args'] = $this->buildArgs($name);
         }
 
         return $def;
@@ -109,26 +110,49 @@ class TypeRegistry
         }
     }
 
-    /**
-     * @param ReflectionProperty[] $properties
-     */
-    protected function buildArgs(array $properties): array
+    protected function buildArgs(string $name): array
     {
-        $idProperties = array_filter($properties, [$this, 'isId']);
-        if ($idProperties === []) {
-            return [];
-        }
+        $filters = [];
+        $exposedProperties = $this->dtoInfo->getGraphQLExposedPropertiesForType($name);
+        $idProperties = array_filter($exposedProperties, [$this, 'isId']);
+
         $idProperty = array_values($idProperties)[0];
         $type = $this->entityMetadata->getTypeOfProperty($idProperty);
-        $name = $idProperty->getName();
-        return [
-            $name => [
-                'type' => Type::listOf(match ($type) {
-                    'string' => Type::string(),
-                    'integer' => Type::int(),
-                })
-            ]
-        ];
+        $propertyName = $idProperty->getName();
+        $filters[$propertyName] = ['type' => match ($type) {
+            'string' => IDType::string(),
+            'integer' => IDType::int(),
+        } ];
+        $filters[$this->inflector->pluralize($propertyName)] = ['type' => Type::listOf(match ($type) {
+            'string' => IDType::string(),
+            'integer' => IDType::int(),
+        }) ];
+
+        $notIdProperties = array_diff($exposedProperties, $idProperties);
+        foreach ($notIdProperties as $property) {
+            $type = $this->entityMetadata->getTypeOfProperty($property);
+            $propertyName = $property->getName();
+            $filters[$propertyName] = ['type' => $this->getFilterType($type)];
+        }
+
+        foreach ($this->entityMetadata->extractFilterable($this->dtoInfo->getRefForType($name)) as $name => $type) {
+            $filters[$name] = $this->getFilterType($type);
+        }
+
+        return $filters;
+    }
+
+    protected function getFilterType(string $type): Type
+    {
+        return match ($type) {
+            'string' => Type::string(),
+            'array<dto>', 'array<string>' => Type::listOf(Type::string()),
+            'boolean' => Type::boolean(),
+            'integer', 'entity' => Type::int(),
+            'array<integer>' => Type::listOf(Type::int()),
+            'float' => Type::float(),
+            'dateTime' => DateTimeType::getInstance(),
+        };
     }
 
     protected function isId(ReflectionProperty $property): bool

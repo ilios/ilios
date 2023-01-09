@@ -63,6 +63,11 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
+#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('courses', 'array<integer>')]
+#[IA\FilterableBy('terms', 'array<integer>')]
+#[IA\FilterableBy('sessions', 'array<integer>')]
+#[IA\FilterableBy('sessionTypes', 'array<integer>')]
 class CompetencyDTO
 {
     #[IA\Id]

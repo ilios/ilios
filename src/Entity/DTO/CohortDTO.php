@@ -48,6 +48,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         )
     ]
 )]
+#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('startYears', 'array<integer>')]
 class CohortDTO
 {
     #[IA\Id]
