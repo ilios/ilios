@@ -212,7 +212,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $terms = [];
 
     /**
@@ -220,7 +220,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionObjectives = [];
 
     /**
@@ -236,7 +236,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('sessionLearningMaterials')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $learningMaterials = [];
 
     /**
@@ -244,7 +244,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $administrators = [];
 
     /**
@@ -252,7 +252,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $studentAdvisors = [];
 
     /**
@@ -260,7 +260,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $offerings = [];
 
     /**
@@ -268,7 +268,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('sessions')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $prerequisites = [];
 
     /**

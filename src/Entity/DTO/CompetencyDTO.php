@@ -93,7 +93,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related('competencies')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $children = [];
 
     /**
@@ -101,7 +101,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $aamcPcrses = [];
 
     /**
@@ -109,7 +109,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYears = [];
 
     /**
@@ -117,7 +117,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related('programYearObjectives')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYearObjectives = [];
 
     public function __construct(

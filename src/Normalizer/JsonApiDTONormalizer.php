@@ -72,7 +72,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
             return null === $value ? null : $value->format('c');
         }
 
-        if ($type === 'array<string>') {
+        if ($type === 'array<string>' || $type === 'array<integer>') {
             $values = $object->{$property->name};
             $stringValues = array_map('strval', $values);
 

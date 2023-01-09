@@ -69,7 +69,7 @@ class CohortDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courses = [];
 
     /**
@@ -77,7 +77,7 @@ class CohortDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $learnerGroups = [];
 
     /**
@@ -85,7 +85,7 @@ class CohortDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $users = [];
 
     /**

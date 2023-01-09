@@ -149,7 +149,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courses = [];
 
     /**
@@ -157,7 +157,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('sessionObjectives')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionObjectives = [];
 
     /**
@@ -165,7 +165,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('courseObjectives')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseObjectives = [];
 
     /**
@@ -173,7 +173,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('programYearObjectives')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYearObjectives = [];
 
     /**
@@ -181,7 +181,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessions = [];
 
     /**
@@ -189,7 +189,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('meshConcepts')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $concepts = [];
 
     /**
@@ -197,7 +197,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('meshQualifiers')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $qualifiers = [];
 
     /**
@@ -205,7 +205,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('meshTrees')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $trees = [];
 
     /**
@@ -213,7 +213,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionLearningMaterials = [];
 
     /**
@@ -221,7 +221,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseLearningMaterials = [];
 
     public function __construct(

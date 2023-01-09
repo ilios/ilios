@@ -98,7 +98,7 @@ class SessionObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $terms = [];
 
     /**
@@ -106,7 +106,7 @@ class SessionObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related('courseObjectives')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseObjectives = [];
 
     /**
@@ -122,7 +122,7 @@ class SessionObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related('sessionObjectives')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $descendants = [];
 
     /**

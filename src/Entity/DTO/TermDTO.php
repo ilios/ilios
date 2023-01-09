@@ -127,7 +127,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related('terms')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $children = [];
 
     /**
@@ -135,7 +135,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courses = [];
 
     /**
@@ -143,7 +143,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYears = [];
 
     /**
@@ -151,7 +151,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessions = [];
 
     /**
@@ -167,7 +167,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionObjectives = [];
 
     /**
@@ -175,7 +175,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseObjectives = [];
 
     /**
@@ -183,7 +183,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYearObjectives = [];
 
     /**

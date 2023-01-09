@@ -86,7 +86,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $learnerGroups = [];
 
     /**
@@ -94,7 +94,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $instructorGroups = [];
 
     /**
@@ -102,7 +102,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $instructors = [];
 
     /**
@@ -110,7 +110,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $learners = [];
 
     /**

@@ -45,7 +45,7 @@ class AlertChangeTypeDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $alerts = [];
 
     public function __construct(

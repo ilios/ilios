@@ -65,7 +65,7 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
             return is_null($value) ? null : (int) $value;
         }
 
-        if ($type === 'array<string>') {
+        if ($type === 'array<string>' || $type === 'array<integer>') {
             $stringValues = array_map('strval', $value);
             return array_values($stringValues);
         }

@@ -183,7 +183,7 @@ class LearningMaterialDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionLearningMaterials = [];
 
     /**
@@ -191,7 +191,7 @@ class LearningMaterialDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseLearningMaterials = [];
 
     /**

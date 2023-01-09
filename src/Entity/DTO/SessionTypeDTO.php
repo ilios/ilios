@@ -86,12 +86,12 @@ class SessionTypeDTO
 
     #[IA\Expose]
     #[IA\Related('assessmentOptions')]
-    #[IA\Type('entity')]
+    #[IA\Type('integer')]
     public ?int $assessmentOption = null;
 
     #[IA\Expose]
     #[IA\Related('schools')]
-    #[IA\Type('entity')]
+    #[IA\Type('integer')]
     public int $school;
 
     /**
@@ -99,7 +99,7 @@ class SessionTypeDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $aamcMethods = [];
 
     /**
@@ -107,7 +107,7 @@ class SessionTypeDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessions = [];
 
     public function __construct(int $id, string $title, string $calendarColor, bool $assessment, bool $active)

@@ -102,7 +102,7 @@ class CurriculumInventoryReportDTO
     public ?string $description;
 
     #[IA\Expose]
-    #[IA\Type('string')]
+    #[IA\Type('integer')]
     public int $year;
 
     #[IA\Expose]
@@ -137,7 +137,7 @@ class CurriculumInventoryReportDTO
      */
     #[IA\Expose]
     #[IA\Related('curriculumInventorySequenceBlocks')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sequenceBlocks = [];
 
     /**
@@ -145,7 +145,7 @@ class CurriculumInventoryReportDTO
      */
     #[IA\Expose]
     #[IA\Related('curriculumInventoryAcademicLevels')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $academicLevels = [];
 
     /**
@@ -153,7 +153,7 @@ class CurriculumInventoryReportDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $administrators = [];
 
     /**

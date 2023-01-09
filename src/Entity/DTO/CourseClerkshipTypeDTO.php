@@ -46,7 +46,7 @@ class CourseClerkshipTypeDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courses = [];
 
     public function __construct(int $id, string $title)

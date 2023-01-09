@@ -213,7 +213,7 @@ class CourseDTO
      * @var int[]
      */
     #[IA\Expose]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     #[IA\Related('users')]
     public array $directors = [];
 
@@ -221,7 +221,7 @@ class CourseDTO
      * @var int[]
      */
     #[IA\Expose]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     #[IA\Related('users')]
     public array $administrators = [];
 
@@ -229,7 +229,7 @@ class CourseDTO
      * @var int[]
      */
     #[IA\Expose]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     #[IA\Related('users')]
     public array $studentAdvisors = [];
 
@@ -238,7 +238,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $cohorts = [];
 
     /**
@@ -246,7 +246,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $terms = [];
 
     /**
@@ -254,7 +254,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseObjectives = [];
 
     /**
@@ -270,7 +270,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related('courseLearningMaterials')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $learningMaterials = [];
 
     /**
@@ -278,7 +278,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessions = [];
 
     /**
@@ -286,7 +286,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related('courses')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $descendants = [];
 
     public function __construct(

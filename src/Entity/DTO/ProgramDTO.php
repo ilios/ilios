@@ -73,7 +73,7 @@ class ProgramDTO
     public ?string $shortTitle;
 
     #[IA\Expose]
-    #[IA\Type('string')]
+    #[IA\Type('integer')]
     public int $duration;
 
     #[IA\Expose]
@@ -86,7 +86,7 @@ class ProgramDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYears = [];
 
     /**
@@ -94,7 +94,7 @@ class ProgramDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $curriculumInventoryReports = [];
 
     /**
@@ -102,7 +102,7 @@ class ProgramDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $directors = [];
 
     public function __construct(

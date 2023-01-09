@@ -84,7 +84,7 @@ class TypeRegistry
             $name = $this->entityMetadata->extractRelatedNameForProperty($property);
 
             //wrap array types in listOf
-            $fn = $type === 'array<string>' ?
+            $fn = in_array($type, ['array<string>', 'array<integer>']) ?
                 fn() => Type::listOf($this->getType($name)) :
                 fn() => $this->getType($name)
             ;

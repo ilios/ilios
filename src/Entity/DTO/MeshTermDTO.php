@@ -112,7 +112,7 @@ class MeshTermDTO
      */
     #[IA\Expose]
     #[IA\Related('meshConcepts')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $concepts = [];
 
     public function __construct(

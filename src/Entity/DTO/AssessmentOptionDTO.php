@@ -46,7 +46,7 @@ class AssessmentOptionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionTypes = [];
 
     public function __construct(
