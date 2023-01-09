@@ -83,7 +83,7 @@ class LearnerGroupTest extends ReadWriteEndpointTest
             'doesNotNeedAccommodation' => [[0, 2, 3, 4], ['needsAccommodation' => false]],
             'cohort' => [[1], ['cohort' => 2]],
             'parent' => [[3], ['parent' => 1]],
-            'ancestor' => [[3], ['ancestor' => '3']],
+            'ancestor' => [[3], ['ancestor' => 3]],
             'noParent' => [[0, 1, 2, 4], ['parent' => 'null']],
             'children' => [[0], ['children' => [4]], $skipped = true],
             'ilmSessions' => [[0, 2], ['ilmSessions' => [1]], $skipped = true],

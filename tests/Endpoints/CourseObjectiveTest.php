@@ -69,8 +69,8 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
             'terms' => [[0, 1], ['terms' => [1]]],
             'position' => [[0, 1, 2, 3, 4], ['position' => 0]],
             'title' => [[1], ['title' => 'course objective 2']],
-            'active' => [[0, 1, 2, 3, 4], ['active' => 1]],
-            'notActive' => [[], ['active' => 0]],
+            'active' => [[0, 1, 2, 3, 4], ['active' => true]],
+            'notActive' => [[], ['active' => false]],
             'ancestor' => [[1], ['ancestor' => [1]]]
         ];
     }
@@ -79,6 +79,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
     {
         $filters = $this->filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['ancestor'] = [[1], ['ancestor' => 1]];
 
         return $filters;
     }

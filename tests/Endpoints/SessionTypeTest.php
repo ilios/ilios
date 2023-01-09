@@ -96,7 +96,7 @@ class SessionTypeTest extends ReadWriteEndpointTest
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second session type']],
-            'assessmentOption' => [[1], ['assessmentOption' => '2']],
+            'assessmentOption' => [[1], ['assessmentOption' => 2]],
             'school' => [[0, 1], ['school' => 1]],
             'schools' => [[0, 1], ['school' => [1]]],
             'aamcMethods' => [[0, 1], ['aamcMethods' => ['AM001']], $skipped = true],
@@ -121,6 +121,7 @@ class SessionTypeTest extends ReadWriteEndpointTest
     {
         $filters = $this->filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+        $filters['schools'] = [[0, 1], ['schools' => [1]]];
 
         return $filters;
     }

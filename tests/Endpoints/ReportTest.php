@@ -73,6 +73,7 @@ class ReportTest extends ReadWriteEndpointTest
     {
         $filters = $this->filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        unset($filters['prepositionalObjectTableRowId']);
 
         return $filters;
     }

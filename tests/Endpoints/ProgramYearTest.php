@@ -99,6 +99,7 @@ class ProgramYearTest extends ReadWriteEndpointTest
     {
         $filters = $this->filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['startYear'] = [[1], ['startYear' => 2014]];
 
         return $filters;
     }
