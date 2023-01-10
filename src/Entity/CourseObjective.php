@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Attribute as IA;
+use App\Attributes as IA;
 use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\IdentifiableEntity;

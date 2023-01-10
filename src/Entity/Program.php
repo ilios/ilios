@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\DirectorsEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;

@@ -13,7 +13,7 @@ use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use App\Repository\LearningMaterialRepository;
 
 use function array_unique;

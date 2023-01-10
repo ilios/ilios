@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
-use App\Attribute\Id;
+use App\Attributes\Id;
 use App\Service\EntityMetadata;
 use App\Service\InflectorFactory;
 use Doctrine\Inflector\Inflector;

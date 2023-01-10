@@ -9,7 +9,7 @@ use App\Traits\IlmSessionsEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\InstructorsEntity;
 use App\Traits\UsersEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
