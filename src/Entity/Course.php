@@ -17,7 +17,7 @@ use App\Traits\CohortsEntity;
 use App\Traits\DirectorsEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\PublishableEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity\DTO;
 
-use App\Attribute as IA;
+use App\Attributes as IA;
 use DateTime;
 use OpenApi\Attributes as OA;
 

@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\CategorizableEntity;
 use App\Traits\TitledEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 

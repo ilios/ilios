@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\SessionTypesEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;

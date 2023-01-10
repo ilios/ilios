@@ -10,7 +10,7 @@ use App\Traits\CohortsEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearningMaterialsEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;

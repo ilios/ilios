@@ -12,7 +12,7 @@ use App\Traits\InstructorsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearnersEntity;
 use App\Traits\SessionConsolidationEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
-use App\Attribute\ExposeGraphQL;
-use App\Attribute\Related;
+use App\Attributes\ExposeGraphQL;
+use App\Attributes\Related;
 use App\Service\EntityMetadata;
 use Exception;
 use ReflectionClass;

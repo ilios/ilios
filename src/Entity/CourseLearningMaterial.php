@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\LearningMaterialRelationshipEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SortableEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;

@@ -8,7 +8,7 @@ use App\Repository\UserSessionMaterialStatusRepository;
 use App\Traits\TimestampableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'user_session_material_status')]

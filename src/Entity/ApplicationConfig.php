@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use App\Repository\ApplicationConfigRepository;
 use App\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;

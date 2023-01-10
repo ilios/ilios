@@ -10,7 +10,7 @@ use App\Traits\CategorizableEntity;
 use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
 use App\Traits\StringableIdEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;

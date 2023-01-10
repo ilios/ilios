@@ -18,7 +18,7 @@ use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\OfferingsEntity;

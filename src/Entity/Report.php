@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;

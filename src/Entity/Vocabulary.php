@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\SchoolEntity;

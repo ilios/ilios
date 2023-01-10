@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
-use App\Attribute as IA;
+use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\SchoolEntity;
 use App\Repository\SchoolConfigRepository;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\DataLoader;
 
-use App\Attribute\Id;
-use App\Attribute\Related;
+use App\Attributes\Id;
+use App\Attributes\Related;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
 use Closure;

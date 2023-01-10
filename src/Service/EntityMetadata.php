@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Attribute\DTO;
-use App\Attribute\Entity;
-use App\Attribute\Expose;
-use App\Attribute\Id;
-use App\Attribute\OnlyReadable;
-use App\Attribute\Related;
-use App\Attribute\RemoveMarkup;
-use App\Attribute\Type;
+use App\Attributes\DTO;
+use App\Attributes\Entity;
+use App\Attributes\Expose;
+use App\Attributes\Id;
+use App\Attributes\OnlyReadable;
+use App\Attributes\Related;
+use App\Attributes\RemoveMarkup;
+use App\Attributes\Type;
 use Doctrine\Persistence\Proxy;
 use Exception;
 use Symfony\Component\Finder\Finder;
