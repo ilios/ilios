@@ -45,6 +45,6 @@ class GraphQL
             null,
             $resolver,
         );
-        return JsonResponse::fromJsonString(json_encode($result->toArray(DebugFlag::RETHROW_INTERNAL_EXCEPTIONS)));
+        return JsonResponse::fromJsonString(json_encode($result->toArray()));
     }
 }
