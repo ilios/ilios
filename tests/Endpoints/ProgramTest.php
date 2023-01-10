@@ -182,7 +182,7 @@ class ProgramTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { programs(id: [{$data['id']}]) { id, school { id } }}"
+                'query' => "query { programs(id: {$data['id']}) { id, school { id } }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );

@@ -613,13 +613,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $loader = $this->getDataLoader();
         $idField = $loader->getIdField();
         $data = $loader->getOne();
-        $id = $data[$idField];
-        if (is_int($id)) {
-            $idValue = $id;
-        } else {
-            $idValue = '"' . $id . '"';
-        }
-        $result = $this->getGraphQLFiltered($idField, [$idField => [$idValue]]);
+        $result = $this->getGraphQLFiltered($idField, [$idField => $data[$idField]]);
         $this->assertCount(1, $result);
         $this->assertObjectHasAttribute($idField, $result[0]);
         $this->assertEquals($data[$idField], $result[0]->{$idField});

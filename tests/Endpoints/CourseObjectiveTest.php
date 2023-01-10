@@ -231,7 +231,7 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { courseObjectives(id: [{$data['id']}]) { id, course { id } }}"
+                'query' => "query { courseObjectives(id: {$data['id']}) { id, course { id } }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
