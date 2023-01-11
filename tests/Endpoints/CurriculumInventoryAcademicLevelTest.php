@@ -41,9 +41,17 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
             'name' => [[1], ['name' => 'second name']],
             'description' => [[0], ['description' => 'first description']],
             'level' => [[1], ['level' => 2]],
-            'report' => [[0, 1, 2], ['report' => '1']],
+            'report' => [[0, 1, 2], ['report' => 1]],
             'startingSequenceBlocks' => [[1], ['startingSequenceBlocks' => 2]],
             'endingSequenceBlocks' => [[2], ['endingSequenceBlocks' => 2]],
         ];
+    }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
     }
 }

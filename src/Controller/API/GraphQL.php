@@ -25,6 +25,9 @@ class GraphQL
     {
         $types = $typeRegistry->getTypes();
         $queryType = new ObjectType([
+            'description' => 'This API is not subject to normal Ilios backwards compatibility rules ' .
+                'and should be considered VERY experimental. Use at your own risk ' .
+                'and pay strict attention to Ilios release notes before upgrading.',
             'name' => 'Query',
             'fields' => $types,
         ]);
@@ -42,6 +45,6 @@ class GraphQL
             null,
             $resolver,
         );
-        return JsonResponse::fromJsonString(json_encode($result->toArray(DebugFlag::RETHROW_INTERNAL_EXCEPTIONS)));
+        return JsonResponse::fromJsonString(json_encode($result->toArray()));
     }
 }

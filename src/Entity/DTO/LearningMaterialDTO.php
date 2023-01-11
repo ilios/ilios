@@ -108,6 +108,14 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
+#[IA\FilterableBy('courses', 'array<integer>')]
+#[IA\FilterableBy('sessions', 'array<integer>')]
+#[IA\FilterableBy('sessionTypes', 'array<integer>')]
+#[IA\FilterableBy('instructors', 'array<integer>')]
+#[IA\FilterableBy('instructorGroups', 'array<integer>')]
+#[IA\FilterableBy('terms', 'array<integer>')]
+#[IA\FilterableBy('fullCourses', 'array<integer>')]
+#[IA\FilterableBy('meshDescriptors', 'array<string>')]
 class LearningMaterialDTO
 {
     #[IA\Id]
@@ -183,7 +191,7 @@ class LearningMaterialDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionLearningMaterials = [];
 
     /**
@@ -191,7 +199,7 @@ class LearningMaterialDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseLearningMaterials = [];
 
     /**

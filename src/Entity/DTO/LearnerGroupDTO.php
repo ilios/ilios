@@ -96,6 +96,7 @@ use OpenApi\Attributes as OA;
         )
     ]
 )]
+#[IA\FilterableBy('cohorts', 'array<integer>')]
 class LearnerGroupDTO
 {
     #[IA\Id]
@@ -139,7 +140,7 @@ class LearnerGroupDTO
      */
     #[IA\Expose]
     #[IA\Related('learnerGroups')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $descendants = [];
 
     /**
@@ -147,7 +148,7 @@ class LearnerGroupDTO
      */
     #[IA\Expose]
     #[IA\Related('learnerGroups')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $children = [];
 
     /**
@@ -155,7 +156,7 @@ class LearnerGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $ilmSessions = [];
 
     /**
@@ -163,7 +164,7 @@ class LearnerGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $offerings = [];
 
     /**
@@ -171,7 +172,7 @@ class LearnerGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $instructorGroups = [];
 
     /**
@@ -179,7 +180,7 @@ class LearnerGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $users = [];
 
     /**
@@ -187,7 +188,7 @@ class LearnerGroupDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $instructors = [];
 
     public function __construct(int $id, string $title, ?string $location, ?string $url, bool $needsAccommodation)

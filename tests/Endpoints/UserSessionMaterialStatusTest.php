@@ -57,6 +57,20 @@ class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+        $filters['materials'] = [[0, 2], ['materials' => [1, 5]]];
+        $filters['users'] = [[0, 1, 2], ['users' => [2]]];
+        $filters['statuses'] = [[0, 1], ['statuses' => [
+            UserSessionMaterialStatusInterface::NONE,
+            UserSessionMaterialStatusInterface::STARTED
+        ]]];
+
+        return $filters;
+    }
+
     protected function getTimeStampFields(): array
     {
         return ['updatedAt'];

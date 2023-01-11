@@ -93,6 +93,14 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         )
     ]
 )]
+#[IA\FilterableBy('sessionTypes', 'array<integer>')]
+#[IA\FilterableBy('instructors', 'array<integer>')]
+#[IA\FilterableBy('instructorGroups', 'array<integer>')]
+#[IA\FilterableBy('learningMaterials', 'array<integer>')]
+#[IA\FilterableBy('competencies', 'array<integer>')]
+#[IA\FilterableBy('meshDescriptors', 'array<string>')]
+#[IA\FilterableBy('programs', 'array<integer>')]
+#[IA\FilterableBy('schools', 'array<integer>')]
 class TermDTO
 {
     #[IA\Id]
@@ -127,7 +135,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related('terms')]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $children = [];
 
     /**
@@ -135,7 +143,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courses = [];
 
     /**
@@ -143,7 +151,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYears = [];
 
     /**
@@ -151,7 +159,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessions = [];
 
     /**
@@ -167,7 +175,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessionObjectives = [];
 
     /**
@@ -175,7 +183,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $courseObjectives = [];
 
     /**
@@ -183,7 +191,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $programYearObjectives = [];
 
     /**

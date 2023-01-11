@@ -12,10 +12,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 class FieldResolver
 {
-    public function __construct(protected SchoolRepository $schoolRepository)
-    {
-    }
-
     public function __invoke($source, $args, $context, ResolveInfo $info)
     {
         $fieldName = $info->fieldName;

@@ -90,9 +90,18 @@ class ProgramYearTest extends ReadWriteEndpointTest
             'courses' => [[2], ['courses' => [4]]],
             'sessions' => [[0], ['sessions' => [3]]],
             'schools' => [[0, 1, 2, 4], ['schools' => [1]]],
-            'startYear' => [[1], ['startYear' => ['2014']]],
-            'startYears' => [[1, 2], ['startYears' => ['2014', '2015']]],
+            'startYear' => [[1], ['startYear' => [2014]]],
+            'startYears' => [[1, 2], ['startYears' => [2014, 2015]]],
         ];
+    }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['startYear'] = [[1], ['startYear' => 2014]];
+
+        return $filters;
     }
 
     protected function postTest(array $data, array $postData): mixed

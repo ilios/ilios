@@ -69,11 +69,19 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
             'terms' => [[0, 1], ['terms' => [2]]],
             'position' => [[0, 1], ['position' => 0]],
             'title' => [[1], ['title' => 'program year objective 2']],
-            'active' => [[0, 1], ['active' => 1]],
-            'notActive' => [[], ['active' => 0]],
+            'active' => [[0, 1], ['active' => true]],
+            'notActive' => [[], ['active' => false]],
             'ancestor' => [[1], ['ancestor' => 1]],
             'competencies' => [[1], ['competency' => 2]],
         ];
+    }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
     }
 
     protected function createMany(int $count): array

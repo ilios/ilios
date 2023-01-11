@@ -19,6 +19,11 @@ interface GetEndpointTestInterface
     public function filtersToTest(): array;
 
     /**
+     * An array of GraphQL filters to test.
+     */
+    public function graphQLFiltersToTest(): array;
+
+    /**
      * Test fetching a single object
      */
     public function testGetOne();
@@ -41,4 +46,9 @@ interface GetEndpointTestInterface
      * @dataProvider filtersToTest
      */
     public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false);
+
+    /**
+     * @dataProvider graphQLFiltersToTest
+     */
+    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false);
 }

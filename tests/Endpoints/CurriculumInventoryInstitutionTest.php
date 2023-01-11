@@ -61,7 +61,7 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'name' => [[1], ['name' => 'second institution']],
-            'aamcCode' => [[1], ['aamcCode' => 14]],
+            'aamcCode' => [[1], ['aamcCode' => '14']],
             'addressStreet' => [[1], ['addressStreet' => '221 East']],
             'addressCity' => [[0], ['addressCity' => 'first city']],
             'addressStateOrProvince' => [[1], ['addressStateOrProvince' => 'CA']],
@@ -69,6 +69,14 @@ class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
             'addressCountryCode' => [[1], ['addressCountryCode' => 'BC']],
             'school' => [[1], ['school' => 2]],
         ];
+    }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
     }
 
     protected function createMany(int $count): array

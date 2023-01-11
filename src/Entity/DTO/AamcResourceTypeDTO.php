@@ -55,7 +55,7 @@ class AamcResourceTypeDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $terms = [];
 
     public function __construct(

@@ -35,6 +35,7 @@ class Type
      'entityCollection',
      'array',
      'array<string>',
+     'array<integer>',
      'array<dto>',
     ];
 

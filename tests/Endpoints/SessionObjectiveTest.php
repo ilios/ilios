@@ -69,12 +69,20 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
             'position' => [[0, 1, 2], ['position' => 0]],
             'courses' => [[1, 2], ['courses' => 4]],
             'title' => [[1], ['title' => 'session objective 2']],
-            'active' => [[0, 1, 2], ['active' => 1]],
-            'notActive' => [[], ['active' => 0]],
+            'active' => [[0, 1, 2], ['active' => true]],
+            'notActive' => [[], ['active' => false]],
             'ancestor' => [[2], ['ancestor' => 1]],
             'school' => [[0], ['schools' => 1]],
             'schools' => [[0], ['schools' => [1]]],
         ];
+    }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
     }
 
     protected function createMany(int $count): array

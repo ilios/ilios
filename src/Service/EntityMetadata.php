@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Attributes\DTO;
 use App\Attributes\Entity;
 use App\Attributes\Expose;
+use App\Attributes\FilterableBy;
 use App\Attributes\Id;
 use App\Attributes\OnlyReadable;
 use App\Attributes\Related;
@@ -34,6 +35,7 @@ class EntityMetadata
     private array $iliosEntities;
     private array $iliosDtos;
     private array $entityTypes;
+    private array $filtersForClass;
 
     /**
      * EntityMetadata constructor
@@ -51,6 +53,7 @@ class EntityMetadata
         $this->typeForProperties = [];
         $this->idForClasses = [];
         $this->relatedForClass = [];
+        $this->filtersForClass = [];
 
         $this->iliosEntities = $appCache->get(
             self::CACHE_KEY_PREFIX . 'entities',
@@ -151,6 +154,25 @@ class EntityMetadata
         }
 
         return $this->exposedPropertiesForClass[$className];
+    }
+
+    /**
+     * Get filterable options for a DTO
+     */
+    public function extractFilterable(ReflectionClass $reflection): array
+    {
+        $className = $reflection->getName();
+        if (!array_key_exists($className, $this->filtersForClass)) {
+            $filters = [];
+            foreach ($reflection->getAttributes(FilterableBy::class) as $attribute) {
+                $arr = $attribute->getArguments();
+                $filters[$arr[0]] = $arr[1];
+            }
+
+            $this->filtersForClass[$className] = $filters;
+        }
+
+        return $this->filtersForClass[$className];
     }
 
     /**

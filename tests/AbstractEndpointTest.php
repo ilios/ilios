@@ -610,38 +610,36 @@ abstract class AbstractEndpointTest extends WebTestCase
 
     protected function getSomeGraphQLTest(): array
     {
-        $name = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
         $idField = $loader->getIdField();
         $data = $loader->getOne();
-        $id = $data[$idField];
-        if (is_int($id)) {
-            $idValue = $id;
-        } else {
-            $idValue = '"' . $id . '"';
-        }
-
-        $this->createGraphQLRequest(
-            json_encode([
-                'query' => "query { {$name}({$idField}: [{$idValue}]) { {$idField} }}"
-            ]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertGraphQLResponse($response);
-
-        $content = json_decode($response->getContent());
-
-        $this->assertIsObject($content->data);
-        $this->assertIsArray($content->data->{$name});
-
-        $result = $content->data->{$name};
+        $result = $this->getGraphQLFiltered($idField, [$idField => $data[$idField]]);
         $this->assertCount(1, $result);
         $this->assertObjectHasAttribute($idField, $result[0]);
         $this->assertEquals($data[$idField], $result[0]->{$idField});
 
         return $result;
+    }
+
+    /**
+     * Test that a filter returns the expected data for a graphql query
+     */
+    protected function graphQLFilterTest(array $filters, array $expectedIds, int $userId = 2)
+    {
+        $idField = $this->getDataLoader()->getIdField();
+        $result = $this->getGraphQLFiltered($idField, $filters, $userId);
+
+        $this->assertCount(count($expectedIds), $result);
+        $this->assertCount(
+            count($expectedIds),
+            $result,
+            'Wrong Number of responses returned from filter got: ' . var_export($result, true)
+        );
+
+        $ids = array_column($result, $idField);
+        foreach ($expectedIds as $id) {
+            $this->assertContains($id, $ids, "ID ($id) Missing from response:" . var_export($ids, true));
+        }
     }
 
     /**
@@ -1359,6 +1357,51 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
         return json_decode($response->getContent(), true)[$responseKey];
+    }
+
+    /**
+     * Get data from the GraphQL API using filter parameters
+     */
+    protected function getGraphQLFiltered(
+        string $idField,
+        array $filters,
+        int $userId = 2
+    ): mixed {
+        $name = $this->getCamelCasedPluralName();
+        $filterParts = [];
+        foreach ($filters as $key => $value) {
+            $quoter = fn($v) => match (true) {
+                $v === null, $v === 'null' => 'null',
+                $v === true, $v === 'true' => 'true',
+                $v === false, $v === 'false' => 'false',
+                is_int($v), is_float($v) => $v,
+                is_string($v) => '"' . $v . '"',
+            };
+
+            if (is_array($value)) {
+                $value = array_map($quoter, $value);
+                $filter = '[' . implode(',', $value) . ']';
+            } else {
+                $filter = $quoter($value);
+            }
+            $filterParts[] = "{$key}: {$filter}";
+        }
+        $filterString = '(' . implode(',', $filterParts) . ')';
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' => "query { {$name}{$filterString} { {$idField} }}"
+            ]),
+            $this->getTokenForUser($this->kernelBrowser, $userId)
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertGraphQLResponse($response);
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->{$name});
+
+        return $content->data->{$name};
     }
 
     /**

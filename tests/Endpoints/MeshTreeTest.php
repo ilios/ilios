@@ -43,4 +43,12 @@ class MeshTreeTest extends AbstractMeshTest
             'descriptor' => [[0, 1], ['descriptor' => 'abc1']],
         ];
     }
+
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+
+        return $filters;
+    }
 }

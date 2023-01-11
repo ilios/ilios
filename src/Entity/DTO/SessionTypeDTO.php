@@ -61,6 +61,15 @@ use OpenApi\Attributes as OA;
         )
     ]
 )]
+#[IA\FilterableBy('courses', 'array<integer>')]
+#[IA\FilterableBy('learningMaterials', 'array<integer>')]
+#[IA\FilterableBy('instructors', 'array<integer>')]
+#[IA\FilterableBy('instructorGroups', 'array<integer>')]
+#[IA\FilterableBy('programs', 'array<integer>')]
+#[IA\FilterableBy('competencies', 'array<integer>')]
+#[IA\FilterableBy('terms', 'array<integer>')]
+#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('meshDescriptors', 'array<string>')]
 class SessionTypeDTO
 {
     #[IA\Id]
@@ -86,12 +95,12 @@ class SessionTypeDTO
 
     #[IA\Expose]
     #[IA\Related('assessmentOptions')]
-    #[IA\Type('entity')]
+    #[IA\Type('integer')]
     public ?int $assessmentOption = null;
 
     #[IA\Expose]
     #[IA\Related('schools')]
-    #[IA\Type('entity')]
+    #[IA\Type('integer')]
     public int $school;
 
     /**
@@ -99,7 +108,7 @@ class SessionTypeDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $aamcMethods = [];
 
     /**
@@ -107,7 +116,7 @@ class SessionTypeDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $sessions = [];
 
     public function __construct(int $id, string $title, string $calendarColor, bool $assessment, bool $active)

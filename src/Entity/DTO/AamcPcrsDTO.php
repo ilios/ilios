@@ -46,7 +46,7 @@ class AamcPcrsDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type('array<integer>')]
     public array $competencies = [];
 
     public function __construct(

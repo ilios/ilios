@@ -41,6 +41,9 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
+#[IA\FilterableBy('statuses', 'array<integer>')]
+#[IA\FilterableBy('materials', 'array<integer>')]
+#[IA\FilterableBy('users', 'array<integer>')]
 class UserSessionMaterialStatusDTO
 {
     #[IA\Expose]

@@ -83,6 +83,14 @@ class ProgramTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+
+        return $filters;
+    }
+
     /**
      * Delete Program 2 explicitly as Program 1 is linked
      * to School 1.  Since sqlite doesn't cascade this doesn't work
@@ -174,7 +182,7 @@ class ProgramTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { programs(id: [${data['id']}]) { id, school { id } }}"
+                'query' => "query { programs(id: {$data['id']}) { id, school { id } }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );

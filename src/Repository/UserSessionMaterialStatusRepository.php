@@ -78,6 +78,27 @@ class UserSessionMaterialStatusRepository extends ServiceEntityRepository implem
         ?int $limit,
         ?int $offset
     ): void {
+        if (array_key_exists('statuses', $criteria)) {
+            $ids = $criteria['statuses'];
+            $qb->andWhere($qb->expr()->in('x.status', ':statuses'));
+            $qb->setParameter(':statuses', $ids);
+        }
+        if (array_key_exists('materials', $criteria)) {
+            $ids = $criteria['materials'];
+            $qb->join('x.material', 'material');
+            $qb->andWhere($qb->expr()->in('material.id', ':materials'));
+            $qb->setParameter(':materials', $ids);
+        }
+        if (array_key_exists('users', $criteria)) {
+            $ids = $criteria['users'];
+            $qb->join('x.user', 'user');
+            $qb->andWhere($qb->expr()->in('user.id', ':users'));
+            $qb->setParameter(':users', $ids);
+        }
+
+        unset($criteria['statuses']);
+        unset($criteria['materials']);
+        unset($criteria['users']);
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 }

@@ -71,6 +71,14 @@ class IlmSessionTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+
+        return $filters;
+    }
+
     /**
      * We need to create additional sessions to
      * go with each new IlmSession

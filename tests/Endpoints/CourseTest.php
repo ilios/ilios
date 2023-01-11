@@ -142,6 +142,14 @@ class CourseTest extends ReadWriteEndpointTest
         ];
     }
 
+    public function graphQLFiltersToTest(): array
+    {
+        $filters = $this->filtersToTest();
+        $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+
+        return $filters;
+    }
+
     public function testGetMyCourses()
     {
         $dataLoader = $this->getDataLoader();
@@ -782,7 +790,7 @@ class CourseTest extends ReadWriteEndpointTest
         $this->createGraphQLRequest(
             json_encode([
                 'query' =>
-                    "query { courses(id: [{$data['id']}]) { id, school { id }, sessions { id, administrators { id }} }}"
+                    "query { courses(id: {$data['id']}) { id, school { id }, sessions { id, administrators { id }} }}"
             ]),
             $this->getAuthenticatedUserToken($this->kernelBrowser)
         );
@@ -826,7 +834,7 @@ class CourseTest extends ReadWriteEndpointTest
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { courses(id: [{$data['id']}]) { id, sessions { id, administrators { id }} }}"
+                'query' => "query { courses(id: {$data['id']}) { id, sessions { id, administrators { id }} }}"
             ]),
             $this->getTokenForUser($this->kernelBrowser, 5)
         );
