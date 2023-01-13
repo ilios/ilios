@@ -222,9 +222,9 @@ class SessionRepository extends ServiceEntityRepository implements
 
         if (array_key_exists('courses', $criteria)) {
             $ids = $criteria['courses'];
-            $qb->join('x.course', 's_course');
+            $qb->join('x.course', 'c_course');
             $qb->andWhere(
-                $qb->expr()->in('s_course.id', ':courses')
+                $qb->expr()->in('c_course.id', ':courses')
             );
             $qb->setParameter(':courses', $ids);
         }
