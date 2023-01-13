@@ -121,7 +121,11 @@ trait JsonControllerTest
             'Invalid JSON: [' . $response->getContent() . ']'
         );
         $this->assertIsObject($decode);
-        $this->assertObjectHasAttribute('data', $decode);
+        $this->assertObjectHasAttribute(
+            'data',
+            $decode,
+            var_export($decode->errors ?? 'Unknown Error', true)
+        );
     }
 
 

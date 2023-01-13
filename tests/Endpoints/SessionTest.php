@@ -123,6 +123,7 @@ class SessionTest extends ReadWriteEndpointTest
             'publishedAsTbd' => [[1], ['publishedAsTbd' => true]],
             'published' => [[0, 1], ['published' => true]],
             'sessionType' => [[1, 2, 3], ['sessionType' => 2]],
+            'multipleSessionTypes' => [[1, 2, 3], ['sessionType' => [2]]],
             'supplementalAndSessionType' => [[1, 2], ['supplemental' => true, 'sessionType' => 2]],
             'course' => [[3], ['course' => 4]],
             'multipleCourse' => [[0, 1, 3], ['course' => [1, 4]]],
@@ -149,6 +150,7 @@ class SessionTest extends ReadWriteEndpointTest
         $filters = $this->filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
         $filters['multipleCourse'] = [[0, 1, 3], ['courses' => [1, 4]]];
+        $filters['multipleSessionTypes'] = [[1, 2, 3], ['sessionTypes' => [2]]];
 
         return $filters;
     }
