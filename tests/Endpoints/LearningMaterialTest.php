@@ -121,6 +121,8 @@ class LearningMaterialTest extends ReadWriteEndpointTest
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
             'fullCoursesThroughCourse' => [[0], ['fullCourses' => [4]]],
             'fullCoursesThroughSession' => [[2, 4, 5, 6, 7, 8, 9], ['fullCourses' => [2]]],
+            'school' => [[0], ['schools' => 2]],
+            'schools' => [[0], ['schools' => [2]]],
         ];
     }
 
@@ -128,6 +130,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     {
         $filters = $this->filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+        unset($filters['school']);
 
         return $filters;
     }
