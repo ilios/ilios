@@ -141,6 +141,7 @@ class SessionTest extends ReadWriteEndpointTest
             'instructorGroups' => [[0, 4], ['instructorGroups' => [1]]],
             'competencies' => [[0], ['competencies' => [1]]],
             'schools' => [[3], ['schools' => [2]]],
+            'schoolsAndCourses' => [[3], ['schools' => [2], 'courses' => [4]]],
         ];
     }
 
