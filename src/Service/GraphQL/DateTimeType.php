@@ -27,8 +27,8 @@ class DateTimeType extends CustomScalarType
     private const RFC_3339_REGEX = '~^(\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][\d]|3[01])T([01][\d]|2[0-3]):' .
                                    '([0-5][\d]):([0-5][\d]|60))(\.\d{1,})?(([Z])|([+|-]([01][\d]|2[0-3]):' .
                                    '[0-5][\d]))$~';
-    public $name = self::NAME;
-    public $description = self::DESCRIPTION;
+    public string $name = self::NAME;
+    public ?string $description = self::DESCRIPTION;
     public static DateTimeType $instance;
 
     public function __construct()
