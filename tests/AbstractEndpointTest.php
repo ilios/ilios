@@ -1398,7 +1398,6 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertGraphQLResponse($response);
         $content = json_decode($response->getContent());
 
-        $this->assertIsObject($content->data);
         $this->assertIsArray($content->data->{$name});
 
         return $content->data->{$name};
