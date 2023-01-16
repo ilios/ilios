@@ -115,6 +115,7 @@ use OpenApi\Attributes as OA;
 #[IA\FilterableBy('learningMaterials', 'array<integer>')]
 #[IA\FilterableBy('terms', 'array<integer>')]
 #[IA\FilterableBy('sessionTypes', 'array<integer>')]
+#[IA\FilterableBy('schools', 'array<integer>')]
 class MeshDescriptorDTO
 {
     #[IA\Id]

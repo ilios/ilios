@@ -6,9 +6,7 @@ namespace App\Controller\API;
 
 use App\Service\GraphQL\TypeResolver;
 use App\Service\GraphQL\TypeRegistry;
-use GraphQL\Error\DebugFlag;
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Schema;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
