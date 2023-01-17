@@ -273,18 +273,32 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
             $qb->setParameter(':sessionTypes', $ids);
         }
 
-        if (array_key_exists('fullCourses', $criteria)) {
-            $ids = is_array($criteria['fullCourses']) ? $criteria['fullCourses'] : [$criteria['fullCourses']];
+        if (array_key_exists('fullCourses', $criteria) || array_key_exists('schools', $criteria)) {
             $qb->leftJoin('x.sessionLearningMaterials', 'f_slm');
             $qb->leftJoin('f_slm.session', 'f_session');
             $qb->leftJoin('f_session.course', 'f_session_course');
             $qb->leftJoin('x.courseLearningMaterials', 'f_clm');
             $qb->leftJoin('f_clm.course', 'f_course');
-            $qb->andWhere($qb->expr()->orX(
-                $qb->expr()->in('f_course.id', ':courses'),
-                $qb->expr()->in('f_session_course.id', ':courses')
-            ));
-            $qb->setParameter(':courses', $ids);
+
+            if (array_key_exists('fullCourses', $criteria)) {
+                $ids = is_array($criteria['fullCourses']) ? $criteria['fullCourses'] : [$criteria['fullCourses']];
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->in('f_course.id', ':courses'),
+                    $qb->expr()->in('f_session_course.id', ':courses')
+                ));
+                $qb->setParameter(':courses', $ids);
+            }
+
+            if (array_key_exists('schools', $criteria)) {
+                $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+                $qb->leftJoin('f_course.school', 'c_school');
+                $qb->leftJoin('f_session_course.school', 's_school');
+                $qb->andWhere($qb->expr()->orX(
+                    $qb->expr()->in('c_school.id', ':schools'),
+                    $qb->expr()->in('s_school.id', ':schools')
+                ));
+                $qb->setParameter(':schools', $ids);
+            }
         }
 
         //cleanup all the possible relationship filters
@@ -296,6 +310,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         unset($criteria['meshDescriptors']);
         unset($criteria['sessionTypes']);
         unset($criteria['fullCourses']);
+        unset($criteria['schools']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
