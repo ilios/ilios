@@ -2717,16 +2717,16 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "2.9.0",
+            "version": "2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "229f02a9fcf517c7bc0f5e08448ed1927866ba9e"
+                "reference": "8f32bbbb503244a9b345f878ebc16c9f3787dd0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/229f02a9fcf517c7bc0f5e08448ed1927866ba9e",
-                "reference": "229f02a9fcf517c7bc0f5e08448ed1927866ba9e",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/8f32bbbb503244a9b345f878ebc16c9f3787dd0e",
+                "reference": "8f32bbbb503244a9b345f878ebc16c9f3787dd0e",
                 "shasum": ""
             },
             "require": {
@@ -2777,7 +2777,7 @@
                 "issues": "https://github.com/markuspoerschke/iCal/issues",
                 "source": "https://github.com/markuspoerschke/iCal"
             },
-            "time": "2022-12-23T11:40:27+00:00"
+            "time": "2023-01-17T14:05:44+00:00"
         },
         {
             "name": "enlightn/security-checker",
