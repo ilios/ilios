@@ -178,139 +178,217 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         ?int $limit,
         ?int $offset
     ): void {
-        if (array_key_exists('sessions', $criteria)) {
-            $ids = is_array($criteria['sessions']) ?
-                $criteria['sessions'] : [$criteria['sessions']];
-            $qb->leftJoin('x.sessions', 'session');
-            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
-            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
-            $qb->leftJoin('slm.session', 'session2');
-            $qb->leftJoin('sessionObjective.session', 'session3');
+        $joins = [];
 
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->in('session.id', ':sessions'),
-                    $qb->expr()->in('session2.id', ':sessions'),
-                    $qb->expr()->in('session3.id', ':sessions')
-                )
-            );
-            $qb->setParameter(':sessions', $ids);
+        $criteriaKeys = array_keys($criteria);
+
+        if (
+            array_intersect(
+                $criteriaKeys,
+                ['sessions', 'courses', 'sessionTypes', 'terms', 'schools']
+            )
+        ) {
+            $joins['x.sessions'] = 'sessions';
+            $joins['x.sessionObjectives'] = 'sessionObjectives';
+            $joins['sessionObjectives.session'] = 'sessionObjectives_session';
+            $joins['x.sessionLearningMaterials'] = 'sessionLearningMaterials';
+            $joins['sessionLearningMaterials.session'] = 'sessionLearningMaterials_session';
+        }
+        if (
+            array_intersect(
+                $criteriaKeys,
+                ['courses', 'terms', 'schools']
+            )
+        ) {
+            $joins['x.courses'] = 'courses';
+            $joins['x.courseObjectives'] = 'courseObjectives';
+            $joins['courseObjectives.course'] = 'courseObjectives_course';
+            $joins['x.courseLearningMaterials'] = 'courseLearningMaterials';
+            $joins['courseLearningMaterials.course'] = 'courseLearningMaterials_course';
+        }
+        if (
+            array_intersect(
+                $criteriaKeys,
+                ['terms', 'schools']
+            )
+        ) {
+            $joins['sessions.course'] = 'sessions_course';
+            $joins['sessionObjectives_session.course'] = 'sessionObjectives_session_course';
+            $joins['sessionLearningMaterials_session.course'] = 'sessionLearningMaterials_session_course';
         }
 
         if (array_key_exists('courses', $criteria)) {
-            $ids = is_array($criteria['courses']) ?
-                $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('x.courses', 'course');
-            $qb->leftJoin('x.sessions', 'session');
-            $qb->leftJoin('x.courseLearningMaterials', 'clm');
-            $qb->leftJoin('x.courseObjectives', 'courseObjective');
-            $qb->leftJoin('courseObjective.course', 'course2');
-            $qb->leftJoin('clm.course', 'course3');
-            $qb->leftJoin('session.course', 'course4');
-            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
-            $qb->leftJoin('sessionObjective.session', 'session2');
-            $qb->leftJoin('session2.course', 'course5');
-            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
-            $qb->leftJoin('slm.session', 'session3');
-            $qb->leftJoin('session3.course', 'course6');
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->in('course.id', ':courses'),
-                    $qb->expr()->in('course2.id', ':courses'),
-                    $qb->expr()->in('course3.id', ':courses'),
-                    $qb->expr()->in('course4.id', ':courses'),
-                    $qb->expr()->in('course5.id', ':courses'),
-                    $qb->expr()->in('course6.id', ':courses')
-                )
-            );
-            $qb->setParameter(':courses', $ids);
+            $joins['sessions.course'] = 'sessions_course';
+            $joins['sessionObjectives_session.course'] = 'sessionObjectives_session_course';
+            $joins['sessionLearningMaterials_session.course'] = 'sessionLearningMaterials_session_course';
         }
-
         if (array_key_exists('sessionTypes', $criteria)) {
-            $ids = is_array($criteria['sessionTypes']) ?
-                $criteria['sessionTypes'] : [$criteria['sessionTypes']];
-
-            $qb->leftJoin('x.sessions', 'session');
-            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
-            $qb->leftJoin('session.sessionType', 'sessionType');
-            $qb->leftJoin('slm.session', 'session2');
-            $qb->leftJoin('session2.sessionType', 'sessionType2');
-            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
-            $qb->leftJoin('sessionObjective.session', 'session3');
-
-            $qb->leftJoin('session3.sessionType', 'sessionType3');
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->in('sessionType.id', ':sessionTypes'),
-                    $qb->expr()->in('sessionType2.id', ':sessionTypes'),
-                    $qb->expr()->in('sessionType3.id', ':sessionTypes')
-                )
-            );
-            $qb->setParameter(':sessionTypes', $ids);
+            $joins['sessions.sessionType'] = 'sessions_sessionType';
+            $joins['sessionObjectives_session.sessionType'] = 'sessionObjectives_session_sessionType';
+            $joins['sessionLearningMaterials_session.sessionType'] = 'sessionLearningMaterials_session_sessionType';
         }
-
         if (array_key_exists('learningMaterials', $criteria)) {
-            $ids = is_array($criteria['learningMaterials']) ?
-                $criteria['learningMaterials'] : [$criteria['learningMaterials']];
-            $qb->leftJoin('x.courseLearningMaterials', 'clm');
-            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
-            $qb->leftJoin('slm.learningMaterial', 'learningMaterial');
-            $qb->leftJoin('clm.learningMaterial', 'learningMaterial2');
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->in('learningMaterial.id', ':lm'),
-                    $qb->expr()->in('learningMaterial2.id', ':lm')
-                )
-            );
-            $qb->setParameter(':lm', $ids);
+            $joins['x.sessions'] = 'sessions';
+            $joins['x.sessionLearningMaterials'] = 'sessionLearningMaterials';
+            $joins['sessionLearningMaterials.learningMaterial'] = 'sessionLearningMaterials_learningMaterial';
+
+            $joins['x.courses'] = 'courses';
+            $joins['x.courseLearningMaterials'] = 'courseLearningMaterials';
+            $joins['courseLearningMaterials.learningMaterial'] = 'courseLearningMaterials_learningMaterial';
         }
 
         if (array_key_exists('terms', $criteria)) {
-            $ids = is_array($criteria['terms']) ?
-                $criteria['terms'] : [$criteria['terms']];
-            $qb->leftJoin('x.courses', 'course');
-            $qb->leftJoin('x.sessions', 'session');
-            $qb->leftJoin('x.courseLearningMaterials', 'clm');
-            $qb->leftJoin('course.terms', 'terms');
-            $qb->leftJoin('x.courseObjectives', 'courseObjectives');
-            $qb->leftJoin('courseObjectives.course', 'course2');
-            $qb->leftJoin('course2.terms', 'terms2');
-            $qb->leftJoin('clm.course', 'course3');
-            $qb->leftJoin('course3.terms', 'terms3');
-            $qb->leftJoin('session.course', 'course4');
-            $qb->leftJoin('session.terms', 'terms4');
-            $qb->leftJoin('course4.terms', 'terms5');
-            $qb->leftJoin('x.sessionObjectives', 'sessionObjective');
-            $qb->leftJoin('sessionObjective.session', 'session2');
-            $qb->leftJoin('session2.course', 'course5');
-            $qb->leftJoin('session2.terms', 'terms6');
-            $qb->leftJoin('course5.terms', 'terms7');
-            $qb->leftJoin('x.sessionLearningMaterials', 'slm');
-            $qb->leftJoin('slm.session', 'session3');
-            $qb->leftJoin('session3.course', 'course6');
-            $qb->leftJoin('session3.terms', 'terms8');
-            $qb->leftJoin('course6.terms', 'terms9');
+            $joins['sessions.terms'] = 'sessions_terms';
+            $joins['sessionObjectives_session.terms'] = 'sessionObjectives_session_terms';
+            $joins['sessionLearningMaterials_session.terms'] = 'sessionLearningMaterials_session_terms';
+
+            $joins['courses.terms'] = 'courses_terms';
+            $joins['courseObjectives_course.terms'] = 'courseObjectives_course_terms';
+            $joins['courseLearningMaterials_course.terms'] = 'courseLearningMaterials_course_terms';
+
+            $joins['sessions_course.terms'] = 'sessions_course_terms';
+            $joins['sessionObjectives_session_course.terms'] = 'sessionObjectives_session_course_terms';
+            $joins['sessionLearningMaterials_session_course.terms'] = 'sessionLearningMaterials_session_course_terms';
+        }
+
+        if (array_key_exists('schools', $criteria)) {
+            $joins['sessions.course'] = 'sessions_course';
+            $joins['sessionObjectives_session.course'] = 'sessionObjectives_session_course';
+            $joins['sessionLearningMaterials_session.course'] = 'sessionLearningMaterials_session_course';
+
+            $joins['courses.school'] = 'courses_school';
+            $joins['courseObjectives_course.school'] = 'courseObjectives_course_school';
+            $joins['courseLearningMaterials_course.school'] = 'courseLearningMaterials_course_school';
+            $joins['sessions_course.school'] = 'sessions_course_school';
+            $joins['sessionObjectives_session_course.school'] = 'sessionObjectives_session_course_school';
+            $joins['sessionLearningMaterials_session_course.school'] = 'sessionLearningMaterials_session_course_school';
+
+            $joins['courses.cohorts'] = 'courses_cohorts';
+            $joins['courseObjectives_course.cohorts'] = 'courseObjectives_cc';
+            $joins['courseLearningMaterials_course.cohorts'] = 'courseLearningMaterials_cc';
+            $joins['sessions_course.cohorts'] = 'sessions_cc';
+            $joins['sessionObjectives_session_course.cohorts'] = 'sessionObjectives_session_cc';
+            $joins['sessionLearningMaterials_session_course.cohorts'] = 'sessionLearningMaterials_session_cc';
+
+            $joins['courses_cohorts.programYear'] = 'cc_py';
+            $joins['courseObjectives_cc.programYear'] = 'courseObjectives_cc_py';
+            $joins['courseLearningMaterials_cc.programYear'] = 'courseLearningMaterials_cc_py';
+            $joins['sessions_cc.programYear'] = 'sessions_cc_py';
+            $joins['sessionObjectives_session_cc.programYear'] = 'sessionObjectives_session_cc_py';
+            $joins['sessionLearningMaterials_session_cc.programYear'] = 'sessionLearningMaterials_session_cc_py';
+
+            $joins['cc_py.program'] = 'cc_pyp';
+            $joins['courseObjectives_cc_py.program'] = 'courseObjectives_cc_pyp';
+            $joins['courseLearningMaterials_cc_py.program'] = 'courseLearningMaterials_cc_pyp';
+            $joins['sessions_cc_py.program'] = 'sessions_cc_pyp';
+            $joins['sessionObjectives_session_cc_py.program'] = 'sessionObjectives_session_cc_pyp';
+            $joins['sessionLearningMaterials_session_cc_py.program'] = 'sessionLearningMaterials_session_cc_pyp';
+
+            $joins['cc_pyp.school'] = 'cc_pyp_school';
+            $joins['courseObjectives_cc_pyp.school'] = 'courseObjectives_cc_pyp_school';
+            $joins['courseLearningMaterials_cc_pyp.school'] = 'courseLearningMaterials_cc_pyp_school';
+            $joins['sessions_cc_pyp.school'] = 'sessions_cc_pyp_school';
+            $joins['sessionObjectives_session_cc_pyp.school'] = 'sessionObjectives_session_cc_pyp_school';
+            $joins['sessionLearningMaterials_session_cc_pyp.school'] = 'sessionLearningMaterials_session_cc_pyp_school';
+        }
+
+        foreach ($joins as $join => $alias) {
+            $qb->leftJoin($join, $alias);
+        }
+
+        if (array_key_exists('sessions', $criteria)) {
+            $ids = is_array($criteria['sessions']) ? $criteria['sessions'] : [$criteria['sessions']];
             $qb->andWhere(
                 $qb->expr()->orX(
-                    $qb->expr()->in('terms.id', ':terms'),
-                    $qb->expr()->in('terms2.id', ':terms'),
-                    $qb->expr()->in('terms3.id', ':terms'),
-                    $qb->expr()->in('terms4.id', ':terms'),
-                    $qb->expr()->in('terms5.id', ':terms'),
-                    $qb->expr()->in('terms6.id', ':terms'),
-                    $qb->expr()->in('terms7.id', ':terms'),
-                    $qb->expr()->in('terms8.id', ':terms'),
-                    $qb->expr()->in('terms9.id', ':terms')
+                    $qb->expr()->in('sessions.id', ':sessions'),
+                    $qb->expr()->in('sessionObjectives_session.id', ':sessions'),
+                    $qb->expr()->in('sessionLearningMaterials_session.id', ':sessions')
+                )
+            );
+            $qb->setParameter(':sessions', $ids);
+            unset($criteria['sessions']);
+        }
+
+        if (array_key_exists('courses', $criteria)) {
+            $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('courses.id', ':courses'),
+                    $qb->expr()->in('courseObjectives_course.id', ':courses'),
+                    $qb->expr()->in('courseLearningMaterials_course.id', ':courses'),
+                    $qb->expr()->in('sessions_course.id', ':courses'),
+                    $qb->expr()->in('sessionObjectives_session_course.id', ':courses'),
+                    $qb->expr()->in('sessionLearningMaterials_session_course.id', ':courses'),
+                )
+            );
+            $qb->setParameter(':courses', $ids);
+            unset($criteria['courses']);
+        }
+        if (array_key_exists('sessionTypes', $criteria)) {
+            $ids = is_array($criteria['sessionTypes']) ? $criteria['sessionTypes'] : [$criteria['sessionTypes']];
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('sessions_sessionType.id', ':sessionTypes'),
+                    $qb->expr()->in('sessionObjectives_session_sessionType.id', ':sessionTypes'),
+                    $qb->expr()->in('sessionLearningMaterials_session_sessionType.id', ':sessionTypes')
+                )
+            );
+            $qb->setParameter(':sessionTypes', $ids);
+            unset($criteria['sessionTypes']);
+        }
+        if (array_key_exists('learningMaterials', $criteria)) {
+            $ids = is_array(
+                $criteria['learningMaterials']
+            ) ? $criteria['learningMaterials'] : [$criteria['learningMaterials']];
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('sessionLearningMaterials_learningMaterial.id', ':learningMaterials'),
+                    $qb->expr()->in('courseLearningMaterials_learningMaterial.id', ':learningMaterials'),
+                )
+            );
+            $qb->setParameter(':learningMaterials', $ids);
+            unset($criteria['learningMaterials']);
+        }
+        if (array_key_exists('terms', $criteria)) {
+            $ids = is_array($criteria['terms']) ? $criteria['terms'] : [$criteria['terms']];
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('sessions_terms.id', ':terms'),
+                    $qb->expr()->in('sessionObjectives_session_terms.id', ':terms'),
+                    $qb->expr()->in('sessionLearningMaterials_session_terms.id', ':terms'),
+                    $qb->expr()->in('courses_terms.id', ':terms'),
+                    $qb->expr()->in('courseObjectives_course_terms.id', ':terms'),
+                    $qb->expr()->in('courseLearningMaterials_course_terms.id', ':terms'),
+                    $qb->expr()->in('sessions_course_terms.id', ':terms'),
+                    $qb->expr()->in('sessionObjectives_session_course_terms.id', ':terms'),
+                    $qb->expr()->in('sessionLearningMaterials_session_course_terms.id', ':terms'),
                 )
             );
             $qb->setParameter(':terms', $ids);
+            unset($criteria['terms']);
         }
 
-        unset($criteria['courses']);
-        unset($criteria['sessions']);
-        unset($criteria['sessionTypes']);
-        unset($criteria['learningMaterials']);
-        unset($criteria['terms']);
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('courses_school.id', ':schools'),
+                    $qb->expr()->in('courseObjectives_course_school.id', ':schools'),
+                    $qb->expr()->in('courseLearningMaterials_course_school.id', ':schools'),
+                    $qb->expr()->in('sessions_course_school.id', ':schools'),
+                    $qb->expr()->in('sessionObjectives_session_course_school.id', ':schools'),
+                    $qb->expr()->in('sessionLearningMaterials_session_course_school.id', ':schools'),
+                    $qb->expr()->in('cc_pyp_school.id', ':schools'),
+                    $qb->expr()->in('courseObjectives_cc_pyp_school.id', ':schools'),
+                    $qb->expr()->in('courseLearningMaterials_cc_pyp_school.id', ':schools'),
+                    $qb->expr()->in('sessions_cc_pyp_school.id', ':schools'),
+                    $qb->expr()->in('sessionObjectives_session_cc_pyp_school.id', ':schools'),
+                    $qb->expr()->in('sessionLearningMaterials_session_cc_pyp_school.id', ':schools'),
+                )
+            );
+            $qb->setParameter(':schools', $ids);
+            unset($criteria['schools']);
+        }
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

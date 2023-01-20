@@ -67,6 +67,9 @@ class MeshDescriptorTest extends AbstractMeshTest
             'previousIndexing' => [[1], ['previousIndexing' => 2], $skipped = true],
             'terms' => [[0, 1, 2], ['terms' => [1, 2, 3]]],
             'sessionTypes' => [[0, 1, 2], ['sessionTypes' => [2]]],
+            'school' => [[0, 2], ['schools' => 2]],
+            'schools' => [[0, 2], ['schools' => [2]]],
+            'schoolsAndCourses' => [[0], ['schools' => [2], 'courses' => [2]]],
         ];
     }
 
@@ -74,6 +77,7 @@ class MeshDescriptorTest extends AbstractMeshTest
     {
         $filters = $this->filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => ['abc2', 'abc3']]];
+        unset($filters['school']);
 
         return $filters;
     }
