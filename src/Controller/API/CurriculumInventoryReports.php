@@ -373,7 +373,7 @@ class CurriculumInventoryReports extends AbstractApiController
         summary: 'Rollover a report by ID.',
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\MediaType(
+            content: [new OA\MediaType(
                 mediaType: 'application/x-www-form-urlencoded',
                 schema: new OA\Schema(
                     properties: [
@@ -400,7 +400,7 @@ class CurriculumInventoryReports extends AbstractApiController
                     ],
                     type: 'object'
                 )
-            )
+            )]
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
