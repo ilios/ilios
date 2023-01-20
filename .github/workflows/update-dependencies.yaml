@@ -15,11 +15,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use PHP 8.1
+    - name: Use PHP 8.2
       uses: shivammathur/setup-php@v2
       with:
         coverage: none
-        php-version: 8.1
+        php-version: 8.2
         extensions: apcu
     - name: install composer-lock-diff
       run: composer global require davidrjonas/composer-lock-diff

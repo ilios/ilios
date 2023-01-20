@@ -15,6 +15,7 @@ For example, the current version of PHP is v8.1.  When PHP v8.2 is released, we 
 Based on the policy above, Ilios is currently compatible with the following versions of PHP:
 
 * PHP 8.1
+* PHP 8.2
  
 ### Up-To-Date PHP Repositories for CentOS and RHEL
 
