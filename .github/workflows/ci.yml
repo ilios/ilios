@@ -15,7 +15,7 @@ env:
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
   MESSENGER_TRANSPORT_DSN: doctrine://default
-  latest_php: 8.1
+  latest_php: 8.2
   DOCKER_BUILDKIT: 1
 
 jobs:
