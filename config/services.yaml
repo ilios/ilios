@@ -195,3 +195,6 @@ services:
     sentry.callback.traces_sampler:
       class: 'App\Service\SentryTraceSampler'
       factory: [ '@App\Service\SentryTraceSampler', 'getTracesSampler' ]
+
+    App\Service\SentryBeforeSend:
+      lazy: true
