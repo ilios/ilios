@@ -17,5 +17,7 @@ ilios_swagger_redirect_docs:
     permanent: true
 
 controllers:
-    resource: ../src/Controller/
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
     type: attribute
