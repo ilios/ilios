@@ -77,6 +77,7 @@ jobs:
         build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
+        provenance: false #https://github.com/gabrieldemarmiesse/python-on-whales/issues/407
         platforms: linux/amd64,linux/arm64
     - uses: act10ns/slack@v2.0.0
       with:
