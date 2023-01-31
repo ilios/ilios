@@ -71,7 +71,7 @@ jobs:
         username: zorgbort
         password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
     - name: Deploy to Docker Registry
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
