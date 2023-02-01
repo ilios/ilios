@@ -185,7 +185,7 @@ class OpenSearchBase
             $clean = array_filter($errors);
             $str = join(';', array_unique($clean));
             $count = count($clean);
-            throw new Exception("Failed to bulk index ${index} ${count} errors. Error text: ${str}");
+            throw new Exception("Failed to bulk index {$index} {$count} errors. Error text: {$str}");
         }
 
         return true;

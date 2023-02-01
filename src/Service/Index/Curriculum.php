@@ -247,7 +247,7 @@ class Curriculum extends OpenSearchBase
             $mustFields,
             function (array $carry, string $field) use ($query) {
                 $matches = array_map(function (string $type) use ($field, $query) {
-                    $fullField = "${field}.${type}";
+                    $fullField = "{$field}.{$type}";
                     return [ 'match_phrase_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
                 }, ['english', 'french', 'spanish']);
 
@@ -272,7 +272,7 @@ class Curriculum extends OpenSearchBase
          * than a partial match on movement
          */
         $should = array_map(function ($field) use ($query) {
-            return [ 'match' => [ "${field}" => [
+            return [ 'match' => [ "{$field}" => [
                 'query' => $query,
                 '_name' => $field,
             ] ] ];
