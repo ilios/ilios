@@ -65,6 +65,6 @@ class DropCommand extends Command
         $conn = $this->entityManager->getConnection();
         $removed = $conn->executeStatement($sql);
 
-        $output->writeln("<info>Cleared ${removed} existing index messages from queue.</info>");
+        $output->writeln("<info>Cleared {$removed} existing index messages from queue.</info>");
     }
 }

@@ -167,6 +167,20 @@ class OpenSearchBase
             sleep(10);
         }
 
-        return $results;
+        if ($results['errors']) {
+            $errors = array_map(function (array $item) {
+                if (array_key_exists('error', $item['index'])) {
+                    return $item['index']['error']['reason'];
+                }
+
+                return null;
+            }, $results['items']);
+            $clean = array_filter($errors);
+            $str = join(';', array_unique($clean));
+            $count = count($clean);
+            throw new Exception("Failed to bulk index {$index} {$count} errors. Error text: {$str}");
+        }
+
+        return true;
     }
 }
