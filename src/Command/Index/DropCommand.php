@@ -61,7 +61,7 @@ class DropCommand extends Command
 
     protected function clearIndexQueue(OutputInterface $output)
     {
-        $sql = 'DELETE FROM messenger_messages WHERE queue_name="search"';
+        $sql = 'DELETE FROM messenger_messages WHERE queue_name="default"';
         $conn = $this->entityManager->getConnection();
         $removed = $conn->executeStatement($sql);
 
