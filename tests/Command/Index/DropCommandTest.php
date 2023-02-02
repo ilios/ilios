@@ -7,6 +7,8 @@ namespace App\Tests\Command\Index;
 use PHPUnit\Framework\Attributes\Group;
 use App\Command\Index\DropCommand;
 use App\Service\Index\Manager;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -20,13 +22,15 @@ class DropCommandTest extends KernelTestCase
 
     protected CommandTester $commandTester;
     protected m\MockInterface $indexManager;
+    protected m\MockInterface $entityManager;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->indexManager = m::mock(Manager::class);
+        $this->entityManager = m::mock(EntityManagerInterface::class);
 
-        $command = new DropCommand($this->indexManager);
+        $command = new DropCommand($this->indexManager, $this->entityManager);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -41,6 +45,7 @@ class DropCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->indexManager);
+        unset($this->entityManager);
         unset($this->commandTester);
     }
 
@@ -58,6 +63,11 @@ class DropCommandTest extends KernelTestCase
     public function testDropsWithForce(): void
     {
         $this->indexManager->shouldReceive('drop')->once();
+        $connection = m::mock(Connection::class);
+        $connection
+            ->shouldReceive('executeStatement')
+            ->with('DELETE FROM messenger_messages WHERE queue_name="default"');
+        $this->entityManager->shouldReceive('getConnection')->andReturn($connection);
 
         $this->commandTester->execute([
             '--force' => true,
