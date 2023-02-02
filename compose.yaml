@@ -78,7 +78,7 @@ services:
     ports:
       - "9200:9200"
   kibana:
-      image: kibana:7.7.1
+      image: kibana:7.17.8
       environment:
           ELASTICSEARCH_HOSTS: http://elasticsearch:9200
       ports:
