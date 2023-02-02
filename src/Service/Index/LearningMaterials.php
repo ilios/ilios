@@ -9,18 +9,15 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
 use Elasticsearch\Client;
-use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
 use SplFileInfo;
 
 class LearningMaterials extends ElasticSearchBase
 {
     public const INDEX = 'ilios-learning-materials';
-
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
         Config $config,
-        private LoggerInterface $logger,
         Client $client = null
     ) {
         parent::__construct($config, $client);
@@ -46,9 +43,10 @@ class LearningMaterials extends ElasticSearchBase
         $existingMaterialIds = $this->findByIds(array_column($materials, 'id'));
 
         // The contents of LMs don't change so we shouldn't index them twice
-        $newMaterials = array_filter($materials, function (LearningMaterialDTO $lm) use ($existingMaterialIds) {
-            return !in_array($lm->id, $existingMaterialIds);
-        });
+        $newMaterials = array_filter(
+            $materials,
+            fn (LearningMaterialDTO $lm) => !in_array($lm->id, $existingMaterialIds)
+        );
 
         $extractedMaterials = array_reduce($newMaterials, function ($materials, LearningMaterialDTO $lm) {
             $data = $this->extractLearningMaterialData($lm);
