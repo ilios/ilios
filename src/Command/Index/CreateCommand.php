@@ -32,8 +32,12 @@ class CreateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("<info>Creating the search index.</info>");
-        $this->indexManager->create();
-        $output->writeln("<info>Done.</info>");
+        if (!$this->indexManager->isEnabled()) {
+            $output->writeln("<comment>Indexing is not currently configured.</comment>");
+        } else {
+            $this->indexManager->create();
+            $output->writeln("<info>Done.</info>");
+        }
 
         return 0;
     }
