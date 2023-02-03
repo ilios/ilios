@@ -18,12 +18,8 @@ class CreateCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    /** @var CommandTester */
-    protected $commandTester;
-
-    /** @var m\Mock */
-    protected $indexManager;
-
+    protected CommandTester $commandTester;
+    protected m\MockInterface $indexManager;
 
     public function setUp(): void
     {
@@ -47,8 +43,24 @@ class CreateCommandTest extends KernelTestCase
         unset($this->indexManager);
     }
 
-    public function testDropsWithForce()
+    public function testCreateWithIndexDisabled()
     {
+        $this->indexManager->shouldReceive('isEnabled')->once()->andReturn(false);
+        $this->indexManager->shouldNotReceive('create');
+
+        $this->commandTester->execute([
+            'command' => CreateCommand::COMMAND_NAME,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Indexing is not currently configured./',
+            $output
+        );
+    }
+    public function testCreateWithIndexEnabled()
+    {
+        $this->indexManager->shouldReceive('isEnabled')->once()->andReturn(true);
         $this->indexManager->shouldReceive('create')->once();
 
         $this->commandTester->execute([
