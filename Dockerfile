@@ -195,6 +195,15 @@ ENTRYPOINT bin/console ilios:wait-for-database; \
            bin/console messenger:consume async
 
 ###############################################################################
+# Single purpose container that starts a message consumer
+# configured for development and verbose output
+###############################################################################
+FROM fpm-dev as consume-messages-dev
+ENTRYPOINT bin/console ilios:wait-for-database; \
+           bin/console ilios:wait-for-index; \
+           bin/console messenger:consume async -vv
+
+###############################################################################
 # MySQL configured as needed for Ilios
 ###############################################################################
 FROM mysql:8.0-oracle as mysql
