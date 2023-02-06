@@ -6,7 +6,7 @@ if [ "${1#-}" != "$1" ]; then
 	set -- php-fpm "$@"
 fi
 
-mkdir -p var/cache var/log var/tmp
+mkdir -p var/cache var/log var/tmp $ILIOS_STORAGE
 if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	
 	if [ "$ILIOS_DATABASE_URL" ]; then

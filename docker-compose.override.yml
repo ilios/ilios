@@ -28,6 +28,7 @@ services:
       - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FEATURE_DTO_CACHING=false
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/srv/app:rw,cached
@@ -35,6 +36,8 @@ services:
       - /srv/app/var
       # Share the frontend files
       - ./var/frontend:/srv/app/var/frontend:rw,cached
+      # Share storage between containers and make writes to the container authoritative with "delegated"
+      - shared-storage:/ilios-storage:delegated
     depends_on:
       - db
       - redis
@@ -47,6 +50,7 @@ services:
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - ILIOS_REDIS_URL=redis://redis
+      - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
     depends_on:
         - db
         - elasticsearch
@@ -56,6 +60,8 @@ services:
       - ./:/srv/app:rw,cached
       # Remove the var/ directory from the bind-mount for better performance
       - /srv/app/var
+      # Share storage between containers and make writes to the container authoritative with "delegated"
+      - shared-storage:/ilios-storage:delegated
   elasticsearch:
     build:
       context: .
@@ -71,3 +77,6 @@ services:
       target: redis
     ports:
       - "6379:6379"
+
+volumes:
+  shared-storage:
