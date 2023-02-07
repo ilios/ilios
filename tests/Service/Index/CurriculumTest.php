@@ -9,8 +9,9 @@ use App\Entity\DTO\CourseDTO;
 use App\Service\Config;
 use App\Service\Index\Curriculum;
 use App\Tests\TestCase;
-use DateTime;
 use OpenSearch\Client;
+use DateTime;
+use Exception;
 use InvalidArgumentException;
 use Mockery as m;
 
@@ -61,11 +62,11 @@ class CurriculumTest extends TestCase
     {
         $obj = new Curriculum($this->config, null);
         $mockCourse = m::mock(IndexableCourse::class);
-        $mockDto = m::mock(CourseDTO::class);
-        $mockDto->id = 11;
-        $mockCourse->courseDTO = $mockDto;
-        $mockCourse->shouldReceive('createIndexObjects')->andReturn([]);
-        $this->assertTrue($obj->index([$mockCourse], new DateTime()));
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Search is not configured, isEnabled() should be called before calling this method'
+        );
+        $obj->index([$mockCourse], new DateTime());
     }
 
     public function testIndexCourses(): void
@@ -87,6 +88,7 @@ class CurriculumTest extends TestCase
             ['id' => 2, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
             ['id' => 3, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
         ]);
+        $stamp = new DateTime();
 
         $stamp = new DateTime();
         $this->setupSkippable($stamp, [1, 2], []);
@@ -161,7 +163,6 @@ class CurriculumTest extends TestCase
 
     public function testIndexCourseWithNoSessions(): void
     {
-        $this->client = m::mock(Client::class);
         $obj = new Curriculum($this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
