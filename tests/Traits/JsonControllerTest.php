@@ -85,8 +85,8 @@ trait JsonControllerTest
                 'Invalid JSON: [' . $response->getContent() . ']'
             );
             $this->assertIsObject($decode);
-            $this->assertObjectHasAttribute('data', $decode);
-            $this->assertObjectHasAttribute('included', $decode);
+            $this->assertTrue(property_exists($decode, 'data'));
+            $this->assertTrue(property_exists($decode, 'included'));
         }
     }
 
@@ -121,9 +121,8 @@ trait JsonControllerTest
             'Invalid JSON: [' . $response->getContent() . ']'
         );
         $this->assertIsObject($decode);
-        $this->assertObjectHasAttribute(
-            'data',
-            $decode,
+        $this->assertTrue(
+            property_exists($decode, 'data'),
             var_export($decode->errors ?? 'Unknown Error', true)
         );
     }

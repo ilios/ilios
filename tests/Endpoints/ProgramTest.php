@@ -193,10 +193,10 @@ class ProgramTest extends ReadWriteEndpointTest
         $this->assertIsArray($content->data->programs);
         $this->assertCount(1, $content->data->programs);
         $program = $content->data->programs[0];
-        $this->assertObjectHasAttribute('id', $program);
+        $this->assertTrue(property_exists($program, 'id'));
         $this->assertEquals($data['id'], $program->id);
-        $this->assertObjectHasAttribute('school', $program);
-        $this->assertObjectHasAttribute('id', $program->school);
+        $this->assertTrue(property_exists($program, 'school'));
+        $this->assertTrue(property_exists($program->school, 'id'));
         $this->assertEquals($data['school'], $program->school->id);
     }
 }

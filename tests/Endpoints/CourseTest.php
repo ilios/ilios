@@ -775,7 +775,7 @@ class CourseTest extends ReadWriteEndpointTest
 
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
         $content = json_decode($response->getContent());
-        $this->assertObjectHasAttribute('included', $content);
+        $this->assertTrue(property_exists($content, 'included'));
 
         $types = array_column($content->included, 'type');
         $this->assertCount(2, $content->included);
@@ -807,23 +807,23 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertCount(1, $result);
 
         $course = $result[0];
-        $this->assertObjectHasAttribute('id', $course);
+        $this->assertTrue(property_exists($course, 'id'));
         $this->assertEquals($data['id'], $course->id);
-        $this->assertObjectHasAttribute('school', $course);
-        $this->assertObjectHasAttribute('id', $course->school);
+        $this->assertTrue(property_exists($course, 'school'));
+        $this->assertTrue(property_exists($course->school, 'id'));
         $this->assertEquals($data['school'], $course->school->id);
         $this->assertCount(2, $course->sessions);
 
-        $this->assertObjectHasAttribute('id', $course->sessions[0]);
+        $this->assertTrue(property_exists($course->sessions[0], 'id'));
         $this->assertEquals(1, $course->sessions[0]->id);
-        $this->assertObjectHasAttribute('administrators', $course->sessions[0]);
+        $this->assertTrue(property_exists($course->sessions[0], 'administrators'));
         $this->assertCount(1, $course->sessions[0]->administrators);
-        $this->assertObjectHasAttribute('id', $course->sessions[0]->administrators[0]);
+        $this->assertTrue(property_exists($course->sessions[0]->administrators[0], 'id'));
         $this->assertEquals(1, $course->sessions[0]->administrators[0]->id);
 
-        $this->assertObjectHasAttribute('id', $course->sessions[1]);
+        $this->assertTrue(property_exists($course->sessions[1], 'id'));
         $this->assertEquals(2, $course->sessions[1]->id);
-        $this->assertObjectHasAttribute('administrators', $course->sessions[1]);
+        $this->assertTrue(property_exists($course->sessions[1], 'administrators'));
         $this->assertCount(0, $course->sessions[1]->administrators);
     }
 
@@ -851,18 +851,18 @@ class CourseTest extends ReadWriteEndpointTest
         $this->assertCount(1, $result);
 
         $course = $result[0];
-        $this->assertObjectHasAttribute('id', $course);
+        $this->assertTrue(property_exists($course, 'id'));
         $this->assertEquals($data['id'], $course->id);
         $this->assertCount(2, $course->sessions);
 
-        $this->assertObjectHasAttribute('id', $course->sessions[0]);
+        $this->assertTrue(property_exists($course->sessions[0], 'id'));
         $this->assertEquals(1, $course->sessions[0]->id);
-        $this->assertObjectHasAttribute('administrators', $course->sessions[0]);
+        $this->assertTrue(property_exists($course->sessions[0], 'administrators'));
         $this->assertCount(0, $course->sessions[0]->administrators);
 
-        $this->assertObjectHasAttribute('id', $course->sessions[1]);
+        $this->assertTrue(property_exists($course->sessions[1], 'id'));
         $this->assertEquals(2, $course->sessions[1]->id);
-        $this->assertObjectHasAttribute('administrators', $course->sessions[1]);
+        $this->assertTrue(property_exists($course->sessions[1], 'administrators'));
         $this->assertCount(0, $course->sessions[1]->administrators);
     }
 }
