@@ -10,6 +10,8 @@ use App\Service\Config;
 use App\Service\Index\Curriculum;
 use App\Tests\TestCase;
 use OpenSearch\Client;
+use DateTime;
+use Exception;
 use InvalidArgumentException;
 use Mockery as m;
 
@@ -55,75 +57,112 @@ class CurriculumTest extends TestCase
             m::mock(CourseDTO::class),
             m::mock(IndexableCourse::class),
         ];
-        $obj->index($courses);
+        $obj->index($courses, new DateTime());
     }
 
     public function testIndexCoursesWorksWithoutSearch(): void
     {
         $obj = new Curriculum($this->config, null);
         $mockCourse = m::mock(IndexableCourse::class);
-        $mockDto = m::mock(CourseDTO::class);
-        $mockCourse->courseDTO = $mockDto;
-        $mockCourse->shouldReceive('createIndexObjects')->andReturn([]);
-        $this->assertTrue($obj->index([$mockCourse]));
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(
+            'Search is not configured, isEnabled() should be called before calling this method'
+        );
+        $obj->index([$mockCourse], new DateTime());
     }
 
     public function testIndexCourses(): void
     {
         $obj = new Curriculum($this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
+        $dto1 = m::mock(CourseDTO::class);
+        $dto1->id = 1;
+        $course1->courseDTO = $dto1;
         $course1->shouldReceive('createIndexObjects')->once()->andReturn([
             ['id' => 1, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
         ]);
 
         $course2 = m::mock(IndexableCourse::class);
+        $dto2 = m::mock(CourseDTO::class);
+        $dto2->id = 2;
+        $course2->courseDTO = $dto2;
         $course2->shouldReceive('createIndexObjects')->once()->andReturn([
             ['id' => 2, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
             ['id' => 3, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
         ]);
+        $stamp = new DateTime();
 
-        $this->client->shouldReceive('bulk')->once()->with([
-            'body' => [
-                [
-                    'index' => [
-                        '_index' => Curriculum::INDEX,
-                        '_id' => 1,
-                    ],
-                ],
-                [
-                    'id' => 1,
-                ],
-                [
-                    'index' => [
-                        '_index' => Curriculum::INDEX,
-                        '_id' => 2,
-                    ],
-                ],
-                [
-                    'id' => 2,
-                ],
-                [
-                    'index' => [
-                        '_index' => Curriculum::INDEX,
-                        '_id' => 3,
-                    ],
-                ],
-                [
-                    'id' => 3,
-                ],
-            ],
-        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
-        $obj->index([$course1, $course2]);
+        $this->client->shouldReceive('search')->once()
+            ->with(m::capture($searchArgs))
+            ->andReturn(['aggregations' => ['courseId' => ['buckets' => []]]]);
+
+        $this->client->shouldReceive('bulk')->once()
+            ->with(m::capture($bulkArgs))
+            ->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+        $obj->index([$course1, $course2], $stamp);
+
+        $this->assertTrue(isset($searchArgs['body']['query']['bool']['filter']));
+        $this->assertEquals($searchArgs['body']['query']['bool']['filter'][1], ['terms' => ['courseId' => [1, 2]]]);
+
+        $this->assertArrayHasKey('body', $bulkArgs);
+        $b = $bulkArgs['body'];
+        $this->assertCount(6, $b);
+        $this->assertEquals(1, $b[1]['id']);
+        $this->assertEquals(2, $b[3]['id']);
+        $this->assertEquals(3, $b[5]['id']);
+    }
+
+    public function testDontReIndexCourses()
+    {
+        $obj = new Curriculum($this->config, $this->client);
+        $course1 = m::mock(IndexableCourse::class);
+        $dto1 = m::mock(CourseDTO::class);
+        $dto1->id = 1;
+        $course1->courseDTO = $dto1;
+        $course1->shouldReceive('createIndexObjects')->once()->andReturn([
+            ['id' => 1, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
+        ]);
+
+        $course2 = m::mock(IndexableCourse::class);
+        $dto2 = m::mock(CourseDTO::class);
+        $dto2->id = 2;
+        $course2->courseDTO = $dto2;
+        $course2->shouldNotReceive('createIndexObjects');
+
+        $this->client->shouldReceive('search')->once()
+            ->with(m::capture($searchArgs))
+            ->andReturn(['aggregations' => ['courseId' => ['buckets' => [['key' => 2]]]]]);
+
+        $this->client->shouldReceive('bulk')->once()
+            ->with(m::capture($bulkArgs))
+            ->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+        $obj->index([$course1, $course2], new DateTime());
+
+        $this->assertTrue(isset($searchArgs['body']['query']['bool']['filter']));
+        $this->assertEquals($searchArgs['body']['query']['bool']['filter'][1], ['terms' => ['courseId' => [1, 2]]]);
+
+        $this->assertArrayHasKey('body', $bulkArgs);
+        $b = $bulkArgs['body'];
+        $this->assertCount(2, $b);
+        $this->assertEquals(1, $b[1]['id']);
     }
 
     public function testIndexCourseWithNoSessions(): void
     {
-        $this->client = m::mock(Client::class);
         $obj = new Curriculum($this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
+        $dto1 = m::mock(CourseDTO::class);
+        $dto1->id = 1;
+        $course1->courseDTO = $dto1;
         $course1->shouldReceive('createIndexObjects')->once()->andReturn([]);
 
         $this->client->shouldNotReceive('bulk');
-        $obj->index([$course1]);
+        $this->client->shouldReceive('search')->once()
+            ->with(m::capture($searchArgs))
+            ->andReturn(['aggregations' => ['courseId' => ['buckets' => []]]]);
+        $obj->index([$course1], new DateTime());
+
+        $this->assertTrue(isset($searchArgs['body']['query']['bool']['filter']));
+        $this->assertEquals($searchArgs['body']['query']['bool']['filter'][1], ['terms' => ['courseId' => [1]]]);
     }
 }

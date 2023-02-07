@@ -88,6 +88,9 @@ class Curriculum extends OpenSearchBase
                 );
             }
         }
+        if (!$this->enabled) {
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
         $courseIds = array_map(function (IndexableCourse $idx) {
             return $idx->courseDTO->id;
         }, $courses);
