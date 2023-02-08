@@ -349,10 +349,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         $content = json_decode($response->getContent());
         $this->assertCount(0, $content->included, var_export($content, true));
         $this->assertIsObject($content->data);
-        $this->assertObjectHasAttribute('id', $content->data);
-        $this->assertObjectHasAttribute('type', $content->data);
-        $this->assertObjectHasAttribute('attributes', $content->data);
-        $this->assertObjectHasAttribute('relationships', $content->data);
+        $this->assertTrue(property_exists($content->data, 'id'));
+        $this->assertTrue(property_exists($content->data, 'type'));
+        $this->assertTrue(property_exists($content->data, 'attributes'));
+        $this->assertTrue(property_exists($content->data, 'relationships'));
 
         return $content->data;
     }
@@ -393,7 +393,7 @@ abstract class AbstractEndpointTest extends WebTestCase
 
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
         $content = json_decode($response->getContent());
-        $this->assertObjectHasAttribute('included', $content);
+        $this->assertTrue(property_exists($content, 'included'));
 
         return $content->included;
     }
@@ -510,10 +510,10 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $this->assertObjectHasAttribute('id', $item);
-            $this->assertObjectHasAttribute('type', $item);
-            $this->assertObjectHasAttribute('attributes', $item);
-            $this->assertObjectHasAttribute('relationships', $item);
+            $this->assertTrue(property_exists($item, 'id'));
+            $this->assertTrue(property_exists($item, 'type'));
+            $this->assertTrue(property_exists($item, 'attributes'));
+            $this->assertTrue(property_exists($item, 'relationships'));
 
             $this->compareJsonApiData($data[$i], $item);
         }
@@ -556,10 +556,10 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $this->assertObjectHasAttribute('id', $item);
-            $this->assertObjectHasAttribute('type', $item);
-            $this->assertObjectHasAttribute('attributes', $item);
-            $this->assertObjectHasAttribute('relationships', $item);
+            $this->assertTrue(property_exists($item, 'id'));
+            $this->assertTrue(property_exists($item, 'type'));
+            $this->assertTrue(property_exists($item, 'attributes'));
+            $this->assertTrue(property_exists($item, 'relationships'));
 
             $this->compareJsonApiData($data[$i], $item);
         }
@@ -599,7 +599,7 @@ abstract class AbstractEndpointTest extends WebTestCase
                     $this->assertTrue($diff->y < 1, "The {$f} timestamp is within the last year");
                     unset($item->{$f});
                 } else {
-                    $this->assertObjectHasAttribute($f, $item);
+                    $this->assertTrue(property_exists($item, $f));
                 }
             }
             $this->compareGraphQLData($data[$i], $item);
@@ -615,7 +615,7 @@ abstract class AbstractEndpointTest extends WebTestCase
         $data = $loader->getOne();
         $result = $this->getGraphQLFiltered($idField, [$idField => $data[$idField]]);
         $this->assertCount(1, $result);
-        $this->assertObjectHasAttribute($idField, $result[0]);
+        $this->assertTrue(property_exists($result[0], $idField));
         $this->assertEquals($data[$idField], $result[0]->{$idField});
 
         return $result;
@@ -823,10 +823,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertJsonApiResponse($response, Response::HTTP_CREATED);
         $obj = json_decode($response->getContent());
         $this->assertIsObject($obj->data);
-        $this->assertObjectHasAttribute('id', $obj->data);
-        $this->assertObjectHasAttribute('type', $obj->data);
-        $this->assertObjectHasAttribute('attributes', $obj->data);
-        $this->assertObjectHasAttribute('relationships', $obj->data);
+        $this->assertTrue(property_exists($obj->data, 'id'));
+        $this->assertTrue(property_exists($obj->data, 'type'));
+        $this->assertTrue(property_exists($obj->data, 'attributes'));
+        $this->assertTrue(property_exists($obj->data, 'relationships'));
 
         return $obj->data;
     }
@@ -877,10 +877,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         $obj = json_decode($response->getContent());
         $this->assertIsArray($obj->data);
         foreach ($obj->data as $data) {
-            $this->assertObjectHasAttribute('id', $data);
-            $this->assertObjectHasAttribute('type', $data);
-            $this->assertObjectHasAttribute('attributes', $data);
-            $this->assertObjectHasAttribute('relationships', $data);
+            $this->assertTrue(property_exists($data, 'id'));
+            $this->assertTrue(property_exists($data, 'type'));
+            $this->assertTrue(property_exists($data, 'attributes'));
+            $this->assertTrue(property_exists($data, 'relationships'));
         }
 
         return $obj->data;
@@ -1092,10 +1092,10 @@ abstract class AbstractEndpointTest extends WebTestCase
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
         $obj = json_decode($response->getContent());
         $this->assertIsObject($obj->data);
-        $this->assertObjectHasAttribute('id', $obj->data);
-        $this->assertObjectHasAttribute('type', $obj->data);
-        $this->assertObjectHasAttribute('attributes', $obj->data);
-        $this->assertObjectHasAttribute('relationships', $obj->data);
+        $this->assertTrue(property_exists($obj->data, 'id'));
+        $this->assertTrue(property_exists($obj->data, 'type'));
+        $this->assertTrue(property_exists($obj->data, 'attributes'));
+        $this->assertTrue(property_exists($obj->data, 'relationships'));
 
         return $obj->data;
     }

@@ -412,7 +412,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         $lms = array_filter($includes, fn(object $obj) => $obj->id === $id && $obj->type === 'learningMaterials');
         $lm = array_shift($lms);
         $this->assertEquals('thirdlm', $lm->attributes->title);
-        $this->assertObjectHasAttribute('absoluteFileUri', $lm->attributes);
+        $this->assertTrue(property_exists($lm->attributes, 'absoluteFileUri'));
         $this->assertNotEmpty($lm->attributes->absoluteFileUri);
         $this->kernelBrowser->request(
             'GET',

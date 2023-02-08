@@ -243,10 +243,10 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         $this->assertCount(1, $content->data->courseObjectives);
 
         $courseObjective = $content->data->courseObjectives[0];
-        $this->assertObjectHasAttribute('id', $courseObjective);
+        $this->assertTrue(property_exists($courseObjective, 'id'));
         $this->assertEquals($data['id'], $courseObjective->id);
-        $this->assertObjectHasAttribute('course', $courseObjective);
-        $this->assertObjectHasAttribute('id', $courseObjective->course);
+        $this->assertTrue(property_exists($courseObjective, 'course'));
+        $this->assertTrue(property_exists($courseObjective->course, 'id'));
         $this->assertEquals($data['course'], $courseObjective->course->id);
     }
 }
