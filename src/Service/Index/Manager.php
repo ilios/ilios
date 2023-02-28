@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Index;
 
-use App\Classes\ElasticSearchBase;
+use App\Classes\OpenSearchBase;
 
-class Manager extends ElasticSearchBase
+class Manager extends OpenSearchBase
 {
     public function drop()
     {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service\Index;
 
-use App\Classes\ElasticSearchBase;
+use App\Classes\OpenSearchBase;
 use App\Classes\IndexableCourse;
 use Exception;
 use InvalidArgumentException;
 
-class Curriculum extends ElasticSearchBase
+class Curriculum extends OpenSearchBase
 {
     public const INDEX = 'ilios-curriculum';
     public const SESSION_ID_PREFIX = 'session_';

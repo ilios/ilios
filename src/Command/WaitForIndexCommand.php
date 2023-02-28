@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Service\Index\Manager;
-use Elasticsearch\Client;
-use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use Exception;
+use OpenSearch\Client;
+use OpenSearch\Common\Exceptions\NoNodesAvailableException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,13 +39,13 @@ class WaitForIndexCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->client) {
-            throw new Exception("Elasticsearch is not configured.");
+            throw new Exception("Search is not configured.");
         }
         //start an infinite loop for checking the connection every second
         while (true) {
             sleep(1);
             try {
-                // elasticsearch will throw an exception when this doesn't work so if that doesn't happen we're golden
+                // opensearch will throw an exception when this doesn't work so if that doesn't happen we're golden
                 $this->client->nodes()->info();
 
                 if ($this->indexManager->hasBeenCreated()) {

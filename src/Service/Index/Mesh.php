@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service\Index;
 
-use App\Classes\ElasticSearchBase;
+use App\Classes\OpenSearchBase;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Exception;
 use InvalidArgumentException;
 
-class Mesh extends ElasticSearchBase
+class Mesh extends OpenSearchBase
 {
     public const INDEX = 'ilios-mesh';
 

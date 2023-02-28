@@ -180,8 +180,8 @@ services:
     League\Flysystem\FilesystemOperator:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]
 
-    Elasticsearch\Client:
-      factory: ['App\Service\ElasticSearchFactory', 'getClient']
+    OpenSearch\Client:
+      factory: ['App\Service\OpenSearchFactory', 'getClient']
       arguments: ['@App\Service\Config']
 
     http_client:

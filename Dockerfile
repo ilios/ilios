@@ -228,11 +228,11 @@ COPY docker/fetch-demo-database.sh /fetch-demo-database.sh
 RUN /bin/bash /fetch-demo-database.sh
 
 ###############################################################################
-# Setup elasticsearch with the plugins we needed
+# Setup opensearch with the plugins we needed
 ###############################################################################
-FROM elasticsearch:7.13.1 as elasticsearch
+FROM opensearchproject/opensearch:1 as opensearch
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-RUN bin/elasticsearch-plugin install -b ingest-attachment
+RUN bin/opensearch-plugin install -b ingest-attachment
 
 ###############################################################################
 # Setup redis with needed config

@@ -20,7 +20,7 @@ jobs:
           - consume-messages
           - mysql
           - mysql-demo
-          - elasticsearch
+          - opensearch
           - redis
     steps:
     - name: Set up QEMU

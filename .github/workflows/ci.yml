@@ -131,7 +131,7 @@ jobs:
           - consume-messages
           - mysql
           - mysql-demo
-          - elasticsearch
+          - opensearch
           - redis
     steps:
     - uses: actions/checkout@v3
@@ -168,7 +168,7 @@ jobs:
           - consume-messages
           - mysql
           - mysql-demo
-          - elasticsearch
+          - opensearch
           - redis
      steps:
      - uses: actions/checkout@v3
@@ -216,7 +216,7 @@ jobs:
         docker load --input /tmp/consume-messages-image/consume-messages.tar
         docker load --input /tmp/mysql-image/mysql.tar
         docker load --input /tmp/mysql-demo-image/mysql-demo.tar
-        docker load --input /tmp/elasticsearch-image/elasticsearch.tar
+        docker load --input /tmp/opensearch-image/opensearch.tar
         docker load --input /tmp/redis-image/redis.tar
         docker image ls -a
     - name: Consume Messages
@@ -255,10 +255,10 @@ jobs:
       run: |
         docker run -d --name ilios-mysql-demo mysql-demo:testing
         docker ps | grep -q ilios-mysql-demo
-    - name: Elasticsearch
+    - name: OpenSearch
       run: |
-        docker run -d --name ilios-elasticsearch elasticsearch:testing
-        docker ps | grep -q ilios-elasticsearch
+        docker run -d --name ilios-opensearch opensearch:testing
+        docker ps | grep -q ilios-opensearch
     - name: REdis
       run: |
         docker run -d --name ilios-redis redis:testing
@@ -275,7 +275,7 @@ jobs:
         docker logs ilios-consume-messages
         docker logs ilios-mysql
         docker logs ilios-mysql-demo
-        docker logs ilios-elasticsearch
+        docker logs ilios-opensearch
         docker logs ilios-redis
   check_setup_command:
     name: Setup Command

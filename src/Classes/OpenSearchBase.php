@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Classes;
 
 use App\Service\Config;
-use Elasticsearch\Client;
-use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Exception;
+use OpenSearch\Client;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 
-class ElasticSearchBase
+class OpenSearchBase
 {
     protected Client $client;
     protected bool $enabled = false;
@@ -30,7 +30,7 @@ class ElasticSearchBase
             $this->enabled = true;
             $this->client = $client;
         }
-        $limit = $config->get('elasticsearch_upload_limit');
+        $limit = $config->get('search_upload_limit');
         //10mb AWS hard limit on non-huge ES clusters and we need some overhead for control statements
         $this->uploadLimit = $limit ?? 9000000;
     }

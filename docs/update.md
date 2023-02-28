@@ -50,6 +50,12 @@ sudo -u apache bin/console doctrine:migrations:migrate --env=prod --no-interacti
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.105.0
+
+1. The `ILIOS_ELASTICSEARCH_HOSTS` and `ILIOS_ELASTICSEARCH_UPLOAD_LIMIT` parameters have
+been renamed to `ILIOS_SEARCH_HOSTS` and `ILIOS_SEARCH_UPLOAD_LIMIT` to be more vendor neutral. They will need to
+be replaced in your configuration if you have search and indexing enabled.
+
 ### Upgrading to Ilios 3.100.0
 
 1. The `enable_tracking` and `tracking_code` parameters have been removed as google analytics is no longer supported.
