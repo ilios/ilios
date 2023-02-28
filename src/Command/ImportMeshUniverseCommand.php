@@ -28,8 +28,8 @@ class ImportMeshUniverseCommand extends Command
      * @var array
      */
     private const YEARS = [
-        2021 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2021.xml',
         2022 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2022.xml',
+        2023 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml',
     ];
 
     public function __construct(

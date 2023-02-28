@@ -81,7 +81,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     public function testNoArgs()
     {
         $this->mockHappyPath();
-        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2022.xml';
+        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -144,6 +144,29 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
+    public function testYear2023()
+    {
+        $this->mockHappyPath();
+
+        $year = '2023';
+        $url = "ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml";
+        $this->meshParser
+            ->shouldReceive('parse')
+            ->withArgs([$url])
+            ->once()
+            ->andReturn(new DescriptorSet());
+        $this->commandTester->execute(
+            [
+                '--year' => $year,
+            ]
+        );
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
+    }
+
+    /**
+     * @covers ::execute
+     */
     public function testYear2022()
     {
         $this->mockHappyPath();
@@ -167,33 +190,10 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testYear2021()
-    {
-        $this->mockHappyPath();
-
-        $year = '2021';
-        $url = "ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2021.xml";
-        $this->meshParser
-            ->shouldReceive('parse')
-            ->withArgs([$url])
-            ->once()
-            ->andReturn(new DescriptorSet());
-        $this->commandTester->execute(
-            [
-                '--year' => $year,
-            ]
-        );
-        $output = $this->commandTester->getDisplay();
-        $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
-    }
-
-    /**
-     * @covers ::execute
-     */
     public function testInvalidGivenYear()
     {
         $year = '1906';
-        $this->expectExceptionMessage('Given year must be one of: 2021, 2022');
+        $this->expectExceptionMessage('Given year must be one of: 2022, 2023');
         $this->meshIndex->shouldReceive('isEnabled');
 
         $this->commandTester->execute(
@@ -228,7 +228,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ->shouldReceive('index')->with([$descriptor])
             ->once()->andReturn(true);
 
-        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2022.xml';
+        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
