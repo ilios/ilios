@@ -20,6 +20,6 @@ class CourseIndexHandler implements MessageHandlerInterface
     public function __invoke(CourseIndexRequest $message)
     {
         $indexes = $this->courseRepository->getCourseIndexesFor($message->getCourseIds());
-        $this->curriculumIndex->index($indexes);
+        $this->curriculumIndex->index($indexes, $message->getCreatedAt());
     }
 }

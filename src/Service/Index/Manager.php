@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\Index;
 
 use App\Classes\ElasticSearchBase;
+use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 class Manager extends ElasticSearchBase
 {
@@ -22,6 +23,25 @@ class Manager extends ElasticSearchBase
         foreach ($indexes as $index) {
             if ($this->client->indices()->exists(['index' => $index])) {
                 $this->client->indices()->delete(['index' => $index]);
+            }
+        }
+        $pipelines = [
+            Users::getPipeline()['id'],
+            LearningMaterials::getPipeline()['id'],
+            Curriculum::getPipeline()['id'],
+        ];
+        foreach ($pipelines as $id) {
+            try {
+                $this->client->ingest()->deletePipeline(['id' => $id]);
+            } catch (Missing404Exception $e) {
+                //do nothing, if the pipeline doesn't exist
+            }
+        }
+        foreach (LearningMaterials::getEnrichPolicies() as $policy) {
+            try {
+                $this->client->enrich()->deletePolicy(['name' => $policy['name']]);
+            } catch (Missing404Exception $e) {
+                //do nothing, if the policy doesn't exist
             }
         }
     }
@@ -44,12 +64,19 @@ class Manager extends ElasticSearchBase
             'index' => Curriculum::INDEX,
             'body' => Curriculum::getMapping()
         ]);
-
-        $this->client->ingest()->putPipeline(LearningMaterials::getPipeline());
         $this->client->indices()->create([
             'index' => LearningMaterials::INDEX,
             'body' => LearningMaterials::getMapping()
         ]);
+
+        foreach (LearningMaterials::getEnrichPolicies() as $policy) {
+            $this->client->enrich()->putPolicy($policy);
+            $this->client->enrich()->executePolicy(['name' => $policy['name']]);
+        }
+
+        $this->client->ingest()->putPipeline(Users::getPipeline());
+        $this->client->ingest()->putPipeline(Curriculum::getPipeline());
+        $this->client->ingest()->putPipeline(LearningMaterials::getPipeline());
     }
 
     public function hasBeenCreated(): bool

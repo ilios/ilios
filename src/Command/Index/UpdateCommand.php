@@ -29,7 +29,7 @@ class UpdateCommand extends Command
         protected CourseRepository $courseRepository,
         protected MeshDescriptorRepository $descriptorRepository,
         protected LearningMaterialRepository $learningMaterialRepository,
-        protected MessageBusInterface $bus
+        protected MessageBusInterface $bus,
     ) {
         parent::__construct();
     }
@@ -44,8 +44,7 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->queueUsers($output);
-        //temporarily disable LM indexing for performance reasons.
-//        $this->queueLearningMaterials($output);
+        $this->queueLearningMaterials($output);
         $this->queueCourses($output);
         $this->queueMesh($output);
 
@@ -78,8 +77,9 @@ class UpdateCommand extends Command
     {
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
         $count = count($allIds);
-        foreach ($allIds as $id) {
-            $this->bus->dispatch(new LearningMaterialIndexRequest($id));
+        $chunks = array_chunk($allIds, LearningMaterialIndexRequest::MAX_MATERIALS);
+        foreach ($chunks as $ids) {
+            $this->bus->dispatch(new LearningMaterialIndexRequest($ids));
         }
         $output->writeln("<info>{$count} learning materials have been queued for indexing.</info>");
     }

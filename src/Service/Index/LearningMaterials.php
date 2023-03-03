@@ -9,21 +9,15 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
 use Elasticsearch\Client;
-use Psr\Log\LoggerInterface;
-use setasign\Fpdi\Fpdi;
-use setasign\Fpdi\FpdiException;
-use setasign\Fpdi\PdfParser\StreamReader;
 use InvalidArgumentException;
 use SplFileInfo;
 
 class LearningMaterials extends ElasticSearchBase
 {
     public const INDEX = 'ilios-learning-materials';
-
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
         Config $config,
-        private LoggerInterface $logger,
         Client $client = null
     ) {
         parent::__construct($config, $client);
@@ -46,31 +40,52 @@ class LearningMaterials extends ElasticSearchBase
             }
         }
 
-        $extractedMaterials = array_reduce($materials, function ($materials, LearningMaterialDTO $lm) {
-            foreach ($this->extractLearningMaterialData($lm) as $data) {
+        $existingMaterialIds = $this->findByIds(array_column($materials, 'id'));
+
+        // The contents of LMs don't change so we shouldn't index them twice
+        $newMaterials = array_filter(
+            $materials,
+            fn (LearningMaterialDTO $lm) => !in_array($lm->id, $existingMaterialIds)
+        );
+
+        $extractedMaterials = array_reduce($newMaterials, function ($materials, LearningMaterialDTO $lm) {
+            $data = $this->extractLearningMaterialData($lm);
+            if ($data) {
                 $materials[] = [
                     'id' => $lm->id,
+                    'learningMaterialId' => $lm->id,
                     'data' => $data
                 ];
             }
+
             return $materials;
         }, []);
 
-        $results = array_map(function (array $arr) {
-            $params = [
-                'index' => self::INDEX,
-                'pipeline' => 'learning_materials',
-                'body' => [
-                    'learningMaterialId' => $arr['id'],
-                    'data' => $arr['data'],
-                ]
-            ];
-            return $this->client->index($params);
-        }, $extractedMaterials);
+        $this->doBulkIndex(self::INDEX, $extractedMaterials, true);
+        $this->client->enrich()->executePolicy([
+            'name' => 'materials-policy',
+        ]);
 
-        $errors = array_filter($results, fn($result) => $result['result'] === 'error');
+        return true;
+    }
 
-        return empty($errors);
+    protected function findByIds(array $ids): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'ids' => [
+                        'values' => $ids,
+                    ]
+                ],
+                "_source" => ['_id']
+            ]
+        ];
+        $results = $this->doSearch($params);
+        return array_map(function (array $item) {
+            return (int) $item['_id'];
+        }, $results['hits']['hits']);
     }
 
     /**
@@ -93,38 +108,35 @@ class LearningMaterials extends ElasticSearchBase
     /**
      * Base64 encodes learning material contents for indexing
      * Files larger than the upload limit are ignored
-     *
-     * @param LearningMaterialDTO $dto
      */
-    protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
+    protected function extractLearningMaterialData(LearningMaterialDTO $dto): ?string
     {
         //skip files without useful text content
         if ($dto->mimetype && preg_match('/image|video|audio/', $dto->mimetype)) {
-            return [];
+            return null;
         }
         $info = new SplFileInfo($dto->filename);
         $extension = $info->getExtension();
         if (in_array($extension, ['mp3', 'mov'])) {
-            return [];
+            return null;
         }
 
         $data = $this->nonCachingIliosFileSystem->getFileContents($dto->relativePath);
         $encodedData = base64_encode($data);
         if (strlen($encodedData) < $this->uploadLimit) {
-            return [
-                $encodedData
-            ];
+            return $encodedData;
         }
 
-        return [];
+        return null;
     }
 
     public static function getMapping(): array
     {
         return [
             'settings' => [
-                'number_of_shards' => 1,
+                'number_of_shards' => 5,
                 'number_of_replicas' => 0,
+                'default_pipeline' => 'learning_materials',
             ],
             'mappings' => [
                 '_meta' => [
@@ -136,6 +148,10 @@ class LearningMaterials extends ElasticSearchBase
                     ],
                     'material' => [
                         'type' => 'object'
+                    ],
+                    'ingestTime' => [
+                        'type' => 'date',
+                        'format' => 'date_optional_time||basic_date_time_no_millis||epoch_second||epoch_millis'
                     ],
                 ]
             ]
@@ -153,7 +169,42 @@ class LearningMaterials extends ElasticSearchBase
                         'attachment' => [
                             'field' => 'data',
                             'target_field' => 'material',
-                        ]
+                        ],
+                    ],
+                    [
+                        'remove' => [
+                            'field' => 'data'
+                        ],
+                    ],
+                    [
+                        'set' => [
+                            'field' => '_source.ingestTime',
+                            'value' => '{{_ingest.timestamp}}',
+                        ],
+                    ],
+                    [
+                        'rename' => [
+                            'field' => 'material.content',
+                            'target_field' => 'content',
+                        ],
+                    ],
+                ]
+            ]
+        ];
+    }
+
+    public static function getEnrichPolicies(): array
+    {
+        return [
+            [
+                'name' => 'materials-policy',
+                'body' => [
+                    'match' => [
+                        'indices' => [
+                            self::INDEX
+                        ],
+                        'match_field' => 'learningMaterialId',
+                        'enrich_fields' => ['content']
                     ]
                 ]
             ]
