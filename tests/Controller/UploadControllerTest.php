@@ -11,14 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTestable;
 
 /**
  * Upload controller Test.
  */
 class UploadControllerTest extends WebTestCase
 {
-    use JsonControllerTest;
+    use JsonControllerTestable;
 
     protected KernelBrowser $kernelBrowser;
     protected string $fakeTestFileDir;

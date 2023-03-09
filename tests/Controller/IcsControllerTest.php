@@ -18,14 +18,14 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTestable;
 
 /**
  * Class ConfigControllerTest
  */
 class IcsControllerTest extends WebTestCase
 {
-    use JsonControllerTest;
+    use JsonControllerTestable;
     use GetUrlTrait;
 
     protected string $apiVersion = 'v3';

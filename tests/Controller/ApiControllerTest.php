@@ -9,11 +9,11 @@ use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTestable;
 
 class ApiControllerTest extends WebTestCase
 {
-    use JsonControllerTest;
+    use JsonControllerTestable;
 
     protected string $apiVersion = 'v3';
     protected KernelBrowser $kernelBrowser;

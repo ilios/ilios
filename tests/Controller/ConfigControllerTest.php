@@ -10,11 +10,11 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Fixture\LoadApplicationConfigData;
-use App\Tests\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTestable;
 
 class ConfigControllerTest extends WebTestCase
 {
-    use JsonControllerTest;
+    use JsonControllerTestable;
 
     protected KernelBrowser $kernelBrowser;
 

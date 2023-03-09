@@ -13,7 +13,7 @@ use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\JsonControllerTest;
+use App\Tests\Traits\JsonControllerTestable;
 use App\Service\JsonWebTokenManager;
 
 use function array_key_exists;
@@ -22,7 +22,7 @@ use function var_export;
 
 class AuthControllerTest extends WebTestCase
 {
-    use JsonControllerTest;
+    use JsonControllerTestable;
     use GetUrlTrait;
 
     protected string $apiVersion = 'v3';

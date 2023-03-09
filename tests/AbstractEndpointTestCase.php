@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Service\InflectorFactory;
 use App\Service\Timestamper;
 use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Traits\JsonControllerTestable;
 use DateTime;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Inflector\Inflector;
@@ -14,7 +15,6 @@ use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bridge\PhpUnit\ClockMock;
 use App\Tests\DataLoader\DataLoaderInterface;
-use App\Tests\Traits\JsonControllerTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ use function var_export;
  */
 abstract class AbstractEndpointTestCase extends WebTestCase
 {
-    use JsonControllerTest;
+    use JsonControllerTestable;
     use GetUrlTrait;
 
     protected string $apiVersion = 'v3';

@@ -6,16 +6,15 @@ namespace App\Tests\Traits;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\JsonWebTokenManager;
 
 use function json_decode;
 use function substr;
 
 /**
- * Class JsonControllerTest
+ * Class JsonControllerTestable
  */
-trait JsonControllerTest
+trait JsonControllerTestable
 {
     /**
      * Check if the response is valid
