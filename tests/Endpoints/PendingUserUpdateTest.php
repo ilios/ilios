@@ -33,7 +33,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'type' => ['type', 'something'],
@@ -46,7 +46,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -56,7 +56,7 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -69,4 +69,10 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
             'schools' => [[1], ['schools' => [2]]],
         ];
     }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
+    }
+
 }

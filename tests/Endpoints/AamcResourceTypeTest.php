@@ -27,7 +27,7 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'title' => ['title', 'sure thing'],
@@ -40,7 +40,7 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [];
     }
@@ -48,7 +48,7 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[2], ['id' => 'RE003']],
@@ -56,6 +56,11 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
             'description' => [[1], ['description' => 'second description']],
             'terms' => [[0], ['terms' => [1]]],
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     public function testPostTermAamcResourceType()

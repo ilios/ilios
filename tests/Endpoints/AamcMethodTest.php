@@ -27,7 +27,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'description' => ['description', 'lorem ipsum'],
@@ -41,7 +41,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [];
     }
@@ -49,7 +49,7 @@ class AamcMethodTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 'AM001']],
@@ -60,9 +60,9 @@ class AamcMethodTest extends ReadWriteEndpointTest
             'notActive' => [[1], ['active' => false]],
         ];
     }
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => ['AM001', 'AM002']]];
 
         return $filters;

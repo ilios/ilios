@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use function property_exists;
 
 /**
@@ -44,10 +45,15 @@ trait GetEndpointTestable
         $this->notFoundTest(99);
     }
 
+//    public static function graphQLFiltersToTest(): array
+//    {
+//        return self::filtersToTest();
+//    }
+
     /**
      * @see GetEndpointTestInterface::testFilters()
-     * @dataProvider filtersToTest
      */
+    #[DataProvider('filtersToTest')]
     public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false)
     {
         if ($skipped) {
@@ -66,9 +72,7 @@ trait GetEndpointTestable
         $this->filterTest($filters, $expectedData);
     }
 
-    /**
-     * @dataProvider graphQLFiltersToTest
-     */
+    #[DataProvider('graphQLFiltersToTest')]
     public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
     {
         if (!property_exists($this, 'isGraphQLTestable') || !$this->isGraphQLTestable) {
@@ -85,11 +89,6 @@ trait GetEndpointTestable
         $idField = $dataLoader->getIdField();
         $expectedIds = array_map(fn($i) => (string) $all[$i][$idField], $dataKeys);
         $this->graphQLFilterTest($filterParts, $expectedIds);
-    }
-
-    public function graphQLFiltersToTest(): array
-    {
-        return $this->filtersToTest();
     }
 
     public function testAccessDenied()

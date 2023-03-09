@@ -16,6 +16,7 @@ use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\UserData;
 use App\Tests\ReadWriteEndpointTest;
@@ -50,7 +51,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'username' => ['username', 'devnull'],
@@ -61,7 +62,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'invalidateTokenIssuedBefore' => ['invalidateTokenIssuedBefore', 1, 99],
@@ -71,12 +72,17 @@ class AuthenticationTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'user' => [[1], ['user' => 2]],
             'username' => [[1], ['username' => 'newuser']],
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     protected function createMany($count)
@@ -314,12 +320,13 @@ class AuthenticationTest extends ReadWriteEndpointTest
 
         return $returnedData;
     }
+
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @dataProvider putsToTest
      * @inheritdoc
      */
+    #[DataProvider('putsToTest')]
     public function testPut($key, $value, $skipped = false)
     {
         if ($skipped) {
@@ -514,11 +521,7 @@ class AuthenticationTest extends ReadWriteEndpointTest
         return json_decode($response->getContent(), true)[$responseKey][0];
     }
 
-    /**
-     * @inheritdoc
-     *
-     * @dataProvider readOnlyPropertiesToTest
-     */
+    #[DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
     {
         if ($skipped) {

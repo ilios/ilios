@@ -19,6 +19,7 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\ReadWriteEndpointTest;
 
@@ -54,7 +55,7 @@ class UserTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'lastName' => ['lastName', 'ipsum'],
@@ -104,7 +105,7 @@ class UserTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -114,7 +115,7 @@ class UserTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -171,15 +172,15 @@ class UserTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
 
         return $filters;
     }
 
-    public function qsToTest()
+    public static function qsToTest()
     {
         return [
             ['first', [1]],
@@ -195,10 +196,10 @@ class UserTest extends ReadWriteEndpointTest
     }
 
     /**
-     * @dataProvider qsToTest
      * @param $q
      * @param $dataKeys
      */
+    #[DataProvider('qsToTest')]
     public function testFindByQ($q, $dataKeys)
     {
         $dataLoader = $this->getDataLoader();
@@ -208,9 +209,7 @@ class UserTest extends ReadWriteEndpointTest
         $this->filterTest($filters, $expectedData);
     }
 
-    /**
-     * @dataProvider qsToTest
-     */
+    #[DataProvider('qsToTest')]
     public function testFindByQJsonApi(string $q, array $dataKeys)
     {
         $dataLoader = $this->getDataLoader();

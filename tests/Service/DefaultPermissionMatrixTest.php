@@ -11,6 +11,7 @@ use App\Service\DefaultPermissionMatrix;
 use App\Entity\DTO\SchoolDTO;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class DefaultPermissionMatrixTest
@@ -51,7 +52,7 @@ class DefaultPermissionMatrixTest extends TestCase
         unset($this->permissionMatrix);
     }
 
-    public function hasPermissionProvider()
+    public static function hasPermissionProvider()
     {
         return [
             [
@@ -1128,9 +1129,7 @@ class DefaultPermissionMatrixTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider hasPermissionProvider
-     */
+    #[DataProvider('hasPermissionProvider')]
     public function testHasPermission($capability, array $allowedRoles, array $deniedRoles)
     {
         $this->assertEquals(count($allowedRoles) +  count($deniedRoles), 10);

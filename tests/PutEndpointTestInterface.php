@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * Interface PutEndpointTestInterface
  * @package App\Tests
@@ -18,7 +20,7 @@ interface PutEndpointTestInterface
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function putsToTest(): array;
+    public static function putsToTest(): array;
 
     /**
      * @return array [field, value, id]
@@ -32,15 +34,14 @@ interface PutEndpointTestInterface
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function readOnlyPropertiesToTest(): array;
+    public static function readOnlyPropertiesToTest(): array;
 
     /**
      * @param string $key
      * @param mixed $value
      * @param bool $skipped
-     *
-     * @dataProvider putsToTest
      */
+    #[DataProvider('putsToTest')]
     public function testPut($key, $value, $skipped = false);
 
     /**
@@ -54,8 +55,7 @@ interface PutEndpointTestInterface
      * @param mixed|null $id
      * @param mixed|null $value
      * @param bool $skipped
-     *
-     * @dataProvider readOnlyPropertiesToTest
      */
+    #[DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false);
 }

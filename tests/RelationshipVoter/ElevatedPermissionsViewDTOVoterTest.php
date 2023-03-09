@@ -14,6 +14,7 @@ use App\Entity\DTO\IngestionExceptionDTO;
 use App\Entity\DTO\OfferingDTO;
 use App\Entity\DTO\PendingUserUpdateDTO;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
@@ -31,7 +32,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function dtoProvider()
+    public static function dtoProvider()
     {
         return [
             [AuthenticationDTO::class],
@@ -43,9 +44,9 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @dataProvider dtoProvider
      * @covers ::voteOnAttribute()
      */
+    #[DataProvider('dtoProvider')]
     public function testCanViewDTO($class)
     {
         $token = $this->createMockTokenWithSessionUserPerformingNonLearnerFunction();
@@ -55,9 +56,9 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @dataProvider dtoProvider
      * @covers ::voteOnAttribute()
      */
+    #[DataProvider('dtoProvider')]
     public function testRootCanViewDTO($class)
     {
         $token = $this->createMockTokenWithRootSessionUser();
@@ -67,9 +68,9 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
     }
 
     /**
-     * @dataProvider dtoProvider
      * @covers ::voteOnAttribute()
      */
+    #[DataProvider('dtoProvider')]
     public function testCanNotViewDTO($class)
     {
         $token = $this->createMockTokenWithSessionUserPerformingOnlyLearnerFunction();

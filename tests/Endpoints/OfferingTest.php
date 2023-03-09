@@ -16,6 +16,7 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\ReadWriteEndpointTest;
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Offering API endpoint Test.
@@ -47,10 +48,7 @@ class OfferingTest extends ReadWriteEndpointTest
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function changeTypePutsToTest()
+    public static function changeTypePutsToTest()
     {
         return [
             'room' => ['room', 'room 101', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
@@ -65,7 +63,7 @@ class OfferingTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'session' => ['session', 3],
@@ -77,7 +75,7 @@ class OfferingTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -88,7 +86,7 @@ class OfferingTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -106,9 +104,9 @@ class OfferingTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[3, 4], ['ids' => [4, 5]]];
 
         return $filters;
@@ -145,9 +143,7 @@ class OfferingTest extends ReadWriteEndpointTest
         $this->getAllTest();
     }
 
-    /**
-     * @dataProvider changeTypePutsToTest
-     */
+    #[DataProvider('changeTypePutsToTest')]
     public function testPutTriggerChangeType(string $key, $value, int $changeType)
     {
         $dataLoader = $this->getDataLoader();
@@ -168,9 +164,7 @@ class OfferingTest extends ReadWriteEndpointTest
         $this->checkAlertChange($id, $changeType, 2, 1);
     }
 
-    /**
-     * @dataProvider changeTypePutsToTest
-     */
+    #[DataProvider('changeTypePutsToTest')]
     public function testPatchJsonApiTriggerChangeType(string $key, $value, int $changeType)
     {
         $dataLoader = $this->getDataLoader();

@@ -20,6 +20,7 @@ use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use HTMLPurifier;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -350,7 +351,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         );
     }
 
-    public function correctLearningMaterialLinksProvider(): array
+    public static function correctLearningMaterialLinksProvider(): array
     {
         return [
             ['iliosproject.org', 'https://iliosproject.org'],
@@ -360,10 +361,10 @@ class CleanupStringsCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksProvider
      * @param string $link
      * @param string $fixedLink
      */
+    #[DataProvider('correctLearningMaterialLinksProvider')]
     public function testCorrectLearningMaterialLinks($link, $fixedLink)
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -382,7 +383,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
     }
 
-    public function correctLearningMaterialLinksWhithoutFetchingProvider(): array
+    public static function correctLearningMaterialLinksWhithoutFetchingProvider(): array
     {
         return [
             [' http://iliosproject.org', 'http://iliosproject.org'],
@@ -398,10 +399,10 @@ class CleanupStringsCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksWhithoutFetchingProvider
      * @param string $link
      * @param string $fixedLink
      */
+    #[DataProvider('correctLearningMaterialLinksWhithoutFetchingProvider')]
     public function testCorrectLearningMaterialLinksWithoutFetching($link, $fixedLink)
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -420,7 +421,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
     }
 
-    public function correctLearningMaterialLinksNoChangesProvider(): array
+    public static function correctLearningMaterialLinksNoChangesProvider(): array
     {
         return [
             [null],
@@ -436,8 +437,8 @@ class CleanupStringsCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksNoChangesProvider
      */
+    #[DataProvider('correctLearningMaterialLinksNoChangesProvider')]
     public function testCorrectLearningMaterialLinksNoChanges($link)
     {
         $lm = m::mock(LearningMaterialInterface::class);

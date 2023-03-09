@@ -28,7 +28,7 @@ class UserRoleTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -36,4 +36,10 @@ class UserRoleTest extends ReadEndpointTest
             'title' => [[1], ['title' => 'Something Else']],
         ];
     }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
+    }
+
 }

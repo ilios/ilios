@@ -50,7 +50,7 @@ class SessionTest extends ReadWriteEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'title' => ['title', 'lorem ipsum'],
@@ -92,7 +92,7 @@ class SessionTest extends ReadWriteEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -110,7 +110,7 @@ class SessionTest extends ReadWriteEndpointTest
      * can be found in the data loader
      * the second item is the filter we are testing
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -146,9 +146,9 @@ class SessionTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
         $filters['multipleCourse'] = [[0, 1, 3], ['courses' => [1, 4]]];
         $filters['multipleSessionTypes'] = [[1, 2, 3], ['sessionTypes' => [2]]];
