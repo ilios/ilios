@@ -65,5 +65,4 @@ class SchoolConfigTest extends ReadWriteEndpointTest
     {
         return self::filtersToTest();
     }
-
 }

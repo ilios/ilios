@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+
 use function property_exists;
 
 /**

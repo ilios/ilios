@@ -21,8 +21,8 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery;
 use Mockery\MockInterface;
-
 use PHPUnit\Framework\Attributes\DataProvider;
+
 use function count;
 
 /**

@@ -41,5 +41,4 @@ class UserRoleTest extends ReadEndpointTest
     {
         return self::filtersToTest();
     }
-
 }

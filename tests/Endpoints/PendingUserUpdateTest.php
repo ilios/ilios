@@ -74,5 +74,4 @@ class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestI
     {
         return self::filtersToTest();
     }
-
 }
