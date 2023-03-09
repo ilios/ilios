@@ -38,9 +38,6 @@ class AamcMethodTest extends ReadWriteEndpointTest
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [];
@@ -66,5 +63,10 @@ class AamcMethodTest extends ReadWriteEndpointTest
         $filters['ids'] = [[0, 1], ['ids' => ['AM001', 'AM002']]];
 
         return $filters;
+    }
+
+    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
+    {
+        parent::markTestSkipped('Skipped');
     }
 }

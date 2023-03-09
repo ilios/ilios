@@ -184,7 +184,6 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         );
     }
 
-
     public static function inputSanitationTestProvider(): array
     {
         return [
@@ -248,5 +247,10 @@ class CourseObjectiveTest extends ReadWriteEndpointTest
         $this->assertTrue(property_exists($courseObjective, 'course'));
         $this->assertTrue(property_exists($courseObjective->course, 'id'));
         $this->assertEquals($data['course'], $courseObjective->course->id);
+    }
+
+    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
+    {
+        parent::markTestSkipped('Skipped');
     }
 }

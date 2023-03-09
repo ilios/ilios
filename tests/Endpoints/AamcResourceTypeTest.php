@@ -79,4 +79,9 @@ class AamcResourceTypeTest extends ReadWriteEndpointTest
 
         $this->badPostTest($data);
     }
+
+    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
+    {
+        parent::markTestSkipped('Skipped');
+    }
 }

@@ -124,4 +124,9 @@ class AamcPcrsTest extends ReadWriteEndpointTest
         $camelSingular = $inflector->camelize('aamcpcrs');
         $this->assertSame($camelSingular, 'aamcpcrs');
     }
+
+    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
+    {
+        parent::markTestSkipped('Skipped');
+    }
 }

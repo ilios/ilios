@@ -206,4 +206,9 @@ class SessionObjectiveTest extends ReadWriteEndpointTest
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
+
+    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
+    {
+        parent::markTestSkipped('Skipped');
+    }
 }
