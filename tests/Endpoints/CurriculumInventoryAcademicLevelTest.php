@@ -33,7 +33,7 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -47,9 +47,9 @@ class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
 
         return $filters;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * Trait PutEndpointTestable
  * @package App\Tests
@@ -12,8 +14,8 @@ trait PutEndpointTestable
 {
     /**
      * @see PutEndpointTestInterface::testPut()
-     * @dataProvider putsToTest
      */
+    #[DataProvider('putsToTest')]
     public function testPut($key, $value, $skipped = false)
     {
         if ($skipped) {
@@ -61,8 +63,8 @@ trait PutEndpointTestable
 
     /**
      * @see PutEndpointTestInterface::testPutReadOnly()
-     * @dataProvider readOnlyPropertiesToTest
      */
+    #[DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
     {
         if ($skipped) {

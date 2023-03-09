@@ -17,6 +17,7 @@ use App\Entity\Program;
 use App\Service\CurriculumInventory\Export\XmlPrinter;
 use App\Tests\TestCase;
 use DateTime;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class AggregatorTest
@@ -37,7 +38,7 @@ class XmlPrinterTest extends TestCase
         parent::tearDown();
     }
 
-    public function inventoryDataProvider(): array
+    public static function inventoryDataProvider(): array
     {
         $academicLevel1 = new CurriculumInventoryAcademicLevel();
         $academicLevel1->setName('Year 1');
@@ -258,9 +259,9 @@ class XmlPrinterTest extends TestCase
 
     /**
      * @covers \App\Service\CurriculumInventory\Export\XmlPrinter::print
-     * @dataProvider inventoryDataProvider
      * @param array $inventory
      */
+    #[DataProvider('inventoryDataProvider')]
     public function testPrintReport(array $inventory): void
     {
         $xml = simplexml_load_string($this->printer->print($inventory));

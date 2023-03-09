@@ -11,6 +11,7 @@ use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,7 +53,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'title' => ['title', 'a document'],
@@ -74,7 +75,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -88,7 +89,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -126,9 +127,9 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
         unset($filters['school']);
 
@@ -140,7 +141,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         return ['uploadDate'];
     }
 
-    public function qsToTest()
+    public static function qsToTest()
     {
         return [
             ['first', [0]],
@@ -186,10 +187,10 @@ class LearningMaterialTest extends ReadWriteEndpointTest
     }
 
     /**
-     * @dataProvider qsToTest
      * @param $q
      * @param $dataKeys
      */
+    #[DataProvider('qsToTest')]
     public function testFindByQ($q, $dataKeys)
     {
         $dataLoader = $this->getDataLoader();
@@ -199,9 +200,7 @@ class LearningMaterialTest extends ReadWriteEndpointTest
         $this->filterTest($filters, $expectedData);
     }
 
-    /**
-     * @dataProvider qsToTest
-     */
+    #[DataProvider('qsToTest')]
     public function testFindByQJsonApi(string $q, array $dataKeys)
     {
         $dataLoader = $this->getDataLoader();

@@ -44,6 +44,7 @@ use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserRoleDTO;
 use App\Entity\DTO\VocabularyDTO;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
@@ -60,7 +61,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function canViewDTOProvider()
+    public static function canViewDTOProvider()
     {
         return [
             [AamcMethodDTO::class],
@@ -103,10 +104,10 @@ class GreenlightViewDtoVoterTest extends AbstractBase
     }
 
     /**
-     * @dataProvider canViewDTOProvider
      * @covers ::voteOnAttribute()
      * @param string $class The fully qualified class name.
      */
+    #[DataProvider('canViewDTOProvider')]
     public function testCanViewDTO($class)
     {
         $token = $this->createMockTokenWithNonRootSessionUser();

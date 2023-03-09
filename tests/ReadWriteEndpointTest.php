@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Tests;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class ReadWriteEndpointTest
@@ -18,7 +19,7 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    abstract public function putsToTest(): array;
+    abstract public static function putsToTest(): array;
 
     /**
      * @return array [field, value, id]
@@ -32,7 +33,7 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
      */
-    abstract public function readOnlyPropertiesToTest(): array;
+    abstract public static function readOnlyPropertiesToTest(): array;
 
     /**
      * Test posting a single object
@@ -103,8 +104,8 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
      * @param mixed $value
      * @param bool $skipped
      *
-     * @dataProvider putsToTest
      */
+    #[DataProvider('putsToTest')]
     public function testPut($key, $value, $skipped = false)
     {
         if ($skipped) {
@@ -133,9 +134,9 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
     }
 
     /**
-     * @dataProvider putsToTest
      * @param mixed $value
      */
+    #[DataProvider('putsToTest')]
     public function testPatchJsonApi(string $key, $value, bool $skipped = false)
     {
 
@@ -199,8 +200,8 @@ abstract class ReadWriteEndpointTest extends ReadEndpointTest
      * @param mixed|null $value
      * @param bool $skipped
      *
-     * @dataProvider readOnlyPropertiesToTest
      */
+    #[DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
     {
         if ($skipped) {

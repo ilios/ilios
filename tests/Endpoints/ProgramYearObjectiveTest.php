@@ -16,6 +16,7 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\ReadWriteEndpointTest;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -40,7 +41,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'title' => ['title', 'gather all the salt'],
@@ -55,12 +56,12 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [];
     }
 
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -76,9 +77,9 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
 
         return $filters;
@@ -135,11 +136,10 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
     }
 
     /**
-     * @dataProvider inputSanitationTestProvider
-     *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
      */
+    #[DataProvider('inputSanitationTestProvider')]
     public function testInputSanitation($input, $output)
     {
         $postData = self::getContainer()->get(ProgramYearObjectiveData::class)
@@ -167,7 +167,7 @@ class ProgramYearObjectiveTest extends ReadWriteEndpointTest
     }
 
 
-    public function inputSanitationTestProvider(): array
+    public static function inputSanitationTestProvider(): array
     {
         return [
             ['foo', 'foo'],

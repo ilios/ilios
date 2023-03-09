@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**
@@ -649,8 +650,8 @@ class SessionUserTest extends TestCase
 
     /**
      * @covers ::rolesInSession
-     * @dataProvider rolesInSessionProvider
      */
+    #[DataProvider('rolesInSessionProvider')]
     public function testRolesInSession(
         int $sessionId,
         array $administeredSessions,

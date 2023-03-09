@@ -38,7 +38,7 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'notes' => ['notes', 'something else'],
@@ -56,7 +56,7 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -66,7 +66,7 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -85,9 +85,9 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
 
         return $filters;

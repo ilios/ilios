@@ -27,7 +27,7 @@ class AcademicYearTest extends ReadEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[1], ['id' => 2013], $skipped = true],
@@ -37,6 +37,10 @@ class AcademicYearTest extends ReadEndpointTest
         ];
     }
 
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
+    }
 
     public function testGetOne()
     {

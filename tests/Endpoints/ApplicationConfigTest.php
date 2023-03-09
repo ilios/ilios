@@ -26,7 +26,7 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'value' => ['value', 'lorem'],
@@ -37,7 +37,7 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -47,7 +47,7 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -55,5 +55,10 @@ class ApplicationConfigTest extends ReadWriteEndpointTest
             'name' => [[1], ['name' => 'second name']],
             'value' => [[2], ['value' => 'third value']],
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 }

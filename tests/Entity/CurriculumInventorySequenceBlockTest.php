@@ -10,6 +10,7 @@ use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use DateTime;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests for Entity CurriculumInventorySequenceBlock
@@ -225,12 +226,12 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy
-     * @dataProvider compareSequenceBlocksWithOrderedStrategyProvider
      *
      * @param CurriculumInventorySequenceBlockInterface $blockA
      * @param CurriculumInventorySequenceBlockInterface $blockB
      * @param int $expected
      */
+    #[DataProvider('compareSequenceBlocksWithOrderedStrategyProvider')]
     public function testCompareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
@@ -242,8 +243,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         );
     }
 
-
-    public function compareSequenceBlocksWithOrderedStrategyProvider(): array
+    public static function compareSequenceBlocksWithOrderedStrategyProvider(): array
     {
         $rhett = [];
 
@@ -274,12 +274,11 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
 
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy
-     * @dataProvider compareSequenceBlocksWithDefaultStrategyProvider
-     *
      * @param CurriculumInventorySequenceBlockInterface $blockA
      * @param CurriculumInventorySequenceBlockInterface $blockB
      * @param int $expected
      */
+    #[DataProvider('compareSequenceBlocksWithDefaultStrategyProvider')]
     public function testCompareSequenceBlocksWithDefaultStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
@@ -292,7 +291,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
 
-    public function compareSequenceBlocksWithDefaultStrategyProvider(): array
+    public static function compareSequenceBlocksWithDefaultStrategyProvider(): array
     {
         $rhett = [];
 

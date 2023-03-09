@@ -23,7 +23,7 @@ class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'statusStarted' => ['status', UserSessionMaterialStatusInterface::STARTED],
@@ -32,7 +32,7 @@ class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -40,7 +40,7 @@ class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -57,9 +57,9 @@ class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
         $filters['materials'] = [[0, 2], ['materials' => [1, 5]]];
         $filters['users'] = [[0, 1, 2], ['users' => [2]]];

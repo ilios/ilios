@@ -29,6 +29,7 @@ use App\Repository\OfferingRepository;
 use App\Service\Config;
 use DateTime;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -108,12 +109,11 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
-     * @dataProvider executeProvider
-     *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      * @param AuditLogInterface[] $auditLogs
      */
+    #[DataProvider('executeProvider')]
     public function testExecuteDryRun(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
@@ -193,12 +193,11 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
-     * @dataProvider executeProvider
-     *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      * @param AuditLogInterface[] $auditLogs
      */
+    #[DataProvider('executeProvider')]
     public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ])->shouldReceive('update');
@@ -230,11 +229,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
-     * @dataProvider executeNoRecipientsConfiguredProvider
-     *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      */
+    #[DataProvider('executeNoRecipientsConfiguredProvider')]
     public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering)
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ])->shouldReceive('update');
@@ -253,11 +251,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
-     * @dataProvider executeRecipientWithoutEmailProvider
-     *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      */
+    #[DataProvider('executeRecipientWithoutEmailProvider')]
     public function testExecuteRecipientWithoutEmail(AlertInterface $alert, OfferingInterface $offering)
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ])->shouldReceive('update');
@@ -279,11 +276,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
-     * @dataProvider executeDeletedOfferingProvider
-     *
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      */
+    #[DataProvider('executeDeletedOfferingProvider')]
     public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering)
     {
         $this->alertRepository
@@ -302,7 +298,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
 
 
-    public function executeProvider(): array
+    public static function executeProvider(): array
     {
         $schoolA = new School();
         $schoolA->setId(1);
@@ -411,7 +407,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
 
-    public function executeRecipientWithoutEmailProvider(): array
+    public static function executeRecipientWithoutEmailProvider(): array
     {
         $school = new School();
         $course = new Course();
@@ -432,7 +428,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
 
-    public function executeNoRecipientsConfiguredProvider(): array
+    public static function executeNoRecipientsConfiguredProvider(): array
     {
         $school = new School();
         $school->setId(1);
@@ -453,7 +449,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
 
-    public function executeDeletedOfferingProvider(): array
+    public static function executeDeletedOfferingProvider(): array
     {
         $school = new School();
         $course = new Course();

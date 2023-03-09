@@ -22,6 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Mockery;
 use Mockery\MockInterface;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use function count;
 
 /**
@@ -77,7 +78,7 @@ class ReportRolloverTest extends TestCase
         unset($this->reportRepository);
     }
 
-    public function reportProvider()
+    public static function reportProvider()
     {
         $report = new CurriculumInventoryReport();
         $report->setId(1);
@@ -156,9 +157,9 @@ class ReportRolloverTest extends TestCase
     }
     /**
      * @covers ::rollover
-     * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
+    #[DataProvider('reportProvider')]
     public function testRollover(CurriculumInventoryReport $report)
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', 2022);
@@ -207,9 +208,9 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @covers ::rollover
-     * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
+    #[DataProvider('reportProvider')]
     public function testRolloverKeepName($report)
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), null, 'new description', 2022);
@@ -218,9 +219,9 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @covers ::rollover
-     * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
+    #[DataProvider('reportProvider')]
     public function testRolloverKeepDescription($report)
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', null, 2022);
@@ -229,9 +230,9 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @covers ::rollover
-     * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
+    #[DataProvider('reportProvider')]
     public function testRolloverKeepYear($report)
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', null);
@@ -287,9 +288,9 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @covers ::rollover
-     * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
+    #[DataProvider('reportProvider')]
     public function testRolloverWithDifferentProgram(CurriculumInventoryReport $report)
     {
         $program = new Program();

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * Interface GetEndpointTestInterface
  * @package App\Tests
@@ -16,12 +18,12 @@ interface GetEndpointTestInterface
      * positions:  array of the positions the expected items from the DataLoader
      * filter: array containing the filterKey and filterValue we are testing
      */
-    public function filtersToTest(): array;
+    public static function filtersToTest(): array;
 
     /**
      * An array of GraphQL filters to test.
      */
-    public function graphQLFiltersToTest(): array;
+    public static function graphQLFiltersToTest(): array;
 
     /**
      * Test fetching a single object
@@ -42,13 +44,10 @@ interface GetEndpointTestInterface
      * @param array $dataKeys
      * @param array $filterParts
      * @param bool $skipped
-     *
-     * @dataProvider filtersToTest
      */
+    #[DataProvider('filtersToTest')]
     public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false);
 
-    /**
-     * @dataProvider graphQLFiltersToTest
-     */
+    #[DataProvider('graphQLFiltersToTest')]
     public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false);
 }

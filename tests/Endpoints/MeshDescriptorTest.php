@@ -17,6 +17,7 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * MeshDescriptor API endpoint Test.
@@ -49,7 +50,7 @@ class MeshDescriptorTest extends AbstractMeshTest
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 'abc1']],
@@ -73,9 +74,9 @@ class MeshDescriptorTest extends AbstractMeshTest
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => ['abc2', 'abc3']]];
         unset($filters['school']);
 
@@ -87,7 +88,7 @@ class MeshDescriptorTest extends AbstractMeshTest
         return ['updatedAt', 'createdAt'];
     }
 
-    public function qsToTest()
+    public static function qsToTest()
     {
         return [
             ['abc1', [0]],
@@ -103,10 +104,10 @@ class MeshDescriptorTest extends AbstractMeshTest
     }
 
     /**
-     * @dataProvider qsToTest
      * @param $q
      * @param $dataKeys
      */
+    #[DataProvider('qsToTest')]
     public function testFindByQ($q, $dataKeys)
     {
         $dataLoader = $this->getDataLoader();
@@ -116,9 +117,7 @@ class MeshDescriptorTest extends AbstractMeshTest
         $this->filterTest($filters, $expectedData);
     }
 
-    /**
-     * @dataProvider qsToTest
-     */
+    #[DataProvider('qsToTest')]
     public function testFindByQJsonApi(string $q, array $dataKeys)
     {
         $dataLoader = $this->getDataLoader();
