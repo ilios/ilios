@@ -15,7 +15,9 @@ use App\Tests\ReadEndpointTestCase;
  * PendingUserUpdate API endpoint Test.
  * @group api_3
  */
-class PendingUserUpdateTest extends ReadEndpointTestCase implements PutEndpointTestInterface, DeleteEndpointTestInterface
+class PendingUserUpdateTest extends ReadEndpointTestCase implements
+    PutEndpointTestInterface,
+    DeleteEndpointTestInterface
 {
     use PutEndpointTestable;
     use DeleteEndpointTestable;
