@@ -9,13 +9,13 @@ use App\Tests\DeleteEndpointTestInterface;
 use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\PutEndpointTestable;
 use App\Tests\PutEndpointTestInterface;
-use App\Tests\ReadEndpointTest;
+use App\Tests\ReadEndpointTestCase;
 
 /**
  * PendingUserUpdate API endpoint Test.
  * @group api_3
  */
-class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestInterface, DeleteEndpointTestInterface
+class PendingUserUpdateTest extends ReadEndpointTestCase implements PutEndpointTestInterface, DeleteEndpointTestInterface
 {
     use PutEndpointTestable;
     use DeleteEndpointTestable;

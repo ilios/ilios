@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * @group api_3
  * @group time-sensitive
  */
-class MeshDescriptorTest extends AbstractMeshTest
+class MeshDescriptorTest extends AbstractMeshTestCase
 {
     protected string $testName =  'meshDescriptors';
 

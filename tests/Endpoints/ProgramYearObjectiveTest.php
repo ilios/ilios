@@ -15,7 +15,7 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  * ProgramYearObjectiveTest API endpoint Test.
  * @group api_2
  */
-class ProgramYearObjectiveTest extends ReadWriteEndpointTest
+class ProgramYearObjectiveTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'programYearObjectives';
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-abstract class ReadEndpointTest extends AbstractEndpointTest implements GetEndpointTestInterface
+abstract class ReadEndpointTestCase extends AbstractEndpointTestCase implements GetEndpointTestInterface
 {
     use GetEndpointTestable;
 

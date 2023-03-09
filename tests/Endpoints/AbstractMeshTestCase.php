@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\ReadEndpointTest;
+use App\Tests\ReadEndpointTestCase;
 
 /**
  * Class AbstractMeshTest
  * @package App\Tests\Endpoints
  */
-abstract class AbstractMeshTest extends ReadEndpointTest
+abstract class AbstractMeshTestCase extends ReadEndpointTestCase
 {
     public function testPostFails()
     {

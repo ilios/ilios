@@ -6,13 +6,13 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAssessmentOptionData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 
 /**
  * AssessmentOption API endpoint Test.
  * @group api_4
  */
-class AssessmentOptionTest extends ReadWriteEndpointTest
+class AssessmentOptionTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'assessmentOptions';
 

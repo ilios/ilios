@@ -6,13 +6,13 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAamcResourceTypeData;
 use App\Tests\Fixture\LoadTermData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 
 /**
  * AamcResourceType API endpoint Test.
  * @group api_3
  */
-class AamcResourceTypeTest extends ReadWriteEndpointTest
+class AamcResourceTypeTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'aamcResourceTypes';
 

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\AbstractEndpointTestCase;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractEndpointTest;
 
 /**
  * UsermaterialsTest API endpoint Test.
  * @group api_3
  */
-class UsermaterialsTest extends AbstractEndpointTest
+class UsermaterialsTest extends AbstractEndpointTestCase
 {
     protected function getFixtures(): array
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\OfferingInterface;
+use App\Tests\AbstractEndpointTestCase;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadLearningMaterialData;
@@ -19,14 +20,13 @@ use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\DataLoader\SessionTypeData;
 use App\Tests\DataLoader\UserData;
-use App\Tests\AbstractEndpointTest;
 use DateTime;
 
 /**
  * UsereventTest API endpoint Test.
  * @group api_1
  */
-class UsereventTest extends AbstractEndpointTest
+class UsereventTest extends AbstractEndpointTestCase
 {
     protected function getFixtures(): array
     {

@@ -6,13 +6,13 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadIngestionExceptionData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\ReadEndpointTest;
+use App\Tests\ReadEndpointTestCase;
 
 /**
  * IngestionException API endpoint Test.
  * @group api_4
  */
-class IngestionExceptionTest extends ReadEndpointTest
+class IngestionExceptionTest extends ReadEndpointTestCase
 {
     protected string $testName =  'ingestionExceptions';
     protected bool $isGraphQLTestable = false;

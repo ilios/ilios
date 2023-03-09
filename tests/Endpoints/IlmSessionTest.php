@@ -7,7 +7,7 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadSessionData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 use DateTime;
 use DateTimeZone;
 
@@ -15,7 +15,7 @@ use DateTimeZone;
  * IlmSession API endpoint Test.
  * @group api_3
  */
-class IlmSessionTest extends ReadWriteEndpointTest
+class IlmSessionTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'ilmSessions';
 

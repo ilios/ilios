@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\AbstractEndpointTestCase;
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
@@ -11,7 +12,6 @@ use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractEndpointTest;
 use DateTime;
 
 /**
@@ -19,7 +19,7 @@ use DateTime;
  * This is a POST only endpoint so that is all we will test
  * @group api_1
  */
-class CurriculumInventoryExportTest extends AbstractEndpointTest
+class CurriculumInventoryExportTest extends AbstractEndpointTestCase
 {
     protected string $testName =  'curriculumInventoryExports';
 

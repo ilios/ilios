@@ -21,13 +21,13 @@ use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 
 /**
  * User API endpoint Test.
  * @group api_1
  */
-class UserTest extends ReadWriteEndpointTest
+class UserTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'users';
 

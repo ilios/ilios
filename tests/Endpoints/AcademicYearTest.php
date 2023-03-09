@@ -7,13 +7,13 @@ namespace App\Tests\Endpoints;
 use App\Tests\Fixture\LoadCourseData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\CourseData;
-use App\Tests\ReadEndpointTest;
+use App\Tests\ReadEndpointTestCase;
 
 /**
  * AamcMethod API endpoint Test.
  * @group api_5
  */
-class AcademicYearTest extends ReadEndpointTest
+class AcademicYearTest extends ReadEndpointTestCase
 {
     protected string $testName = 'academicYears';
 

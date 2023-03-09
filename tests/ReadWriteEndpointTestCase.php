@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * Class ReadWriteEndpointTest
  * @package App\Tests
  */
-abstract class ReadWriteEndpointTest extends ReadEndpointTest
+abstract class ReadWriteEndpointTestCase extends ReadEndpointTestCase
 {
     /**
      * @return array [field, value]

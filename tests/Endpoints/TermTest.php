@@ -20,13 +20,13 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 
 /**
  * Term API endpoint Test.
  * @group api_4
  */
-class TermTest extends ReadWriteEndpointTest
+class TermTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'terms';
 

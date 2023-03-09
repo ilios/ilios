@@ -16,14 +16,14 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 
 /**
  * Session API endpoint Test.
  * @group api_2
  * @group time-sensitive
  */
-class SessionTest extends ReadWriteEndpointTest
+class SessionTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'sessions';
 

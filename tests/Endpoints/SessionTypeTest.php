@@ -24,13 +24,13 @@ use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 
 /**
  * SessionType API endpoint Test.
  * @group api_3
  */
-class SessionTypeTest extends ReadWriteEndpointTest
+class SessionTypeTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'sessionTypes';
 

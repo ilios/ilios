@@ -13,7 +13,7 @@ use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadInstructorGroupData;
 use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadOfferingData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\ReadWriteEndpointTestCase;
 use DateTime;
 use DateTimeZone;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * @group api_1
  * @group time-sensitive
  */
-class OfferingTest extends ReadWriteEndpointTest
+class OfferingTest extends ReadWriteEndpointTestCase
 {
     protected string $testName =  'offerings';
     protected $skipDates = false;

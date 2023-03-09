@@ -10,7 +10,7 @@ use App\Tests\Fixture\LoadMeshTreeData;
  * MeshTree API endpoint Test.
  * @group api_4
  */
-class MeshTreeTest extends AbstractMeshTest
+class MeshTreeTest extends AbstractMeshTestCase
 {
     protected string $testName =  'meshTrees';
 
