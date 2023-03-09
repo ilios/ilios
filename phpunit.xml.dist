@@ -25,10 +25,18 @@
       <directory suffix=".php">src</directory>
     </include>
   </coverage>
-
+  <!--
+  ACHTUNG!!
+  PHPUnit 10 does away with listeners. This will have to be retooled in the Symfony/PHPUnit bridge.
+  Commented out for the time being, otherwise the linter will fail the build in the CI pipeline,
+  and we want to get past this in order to see actual failures in the test coverage.
+  [ST 2023/03/09]
+  -->
+  <!--
   <listeners>
     <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
   </listeners>
+  -->
 
   <!-- Run `composer require symfony/panther` before enabling this extension -->
   <!--
