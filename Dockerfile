@@ -230,7 +230,7 @@ RUN /bin/bash /fetch-demo-database.sh
 ###############################################################################
 # Setup opensearch with the plugins we needed
 ###############################################################################
-FROM opensearchproject/opensearch:1 as opensearch
+FROM opensearchproject/opensearch:2 as opensearch
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 RUN bin/opensearch-plugin install -b ingest-attachment
 
