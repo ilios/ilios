@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\Index;
 
-use App\Classes\ElasticSearchBase;
+use App\Classes\OpenSearchBase;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
-use Elasticsearch\Client;
+use OpenSearch\Client;
 use Psr\Log\LoggerInterface;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\FpdiException;
@@ -16,7 +16,7 @@ use setasign\Fpdi\PdfParser\StreamReader;
 use InvalidArgumentException;
 use SplFileInfo;
 
-class LearningMaterials extends ElasticSearchBase
+class LearningMaterials extends OpenSearchBase
 {
     public const INDEX = 'ilios-learning-materials';
 

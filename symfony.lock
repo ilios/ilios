@@ -132,9 +132,6 @@
     "egulias/email-validator": {
         "version": "2.1.24"
     },
-    "elasticsearch/elasticsearch": {
-        "version": "v7.10.0"
-    },
     "eluceo/ical": {
         "version": "0.16.1"
     },
@@ -149,12 +146,6 @@
         "files": [
             "config/packages/exercise_html_purifier.yaml"
         ]
-    },
-    "ezimuel/guzzlestreams": {
-        "version": "3.0.1"
-    },
-    "ezimuel/ringphp": {
-        "version": "1.1.2"
     },
     "ezyang/htmlpurifier": {
         "version": "v4.13.0"

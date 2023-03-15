@@ -6,10 +6,9 @@ namespace App\Tests\Command;
 
 use App\Command\WaitForIndexCommand;
 use App\Service\Index\Manager;
-use Doctrine\ORM\EntityManagerInterface;
-use Elasticsearch\Client;
-use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
-use Elasticsearch\Namespaces\NodesNamespace;
+use OpenSearch\Client;
+use OpenSearch\Common\Exceptions\NoNodesAvailableException;
+use OpenSearch\Namespaces\NodesNamespace;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;

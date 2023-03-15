@@ -10,7 +10,7 @@ services:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_SEARCH_HOSTS=opensearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     depends_on:
       - db
@@ -18,12 +18,12 @@ services:
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_SEARCH_HOSTS=opensearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
     depends_on:
         - db
-  elasticsearch:
-    image: ilios/elasticsearch
+  opensearch:
+    image: ilios/opensearch
     environment:
       - discovery.type=single-node
     ports:

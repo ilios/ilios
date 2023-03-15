@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service\Index;
 
-use App\Classes\ElasticSearchBase;
+use App\Classes\OpenSearchBase;
 use App\Entity\DTO\UserDTO;
 use InvalidArgumentException;
 use Exception;
 
-class Users extends ElasticSearchBase
+class Users extends OpenSearchBase
 {
     public const INDEX = 'ilios-users';
 

@@ -25,7 +25,7 @@ services:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_ELASTICSEARCH_HOSTS=elasticsearch
+      - ILIOS_SEARCH_HOSTS=opensearch:9200
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FEATURE_DTO_CACHING=false
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
@@ -48,12 +48,12 @@ services:
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ILIOS_SEARCH_HOSTS=opensearch:9200
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
     depends_on:
         - db
-        - elasticsearch
+        - opensearch
         - redis
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
@@ -62,13 +62,13 @@ services:
       - /srv/app/var
       # Share storage between containers and make writes to the container authoritative with "delegated"
       - shared-storage:/ilios-storage:delegated
-  elasticsearch:
+  opensearch:
     build:
       context: .
-      target: elasticsearch
+      target: opensearch
     environment:
+      - DISABLE_SECURITY_PLUGIN=true
       - discovery.type=single-node
-      - logger.level=WARN
     ports:
       - "9200:9200"
   redis:

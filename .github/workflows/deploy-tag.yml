@@ -41,7 +41,7 @@ jobs:
           - consume-messages
           - mysql
           - mysql-demo
-          - elasticsearch
+          - opensearch
           - redis
     steps:
     - uses: actions/checkout@v3

@@ -9,7 +9,7 @@ use App\Entity\DTO\CourseDTO;
 use App\Service\Config;
 use App\Service\Index\Curriculum;
 use App\Tests\TestCase;
-use Elasticsearch\Client;
+use OpenSearch\Client;
 use InvalidArgumentException;
 use Mockery as m;
 
@@ -31,7 +31,7 @@ class CurriculumTest extends TestCase
         $this->client = m::mock(Client::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')
-            ->with('elasticsearch_upload_limit')
+            ->with('search_upload_limit')
             ->andReturn(8000000);
     }
     public function tearDown(): void

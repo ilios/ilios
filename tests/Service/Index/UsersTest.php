@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Service\Config;
 use App\Service\Index\Users;
 use App\Tests\TestCase;
-use Elasticsearch\Client;
+use OpenSearch\Client;
 use Exception;
 use InvalidArgumentException;
 use Mockery as m;
@@ -32,7 +32,7 @@ class UsersTest extends TestCase
         $this->client = m::mock(Client::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')
-            ->with('elasticsearch_upload_limit')
+            ->with('search_upload_limit')
             ->andReturn(8000000);
     }
     public function tearDown(): void

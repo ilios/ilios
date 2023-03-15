@@ -26,7 +26,7 @@ ILIOS_FILE_SYSTEM_PATH=/var/www/ilios/learning_materials
 #OR for storing them as Amazon S3 objects
 #ILIOS_STORAGE_S3_URL="s3://AMAZON_AWS_ID:AMAZON_AWS_SECRET@amazon.s3.bucketname.region"
 
-ILIOS_ELASTICSEARCH_HOSTS=https://fqdn.elasticsearchhost.edu:443
+ILIOS_SEARCH_HOSTS=https://fqdn.searchhost.edu:443
 
 #default mail service for sending mails directly from Ilios (local smtpd server or relay required)
 MAILER_DSN=smtp://localhost:25
