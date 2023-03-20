@@ -4373,16 +4373,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.19.0",
+            "version": "2.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "a2fb5d886b9a86af38bf0ebc1427d8f1e33af9f8"
+                "reference": "8dce49cd97fbee5e4f16730492ce8e93ae406c85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/a2fb5d886b9a86af38bf0ebc1427d8f1e33af9f8",
-                "reference": "a2fb5d886b9a86af38bf0ebc1427d8f1e33af9f8",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/8dce49cd97fbee5e4f16730492ce8e93ae406c85",
+                "reference": "8dce49cd97fbee5e4f16730492ce8e93ae406c85",
                 "shasum": ""
             },
             "require": {
@@ -4405,6 +4405,7 @@
                 "symfony/expression-language": "^4.4 || ^5.0 || ^6.0",
                 "symfony/finder": "^4.4 || ^5.0 || ^6.0",
                 "symfony/mailer": "^4.4 || ^5.0 || ^6.0",
+                "symfony/messenger": "^4.4|^5.4|^6.0",
                 "symfony/templating": "^4.4 || ^5.0 || ^6.0",
                 "symfony/twig-bundle": "^4.4 || ^5.0 || ^6.0"
             },
@@ -4453,9 +4454,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipMonitorBundle/issues",
-                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.19.0"
+                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.20.0"
             },
-            "time": "2022-06-09T12:25:07+00:00"
+            "time": "2023-03-17T21:17:08+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -16118,6 +16119,7 @@
         "symfony/yaml": 0,
         "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
+        "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
