@@ -102,6 +102,7 @@ class SessionLearningMaterialDTO
     public ?DateTime $endDate;
 
     #[IA\Expose]
+    #[IA\Related('sessions')]
     #[IA\Type('integer')]
     public int $session;
 
