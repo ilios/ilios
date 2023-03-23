@@ -127,4 +127,43 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
 
         parent::compareGraphQLData($expected, $result);
     }
+
+    public function testGraphQLIncludedData()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' =>
+                    "query { courseLearningMaterials(id: {$data['id']}) " .
+                    "{ id, course { id, title }, learningMaterial { id } }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->courseLearningMaterials);
+
+        $result = $content->data->courseLearningMaterials;
+        $this->assertCount(1, $result);
+
+        $clm = $result[0];
+        $this->assertTrue(property_exists($clm, 'id'));
+        $this->assertEquals($data['id'], $clm->id);
+        $this->assertTrue(property_exists($clm, 'course'));
+        $this->assertTrue(property_exists($clm->course, 'id'));
+        $this->assertTrue(property_exists($clm->course, 'title'));
+        $this->assertEquals($data['course'], $clm->course->id);
+        $this->assertEquals('firstCourse', $clm->course->title);
+
+        $this->assertTrue(property_exists($clm, 'learningMaterial'));
+        $this->assertTrue(property_exists($clm->learningMaterial, 'id'));
+        $this->assertEquals($data['learningMaterial'], $clm->learningMaterial->id);
+    }
 }

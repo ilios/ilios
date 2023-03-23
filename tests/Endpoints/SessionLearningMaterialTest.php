@@ -191,4 +191,47 @@ class SessionLearningMaterialTest extends ReadWriteEndpointTest
 
         parent::compareGraphQLData($expected, $result);
     }
+
+    public function testGraphQLIncludedData()
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' =>
+                    "query { sessionLearningMaterials(id: {$data['id']}) " .
+                    "{ id, session { id, title, course { id } }, learningMaterial { id } }}"
+            ]),
+            $this->getAuthenticatedUserToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->sessionLearningMaterials);
+
+        $result = $content->data->sessionLearningMaterials;
+        $this->assertCount(1, $result);
+
+        $slm = $result[0];
+        $this->assertTrue(property_exists($slm, 'id'));
+        $this->assertEquals($data['id'], $slm->id);
+        $this->assertTrue(property_exists($slm, 'session'));
+        $this->assertTrue(property_exists($slm->session, 'id'));
+        $this->assertTrue(property_exists($slm->session, 'title'));
+        $this->assertEquals($data['session'], $slm->session->id);
+        $this->assertEquals('session1Title', $slm->session->title);
+
+        $this->assertTrue(property_exists($slm, 'learningMaterial'));
+        $this->assertTrue(property_exists($slm->learningMaterial, 'id'));
+        $this->assertEquals($data['learningMaterial'], $slm->learningMaterial->id);
+
+        $this->assertTrue(property_exists($slm->session, 'course'));
+        $this->assertTrue(property_exists($slm->session->course, 'id'));
+        $this->assertEquals('1', $slm->session->course->id);
+    }
 }
