@@ -99,7 +99,8 @@
       "symfony/flex": true,
       "phpstan/extension-installer": true,
       "symfony/runtime": true,
-      "infection/extension-installer": true
+      "infection/extension-installer": true,
+      "php-http/discovery": false
     }
   },
   "minimum-stability": "stable",
