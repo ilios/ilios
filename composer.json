@@ -146,7 +146,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "6.2.*",
+      "require": "6.3.*",
       "docker": false
     }
   }
