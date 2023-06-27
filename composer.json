@@ -38,7 +38,7 @@
     "psr/log": "^3.0.0",
     "sentry/sentry-symfony": "^4.2",
     "shivas/versioning-bundle": "^4.0",
-    "swagger-api/swagger-ui": "^4.0",
+    "swagger-api/swagger-ui": "^5.1",
     "symfony/amazon-mailer": "@stable",
     "symfony/apache-pack": "@stable",
     "symfony/asset": "@stable",
