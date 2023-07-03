@@ -103,6 +103,7 @@ class OfferingTest extends ReadWriteEndpointTest
             'learners' => [[3], ['learners' => [2]]],
             'instructors' => [[5, 7], ['instructors' => [1]]],
             'courses' => [[0, 1, 2, 3, 4], ['courses' => [1]]],
+            'schools' => [[0, 1, 2, 3, 4, 5, 6, 7], ['schools' => [1]]],
         ];
     }
 

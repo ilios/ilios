@@ -157,8 +157,16 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
             unset($criteria[$rel]);
         }
 
-        if (array_key_exists('sessions', $criteria) || array_key_exists('courses', $criteria)) {
+        if (
+            array_key_exists('sessions', $criteria)
+            || array_key_exists('courses', $criteria)
+            || array_key_exists('schools', $criteria)
+        ) {
             $qb->join('x.session', 'x_session');
+        }
+
+        if (array_key_exists('courses', $criteria) || array_key_exists('schools', $criteria)) {
+            $qb->leftJoin('x_session.course', 'x_course');
         }
 
         if (array_key_exists('sessions', $criteria)) {
@@ -170,10 +178,17 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
 
         if (array_key_exists('courses', $criteria)) {
             $ids = is_array($criteria['courses']) ? $criteria['courses'] : [$criteria['courses']];
-            $qb->leftJoin('x_session.course', 'x_course');
             $qb->andWhere($qb->expr()->in('x_course.id', ':courses'));
             $qb->setParameter(':courses', $ids);
             unset($criteria['courses']);
+        }
+
+        if (array_key_exists('schools', $criteria)) {
+            $ids = is_array($criteria['schools']) ? $criteria['schools'] : [$criteria['schools']];
+            $qb->leftJoin('x_course.school', 'x_school');
+            $qb->andWhere($qb->expr()->in('x_school.id', ':schools'));
+            $qb->setParameter(':schools', $ids);
+            unset($criteria['schools']);
         }
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
