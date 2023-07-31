@@ -68,13 +68,4 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
         $class = is_object($data) ? $data::class : $data;
         return in_array($class, $decoratedTypes);
     }
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [
-            LearningMaterial::class => true,
-            LearningMaterialDTO::class => true,
-            CurriculumInventoryReportDTO::class => true,
-        ];
-    }
 }
