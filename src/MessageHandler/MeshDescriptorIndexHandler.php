@@ -7,9 +7,10 @@ namespace App\MessageHandler;
 use App\Message\MeshDescriptorIndexRequest;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class MeshDescriptorIndexHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class MeshDescriptorIndexHandler
 {
     public function __construct(private Mesh $meshIndex, private MeshDescriptorRepository $repository)
     {

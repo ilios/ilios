@@ -7,9 +7,10 @@ namespace App\MessageHandler;
 use App\Message\UserIndexRequest;
 use App\Repository\UserRepository;
 use App\Service\Index\Users;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class UserIndexHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class UserIndexHandler
 {
     public function __construct(private Users $usersIndex, private UserRepository $userRepository)
     {
