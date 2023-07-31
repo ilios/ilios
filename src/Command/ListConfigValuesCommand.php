@@ -36,7 +36,7 @@ class ListConfigValuesCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:list-config-values')

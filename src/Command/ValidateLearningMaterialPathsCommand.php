@@ -26,7 +26,7 @@ class ValidateLearningMaterialPathsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:validate-learning-materials')

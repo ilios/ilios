@@ -61,7 +61,7 @@ class InstallFirstUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:setup-first-user')

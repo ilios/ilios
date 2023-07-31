@@ -27,7 +27,7 @@ class LoadLearningMaterialData extends AbstractFixture implements
 
     public const TEST_FILE_PATH = __DIR__ . '/FakeTestFiles/TESTFILE.txt';
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

@@ -30,7 +30,7 @@ class CleanupS3FilesystemCacheCommand extends Command
         $this->localCacheDirectory = $filesystemFactory->getLocalS3CacheDirectory();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:cleanup-s3-cache')

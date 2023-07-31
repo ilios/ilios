@@ -29,7 +29,7 @@ class WaitForIndexCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::COMMAND_NAME)
