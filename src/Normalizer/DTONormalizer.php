@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 /**
  * Ilios DTO normalizer
  */
-class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class DTONormalizer implements NormalizerInterface
 {
     public function __construct(protected EntityMetadata $entityMetadata)
     {
@@ -86,8 +86,13 @@ class DTONormalizer implements NormalizerInterface, CacheableSupportsMethodInter
         return $format === 'json' && $this->entityMetadata->isAnIliosDto($classNameOrObject);
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        $types = [];
+        foreach ($this->entityMetadata->getDtoList() as $name) {
+            $types[$name] = true;
+        }
+
+        return $types;
     }
 }

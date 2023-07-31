@@ -20,7 +20,7 @@ use ReflectionProperty;
 /**
  * Ilios Entity normalizer
  */
-class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+class EntityNormalizer implements NormalizerInterface
 {
     public function __construct(
         protected EntityMetadata $entityMetadata,
@@ -91,8 +91,14 @@ class EntityNormalizer implements NormalizerInterface, CacheableSupportsMethodIn
         return $format === 'json' && $this->entityMetadata->isAnIliosEntity($data);
     }
 
-    public function hasCacheableSupportsMethod(): bool
+
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        $types = [];
+        foreach ($this->entityMetadata->getEntityList() as $name) {
+            $types[$name] = true;
+        }
+
+        return $types;
     }
 }

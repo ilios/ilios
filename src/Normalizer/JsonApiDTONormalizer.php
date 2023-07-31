@@ -86,4 +86,14 @@ class JsonApiDTONormalizer implements NormalizerInterface
     {
         return $format === 'json-api' && $this->entityMetadata->isAnIliosDto($data);
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        $types = [];
+        foreach ($this->entityMetadata->getDtoList() as $name) {
+            $types[$name] = true;
+        }
+
+        return $types;
+    }
 }
