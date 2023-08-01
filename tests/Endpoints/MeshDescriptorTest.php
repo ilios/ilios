@@ -17,6 +17,7 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\QEndpointTrait;
 
 /**
  * MeshDescriptor API endpoint Test.
@@ -25,6 +26,8 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
  */
 class MeshDescriptorTest extends AbstractMeshEndpoint
 {
+    use QEndpointTrait;
+
     protected string $testName =  'meshDescriptors';
 
     protected function getFixtures(): array
@@ -87,7 +90,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         return ['updatedAt', 'createdAt'];
     }
 
-    public function qsToTest()
+    public function qsToTest(): array
     {
         return [
             ['abc1', [0]],
@@ -100,32 +103,6 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
             ['first scopeNote', [0]],
             ['first casn', [0]],
         ];
-    }
-
-    /**
-     * @dataProvider qsToTest
-     * @param $q
-     * @param $dataKeys
-     */
-    public function testFindByQ($q, $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->filterTest($filters, $expectedData);
-    }
-
-    /**
-     * @dataProvider qsToTest
-     */
-    public function testFindByQJsonApi(string $q, array $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->jsonApiFilterTest($filters, $expectedData);
     }
 
     /**

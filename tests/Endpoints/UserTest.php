@@ -19,6 +19,7 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
+use App\Tests\QEndpointTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -27,6 +28,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UserTest extends AbstractReadWriteEndpoint
 {
+    use QEndpointTrait;
+
     protected string $testName =  'users';
 
     protected function getFixtures(): array
@@ -178,7 +181,7 @@ class UserTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function qsToTest()
+    public function qsToTest(): array
     {
         return [
             ['first', [1]],
@@ -191,32 +194,6 @@ class UserTest extends AbstractReadWriteEndpoint
             ['', [0, 1, 2, 3, 4]],
             ['disnom', [1]],
         ];
-    }
-
-    /**
-     * @dataProvider qsToTest
-     * @param $q
-     * @param $dataKeys
-     */
-    public function testFindByQ($q, $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->filterTest($filters, $expectedData);
-    }
-
-    /**
-     * @dataProvider qsToTest
-     */
-    public function testFindByQJsonApi(string $q, array $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->jsonApiFilterTest($filters, $expectedData);
     }
 
     /**
