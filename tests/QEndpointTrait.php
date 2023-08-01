@@ -13,6 +13,11 @@ trait QEndpointTrait
     abstract protected function jsonApiFilterTest(array $filters, array $expectedData);
     abstract protected function filterTest(array $filters, array $expectedData, int $userId = 2);
 
+    abstract public function testFindByQWithLimit(): void;
+    abstract public function testFindByQWithOffset(): void;
+    abstract public function testFindByQWithOffsetAndLimit(): void;
+    abstract public function testFindByQWithOffsetAndLimitJsonApi(): void;
+
     /**
      * @dataProvider qsToTest
      */

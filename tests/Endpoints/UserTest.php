@@ -199,7 +199,7 @@ class UserTest extends AbstractReadWriteEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithLimit()
+    public function testFindByQWithLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -212,7 +212,7 @@ class UserTest extends AbstractReadWriteEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffset()
+    public function testFindByQWithOffset(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -223,7 +223,7 @@ class UserTest extends AbstractReadWriteEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffsetAndLimit()
+    public function testFindByQWithOffsetAndLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -233,7 +233,7 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[2], $all[3]]);
     }
 
-    public function testFindByQWithOffsetAndLimitJsonApi()
+    public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();

@@ -108,7 +108,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithLimit()
+    public function testFindByQWithLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -121,7 +121,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffset()
+    public function testFindByQWithOffset(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -132,7 +132,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffsetAndLimit()
+    public function testFindByQWithOffsetAndLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -142,7 +142,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         $this->filterTest($filters, [$all[1]]);
     }
 
-    public function testFindByQWithOffsetAndLimitJsonApi()
+    public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
