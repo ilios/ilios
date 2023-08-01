@@ -9,9 +9,10 @@ use App\Message\LearningMaterialIndexRequest;
 use App\Repository\LearningMaterialRepository;
 use App\Service\Index\LearningMaterials;
 use App\Service\NonCachingIliosFileSystem;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class LearningMaterialIndexHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class LearningMaterialIndexHandler
 {
     public function __construct(
         private LearningMaterials $learningMaterialsIndex,

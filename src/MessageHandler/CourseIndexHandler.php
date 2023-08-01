@@ -7,9 +7,10 @@ namespace App\MessageHandler;
 use App\Message\CourseIndexRequest;
 use App\Repository\CourseRepository;
 use App\Service\Index\Curriculum;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class CourseIndexHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class CourseIndexHandler
 {
     public function __construct(
         private Curriculum $curriculumIndex,
