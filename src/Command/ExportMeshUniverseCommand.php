@@ -30,7 +30,7 @@ class ExportMeshUniverseCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:export-mesh-universe')

@@ -38,7 +38,7 @@ class AddUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:add-user')

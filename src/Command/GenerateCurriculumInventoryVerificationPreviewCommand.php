@@ -78,7 +78,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         return 0;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:generate-curriculum-inventory-verification-report-preview')

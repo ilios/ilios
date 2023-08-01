@@ -25,7 +25,7 @@ class CheckS3PermissionsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:check-s3-permissions')

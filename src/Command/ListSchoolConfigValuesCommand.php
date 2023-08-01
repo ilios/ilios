@@ -26,7 +26,7 @@ class ListSchoolConfigValuesCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:list-school-config-values')

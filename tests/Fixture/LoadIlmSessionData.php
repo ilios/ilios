@@ -21,7 +21,7 @@ class LoadIlmSessionData extends AbstractFixture implements
 {
     private $container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

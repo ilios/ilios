@@ -145,7 +145,7 @@ class SessionUser implements SessionUserInterface
         return (string) $this->userId;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->password = null;
     }

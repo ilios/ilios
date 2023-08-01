@@ -70,7 +70,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:update-frontend')

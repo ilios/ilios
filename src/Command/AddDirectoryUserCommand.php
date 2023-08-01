@@ -32,7 +32,7 @@ class AddDirectoryUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:add-directory-user')

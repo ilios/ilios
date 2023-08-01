@@ -42,7 +42,7 @@ class SendChangeAlertsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('ilios:send-change-alerts')
