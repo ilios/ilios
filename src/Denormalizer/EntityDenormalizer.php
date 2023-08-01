@@ -23,7 +23,7 @@ use TypeError;
 /**
  * Denormalize Ilios Entities from JSON into Doctrine Entity Objects
  */
-class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
+class EntityDenormalizer implements DenormalizerInterface
 {
     public function __construct(
         protected EntityMetadata $entityMetadata,
@@ -179,8 +179,13 @@ class EntityDenormalizer implements DenormalizerInterface, CacheableSupportsMeth
         return $this->entityMetadata->isAnIliosEntity($type);
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        $types = [];
+        foreach ($this->entityMetadata->getEntityList() as $name) {
+            $types[$name] = true;
+        }
+
+        return $types;
     }
 }

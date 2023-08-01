@@ -342,6 +342,14 @@ class EntityMetadata
     }
 
     /**
+     * Get the list of Entities
+     */
+    public function getEntityList(): array
+    {
+        return $this->iliosEntities;
+    }
+
+    /**
      * Get the entity name for a type
      */
     public function getEntityForType(string $type): string
