@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Entity\DTO\SessionDTO;
+use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -20,9 +21,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/{version<v3>}/sessions')]
 class Sessions extends AbstractApiController
 {
-    public function __construct(SessionRepository $repository)
+    public function __construct(protected SessionRepository $sessionRepository)
     {
-        parent::__construct($repository, 'sessions');
+        parent::__construct($sessionRepository, 'sessions');
     }
 
     #[Route(
@@ -74,6 +75,13 @@ class Sessions extends AbstractApiController
         summary: "Fetch all sessions.",
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
+            new OA\Parameter(
+                name: 'q',
+                description: 'Search filter',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
             new OA\Parameter(
                 name: 'offset',
                 description: 'Offset',
@@ -136,6 +144,28 @@ class Sessions extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $q = $request->get('q');
+        $parameters = ApiRequestParser::extractParameters($request);
+
+        if (null !== $q && '' !== $q) {
+            $dtos = $this->sessionRepository->findDTOsByQ(
+                $q,
+                $parameters['orderBy'],
+                $parameters['limit'],
+                $parameters['offset'],
+            );
+
+            $filteredResults = array_filter(
+                $dtos,
+                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+            );
+
+            //Re-index numerically index the array
+            $values = array_values($filteredResults);
+
+            return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
+        }
+
         return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 

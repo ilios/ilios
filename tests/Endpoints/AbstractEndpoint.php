@@ -1276,8 +1276,8 @@ abstract class AbstractEndpoint extends WebTestCase
         }, $filteredData);
 
         $this->assertEquals(
-            count($expectedData),
             count($responseData),
+            count($expectedData),
             'Wrong Number of responses returned from filter got: ' . var_export($responseData, true)
         );
         foreach ($expectedData as $i => $data) {
