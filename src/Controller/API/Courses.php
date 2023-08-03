@@ -93,6 +93,13 @@ class Courses extends AbstractApiController
                 schema: new OA\Schema(type: 'integer')
             ),
             new OA\Parameter(
+                name: 'q',
+                description: 'Search filter',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
                 name: 'offset',
                 description: 'Offset',
                 in: 'query',
@@ -155,6 +162,7 @@ class Courses extends AbstractApiController
         ApiResponseBuilder $builder
     ): Response {
         $my = $request->get('my');
+        $q = $request->get('q');
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $my) {
@@ -166,6 +174,25 @@ class Courses extends AbstractApiController
                 $parameters['orderBy'],
                 $parameters['limit'],
                 $parameters['offset']
+            );
+
+            $filteredResults = array_filter(
+                $dtos,
+                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+            );
+
+            //Re-index numerically index the array
+            $values = array_values($filteredResults);
+
+            return $builder->buildResponseForGetAllRequest($this->endpoint, $values, Response::HTTP_OK, $request);
+        }
+
+        if (null !== $q && '' !== $q) {
+            $dtos = $this->courseRepository->findDTOsByQ(
+                $q,
+                $parameters['orderBy'],
+                $parameters['limit'],
+                $parameters['offset'],
             );
 
             $filteredResults = array_filter(
