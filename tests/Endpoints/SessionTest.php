@@ -251,6 +251,7 @@ class SessionTest extends AbstractReadWriteEndpoint
             ['fourth', [3]],
             ['bar', [1]],
             ['third session', [2]],
+            ['2016', [0, 1]],
         ];
     }
 

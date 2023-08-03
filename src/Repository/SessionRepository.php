@@ -55,6 +55,7 @@ class SessionRepository extends ServiceEntityRepository implements
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('x.title', "?{$key}"),
                 $qb->expr()->like('course.title', "?{$key}"),
+                $qb->expr()->like('course.year', "?{$key}"),
             ))
                 ->setParameter($key, '%' . $term . '%');
         }
