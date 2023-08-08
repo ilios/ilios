@@ -314,6 +314,7 @@ class CourseTest extends ReadWriteEndpointTest
         $session1Offerings = $newSessionsData[0]['offerings'];
         $session1OfferingData = $this->getFiltered('offerings', 'offerings', ['filters[id]' => $session1Offerings]);
 
+        usort($session1OfferingData, fn($a, $b) => strtotime($a['startDate']) - strtotime($b['startDate']));
         $this->assertEquals('2023-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
 
