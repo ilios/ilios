@@ -55,9 +55,8 @@ class LoadCourseObjectiveData extends AbstractFixture implements
             $manager->persist($entity);
 
             $this->addReference('courseObjectives' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

@@ -33,8 +33,7 @@ class LoadAamcPcrsData extends AbstractFixture implements
             $entity->setDescription($arr['description']);
             $manager->persist($entity);
             $this->addReference('aamcPcrs' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }

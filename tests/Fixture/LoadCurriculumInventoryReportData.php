@@ -42,9 +42,8 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
             $entity->generateToken();
             $manager->persist($entity);
             $this->addReference('curriculumInventoryReports' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

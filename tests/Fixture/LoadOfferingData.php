@@ -55,9 +55,8 @@ class LoadOfferingData extends AbstractFixture implements
             }
             $manager->persist($entity);
             $this->addReference('offerings' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

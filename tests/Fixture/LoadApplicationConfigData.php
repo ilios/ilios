@@ -35,8 +35,7 @@ class LoadApplicationConfigData extends AbstractFixture implements
             $entity->setValue($arr['value']);
             $manager->persist($entity);
             $this->addReference('applicationConfigs' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }

@@ -42,9 +42,8 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
 
             $manager->persist($entity);
             $this->addReference('pendingUserUpdates' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

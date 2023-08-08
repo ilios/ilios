@@ -49,9 +49,8 @@ class LoadAlertData extends AbstractFixture implements
             }
             $manager->persist($entity);
             $this->addReference('alerts' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

@@ -46,9 +46,8 @@ class LoadSessionTypeData extends AbstractFixture implements
             }
             $manager->persist($entity);
             $this->addReference('sessionTypes' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

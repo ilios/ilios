@@ -42,9 +42,8 @@ class LoadMeshConceptData extends AbstractFixture implements
             }
             $this->addReference('meshConcepts' . $arr['id'], $entity);
             $manager->persist($entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

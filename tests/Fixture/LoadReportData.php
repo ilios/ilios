@@ -47,9 +47,8 @@ class LoadReportData extends AbstractFixture implements
             }
             $manager->persist($entity);
             $this->addReference('reports' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

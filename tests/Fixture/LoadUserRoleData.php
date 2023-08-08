@@ -33,8 +33,7 @@ class LoadUserRoleData extends AbstractFixture implements
             $entity->setTitle($arr['title']);
             $manager->persist($entity);
             $this->addReference('userRoles' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }

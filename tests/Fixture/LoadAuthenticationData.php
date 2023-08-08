@@ -50,9 +50,8 @@ class LoadAuthenticationData extends AbstractFixture implements
             $entity->setUser($user);
 
             $manager->persist($entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

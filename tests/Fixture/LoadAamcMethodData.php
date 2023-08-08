@@ -35,8 +35,7 @@ class LoadAamcMethodData extends AbstractFixture implements
 
             $manager->persist($entity);
             $this->addReference('aamcMethods' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }

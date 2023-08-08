@@ -36,9 +36,8 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
             $entity->setPreviousIndexing($arr['previousIndexing']);
             $this->addReference('meshPreviousIndexings' . $arr['id'], $entity);
             $manager->persist($entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()
