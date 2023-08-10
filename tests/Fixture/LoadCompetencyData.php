@@ -45,9 +45,8 @@ class LoadCompetencyData extends AbstractFixture implements
 
             $manager->persist($entity);
             $this->addReference('competencies' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

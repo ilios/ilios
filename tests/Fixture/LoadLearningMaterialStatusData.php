@@ -33,8 +33,7 @@ class LoadLearningMaterialStatusData extends AbstractFixture implements
             $entity->setTitle($arr['title']);
             $manager->persist($entity);
             $this->addReference('learningMaterialStatus' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }

@@ -38,9 +38,8 @@ class LoadProgramData extends AbstractFixture implements
             $entity->setSchool($this->getReference('schools' . $arr['school']));
             $manager->persist($entity);
             $this->addReference('programs' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

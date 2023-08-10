@@ -37,9 +37,8 @@ class LoadCurriculumInventoryExportData extends AbstractFixture implements
             $entity->setDocument($arr['document']);
             $manager->persist($entity);
             $this->addReference('curriculumInventoryExports' . $arr['report'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

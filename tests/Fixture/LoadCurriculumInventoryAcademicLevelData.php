@@ -38,9 +38,8 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
             $entity->setDescription($arr['description']);
             $manager->persist($entity);
             $this->addReference('curriculumInventoryAcademicLevels' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

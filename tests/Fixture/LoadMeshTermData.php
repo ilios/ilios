@@ -43,9 +43,8 @@ class LoadMeshTermData extends AbstractFixture implements
             }
             $this->addReference('meshTerms' . $arr['id'], $entity);
             $manager->persist($entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

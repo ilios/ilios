@@ -36,9 +36,8 @@ class LoadMeshTreeData extends AbstractFixture implements
             $entity->setDescriptor($this->getReference('meshDescriptors' . $arr['descriptor']));
             $this->addReference('meshTrees' . $arr['treeNumber'], $entity);
             $manager->persist($entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

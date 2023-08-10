@@ -38,8 +38,7 @@ class LoadSchoolData extends AbstractFixture implements
             $entity->setChangeAlertRecipients($arr['changeAlertRecipients']);
             $manager->persist($entity);
             $this->addReference('schools' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }

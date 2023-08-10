@@ -51,9 +51,8 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
             $manager->persist($entity);
 
             $this->addReference('programYearObjectives' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

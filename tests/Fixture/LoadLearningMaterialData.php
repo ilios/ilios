@@ -79,9 +79,8 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $entity->generateToken();
             $manager->persist($entity);
             $this->addReference('learningMaterials' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

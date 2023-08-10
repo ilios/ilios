@@ -45,9 +45,8 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
 
             $manager->persist($entity);
             $this->addReference('curriculumInventoryInstitutions' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

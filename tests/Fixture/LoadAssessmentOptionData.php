@@ -34,8 +34,7 @@ class LoadAssessmentOptionData extends AbstractFixture implements
 
             $manager->persist($entity);
             $this->addReference('assessmentOptions' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 }

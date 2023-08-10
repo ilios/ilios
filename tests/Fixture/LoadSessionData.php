@@ -85,9 +85,8 @@ class LoadSessionData extends AbstractFixture implements
             $manager->persist($entity);
 
             $this->addReference('sessions' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

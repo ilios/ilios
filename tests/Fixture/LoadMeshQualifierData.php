@@ -38,9 +38,8 @@ class LoadMeshQualifierData extends AbstractFixture implements
             }
             $this->addReference('meshQualifiers' . $arr['id'], $entity);
             $manager->persist($entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

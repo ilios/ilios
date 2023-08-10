@@ -36,9 +36,8 @@ class LoadCurriculumInventorySequenceData extends AbstractFixture implements
             $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
             $manager->persist($entity);
             $this->addReference('curriculumInventorySequences' . $arr['report'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()

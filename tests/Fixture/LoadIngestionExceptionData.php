@@ -36,9 +36,8 @@ class LoadIngestionExceptionData extends AbstractFixture implements
             $entity->setUser($this->getReference('users' . $arr['user']));
             $manager->persist($entity);
             $this->addReference('ingestionExceptions' . $arr['id'], $entity);
+            $manager->flush();
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()
