@@ -68,7 +68,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
                 $entity->addExcludedSession($this->getReference('sessions' . $sessionId));
             }
 
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('curriculumInventorySequenceBlocks' . $arr['id'], $entity);
         }
         $manager->flush();

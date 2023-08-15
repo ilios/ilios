@@ -44,7 +44,7 @@ class LoadMeshConceptData extends AbstractFixture implements
                 $entity->addDescriptor($this->getReference('meshDescriptors' . $id));
             }
             $this->addReference('meshConcepts' . $arr['id'], $entity);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
         }
         $repository->flush();
     }

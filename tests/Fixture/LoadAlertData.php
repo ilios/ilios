@@ -50,7 +50,7 @@ class LoadAlertData extends AbstractFixture implements
             foreach ($arr['recipients'] as $id) {
                 $entity->addRecipient($this->getReference('schools' . $id));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('alerts' . $arr['id'], $entity);
         }
         $repository->flush();

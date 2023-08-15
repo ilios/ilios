@@ -39,7 +39,7 @@ class LoadProgramData extends AbstractFixture implements
             $entity->setShortTitle($arr['shortTitle']);
             $entity->setDuration($arr['duration']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('programs' . $arr['id'], $entity);
         }
         $repository->flush();

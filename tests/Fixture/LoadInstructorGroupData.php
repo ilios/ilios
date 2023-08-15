@@ -42,7 +42,7 @@ class LoadInstructorGroupData extends AbstractFixture implements
             if (!empty($arr['school'])) {
                 $entity->setSchool($this->getReference('schools' . $arr['school']));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('instructorGroups' . $arr['id'], $entity);
         }
         $repository->flush();

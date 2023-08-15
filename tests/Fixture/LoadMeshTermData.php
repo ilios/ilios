@@ -45,7 +45,7 @@ class LoadMeshTermData extends AbstractFixture implements
                 $entity->addConcept($this->getReference('meshConcepts' . $id));
             }
             $this->addReference('meshTerms' . $arr['id'], $entity);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
         }
         $repository->flush();
     }

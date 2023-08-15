@@ -36,7 +36,7 @@ class LoadAamcMethodData extends AbstractFixture implements
             $entity->setDescription($arr['description']);
             $entity->setActive($arr['active']);
 
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('aamcMethods' . $arr['id'], $entity);
         }
         $repository->flush();

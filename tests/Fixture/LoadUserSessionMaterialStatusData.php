@@ -40,7 +40,7 @@ class LoadUserSessionMaterialStatusData extends AbstractFixture implements
             $entity->setUser($this->getReference('users' . $arr['user']));
             $entity->setMaterial($this->getReference('sessionLearningMaterials' . $arr['material']));
 
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('UserSessionMaterialStatuss' . $arr['id'], $entity);
         }
         $repository->flush();

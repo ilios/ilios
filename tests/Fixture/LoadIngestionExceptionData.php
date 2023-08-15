@@ -37,7 +37,7 @@ class LoadIngestionExceptionData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setUid($arr['uid']);
             $entity->setUser($this->getReference('users' . $arr['user']));
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('ingestionExceptions' . $arr['id'], $entity);
         }
         $repository->flush();

@@ -84,7 +84,7 @@ class LoadUserData extends AbstractFixture implements
                     $this->getReference('curriculumInventoryReports' . $id)
                 );
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('users' . $arr['id'], $entity);
         }
         $repository->flush();

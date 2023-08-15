@@ -37,7 +37,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
             $entity->setName($arr['name']);
             $entity->setValue($arr['value']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('schoolConfigs' . $arr['id'], $entity);
         }
         $repository->flush();

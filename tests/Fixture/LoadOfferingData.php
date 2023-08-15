@@ -55,7 +55,7 @@ class LoadOfferingData extends AbstractFixture implements
             foreach ($arr['instructors'] as $id) {
                 $entity->addInstructor($this->getReference('users' . $id));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('offerings' . $arr['id'], $entity);
         }
         $repository->flush();

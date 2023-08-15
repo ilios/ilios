@@ -52,7 +52,7 @@ class LoadAuthenticationData extends AbstractFixture implements
             }
             $entity->setUser($user);
 
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
         }
         $repository->flush();
     }

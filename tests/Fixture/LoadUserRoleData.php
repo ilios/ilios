@@ -34,7 +34,7 @@ class LoadUserRoleData extends AbstractFixture implements
             $entity = new UserRole();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('userRoles' . $arr['id'], $entity);
         }
         $repository->flush();

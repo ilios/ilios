@@ -48,7 +48,7 @@ class LoadReportData extends AbstractFixture implements
             if (array_key_exists('school', $arr)) {
                 $entity->setSchool($this->getReference('schools' . $arr['school']));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('reports' . $arr['id'], $entity);
         }
         $repository->flush();

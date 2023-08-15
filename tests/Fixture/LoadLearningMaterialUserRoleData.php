@@ -34,7 +34,7 @@ class LoadLearningMaterialUserRoleData extends AbstractFixture implements
             $entity = new LearningMaterialUserRole();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('learningMaterialUserRoles' . $arr['id'], $entity);
         }
         $repository->flush();

@@ -43,7 +43,7 @@ class LoadAuditLogData extends AbstractFixture implements
             $entity->setValuesChanged($arr['valuesChanged']);
             $entity->setCreatedAt($arr['createdAt']);
             $entity->setAction($arr['action']);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
         }
         $manager->flush();
     }

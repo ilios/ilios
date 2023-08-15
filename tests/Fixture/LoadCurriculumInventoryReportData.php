@@ -43,7 +43,7 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
             $entity->setEndDate(new DateTime($arr['endDate']));
             $entity->setProgram($this->getReference('programs' . $arr['program']));
             $entity->generateToken();
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('curriculumInventoryReports' . $arr['id'], $entity);
         }
         $repository->flush();

@@ -53,7 +53,7 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
             foreach ($arr['meshDescriptors'] as $id) {
                 $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('sessionLearningMaterials' . $arr['id'], $entity);
         }
         $repository->flush();

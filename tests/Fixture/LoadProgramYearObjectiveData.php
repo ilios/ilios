@@ -51,7 +51,7 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
             if (array_key_exists('competency', $arr)) {
                 $entity->setCompetency($this->getReference('competencies' . $arr['competency']));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
 
             $this->addReference('programYearObjectives' . $arr['id'], $entity);
         }

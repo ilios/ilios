@@ -85,7 +85,7 @@ class LoadSessionData extends AbstractFixture implements
                     $entity->addPrerequisite($this->getReference($ref));
                 }
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
 
             $this->addReference('sessions' . $arr['id'], $entity);
         }

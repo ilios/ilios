@@ -43,7 +43,7 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
             $entity->setValue($arr['value']);
             $entity->setUser($this->getReference('users' . $arr['user']));
 
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('pendingUserUpdates' . $arr['id'], $entity);
         }
         $repository->flush();

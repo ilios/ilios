@@ -55,7 +55,7 @@ class LoadCourseObjectiveData extends AbstractFixture implements
                 $entity->addProgramYearObjective($this->getReference('programYearObjectives' . $id));
             }
 
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
 
             $this->addReference('courseObjectives' . $arr['id'], $entity);
         }

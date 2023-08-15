@@ -37,7 +37,7 @@ class LoadCurriculumInventorySequenceData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setDescription($arr['description']);
             $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('curriculumInventorySequences' . $arr['report'], $entity);
         }
         $repository->flush();

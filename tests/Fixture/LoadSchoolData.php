@@ -39,7 +39,7 @@ class LoadSchoolData extends AbstractFixture implements
             }
             $entity->setIliosAdministratorEmail($arr['iliosAdministratorEmail']);
             $entity->setChangeAlertRecipients($arr['changeAlertRecipients']);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('schools' . $arr['id'], $entity);
         }
         $repository->flush();

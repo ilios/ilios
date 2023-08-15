@@ -34,7 +34,7 @@ class LoadCourseClerkshipTypeData extends AbstractFixture implements
             $entity = new CourseClerkshipType();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('courseClerkshipTypes' . $arr['id'], $entity);
         }
         $repository->flush();

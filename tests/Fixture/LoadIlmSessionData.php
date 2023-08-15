@@ -52,7 +52,7 @@ class LoadIlmSessionData extends AbstractFixture implements
             foreach ($arr['learners'] as $id) {
                 $entity->addLearner($this->getReference('users' . $id));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('ilmSessions' . $arr['id'], $entity);
         }
         $repository->flush();

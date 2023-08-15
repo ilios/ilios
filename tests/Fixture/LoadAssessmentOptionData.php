@@ -35,7 +35,7 @@ class LoadAssessmentOptionData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setName($arr['name']);
 
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('assessmentOptions' . $arr['id'], $entity);
         }
         $repository->flush();

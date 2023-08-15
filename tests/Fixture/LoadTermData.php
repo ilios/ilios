@@ -45,7 +45,7 @@ class LoadTermData extends AbstractFixture implements
             foreach ($arr['aamcResourceTypes'] as $id) {
                 $entity->addAamcResourceType($this->getReference('aamcResourceTypes' . $id));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('terms' . $arr['id'], $entity);
         }
         $repository->flush();

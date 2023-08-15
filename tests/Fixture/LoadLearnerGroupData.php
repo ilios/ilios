@@ -60,7 +60,7 @@ class LoadLearnerGroupData extends AbstractFixture implements
             foreach ($arr['instructorGroups'] as $id) {
                 $entity->addInstructorGroup($this->getReference('instructorGroups' . $id));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('learnerGroups' . $arr['id'], $entity);
         }
         $repository->flush();

@@ -32,9 +32,6 @@ trait ManagerRepository
     abstract public function find($id);
     abstract protected function hydrateDTOsFromIds(array $ids): array;
 
-    private AbstractIdGenerator $originalIdentityGenerator;
-    private int $originalIdentityGeneratorType;
-
     public function getClass(): string
     {
         return $this->getEntityName();
@@ -49,13 +46,6 @@ trait ManagerRepository
     public function flush(): void
     {
         $this->getEntityManager()->flush();
-        if (isset($this->originalIdentityGenerator)) {
-            $metadata = $this->getEntityManager()->getClassMetaData($this->getClass());
-            $metadata->setIdGenerator($this->originalIdentityGenerator);
-            $metadata->setIdGeneratorType($this->originalIdentityGeneratorType);
-            unset($this->originalIdentityGenerator);
-            unset($this->originalIdentityGeneratorType);
-        }
     }
 
     public function findOneById($id): ?object
@@ -149,16 +139,23 @@ trait ManagerRepository
         $this->getEntityManager()->persist($entity);
 
         if ($forceId) {
-            $metadata = $this->getEntityManager()->getClassMetaData($entity::class);
-            if (!isset($this->originalIdentityGenerator)) {
-                $this->originalIdentityGenerator = $metadata->idGenerator;
-                $this->originalIdentityGeneratorType = $metadata->generatorType;
-                $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
-                $metadata->setIdGenerator(new AssignedGenerator());
+            if (!$andFlush) {
+                throw new Exception('$andFlush must be "true" when using $forceId');
             }
+            $metadata = $this->getEntityManager()->getClassMetaData($entity::class);
+            $identityGenerator = $metadata->idGenerator;
+            $identityGeneratorType = $metadata->generatorType;
+            $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+            $metadata->setIdGenerator(new AssignedGenerator());
+
+            $this->flush();
+
+            $metadata = $this->getEntityManager()->getClassMetaData($this->getClass());
+            $metadata->setIdGenerator($identityGenerator);
+            $metadata->setIdGeneratorType($identityGeneratorType);
         }
 
-        if ($andFlush) {
+        if ($andFlush && !$forceId) {
             $this->flush();
         }
     }

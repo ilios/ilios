@@ -35,7 +35,7 @@ class LoadAamcResourceTypeData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setDescription($arr['description']);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('aamcResourceTypes' . $arr['id'], $entity);
         }
         $repository->flush();

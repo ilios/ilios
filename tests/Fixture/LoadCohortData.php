@@ -37,7 +37,7 @@ class LoadCohortData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setProgramYear($this->getReference('programYears' . $arr['programYear']));
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('cohorts' . $arr['id'], $entity);
         }
         $repository->flush();

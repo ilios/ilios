@@ -48,7 +48,7 @@ class LoadSessionObjectiveData extends AbstractFixture implements
             if (array_key_exists('ancestor', $arr)) {
                 $entity->setAncestor($this->getReference('sessionObjectives' . $arr['ancestor']));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
 
             $this->addReference('sessionObjectives' . $arr['id'], $entity);
         }

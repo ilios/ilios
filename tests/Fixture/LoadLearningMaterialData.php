@@ -79,7 +79,7 @@ class LoadLearningMaterialData extends AbstractFixture implements
                 $fs->copy(__FILE__, $path);
             }
             $entity->generateToken();
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('learningMaterials' . $arr['id'], $entity);
         }
         $repository->flush();

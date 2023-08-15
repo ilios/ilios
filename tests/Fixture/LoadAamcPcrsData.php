@@ -34,7 +34,7 @@ class LoadAamcPcrsData extends AbstractFixture implements
             $entity = new AamcPcrs();
             $entity->setId($arr['id']);
             $entity->setDescription($arr['description']);
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('aamcPcrs' . $arr['id'], $entity);
         }
         $repository->flush();

@@ -47,7 +47,7 @@ class LoadSessionTypeData extends AbstractFixture implements
             foreach ($arr['aamcMethods'] as $id) {
                 $entity->addAamcMethod($this->getReference('aamcMethods' . $id));
             }
-            $repository->update($entity, false, true);
+            $repository->update($entity, true, true);
             $this->addReference('sessionTypes' . $arr['id'], $entity);
         }
         $repository->flush();
