@@ -16,7 +16,8 @@ use OpenApi\Attributes as OA;
         new OA\Property(
             "id",
             description: "ID",
-            type: "string"
+            type: "string",
+            readOnly: true,
         ),
         new OA\Property(
             "name",

@@ -21,7 +21,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         new OA\Property(
             "id",
             description: "ID",
-            type: "string"
+            type: "string",
+            readOnly: true,
         ),
         new OA\Property(
             "description",

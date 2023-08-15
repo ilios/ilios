@@ -17,7 +17,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         new OA\Property(
             "id",
             description: "ID",
-            type: "integer"
+            type: "integer",
+            readOnly: true,
         ),
         new OA\Property(
             "room",
