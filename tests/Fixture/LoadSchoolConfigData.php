@@ -29,16 +29,18 @@ class LoadSchoolConfigData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\SchoolConfigData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(SchoolConfig::class);
         foreach ($data as $arr) {
             $entity = new SchoolConfig();
             $entity->setId($arr['id']);
             $entity->setName($arr['name']);
             $entity->setValue($arr['value']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('schoolConfigs' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

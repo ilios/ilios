@@ -30,6 +30,8 @@ class LoadUserSessionMaterialStatusData extends AbstractFixture implements
         $data = $this->container
             ->get(UserSessionMaterialStatusData::class)
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(UserSessionMaterialStatus::class);
         foreach ($data as $arr) {
             $entity = new UserSessionMaterialStatus();
             $entity->setId($arr['id']);
@@ -38,10 +40,10 @@ class LoadUserSessionMaterialStatusData extends AbstractFixture implements
             $entity->setUser($this->getReference('users' . $arr['user']));
             $entity->setMaterial($this->getReference('sessionLearningMaterials' . $arr['material']));
 
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('UserSessionMaterialStatuss' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Course;
+use App\Repository\RepositoryInterface;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -30,6 +31,8 @@ class LoadCourseData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\CourseData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(Course::class);
         foreach ($data as $arr) {
             $entity = new Course();
             $entity->setId($arr['id']);
@@ -68,11 +71,11 @@ class LoadCourseData extends AbstractFixture implements
             foreach ($arr['meshDescriptors'] as $id) {
                 $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
 
             $this->addReference('courses' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

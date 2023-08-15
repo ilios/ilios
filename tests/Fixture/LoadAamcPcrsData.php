@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\AamcPcrs;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,13 +28,15 @@ class LoadAamcPcrsData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\AamcPcrsData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(AamcPcrs::class);
         foreach ($data as $arr) {
             $entity = new AamcPcrs();
             $entity->setId($arr['id']);
             $entity->setDescription($arr['description']);
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('aamcPcrs' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 }

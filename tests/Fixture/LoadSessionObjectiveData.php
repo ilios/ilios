@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\SessionObjective;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,6 +30,8 @@ class LoadSessionObjectiveData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\SessionObjectiveData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(SessionObjective::class);
         foreach ($data as $arr) {
             $entity = new SessionObjective();
             $entity->setId($arr['id']);
@@ -45,11 +48,11 @@ class LoadSessionObjectiveData extends AbstractFixture implements
             if (array_key_exists('ancestor', $arr)) {
                 $entity->setAncestor($this->getReference('sessionObjectives' . $arr['ancestor']));
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
 
             $this->addReference('sessionObjectives' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

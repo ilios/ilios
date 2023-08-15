@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\AamcMethod;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,15 +28,17 @@ class LoadAamcMethodData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\AamcMethodData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(AamcMethod::class);
         foreach ($data as $arr) {
             $entity = new AamcMethod();
             $entity->setId($arr['id']);
             $entity->setDescription($arr['description']);
             $entity->setActive($arr['active']);
 
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('aamcMethods' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\AlertChangeType;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,14 +28,16 @@ class LoadAlertChangeTypeData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\AlertChangeTypeData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(AlertChangeType::class);
         foreach ($data as $arr) {
             $entity = new AlertChangeType();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
 
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('alertChangeTypes' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 }

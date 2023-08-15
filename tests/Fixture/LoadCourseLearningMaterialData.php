@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\CourseLearningMaterial;
+use App\Repository\RepositoryInterface;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -30,6 +31,8 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\CourseLearningMaterialData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(CourseLearningMaterial::class);
         foreach ($data as $arr) {
             $entity = new CourseLearningMaterial();
             $entity->setId($arr['id']);
@@ -48,10 +51,10 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
             foreach ($arr['meshDescriptors'] as $id) {
                 $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('courseLearningMaterials' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

@@ -30,6 +30,8 @@ class LoadOfferingData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\OfferingData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(Offering::class);
         foreach ($data as $arr) {
             $entity = new Offering();
             $entity->setId($arr['id']);
@@ -53,10 +55,10 @@ class LoadOfferingData extends AbstractFixture implements
             foreach ($arr['instructors'] as $id) {
                 $entity->addInstructor($this->getReference('users' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('offerings' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

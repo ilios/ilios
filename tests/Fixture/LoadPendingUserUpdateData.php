@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\PendingUserUpdate;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -32,6 +33,8 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\PendingUserUpdateData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(PendingUserUpdate::class);
         foreach ($data as $arr) {
             $entity = new PendingUserUpdate();
             $entity->setId($arr['id']);
@@ -40,10 +43,10 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
             $entity->setValue($arr['value']);
             $entity->setUser($this->getReference('users' . $arr['user']));
 
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('pendingUserUpdates' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

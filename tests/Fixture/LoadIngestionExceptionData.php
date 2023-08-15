@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\IngestionException;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,15 +30,17 @@ class LoadIngestionExceptionData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\IngestionExceptionData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(IngestionException::class);
         foreach ($data as $arr) {
             $entity = new IngestionException();
             $entity->setId($arr['id']);
             $entity->setUid($arr['uid']);
             $entity->setUser($this->getReference('users' . $arr['user']));
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('ingestionExceptions' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

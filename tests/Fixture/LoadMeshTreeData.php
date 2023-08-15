@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\MeshTree;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -29,15 +30,17 @@ class LoadMeshTreeData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\MeshTreeData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(MeshTree::class);
         foreach ($data as $arr) {
             $entity = new MeshTree();
             $entity->setId($arr['id']);
             $entity->setTreeNumber($arr['treeNumber']);
             $entity->setDescriptor($this->getReference('meshDescriptors' . $arr['descriptor']));
             $this->addReference('meshTrees' . $arr['treeNumber'], $entity);
-            $manager->persist($entity);
-            $manager->flush();
+            $repository->update($entity, false, true);
         }
+        $repository->flush();
     }
 
     public function getDependencies()

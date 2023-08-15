@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Authentication;
+use App\Repository\RepositoryInterface;
 use App\Service\SessionUserProvider;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -37,6 +38,8 @@ class LoadAuthenticationData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\AuthenticationData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(Authentication::class);
         foreach ($data as $arr) {
             $user = $this->getReference('users' . $arr['user']);
             $entity = new Authentication();
@@ -49,9 +52,9 @@ class LoadAuthenticationData extends AbstractFixture implements
             }
             $entity->setUser($user);
 
-            $manager->persist($entity);
-            $manager->flush();
+            $repository->update($entity, false, true);
         }
+        $repository->flush();
     }
 
     public function getDependencies()

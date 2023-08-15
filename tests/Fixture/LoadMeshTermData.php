@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\MeshTerm;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,6 +30,8 @@ class LoadMeshTermData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\MeshTermData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(MeshTerm::class);
         foreach ($data as $arr) {
             $entity = new MeshTerm();
             $entity->setId($arr['id']);
@@ -42,9 +45,9 @@ class LoadMeshTermData extends AbstractFixture implements
                 $entity->addConcept($this->getReference('meshConcepts' . $id));
             }
             $this->addReference('meshTerms' . $arr['id'], $entity);
-            $manager->persist($entity);
-            $manager->flush();
+            $repository->update($entity, false, true);
         }
+        $repository->flush();
     }
 
     public function getDependencies()

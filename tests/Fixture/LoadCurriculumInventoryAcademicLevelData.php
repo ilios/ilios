@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,6 +30,8 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
         $data = $this->container
             ->get('App\Tests\DataLoader\CurriculumInventoryAcademicLevelData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(CurriculumInventoryAcademicLevel::class);
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryAcademicLevel();
             $entity->setId($arr['id']);
@@ -36,10 +39,10 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
             $entity->setLevel($arr['level']);
             $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
             $entity->setDescription($arr['description']);
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('curriculumInventoryAcademicLevels' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

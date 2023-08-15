@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\SessionType;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,6 +30,8 @@ class LoadSessionTypeData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\SessionTypeData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(SessionType::class);
         foreach ($data as $arr) {
             $entity = new SessionType();
             $entity->setId($arr['id']);
@@ -44,10 +47,10 @@ class LoadSessionTypeData extends AbstractFixture implements
             foreach ($arr['aamcMethods'] as $id) {
                 $entity->addAamcMethod($this->getReference('aamcMethods' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('sessionTypes' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

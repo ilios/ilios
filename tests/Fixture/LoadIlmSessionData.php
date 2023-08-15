@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\IlmSession;
+use App\Repository\RepositoryInterface;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -31,6 +32,8 @@ class LoadIlmSessionData extends AbstractFixture implements
         $data = $this->container
             ->get(IlmSessionData::class)
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(IlmSession::class);
         foreach ($data as $arr) {
             $entity = new IlmSession();
             $entity->setId($arr['id']);
@@ -49,10 +52,10 @@ class LoadIlmSessionData extends AbstractFixture implements
             foreach ($arr['learners'] as $id) {
                 $entity->addLearner($this->getReference('users' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('ilmSessions' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

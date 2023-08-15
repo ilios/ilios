@@ -8,6 +8,7 @@ use App\Tests\DataLoader\CurriculumInventorySequenceBlockData;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventorySequenceBlock;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -31,6 +32,8 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
         $data = $this->container
             ->get(CurriculumInventorySequenceBlockData::class)
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(CurriculumInventorySequenceBlock::class);
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlock();
             $entity->setId($arr['id']);
@@ -65,7 +68,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
                 $entity->addExcludedSession($this->getReference('sessions' . $sessionId));
             }
 
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('curriculumInventorySequenceBlocks' . $arr['id'], $entity);
         }
         $manager->flush();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\LearningMaterial;
+use App\Repository\RepositoryInterface;
 use App\Service\Config;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -45,7 +46,8 @@ class LoadLearningMaterialData extends AbstractFixture implements
         $fs->copy(__FILE__, self::TEST_FILE_PATH);
         $config = $this->container->get(Config::class);
         $storePath = $config->get('file_system_storage_path');
-
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(LearningMaterial::class);
         foreach ($data as $arr) {
             $entity = new LearningMaterial();
             $entity->setId($arr['id']);
@@ -77,10 +79,10 @@ class LoadLearningMaterialData extends AbstractFixture implements
                 $fs->copy(__FILE__, $path);
             }
             $entity->generateToken();
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('learningMaterials' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

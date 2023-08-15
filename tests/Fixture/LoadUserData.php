@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\User;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,6 +30,8 @@ class LoadUserData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\UserData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(User::class);
         foreach ($data as $arr) {
             $entity = new User();
             $entity->setId($arr['id']);
@@ -81,10 +84,10 @@ class LoadUserData extends AbstractFixture implements
                     $this->getReference('curriculumInventoryReports' . $id)
                 );
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('users' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

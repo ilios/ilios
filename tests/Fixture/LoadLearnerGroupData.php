@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\LearnerGroup;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,6 +30,8 @@ class LoadLearnerGroupData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\LearnerGroupData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(LearnerGroup::class);
         foreach ($data as $arr) {
             $entity = new LearnerGroup();
             $entity->setId($arr['id']);
@@ -57,10 +60,10 @@ class LoadLearnerGroupData extends AbstractFixture implements
             foreach ($arr['instructorGroups'] as $id) {
                 $entity->addInstructorGroup($this->getReference('instructorGroups' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, false, true);
             $this->addReference('learnerGroups' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()
