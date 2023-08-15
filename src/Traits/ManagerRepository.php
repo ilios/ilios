@@ -8,10 +8,12 @@ use App\Service\DTOCacheManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Id\AbstractIdGenerator;
 use Doctrine\ORM\Id\AssignedGenerator;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * Trait ManagerRepository
@@ -22,9 +24,16 @@ use Symfony\Contracts\Cache\ItemInterface;
 trait ManagerRepository
 {
     abstract protected function getEntityName();
+
+    /**
+     * @return EntityManagerInterface
+     */
     abstract protected function getEntityManager();
     abstract public function find($id);
     abstract protected function hydrateDTOsFromIds(array $ids): array;
+
+    private AbstractIdGenerator $originalIdentityGenerator;
+    private int $originalIdentityGeneratorType;
 
     public function getClass(): string
     {
@@ -33,13 +42,20 @@ trait ManagerRepository
 
     public function flushAndClear(): void
     {
-        $this->getEntityManager()->flush();
+        $this->flush();
         $this->getEntityManager()->clear();
     }
 
     public function flush(): void
     {
         $this->getEntityManager()->flush();
+        if (isset($this->originalIdentityGenerator)) {
+            $metadata = $this->getEntityManager()->getClassMetaData($this->getClass());
+            $metadata->setIdGenerator($this->originalIdentityGenerator);
+            $metadata->setIdGeneratorType($this->originalIdentityGeneratorType);
+            unset($this->originalIdentityGenerator);
+            unset($this->originalIdentityGeneratorType);
+        }
     }
 
     public function findOneById($id): ?object
@@ -134,18 +150,23 @@ trait ManagerRepository
 
         if ($forceId) {
             $metadata = $this->getEntityManager()->getClassMetaData($entity::class);
-            $metadata->setIdGenerator(new AssignedGenerator());
+            if (!isset($this->originalIdentityGenerator)) {
+                $this->originalIdentityGenerator = $metadata->idGenerator;
+                $this->originalIdentityGeneratorType = $metadata->generatorType;
+                $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+                $metadata->setIdGenerator(new AssignedGenerator());
+            }
         }
 
         if ($andFlush) {
-            $this->getEntityManager()->flush();
+            $this->flush();
         }
     }
 
     public function delete($entity): void
     {
         $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
+        $this->flush();
     }
 
     public function create(): object
