@@ -62,6 +62,8 @@ RUN set -eux; \
     docker-php-ext-enable apcu; \
     pecl install redis \
     && docker-php-ext-enable redis; \
+    pecl install xdebug \
+    && docker-php-ext-enable xdebug; \
     docker-php-ext-enable opcache; \
     rm -rf /var/lib/apt/lists/*; \
     rm -rf /tmp/pear; \
@@ -102,6 +104,8 @@ RUN echo ${ILIOS_VERSION} > VERSION
 
 COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
+COPY docker/fpm/xdebug.ini $PHP_INI_DIR/conf.d/xdebug.ini
+
 RUN ln -sf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
