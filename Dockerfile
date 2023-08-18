@@ -102,7 +102,6 @@ RUN echo ${ILIOS_VERSION} > VERSION
 
 COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
-COPY docker/fpm/xdebug.ini $PHP_INI_DIR/conf.d/xdebug.ini
 
 RUN ln -sf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
@@ -143,6 +142,8 @@ RUN set -eux; \
     composer run-script post-install-cmd; \
     bin/console cache:warmup; \
     sync
+
+COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
 
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
