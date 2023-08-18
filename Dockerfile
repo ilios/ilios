@@ -62,8 +62,6 @@ RUN set -eux; \
     docker-php-ext-enable apcu; \
     pecl install redis \
     && docker-php-ext-enable redis; \
-    pecl install xdebug \
-    && docker-php-ext-enable xdebug; \
     docker-php-ext-enable opcache; \
     rm -rf /var/lib/apt/lists/*; \
     rm -rf /tmp/pear; \
@@ -138,6 +136,8 @@ ENV APP_DEBUG true
 COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
 RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN set -eux; \
+    pecl install xdebug \
+    && docker-php-ext-enable xdebug; \
     composer install --prefer-dist --no-progress --no-interaction; \
     rm -f .env.local.php; \
     composer run-script post-install-cmd; \
