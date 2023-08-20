@@ -40,8 +40,8 @@ COPY --from=src /src/app /srv/app/
 
 # configure PHP extensions required for Ilios and delete the source files after install
 RUN set -eux; \
-	apt-get update; \
-	apt-get install -y \
+    apt-get update; \
+    apt-get install -y \
         libldap2-dev \
         libldap-common \
         zlib1g-dev \
@@ -87,12 +87,12 @@ ENV PATH="${PATH}:/root/.composer/vendor/bin"
 WORKDIR /srv/app
 RUN /usr/bin/touch .env
 RUN set -eux; \
-	mkdir -p var/cache var/log; \
-	composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
-	composer dump-autoload --classmap-authoritative --no-dev; \
-	composer symfony:dump-env prod; \
-	composer run-script --no-dev post-install-cmd; \
-	chmod +x bin/console; \
+    mkdir -p var/cache var/log; \
+    composer install --prefer-dist --no-dev --no-progress --no-scripts --no-interaction; \
+    composer dump-autoload --classmap-authoritative --no-dev; \
+    composer symfony:dump-env prod; \
+    composer run-script --no-dev post-install-cmd; \
+    chmod +x bin/console; \
     bin/console cache:warmup; \
     sync
 VOLUME /srv/app/var
@@ -102,6 +102,7 @@ RUN echo ${ILIOS_VERSION} > VERSION
 
 COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
+
 RUN ln -sf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
@@ -134,11 +135,15 @@ ENV APP_DEBUG true
 COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
 RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN set -eux; \
-	composer install --prefer-dist --no-progress --no-interaction; \
+    pecl install xdebug \
+    && docker-php-ext-enable xdebug; \
+    composer install --prefer-dist --no-progress --no-interaction; \
     rm -f .env.local.php; \
     composer run-script post-install-cmd; \
     bin/console cache:warmup; \
     sync
+
+COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
 
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
@@ -222,8 +227,8 @@ ENV MYSQL_PASSWORD ilios
 ENV MYSQL_DATABASE ilios
 ENV DEMO_DATABASE_LOCATION https://s3-us-west-2.amazonaws.com/ilios-demo-db.iliosproject.org/latest_db/ilios3_demosite_db.sql.gz
 RUN set -eux; \
-	microdnf install -y wget; \
-	microdnf clean all;
+    microdnf install -y wget; \
+    microdnf clean all;
 COPY docker/fetch-demo-database.sh /fetch-demo-database.sh
 RUN /bin/bash /fetch-demo-database.sh
 
@@ -256,7 +261,7 @@ COPY ./src/.htaccess /var/www/ilios/src
 
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN set -eux; \
-	apt-get update; \
+    apt-get update; \
     apt-get install acl libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y; \
     docker-php-ext-configure ldap; \
     docker-php-ext-install ldap; \
