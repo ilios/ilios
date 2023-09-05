@@ -18,7 +18,7 @@ jobs:
     name: Test and Calculate Coverage
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use PHP 8.2
       uses: shivammathur/setup-php@v2
       with:
