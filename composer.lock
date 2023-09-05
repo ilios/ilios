@@ -187,16 +187,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.279.7",
+            "version": "3.280.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "223f97f8f12765b42a682569b434ac0210cca93a"
+                "reference": "d68b83b3bc39b70bf33e9b8b5166facbe3e4fe9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/223f97f8f12765b42a682569b434ac0210cca93a",
-                "reference": "223f97f8f12765b42a682569b434ac0210cca93a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d68b83b3bc39b70bf33e9b8b5166facbe3e4fe9b",
+                "reference": "d68b83b3bc39b70bf33e9b8b5166facbe3e4fe9b",
                 "shasum": ""
             },
             "require": {
@@ -276,9 +276,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.279.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.280.2"
             },
-            "time": "2023-08-25T18:07:43+00:00"
+            "time": "2023-09-01T18:06:10+00:00"
         },
         {
             "name": "beberlei/assert",
@@ -3096,12 +3096,12 @@
             "version": "1.8.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bestit/flagception-sdk.git",
+                "url": "https://github.com/playox/flagception-sdk.git",
                 "reference": "519190c6e8587103cc6e94f8f95144a2004bb21d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bestit/flagception-sdk/zipball/519190c6e8587103cc6e94f8f95144a2004bb21d",
+                "url": "https://api.github.com/repos/playox/flagception-sdk/zipball/519190c6e8587103cc6e94f8f95144a2004bb21d",
                 "reference": "519190c6e8587103cc6e94f8f95144a2004bb21d",
                 "shasum": ""
             },
@@ -3147,8 +3147,8 @@
                 "toggle"
             ],
             "support": {
-                "issues": "https://github.com/bestit/flagception-sdk/issues",
-                "source": "https://github.com/bestit/flagception-sdk/tree/1.8.0"
+                "issues": "https://github.com/playox/flagception-sdk/issues",
+                "source": "https://github.com/playox/flagception-sdk/tree/1.8.0"
             },
             "time": "2022-04-21T14:36:08+00:00"
         },
@@ -3157,12 +3157,12 @@
             "version": "4.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bestit/flagception-bundle.git",
+                "url": "https://github.com/playox/flagception-bundle.git",
                 "reference": "c16e7b993d9082be593a542f8bf44c8cfb3aed3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bestit/flagception-bundle/zipball/c16e7b993d9082be593a542f8bf44c8cfb3aed3e",
+                "url": "https://api.github.com/repos/playox/flagception-bundle/zipball/c16e7b993d9082be593a542f8bf44c8cfb3aed3e",
                 "reference": "c16e7b993d9082be593a542f8bf44c8cfb3aed3e",
                 "shasum": ""
             },
@@ -3223,10 +3223,9 @@
                 "toggle"
             ],
             "support": {
-                "issues": "https://github.com/bestit/flagception-bundle/issues",
-                "source": "https://github.com/bestit/flagception-bundle/tree/4.3.0"
+                "issues": "https://github.com/playox/flagception-bundle/issues",
+                "source": "https://github.com/playox/flagception-bundle/tree/4.3.0"
             },
-            "abandoned": true,
             "time": "2022-04-22T13:52:53+00:00"
         },
         {
@@ -12811,16 +12810,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.7.11",
+            "version": "4.7.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "f01574d1ac55cb0bf31a8dd80525ad58eef83afc"
+                "reference": "e1062da5b47d3a97ee9910301f902b0f5b408340"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/f01574d1ac55cb0bf31a8dd80525ad58eef83afc",
-                "reference": "f01574d1ac55cb0bf31a8dd80525ad58eef83afc",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/e1062da5b47d3a97ee9910301f902b0f5b408340",
+                "reference": "e1062da5b47d3a97ee9910301f902b0f5b408340",
                 "shasum": ""
             },
             "require": {
@@ -12883,9 +12882,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.7.11"
+                "source": "https://github.com/zircote/swagger-php/tree/4.7.13"
             },
-            "time": "2023-08-03T21:23:48+00:00"
+            "time": "2023-08-30T23:32:39+00:00"
         }
     ],
     "packages-dev": [
@@ -13992,16 +13991,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.32",
+            "version": "1.10.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c47e47d3ab03137c0e121e77c4d2cb58672f6d44"
+                "reference": "03b1cf9f814ba0863c4e9affea49a4d1ed9a2ed1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c47e47d3ab03137c0e121e77c4d2cb58672f6d44",
-                "reference": "c47e47d3ab03137c0e121e77c4d2cb58672f6d44",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/03b1cf9f814ba0863c4e9affea49a4d1ed9a2ed1",
+                "reference": "03b1cf9f814ba0863c4e9affea49a4d1ed9a2ed1",
                 "shasum": ""
             },
             "require": {
@@ -14050,7 +14049,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-24T21:54:50+00:00"
+            "time": "2023-09-04T12:20:53+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",
@@ -16378,5 +16377,5 @@
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
