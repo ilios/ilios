@@ -4434,16 +4434,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.20.0",
+            "version": "2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "8dce49cd97fbee5e4f16730492ce8e93ae406c85"
+                "reference": "80d09e4ce859d2db3d59db056ec8535b121da3e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/8dce49cd97fbee5e4f16730492ce8e93ae406c85",
-                "reference": "8dce49cd97fbee5e4f16730492ce8e93ae406c85",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/80d09e4ce859d2db3d59db056ec8535b121da3e8",
+                "reference": "80d09e4ce859d2db3d59db056ec8535b121da3e8",
                 "shasum": ""
             },
             "require": {
@@ -4515,9 +4515,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipMonitorBundle/issues",
-                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.20.0"
+                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.21.0"
             },
-            "time": "2023-03-17T21:17:08+00:00"
+            "time": "2023-09-01T12:32:43+00:00"
         },
         {
             "name": "monolog/monolog",
