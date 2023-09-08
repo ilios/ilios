@@ -69,6 +69,7 @@ class CourseRepository extends ServiceEntityRepository implements
             $qb->andWhere($qb->expr()->orX(
                 $qb->expr()->like('x.title', "?{$key}"),
                 $qb->expr()->like('x.year', "?{$key}"),
+                $qb->expr()->like('x.externalId', "?{$key}"),
             ))
                 ->setParameter($key, '%' . $term . '%');
         }

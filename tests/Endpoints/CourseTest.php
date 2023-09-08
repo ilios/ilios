@@ -873,10 +873,11 @@ class CourseTest extends AbstractReadWriteEndpoint
     {
         return [
             ['first', [0]],
-            ['ours', [0, 1, 3, 4]],
+            ['ours', [0, 1, 2, 3, 4]],
             ['fourth', [3]],
             ['firstCourse', [0]],
             ['2012', [1, 2]],
+            ['second', [1]],
         ];
     }
 
@@ -895,7 +896,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'course', 'offset' => 2];
-        $this->filterTest($filters, [$all[3], $all[4]]);
+        $this->filterTest($filters, [$all[2], $all[3], $all[4]]);
     }
 
     public function testFindByQWithOffsetAndLimit(): void
@@ -903,9 +904,9 @@ class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'course', 'offset' => 2, 'limit' => 1];
-        $this->filterTest($filters, [$all[3]]);
+        $this->filterTest($filters, [$all[2]]);
         $filters = ['q' => 'course', 'offset' => 1, 'limit' => 2];
-        $this->filterTest($filters, [$all[1], $all[3]]);
+        $this->filterTest($filters, [$all[1], $all[2]]);
     }
 
     public function testFindByQWithOffsetAndLimitJsonApi(): void
@@ -913,8 +914,8 @@ class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'course', 'offset' => 2, 'limit' => 1];
-        $this->jsonApiFilterTest($filters, [$all[3]]);
+        $this->filterTest($filters, [$all[2]]);
         $filters = ['q' => 'course', 'offset' => 1, 'limit' => 2];
-        $this->jsonApiFilterTest($filters, [$all[1], $all[3]]);
+        $this->filterTest($filters, [$all[1], $all[2]]);
     }
 }
