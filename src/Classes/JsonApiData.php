@@ -94,10 +94,12 @@ class JsonApiData
         foreach ($keys as $key) {
             if (array_key_exists($key, $relationships)) {
                 $r = $relationships[$key];
-                $type = $this->getTypeForData($r['data']);
-                $ids = $this->getIdsForData($r['data']);
+                if ($r['data']) {
+                    $type = $this->getTypeForData($r['data']);
+                    $ids = $this->getIdsForData($r['data']);
 
-                $this->prepareSideLoad($type, $ids, $sideLoadFields[$key]);
+                    $this->prepareSideLoad($type, $ids, $sideLoadFields[$key]);
+                }
             }
         }
     }
