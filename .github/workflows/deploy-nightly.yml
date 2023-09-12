@@ -59,7 +59,7 @@ jobs:
       with:
           ref: ${{needs.tags.outputs.latestTag}}
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
       with:
         image: tonistiigi/binfmt:latest
         platforms: linux/amd64,linux/arm64
