@@ -39,13 +39,10 @@ class JsonApiDTONormalizer implements NormalizerInterface
         $related = [];
         foreach ($relatedProperties as $attributeName => $relationshipType) {
             $value = $attributes[$attributeName];
-            if ($value) {
-                $related[$attributeName] = [
-                    'type' => $relationshipType,
-                    'value' => $value,
-                ];
-            }
-
+            $related[$attributeName] = [
+                'type' => $relationshipType,
+                'value' => $value,
+            ];
             unset($attributes[$attributeName]);
         }
         unset($attributes[$idProperty]);
