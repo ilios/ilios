@@ -102,10 +102,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
     protected function compareData(array $expected, array $result)
     {
         unset($result['absoluteFileUri']);
-        $this->assertEquals(
-            $expected,
-            $result
-        );
+        parent::compareData($expected, $result);
     }
 
     protected function compareGraphQLData(array $expected, object $result): void
@@ -122,7 +119,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $data = $loader->getOne();
         $returnedData = $this->getOne($endpoint, $responseKey, $data['id']);
         $this->assertNotEmpty($returnedData['absoluteFileUri']);
-        $this->compareData($data, $returnedData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $returnedData);
 
         return $returnedData;
     }
@@ -150,8 +148,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
 
         foreach ($responses as $i => $response) {
             $this->assertNotEmpty($response['absoluteFileUri']);
-            unset($response['absoluteFileUri']);
-            $this->compareData($data[$i], $response);
+            $prunedData = $this->pruneData($data[$i]);
+            $this->compareData($prunedData, $response);
         }
 
         return $responses;
@@ -177,14 +175,15 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         unset($fetchedResponseData['sequence']);
         unset($fetchedResponseData['academicLevels']);
         // don't compare sequence and academic level ids.
-        if (array_key_exists('sequence', $data)) {
+        if (!empty($data['sequence'])) {
             $fetchedResponseData['sequence'] = $data['sequence'];
         }
         if (array_key_exists('academicLevels', $data)) {
             $fetchedResponseData['academicLevels'] = $data['academicLevels'];
         }
 
-        $this->compareData($data, $fetchedResponseData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $fetchedResponseData);
 
         return $fetchedResponseData;
     }
@@ -212,14 +211,15 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         unset($fetchedResponseData['sequence']);
         unset($fetchedResponseData['academicLevels']);
         // don't compare sequence and academic level ids.
-        if (array_key_exists('sequence', $data)) {
+        if (!empty($data['sequence'])) {
             $fetchedResponseData['sequence'] = $data['sequence'];
         }
         if (array_key_exists('academicLevels', $data)) {
             $fetchedResponseData['academicLevels'] = $data['academicLevels'];
         }
 
-        $this->compareData($data, $fetchedResponseData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $fetchedResponseData);
 
         return $fetchedResponseData;
     }
@@ -248,14 +248,15 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             unset($response['sequence']);
             unset($response['academicLevels']);
             // don't compare sequence and academic level ids.
-            if (array_key_exists('sequence', $datum)) {
+            if (!empty($datum['sequence'])) {
                 $response['sequence'] = $datum['sequence'];
             }
             if (array_key_exists('academicLevels', $datum)) {
                 $response['academicLevels'] = $datum['academicLevels'];
             }
 
-            $this->compareData($datum, $response);
+            $prunedData = $this->pruneData($datum);
+            $this->compareData($prunedData, $response);
         }
 
         return $fetchedResponseData;
@@ -284,14 +285,15 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
             unset($response['sequence']);
             unset($response['academicLevels']);
             // don't compare sequence and academic level ids.
-            if (array_key_exists('sequence', $datum)) {
+            if (!empty($datum['sequence'])) {
                 $response['sequence'] = $datum['sequence'];
             }
             if (array_key_exists('academicLevels', $datum)) {
                 $response['academicLevels'] = $datum['academicLevels'];
             }
 
-            $this->compareData($datum, $response);
+            $prunedData = $this->pruneData($datum);
+            $this->compareData($prunedData, $response);
         }
 
         return $fetchedResponseData;
@@ -308,7 +310,8 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
 
         $this->assertNotEmpty($fetchedResponseData['absoluteFileUri']);
 
-        $this->compareData($data, $fetchedResponseData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $fetchedResponseData);
 
         return $fetchedResponseData;
     }
@@ -324,7 +327,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $changeValue = $firstPut[1];
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $nonExportedReports = array_filter($all, fn($report) => !array_key_exists('export', $report));
+        $nonExportedReports = array_filter($all, fn($report) => empty($report['export']));
         foreach ($nonExportedReports as $data) {
             $data[$changeKey] = $changeValue;
 
@@ -341,7 +344,7 @@ class CurriculumInventoryReportTest extends ReadWriteEndpointTest
         $changeValue = $firstPut[1];
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
-        $nonExportedReports = array_filter($all, fn($report) => !array_key_exists('export', $report));
+        $nonExportedReports = array_filter($all, fn($report) => empty($report['export']));
         foreach ($nonExportedReports as $data) {
             $data[$changeKey] = $changeValue;
             $jsonApiData = $dataLoader->createJsonApi($data);

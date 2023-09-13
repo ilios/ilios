@@ -108,12 +108,12 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     protected function compareData(array $expected, array $result)
     {
         $expected = $this->fixDatesInExpectedData($expected);
-        if (is_null($expected['startDate'])) {
+        if (array_key_exists('startDate', $expected) && is_null($expected['startDate'])) {
             $this->assertFalse(array_key_exists('startDate', $result));
             unset($expected['startDate']);
         }
 
-        if (is_null($expected['endDate'])) {
+        if (array_key_exists('endDate', $expected) && is_null($expected['endDate'])) {
             $this->assertFalse(array_key_exists('endDate', $result));
             unset($expected['endDate']);
         }

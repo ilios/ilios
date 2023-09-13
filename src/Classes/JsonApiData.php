@@ -47,9 +47,13 @@ class JsonApiData
             'relationships' => [],
         ];
         foreach ($item['related'] as $name => $related) {
-            $relatedData = [];
             $value = $related['value'];
-            if (is_array($value)) {
+            if (is_null($value)) {
+                $data['relationships'][$name] = [
+                    'data' => null
+                ];
+            } elseif (is_array($value)) {
+                $relatedData = [];
                 foreach ($value as $id) {
                     $relatedData[] = [
                         'type' => $related['type'],
@@ -94,10 +98,11 @@ class JsonApiData
         foreach ($keys as $key) {
             if (array_key_exists($key, $relationships)) {
                 $r = $relationships[$key];
-                $type = $this->getTypeForData($r['data']);
-                $ids = $this->getIdsForData($r['data']);
-
-                $this->prepareSideLoad($type, $ids, $sideLoadFields[$key]);
+                if (! empty($r['data'])) {
+                    $type = $this->getTypeForData($r['data']);
+                    $ids = $this->getIdsForData($r['data']);
+                    $this->prepareSideLoad($type, $ids, $sideLoadFields[$key]);
+                }
             }
         }
     }

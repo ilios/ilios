@@ -80,7 +80,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventorySequence')]
     #[IA\Expose]
     #[IA\Type('entity')]
-    protected CurriculumInventorySequenceInterface $sequence;
+    protected ?CurriculumInventorySequenceInterface $sequence = null;
 
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
@@ -175,7 +175,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->sequence = $sequence;
     }
 
-    public function getSequence(): CurriculumInventorySequenceInterface
+    public function getSequence(): ?CurriculumInventorySequenceInterface
     {
         return $this->sequence;
     }

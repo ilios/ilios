@@ -42,7 +42,7 @@ class LoadCourseObjectiveData extends AbstractFixture implements
             foreach ($arr['meshDescriptors'] as $id) {
                 $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
-            if (array_key_exists('ancestor', $arr)) {
+            if (!empty($arr['ancestor'])) {
                 $entity->setAncestor($this->getReference('courseObjectives' . $arr['ancestor']));
             }
             foreach ($arr['sessionObjectives'] as $id) {

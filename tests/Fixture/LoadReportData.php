@@ -42,7 +42,7 @@ class LoadReportData extends AbstractFixture implements
             }
             $entity->setUser($this->getReference('users' . $arr['user']));
 
-            if (array_key_exists('school', $arr)) {
+            if (!empty($arr['school'])) {
                 $entity->setSchool($this->getReference('schools' . $arr['school']));
             }
             $manager->persist($entity);
@@ -53,7 +53,9 @@ class LoadReportData extends AbstractFixture implements
 
     public function getDependencies()
     {
-        return ['App\Tests\Fixture\LoadUserData'];
-        return ['App\Tests\Fixture\LoadSchoolData'];
+        return [
+            'App\Tests\Fixture\LoadUserData',
+            'App\Tests\Fixture\LoadSchoolData'
+        ];
     }
 }

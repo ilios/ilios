@@ -58,6 +58,9 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             if (!empty($arr['parent'])) {
                 $entity->setParent($this->getReference('curriculumInventorySequenceBlocks' . $arr['parent']));
             }
+            if (!empty($arr['course'])) {
+                $entity->setCourse($this->getReference('courses' . $arr['course']));
+            }
             foreach ($arr['sessions'] as $sessionId) {
                 $entity->addSession($this->getReference('sessions' . $sessionId));
             }
@@ -76,6 +79,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
         return [
             LoadCurriculumInventoryReportData::class,
             LoadCurriculumInventoryAcademicLevelData::class,
+            LoadCourseData::class,
             LoadSessionData::class,
         ];
     }
