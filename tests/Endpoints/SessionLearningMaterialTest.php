@@ -11,7 +11,7 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 use Symfony\Component\HttpFoundation\Response;
 
 use function date_format;
@@ -21,7 +21,7 @@ use function is_null;
  * SessionLearningMaterial API endpoint Test.
  * @group api_1
  */
-class SessionLearningMaterialTest extends ReadWriteEndpointTest
+class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'sessionLearningMaterials';
 

@@ -15,14 +15,14 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\LearningMaterialData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * LearningMaterial API endpoint Test.
  * @group api_4
  * @group time-sensitive
  */
-class LearningMaterialTest extends ReadWriteEndpointTest
+class LearningMaterialTest extends AbstractReadWriteEndpoint
 {
     private const UNBLANKED_ATTRIBUTES = [
         'id',

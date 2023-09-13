@@ -6,13 +6,13 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialStatusData;
-use App\Tests\ReadEndpointTest;
+use App\Tests\AbstractReadEndpoint;
 
 /**
  * LearningMaterialStatus API endpoint Test.
  * @group api_3
  */
-class LearningMaterialStatusTest extends ReadEndpointTest
+class LearningMaterialStatusTest extends AbstractReadEndpoint
 {
     protected string $testName =  'learningMaterialStatuses';
 

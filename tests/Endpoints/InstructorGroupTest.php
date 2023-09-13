@@ -13,13 +13,13 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * InstructorGroup API endpoint Test.
  * @group api_1
  */
-class InstructorGroupTest extends ReadWriteEndpointTest
+class InstructorGroupTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'instructorGroups';
 

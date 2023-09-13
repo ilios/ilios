@@ -7,13 +7,13 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\SchoolData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadSchoolData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * CurriculumInventoryInstitution API endpoint Test.
  * @group api_2
  */
-class CurriculumInventoryInstitutionTest extends ReadWriteEndpointTest
+class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventoryInstitutions';
 

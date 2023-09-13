@@ -8,13 +8,13 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadSessionData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * CurriculumInventorySequenceBlock API endpoint Test.
  * @group api_4
  */
-class CurriculumInventorySequenceBlockTest extends ReadWriteEndpointTest
+class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventorySequenceBlocks';
 

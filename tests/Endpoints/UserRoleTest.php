@@ -6,13 +6,13 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserRoleData;
-use App\Tests\ReadEndpointTest;
+use App\Tests\AbstractReadEndpoint;
 
 /**
  * UserRole API endpoint Test.
  * @group api_4
  */
-class UserRoleTest extends ReadEndpointTest
+class UserRoleTest extends AbstractReadEndpoint
 {
     protected string $testName =  'userRoles';
     protected bool $isGraphQLTestable = false;

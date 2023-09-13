@@ -9,13 +9,13 @@ use App\Tests\Fixture\LoadCurriculumInventoryExportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadProgramData;
-use App\Tests\ReadEndpointTest;
+use App\Tests\AbstractReadEndpoint;
 
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.
  * @group api_4
  */
-class CurriculumInventoryAcademicLevelTest extends ReadEndpointTest
+class CurriculumInventoryAcademicLevelTest extends AbstractReadEndpoint
 {
     protected string $testName =  'curriculumInventoryAcademicLevels';
 

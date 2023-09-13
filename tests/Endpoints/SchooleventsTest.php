@@ -23,14 +23,14 @@ use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SchoolData;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\DataLoader\UserData;
-use App\Tests\AbstractEndpointTest;
+use App\Tests\AbstractEndpoint;
 use DateTime;
 
 /**
  * SchooleventsTest API endpoint Test.
  * @group api_2
  */
-class SchooleventsTest extends AbstractEndpointTest
+class SchooleventsTest extends AbstractEndpoint
 {
     protected function getFixtures(): array
     {

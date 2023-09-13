@@ -7,7 +7,7 @@ namespace App\Tests\Endpoints;
 use App\Entity\CourseLearningMaterial;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 use function array_key_exists;
 use function date_format;
@@ -17,7 +17,7 @@ use function is_null;
  * CourseLearningMaterial API endpoint Test.
  * @group api_1
  */
-class CourseLearningMaterialTest extends ReadWriteEndpointTest
+class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseLearningMaterials';
 

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests;
 
 /**
- * Class ReadWriteEndpointTest
+ * Class AbstractReadWriteEndpoint
  * @package App\Tests
  */
-abstract class ReadWriteEndpointTest extends ReadEndpointTest
+abstract class AbstractReadWriteEndpoint extends AbstractReadEndpoint
 {
     /**
      * @return array [field, value]

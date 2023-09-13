@@ -15,13 +15,13 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Competency API endpoint Test.
  * @group api_5
  */
-class CompetencyTest extends ReadWriteEndpointTest
+class CompetencyTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'competencies';
 

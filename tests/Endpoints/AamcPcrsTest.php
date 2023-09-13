@@ -8,13 +8,13 @@ use App\Classes\Inflector;
 use App\Service\InflectorFactory;
 use App\Tests\Fixture\LoadAamcPcrsData;
 use App\Tests\Fixture\LoadCompetencyData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * AamcPcrses API endpoint Test.
  * @group api_5
  */
-class AamcPcrsTest extends ReadWriteEndpointTest
+class AamcPcrsTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcPcrses';
 

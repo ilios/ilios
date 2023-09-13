@@ -23,7 +23,7 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
  * @group api_3
  * @group time-sensitive
  */
-class MeshDescriptorTest extends AbstractMeshTest
+class MeshDescriptorTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshDescriptors';
 

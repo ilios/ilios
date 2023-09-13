@@ -31,7 +31,7 @@ use function var_export;
 /**
  * Abstract Testing glue for endpoints
  */
-abstract class AbstractEndpointTest extends WebTestCase
+abstract class AbstractEndpoint extends WebTestCase
 {
     use JsonControllerTest;
     use GetUrlTrait;

@@ -14,13 +14,13 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\ProgramYearData;
 use App\Tests\PutEndpointTestable;
 use App\Tests\PutEndpointTestInterface;
-use App\Tests\ReadEndpointTest;
+use App\Tests\AbstractReadEndpoint;
 
 /**
  * Cohort API endpoint Test.
  * @group api_2
  */
-class CohortTest extends ReadEndpointTest implements PutEndpointTestInterface
+class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterface
 {
     use PutEndpointTestable;
 

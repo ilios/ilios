@@ -6,13 +6,13 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadCourseClerkshipTypeData;
 use App\Tests\Fixture\LoadCourseData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * CourseClerkshipType API endpoint Test.
  * @group api_4
  */
-class CourseClerkshipTypeTest extends ReadWriteEndpointTest
+class CourseClerkshipTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseClerkshipTypes';
 

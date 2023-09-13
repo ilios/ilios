@@ -18,13 +18,13 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\UserData;
-use App\Tests\ReadWriteEndpointTest;
+use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Authentication API endpoint Test.
  * @group api_5
  */
-class AuthenticationTest extends ReadWriteEndpointTest
+class AuthenticationTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'authentications';
     protected bool $isGraphQLTestable = false;
