@@ -34,7 +34,7 @@ interface CurriculumInventoryReportInterface extends
     public function getExport(): ?CurriculumInventoryExportInterface;
 
     public function setSequence(CurriculumInventorySequenceInterface $sequence = null);
-    public function getSequence(): CurriculumInventorySequenceInterface;
+    public function getSequence(): ?CurriculumInventorySequenceInterface;
 
     public function setProgram(ProgramInterface $program = null);
     public function getProgram(): ?ProgramInterface;
