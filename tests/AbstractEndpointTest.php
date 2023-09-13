@@ -766,7 +766,7 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $prunedData = $this->pruneData($datum, $data);
+            $prunedData = $this->pruneData($datum);
             $this->compareData($prunedData, $response);
         }
 
