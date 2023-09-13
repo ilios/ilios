@@ -77,7 +77,6 @@ class SessionTest extends ReadWriteEndpointTest
             'administrators' => ['administrators', [2]],
             'studentAdvisors' => ['studentAdvisors', [1]],
             'postrequisite' => ['postrequisite', 2],
-            'emptyPostrequisite' => ['postrequisite', null],
             'prerequisites' => ['prerequisites', [2]],
             'description' => ['description', 'salt'],
             'blankDescription' => ['description', ''],
@@ -229,5 +228,16 @@ class SessionTest extends ReadWriteEndpointTest
         $dataLoader = self::getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
         $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
+    }
+
+    public function testRemovePostrequisite()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll()[1];
+        $this->assertNotNull($data['postrequisite']);
+        $id = $data['id'];
+        $data['postrequisite'] = null;
+        $postData = $data;
+        $this->putTest($data, $postData, $id);
     }
 }

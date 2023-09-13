@@ -47,7 +47,6 @@ class LearnerGroupTest extends ReadWriteEndpointTest
             'cohort' => ['cohort', 3],
             'parent' => ['parent', 2],
             'ancestor' => ['ancestor', '3'],
-            'removeParent' => ['parent', null],
             'children' => ['children', [1], $skipped = true],
             'ilmSessions' => ['ilmSessions', [2]],
             'offerings' => ['offerings', [2]],
@@ -117,5 +116,16 @@ class LearnerGroupTest extends ReadWriteEndpointTest
         $data = $dataLoader->create();
         $postData = $data;
         $this->relatedPostDataTest($data, $postData, 'learnerGroups', 'offerings');
+    }
+
+    public function testRemoveParent()
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll()[3];
+        $this->assertNotNull($data['parent']);
+        $id = $data['id'];
+        $data['parent'] = null;
+        $postData = $data;
+        $this->putTest($data, $postData, $id);
     }
 }
