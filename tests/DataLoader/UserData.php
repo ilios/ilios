@@ -97,6 +97,7 @@ class UserData extends AbstractDataLoader
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
             'sessionMaterialStatuses' => ['1', '2', '3'],
+            'primaryCohort' => null,
         ];
 
         $arr[] = [
@@ -140,6 +141,7 @@ class UserData extends AbstractDataLoader
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
             'sessionMaterialStatuses' => [],
+            'primaryCohort' => null,
         ];
 
         $arr[] = [
@@ -181,6 +183,8 @@ class UserData extends AbstractDataLoader
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
             'sessionMaterialStatuses' => [],
+            'primaryCohort' => null,
+            'authentication' => null,
         ];
 
         $arr[] = [
@@ -221,6 +225,8 @@ class UserData extends AbstractDataLoader
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
             'sessionMaterialStatuses' => [],
+            'primaryCohort' => null,
+            'authentication' => null,
         ];
 
         return $arr;
@@ -266,6 +272,9 @@ class UserData extends AbstractDataLoader
             'directedPrograms' => [],
             'administeredCurriculumInventoryReports' => [],
             'sessionMaterialStatuses' => [],
+            'primaryCohort' => null,
+            'authentication' => null,
+
         ];
     }
 

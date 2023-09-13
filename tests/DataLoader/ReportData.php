@@ -16,7 +16,8 @@ class ReportData extends AbstractDataLoader
             'id' => 1,
             'title' => 'first report',
             'subject' => 'lorem',
-            'user' => 2
+            'user' => 2,
+            'school' => null,
         ];
 
         $arr[] = [
@@ -25,7 +26,8 @@ class ReportData extends AbstractDataLoader
             'subject' => 'ipsum',
             'prepositionalObject' => 'some thing',
             'prepositionalObjectTableRowId' => '14',
-            'user' => 2
+            'user' => 2,
+            'school' => null,
         ];
 
         $arr[] = [
@@ -49,7 +51,8 @@ class ReportData extends AbstractDataLoader
             'subject' => 'subject four',
             'prepositionalObject' => 'object',
             'prepositionalObjectTableRowId' => '22',
-            'user' => 2
+            'user' => 2,
+            'school' => null,
         ];
     }
 

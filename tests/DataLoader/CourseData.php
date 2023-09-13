@@ -35,7 +35,8 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => ["abc1"],
             'learningMaterials' => ['1', '2', '4', '5', '6', '7', '8', '9', '10'],
             'sessions' => ['1', '2'],
-            'descendants' => []
+            'descendants' => [],
+            'ancestor' => null,
         ];
 
         $arr[] = [
@@ -61,7 +62,8 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => ['3', '5', '6', '7', '8'],
-            'descendants' => []
+            'descendants' => [],
+            'ancestor' => null,
         ];
 
         $arr[] = [
@@ -77,6 +79,7 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'published' => false,
             'school' => "2",
+            'clerkshipType' => null,
             'directors' => ["4"],
             'administrators' => [],
             'studentAdvisors' => ['3'],
@@ -86,7 +89,8 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => [],
-            'descendants' => ['4']
+            'descendants' => ['4'],
+            'ancestor' => null,
         ];
 
         $arr[] = [
@@ -102,6 +106,7 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => false,
             'published' => false,
             'school' => "2",
+            'clerkshipType' => null,
             'directors' => ["2"],
             'administrators' => [],
             'studentAdvisors' => [],
@@ -112,7 +117,7 @@ class CourseData extends AbstractDataLoader
             'learningMaterials' => ["3"],
             'sessions' => ["4"],
             'ancestor' => 3,
-            'descendants' => []
+            'descendants' => [],
         ];
 
         $arr[] = [
@@ -128,6 +133,7 @@ class CourseData extends AbstractDataLoader
             'publishedAsTbd' => true,
             'published' => true,
             'school' => "2",
+            'clerkshipType' => null,
             'directors' => [],
             'administrators' => ['4'],
             'studentAdvisors' => [],
@@ -137,7 +143,8 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => [],
-            'descendants' => []
+            'descendants' => [],
+            'ancestor' => null,
         ];
 
         return $arr;
@@ -168,7 +175,8 @@ class CourseData extends AbstractDataLoader
             'meshDescriptors' => [],
             'learningMaterials' => [],
             'sessions' => [],
-            'descendants' => []
+            'descendants' => [],
+            'ancestor' => null,
         ];
     }
 

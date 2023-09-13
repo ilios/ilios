@@ -17,6 +17,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         $dt->setTime(0, 0, 0);
         $arr[] = [
             'id' => 1,
+            'export' => null,
             'program' => 1,
             'sequence' => 1,
             'year' => 2014,
@@ -47,6 +48,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
             'id' => 3,
             'export' => 2,
             'program' => 1,
+            'sequence' => null,
             'year' => 2016,
             'name' => 'third report',
             'description' => 'third report',
@@ -67,6 +69,7 @@ class CurriculumInventoryReportData extends AbstractDataLoader
         return [
             'id' => 4,
             'program' => 2,
+            'sequence' => null,
             'year' => 2021,
             'name' => 'fourth report',
             'description' => 'lirum larum loeffelstiel',

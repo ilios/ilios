@@ -31,6 +31,8 @@ class SessionData extends AbstractDataLoader
             'administrators' => ['1'],
             'studentAdvisors' => [],
             'prerequisites' => [],
+            'ilmSession' => null,
+            'postrequisite' => null,
         ];
 
         $arr[] = [
@@ -55,7 +57,7 @@ class SessionData extends AbstractDataLoader
             'studentAdvisors' => [],
             'prerequisites' => [],
             'postrequisite' => 3,
-
+            'ilmSession' => null,
         ];
 
         $arr[] = [
@@ -77,6 +79,8 @@ class SessionData extends AbstractDataLoader
             'administrators' => [],
             'studentAdvisors' => [],
             'prerequisites' => ['2', '4'],
+            'postrequisite' => null,
+            'ilmSession' => null,
         ];
 
         $arr[] = [
@@ -99,6 +103,7 @@ class SessionData extends AbstractDataLoader
             'studentAdvisors' => ['3'],
             'prerequisites' => [],
             'postrequisite' => 3,
+            'ilmSession' => null,
         ];
 
         for ($i = 5; $i <= 8; $i++) {
@@ -123,6 +128,7 @@ class SessionData extends AbstractDataLoader
                 'administrators' => [],
                 'studentAdvisors' => [],
                 'prerequisites' => [],
+                'postrequisite' => null,
             ];
         }
 
@@ -151,6 +157,8 @@ class SessionData extends AbstractDataLoader
             'administrators' => [],
             'studentAdvisors' => [],
             'prerequisites' => [],
+            'ilmSession' => null,
+            'postrequisite' => null,
         ];
     }
 

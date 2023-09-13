@@ -22,6 +22,7 @@ class ProgramYearObjectiveData extends AbstractDataLoader
             'meshDescriptors' => ['abc1'],
             'courseObjectives' => ['1'],
             'descendants' => ['2'],
+            'ancestor' => null,
             'competency' => 1,
         ];
 
@@ -53,6 +54,7 @@ class ProgramYearObjectiveData extends AbstractDataLoader
             'terms' => [],
             'meshDescriptors' => [],
             'courseObjectives' => [],
+            'ancestor' => null,
             'descendants' => [],
         ];
     }

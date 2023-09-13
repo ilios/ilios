@@ -33,7 +33,9 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'children' => ['2', '3', '4', '5'],
             'sessions' => ['1'],
             'excludedSessions' => ['1'],
+            'parent' => null,
             'track' => true,
+            'course' => null,
         ];
         for ($i = 1; $i < 5; $i++) {
             $arr[] = [
@@ -55,6 +57,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
                 'excludedSessions' => [],
                 'parent' => 1,
                 'track' => false,
+                'course' => null,
             ];
         }
 
@@ -84,6 +87,7 @@ class CurriculumInventorySequenceBlockData extends AbstractDataLoader
             'excludedSessions' => [],
             'parent' => 1,
             'track' => true,
+            'course' => null,
         ];
     }
 
