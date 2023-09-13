@@ -111,6 +111,7 @@ abstract class AbstractEndpointTest extends WebTestCase
      */
     protected function compareData(array $expected, array $result)
     {
+
         $this->assertEquals(
             $expected,
             $result
@@ -131,7 +132,9 @@ abstract class AbstractEndpointTest extends WebTestCase
             }
         }
         foreach ($result->relationships as $key => $obj) {
-            if (is_array($obj->data)) {
+            if (is_null($obj->data)) {
+                $transformed[$key] = null;
+            } elseif (is_array($obj->data)) {
                 $transformed[$key] = [];
                 foreach ($obj->data as $item) {
                     $transformed[$key][] = $item->id;
@@ -140,7 +143,6 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $transformed[$key] = $obj->data->id;
             }
         }
-
         $this->compareData($expected, $transformed);
     }
 
@@ -251,7 +253,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             $diff = $now->diff($stamp);
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
-        $this->compareData($data, $returnedData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $returnedData);
 
         return $returnedData;
     }
@@ -423,7 +426,8 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $this->compareData($data[$i], $response);
+            $prunedData = $this->pruneData($data[$i]);
+            $this->compareData($prunedData, $response);
         }
 
         return $responses;
@@ -461,7 +465,8 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-            $this->compareData($data[$i], $response);
+            $prunedData = $this->pruneData($data[$i]);
+            $this->compareData($prunedData, $response);
         }
 
         return $responses;
@@ -657,8 +662,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             $diff = $now->diff($stamp);
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
-
-        $this->compareData($data, $fetchedResponseData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $fetchedResponseData);
 
         return $fetchedResponseData;
     }
@@ -682,8 +687,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             $diff = $now->diff($stamp);
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
-
-        $this->compareData($data, $fetchedResponseData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $fetchedResponseData);
 
         return $fetchedResponseData;
     }
@@ -722,8 +727,8 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-
-            $this->compareData($datum, $response);
+            $prunedData = $this->pruneData($datum);
+            $this->compareData($prunedData, $response);
         }
 
         return $fetchedResponseData;
@@ -761,8 +766,8 @@ abstract class AbstractEndpointTest extends WebTestCase
                 $diff = $now->diff($stamp);
                 $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
             }
-
-            $this->compareData($datum, $response);
+            $prunedData = $this->pruneData($datum, $data);
+            $this->compareData($prunedData, $response);
         }
 
         return $fetchedResponseData;
@@ -1021,7 +1026,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
 
-        $this->compareData($data, $fetchedResponseData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $fetchedResponseData);
 
         return $fetchedResponseData;
     }
@@ -1113,7 +1119,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
         }
 
-        $this->compareData($data, $fetchedResponseData);
+        $prunedData = $this->pruneData($data);
+        $this->compareData($prunedData, $fetchedResponseData);
 
         return $fetchedResponseData;
     }
@@ -1273,7 +1280,8 @@ abstract class AbstractEndpointTest extends WebTestCase
             'Wrong Number of responses returned from filter got: ' . var_export($responseData, true)
         );
         foreach ($expectedData as $i => $data) {
-            $this->compareData($data, $responseData[$i]);
+            $prunedData = $this->pruneData($data);
+            $this->compareData($prunedData, $responseData[$i]);
         }
     }
 
@@ -1521,5 +1529,12 @@ abstract class AbstractEndpointTest extends WebTestCase
             );
         }
         ClockMock::withClockMock(false);
+    }
+
+    protected function pruneData(array $data): array
+    {
+        return array_filter($data, function ($v) {
+            return ! is_null($v);
+        });
     }
 }
