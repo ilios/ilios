@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\School;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\Report;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -40,10 +42,10 @@ class LoadReportData extends AbstractFixture implements
             if (array_key_exists('prepositionalObjectTableRowId', $arr)) {
                 $entity->setPrepositionalObjectTableRowId($arr['prepositionalObjectTableRowId']);
             }
-            $entity->setUser($this->getReference('users' . $arr['user']));
+            $entity->setUser($this->getReference('users' . $arr['user'], User::class));
 
             if (!empty($arr['school'])) {
-                $entity->setSchool($this->getReference('schools' . $arr['school']));
+                $entity->setSchool($this->getReference('schools' . $arr['school'], School::class));
             }
             $manager->persist($entity);
             $this->addReference('reports' . $arr['id'], $entity);

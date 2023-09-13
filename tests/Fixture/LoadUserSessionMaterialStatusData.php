@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\SessionLearningMaterial;
+use App\Entity\User;
 use App\Entity\UserSessionMaterialStatus;
 use App\Tests\DataLoader\UserSessionMaterialStatusData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -35,8 +37,13 @@ class LoadUserSessionMaterialStatusData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setStatus($arr['status']);
 
-            $entity->setUser($this->getReference('users' . $arr['user']));
-            $entity->setMaterial($this->getReference('sessionLearningMaterials' . $arr['material']));
+            $entity->setUser($this->getReference('users' . $arr['user'], User::class));
+            $entity->setMaterial(
+                $this->getReference(
+                    'sessionLearningMaterials' . $arr['material'],
+                    SessionLearningMaterial::class
+                )
+            );
 
             $manager->persist($entity);
             $this->addReference('UserSessionMaterialStatuss' . $arr['id'], $entity);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\PendingUserUpdate;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -38,7 +39,7 @@ class LoadPendingUserUpdateData extends AbstractFixture implements
             $entity->setType($arr['type']);
             $entity->setProperty($arr['property']);
             $entity->setValue($arr['value']);
-            $entity->setUser($this->getReference('users' . $arr['user']));
+            $entity->setUser($this->getReference('users' . $arr['user'], User::class));
 
             $manager->persist($entity);
             $this->addReference('pendingUserUpdates' . $arr['id'], $entity);

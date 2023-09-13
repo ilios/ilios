@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\AamcMethod;
+use App\Entity\AssessmentOption;
+use App\Entity\School;
 use App\Entity\SessionType;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -37,12 +40,12 @@ class LoadSessionTypeData extends AbstractFixture implements
             $entity->setAssessment($arr['assessment']);
             $entity->setActive($arr['active']);
             $entity->setAssessmentOption(
-                $this->getReference('assessmentOptions' . $arr['assessmentOption'])
+                $this->getReference('assessmentOptions' . $arr['assessmentOption'], AssessmentOption::class)
             );
-            $entity->setSchool($this->getReference('schools' . $arr['school']));
+            $entity->setSchool($this->getReference('schools' . $arr['school'], School::class));
 
             foreach ($arr['aamcMethods'] as $id) {
-                $entity->addAamcMethod($this->getReference('aamcMethods' . $id));
+                $entity->addAamcMethod($this->getReference('aamcMethods' . $id, AamcMethod::class));
             }
             $manager->persist($entity);
             $this->addReference('sessionTypes' . $arr['id'], $entity);

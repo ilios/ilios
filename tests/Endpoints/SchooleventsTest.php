@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Tests\DataLoader\DataLoaderInterface;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
@@ -532,7 +533,7 @@ class SchooleventsTest extends AbstractEndpointTest
 
 
         /** @var OfferingInterface $offering */
-        $offering = $this->fixtures->getReference('offerings8');
+        $offering = $this->fixtures->getReference('offerings8', Offering::class);
         $this->assertEquals($events[10]['startDate'], $offering->getStartDate()->format('c'));
         $this->assertEquals($events[10]['endDate'], $offering->getEndDate()->format('c'));
         $this->assertArrayNotHasKey('url', $events[10]);

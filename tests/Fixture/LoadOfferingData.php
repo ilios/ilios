@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\InstructorGroup;
+use App\Entity\LearnerGroup;
 use App\Entity\Offering;
+use App\Entity\Session;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -40,18 +44,18 @@ class LoadOfferingData extends AbstractFixture implements
             }
             $entity->setStartDate(new DateTime($arr['startDate']));
             $entity->setEndDate(new DateTime($arr['endDate']));
-            $entity->setSession($this->getReference('sessions' . $arr['session']));
+            $entity->setSession($this->getReference('sessions' . $arr['session'], Session::class));
             foreach ($arr['learnerGroups'] as $id) {
-                $entity->addLearnerGroup($this->getReference('learnerGroups' . $id));
+                $entity->addLearnerGroup($this->getReference('learnerGroups' . $id, LearnerGroup::class));
             }
             foreach ($arr['instructorGroups'] as $id) {
-                $entity->addInstructorGroup($this->getReference('instructorGroups' . $id));
+                $entity->addInstructorGroup($this->getReference('instructorGroups' . $id, InstructorGroup::class));
             }
             foreach ($arr['learners'] as $id) {
-                $entity->addLearner($this->getReference('users' . $id));
+                $entity->addLearner($this->getReference('users' . $id, User::class));
             }
             foreach ($arr['instructors'] as $id) {
-                $entity->addInstructor($this->getReference('users' . $id));
+                $entity->addInstructor($this->getReference('users' . $id, User::class));
             }
             $manager->persist($entity);
             $this->addReference('offerings' . $arr['id'], $entity);

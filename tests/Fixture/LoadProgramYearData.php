@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Competency;
+use App\Entity\Program;
 use App\Entity\ProgramYear;
+use App\Entity\Term;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -35,12 +38,12 @@ class LoadProgramYearData extends AbstractFixture implements
             $entity->setStartYear($arr['startYear']);
             $entity->setLocked($arr['locked']);
             $entity->setArchived($arr['archived']);
-            $entity->setProgram($this->getReference('programs' . $arr['program']));
+            $entity->setProgram($this->getReference('programs' . $arr['program'], Program::class));
             foreach ($arr['terms'] as $id) {
-                $entity->addTerm($this->getReference('terms' . $id));
+                $entity->addTerm($this->getReference('terms' . $id, Term::class));
             }
             foreach ($arr['competencies'] as $id) {
-                $entity->addCompetency($this->getReference('competencies' . $id));
+                $entity->addCompetency($this->getReference('competencies' . $id, Competency::class));
             }
             $manager->persist($entity);
             $this->addReference('programYears' . $arr['id'], $entity);

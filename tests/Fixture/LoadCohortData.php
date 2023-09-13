@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Cohort;
+use App\Entity\ProgramYear;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -33,7 +34,7 @@ class LoadCohortData extends AbstractFixture implements
             $entity = new Cohort();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $entity->setProgramYear($this->getReference('programYears' . $arr['programYear']));
+            $entity->setProgramYear($this->getReference('programYears' . $arr['programYear'], ProgramYear::class));
             $manager->persist($entity);
             $this->addReference('cohorts' . $arr['id'], $entity);
             $manager->flush();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\School;
 use App\Entity\Vocabulary;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -34,7 +35,7 @@ class LoadVocabularyData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
             $entity->setActive($arr['active']);
-            $entity->setSchool($this->getReference('schools' . $arr['school']));
+            $entity->setSchool($this->getReference('schools' . $arr['school'], School::class));
             $manager->persist($entity);
             $this->addReference('vocabularies' . $arr['id'], $entity);
             $manager->flush();

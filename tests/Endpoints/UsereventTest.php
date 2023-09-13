@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadIlmSessionData;
@@ -872,7 +873,7 @@ class UsereventTest extends AbstractEndpointTest
         $this->assertEmpty($events[9]['prerequisites']);
 
         /** @var OfferingInterface $offering */
-        $offering = $this->fixtures->getReference('offerings8');
+        $offering = $this->fixtures->getReference('offerings8', Offering::class);
         $this->assertSame(8, $events[10]['offering'], 'offering is correct for event 10');
         $this->assertSame(
             $events[10]['startDate'],

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\CurriculumInventoryInstitution;
+use App\Entity\School;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -32,7 +33,7 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryInstitution();
             if (!empty($arr['school'])) {
-                $entity->setSchool($this->getReference('schools' . $arr['school']));
+                $entity->setSchool($this->getReference('schools' . $arr['school'], School::class));
             }
             $entity->setId($arr['id']);
             $entity->setName($arr['name']);

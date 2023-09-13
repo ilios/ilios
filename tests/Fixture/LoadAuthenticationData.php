@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Authentication;
+use App\Entity\User;
 use App\Service\SessionUserProvider;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -38,7 +39,7 @@ class LoadAuthenticationData extends AbstractFixture implements
             ->get('App\Tests\DataLoader\AuthenticationData')
             ->getAll();
         foreach ($data as $arr) {
-            $user = $this->getReference('users' . $arr['user']);
+            $user = $this->getReference('users' . $arr['user'], User::class);
             $entity = new Authentication();
             $entity->setUsername($arr['username']);
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);

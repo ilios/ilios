@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\CourseLearningMaterial;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
 use App\Tests\ReadWriteEndpointTest;
@@ -94,8 +95,8 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     protected function fixDatesInExpectedData(array $expected): array
     {
         $ref = 'courseLearningMaterials' . $expected['id'];
-        if ($this->fixtures->hasReference($ref)) {
-            $fixture = $this->fixtures->getReference($ref);
+        if ($this->fixtures->hasReference($ref, CourseLearningMaterial::class)) {
+            $fixture = $this->fixtures->getReference($ref, CourseLearningMaterial::class);
             $startDate = $fixture->getStartDate();
             $endDate = $fixture->getEndDate();
             $expected['startDate'] = is_null($startDate) ? null : date_format($startDate, 'c');

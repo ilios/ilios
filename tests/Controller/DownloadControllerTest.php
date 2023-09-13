@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Entity\LearningMaterial;
 use App\Tests\DataLoader\ApplicationConfigData;
 use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\Fixture\LoadApplicationConfigData;
@@ -96,7 +97,7 @@ class DownloadControllerTest extends WebTestCase
 
     public function testPdfInlineDownload()
     {
-        $learningMaterial = $this->fixtures->getReference('learningMaterials4');
+        $learningMaterial = $this->fixtures->getReference('learningMaterials4', LearningMaterial::class);
 
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -166,7 +167,7 @@ class DownloadControllerTest extends WebTestCase
     {
         $this->setLearningMaterialsDisabled('true');
 
-        $learningMaterial = $this->fixtures->getReference('learningMaterials4');
+        $learningMaterial = $this->fixtures->getReference('learningMaterials4', LearningMaterial::class);
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'GET',

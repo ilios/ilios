@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\LearningMaterial;
+use App\Entity\LearningMaterialStatus;
+use App\Entity\LearningMaterialUserRole;
+use App\Entity\User;
 use App\Service\Config;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -54,9 +57,19 @@ class LoadLearningMaterialData extends AbstractFixture implements
             $entity->setOriginalAuthor($arr['originalAuthor']);
             $entity->setCopyrightRationale($arr['copyrightRationale']);
             $entity->setCopyrightPermission($arr['copyrightPermission']);
-            $entity->setUserRole($this->getReference('learningMaterialUserRoles' . $arr['userRole']));
-            $entity->setStatus($this->getReference('learningMaterialStatus' . $arr['status']));
-            $entity->setOwningUser($this->getReference('users' . $arr['owningUser']));
+            $entity->setUserRole(
+                $this->getReference(
+                    'learningMaterialUserRoles' . $arr['userRole'],
+                    LearningMaterialUserRole::class
+                )
+            );
+            $entity->setStatus(
+                $this->getReference(
+                    'learningMaterialStatus' . $arr['status'],
+                    LearningMaterialStatus::class
+                )
+            );
+            $entity->setOwningUser($this->getReference('users' . $arr['owningUser'], User::class));
             $optional = [
                 'mimetype',
                 'link',

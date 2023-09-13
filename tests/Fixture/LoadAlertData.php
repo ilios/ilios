@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Alert;
+use App\Entity\AlertChangeType;
+use App\Entity\School;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -39,13 +42,13 @@ class LoadAlertData extends AbstractFixture implements
                 $entity->setAdditionalText($arr['additionalText']);
             }
             foreach ($arr['changeTypes'] as $id) {
-                $entity->addChangeType($this->getReference('alertChangeTypes' . $id));
+                $entity->addChangeType($this->getReference('alertChangeTypes' . $id, AlertChangeType::class));
             }
             foreach ($arr['instigators'] as $id) {
-                $entity->addInstigator($this->getReference('users' . $id));
+                $entity->addInstigator($this->getReference('users' . $id, User::class));
             }
             foreach ($arr['recipients'] as $id) {
-                $entity->addRecipient($this->getReference('schools' . $id));
+                $entity->addRecipient($this->getReference('schools' . $id, School::class));
             }
             $manager->persist($entity);
             $this->addReference('alerts' . $arr['id'], $entity);

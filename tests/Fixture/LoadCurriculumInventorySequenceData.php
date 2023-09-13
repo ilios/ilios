@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventorySequence;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -33,7 +34,12 @@ class LoadCurriculumInventorySequenceData extends AbstractFixture implements
             $entity = new CurriculumInventorySequence();
             $entity->setId($arr['id']);
             $entity->setDescription($arr['description']);
-            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
+            $entity->setReport(
+                $this->getReference(
+                    'curriculumInventoryReports' . $arr['report'],
+                    CurriculumInventoryReport::class
+                )
+            );
             $manager->persist($entity);
             $this->addReference('curriculumInventorySequences' . $arr['report'], $entity);
             $manager->flush();
