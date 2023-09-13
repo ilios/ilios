@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Course API endpoint Test.

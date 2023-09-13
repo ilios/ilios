@@ -18,7 +18,6 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\UserData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Authentication API endpoint Test.

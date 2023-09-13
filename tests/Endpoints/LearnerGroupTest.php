@@ -11,7 +11,6 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadVocabularyData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * LearnerGroup API endpoint Test.

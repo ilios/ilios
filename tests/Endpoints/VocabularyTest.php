@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Entity\CourseInterface;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadVocabularyData;
-use App\Tests\AbstractReadWriteEndpoint;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

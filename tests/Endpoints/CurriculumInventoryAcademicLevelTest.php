@@ -9,7 +9,6 @@ use App\Tests\Fixture\LoadCurriculumInventoryExportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadProgramData;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.

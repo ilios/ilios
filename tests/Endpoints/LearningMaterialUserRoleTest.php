@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialUserRoleData;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * LearningMaterialUserRole API endpoint Test.

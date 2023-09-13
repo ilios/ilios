@@ -14,7 +14,6 @@ use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadProgramData;
 use DateTime;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * CurriculumInventoryReport API endpoint Test.

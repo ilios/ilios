@@ -15,7 +15,6 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Competency API endpoint Test.

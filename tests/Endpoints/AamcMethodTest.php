@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAamcMethodData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * AamcMethod API endpoint Test.

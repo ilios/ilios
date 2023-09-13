@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\CurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * CurriculumInventorySequence API endpoint Test.

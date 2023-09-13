@@ -10,7 +10,6 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractEndpoint;
 
 /**
  * UsermaterialsTest API endpoint Test.

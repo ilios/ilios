@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserRoleData;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * UserRole API endpoint Test.

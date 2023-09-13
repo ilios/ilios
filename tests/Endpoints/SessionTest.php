@@ -16,7 +16,6 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Session API endpoint Test.

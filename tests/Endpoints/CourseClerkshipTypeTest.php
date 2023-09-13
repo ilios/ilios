@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadCourseClerkshipTypeData;
 use App\Tests\Fixture\LoadCourseData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * CourseClerkshipType API endpoint Test.

@@ -11,7 +11,6 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
-use App\Tests\AbstractReadWriteEndpoint;
 use Symfony\Component\HttpFoundation\Response;
 
 use function date_format;

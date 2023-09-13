@@ -11,7 +11,6 @@ use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractEndpoint;
 use DateTime;
 
 /**

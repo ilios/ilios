@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadSessionData;
-use App\Tests\AbstractReadWriteEndpoint;
 use DateTime;
 use DateTimeZone;
 

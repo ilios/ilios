@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAssessmentOptionData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * AssessmentOption API endpoint Test.

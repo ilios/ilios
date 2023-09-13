@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadApplicationConfigData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * ApplicationConfig API endpoint Test.

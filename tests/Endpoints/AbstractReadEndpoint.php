@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Endpoints;
 
 abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpointTestInterface
 {

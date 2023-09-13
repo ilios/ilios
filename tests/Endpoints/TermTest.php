@@ -20,7 +20,6 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Term API endpoint Test.

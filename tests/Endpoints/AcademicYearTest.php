@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Tests\Fixture\LoadCourseData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\CourseData;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * AamcMethod API endpoint Test.

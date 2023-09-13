@@ -15,7 +15,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\LearningMaterialData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * LearningMaterial API endpoint Test.

@@ -8,7 +8,6 @@ use App\Classes\Inflector;
 use App\Service\InflectorFactory;
 use App\Tests\Fixture\LoadAamcPcrsData;
 use App\Tests\Fixture\LoadCompetencyData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * AamcPcrses API endpoint Test.

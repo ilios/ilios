@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadIngestionExceptionData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * IngestionException API endpoint Test.

@@ -20,7 +20,6 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * User API endpoint Test.

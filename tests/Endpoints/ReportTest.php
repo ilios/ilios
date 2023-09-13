@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadUserData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Report API endpoint Test.

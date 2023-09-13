@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Entity\UserSessionMaterialStatusInterface;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * UserSessionMaterialStatusTest API endpoint Test.

@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\SchoolData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadSchoolData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * CurriculumInventoryInstitution API endpoint Test.

@@ -13,7 +13,6 @@ use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadInstructorGroupData;
 use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadOfferingData;
-use App\Tests\AbstractReadWriteEndpoint;
 use DateTime;
 use DateTimeZone;
 

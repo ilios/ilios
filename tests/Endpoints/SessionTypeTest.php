@@ -24,7 +24,6 @@ use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * SessionType API endpoint Test.

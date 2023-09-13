@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialStatusData;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * LearningMaterialStatus API endpoint Test.

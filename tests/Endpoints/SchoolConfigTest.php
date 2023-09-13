@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * SchoolConfig API endpoint Test.

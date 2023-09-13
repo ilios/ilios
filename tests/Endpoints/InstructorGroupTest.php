@@ -13,7 +13,6 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * InstructorGroup API endpoint Test.

@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Entity\CourseLearningMaterial;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 use function array_key_exists;
 use function date_format;

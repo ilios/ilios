@@ -11,7 +11,6 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadTermData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * Program API endpoint Test.

@@ -16,7 +16,6 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * ProgramYear API endpoint Test.

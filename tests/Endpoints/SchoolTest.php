@@ -13,7 +13,6 @@ use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use App\Tests\AbstractReadWriteEndpoint;
 
 /**
  * School API endpoint Test.

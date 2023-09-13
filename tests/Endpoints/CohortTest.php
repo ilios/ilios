@@ -12,9 +12,6 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\ProgramYearData;
-use App\Tests\PutEndpointTestable;
-use App\Tests\PutEndpointTestInterface;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * Cohort API endpoint Test.

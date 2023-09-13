@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\AbstractReadEndpoint;
 
 /**
  * Class AbstractMeshEndpoint

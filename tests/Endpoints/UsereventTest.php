@@ -6,6 +6,12 @@ namespace App\Tests\Endpoints;
 
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
+use App\Tests\DataLoader\CourseData;
+use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\OfferingData;
+use App\Tests\DataLoader\SessionData;
+use App\Tests\DataLoader\SessionTypeData;
+use App\Tests\DataLoader\UserData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadLearningMaterialData;
@@ -13,15 +19,8 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
-use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\CourseData;
-use App\Tests\DataLoader\IlmSessionData;
-use App\Tests\DataLoader\OfferingData;
-use App\Tests\DataLoader\SessionData;
-use App\Tests\DataLoader\SessionTypeData;
-use App\Tests\DataLoader\UserData;
-use App\Tests\AbstractEndpoint;
 use DateTime;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * UsereventTest API endpoint Test.
