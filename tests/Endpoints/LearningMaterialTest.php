@@ -343,7 +343,7 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $data['filename'] = $responseData['filename'];
 
         $postData = $data;
-        $data['mimetype'] = 'text/plain';
+        $data['mimetype'] = 'text/x-php';
         $data['filesize'] = $filesize;
         unset($data['fileHash']);
         $response = $this->postTest($data, $postData);
