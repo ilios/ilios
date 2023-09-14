@@ -14,13 +14,12 @@ use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadProgramData;
 use DateTime;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * CurriculumInventoryReport API endpoint Test.
  * @group api_5
  */
-class CurriculumInventoryReportTest extends ReadWriteEndpointTest
+class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventoryReports';
 

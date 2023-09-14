@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Tests\DeleteEndpointTestable;
-use App\Tests\DeleteEndpointTestInterface;
 use App\Tests\Fixture\LoadPendingUserUpdateData;
-use App\Tests\PutEndpointTestable;
-use App\Tests\PutEndpointTestInterface;
-use App\Tests\ReadEndpointTest;
+use App\Tests\Endpoints\PutEndpointTestInterface as PutEndpointInterface;
 
 /**
  * PendingUserUpdate API endpoint Test.
  * @group api_3
  */
-class PendingUserUpdateTest extends ReadEndpointTest implements PutEndpointTestInterface, DeleteEndpointTestInterface
+class PendingUserUpdateTest extends AbstractReadEndpoint implements PutEndpointInterface, DeleteEndpointTestInterface
 {
     use PutEndpointTestable;
     use DeleteEndpointTestable;

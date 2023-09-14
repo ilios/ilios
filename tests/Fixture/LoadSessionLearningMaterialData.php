@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\LearningMaterial;
+use App\Entity\MeshDescriptor;
+use App\Entity\Session;
 use App\Entity\SessionLearningMaterial;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -36,7 +39,7 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
             $entity->setRequired($arr['required']);
             $entity->setPublicNotes($arr['publicNotes']);
             $entity->setNotes($arr['notes']);
-            $entity->setSession($this->getReference('sessions' . $arr['session']));
+            $entity->setSession($this->getReference('sessions' . $arr['session'], Session::class));
             $entity->setPosition($arr['position']);
             if (!is_null($arr['startDate'])) {
                 $entity->setStartDate(new DateTime($arr['startDate']));
@@ -45,11 +48,16 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
                 $entity->setEndDate(new DateTime($arr['endDate']));
             }
             if ($arr['learningMaterial']) {
-                $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));
+                $entity->setLearningMaterial(
+                    $this->getReference(
+                        'learningMaterials' . $arr['learningMaterial'],
+                        LearningMaterial::class
+                    )
+                );
             }
 
             foreach ($arr['meshDescriptors'] as $id) {
-                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id, MeshDescriptor::class));
             }
             $manager->persist($entity);
             $this->addReference('sessionLearningMaterials' . $arr['id'], $entity);

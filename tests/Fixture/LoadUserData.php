@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Cohort;
+use App\Entity\CurriculumInventoryReport;
+use App\Entity\Program;
+use App\Entity\ProgramYear;
+use App\Entity\School;
 use App\Entity\User;
+use App\Entity\UserRole;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -55,30 +61,30 @@ class LoadUserData extends AbstractFixture implements
                 $entity->setPronouns($arr['pronouns']);
             }
             foreach ($arr['roles'] as $id) {
-                $entity->addRole($this->getReference('userRoles' . $id));
+                $entity->addRole($this->getReference('userRoles' . $id, UserRole::class));
             }
             foreach ($arr['cohorts'] as $id) {
-                $entity->addCohort($this->getReference('cohorts' . $id));
+                $entity->addCohort($this->getReference('cohorts' . $id, Cohort::class));
             }
-            $entity->setSchool($this->getReference('schools' . $arr['school']));
+            $entity->setSchool($this->getReference('schools' . $arr['school'], School::class));
             if (isset($arr['primaryCohort'])) {
-                $entity->setPrimaryCohort($this->getReference('cohorts' . $arr['primaryCohort']));
+                $entity->setPrimaryCohort($this->getReference('cohorts' . $arr['primaryCohort'], Cohort::class));
             }
             foreach ($arr['programYears'] as $id) {
-                $entity->addProgramYear($this->getReference('programYears' . $id));
+                $entity->addProgramYear($this->getReference('programYears' . $id, ProgramYear::class));
             }
             foreach ($arr['directedSchools'] as $id) {
-                $entity->addDirectedSchool($this->getReference('schools' . $id));
+                $entity->addDirectedSchool($this->getReference('schools' . $id, School::class));
             }
             foreach ($arr['administeredSchools'] as $id) {
-                $entity->addAdministeredSchool($this->getReference('schools' . $id));
+                $entity->addAdministeredSchool($this->getReference('schools' . $id, School::class));
             }
             foreach ($arr['directedPrograms'] as $id) {
-                $entity->addDirectedProgram($this->getReference('programs' . $id));
+                $entity->addDirectedProgram($this->getReference('programs' . $id, Program::class));
             }
             foreach ($arr['administeredCurriculumInventoryReports'] as $id) {
                 $entity->addAdministeredCurriculumInventoryReport(
-                    $this->getReference('curriculumInventoryReports' . $id)
+                    $this->getReference('curriculumInventoryReports' . $id, CurriculumInventoryReport::class)
                 );
             }
             $manager->persist($entity);

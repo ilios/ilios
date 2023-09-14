@@ -15,14 +15,13 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
-use App\Tests\ReadWriteEndpointTest;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * SessionObjectiveTest API endpoint Test.
  * @group api_3
  */
-class SessionObjectiveTest extends ReadWriteEndpointTest
+class SessionObjectiveTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'sessionObjectives';
 

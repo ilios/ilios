@@ -6,13 +6,12 @@ namespace App\Tests\Endpoints;
 
 use App\Entity\UserSessionMaterialStatusInterface;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * UserSessionMaterialStatusTest API endpoint Test.
  * @group api_1
  */
-class UserSessionMaterialStatusTest extends ReadWriteEndpointTest
+class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'userSessionMaterialStatuses';
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\MeshDescriptor;
 use App\Entity\MeshPreviousIndexing;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -32,7 +33,7 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
         foreach ($data as $arr) {
             $entity = new MeshPreviousIndexing();
             $entity->setId($arr['id']);
-            $entity->setDescriptor($this->getReference('meshDescriptors' . $arr['descriptor']));
+            $entity->setDescriptor($this->getReference('meshDescriptors' . $arr['descriptor'], MeshDescriptor::class));
             $entity->setPreviousIndexing($arr['previousIndexing']);
             $this->addReference('meshPreviousIndexings' . $arr['id'], $entity);
             $manager->persist($entity);

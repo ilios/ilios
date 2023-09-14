@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\MeshDescriptor;
 use App\Entity\MeshQualifier;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -34,7 +35,7 @@ class LoadMeshQualifierData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setName($arr['name']);
             foreach ($arr['descriptors'] as $id) {
-                $entity->addDescriptor($this->getReference('meshDescriptors' . $id));
+                $entity->addDescriptor($this->getReference('meshDescriptors' . $id, MeshDescriptor::class));
             }
             $this->addReference('meshQualifiers' . $arr['id'], $entity);
             $manager->persist($entity);

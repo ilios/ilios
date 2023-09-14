@@ -24,13 +24,12 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Course API endpoint Test.
  * @group api_2
  */
-class CourseTest extends ReadWriteEndpointTest
+class CourseTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courses';
 

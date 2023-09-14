@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Course;
 use App\Entity\CourseLearningMaterial;
+use App\Entity\LearningMaterial;
+use App\Entity\MeshDescriptor;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -43,10 +46,15 @@ class LoadCourseLearningMaterialData extends AbstractFixture implements
             if (!is_null($arr['endDate'])) {
                 $entity->setEndDate(new DateTime($arr['endDate']));
             }
-            $entity->setCourse($this->getReference('courses' . $arr['course']));
-            $entity->setLearningMaterial($this->getReference('learningMaterials' . $arr['learningMaterial']));
+            $entity->setCourse($this->getReference('courses' . $arr['course'], Course::class));
+            $entity->setLearningMaterial(
+                $this->getReference(
+                    'learningMaterials' . $arr['learningMaterial'],
+                    LearningMaterial::class
+                )
+            );
             foreach ($arr['meshDescriptors'] as $id) {
-                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id, MeshDescriptor::class));
             }
             $manager->persist($entity);
             $this->addReference('courseLearningMaterials' . $arr['id'], $entity);

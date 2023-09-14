@@ -13,7 +13,6 @@ use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadInstructorGroupData;
 use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadOfferingData;
-use App\Tests\ReadWriteEndpointTest;
 use DateTime;
 use DateTimeZone;
 
@@ -22,7 +21,7 @@ use DateTimeZone;
  * @group api_1
  * @group time-sensitive
  */
-class OfferingTest extends ReadWriteEndpointTest
+class OfferingTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'offerings';
     protected $skipDates = false;

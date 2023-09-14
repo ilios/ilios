@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadMeshTermData;
  * @group api_3
  * @group time-sensitive
  */
-class MeshTermTest extends AbstractMeshTest
+class MeshTermTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshTerms';
 

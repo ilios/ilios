@@ -6,13 +6,12 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * SchoolConfig API endpoint Test.
  * @group api_5
  */
-class SchoolConfigTest extends ReadWriteEndpointTest
+class SchoolConfigTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schoolConfigs';
     protected bool $isGraphQLTestable = false;

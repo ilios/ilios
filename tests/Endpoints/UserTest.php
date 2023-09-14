@@ -20,13 +20,12 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * User API endpoint Test.
  * @group api_1
  */
-class UserTest extends ReadWriteEndpointTest
+class UserTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'users';
 

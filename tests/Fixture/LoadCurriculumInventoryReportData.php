@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Program;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventoryReport;
@@ -38,7 +39,7 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
             $entity->setYear($arr['year']);
             $entity->setStartDate(new DateTime($arr['startDate']));
             $entity->setEndDate(new DateTime($arr['endDate']));
-            $entity->setProgram($this->getReference('programs' . $arr['program']));
+            $entity->setProgram($this->getReference('programs' . $arr['program'], Program::class));
             $entity->generateToken();
             $manager->persist($entity);
             $this->addReference('curriculumInventoryReports' . $arr['id'], $entity);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\MeshConcept;
+use App\Entity\MeshDescriptor;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -38,7 +39,7 @@ class LoadMeshConceptData extends AbstractFixture implements
             $entity->setCasn1Name($arr['casn1Name']);
             $entity->setRegistryNumber($arr['registryNumber']);
             foreach ($arr['descriptors'] as $id) {
-                $entity->addDescriptor($this->getReference('meshDescriptors' . $id));
+                $entity->addDescriptor($this->getReference('meshDescriptors' . $id, MeshDescriptor::class));
             }
             $this->addReference('meshConcepts' . $arr['id'], $entity);
             $manager->persist($entity);

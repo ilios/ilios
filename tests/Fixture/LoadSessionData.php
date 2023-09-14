@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Course;
+use App\Entity\MeshDescriptor;
 use App\Entity\Session;
+use App\Entity\SessionType;
+use App\Entity\Term;
+use App\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -50,36 +55,33 @@ class LoadSessionData extends AbstractFixture implements
             $entity->setPublishedAsTbd($arr['publishedAsTbd']);
             $entity->setPublished($arr['published']);
             if (!empty($arr['sessionType'])) {
-                $entity->setSessionType($this->getReference('sessionTypes' . $arr['sessionType']));
+                $entity->setSessionType($this->getReference('sessionTypes' . $arr['sessionType'], SessionType::class));
             }
             if (!empty($arr['course'])) {
-                $entity->setCourse($this->getReference('courses' . $arr['course']));
+                $entity->setCourse($this->getReference('courses' . $arr['course'], Course::class));
             }
-            $related = [
-                'terms' => 'addTerm',
-                'meshDescriptors' => 'addMeshDescriptor',
-            ];
-            foreach ($related as $key => $method) {
-                foreach ($arr[$key] as $id) {
-                    $entity->$method($this->getReference($key . $id));
-                }
+            foreach ($arr['terms'] as $id) {
+                $entity->addTerm($this->getReference('terms' . $id, Term::class));
+            }
+            foreach ($arr['meshDescriptors'] as $id) {
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id, MeshDescriptor::class));
             }
             foreach ($arr['administrators'] as $id) {
-                $entity->addAdministrator($this->getReference('users' . $id));
+                $entity->addAdministrator($this->getReference('users' . $id, User::class));
             }
             foreach ($arr['studentAdvisors'] as $id) {
-                $entity->addStudentAdvisor($this->getReference('users' . $id));
+                $entity->addStudentAdvisor($this->getReference('users' . $id, User::class));
             }
             if (!empty($arr['postrequisite'])) {
                 $ref = 'sessions' . $arr['postrequisite'];
-                if ($this->hasReference($ref)) {
-                    $entity->setPostrequisite($this->getReference($ref));
+                if ($this->hasReference($ref, Session::class)) {
+                    $entity->setPostrequisite($this->getReference($ref, Session::class));
                 }
             }
             foreach ($arr['prerequisites'] as $id) {
                 $ref = 'sessions' . $id;
-                if ($this->hasReference($ref)) {
-                    $entity->addPrerequisite($this->getReference($ref));
+                if ($this->hasReference($ref, Session::class)) {
+                    $entity->addPrerequisite($this->getReference($ref, Session::class));
                 }
             }
             $manager->persist($entity);

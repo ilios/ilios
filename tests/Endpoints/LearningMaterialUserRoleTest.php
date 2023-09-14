@@ -6,13 +6,12 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialUserRoleData;
-use App\Tests\ReadEndpointTest;
 
 /**
  * LearningMaterialUserRole API endpoint Test.
  * @group api_1
  */
-class LearningMaterialUserRoleTest extends ReadEndpointTest
+class LearningMaterialUserRoleTest extends AbstractReadEndpoint
 {
     protected string $testName =  'learningMaterialUserRoles';
 

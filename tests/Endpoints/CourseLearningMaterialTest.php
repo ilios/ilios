@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\CourseLearningMaterial;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
-use App\Tests\ReadWriteEndpointTest;
 
 use function array_key_exists;
 use function date_format;
@@ -16,7 +16,7 @@ use function is_null;
  * CourseLearningMaterial API endpoint Test.
  * @group api_1
  */
-class CourseLearningMaterialTest extends ReadWriteEndpointTest
+class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseLearningMaterials';
 
@@ -94,8 +94,8 @@ class CourseLearningMaterialTest extends ReadWriteEndpointTest
     protected function fixDatesInExpectedData(array $expected): array
     {
         $ref = 'courseLearningMaterials' . $expected['id'];
-        if ($this->fixtures->hasReference($ref)) {
-            $fixture = $this->fixtures->getReference($ref);
+        if ($this->fixtures->hasReference($ref, CourseLearningMaterial::class)) {
+            $fixture = $this->fixtures->getReference($ref, CourseLearningMaterial::class);
             $startDate = $fixture->getStartDate();
             $endDate = $fixture->getEndDate();
             $expected['startDate'] = is_null($startDate) ? null : date_format($startDate, 'c');

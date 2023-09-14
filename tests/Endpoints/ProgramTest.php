@@ -11,13 +11,12 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadTermData;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Program API endpoint Test.
  * @group api_1
  */
-class ProgramTest extends ReadWriteEndpointTest
+class ProgramTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'programs';
 

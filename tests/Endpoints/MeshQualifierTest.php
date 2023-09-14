@@ -11,7 +11,7 @@ use App\Tests\Fixture\LoadMeshQualifierData;
  * @group api_1
  * @group time-sensitive
  */
-class MeshQualifierTest extends AbstractMeshTest
+class MeshQualifierTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshQualifiers';
 

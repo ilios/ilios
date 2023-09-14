@@ -16,13 +16,12 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * ProgramYear API endpoint Test.
  * @group api_3
  */
-class ProgramYearTest extends ReadWriteEndpointTest
+class ProgramYearTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'programYears';
 

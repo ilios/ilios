@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Competency;
+use App\Entity\MeshDescriptor;
+use App\Entity\ProgramYear;
 use App\Entity\ProgramYearObjective;
+use App\Entity\Term;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -35,18 +39,23 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
             $entity->setPosition($arr['position']);
             $entity->setActive($arr['active']);
             $entity->setTitle($arr['title']);
-            $entity->setProgramYear($this->getReference('programYears' . $arr['programYear']));
+            $entity->setProgramYear($this->getReference('programYears' . $arr['programYear'], ProgramYear::class));
             foreach ($arr['terms'] as $id) {
-                $entity->addTerm($this->getReference('terms' . $id));
+                $entity->addTerm($this->getReference('terms' . $id, Term::class));
             }
             foreach ($arr['meshDescriptors'] as $id) {
-                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
+                $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id, MeshDescriptor::class));
             }
             if (!empty($arr['ancestor'])) {
-                $entity->setAncestor($this->getReference('programYearObjectives' . $arr['ancestor']));
+                $entity->setAncestor(
+                    $this->getReference(
+                        'programYearObjectives' . $arr['ancestor'],
+                        ProgramYearObjective::class
+                    )
+                );
             }
             if (!empty($arr['competency'])) {
-                $entity->setCompetency($this->getReference('competencies' . $arr['competency']));
+                $entity->setCompetency($this->getReference('competencies' . $arr['competency'], Competency::class));
             }
             $manager->persist($entity);
 

@@ -6,14 +6,13 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadUserData;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * Report API endpoint Test.
  * @group api_4
  * @group time-sensitive
  */
-class ReportTest extends ReadWriteEndpointTest
+class ReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'reports';
 

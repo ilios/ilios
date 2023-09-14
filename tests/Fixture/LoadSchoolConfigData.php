@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\School;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -34,7 +35,7 @@ class LoadSchoolConfigData extends AbstractFixture implements
             $entity->setId($arr['id']);
             $entity->setName($arr['name']);
             $entity->setValue($arr['value']);
-            $entity->setSchool($this->getReference('schools' . $arr['school']));
+            $entity->setSchool($this->getReference('schools' . $arr['school'], School::class));
             $manager->persist($entity);
             $this->addReference('schoolConfigs' . $arr['id'], $entity);
             $manager->flush();

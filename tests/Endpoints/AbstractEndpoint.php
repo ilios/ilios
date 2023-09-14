@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Endpoints;
 
 use App\Service\InflectorFactory;
 use App\Service\Timestamper;
 use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\GetUrlTrait;
 use DateTime;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Inflector\Inflector;
@@ -31,7 +32,7 @@ use function var_export;
 /**
  * Abstract Testing glue for endpoints
  */
-abstract class AbstractEndpointTest extends WebTestCase
+abstract class AbstractEndpoint extends WebTestCase
 {
     use JsonControllerTest;
     use GetUrlTrait;

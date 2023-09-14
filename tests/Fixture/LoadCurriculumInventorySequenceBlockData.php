@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Course;
+use App\Entity\CurriculumInventoryAcademicLevel;
+use App\Entity\CurriculumInventoryReport;
+use App\Entity\Session;
 use App\Tests\DataLoader\CurriculumInventorySequenceBlockData;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -48,24 +52,45 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
             $entity->setStartDate(new DateTime($arr['startDate']));
             $entity->setEndDate(new DateTime($arr['endDate']));
             $entity->setStartingAcademicLevel(
-                $this->getReference('curriculumInventoryAcademicLevels' . $arr['startingAcademicLevel'])
+                $this->getReference(
+                    'curriculumInventoryAcademicLevels' . $arr['startingAcademicLevel'],
+                    CurriculumInventoryAcademicLevel::class
+                )
             );
-            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
+            $entity->setReport(
+                $this->getReference(
+                    'curriculumInventoryReports' . $arr['report'],
+                    CurriculumInventoryReport::class
+                )
+            );
             $entity->setEndingAcademicLevel(
-                $this->getReference('curriculumInventoryAcademicLevels' . $arr['endingAcademicLevel'])
+                $this->getReference(
+                    'curriculumInventoryAcademicLevels' . $arr['endingAcademicLevel'],
+                    CurriculumInventoryAcademicLevel::class
+                )
             );
-            $entity->setReport($this->getReference('curriculumInventoryReports' . $arr['report']));
+            $entity->setReport(
+                $this->getReference(
+                    'curriculumInventoryReports' . $arr['report'],
+                    CurriculumInventoryReport::class
+                )
+            );
             if (!empty($arr['parent'])) {
-                $entity->setParent($this->getReference('curriculumInventorySequenceBlocks' . $arr['parent']));
+                $entity->setParent(
+                    $this->getReference(
+                        'curriculumInventorySequenceBlocks' . $arr['parent'],
+                        CurriculumInventorySequenceBlock::class
+                    )
+                );
             }
             if (!empty($arr['course'])) {
-                $entity->setCourse($this->getReference('courses' . $arr['course']));
+                $entity->setCourse($this->getReference('courses' . $arr['course'], Course::class));
             }
             foreach ($arr['sessions'] as $sessionId) {
-                $entity->addSession($this->getReference('sessions' . $sessionId));
+                $entity->addSession($this->getReference('sessions' . $sessionId, Session::class));
             }
             foreach ($arr['excludedSessions'] as $sessionId) {
-                $entity->addExcludedSession($this->getReference('sessions' . $sessionId));
+                $entity->addExcludedSession($this->getReference('sessions' . $sessionId, Session::class));
             }
 
             $manager->persist($entity);

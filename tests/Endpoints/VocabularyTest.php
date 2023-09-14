@@ -7,14 +7,13 @@ namespace App\Tests\Endpoints;
 use App\Entity\CourseInterface;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadVocabularyData;
-use App\Tests\ReadWriteEndpointTest;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Vocabulary API endpoint Test.
  * @group api_2
  */
-class VocabularyTest extends ReadWriteEndpointTest
+class VocabularyTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'vocabularies';
 

@@ -13,13 +13,12 @@ use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * School API endpoint Test.
  * @group api_5
  */
-class SchoolTest extends ReadWriteEndpointTest
+class SchoolTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schools';
 

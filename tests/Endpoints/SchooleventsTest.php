@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Entity\Offering;
 use App\Entity\OfferingInterface;
+use App\Tests\DataLoader\CourseData;
 use App\Tests\DataLoader\DataLoaderInterface;
+use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\OfferingData;
+use App\Tests\DataLoader\SchoolData;
+use App\Tests\DataLoader\SessionData;
+use App\Tests\DataLoader\UserData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadCourseObjectiveData;
 use App\Tests\Fixture\LoadIlmSessionData;
@@ -15,21 +22,14 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
-use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\CourseData;
-use App\Tests\DataLoader\IlmSessionData;
-use App\Tests\DataLoader\OfferingData;
-use App\Tests\DataLoader\SchoolData;
-use App\Tests\DataLoader\SessionData;
-use App\Tests\DataLoader\UserData;
-use App\Tests\AbstractEndpointTest;
 use DateTime;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * SchooleventsTest API endpoint Test.
  * @group api_2
  */
-class SchooleventsTest extends AbstractEndpointTest
+class SchooleventsTest extends AbstractEndpoint
 {
     protected function getFixtures(): array
     {
@@ -532,7 +532,7 @@ class SchooleventsTest extends AbstractEndpointTest
 
 
         /** @var OfferingInterface $offering */
-        $offering = $this->fixtures->getReference('offerings8');
+        $offering = $this->fixtures->getReference('offerings8', Offering::class);
         $this->assertEquals($events[10]['startDate'], $offering->getStartDate()->format('c'));
         $this->assertEquals($events[10]['endDate'], $offering->getEndDate()->format('c'));
         $this->assertArrayNotHasKey('url', $events[10]);

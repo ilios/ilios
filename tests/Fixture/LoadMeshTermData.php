@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\MeshConcept;
 use App\Entity\MeshTerm;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -39,7 +40,7 @@ class LoadMeshTermData extends AbstractFixture implements
             $entity->setRecordPreferred($arr['recordPreferred']);
             $entity->setPermuted($arr['permuted']);
             foreach ($arr['concepts'] as $id) {
-                $entity->addConcept($this->getReference('meshConcepts' . $id));
+                $entity->addConcept($this->getReference('meshConcepts' . $id, MeshConcept::class));
             }
             $this->addReference('meshTerms' . $arr['id'], $entity);
             $manager->persist($entity);

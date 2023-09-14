@@ -6,13 +6,12 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAamcMethodData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use App\Tests\ReadWriteEndpointTest;
 
 /**
  * AamcMethod API endpoint Test.
  * @group api_1
  */
-class AamcMethodTest extends ReadWriteEndpointTest
+class AamcMethodTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcMethods';
 
