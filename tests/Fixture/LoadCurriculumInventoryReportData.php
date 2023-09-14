@@ -7,6 +7,7 @@ namespace App\Tests\Fixture;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventoryReport;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -30,6 +31,8 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\CurriculumInventoryReportData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(CurriculumInventoryReport::class);
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryReport();
             $entity->setId($arr['id']);
@@ -40,10 +43,10 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
             $entity->setEndDate(new DateTime($arr['endDate']));
             $entity->setProgram($this->getReference('programs' . $arr['program']));
             $entity->generateToken();
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('curriculumInventoryReports' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\School;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,6 +28,8 @@ class LoadSchoolData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\SchoolData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(School::class);
         foreach ($data as $arr) {
             $entity = new School();
             $entity->setId($arr['id']);
@@ -36,9 +39,9 @@ class LoadSchoolData extends AbstractFixture implements
             }
             $entity->setIliosAdministratorEmail($arr['iliosAdministratorEmail']);
             $entity->setChangeAlertRecipients($arr['changeAlertRecipients']);
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('schools' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 }

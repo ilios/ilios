@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Repository\RepositoryInterface;
 use App\Tests\DataLoader\ApplicationConfigData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -28,14 +29,16 @@ class LoadApplicationConfigData extends AbstractFixture implements
         $data = $this->container
             ->get(ApplicationConfigData::class)
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(ApplicationConfig::class);
         foreach ($data as $arr) {
             $entity = new ApplicationConfig();
             $entity->setId($arr['id']);
             $entity->setName($arr['name']);
             $entity->setValue($arr['value']);
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('applicationConfigs' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 }

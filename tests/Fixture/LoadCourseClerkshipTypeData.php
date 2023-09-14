@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\CourseClerkshipType;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,13 +28,15 @@ class LoadCourseClerkshipTypeData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\CourseClerkshipTypeData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(CourseClerkshipType::class);
         foreach ($data as $arr) {
             $entity = new CourseClerkshipType();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('courseClerkshipTypes' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 }

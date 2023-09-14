@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Alert;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,6 +30,8 @@ class LoadAlertData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\AlertData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(Alert::class);
         foreach ($data as $arr) {
             $entity = new Alert();
             $entity->setId($arr['id']);
@@ -47,10 +50,10 @@ class LoadAlertData extends AbstractFixture implements
             foreach ($arr['recipients'] as $id) {
                 $entity->addRecipient($this->getReference('schools' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('alerts' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

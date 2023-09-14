@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\LearningMaterialUserRole;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,13 +28,15 @@ class LoadLearningMaterialUserRoleData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\LearningMaterialUserRoleData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(LearningMaterialUserRole::class);
         foreach ($data as $arr) {
             $entity = new LearningMaterialUserRole();
             $entity->setId($arr['id']);
             $entity->setTitle($arr['title']);
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('learningMaterialUserRoles' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 }

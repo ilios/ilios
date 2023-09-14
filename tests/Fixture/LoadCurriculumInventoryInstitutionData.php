@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\CurriculumInventoryInstitution;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,6 +30,8 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\CurriculumInventoryInstitutionData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(CurriculumInventoryInstitution::class);
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryInstitution();
             if (!empty($arr['school'])) {
@@ -43,10 +46,10 @@ class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
             $entity->setAddressZipCode($arr['addressZipCode']);
             $entity->setAddressCountryCode($arr['addressCountryCode']);
 
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('curriculumInventoryInstitutions' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\MeshQualifier;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,6 +30,8 @@ class LoadMeshQualifierData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\MeshQualifierData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(MeshQualifier::class);
         foreach ($data as $arr) {
             $entity = new MeshQualifier();
             $entity->setId($arr['id']);
@@ -37,9 +40,9 @@ class LoadMeshQualifierData extends AbstractFixture implements
                 $entity->addDescriptor($this->getReference('meshDescriptors' . $id));
             }
             $this->addReference('meshQualifiers' . $arr['id'], $entity);
-            $manager->persist($entity);
-            $manager->flush();
+            $repository->update($entity, true, true);
         }
+        $repository->flush();
     }
 
     public function getDependencies()

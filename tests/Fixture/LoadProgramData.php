@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Program;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,6 +30,8 @@ class LoadProgramData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\ProgramData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(Program::class);
         foreach ($data as $arr) {
             $entity = new Program();
             $entity->setId($arr['id']);
@@ -36,10 +39,10 @@ class LoadProgramData extends AbstractFixture implements
             $entity->setShortTitle($arr['shortTitle']);
             $entity->setDuration($arr['duration']);
             $entity->setSchool($this->getReference('schools' . $arr['school']));
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('programs' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

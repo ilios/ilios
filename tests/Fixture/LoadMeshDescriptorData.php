@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\MeshDescriptor;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,6 +28,8 @@ class LoadMeshDescriptorData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\MeshDescriptorData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(MeshDescriptor::class);
         foreach ($data as $arr) {
             $entity = new MeshDescriptor();
             $entity->setId($arr['id']);
@@ -34,8 +37,8 @@ class LoadMeshDescriptorData extends AbstractFixture implements
             $entity->setAnnotation($arr['annotation']);
             $entity->setDeleted($arr['deleted']);
             $this->addReference('meshDescriptors' . $arr['id'], $entity);
-            $manager->persist($entity);
-            $manager->flush();
+            $repository->update($entity, true, true);
         }
+        $repository->flush();
     }
 }

@@ -30,6 +30,8 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\SessionLearningMaterialData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(SessionLearningMaterial::class);
         foreach ($data as $arr) {
             $entity = new SessionLearningMaterial();
             $entity->setId($arr['id']);
@@ -51,10 +53,10 @@ class LoadSessionLearningMaterialData extends AbstractFixture implements
             foreach ($arr['meshDescriptors'] as $id) {
                 $entity->addMeshDescriptor($this->getReference('meshDescriptors' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('sessionLearningMaterials' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

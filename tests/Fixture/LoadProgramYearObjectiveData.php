@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\ProgramYearObjective;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,6 +30,8 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\ProgramYearObjectiveData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(ProgramYearObjective::class);
         foreach ($data as $arr) {
             $entity = new ProgramYearObjective();
             $entity->setId($arr['id']);
@@ -48,11 +51,11 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
             if (!empty($arr['competency'])) {
                 $entity->setCompetency($this->getReference('competencies' . $arr['competency']));
             }
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
 
             $this->addReference('programYearObjectives' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

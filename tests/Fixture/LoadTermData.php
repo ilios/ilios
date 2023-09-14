@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Term;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
@@ -29,6 +30,8 @@ class LoadTermData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\TermData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(Term::class);
         foreach ($data as $arr) {
             $entity = new Term();
             $entity->setId($arr['id']);
@@ -42,10 +45,10 @@ class LoadTermData extends AbstractFixture implements
             foreach ($arr['aamcResourceTypes'] as $id) {
                 $entity->addAamcResourceType($this->getReference('aamcResourceTypes' . $id));
             }
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
             $this->addReference('terms' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

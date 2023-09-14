@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\AuditLog;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -33,6 +34,8 @@ class LoadAuditLogData extends AbstractFixture implements
         $data = $this->container
             ->get('app.dataloader.auditlog')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(AuditLog::class);
         foreach ($data as $arr) {
             $entity = new AuditLog();
             $entity->setObjectId($arr['objectId']);
@@ -40,7 +43,7 @@ class LoadAuditLogData extends AbstractFixture implements
             $entity->setValuesChanged($arr['valuesChanged']);
             $entity->setCreatedAt($arr['createdAt']);
             $entity->setAction($arr['action']);
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
         }
         $manager->flush();
     }

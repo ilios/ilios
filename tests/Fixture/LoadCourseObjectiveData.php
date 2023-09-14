@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\CourseObjective;
+use App\Repository\RepositoryInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -29,6 +30,8 @@ class LoadCourseObjectiveData extends AbstractFixture implements
         $data = $this->container
             ->get('App\Tests\DataLoader\CourseObjectiveData')
             ->getAll();
+        /** @var RepositoryInterface $repository */
+        $repository = $manager->getRepository(CourseObjective::class);
         foreach ($data as $arr) {
             $entity = new CourseObjective();
             $entity->setId($arr['id']);
@@ -52,11 +55,11 @@ class LoadCourseObjectiveData extends AbstractFixture implements
                 $entity->addProgramYearObjective($this->getReference('programYearObjectives' . $id));
             }
 
-            $manager->persist($entity);
+            $repository->update($entity, true, true);
 
             $this->addReference('courseObjectives' . $arr['id'], $entity);
-            $manager->flush();
         }
+        $repository->flush();
     }
 
     public function getDependencies()

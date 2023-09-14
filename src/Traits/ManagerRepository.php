@@ -8,10 +8,11 @@ use App\Service\DTOCacheManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Id\AssignedGenerator;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * Trait ManagerRepository
@@ -22,6 +23,10 @@ use Symfony\Contracts\Cache\ItemInterface;
 trait ManagerRepository
 {
     abstract protected function getEntityName();
+
+    /**
+     * @return EntityManagerInterface
+     */
     abstract protected function getEntityManager();
     abstract public function find($id);
     abstract protected function hydrateDTOsFromIds(array $ids): array;
@@ -33,7 +38,7 @@ trait ManagerRepository
 
     public function flushAndClear(): void
     {
-        $this->getEntityManager()->flush();
+        $this->flush();
         $this->getEntityManager()->clear();
     }
 
@@ -133,19 +138,31 @@ trait ManagerRepository
         $this->getEntityManager()->persist($entity);
 
         if ($forceId) {
+            if (!$andFlush) {
+                throw new Exception('$andFlush must be "true" when using $forceId');
+            }
             $metadata = $this->getEntityManager()->getClassMetaData($entity::class);
+            $identityGenerator = $metadata->idGenerator;
+            $identityGeneratorType = $metadata->generatorType;
+            $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
             $metadata->setIdGenerator(new AssignedGenerator());
+
+            $this->flush();
+
+            $metadata = $this->getEntityManager()->getClassMetaData($this->getClass());
+            $metadata->setIdGenerator($identityGenerator);
+            $metadata->setIdGeneratorType($identityGeneratorType);
         }
 
-        if ($andFlush) {
-            $this->getEntityManager()->flush();
+        if ($andFlush && !$forceId) {
+            $this->flush();
         }
     }
 
     public function delete($entity): void
     {
         $this->getEntityManager()->remove($entity);
-        $this->getEntityManager()->flush();
+        $this->flush();
     }
 
     public function create(): object
