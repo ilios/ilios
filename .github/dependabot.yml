@@ -7,8 +7,10 @@ updates:
     time: "02:30"
     timezone: America/Los_Angeles
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: symfony/*
+  groups:
+    symfony:
+      patterns:
+      - "symfony/*"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
@@ -16,3 +18,7 @@ updates:
     time: "02:30"
     timezone: America/Los_Angeles
   open-pull-requests-limit: 10
+  groups:
+    docker:
+      patterns:
+      - "docker/*"
