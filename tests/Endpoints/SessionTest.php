@@ -16,6 +16,7 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
+use App\Tests\QEndpointTrait;
 
 /**
  * Session API endpoint Test.
@@ -24,6 +25,8 @@ use App\Tests\Fixture\LoadTermData;
  */
 class SessionTest extends AbstractReadWriteEndpoint
 {
+    use QEndpointTrait;
+
     protected string $testName =  'sessions';
 
     protected function getFixtures(): array
@@ -238,5 +241,55 @@ class SessionTest extends AbstractReadWriteEndpoint
         $data['postrequisite'] = null;
         $postData = $data;
         $this->putTest($data, $postData, $id);
+    }
+
+    protected function qsToTest(): array
+    {
+        return [
+            ['ess', [0, 2, 3, 4, 5, 6, 7]],
+            ['ours', [0, 1, 2, 3, 4, 5, 6, 7]],
+            ['fourth', [3]],
+            ['bar', [1]],
+            ['third session', [2]],
+            ['2016', [0, 1]],
+        ];
+    }
+
+    public function testFindByQWithLimit(): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => 'sess', 'limit' => 1];
+        $this->filterTest($filters, [$all[0]]);
+        $filters = ['q' => 'ours', 'limit' => 2];
+        $this->filterTest($filters, [$all[0], $all[1]]);
+    }
+
+    public function testFindByQWithOffset(): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => 'sess', 'offset' => 2];
+        $this->filterTest($filters, [$all[3], $all[4], $all[5], $all[6], $all[7]]);
+    }
+
+    public function testFindByQWithOffsetAndLimit(): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => 'sess', 'offset' => 2, 'limit' => 1];
+        $this->filterTest($filters, [$all[3]]);
+        $filters = ['q' => 'sess', 'offset' => 3, 'limit' => 2];
+        $this->filterTest($filters, [$all[4], $all[5]]);
+    }
+
+    public function testFindByQWithOffsetAndLimitJsonApi(): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        $filters = ['q' => 'sess', 'offset' => 2, 'limit' => 1];
+        $this->jsonApiFilterTest($filters, [$all[3]]);
+        $filters = ['q' => 'sess', 'offset' => 3, 'limit' => 2];
+        $this->jsonApiFilterTest($filters, [$all[4], $all[5]]);
     }
 }

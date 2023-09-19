@@ -17,6 +17,7 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\QEndpointTrait;
 
 /**
  * MeshDescriptor API endpoint Test.
@@ -25,6 +26,8 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
  */
 class MeshDescriptorTest extends AbstractMeshEndpoint
 {
+    use QEndpointTrait;
+
     protected string $testName =  'meshDescriptors';
 
     protected function getFixtures(): array
@@ -87,7 +90,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         return ['updatedAt', 'createdAt'];
     }
 
-    public function qsToTest()
+    public function qsToTest(): array
     {
         return [
             ['abc1', [0]],
@@ -103,35 +106,9 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     }
 
     /**
-     * @dataProvider qsToTest
-     * @param $q
-     * @param $dataKeys
-     */
-    public function testFindByQ($q, $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->filterTest($filters, $expectedData);
-    }
-
-    /**
-     * @dataProvider qsToTest
-     */
-    public function testFindByQJsonApi(string $q, array $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->jsonApiFilterTest($filters, $expectedData);
-    }
-
-    /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithLimit()
+    public function testFindByQWithLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -144,7 +121,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffset()
+    public function testFindByQWithOffset(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -155,7 +132,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffsetAndLimit()
+    public function testFindByQWithOffsetAndLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -165,7 +142,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         $this->filterTest($filters, [$all[1]]);
     }
 
-    public function testFindByQWithOffsetAndLimitJsonApi()
+    public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();

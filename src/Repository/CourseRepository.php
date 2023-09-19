@@ -47,14 +47,67 @@ class CourseRepository extends ServiceEntityRepository implements
         return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
     }
 
+    /**
+     * Find by a string query
+     */
+    public function findDTOsByQ(
+        string $q,
+        array $orderBy = null,
+        int $limit = null,
+        int $offset = null,
+    ): array {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('x')->from(Course::class, 'x');
+
+        $terms = explode(' ', $q);
+        $terms = array_filter($terms, 'strlen');
+        if (empty($terms)) {
+            return [];
+        }
+
+        foreach ($terms as $key => $term) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('x.title', "?{$key}"),
+                $qb->expr()->like('x.year', "?{$key}"),
+                $qb->expr()->like('x.externalId', "?{$key}"),
+            ))
+                ->setParameter($key, '%' . $term . '%');
+        }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('x.' . $sort, $order);
+            }
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $this->createCourseDTOS($qb->getQuery());
+    }
+
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Course::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
+        return $this->createCourseDTOS($qb->getQuery());
+    }
+
+    protected function createCourseDTOS(AbstractQuery $query): array
+    {
         $dtos = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $dtos[$arr['id']] = new CourseDTO(
                 $arr['id'],
                 $arr['title'],

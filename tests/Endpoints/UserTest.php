@@ -19,6 +19,7 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
+use App\Tests\QEndpointTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -27,6 +28,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UserTest extends AbstractReadWriteEndpoint
 {
+    use QEndpointTrait;
+
     protected string $testName =  'users';
 
     protected function getFixtures(): array
@@ -178,7 +181,7 @@ class UserTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function qsToTest()
+    public function qsToTest(): array
     {
         return [
             ['first', [1]],
@@ -194,35 +197,9 @@ class UserTest extends AbstractReadWriteEndpoint
     }
 
     /**
-     * @dataProvider qsToTest
-     * @param $q
-     * @param $dataKeys
-     */
-    public function testFindByQ($q, $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->filterTest($filters, $expectedData);
-    }
-
-    /**
-     * @dataProvider qsToTest
-     */
-    public function testFindByQJsonApi(string $q, array $dataKeys)
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
-        $filters = ['q' => $q];
-        $this->jsonApiFilterTest($filters, $expectedData);
-    }
-
-    /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithLimit()
+    public function testFindByQWithLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -235,7 +212,7 @@ class UserTest extends AbstractReadWriteEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffset()
+    public function testFindByQWithOffset(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -246,7 +223,7 @@ class UserTest extends AbstractReadWriteEndpoint
     /**
      * Ensure offset and limit work
      */
-    public function testFindByQWithOffsetAndLimit()
+    public function testFindByQWithOffsetAndLimit(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -256,7 +233,7 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[2], $all[3]]);
     }
 
-    public function testFindByQWithOffsetAndLimitJsonApi()
+    public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();

@@ -32,6 +32,55 @@ class SessionRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Session::class);
     }
 
+    /**
+     * Find by a string query
+     */
+    public function findDTOsByQ(
+        string $q,
+        array $orderBy = null,
+        int $limit = null,
+        int $offset = null,
+    ) {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->addSelect('x')->from(Session::class, 'x');
+        $qb->leftJoin('x.course', 'course');
+
+        $terms = explode(' ', $q);
+        $terms = array_filter($terms, 'strlen');
+        if (empty($terms)) {
+            return [];
+        }
+
+        foreach ($terms as $key => $term) {
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('x.title', "?{$key}"),
+                $qb->expr()->like('course.title', "?{$key}"),
+                $qb->expr()->like('course.year', "?{$key}"),
+            ))
+                ->setParameter($key, '%' . $term . '%');
+        }
+
+        if (empty($orderBy)) {
+            $orderBy = ['id' => 'ASC'];
+        }
+
+        if (is_array($orderBy)) {
+            foreach ($orderBy as $sort => $order) {
+                $qb->addOrderBy('x.' . $sort, $order);
+            }
+        }
+
+        if ($offset) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        return $this->createSessionDTOs($qb->getQuery());
+    }
+
     protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('updatedAt', $criteria)) {
@@ -41,14 +90,10 @@ class SessionRepository extends ServiceEntityRepository implements
         return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
     }
 
-    public function hydrateDTOsFromIds(array $ids): array
+    protected function createSessionDTOs(AbstractQuery $query): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
-        $qb->where($qb->expr()->in('x.id', ':ids'));
-        $qb->setParameter(':ids', $ids);
-
         $dtos = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
+        foreach ($query->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
             $dtos[$arr['id']] = new SessionDTO(
                 $arr['id'],
                 $arr['title'],
@@ -65,6 +110,15 @@ class SessionRepository extends ServiceEntityRepository implements
         }
 
         return $this->attachAssociationsToDTOs($dtos);
+    }
+
+    public function hydrateDTOsFromIds(array $ids): array
+    {
+        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
+        $qb->where($qb->expr()->in('x.id', ':ids'));
+        $qb->setParameter(':ids', $ids);
+
+        return $this->createSessionDTOs($qb->getQuery());
     }
 
     protected function attachAssociationsToDTOs(array $dtos): array
