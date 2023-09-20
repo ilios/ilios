@@ -26,15 +26,10 @@ interface RepositoryInterface
     );
 
     /**
-     * Find a single entity by it's ID
+     * Find a single entity by its ID
      * @param mixed $id
      */
     public function findOneById($id): ?object;
-
-    /**
-     * Searches the data store for a single object by given criteria and sort order.
-     */
-    public function findDTOBy(array $criteria): ?object;
 
     /**
      * @param int $limit
@@ -47,12 +42,6 @@ interface RepositoryInterface
         $offset = null
     );
 
-    /**
-     * Searches the data store for all objects matching the given criteria.
-     * @param int $limit
-     * @param int $offset
-     */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
 
     /**
      * @param object $entity
