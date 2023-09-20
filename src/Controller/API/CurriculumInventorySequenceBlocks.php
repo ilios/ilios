@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\VoterPermissions;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
@@ -204,7 +205,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
 
         foreach ($entities as $entity) {
-            $this->validateAndAuthorizeEntity($entity, AbstractVoter::CREATE, $validator, $authorizationChecker);
+            $this->validateAndAuthorizeEntity($entity, VoterPermissions::CREATE, $validator, $authorizationChecker);
 
             $this->reorderBlocksInSequenceOnOrderChange(
                 0,
@@ -289,11 +290,11 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = AbstractVoter::EDIT;
+            $permission = VoterPermissions::EDIT;
         } else {
             $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
-            $permission = AbstractVoter::CREATE;
+            $permission = VoterPermissions::CREATE;
         }
         $oldChildSequenceOrder = $entity->getChildSequenceOrder();
         $oldOrderInSequence = $entity->getOrderInSequence();
@@ -353,7 +354,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::DELETE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 
@@ -396,7 +397,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
         $oldOrderInSequence = $entity->getOrderInSequence();
 
         $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
-        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
 
         $this->reorderChildrenOnChildSequenceOrderChange(
             $oldChildSequenceOrder,

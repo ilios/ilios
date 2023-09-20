@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\VoterPermissions;
 use App\Entity\Authentication;
+use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
-use App\RelationshipVoter\AbstractVoter;
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\SessionUserProvider;
-use App\Entity\AuthenticationInterface;
-use App\Entity\UserInterface;
 use App\Traits\ApiEntityValidation;
+use Exception;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -27,8 +29,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Exception;
-use RuntimeException;
 
 #[OA\Tag(name:'Authentications')]
 #[Route('/api/{version<v3>}/authentications')]
@@ -176,7 +176,7 @@ class Authentications
         $json = json_encode($arr);
         $entities = $this->serializer->deserialize($json, $class, 'json');
 
-        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntities($entities, VoterPermissions::CREATE, $validator, $authorizationChecker);
 
         $entitiesByUserId = [];
         /** @var AuthenticationInterface $authentication */
@@ -277,7 +277,7 @@ class Authentications
 
         $filteredResults = array_filter(
             $dtos,
-            fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+            fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
         );
 
         //Re-index numerically index the array
@@ -362,11 +362,11 @@ class Authentications
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = AbstractVoter::EDIT;
+            $permission = VoterPermissions::EDIT;
         } else {
             $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
-            $permission = AbstractVoter::CREATE;
+            $permission = VoterPermissions::CREATE;
         }
         $authObject = $requestParser->extractPutDataFromRequest($request, 'authentications');
         if (!empty($authObject->password) && !empty($authObject->user)) {
@@ -444,7 +444,7 @@ class Authentications
             $entity->setPasswordHash($hashedPassword);
         }
 
-        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 
@@ -484,7 +484,7 @@ class Authentications
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::DELETE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 

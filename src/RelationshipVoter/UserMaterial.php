@@ -6,25 +6,25 @@ namespace App\RelationshipVoter;
 
 use App\Classes\UserMaterial as Material;
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\LearningMaterialStatusInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-/**
- * Class UserMaterial
- */
 class UserMaterial extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof Material && $attribute === self::VIEW;
+        parent::__construct(
+            $permissionChecker,
+            Material::class,
+            [
+                VoterPermissions::VIEW,
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param Material $material
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $material, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -38,7 +38,7 @@ class UserMaterial extends AbstractVoter
 
         // Deny access to LMs that are 'in draft' if the current user
         // does not perform a non-learner function.
-        return LearningMaterialStatusInterface::IN_DRAFT !== $material->status
+        return LearningMaterialStatusInterface::IN_DRAFT !== $subject->status
             || $user->performsNonLearnerFunction();
     }
 }

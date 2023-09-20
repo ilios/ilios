@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use DateInterval;
 use DateTimeInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -19,11 +21,16 @@ class JsonWebTokenManager
     private const TOKEN_AUD = 'ilios';
     public const SIGNING_ALGORITHM = 'HS256';
 
+    public const TOKEN_ID_KEY = 'token_id';
+    public const USER_ID_KEY = 'user_id';
+    public const WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
+
     protected string $jwtKey;
 
     public function __construct(
-        protected PermissionChecker $permissionChecker,
+        protected SessionUserPermissionChecker $permissionChecker,
         protected SessionUserProvider $sessionUserProvider,
+        protected ServiceTokenUserProvider $serviceAccountUserProvider,
         string $kernelSecret
     ) {
         $this->jwtKey = self::PREPEND_KEY . $kernelSecret;
@@ -33,7 +40,25 @@ class JsonWebTokenManager
     public function getUserIdFromToken($jwt): int
     {
         $arr = $this->decode($jwt);
-        return (int) $arr['user_id'];
+        return (int) $arr[self::USER_ID_KEY];
+    }
+
+    public function getServiceTokenIdFromToken($jwt): int
+    {
+        $arr = $this->decode($jwt);
+        return (int) $arr[self::TOKEN_ID_KEY];
+    }
+
+    public function isUserToken($jwt): bool
+    {
+        $arr = $this->decode($jwt);
+        return array_key_exists(self::USER_ID_KEY, $arr);
+    }
+
+    public function isServiceToken($jwt): bool
+    {
+        $arr = $this->decode($jwt);
+        return array_key_exists(self::TOKEN_ID_KEY, $arr);
     }
 
     public function getIssuedAtFromToken($jwt): DateTimeInterface
@@ -89,6 +114,21 @@ class JsonWebTokenManager
         return $arr['permissions'] ?? 'user';
     }
 
+    public function getWriteableSchoolIdsFromToken($jwt): array
+    {
+        if (!$this->isServiceToken($jwt)) {
+            return [];
+        }
+        $arr = $this->decode($jwt);
+        if (!array_key_exists(self::WRITEABLE_SCHOOLS_KEY, $arr)) {
+            return [];
+        }
+        if (!is_array($arr[self::WRITEABLE_SCHOOLS_KEY])) {
+            return [];
+        }
+        return $arr[self::WRITEABLE_SCHOOLS_KEY];
+    }
+
     protected function decode($jwt): array
     {
         $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
@@ -101,7 +141,18 @@ class JsonWebTokenManager
      */
     public function createJwtFromSessionUser(SessionUserInterface $sessionUser, string $timeToLive = 'PT8H'): string
     {
-        $arr = $this->getTokenDetails($sessionUser, $timeToLive, null);
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null);
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
+    }
+
+    /**
+     * Build a token from a service account token user
+     */
+    public function createJwtFromServiceTokenUser(
+        ServiceTokenUserInterface $tokenUser,
+        ?array $writeableSchoolIds = null,
+    ): string {
+        $arr = $this->getServiceTokenDetails($tokenUser, $writeableSchoolIds);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -112,28 +163,33 @@ class JsonWebTokenManager
     {
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
-        $arr = $this->getTokenDetails($sessionUser, $timeToLive, $token);
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, $token);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
-    protected function getTokenDetails(
+    /**
+     * Build a token from a userId
+     * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
+     */
+    public function createJwtFromUserId(int $userId, string $timeToLive = 'PT8H'): string
+    {
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
+        return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
+    }
+
+    public function createJwtFromServiceTokenId(int $tokenId, ?array $writeableSchoolIds = []): string
+    {
+        $tokenUser = $this->serviceAccountUserProvider->createServiceTokenUserFromTokenId($tokenId);
+        return $this->createJwtFromServiceTokenUser($tokenUser, $writeableSchoolIds);
+    }
+
+    protected function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
         ?string $refreshToken
     ): array {
-        $requestedInterval = new \DateInterval($timeToLive);
-        $maximumInterval = new \DateInterval('P364D');
         $now = new DateTime();
-
-        //DateIntervals are not comparable so we have to create DateTimes first which are
-        $requestedFromToday = clone $now;
-        $requestedFromToday->add($requestedInterval);
-        $maximumFromToday = clone $now;
-        $maximumFromToday->add($maximumInterval);
-
-        $interval = $requestedFromToday > $maximumFromToday ? $maximumInterval : $requestedInterval;
-        $expires = clone $now;
-        $expires->add($interval);
+        $expires = $this->getTokenExpirationDate($now, $timeToLive);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
 
         if ($refreshToken) {
@@ -149,23 +205,48 @@ class JsonWebTokenManager
             'aud' => self::TOKEN_AUD,
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
-            'user_id' => $sessionUser->getId(),
             'is_root' => $sessionUser->isRoot(),
             'performs_non_learner_function' => $sessionUser->performsNonLearnerFunction(),
             'can_create_or_update_user_in_any_school' => $canCreateOrUpdateUserInAnySchool,
             'firstCreatedAt' => $firstCreatedAt->format('U'),
             'refreshCount' => $refreshCount,
             'permissions' => 'user', //all tokens are user tokens right now and get permissions from the user
+            self::USER_ID_KEY => $sessionUser->getId(),
+
         ];
     }
 
-    /**
-     * Build a token from a userId
-     * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
-     */
-    public function createJwtFromUserId(int $userId, string $timeToLive = 'PT8H'): string
+    protected function getServiceTokenDetails(
+        ServiceTokenUserInterface $tokenUser,
+        ?array $writeableSchoolIds = null,
+    ): array {
+        $rhett = [
+            'iss' => self::TOKEN_ISS,
+            'aud' => self::TOKEN_AUD,
+            'iat' => $tokenUser->getCreatedAt()->format('U'),
+            'exp' => $tokenUser->getExpiresAt()->format('U'),
+             self::TOKEN_ID_KEY => $tokenUser->getId(),
+        ];
+        if (is_array($writeableSchoolIds) && !empty($writeableSchoolIds)) {
+            $rhett[self::WRITEABLE_SCHOOLS_KEY] = $writeableSchoolIds;
+        }
+        return $rhett;
+    }
+
+    protected function getTokenExpirationDate(DateTime $now, string $timeToLive): DateTime
     {
-        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
-        return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
+        $requestedInterval = new DateInterval($timeToLive);
+        $maximumInterval = new DateInterval('P364D');
+
+        //DateIntervals are not comparable, so we have to create DateTimes first which are
+        $requestedFromToday = clone $now;
+        $requestedFromToday->add($requestedInterval);
+        $maximumFromToday = clone $now;
+        $maximumFromToday->add($maximumInterval);
+
+        $interval = $requestedFromToday > $maximumFromToday ? $maximumInterval : $requestedInterval;
+        $expires = clone $now;
+        $expires->add($interval);
+        return $expires;
     }
 }

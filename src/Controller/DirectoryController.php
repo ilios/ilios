@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Classes\ServiceTokenUserInterface;
+use App\Classes\SessionUserInterface;
 use App\Repository\UserRepository;
-use App\Service\PermissionChecker;
 use App\Service\Directory;
+use App\Service\SessionUserPermissionChecker;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,7 +27,7 @@ class DirectoryController extends AbstractController
         protected TokenStorageInterface $tokenStorage,
         protected UserRepository $userRepository,
         protected Directory $directory,
-        protected PermissionChecker $permissionChecker
+        protected SessionUserPermissionChecker $permissionChecker
     ) {
     }
 
@@ -35,10 +37,8 @@ class DirectoryController extends AbstractController
     )]
     public function search(Request $request): JsonResponse
     {
-        $sessionUser = $this->tokenStorage->getToken()->getUser();
-        if (! $this->permissionChecker->canCreateUsersInAnySchool($sessionUser)) {
-            throw new AccessDeniedException();
-        }
+        $this->checkAccess();
+
         $results = [];
 
         if ($request->query->has('searchTerms')) {
@@ -80,10 +80,7 @@ class DirectoryController extends AbstractController
     )]
     public function find(int $id): JsonResponse
     {
-        $sessionUser = $this->tokenStorage->getToken()->getUser();
-        if (!$this->permissionChecker->canCreateUsersInAnySchool($sessionUser)) {
-            throw new AccessDeniedException();
-        }
+        $this->checkAccess();
 
         $user = $this->userRepository->findOneBy(['id' => $id]);
         if (! $user) {
@@ -96,5 +93,21 @@ class DirectoryController extends AbstractController
         }
 
         return new JsonResponse(['result' => $userRecord]);
+    }
+
+    /**
+     * @throws AccessDeniedException
+     */
+    protected function checkAccess(): void
+    {
+        $user = $this->tokenStorage->getToken()?->getUser();
+        $canSearchDirectory = false;
+        if ($user instanceof SessionUserInterface) {
+            $canSearchDirectory = $this->permissionChecker->canCreateUsersInAnySchool($user);
+        }
+
+        if (! $canSearchDirectory) {
+            throw new AccessDeniedException();
+        }
     }
 }

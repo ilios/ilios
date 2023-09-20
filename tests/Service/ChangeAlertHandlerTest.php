@@ -10,6 +10,7 @@ use App\Entity\AlertChangeTypeInterface;
 use App\Entity\Course;
 use App\Entity\Offering;
 use App\Entity\School;
+use App\Entity\ServiceToken;
 use App\Entity\Session;
 use App\Entity\User;
 use App\Repository\AlertChangeTypeRepository;
@@ -26,19 +27,9 @@ use App\Tests\TestCase;
  */
 class ChangeAlertHandlerTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    protected $mockAlertRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $mockAlertChangeTypeRepository;
-    /**
-     * @var ChangeAlertHandler
-     */
-    protected $changeAlertHandler;
+    protected m\MockInterface $mockAlertRepository;
+    protected m\MockInterface $mockAlertChangeTypeRepository;
+    protected ChangeAlertHandler $changeAlertHandler;
 
     protected function setUp(): void
     {
@@ -60,7 +51,7 @@ class ChangeAlertHandlerTest extends TestCase
     }
 
     /**
-     * @covers ::createAlertForNewOffering()
+     * @covers ::createAlertForNewOffering
      */
     public function testCreateAlertForNewOffering()
     {
@@ -75,6 +66,9 @@ class ChangeAlertHandlerTest extends TestCase
 
         $instigator = new User();
         $instigator->setId(1);
+
+        $serviceTokenInstigator = new ServiceToken();
+        $serviceTokenInstigator->setId(100);
 
         $alertChangeType = new AlertChangeType();
         $alertChangeType->setId(AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING);
@@ -94,17 +88,18 @@ class ChangeAlertHandlerTest extends TestCase
             ->shouldReceive('update')
             ->withArgs([$alert, false]);
 
-        $this->changeAlertHandler->createAlertForNewOffering($offering, $instigator);
+        $this->changeAlertHandler->createAlertForNewOffering($offering, $instigator, $serviceTokenInstigator);
 
         $this->assertEquals($alert->getInstigators()[0], $instigator);
-        $this->assertEquals($alert->getTableName(), 'offering');
+        $this->assertEquals($alert->getServiceTokenInstigators()[0], $serviceTokenInstigator);
+        $this->assertEquals('offering', $alert->getTableName());
         $this->assertEquals($alert->getTableRowId(), $offering->getId());
         $this->assertEquals($alert->getRecipients()[0], $school);
         $this->assertEquals($alert->getChangeTypes()[0], $alertChangeType);
     }
 
     /**
-     * @covers ::createOrUpdateAlertForUpdatedOffering()
+     * @covers ::createOrUpdateAlertForUpdatedOffering
      */
     public function testCreateOrUpdateAlertForUpdatedOfferingExistingAlert()
     {
@@ -121,10 +116,13 @@ class ChangeAlertHandlerTest extends TestCase
         $offering->setEndDate(new DateTime());
         $offering->setRoom('Room A');
         $offering->setSite('Site A');
-        $offering->setUrl('http://example.edu');
+        $offering->setUrl('https://example.edu');
 
         $instigator = new User();
         $instigator->setId(1);
+
+        $serviceTokenInstigator = new ServiceToken();
+        $serviceTokenInstigator->setId(100);
 
         $originalProperties = [
             'learners' => [],
@@ -135,7 +133,7 @@ class ChangeAlertHandlerTest extends TestCase
             'endDate' => (new DateTime('+1 year'))->getTimestamp(),
             'site' => 'some other site',
             'room' => 'some other room',
-            'url' => 'http://example.com',
+            'url' => 'https://example.com',
         ];
 
         $alert = new Alert();
@@ -177,14 +175,20 @@ class ChangeAlertHandlerTest extends TestCase
         $alert->addChangeType($instructorChangeType);
         $alert->addChangeType($timeChangeType);
 
-        $this->changeAlertHandler->createOrUpdateAlertForUpdatedOffering($offering, $instigator, $originalProperties);
+        $this->changeAlertHandler->createOrUpdateAlertForUpdatedOffering(
+            $offering,
+            $originalProperties,
+            $instigator,
+            $serviceTokenInstigator
+        );
 
         $this->assertEquals($alert->getInstigators()[0], $instigator);
-        $this->assertEquals($alert->getTableName(), 'offering');
+        $this->assertEquals($alert->getServiceTokenInstigators()[0], $serviceTokenInstigator);
+        $this->assertEquals('offering', $alert->getTableName());
         $this->assertEquals($alert->getTableRowId(), $offering->getId());
         $this->assertEquals($alert->getRecipients()[0], $school);
         $changeTypes = $alert->getChangeTypes();
-        $this->assertEquals(count($changeTypes), 3);
+        $this->assertEquals(3, count($changeTypes));
         $this->assertTrue($changeTypes->contains($instructorChangeType));
         $this->assertTrue($changeTypes->contains($timeChangeType));
         $this->assertTrue($changeTypes->contains($locationChangeType));
@@ -207,10 +211,13 @@ class ChangeAlertHandlerTest extends TestCase
         $offering->setEndDate(new DateTime());
         $offering->setRoom('Room A');
         $offering->setSite('Site A');
-        $offering->setUrl('http://example.edu');
+        $offering->setUrl('https://example.edu');
 
         $instigator = new User();
         $instigator->setId(1);
+
+        $serviceTokenInstigator = new ServiceToken();
+        $serviceTokenInstigator->setId(100);
 
         $originalProperties = [
             'learners' => [1, 3, 4],
@@ -275,14 +282,20 @@ class ChangeAlertHandlerTest extends TestCase
             ->times(2)
             ->andReturn($instructorChangeType);
 
-        $this->changeAlertHandler->createOrUpdateAlertForUpdatedOffering($offering, $instigator, $originalProperties);
+        $this->changeAlertHandler->createOrUpdateAlertForUpdatedOffering(
+            $offering,
+            $originalProperties,
+            $instigator,
+            $serviceTokenInstigator
+        );
 
         $this->assertEquals($alert->getInstigators()[0], $instigator);
-        $this->assertEquals($alert->getTableName(), 'offering');
+        $this->assertEquals($alert->getServiceTokenInstigators()[0], $serviceTokenInstigator);
+        $this->assertEquals('offering', $alert->getTableName());
         $this->assertEquals($alert->getTableRowId(), $offering->getId());
         $this->assertEquals($alert->getRecipients()[0], $school);
         $changeTypes = $alert->getChangeTypes();
-        $this->assertEquals(count($changeTypes), 4);
+        $this->assertEquals(4, count($changeTypes));
         $this->assertTrue($changeTypes->contains($instructorChangeType));
         $this->assertTrue($changeTypes->contains($learnerGroupChangeType));
         $this->assertTrue($changeTypes->contains($timeChangeType));

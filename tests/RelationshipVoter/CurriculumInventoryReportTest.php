@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use App\RelationshipVoter\AbstractVoter;
+use App\Classes\VoterPermissions;
+use App\Entity\CurriculumInventoryExportInterface;
+use App\Entity\CurriculumInventoryReportInterface;
+use App\Entity\SchoolInterface;
 use App\RelationshipVoter\CurriculumInventoryReport as Voter;
-use App\Service\PermissionChecker;
-use App\Entity\CurriculumInventoryExport;
-use App\Entity\CurriculumInventoryReport;
-use App\Entity\School;
-use App\Service\Config;
+use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -19,13 +18,13 @@ class CurriculumInventoryReportTest extends AbstractBase
     public function setUp(): void
     {
         parent::setUp();
-        $this->permissionChecker = m::mock(PermissionChecker::class);
+        $this->permissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
     }
 
     public function testAllowsRootFullAccess()
     {
-        $report = m::mock(CurriculumInventoryReport::class);
+        $report = m::mock(CurriculumInventoryReportInterface::class);
         $report->shouldReceive('getExport')->andReturn(null);
         $this->checkRootEntityAccess($report);
     }
@@ -33,99 +32,99 @@ class CurriculumInventoryReportTest extends AbstractBase
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
         $entity->shouldReceive('getExport')->andReturn(null);
         $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateCurriculumInventoryReport')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
     public function testCanNotEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getExport')->andReturn(null);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateCurriculumInventoryReport')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
     public function testCanDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getExport')->andReturn(null);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canDeleteCurriculumInventoryReport')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
     public function testCanNotDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getExport')->andReturn(null);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canDeleteCurriculumInventoryReport')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
     public function testCanCreate()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
         $entity->shouldReceive('getExport')->andReturn(null);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReport')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
     public function testCanNotCreate()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
         $entity->shouldReceive('getExport')->andReturn(null);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canCreateCurriculumInventoryReport')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 
     public function testRootCannotCreateEditDeleteFinalizedReport()
     {
         $token = $this->createMockTokenWithRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
-        $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
-        foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
+        $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExportInterface::class));
+        foreach ([ VoterPermissions::CREATE, VoterPermissions::EDIT, VoterPermissions::DELETE ] as $attr) {
             $response = $this->voter->vote($token, $entity, [ $attr ]);
             $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "{$attr} allowed");
         }
@@ -134,11 +133,36 @@ class CurriculumInventoryReportTest extends AbstractBase
     public function testCannotCreateEditDeleteFinalizedReport()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(CurriculumInventoryReport::class);
-        $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExport::class));
-        foreach ([ AbstractVoter::CREATE, AbstractVoter::EDIT, AbstractVoter::DELETE ] as $attr) {
+        $entity = m::mock(CurriculumInventoryReportInterface::class);
+        $entity->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExportInterface::class));
+        foreach ([ VoterPermissions::CREATE, VoterPermissions::EDIT, VoterPermissions::DELETE ] as $attr) {
             $response = $this->voter->vote($token, $entity, [ $attr ]);
             $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "{$attr} allowed");
         }
+    }
+
+    public function supportsTypeProvider(): array
+    {
+        return [
+            [CurriculumInventoryReportInterface::class, true],
+            [self::class, false],
+        ];
+    }
+
+    public function supportsAttributesProvider(): array
+    {
+        return [
+            [VoterPermissions::VIEW, true],
+            [VoterPermissions::CREATE, true],
+            [VoterPermissions::DELETE, true],
+            [VoterPermissions::EDIT, true],
+            [VoterPermissions::LOCK, false],
+            [VoterPermissions::UNLOCK, false],
+            [VoterPermissions::ROLLOVER, true],
+            [VoterPermissions::CREATE_TEMPORARY_FILE, false],
+            [VoterPermissions::VIEW_DRAFT_CONTENTS, false],
+            [VoterPermissions::VIEW_VIRTUAL_LINK, false],
+            [VoterPermissions::ARCHIVE, false],
+        ];
     }
 }

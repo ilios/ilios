@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\CohortDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CohortRepository;
@@ -207,7 +208,7 @@ class Cohorts extends AbstractApiController
         }
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
-        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 

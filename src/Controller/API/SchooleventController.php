@@ -6,13 +6,12 @@ namespace App\Controller\API;
 
 use App\Classes\SchoolEvent;
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\SessionInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
-use App\RelationshipVoter\AbstractCalendarEvent;
-use App\RelationshipVoter\AbstractVoter;
-use App\RelationshipVoter\SchoolEvent as SchoolEventVoter;
 use App\Repository\SchoolRepository;
 use App\Repository\SessionRepository;
+use App\Traits\ApiAccessValidation;
 use DateTime;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -28,6 +27,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[OA\Tag(name:'School events')]
 class SchooleventController extends AbstractController
 {
+    use ApiAccessValidation;
+
+    public function __construct(protected TokenStorageInterface $tokenStorage)
+    {
+    }
+
     #[Route(
         '/api/{version<v3>}/schoolevents/{id}',
         requirements: [
@@ -87,6 +92,11 @@ class SchooleventController extends AbstractController
         TokenStorageInterface $tokenStorage,
         SerializerInterface $serializer
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
+
+        /** @var SessionUserInterface $sessionUser */
+        $sessionUser = $tokenStorage->getToken()->getUser();
+
         $school = $schoolRepository->findOneBy(['id' => $id]);
 
         if (!$school) {
@@ -118,11 +128,8 @@ class SchooleventController extends AbstractController
 
         $events = array_values(array_filter(
             $events,
-            fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
+            fn($event) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $event)
         ));
-
-        /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $tokenStorage->getToken()->getUser();
 
         $events = $schoolRepository->addPreAndPostRequisites($id, $events);
 
@@ -133,13 +140,13 @@ class SchooleventController extends AbstractController
             $event->prerequisites = array_values(
                 array_filter(
                     $event->prerequisites,
-                    fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
+                    fn($event) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $event)
                 )
             );
             $event->postrequisites = array_values(
                 array_filter(
                     $event->postrequisites,
-                    fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
+                    fn($event) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $event)
                 )
             );
         }
@@ -157,7 +164,7 @@ class SchooleventController extends AbstractController
 
         $now = new DateTime();
         foreach ($allEvents as $event) {
-            if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
+            if (! $authorizationChecker->isGranted(VoterPermissions::VIEW_DRAFT_CONTENTS, $event)) {
                 if (
                     $sessionUser->isStudentAdvisorInCourse($event->course) ||
                     $sessionUser->isStudentAdvisorInSession($event->session) ||
@@ -170,7 +177,7 @@ class SchooleventController extends AbstractController
                 }
             }
 
-            if (! $authorizationChecker->isGranted(SchoolEventVoter::VIEW_VIRTUAL_LINK, $event)) {
+            if (! $authorizationChecker->isGranted(VoterPermissions::VIEW_VIRTUAL_LINK, $event)) {
                 $event->url = null;
             }
         }

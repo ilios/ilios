@@ -5,18 +5,27 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\PendingUserUpdateInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class PendingUserUpdate extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof PendingUserUpdateInterface
-            && in_array($attribute, [self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            PendingUserUpdateInterface::class,
+            [
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,9 +35,12 @@ class PendingUserUpdate extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => $user->performsNonLearnerFunction(),
-            self::EDIT => $this->permissionChecker->canUpdateUser($user, $subject->getUser()->getSchool()->getId()),
-            self::DELETE => $this->permissionChecker->canUpdateUser($user, $subject->getUser()->getSchool()->getId()),
+            VoterPermissions::VIEW => $user->performsNonLearnerFunction(),
+            VoterPermissions::EDIT,
+            VoterPermissions::DELETE => $this->permissionChecker->canUpdateUser(
+                $user,
+                $subject->getUser()->getSchool()->getId()
+            ),
             default => false,
         };
     }

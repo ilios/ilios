@@ -14,6 +14,11 @@ use App\Tests\Fixture\LoadUserData;
 class ReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'reports';
+    protected bool $enableGetTestsWithServiceToken = false;
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {

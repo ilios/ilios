@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\CompetencyInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Competency extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof CompetencyInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            CompetencyInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,16 +36,16 @@ class Competency extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => true,
-            self::CREATE => $this->permissionChecker->canCreateCompetency(
+            VoterPermissions::VIEW => true,
+            VoterPermissions::CREATE => $this->permissionChecker->canCreateCompetency(
                 $user,
                 $subject->getSchool()->getId()
             ),
-            self::EDIT => $this->permissionChecker->canUpdateCompetency(
+            VoterPermissions::EDIT => $this->permissionChecker->canUpdateCompetency(
                 $user,
                 $subject->getSchool()->getId()
             ),
-            self::DELETE => $this->permissionChecker->canDeleteCompetency(
+            VoterPermissions::DELETE => $this->permissionChecker->canDeleteCompetency(
                 $user,
                 $subject->getSchool()->getId()
             ),

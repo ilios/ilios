@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\AamcMethodDTO;
 use App\Entity\DTO\AamcPcrsDTO;
 use App\Entity\DTO\AamcResourceTypeDTO;
@@ -42,18 +43,66 @@ use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserRoleDTO;
 use App\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Always grants VIEW permissions on all supported DTOs.
  *
  * @package App\RelationshipVoter
  */
-class GreenlightViewDTOVoter extends AbstractVoter
+class GreenlightViewDTOVoter extends Voter
 {
-    protected function supports($attribute, $subject): bool
+    public function supportsAttribute(string $attribute): bool
+    {
+        return $attribute === VoterPermissions::VIEW;
+    }
+
+    public function supportsType(string $subjectType): bool
     {
         return (
-            $attribute === self::VIEW && (
+            is_a($subjectType, AamcMethodDTO::class, true)
+            || is_a($subjectType, AamcPcrsDTO::class, true)
+            || is_a($subjectType, AamcResourceTypeDTO::class, true)
+            || is_a($subjectType, AssessmentOptionDTO::class, true)
+            || is_a($subjectType, CohortDTO::class, true)
+            || is_a($subjectType, CompetencyDTO::class, true)
+            || is_a($subjectType, CourseDTO::class, true)
+            || is_a($subjectType, CourseClerkshipTypeDTO::class, true)
+            || is_a($subjectType, CourseObjectiveDTO::class, true)
+            || is_a($subjectType, CurriculumInventoryAcademicLevelDTO::class, true)
+            || is_a($subjectType, CurriculumInventoryInstitutionDTO::class, true)
+            || is_a($subjectType, CurriculumInventoryReportDTO::class, true)
+            || is_a($subjectType, CurriculumInventorySequenceDTO::class, true)
+            || is_a($subjectType, CurriculumInventorySequenceBlockDTO::class, true)
+            || is_a($subjectType, IlmSessionDTO::class, true)
+            || is_a($subjectType, InstructorGroupDTO::class, true)
+            || is_a($subjectType, LearningMaterialDTO::class, true)
+            || is_a($subjectType, LearningMaterialStatusDTO::class, true)
+            || is_a($subjectType, LearningMaterialUserRoleDTO::class, true)
+            || is_a($subjectType, MeshConceptDTO::class, true)
+            || is_a($subjectType, MeshDescriptorDTO::class, true)
+            || is_a($subjectType, MeshPreviousIndexingDTO::class, true)
+            || is_a($subjectType, MeshQualifierDTO::class, true)
+            || is_a($subjectType, MeshTermDTO::class, true)
+            || is_a($subjectType, MeshTreeDTO::class, true)
+            || is_a($subjectType, ProgramDTO::class, true)
+            || is_a($subjectType, ProgramYearDTO::class, true)
+            || is_a($subjectType, ProgramYearObjectiveDTO::class, true)
+            || is_a($subjectType, SchoolDTO::class, true)
+            || is_a($subjectType, SchoolConfigDTO::class, true)
+            || is_a($subjectType, SessionDTO::class, true)
+            || is_a($subjectType, SessionObjectiveDTO::class, true)
+            || is_a($subjectType, SessionTypeDTO::class, true)
+            || is_a($subjectType, TermDTO::class, true)
+            || is_a($subjectType, UserRoleDTO::class, true)
+            || is_a($subjectType, VocabularyDTO::class, true)
+        );
+    }
+
+    protected function supports(string $attribute, mixed $subject): bool
+    {
+        return (
+            $this->supportsAttribute($attribute) && (
                 $subject instanceof AamcMethodDTO
                 || $subject instanceof AamcPcrsDTO
                 || $subject instanceof AamcResourceTypeDTO
@@ -93,7 +142,8 @@ class GreenlightViewDTOVoter extends AbstractVoter
             )
         );
     }
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

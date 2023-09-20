@@ -21,7 +21,8 @@ use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\JsonControllerTest;
 
 /**
- * Class ConfigControllerTest
+ * @coversDefaultClass \App\Controller\IcsController
+ * @group controller
  */
 class IcsControllerTest extends WebTestCase
 {
@@ -54,7 +55,7 @@ class IcsControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testSessionAttributesShowUp()
+    public function testSessionAttributesShowUp(): void
     {
         $container = $this->kernelBrowser->getContainer();
         $session = $container->get(SessionData::class)->getOne();
@@ -73,7 +74,7 @@ class IcsControllerTest extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode(['session' => $session]),
-            $this->getTokenForUser($this->kernelBrowser, 2)
+            $this->createJwtFromUserId($this->kernelBrowser, 2)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -137,7 +138,7 @@ class IcsControllerTest extends WebTestCase
         );
     }
 
-    public function testSessionAttributesAreHidden()
+    public function testSessionAttributesAreHidden(): void
     {
         $container = $this->kernelBrowser->getContainer();
         $session = $container->get(SessionData::class)->getOne();
@@ -156,7 +157,7 @@ class IcsControllerTest extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode(['session' => $session]),
-            $this->getTokenForUser($this->kernelBrowser, 2)
+            $this->createJwtFromUserId($this->kernelBrowser, 2)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -220,7 +221,7 @@ class IcsControllerTest extends WebTestCase
         );
     }
 
-    public function testAbsolutePathsToEvents()
+    public function testAbsolutePathsToEvents(): void
     {
         $url = '/ics/' . hash('sha256', '1');
         $this->kernelBrowser->request('GET', $url);
@@ -260,7 +261,7 @@ class IcsControllerTest extends WebTestCase
         );
     }
 
-    protected function postOne(string $key, array $postData)
+    protected function postOne(string $key, array $postData): array
     {
         $endpoint = strtolower($key);
         $this->makeJsonRequest(
@@ -272,7 +273,7 @@ class IcsControllerTest extends WebTestCase
                 ['version' => $this->apiVersion]
             ),
             json_encode([$key => [$postData]]),
-            $this->getTokenForUser($this->kernelBrowser, 2)
+            $this->createJwtFromUserId($this->kernelBrowser, 2)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -281,7 +282,7 @@ class IcsControllerTest extends WebTestCase
         return json_decode($response->getContent(), true)[$key][0];
     }
 
-    public function testLinkedSessionWithDueDatesNotShown2635()
+    public function testLinkedSessionWithDueDatesNotShown2635(): void
     {
         $container = $this->kernelBrowser->getContainer();
         /* @var array $sessionData */
@@ -338,7 +339,7 @@ class IcsControllerTest extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $session['id']]
             ),
             json_encode(['session' => $session]),
-            $this->getTokenForUser($this->kernelBrowser, 2)
+            $this->createJwtFromUserId($this->kernelBrowser, 2)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);

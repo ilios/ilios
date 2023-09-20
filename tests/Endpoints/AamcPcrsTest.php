@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Classes\Inflector;
 use App\Service\InflectorFactory;
 use App\Tests\Fixture\LoadAamcPcrsData;
 use App\Tests\Fixture\LoadCompetencyData;
+use Exception;
 
 /**
  * AamcPcrses API endpoint Test.
@@ -16,6 +16,10 @@ use App\Tests\Fixture\LoadCompetencyData;
 class AamcPcrsTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcPcrses';
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {
@@ -33,7 +37,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         return [
             'description' => ['description', 'lorem ipsum'],
             'competencies' => ['competencies', [3]],
-            'id' => ['id', 'new-id', $skipped = true],
+            'id' => ['id', 'new-id', true],
         ];
     }
 
@@ -57,18 +61,22 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function testPostTermAamcResourceType()
+    /**
+     * @throws Exception
+     */
+    public function testPostTermAamcResourceType(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'aamcPcrses', 'competencies');
+        $this->relatedPostDataTest($data, $postData, $jwt, 'aamcPcrses', 'competencies');
     }
 
     /**
      * @group twice
      */
-    public function testInflection()
+    public function testInflection(): void
     {
         $singular = 'aamcPcrs';
         $plural = 'aamcPcrses';
@@ -95,7 +103,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
     /**
      * @group twice
      */
-    public function testLowerCaseInflection()
+    public function testLowerCaseInflection(): void
     {
         $singular = 'aamcpcrs';
         $plural = 'aamcpcrses';
@@ -117,5 +125,71 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
 
         $camelSingular = $inflector->camelize('aamcpcrs');
         $this->assertSame($camelSingular, 'aamcpcrs');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcpcrses_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcpcrses_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcpcrses_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcpcrses_put',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcpcrses_patch',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
     }
 }

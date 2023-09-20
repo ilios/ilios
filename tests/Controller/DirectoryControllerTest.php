@@ -4,68 +4,46 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
-use App\Repository\UserRepository;
-use App\Service\PermissionChecker;
+use App\Controller\DirectoryController;
 use App\Entity\DTO\UserDTO;
 use App\Entity\UserInterface;
+use App\Repository\UserRepository;
 use App\Service\Directory;
-use App\Controller\DirectoryController;
+use App\Service\SessionUserPermissionChecker;
 use App\Tests\TestCase;
+use Mockery as m;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Mockery as m;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @coversDefaultClass \App\Controller\DirectoryController
+ * @group controller
+ */
 class DirectoryControllerTest extends TestCase
 {
-    /**
-     * @var DirectoryController
-     */
-    protected $directoryController;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $tokenStorageMock;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $userRepositoryMock;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $directoryMock;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $permissionChecker;
+    protected DirectoryController $directoryController;
+    protected m\MockInterface $mockTokenStorage;
+    protected m\MockInterface $mockUserRepository;
+    protected m\MockInterface $mockDirectory;
+    protected m\MockInterface $mockPermissionChecker;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->tokenStorageMock = m::mock(TokenStorageInterface::class);
-        $this->userRepositoryMock = m::mock(UserRepository::class);
-        $this->directoryMock = m::mock(Directory::class);
-        $this->permissionChecker = m::mock(PermissionChecker::class);
-
-        $mockSessionUser = m::mock(SessionUserInterface::class);
-
-        $mockToken = m::mock(TokenInterface::class);
-        $mockToken->shouldReceive('getUser')->andReturn($mockSessionUser);
-
-        $this->tokenStorageMock->shouldReceive('getToken')->andReturn($mockToken);
-
+        $this->mockTokenStorage = m::mock(TokenStorageInterface::class);
+        $this->mockUserRepository = m::mock(UserRepository::class);
+        $this->mockDirectory = m::mock(Directory::class);
+        $this->mockPermissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->directoryController = new DirectoryController(
-            $this->tokenStorageMock,
-            $this->userRepositoryMock,
-            $this->directoryMock,
-            $this->permissionChecker
+            $this->mockTokenStorage,
+            $this->mockUserRepository,
+            $this->mockDirectory,
+            $this->mockPermissionChecker
         );
     }
 
@@ -73,13 +51,13 @@ class DirectoryControllerTest extends TestCase
     {
         parent::tearDown();
         unset($this->directoryController);
-        unset($this->tokenStorageMock);
-        unset($this->userRepositoryMock);
-        unset($this->directoryMock);
-        unset($this->permissionChecker);
+        unset($this->mockTokenStorage);
+        unset($this->mockUserRepository);
+        unset($this->mockDirectory);
+        unset($this->mockPermissionChecker);
     }
 
-    public function testSearchOne()
+    public function testSearchOne(): void
     {
         $fakeDirectoryUser = [
             'user' => 1,
@@ -90,21 +68,24 @@ class DirectoryControllerTest extends TestCase
             'campusId' => 'abc',
         ];
 
-        $this->directoryMock
+        $this->mockDirectory
             ->shouldReceive('find')
             ->with(['a', 'b'])
             ->once()
             ->andReturn([$fakeDirectoryUser]);
 
-        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
+        $this->mockTokenStorage
+            ->shouldReceive('getToken')
+            ->andReturn($this->getSessionUserBasedMockToken());
 
+        $this->mockPermissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
 
         $user = m::mock(UserDTO::class);
         $user->id = 1;
         $user->campusId = 'abc';
 
 
-        $this->userRepositoryMock
+        $this->mockUserRepository
             ->shouldReceive('findAllMatchingDTOsByCampusIds')
             ->with(['abc'])->andReturn([$user]);
 
@@ -123,7 +104,7 @@ class DirectoryControllerTest extends TestCase
         );
     }
 
-    public function testSearchReturnsCurrentUserId()
+    public function testSearchReturnsCurrentUserId(): void
     {
         $fakeDirectoryUser1 = [
             'firstName' => 'first',
@@ -141,20 +122,23 @@ class DirectoryControllerTest extends TestCase
             'campusId' => '1111@school.edu',
         ];
 
-        $this->directoryMock
+        $this->mockDirectory
             ->shouldReceive('find')
             ->with(['a', 'b'])
             ->once()
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
 
-        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
+        $this->mockTokenStorage
+            ->shouldReceive('getToken')
+            ->andReturn($this->getSessionUserBasedMockToken());
 
+        $this->mockPermissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
 
         $user = m::mock(UserDTO::class);
         $user->id = 1;
         $user->campusId = '1111@school.edu';
 
-        $this->userRepositoryMock
+        $this->mockUserRepository
             ->shouldReceive('findAllMatchingDTOsByCampusIds')
             ->with(['abc', '1111@school.edu'])->andReturn([$user]);
 
@@ -182,7 +166,7 @@ class DirectoryControllerTest extends TestCase
         );
     }
 
-    public function testFind()
+    public function testFind(): void
     {
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -192,9 +176,13 @@ class DirectoryControllerTest extends TestCase
             'campusId' => 'abc',
         ];
 
-        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
+        $this->mockTokenStorage
+            ->shouldReceive('getToken')
+            ->andReturn($this->getSessionUserBasedMockToken());
 
-        $this->directoryMock
+        $this->mockPermissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(true);
+
+        $this->mockDirectory
             ->shouldReceive('findByCampusId')
             ->with('abc')
             ->once()
@@ -205,7 +193,7 @@ class DirectoryControllerTest extends TestCase
             ->andReturn('abc')
             ->mock();
 
-        $this->userRepositoryMock
+        $this->mockUserRepository
             ->shouldReceive('findOneBy')
             ->with(['id' => 1])->andReturn($userMock);
 
@@ -220,19 +208,62 @@ class DirectoryControllerTest extends TestCase
         );
     }
 
-    public function testFindFailsIfUserDoesntHaveProperPermissions()
+    public function testFindFailsIfUserDoesntHaveProperPermissions(): void
     {
-        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(false);
+        $this->mockTokenStorage
+            ->shouldReceive('getToken')
+            ->andReturn($this->getSessionUserBasedMockToken());
+        $this->mockPermissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(false);
         $this->expectException(AccessDeniedException::class);
         $this->directoryController->find(1);
     }
 
-    public function testSearchFailsIfUserDoesntHaveProperPermissions()
+    public function testSearchFailsIfUserDoesntHaveProperPermissions(): void
     {
-        $this->permissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(false);
+        $this->mockTokenStorage
+            ->shouldReceive('getToken')
+            ->andReturn($this->getSessionUserBasedMockToken());
+        $this->mockPermissionChecker->shouldReceive('canCreateUsersInAnySchool')->andReturn(false);
         $this->expectException(AccessDeniedException::class);
         $request = new Request();
         $request->query->add(['searchTerms' => 'a b']);
         $this->directoryController->search($request);
+    }
+
+    public function testFindIsForbiddenWithServiceToken(): void
+    {
+        $this->mockTokenStorage
+            ->shouldReceive('getToken')
+            ->andReturn($this->getServiceTokenUserBasedMockToken());
+        $this->expectException(AccessDeniedException::class);
+        $this->directoryController->find(1);
+    }
+
+    public function testSearchIsForbiddenWithServiceToken(): void
+    {
+        $this->mockTokenStorage
+            ->shouldReceive('getToken')
+            ->andReturn($this->getServiceTokenUserBasedMockToken());
+        $this->expectException(AccessDeniedException::class);
+        $request = new Request();
+        $request->query->add(['searchTerms' => 'a b']);
+        $this->directoryController->search($request);
+    }
+
+
+    protected function getSessionUserBasedMockToken(): m\MockInterface
+    {
+        $mockUser = m::mock(SessionUserInterface::class);
+        $mockToken = m::mock(TokenInterface::class);
+        $mockToken->shouldReceive('getUser')->andReturn($mockUser);
+        return $mockToken;
+    }
+
+    protected function getServiceTokenUserBasedMockToken(): m\MockInterface
+    {
+        $mockUser = m::mock(ServiceTokenUserInterface::class);
+        $mockToken = m::mock(TokenInterface::class);
+        $mockToken->shouldReceive('getUser')->andReturn($mockUser);
+        return $mockToken;
     }
 }

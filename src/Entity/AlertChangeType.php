@@ -11,7 +11,6 @@ use App\Repository\AlertChangeTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\AlertInterface;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
@@ -54,7 +53,7 @@ class AlertChangeType implements AlertChangeTypeInterface
         $this->alerts = new ArrayCollection();
     }
 
-    public function addAlert(AlertInterface $alert)
+    public function addAlert(AlertInterface $alert): void
     {
         if (!$this->alerts->contains($alert)) {
             $this->alerts->add($alert);
@@ -62,7 +61,7 @@ class AlertChangeType implements AlertChangeTypeInterface
         }
     }
 
-    public function removeAlert(AlertInterface $alert)
+    public function removeAlert(AlertInterface $alert): void
     {
         if ($this->alerts->contains($alert)) {
             $this->alerts->removeElement($alert);

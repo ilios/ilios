@@ -10,6 +10,7 @@ use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadUserData;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\ProgramYearData;
 
@@ -43,7 +44,7 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         return [
             'title' => ['title', 'dev null'],
             'courses' => ['courses', [1]],
-            'learnerGroups' => ['learnerGroups', [1], $skipped = true],
+            'learnerGroups' => ['learnerGroups', [1], true],
             'users' => ['users', [1]],
         ];
     }
@@ -85,22 +86,30 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         return $filters;
     }
 
-    public function testPostFails()
+    /**
+     * @throws Exception
+     */
+    public function testPostFails(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'POST',
             '/api/' . $this->apiVersion . '/cohorts',
             json_encode(['cohort' => $data]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
-    public function testCreateWithPutFails()
+    /**
+     * @throws Exception
+     */
+    public function testCreateWithPutFails(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $this->createJsonRequest(
@@ -110,21 +119,25 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
                 'id' => $data['id']
             ]),
             json_encode(['cohort' => $data]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    public function testDeleteFails()
+    /**
+     * @throws Exception
+     */
+    public function testDeleteFails(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $this->createJsonRequest(
             'DELETE',
             '/api/' . $this->apiVersion . '/cohorts/' . $data['id'],
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
@@ -132,8 +145,9 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
 
     /**
      * Unlock program years before attempting to PUT cohorts
+     * @throws Exception
      */
-    public function testPutForAllData()
+    protected function runPutForAllDataTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -148,17 +162,19 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
             $programYear = $this->getProgramYear($programYearId);
             $programYear['locked'] = false;
             $programYear['archived'] = false;
-            $this->putOne('programyears', 'programYear', $programYearId, $programYear);
+            $this->putOne('programyears', 'programYear', $programYearId, $programYear, $jwt);
             $cohort[$changeKey] = $changeValue;
-            $this->putTest($cohort, $cohort, $cohort['id']);
+            $this->putTest($cohort, $cohort, $cohort['id'], $jwt);
         }
     }
 
     /**
      * Get programYear data from loader by id
      * @param int $id
+     * @return array
+     * @throws Exception
      */
-    protected function getProgramYear($id): array
+    protected function getProgramYear(int $id): array
     {
         $programYearDataLoader = self::getContainer()->get(ProgramYearData::class);
         $allProgramYears = $programYearDataLoader->getAll();

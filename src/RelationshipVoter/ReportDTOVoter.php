@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\ReportDTO;
-use App\Entity\ReportInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -14,17 +15,18 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ReportDTOVoter extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof ReportDTO && self::VIEW === $attribute;
+        parent::__construct(
+            $permissionChecker,
+            ReportDTO::class,
+            [
+                VoterPermissions::VIEW,
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param ReportDTO $report
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $report, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -35,6 +37,6 @@ class ReportDTOVoter extends AbstractVoter
             return true;
         }
 
-        return $user->getId() === $report->user;
+        return $user->getId() === $subject->user;
     }
 }

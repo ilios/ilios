@@ -6,8 +6,11 @@ namespace App\Tests\Endpoints;
 
 use App\Entity\Alert;
 use App\Entity\AlertChangeTypeInterface;
+use App\Service\JsonWebTokenManager;
 use App\Tests\DataLoader\InstructorGroupData;
 use App\Tests\DataLoader\LearnerGroupData;
+use App\Tests\DataLoader\ServiceTokenData;
+use App\Tests\DataLoader\UserData;
 use App\Tests\Fixture\LoadAlertChangeTypeData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadInstructorGroupData;
@@ -15,6 +18,8 @@ use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadOfferingData;
 use DateTime;
 use DateTimeZone;
+use Exception;
+use PHP_CodeSniffer\Tokenizers\JS;
 
 /**
  * Offering API endpoint Test.
@@ -23,15 +28,27 @@ use DateTimeZone;
 class OfferingTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'offerings';
-    protected $skipDates = false;
+    protected bool $skipDates = false;
+
+    protected JsonWebTokenManager $jsonWebTokenManager;
 
     /**
      * Reset date skipping for each test
+     * @throws Exception
      */
     public function setUp(): void
     {
         parent::setUp();
         $this->skipDates = false;
+        /** @var JsonWebTokenManager $jsonWebTokenManager */
+        $jsonWebTokenManager = $this->kernelBrowser->getContainer()->get(JsonWebTokenManager::class);
+        $this->jsonWebTokenManager = $jsonWebTokenManager;
+    }
+
+    public function tearDown(): void
+    {
+        unset($this->jsonWebTokenManager);
+        parent::tearDown();
     }
 
     protected function getFixtures(): array
@@ -45,10 +62,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function changeTypePutsToTest()
+    public function changeTypePutsToTest(): array
     {
         return [
             'room' => ['room', 'room 101', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
@@ -93,7 +107,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
             'ids' => [[3, 4], ['id' => [4, 5]]],
             'room' => [[2], ['room' => 'room 3']],
             'site' => [[3], ['site' => 'site 4']],
-            'url' => [[4], ['url' => 'http://example.com']],
+            'url' => [[4], ['url' => 'https://example.com']],
             'session' => [[2, 3, 4], ['session' => 2]],
             'sessions' => [[2, 3, 4], ['sessions' => [2]]],
             'learnerGroups' => [[0], ['learnerGroups' => [1]]],
@@ -113,47 +127,24 @@ class OfferingTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    protected function getTimeStampFields(): array
-    {
-        return ['updatedAt'];
-    }
-
-    /**
-     * Allow dates to be skipped if required for a test
-     * @inheritdoc
-     */
-    protected function compareData(array $expected, array $result)
-    {
-        if ($this->skipDates) {
-            unset($expected['startDate']);
-            unset($expected['endDate']);
-            unset($result['startDate']);
-            unset($result['endDate']);
-        }
-
-        return parent::compareData($expected, $result);
-    }
-
-    /**
-     * Some of the offering time stamps are dynamic so we can't really test them
-     * We have to skip that instead.
-     */
-    public function testGetAll()
+    public function testGraphQL(): void
     {
         $this->skipDates = true;
-        $this->getAllTest();
+        parent::testGraphQL();
     }
 
     /**
      * @dataProvider changeTypePutsToTest
+     * @throws Exception
      */
-    public function testPutTriggerChangeType(string $key, $value, int $changeType)
+    public function testPutTriggerChangeType(string $key, $value, int $changeType): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         if (array_key_exists($key, $data) and $data[$key] == $value) {
             $this->fail(
-                "This value is already set for {$key}. " .
+                "This value is already set for $key. " .
                 "Modify " . $this::class . '::putsToTest'
             );
         }
@@ -163,15 +154,17 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $data[$key] = $value;
 
         $postData = $data;
-        $this->putTest($data, $postData, $id, false);
-        $this->checkAlertChange($id, $changeType, 2, 1);
+        $this->putTest($data, $postData, $id, $jwt);
+        $this->checkAlertChange($id, $changeType, UserData::ROOT_USER_ID, null, $data['id']);
     }
 
     /**
      * @dataProvider changeTypePutsToTest
+     * @throws Exception
      */
-    public function testPatchJsonApiTriggerChangeType(string $key, $value, int $changeType)
+    public function testPatchJsonApiTriggerChangeType(string $key, $value, int $changeType): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         $id = $data['id'];
@@ -182,15 +175,172 @@ class OfferingTest extends AbstractReadWriteEndpoint
         if (null === $value) {
             unset($data[$key]);
         }
-        $this->patchJsonApiTest($data, $jsonApiData);
-        $this->checkAlertChange($id, $changeType, 2, 1);
+        $this->patchJsonApiTest($data, $jsonApiData, $jwt);
+        $this->checkAlertChange($id, $changeType, UserData::ROOT_USER_ID, null, 1);
     }
 
     /**
-     * Look in the database for created alerts since the don't have an API endpoint to query
+     * @throws Exception
      */
-    protected function checkAlertChange(int $id, int $expectedChangeType, int $instigator, int $recipient)
+    public function testUpdatingLearnerGroupUpdatesOfferingStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = self::getContainer()->get(LearnerGroupData::class);
+        $data = $dataLoader->getOne();
+        $data['title'] = 'lorem ipsum';
+        $this->relatedTimeStampUpdateTest($data['offerings'][0], 'learnergroups', 'learnerGroup', $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testUpdatingInstructorGroupUpdatesOfferingStamp(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = self::getContainer()->get(InstructorGroupData::class);
+        $data = $dataLoader->getOne();
+        $data['title'] = 'lorem ipsum';
+        $this->relatedTimeStampUpdateTest($data['offerings'][0], 'instructorgroups', 'instructorGroup', $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testUpdatingInstructorUpdatesOfferingStamp(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['instructors'] = ['1'];
+        $this->relatedTimeStampUpdateTest($data['id'], 'offerings', 'offering', $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testUpdatingLearnerUpdatesOfferingStamp(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['learners'] = ['1'];
+        $this->relatedTimeStampUpdateTest($data['id'], 'offerings', 'offering', $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testStartDateInSystemTimeZone(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $systemTimeZone = new DateTimeZone(date_default_timezone_get());
+        $now = new DateTime('now', $systemTimeZone);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['startDate'] = $now->format('c');
+        $postData = $data;
+        $this->postTest($data, $postData, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testStartDateConvertedToSystemTimeZone(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $americaLa = new DateTimeZone('America/Los_Angeles');
+        $utc = new DateTimeZone('UTC');
+        $systemTimeZone = date_default_timezone_get();
+        if ($systemTimeZone === 'UTC') {
+            $systemTime = $utc;
+            $now = new DateTime('now', $americaLa);
+        } else {
+            $systemTime = $americaLa;
+            $now = new DateTime('now', $utc);
+        }
+
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $postData['startDate'] = $now->format('c');
+        $data['startDate'] = $now->setTimezone($systemTime)->format('c');
+
+        $this->postTest($data, $postData, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testEndDateInSystemTimeZone(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $systemTimeZone = new DateTimeZone(date_default_timezone_get());
+        $now = new DateTime('now', $systemTimeZone);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['endDate'] = $now->format('c');
+        $postData = $data;
+        $this->postTest($data, $postData, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testEndDateConvertedToSystemTimeZone(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $americaLa = new DateTimeZone('America/Los_Angeles');
+        $utc = new DateTimeZone('UTC');
+        $systemTimeZone = date_default_timezone_get();
+        if ($systemTimeZone === 'UTC') {
+            $systemTime = $utc;
+            $now = new DateTime('now', $americaLa);
+        } else {
+            $systemTime = $americaLa;
+            $now = new DateTime('now', $utc);
+        }
+
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $postData = $data;
+        $postData['endDate'] = $now->format('c');
+        $data['endDate'] = $now->setTimezone($systemTime)->format('c');
+
+        $this->postTest($data, $postData, $jwt);
+    }
+
+    /**
+     * Some of the offering time stamps are dynamic, so we can't really test them
+     * We have to skip that instead.
+     * @throws Exception
+     */
+    protected function runGetAllTest(string $jwt): void
+    {
+        $this->skipDates = true;
+        parent::runGetAllTest($jwt);
+    }
+
+    /**
+     * Some of the offering time stamps are dynamic, so we can't really test them
+     * We have to skip that instead.
+     */
+    protected function filterTest(array $filters, array $expectedData, string $jwt): void
+    {
+        $this->skipDates = true;
+        parent::filterTest($filters, $expectedData, $jwt);
+    }
+
+
+    /**
+     * Look in the database for created alerts since they don't have an API endpoint to query
+     */
+    protected function checkAlertChange(
+        int $id,
+        int $expectedChangeType,
+        ?int $userId,
+        ?int $serviceTokenId,
+        int $recipient
+    ): void {
         $entityManager = $this->kernelBrowser->getContainer()
             ->get('doctrine')
             ->getManager();
@@ -209,15 +359,21 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
         $changeTypes = $alert->getChangeTypes();
         $instigators = $alert->getInstigators();
+        $userTokens = $alert->getServiceTokenInstigators();
         $recipients = $alert->getRecipients();
         $this->assertCount(1, $changeTypes);
         $this->assertEquals($changeTypes[0]->getId(), $expectedChangeType);
 
-        $this->assertCount(1, $instigators);
+
         $this->assertCount(1, $recipients);
 
-        if ($instigator) {
-            $this->assertEquals($instigator, $instigators[0]->getId());
+        if ($userId) {
+            $this->assertCount(1, $instigators);
+            $this->assertEquals($userId, $instigators[0]->getId());
+        }
+        if ($serviceTokenId) {
+            $this->assertCount(1, $userTokens);
+            $this->assertEquals($serviceTokenId, $userTokens[0]->getId());
         }
         if ($recipient) {
             $this->assertEquals($recipient, $recipients[0]->getId());
@@ -229,16 +385,27 @@ class OfferingTest extends AbstractReadWriteEndpoint
      * Check for updated alerts in addition to other info
      * @inheritdoc
      */
-    protected function postTest(array $data, array $postData): mixed
+    protected function postTest(array $data, array $postData, string $jwt): array
     {
-        $responseData = parent::postTest($data, $postData);
+        $responseData = parent::postTest($data, $postData, $jwt);
         //Instigator and school values are hard coded in test fixture data
-        $this->checkAlertChange(
-            $responseData['id'],
-            AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
-            $instigator = 2,
-            $school = 1
-        );
+        if ($this->jsonWebTokenManager->isUserToken($jwt)) {
+            $this->checkAlertChange(
+                $responseData['id'],
+                AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
+                UserData::ROOT_USER_ID,
+                null,
+                1
+            );
+        } else {
+            $this->checkAlertChange(
+                $responseData['id'],
+                AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
+                null,
+                ServiceTokenData::ENABLED_SERVICE_TOKEN_ID,
+                1
+            );
+        }
 
         return $responseData;
     }
@@ -247,128 +414,64 @@ class OfferingTest extends AbstractReadWriteEndpoint
      * Check for updated alerts in addition to other info
      * @inheritdoc
      */
-    protected function postJsonApiTest(object $postData, array $data): mixed
+    protected function postJsonApiTest(object $postData, array $data, string $jwt): array
     {
-        $responseData = parent::postJsonApiTest($postData, $data);
+        $responseData = parent::postJsonApiTest($postData, $data, $jwt);
         //Instigator and school values are hard coded in test fixture data
-        $this->checkAlertChange(
-            $responseData['id'],
-            AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
-            $instigator = 2,
-            $school = 1
-        );
+        if ($this->jsonWebTokenManager->isUserToken($jwt)) {
+            $this->checkAlertChange(
+                $responseData['id'],
+                AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
+                UserData::ROOT_USER_ID,
+                null,
+                1
+            );
+        } else {
+            $this->checkAlertChange(
+                $responseData['id'],
+                AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
+                null,
+                ServiceTokenData::ENABLED_SERVICE_TOKEN_ID,
+                1
+            );
+        }
 
         return $responseData;
     }
 
+    protected function getTimeStampFields(): array
+    {
+        return ['updatedAt'];
+    }
+
     /**
-     * Some of the offering time stamps are dynamic so we can't really test them
-     * We have to skip that instead.
-     * @param array $filters
-     * @param array $expectedData
-     * @param int $userId
+     * Allow dates to be skipped if required for a test
+     * @inheritdoc
      */
-    public function filterTest(array $filters, array $expectedData, int $userId = 2)
+    protected function compareData(array $expected, array $result): void
     {
-        $this->skipDates = true;
-        parent::filterTest($filters, $expectedData, $userId);
-    }
-
-    public function testUpdatingLearnerGroupUpdatesOfferingStamp()
-    {
-        $dataLoader = self::getContainer()->get(LearnerGroupData::class);
-        $data = $dataLoader->getOne();
-        $data['title'] = 'lorem ipsum';
-        $this->relatedTimeStampUpdateTest($data['offerings'][0], 'learnergroups', 'learnerGroup', $data);
-    }
-
-    public function testUpdatingInstructorGroupUpdatesOfferingStamp()
-    {
-        $dataLoader = self::getContainer()->get(InstructorGroupData::class);
-        $data = $dataLoader->getOne();
-        $data['title'] = 'lorem ipsum';
-        $this->relatedTimeStampUpdateTest($data['offerings'][0], 'instructorgroups', 'instructorGroup', $data);
-    }
-
-    public function testUpdatingInstructorUpdatesOfferingStamp()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $data['instructors'] = ['1'];
-        $this->relatedTimeStampUpdateTest($data['id'], 'offerings', 'offering', $data);
-    }
-
-    public function testUpdatingLearnerUpdatesOfferingStamp()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $data['learners'] = ['1'];
-        $this->relatedTimeStampUpdateTest($data['id'], 'offerings', 'offering', $data);
-    }
-
-    public function testStartDateInSystemTimeZone()
-    {
-        $systemTimeZone = new DateTimeZone(date_default_timezone_get());
-        $now = new DateTime('now', $systemTimeZone);
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $data['startDate'] = $now->format('c');
-        $postData = $data;
-        $this->postTest($data, $postData);
-    }
-
-    public function testStartDateConvertedToSystemTimeZone()
-    {
-        $americaLa = new DateTimeZone('America/Los_Angeles');
-        $utc = new DateTimeZone('UTC');
-        $systemTimeZone = date_default_timezone_get();
-        if ($systemTimeZone === 'UTC') {
-            $systemTime = $utc;
-            $now = new DateTime('now', $americaLa);
-        } else {
-            $systemTime = $americaLa;
-            $now = new DateTime('now', $utc);
+        if ($this->skipDates) {
+            unset($expected['startDate']);
+            unset($expected['endDate']);
+            unset($result['startDate']);
+            unset($result['endDate']);
         }
 
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $postData['startDate'] = $now->format('c');
-        $data['startDate'] = $now->setTimezone($systemTime)->format('c');
-
-        $this->postTest($data, $postData);
+        parent::compareData($expected, $result);
     }
 
-    public function testEndDateInSystemTimeZone()
+    /**
+     * Allow dates to be skipped if required for a test
+     * @inheritdoc
+     */
+    protected function compareGraphQLData(array $expected, object $result): void
     {
-        $systemTimeZone = new DateTimeZone(date_default_timezone_get());
-        $now = new DateTime('now', $systemTimeZone);
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $data['endDate'] = $now->format('c');
-        $postData = $data;
-        $this->postTest($data, $postData);
-    }
-
-    public function testEndDateConvertedToSystemTimeZone()
-    {
-        $americaLa = new DateTimeZone('America/Los_Angeles');
-        $utc = new DateTimeZone('UTC');
-        $systemTimeZone = date_default_timezone_get();
-        if ($systemTimeZone === 'UTC') {
-            $systemTime = $utc;
-            $now = new DateTime('now', $americaLa);
-        } else {
-            $systemTime = $americaLa;
-            $now = new DateTime('now', $utc);
+        if ($this->skipDates) {
+            unset($expected['startDate']);
+            unset($expected['endDate']);
+            unset($result->startDate);
+            unset($result->endDate);
         }
-
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $postData = $data;
-        $postData['endDate'] = $now->format('c');
-        $data['endDate'] = $now->setTimezone($systemTime)->format('c');
-
-        $this->postTest($data, $postData);
+        parent::compareGraphQLData($expected, $result);
     }
 }

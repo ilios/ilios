@@ -42,7 +42,7 @@ class LearningMaterialData extends AbstractDataLoader
             'copyrightPermission' => false,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
-            'link' => 'http://example.com/example-file.txt',
+            'link' => 'https://example.com/example-file.txt',
             'mimetype' => 'link',
         ];
 
@@ -298,11 +298,6 @@ class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'link' => 'https://' . str_repeat('0123456789', 1000) . '.org', // too long
         ];
-    }
-
-    public function createInvalidFile()
-    {
-        throw new Exception('Not implemented yet');
     }
 
     public function getDtoClass(): string

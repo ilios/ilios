@@ -13,6 +13,7 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
+use Exception;
 
 /**
  * InstructorGroup API endpoint Test.
@@ -48,7 +49,7 @@ class InstructorGroupTest extends AbstractReadWriteEndpoint
             'learnerGroups' => ['learnerGroups', [2, 3]],
             'ilmSessions' => ['ilmSessions', [1, 2]],
             'users' => ['users', [1]],
-            'offerings' => ['offerings', [2, 3, 4], $skipped = true],
+            'offerings' => ['offerings', [2, 3, 4], true],
         ];
     }
 
@@ -94,19 +95,27 @@ class InstructorGroupTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testPostInstructorGroupIlmSession()
+    /**
+     * @throws Exception
+     */
+    public function testPostInstructorGroupIlmSession(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'instructorGroups', 'learnerGroups');
+        $this->relatedPostDataTest($data, $postData, $jwt, 'instructorGroups', 'learnerGroups');
     }
 
-    public function testPostInstructorGroupLearnerGroup()
+    /**
+     * @throws Exception
+     */
+    public function testPostInstructorGroupLearnerGroup(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'instructorGroups', 'ilmSessions');
+        $this->relatedPostDataTest($data, $postData, $jwt, 'instructorGroups', 'ilmSessions');
     }
 }

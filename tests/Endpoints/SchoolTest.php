@@ -13,6 +13,7 @@ use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionTypeData;
+use Exception;
 
 /**
  * School API endpoint Test.
@@ -21,6 +22,8 @@ use App\Tests\Fixture\LoadSessionTypeData;
 class SchoolTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schools';
+
+    protected bool $enablePostTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {
@@ -47,16 +50,16 @@ class SchoolTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'university 123'],
             'templatePrefix' => ['templatePrefix', 'u213'],
             'changeAlertRecipients' => ['changeAlertRecipients', 'please.dont@email.me'],
-            'competencies' => ['competencies', [1], $skipped = true],
-            'courses' => ['courses', [1], $skipped = true],
-            'programs' => ['programs', [1], $skipped = true],
-            'vocabularies' => ['vocabularies', [2], $skipped = true],
-            'instructorGroups' => ['instructorGroups', [1], $skipped = true],
-            'curriculumInventoryInstitution' => ['curriculumInventoryInstitution', 3, $skipped = true],
-            'sessionTypes' => ['sessionTypes', [1], $skipped = true],
+            'competencies' => ['competencies', [1], true],
+            'courses' => ['courses', [1], true],
+            'programs' => ['programs', [1], true],
+            'vocabularies' => ['vocabularies', [2], true],
+            'instructorGroups' => ['instructorGroups', [1], true],
+            'curriculumInventoryInstitution' => ['curriculumInventoryInstitution', 3, true],
+            'sessionTypes' => ['sessionTypes', [1], true],
             'directors' => ['directors', [2]],
             'administrators' => ['administrators', [2]],
-            'configurations' => ['configurations', [1], $skipped = true],
+            'configurations' => ['configurations', [1], true],
         ];
     }
 
@@ -81,16 +84,16 @@ class SchoolTest extends AbstractReadWriteEndpoint
             'title' => [[2], ['title' => 'third school']],
             'iliosAdministratorEmail' => [[1], ['iliosAdministratorEmail' => 'info@example.com']],
             'changeAlertRecipients' => [[2], ['changeAlertRecipients' => 'info@example.com']],
-            'competencies' => [[0], ['competencies' => [1]], $skipped = true],
-            'courses' => [[0], ['courses' => [1]], $skipped = true],
-            'programs' => [[0], ['programs' => [1]], $skipped = true],
-            'vocabularies' => [[0], ['vocabularies' => [1]], $skipped = true],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]], $skipped = true],
-            'curriculumInventoryInstitution' => [[0], ['curriculumInventoryInstitution' => 'test'], $skipped = true],
-            'sessionTypes' => [[0], ['sessionTypes' => [1]], $skipped = true],
-            'directors' => [[0], ['directors' => [1]], $skipped = true],
-            'administrators' => [[0], ['administrators' => [1]], $skipped = true],
-            'configurations' => [[0], ['configurations' => [1]], $skipped = true],
+            'competencies' => [[0], ['competencies' => [1]], true],
+            'courses' => [[0], ['courses' => [1]], true],
+            'programs' => [[0], ['programs' => [1]], true],
+            'vocabularies' => [[0], ['vocabularies' => [1]], true],
+            'instructorGroups' => [[0], ['instructorGroups' => [1]], true],
+            'curriculumInventoryInstitution' => [[0], ['curriculumInventoryInstitution' => 'test'], true],
+            'sessionTypes' => [[0], ['sessionTypes' => [1]], true],
+            'directors' => [[0], ['directors' => [1]], true],
+            'administrators' => [[0], ['administrators' => [1]], true],
+            'configurations' => [[0], ['configurations' => [1]], true],
         ];
     }
 
@@ -107,8 +110,52 @@ class SchoolTest extends AbstractReadWriteEndpoint
      * This leaves us with bad data in the database which fails the tests
      * when the SessionUser attempts to build its permission tree
      */
-    public function testDelete()
+    protected function runDeleteTest(string $jwt): void
     {
-        $this->assertTrue(true);
+        $this->markTestSkipped('intentionally skipped.');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_schools_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_schools_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_schools_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
     }
 }

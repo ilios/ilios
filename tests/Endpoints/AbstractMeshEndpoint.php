@@ -12,48 +12,48 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class AbstractMeshEndpoint extends AbstractReadEndpoint
 {
-    public function testPostFails()
+    public function testPostFails(): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedSingularName();
 
         $this->createJsonRequest(
             'POST',
-            '/api/' . $this->apiVersion . "/{$endpoint}/",
+            '/api/' . $this->apiVersion . "/$endpoint/",
             json_encode([$responseKey => []]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
-    public function testPutFails()
+    public function testPutFails(): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedSingularName();
 
         $this->createJsonRequest(
             'PUT',
-            '/api/' . $this->apiVersion . "/{$endpoint}/1",
+            '/api/' . $this->apiVersion . "/$endpoint/1",
             json_encode([$responseKey => []]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
-    public function testDeleteFails()
+    public function testDeleteFails(): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedSingularName();
 
         $this->createJsonRequest(
             'DELETE',
-            '/api/' . $this->apiVersion . "/{$endpoint}/1",
+            '/api/' . $this->apiVersion . "/$endpoint/1",
             json_encode([$responseKey => []]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();

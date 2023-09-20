@@ -5,18 +5,26 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\SessionLearningMaterialDTO;
+use App\Service\SessionUserPermissionChecker;
 use DateTime;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class SessionLearningMaterialDTOVoter extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $attribute === self::VIEW && $subject instanceof SessionLearningMaterialDTO;
+        parent::__construct(
+            $permissionChecker,
+            SessionLearningMaterialDTO::class,
+            [
+                VoterPermissions::VIEW,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

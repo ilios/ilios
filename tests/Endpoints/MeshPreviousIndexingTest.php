@@ -32,16 +32,6 @@ class MeshPreviousIndexingTest extends AbstractMeshEndpoint
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'id' => ['id', 1, 99],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function filtersToTest(): array
     {
         return [

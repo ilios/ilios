@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\CreatedAtEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
@@ -18,6 +19,7 @@ use App\Repository\CurriculumInventoryExportRepository;
 #[IA\Entity]
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
+    use CreatedAtEntity;
     use IdentifiableEntity;
     use StringableIdEntity;
 
@@ -61,7 +63,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->createdAt = new DateTime();
     }
 
-    public function setReport(CurriculumInventoryReportInterface $report)
+    public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
@@ -71,7 +73,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         return $this->report;
     }
 
-    public function setDocument(string $document)
+    public function setDocument(string $document): void
     {
         $this->document = $document;
     }
@@ -81,7 +83,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         return $this->document;
     }
 
-    public function setCreatedBy(UserInterface $createdBy)
+    public function setCreatedBy(UserInterface $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
@@ -89,10 +91,5 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     public function getCreatedBy(): UserInterface
     {
         return $this->createdBy;
-    }
-
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
     }
 }

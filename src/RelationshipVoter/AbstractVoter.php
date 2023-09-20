@@ -4,55 +4,30 @@ declare(strict_types=1);
 
 namespace App\RelationshipVoter;
 
-use App\Service\PermissionChecker;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter as SymfonyVoter;
+use App\Service\SessionUserPermissionChecker;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-abstract class AbstractVoter extends SymfonyVoter
+abstract class AbstractVoter extends Voter
 {
-    /**
-     * @var string
-     */
-    public const VIEW = 'view';
+    public function __construct(
+        protected SessionUserPermissionChecker $permissionChecker,
+        protected string $supportedType,
+        protected array $supportedAttributes
+    ) {
+    }
 
-    /**
-     * @var string
-     */
-    public const EDIT = 'edit';
-
-    /**
-     * @var string
-     */
-    public const DELETE = 'delete';
-
-    /**
-     * @var string
-     */
-    public const CREATE = 'create';
-
-    /**
-     * @var string
-     */
-    public const UNLOCK = 'unlock';
-
-    /**
-     * @var string
-     */
-    public const LOCK = 'lock';
-
-    /**
-     * @var string
-     */
-    public const ARCHIVE = 'archive';
-
-    /**
-     * @var string
-     */
-    public const ROLLOVER = 'rollover';
-
-    /**
-     * @param PermissionChecker $permissionChecker
-     */
-    public function __construct(protected PermissionChecker $permissionChecker)
+    public function supportsType(string $subjectType): bool
     {
+        return is_a($subjectType, $this->supportedType, true);
+    }
+
+    public function supportsAttribute(string $attribute): bool
+    {
+        return in_array($attribute, $this->supportedAttributes);
+    }
+
+    protected function supports(string $attribute, mixed $subject): bool
+    {
+        return $subject instanceof $this->supportedType && $this->supportsAttribute($attribute);
     }
 }

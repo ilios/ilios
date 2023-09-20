@@ -15,6 +15,7 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -83,81 +84,14 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    protected function createMany(int $n): array
-    {
-        $courseDataLoader = self::getContainer()->get(CourseData::class);
-        $courses = $courseDataLoader->createMany($n);
-        $savedCourses = $this->postMany('courses', 'courses', $courses);
-
-        $dataLoader = $this->getDataLoader();
-
-        $data = [];
-        for ($i = 0; $i < $n; $i++) {
-            $arr = $dataLoader->create();
-            $arr['id'] += $i;
-            $arr['course'] = $savedCourses[$i]['id'];
-            $arr['title'] = 'Course Objective ' . $arr['id'];
-            $data[] = $arr;
-        }
-
-        return $data;
-    }
-
-    public function testPostMany()
-    {
-        $data = $this->createMany(10);
-        $this->postManyTest($data);
-    }
-
-    public function testPostManyJsonApi()
-    {
-        $data = $this->createMany(10);
-        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
-    }
-
-    public function testPutForAllData()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-
-        $n = count($all);
-        $termsDataLoader = self::getContainer()->get(TermData::class);
-        $terms = $termsDataLoader->createMany($n);
-        $savedTerms = $this->postMany('terms', 'terms', $terms);
-
-        for ($i = 0; $i < $n; $i++) {
-            $data = $all[$i];
-            $data['terms'][] = $savedTerms[$i]['id'];
-            $this->putTest($data, $data, $data['id']);
-        }
-    }
-
-    public function testPatchForAllDataJsonApi()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-
-        $n = count($all);
-        $termsDataLoader = self::getContainer()->get(TermData::class);
-        $terms = $termsDataLoader->createMany($n);
-        $savedTerms = $this->postMany('terms', 'terms', $terms);
-
-        for ($i = 0; $i < $n; $i++) {
-            $data = $all[$i];
-            $data['terms'][] = $savedTerms[$i]['id'];
-            $jsonApiData = $dataLoader->createJsonApi($data);
-            $this->patchJsonApiTest($data, $jsonApiData);
-        }
-    }
-
     /**
      * @dataProvider inputSanitationTestProvider
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
+     * @throws Exception
      */
-    public function testInputSanitation($input, $output)
+    public function testInputSanitation(string $input, string $output): void
     {
         $postData = self::getContainer()->get(CourseObjectiveData::class)
             ->create();
@@ -170,7 +104,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
                 'version' => $this->apiVersion
             ]),
             json_encode(['courseObjectives' => [$postData]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -200,8 +134,9 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
 
     /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
+     * @throws Exception
      */
-    public function testInputSanitationFailure()
+    public function testInputSanitationFailure(): void
     {
         $postData = self::getContainer()->get(CourseObjectiveData::class)
             ->create();
@@ -216,14 +151,17 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
                 'version' => $this->apiVersion
             ]),
             json_encode(['courseObjectives' => [$postData]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    public function testGraphQLIncludedData()
+    /**
+     * @throws Exception
+     */
+    public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -232,7 +170,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
             json_encode([
                 'query' => "query { courseObjectives(id: {$data['id']}) { id, course { id } }}"
             ]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertGraphQLResponse($response);
@@ -247,5 +185,91 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         $this->assertTrue(property_exists($courseObjective, 'course'));
         $this->assertTrue(property_exists($courseObjective->course, 'id'));
         $this->assertEquals($data['course'], $courseObjective->course->id);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyTest(string $jwt): void
+    {
+        $data = $this->createMany(10, $jwt);
+        $this->postManyTest($data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyJsonApiTest(string $jwt): void
+    {
+        $data = $this->createMany(10, $jwt);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function runPutForAllDataTest(string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+
+        $n = count($all);
+        $termsDataLoader = self::getContainer()->get(TermData::class);
+        $terms = $termsDataLoader->createMany($n);
+        $savedTerms = $this->postMany('terms', 'terms', $terms, $jwt);
+
+        for ($i = 0; $i < $n; $i++) {
+            $data = $all[$i];
+            $data['terms'][] = $savedTerms[$i]['id'];
+            $this->putTest($data, $data, $data['id'], $jwt);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function runPatchForAllDataJsonApiTest(string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+
+        $n = count($all);
+        $termsDataLoader = self::getContainer()->get(TermData::class);
+        $terms = $termsDataLoader->createMany($n);
+        $savedTerms = $this->postMany('terms', 'terms', $terms, $jwt);
+
+        for ($i = 0; $i < $n; $i++) {
+            $data = $all[$i];
+            $data['terms'][] = $savedTerms[$i]['id'];
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData, $jwt);
+        }
+    }
+
+    /**
+     * @param int $count
+     * @param string $jwt
+     * @return array
+     * @throws Exception
+     */
+    protected function createMany(int $count, string $jwt): array
+    {
+        $courseDataLoader = self::getContainer()->get(CourseData::class);
+        $courses = $courseDataLoader->createMany($count);
+        $savedCourses = $this->postMany('courses', 'courses', $courses, $jwt);
+
+        $dataLoader = $this->getDataLoader();
+
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['course'] = $savedCourses[$i]['id'];
+            $arr['title'] = 'Course Objective ' . $arr['id'];
+            $data[] = $arr;
+        }
+
+        return $data;
     }
 }

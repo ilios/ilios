@@ -4,22 +4,27 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Service\JsonWebTokenManager;
 use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\GetUrlTrait;
-use Firebase\JWT\JWT;
+use App\Tests\Traits\JsonControllerTest;
 use DateTime;
+use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\JsonControllerTest;
-use App\Service\JsonWebTokenManager;
 
 use function array_key_exists;
 use function json_decode;
 use function var_export;
 
+/**
+ * @coversDefaultClass \App\Controller\AuthController
+ * @group controller
+ */
 class AuthControllerTest extends WebTestCase
 {
     use JsonControllerTest;
@@ -35,7 +40,8 @@ class AuthControllerTest extends WebTestCase
         $this->kernelBrowser = self::createClient();
         $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
         $databaseTool->loadFixtures([
-            LoadAuthenticationData::class
+            LoadAuthenticationData::class,
+            LoadServiceTokenData::class,
         ]);
         $secret = $this->kernelBrowser->getContainer()->getParameter('kernel.secret');
         $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $secret;
@@ -47,7 +53,7 @@ class AuthControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testMissingValues()
+    public function testMissingValues(): void
     {
         $this->kernelBrowser->request('POST', '/auth/login');
 
@@ -62,7 +68,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertTrue(in_array('missingPassword', $data->errors));
     }
 
-    public function testAuthenticateUser()
+    public function testAuthenticateUser(): void
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
@@ -83,7 +89,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertSame(2, $token['user_id']);
     }
 
-    public function testAuthenticateUserCaseInsensitive()
+    public function testAuthenticateUserCaseInsensitive(): void
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'NEWUSER',
@@ -102,7 +108,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertSame(2, $token['user_id']);
     }
 
-    public function testWrongPassword()
+    public function testWrongPassword(): void
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
@@ -119,9 +125,9 @@ class AuthControllerTest extends WebTestCase
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
 
-    public function testWhoAmI()
+    public function testWhoAmI(): void
     {
-        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
@@ -145,7 +151,7 @@ class AuthControllerTest extends WebTestCase
         );
     }
 
-    public function testWhoAmIUnauthenticated()
+    public function testWhoAmIUnauthenticated(): void
     {
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -157,7 +163,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testWhoAmIExpiredToken()
+    public function testWhoAmIExpiredToken(): void
     {
         $jwt = $this->getExpiredToken(1);
         $this->makeJsonRequest(
@@ -172,9 +178,9 @@ class AuthControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
-    public function testGetToken()
+    public function testGetToken(): void
     {
-        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $token = $this->decode($jwt);
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -215,9 +221,9 @@ class AuthControllerTest extends WebTestCase
         $this->assertEquals('user', $token2['permissions']);
     }
 
-    public function testGetTokenWithNonDefaultTtl()
+    public function testGetTokenWithNonDefaultTtl(): void
     {
-        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'get',
@@ -237,7 +243,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertTrue($now->diff($expiresAt)->d > 5);
     }
 
-    public function testGetTokenForUnauthenticatedUser()
+    public function testGetTokenForUnauthenticatedUser(): void
     {
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -248,7 +254,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testGetTokenForExpiredToken()
+    public function testGetTokenForExpiredToken(): void
     {
         $jwt = $this->getExpiredToken(1);
         $this->makeJsonRequest(
@@ -262,9 +268,9 @@ class AuthControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
-    public function testInvalidateToken()
+    public function testInvalidateToken(): void
     {
-        $jwt = $this->getAuthenticatedUserToken($this->kernelBrowser);
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         sleep(1);
 
         $this->makeJsonRequest(
@@ -293,7 +299,7 @@ class AuthControllerTest extends WebTestCase
         $this->assertMatchesRegularExpression('/Invalid JSON Web Token: Not issued after/', $response2->getContent());
     }
 
-    public function testInvalidateTokenForUnauthenticatedUser()
+    public function testInvalidateTokenForUnauthenticatedUser(): void
     {
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -303,6 +309,48 @@ class AuthControllerTest extends WebTestCase
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function testGetTokenDeniedForServiceToken(): void
+    {
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_token'),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+    }
+
+    public function testInvalidateTokenDeniedForServiceToken(): void
+    {
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_invalidatetokens'),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+    }
+
+    public function testWhoAmiIDeniedForServiceToken(): void
+    {
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_whoami'),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     protected function getExpiredToken(int $userId): string

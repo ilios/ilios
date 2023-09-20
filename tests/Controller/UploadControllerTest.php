@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadUserData;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -14,7 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
 /**
- * Upload controller Test.
+ * @coversDefaultClass \App\Controller\UploadController
+ * @group controller
  */
 class UploadControllerTest extends WebTestCase
 {
@@ -30,7 +32,10 @@ class UploadControllerTest extends WebTestCase
         parent::setUp();
         $this->kernelBrowser = self::createClient();
         $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
-        $databaseTool->loadFixtures([LoadUserData::class]);
+        $databaseTool->loadFixtures([
+            LoadServiceTokenData::class,
+            LoadUserData::class,
+        ]);
         $this->fs = new Filesystem();
         $this->fakeTestFileDir = __DIR__ . '/FakeTestFiles';
         if (!$this->fs->exists($this->fakeTestFileDir)) {
@@ -53,14 +58,14 @@ class UploadControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testUploadFile()
+    public function testUploadFile(): void
     {
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'POST',
             '/upload',
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser),
+            $this->createJwtForRootUser($this->kernelBrowser),
             ['file' => $this->fakeTestFile]
         );
 
@@ -71,14 +76,15 @@ class UploadControllerTest extends WebTestCase
         $this->assertSame($data['filename'], 'TESTFILE.txt');
         $this->assertSame($data['fileHash'], md5_file(__FILE__));
     }
-    public function testAnonymousUploadFileDenied()
+
+    public function testAnonymousUploadFileDenied(): void
     {
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'POST',
             '/upload',
             null,
-            [],
+            null,
             ['file' => $this->fakeTestFile]
         );
 
@@ -86,14 +92,14 @@ class UploadControllerTest extends WebTestCase
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testBadUpload()
+    public function testBadUpload(): void
     {
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'POST',
             '/upload',
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser),
+            $this->createJwtForRootUser($this->kernelBrowser),
             ['nofile' => $this->fakeTestFile]
         );
 
@@ -105,5 +111,20 @@ class UploadControllerTest extends WebTestCase
             $data['errors'],
             'Unable to find file in the request. The uploaded file may have exceeded the maximum allowed size'
         );
+    }
+
+    public function testFileUploadDeniedToServiceToken(): void
+    {
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'POST',
+            '/upload',
+            null,
+            $this->createJwtForEnabledServiceToken($this->kernelBrowser),
+            ['file' => $this->fakeTestFile]
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_FORBIDDEN);
     }
 }

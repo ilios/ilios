@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\TestVersionProvider;
+use App\Tests\Traits\JsonControllerTest;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Fixture\LoadApplicationConfigData;
-use App\Tests\Traits\JsonControllerTest;
 
+/**
+ * @coversDefaultClass \App\Controller\ConfigController
+ * @group controller
+ */
 class ConfigControllerTest extends WebTestCase
 {
     use JsonControllerTest;
@@ -34,7 +38,7 @@ class ConfigControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->kernelBrowser->request('GET', '/application/config');
         $response = $this->kernelBrowser->getResponse();
@@ -64,7 +68,7 @@ class ConfigControllerTest extends WebTestCase
         );
     }
 
-    public function testEnvOverrideForConfigItem()
+    public function testEnvOverrideForConfigItem(): void
     {
         $_SERVER['ILIOS_ACADEMIC_YEAR_CROSSES_CALENDAR_YEAR_BOUNDARIES'] = true;
         $_SERVER['ILIOS_MATERIAL_STATUS_ENABLED'] = true;

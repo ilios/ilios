@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Entity\CourseInterface;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadVocabularyData;
-use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 /**
  * Vocabulary API endpoint Test.
@@ -33,7 +32,7 @@ class VocabularyTest extends AbstractReadWriteEndpoint
         return [
             'title' => ['title', 'foo bar'],
             'school' => ['school', 2],
-            'terms' => ['terms', [1], $skipped = true],
+            'terms' => ['terms', [1], true],
             'active' => ['active', false],
         ];
     }
@@ -58,7 +57,7 @@ class VocabularyTest extends AbstractReadWriteEndpoint
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second vocabulary']],
             'school' => [[1], ['school' => 2]],
-            'terms' => [[1], ['terms' => [5]], $skipped = true],
+            'terms' => [[1], ['terms' => [5]], true],
             'active' => [[0], ['active' => true]],
             'notActive' => [[1], ['active' => false]],
         ];
@@ -72,35 +71,51 @@ class VocabularyTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testCannotCreateWithEmptyTitle()
+    /**
+     * @throws Exception
+     */
+    public function testCannotCreateWithEmptyTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['title'] = '';
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testCannotCreateWithNoTitle()
+    /**
+     * @throws Exception
+     */
+    public function testCannotCreateWithoutTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         unset($data['title']);
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testCannotSaveWithEmptyTitle()
+    /**
+     * @throws Exception
+     */
+    public function testCannotSaveWithEmptyTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         $data['title'] = '';
-        $this->badPutTest($data, $data['id']);
+        $this->badPutTest($data, $data['id'], $jwt);
     }
 
-    public function testCannotSaveWithNoTitle()
+    /**
+     * @throws Exception
+     */
+    public function testCannotSaveWithoutTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         unset($data['title']);
-        $this->badPutTest($data, $data['id']);
+        $this->badPutTest($data, $data['id'], $jwt);
     }
 }

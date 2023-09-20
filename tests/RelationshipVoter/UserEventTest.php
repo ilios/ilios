@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use App\Classes\CalendarEvent;
-use App\RelationshipVoter\AbstractCalendarEvent;
-use App\RelationshipVoter\AbstractVoter;
-use App\RelationshipVoter\UserEvent as Voter;
-use App\Service\PermissionChecker;
 use App\Classes\UserEvent;
+use App\Classes\VoterPermissions;
+use App\RelationshipVoter\UserEvent as Voter;
+use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -18,14 +16,14 @@ class UserEventTest extends AbstractBase
     public function setUp(): void
     {
         parent::setUp();
-        /* @var PermissionChecker permissionChecker */
-        $this->permissionChecker = m::mock(PermissionChecker::class);
+        /* @var SessionUserPermissionChecker $permissionChecker */
+        $this->permissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
     }
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(m::mock(UserEvent::class), [AbstractVoter::VIEW]);
+        $this->checkRootEntityAccess(m::mock(UserEvent::class), [VoterPermissions::VIEW]);
     }
 
     public function testCanViewOwnPublishedEvents()
@@ -40,7 +38,7 @@ class UserEventTest extends AbstractBase
         $entity->isPublished = true;
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -59,7 +57,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -79,7 +77,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -100,7 +98,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -123,7 +121,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -147,7 +145,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -173,7 +171,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -201,7 +199,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -231,7 +229,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -251,7 +249,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -272,7 +270,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -294,7 +292,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -318,7 +316,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -343,7 +341,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -370,7 +368,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -399,7 +397,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -430,7 +428,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -454,7 +452,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -479,7 +477,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -506,7 +504,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -535,7 +533,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -566,7 +564,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -597,7 +595,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
         $sessionUser->shouldReceive('getId')->andReturn($userId);
 
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
@@ -615,7 +613,7 @@ class UserEventTest extends AbstractBase
         $entity->user = $userId;
         $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -634,7 +632,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
         $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -654,7 +652,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
         $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -676,7 +674,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
         $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -699,7 +697,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
         $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -724,7 +722,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
         $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -751,7 +749,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -780,7 +778,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -809,7 +807,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -828,7 +826,7 @@ class UserEventTest extends AbstractBase
         $entity->school = 3;
         $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -848,7 +846,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
         $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -869,7 +867,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
         $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -892,7 +890,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
         $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -916,7 +914,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
         $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -942,7 +940,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
         $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -970,7 +968,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -1000,7 +998,7 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
@@ -1030,8 +1028,33 @@ class UserEventTest extends AbstractBase
         $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
         $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
 
-        $response = $this->voter->vote($token, $entity, [AbstractCalendarEvent::VIEW_DRAFT_CONTENTS]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
+    }
+
+    public function supportsTypeProvider(): array
+    {
+        return [
+            [UserEvent::class, true],
+            [self::class, false],
+        ];
+    }
+
+    public function supportsAttributesProvider(): array
+    {
+        return [
+            [VoterPermissions::VIEW, true],
+            [VoterPermissions::CREATE, false],
+            [VoterPermissions::DELETE, false],
+            [VoterPermissions::EDIT, false],
+            [VoterPermissions::LOCK, false],
+            [VoterPermissions::UNLOCK, false],
+            [VoterPermissions::ROLLOVER, false],
+            [VoterPermissions::CREATE_TEMPORARY_FILE, false],
+            [VoterPermissions::VIEW_DRAFT_CONTENTS, true],
+            [VoterPermissions::VIEW_VIRTUAL_LINK, false],
+            [VoterPermissions::ARCHIVE, false],
+        ];
     }
 }

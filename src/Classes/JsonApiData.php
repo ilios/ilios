@@ -163,7 +163,7 @@ class JsonApiData
                 $dtos = $manager->findDTOsBy(['id' => $newIds]);
                 $filteredDtos = array_filter(
                     $dtos,
-                    fn($object) => $this->authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+                    fn($object) => $this->authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
                 );
                 foreach ($filteredDtos as $dto) {
                     $data = $this->normalizer->normalize($dto, 'json-api');

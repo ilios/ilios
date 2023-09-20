@@ -15,6 +15,7 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
+use Exception;
 
 /**
  * Competency API endpoint Test.
@@ -50,7 +51,7 @@ class CompetencyTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'rhababerbarbara'],
             'school' => ['school', 3],
             'parent' => ['parent', 2],
-            'children' => ['children', [1], $skipped = true],
+            'children' => ['children', [1], true],
             'aamcPcrses' => ['aamcPcrses', ['aamc-pcrs-comp-c0102']],
             'programYears' => ['programYears', [2]],
             'active' => ['active', false],
@@ -78,10 +79,10 @@ class CompetencyTest extends AbstractReadWriteEndpoint
             'title' => [[2], ['title' => 'third competency']],
             'school' => [[0, 1, 2], ['school' => 1]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
-            'parent' => [[2], ['parent' => 1], $skipped = true],
-            'children' => [[0], ['children' => 3], $skipped = true],
-            'aamcPcrses' => [[1], ['aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102']], $skipped = true],
-            'programYears' => [[0, 2], ['programYears' => [1]], $skipped = true],
+            'parent' => [[2], ['parent' => 1], true],
+            'children' => [[0], ['children' => 3], true],
+            'aamcPcrses' => [[1], ['aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102']], true],
+            'programYears' => [[0, 2], ['programYears' => [1]], true],
             'notActive' => [[1], ['active' => false]],
             'active' => [[0, 2], ['active' => true]],
             'terms' => [[0], ['terms' => [1]]],
@@ -100,16 +101,24 @@ class CompetencyTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testPostCompetencyProgramYear()
+    /**
+     * @throws Exception
+     */
+    public function testPostCompetencyProgramYear(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'competencies', 'programYears');
+        $this->relatedPostDataTest($data, $postData, $jwt, 'competencies', 'programYears');
     }
 
-    public function testRemoveParent()
+    /**
+     * @throws Exception
+     */
+    public function testRemoveParent(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $data = $all[2];
@@ -117,6 +126,6 @@ class CompetencyTest extends AbstractReadWriteEndpoint
         $this->assertEquals('1', $data['parent']);
         $postData = $data;
         unset($postData['parent']);
-        $this->putTest($data, $postData, $data['id']);
+        $this->putTest($data, $postData, $data['id'], $jwt);
     }
 }

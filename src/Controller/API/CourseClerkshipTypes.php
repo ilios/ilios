@@ -8,11 +8,13 @@ use App\Entity\DTO\CourseClerkshipTypeDTO;
 use App\Repository\CourseClerkshipTypeRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use App\Traits\ApiAccessValidation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -20,8 +22,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/{version<v3>}/courseclerkshiptypes')]
 class CourseClerkshipTypes extends AbstractApiController
 {
-    public function __construct(CourseClerkshipTypeRepository $repository)
-    {
+    use ApiAccessValidation;
+
+    public function __construct(
+        CourseClerkshipTypeRepository $repository,
+        protected TokenStorageInterface $tokenStorage,
+    ) {
         parent::__construct($repository, 'courseclerkshiptypes');
     }
 
@@ -190,6 +196,7 @@ class CourseClerkshipTypes extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePost($version, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -258,6 +265,7 @@ class CourseClerkshipTypes extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePut($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -274,6 +282,7 @@ class CourseClerkshipTypes extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -303,6 +312,7 @@ class CourseClerkshipTypes extends AbstractApiController
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleDelete($version, $id, $authorizationChecker);
     }
 }

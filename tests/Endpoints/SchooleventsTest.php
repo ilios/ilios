@@ -23,6 +23,7 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use DateTime;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -46,7 +47,10 @@ class SchooleventsTest extends AbstractEndpoint
         ];
     }
 
-    public function testAttachedUserMaterialsAreBlankedByTimedRelease()
+    /**
+     * @throws Exception
+     */
+    public function testAttachedUserMaterialsAreBlankedByTimedRelease(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $userId = 5;
@@ -64,11 +68,15 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked'], 'start and end dates are in the past');
     }
 
-    public function testAttachedUserMaterialsAreBlankedForUsersWhenTheyLackPermissionToAccessThem()
+    /**
+     * @throws Exception
+     */
+    public function testAttachedUserMaterialsAreBlankedForUsersWhenTheyLackPermissionToAccessThem(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
-        $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty());
+        $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty(), $jwt);
 
         $events = $this->getEvents($newUser['school'], 0, 100000000000, $newUser['id']);
         $lms = $events[3]['learningMaterials'];
@@ -78,14 +86,17 @@ class SchooleventsTest extends AbstractEndpoint
         }
     }
 
-    public function testAttachedUserMaterialsAreAvailableToCourseStudentAdvisors()
+    /**
+     * @throws Exception
+     */
+    public function testAttachedUserMaterialsAreAvailableToCourseStudentAdvisors(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
         $postData = $userLoader->createEmpty();
         $postData['studentAdvisedCourses'] = ['1'];
-        $newUser = $this->postOne('users', 'user', 'users', $postData);
-
+        $newUser = $this->postOne('users', 'user', 'users', $postData, $jwt);
         $events = $this->getEvents($newUser['school'], 0, 100000000000, $newUser['id']);
         $lms = $events[3]['learningMaterials'];
         $this->assertEquals(9, count($lms));
@@ -100,13 +111,17 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked'], 'start and end dates are in the past');
     }
 
-    public function testAttachedUserMaterialsAreAvailableToSessionStudentAdvisors()
+    /**
+     * @throws Exception
+     */
+    public function testAttachedUserMaterialsAreAvailableToSessionStudentAdvisors(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
         $postData = $userLoader->createEmpty();
         $postData['studentAdvisedSessions'] = ['1'];
-        $newUser = $this->postOne('users', 'user', 'users', $postData);
+        $newUser = $this->postOne('users', 'user', 'users', $postData, $jwt);
 
         $events = $this->getEvents($newUser['school'], 0, 100000000000, $newUser['id']);
         $lms = $events[3]['learningMaterials'];
@@ -122,7 +137,10 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked'], 'start and end dates are in the past');
     }
 
-    public function testGetEvents()
+    /**
+     * @throws Exception
+     */
+    public function testGetEvents(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
@@ -135,7 +153,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals(12, count($events), 'Expected events returned');
 
 
-        $this->assertEquals($events[0]['offering'], 3);
+        $this->assertEquals(3, $events[0]['offering']);
         $this->assertEquals($events[0]['startDate'], $offerings[2]['startDate']);
         $this->assertArrayNotHasKey('url', $events[0]);
         $this->assertEquals($events[0]['endDate'], $offerings[2]['endDate']);
@@ -157,8 +175,8 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($events[0]['supplemental'], 'supplemental is correct for event 0');
         $this->assertTrue($events[0]['attendanceRequired'], 'attendanceRequired is correct for event 0');
         $this->assertEquals(
-            count($events[0]['learningMaterials']),
             10,
+            count($events[0]['learningMaterials']),
             'Event 0 has the correct number of learning materials'
         );
         $this->assertEquals(
@@ -188,7 +206,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEmpty($events[0]['prerequisites']);
 
 
-        $this->assertEquals($events[1]['offering'], 4);
+        $this->assertEquals(4, $events[1]['offering']);
         $this->assertEquals($events[1]['startDate'], $offerings[3]['startDate']);
         $this->assertEquals($events[1]['endDate'], $offerings[3]['endDate']);
         $this->assertArrayNotHasKey('url', $events[1]);
@@ -210,8 +228,8 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($events[1]['supplemental'], 'supplemental is correct for event 1');
         $this->assertTrue($events[1]['attendanceRequired'], 'attendanceRequired is correct for event 1');
         $this->assertEquals(
-            count($events[1]['learningMaterials']),
             10,
+            count($events[1]['learningMaterials']),
             'Event 1 has the correct number of learning materials'
         );
 
@@ -230,7 +248,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals(3, $events[1]['postrequisites'][0]['session']);
         $this->assertEmpty($events[1]['prerequisites']);
 
-        $this->assertEquals($events[2]['offering'], 5);
+        $this->assertEquals(5, $events[2]['offering']);
         $this->assertEquals($events[2]['startDate'], $offerings[4]['startDate']);
         $this->assertEquals($events[2]['endDate'], $offerings[4]['endDate']);
         $this->assertEquals(
@@ -256,8 +274,8 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($events[2]['supplemental'], 'supplemental is correct for event 2');
         $this->assertTrue($events[2]['attendanceRequired'], 'attendanceRequired is correct for event 2');
         $this->assertEquals(
-            count($events[2]['learningMaterials']),
             10,
+            count($events[2]['learningMaterials']),
             'Event 2 has the correct number of learning materials'
         );
         $this->assertEquals(
@@ -275,7 +293,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals(3, $events[2]['postrequisites'][0]['session']);
         $this->assertEmpty($events[2]['prerequisites']);
 
-        $this->assertEquals($events[3]['offering'], 6);
+        $this->assertEquals(6, $events[3]['offering']);
         $this->assertEquals($events[3]['startDate'], $offerings[5]['startDate']);
         $this->assertEquals($events[3]['endDate'], $offerings[5]['endDate']);
         $this->assertArrayNotHasKey('url', $events[3]);
@@ -317,7 +335,7 @@ class SchooleventsTest extends AbstractEndpoint
         sort($sessionIds);
         $this->assertEquals([2], $sessionIds);
 
-        $this->assertEquals($events[4]['offering'], 7);
+        $this->assertEquals(7, $events[4]['offering']);
         $this->assertEquals($events[4]['startDate'], $offerings[6]['startDate']);
         $this->assertEquals($events[4]['endDate'], $offerings[6]['endDate']);
         $this->assertArrayNotHasKey('url', $events[4]);
@@ -359,7 +377,7 @@ class SchooleventsTest extends AbstractEndpoint
         sort($sessionIds);
         $this->assertEquals([2], $sessionIds);
 
-        $this->assertEquals($events[5]['ilmSession'], 1);
+        $this->assertEquals(1, $events[5]['ilmSession']);
         $this->assertEquals($events[5]['startDate'], $ilmSessions[0]['dueDate']);
         $this->assertArrayNotHasKey('url', $events[5]);
         $this->assertEquals($events[5]['courseTitle'], $courses[1]['title']);
@@ -379,7 +397,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertFalse($events[5]['equipmentRequired'], 'equipmentRequired is correct for event 5');
         $this->assertFalse($events[5]['supplemental'], 'supplemental is correct for event 5');
         $this->assertArrayNotHasKey('attendanceRequired', $events[5], 'attendanceRequired is correct for event 5');
-        $this->assertEquals(count($events[5]['learningMaterials']), 0, 'Event 5 has no learning materials');
+        $this->assertEquals(0, count($events[5]['learningMaterials']), 'Event 5 has no learning materials');
         $this->assertArrayNotHasKey(
             'instructionalNotes',
             $events[5],
@@ -388,7 +406,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEmpty($events[5]['postrequisites']);
         $this->assertEmpty($events[5]['prerequisites']);
 
-        $this->assertEquals($events[6]['ilmSession'], 2);
+        $this->assertEquals(2, $events[6]['ilmSession']);
         $this->assertEquals($events[6]['startDate'], $ilmSessions[1]['dueDate']);
         $this->assertEquals($events[6]['courseTitle'], $courses[1]['title']);
         $this->assertArrayNotHasKey('url', $events[6]);
@@ -408,7 +426,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertFalse($events[6]['equipmentRequired'], 'equipmentRequired is correct for event 6');
         $this->assertFalse($events[6]['supplemental'], 'supplemental is correct for event 6');
         $this->assertArrayNotHasKey('attendanceRequired', $events[6], 'attendanceRequired is correct for event 6');
-        $this->assertEquals(count($events[6]['learningMaterials']), 0, 'Event 6 has no learning materials');
+        $this->assertEquals(0, count($events[6]['learningMaterials']), 'Event 6 has no learning materials');
         $this->assertArrayNotHasKey(
             'instructionalNotes',
             $events[6],
@@ -417,7 +435,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEmpty($events[6]['postrequisites']);
         $this->assertEmpty($events[6]['prerequisites']);
 
-        $this->assertEquals($events[7]['ilmSession'], 3);
+        $this->assertEquals(3, $events[7]['ilmSession']);
         $this->assertEquals($events[7]['startDate'], $ilmSessions[2]['dueDate']);
         $this->assertArrayNotHasKey('url', $events[7]);
         $this->assertEquals($events[7]['courseTitle'], $courses[1]['title']);
@@ -437,7 +455,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertFalse($events[7]['equipmentRequired'], 'equipmentRequired is correct for event 7');
         $this->assertFalse($events[7]['supplemental'], 'supplemental is correct for event 7');
         $this->assertArrayNotHasKey('attendanceRequired', $events[7], 'attendanceRequired is correct for event 7');
-        $this->assertEquals(count($events[7]['learningMaterials']), 0, 'Event 7 has no learning materials');
+        $this->assertEquals(0, count($events[7]['learningMaterials']), 'Event 7 has no learning materials');
         $this->assertArrayNotHasKey(
             'instructionalNotes',
             $events[7],
@@ -446,7 +464,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEmpty($events[7]['postrequisites']);
         $this->assertEmpty($events[7]['prerequisites']);
 
-        $this->assertEquals($events[8]['ilmSession'], 4);
+        $this->assertEquals(4, $events[8]['ilmSession']);
         $this->assertEquals($events[8]['startDate'], $ilmSessions[3]['dueDate']);
         $this->assertArrayNotHasKey('url', $events[8]);
         $this->assertEquals($events[8]['courseTitle'], $courses[1]['title']);
@@ -475,7 +493,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEmpty($events[8]['postrequisites']);
         $this->assertEmpty($events[8]['prerequisites']);
 
-        $this->assertEquals($events[9]['offering'], 1);
+        $this->assertEquals(1, $events[9]['offering']);
         $this->assertEquals($events[9]['startDate'], $offerings[0]['startDate']);
         $this->assertEquals($events[9]['endDate'], $offerings[0]['endDate']);
         $this->assertEquals(
@@ -502,8 +520,8 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertArrayNotHasKey('attendanceRequired', $events[9], 'attendanceRequired is correct for event 9');
         $this->assertEquals(8, $events[10]['offering']);
         $this->assertEquals(
-            count($events[9]['learningMaterials']),
             10,
+            count($events[9]['learningMaterials']),
             'Event 9 has the correct number of learning materials'
         );
         $this->assertEquals(
@@ -557,12 +575,15 @@ class SchooleventsTest extends AbstractEndpoint
         }
     }
 
-
-    public function testNotVirtualLinksForUnprivilegedUser()
+    /**
+     * @throws Exception
+     */
+    public function testNotVirtualLinksForUnprivilegedUser(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
-        $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty());
+        $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty(), $jwt);
 
         $events = $this->getEvents($newUser['school'], 0, 100000000000, $newUser['id']);
 
@@ -571,7 +592,10 @@ class SchooleventsTest extends AbstractEndpoint
         }
     }
 
-    public function testMultidayEvent()
+    /**
+     * @throws Exception
+     */
+    public function testMultidayEvent(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
@@ -586,7 +610,10 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals($events[0]['offering'], $offerings[5]['id']);
     }
 
-    public function testPrivilegedUsersGetsEventsForUnpublishedSessions()
+    /**
+     * @throws Exception
+     */
+    public function testPrivilegedUsersGetsEventsForUnpublishedSessions(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $events = $this->getEvents($school['id'], 0, 100000000000);
@@ -606,7 +633,10 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals('8', $lms[6]['sessionLearningMaterial']);
     }
 
-    public function testGetEventsBySession()
+    /**
+     * @throws Exception
+     */
+    public function testGetEventsBySession(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $userId = 2;
@@ -619,30 +649,30 @@ class SchooleventsTest extends AbstractEndpoint
         );
 
         $this->assertEquals(2, count($events), 'Expected events returned');
-        $this->assertEquals(
-            $sessionId,
-            $events[0]['session']
-        );
         $this->assertEquals(1, $events[0]['offering']);
         $this->assertEquals($sessionId, $events[0]['session']);
         $this->assertEquals(2, $events[1]['offering']);
         $this->assertEquals($sessionId, $events[1]['session']);
     }
 
-    public function testAttachedInstructorsUseDisplayNameAndPronouns()
+    /**
+     * @throws Exception
+     */
+    public function testAttachedInstructorsUseDisplayNameAndPronouns(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $events = $this->getEvents($school['id'], 0, 100000000000);
         $users = self::getContainer()->get(UserData::class)->getAll();
-
-        $this->assertEquals($events[0]['offering'], 3);
-
+        $this->assertEquals(3, $events[0]['offering']);
         $this->assertEquals(2, count($events[0]['instructors']));
         $this->assertSame("{$users[1]['displayName']} ({$users[1]['pronouns']})", $events[0]['instructors'][0]);
         $this->assertEquals($users[3]['displayName'], $events[0]['instructors'][1]);
     }
 
-    public function testMissingFrom()
+    /**
+     * @throws Exception
+     */
+    public function testMissingFrom(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $parameters = [
@@ -659,7 +689,7 @@ class SchooleventsTest extends AbstractEndpoint
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -667,7 +697,10 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    public function testMissingT0()
+    /**
+     * @throws Exception
+     */
+    public function testMissingT0(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
         $parameters = [
@@ -684,7 +717,7 @@ class SchooleventsTest extends AbstractEndpoint
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -692,30 +725,24 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    public function testAccessDenied()
+    public function testAccessDenied(): void
     {
-        $parameters = [
-            'version' => $this->apiVersion,
-            'id' => 1,
-            'from' => 1000000,
-            'to' => 1000000,
-        ];
-        $url = $this->getUrl(
-            $this->kernelBrowser,
-            'app_api_schoolevent_getevents',
-            $parameters
-        );
-        $this->createJsonRequest(
-            'GET',
-            $url,
-        );
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+        $this->runAccessDeniedTest();
     }
 
-    protected function getEvents($schoolId, $from, $to, $userId = null)
+    /**
+     * @throws Exception
+     */
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $this->runAccessDeniedTest($jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    protected function getEvents($schoolId, $from, $to, $userId = null): array
     {
         $parameters = [
             'version' => $this->apiVersion,
@@ -730,8 +757,8 @@ class SchooleventsTest extends AbstractEndpoint
         );
 
         $userToken = isset($userId) ?
-            $this->getTokenForUser($this->kernelBrowser, $userId) :
-            $this->getAuthenticatedUserToken($this->kernelBrowser);
+            $this->createJwtFromUserId($this->kernelBrowser, $userId) :
+            $this->createJwtForRootUser($this->kernelBrowser);
         $this->createJsonRequest(
             'GET',
             $url,
@@ -742,14 +769,14 @@ class SchooleventsTest extends AbstractEndpoint
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)['events'];
     }
 
-    protected function getEventsForSessionId($schoolId, $sessionId, $userId = null)
+    protected function getEventsForSessionId($schoolId, $sessionId, $userId = null): array
     {
         $parameters = [
             'version' => $this->apiVersion,
@@ -763,8 +790,8 @@ class SchooleventsTest extends AbstractEndpoint
         );
 
         $userToken = isset($userId) ?
-            $this->getTokenForUser($this->kernelBrowser, $userId) :
-            $this->getAuthenticatedUserToken($this->kernelBrowser);
+            $this->createJwtFromUserId($this->kernelBrowser, $userId) :
+            $this->createJwtForRootUser($this->kernelBrowser);
         $this->createJsonRequest(
             'GET',
             $url,
@@ -775,10 +802,37 @@ class SchooleventsTest extends AbstractEndpoint
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)['events'];
+    }
+
+    protected function runAccessDeniedTest(
+        ?string $jwt = null,
+        int $expectedResponseCode = Response::HTTP_UNAUTHORIZED
+    ): void {
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => 1,
+            'from' => 1000000,
+            'to' => 1000000,
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'app_api_schoolevent_getevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $jwt
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, $expectedResponseCode);
     }
 }

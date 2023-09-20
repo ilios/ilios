@@ -11,6 +11,7 @@ use function method_exists;
 /**
  * Tests for Entity AuditLog
  * @group model
+ * @coversDefaultClass \App\Entity\AuditLog
  */
 class AuditLogTest extends EntityBase
 {
@@ -45,7 +46,7 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::__construct
+     * @covers ::__construct
      */
     public function testConstructor()
     {
@@ -53,8 +54,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::setAction
-     * @covers \App\Entity\AuditLog::getAction
+     * @covers ::setAction
+     * @covers ::getAction
      */
     public function testSetAction()
     {
@@ -62,8 +63,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::setObjectId
-     * @covers \App\Entity\AuditLog::getObjectId
+     * @covers ::setObjectId
+     * @covers ::getObjectId
      */
     public function testSetObjectIdConvertsIntToString()
     {
@@ -74,8 +75,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::setObjectId
-     * @covers \App\Entity\AuditLog::getObjectId
+     * @covers ::setObjectId
+     * @covers ::getObjectId
      */
     public function testSetObjectIdString()
     {
@@ -83,8 +84,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::setObjectClass
-     * @covers \App\Entity\AuditLog::getObjectClass
+     * @covers ::setObjectClass
+     * @covers ::getObjectClass
      */
     public function testSetObjectClass()
     {
@@ -92,8 +93,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::setValuesChanged
-     * @covers \App\Entity\AuditLog::getValuesChanged
+     * @covers ::setValuesChanged
+     * @covers ::getValuesChanged
      */
     public function testSetValuesChanged()
     {
@@ -101,8 +102,8 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::setUser
-     * @covers \App\Entity\AuditLog::getUser
+     * @covers ::setUser
+     * @covers ::getUser
      */
     public function testSetUser()
     {
@@ -110,8 +111,17 @@ class AuditLogTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\AuditLog::setCreatedAt
-     * @covers \App\Entity\AuditLog::getCreatedAt
+     * @covers ::setServiceToken
+     * @covers ::getServiceToken
+     */
+    public function testSetServiceToken()
+    {
+        $this->entitySetTest('serviceToken', 'ServiceToken');
+    }
+
+    /**
+     * @covers ::setCreatedAt
+     * @covers ::getCreatedAt
      */
     public function testSetCreatedAt()
     {

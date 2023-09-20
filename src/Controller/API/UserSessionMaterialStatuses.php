@@ -4,24 +4,32 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\SessionUserInterface;
 use App\Entity\DTO\UserSessionMaterialStatusDTO;
 use App\Repository\UserSessionMaterialStatusRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use App\Traits\ApiAccessValidation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[OA\Tag(name:'User Session Material Statuses')]
 #[Route('/api/{version<v3>}/usersessionmaterialstatuses')]
 class UserSessionMaterialStatuses extends AbstractApiController
 {
-    public function __construct(UserSessionMaterialStatusRepository $repository)
-    {
+    use ApiAccessValidation;
+
+    public function __construct(
+        UserSessionMaterialStatusRepository $repository,
+        protected TokenStorageInterface $tokenStorage,
+    ) {
         parent::__construct($repository, 'usersessionmaterialstatuses');
     }
 
@@ -63,6 +71,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         ApiResponseBuilder $builder,
         Request $request
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
     }
 
@@ -136,6 +145,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 
@@ -190,6 +200,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePost($version, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -258,6 +269,10 @@ class UserSessionMaterialStatuses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $currentUser = $this->tokenStorage->getToken()?->getUser();
+        if (! $currentUser instanceof SessionUserInterface) {
+            throw new AccessDeniedException('Unauthorized access.');
+        }
         return $this->handlePut($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -274,6 +289,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -303,6 +319,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleDelete($version, $id, $authorizationChecker);
     }
 }

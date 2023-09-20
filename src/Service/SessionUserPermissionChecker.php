@@ -13,7 +13,7 @@ use App\Entity\ProgramYearInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\SessionInterface;
 
-class PermissionChecker
+class SessionUserPermissionChecker
 {
     public function __construct(private PermissionMatrixInterface $matrix)
     {

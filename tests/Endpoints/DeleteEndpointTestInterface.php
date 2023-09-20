@@ -13,5 +13,10 @@ interface DeleteEndpointTestInterface
     /**
      * Test deleting data
      */
-    public function testDelete();
+    public function testDelete(): void;
+
+    /**
+     * Test deleting data with a service token
+     */
+    public function testDeleteWithServiceToken(): void;
 }

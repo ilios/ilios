@@ -22,6 +22,7 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadSessionTypeData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
 
@@ -98,7 +99,7 @@ class SessionTypeTest extends AbstractReadWriteEndpoint
             'assessmentOption' => [[1], ['assessmentOption' => 2]],
             'school' => [[0, 1], ['school' => 1]],
             'schools' => [[0, 1], ['school' => [1]]],
-            'aamcMethods' => [[0, 1], ['aamcMethods' => ['AM001']], $skipped = true],
+            'aamcMethods' => [[0, 1], ['aamcMethods' => ['AM001']], true],
             'sessions' => [[1], ['sessions' => [2]]],
             'courses' => [[0, 1], ['courses' => [1, 2]]],
             'learningMaterials' => [[0, 1], ['learningMaterials' => [1, 2, 3]]],
@@ -125,24 +126,17 @@ class SessionTypeTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function removingSessionThrowsError(array $data)
-    {
-        $data = $this->getDataLoader()->getOne();
-        $data['sessions'] = [];
-        $this->badPostTest($data, Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-
-
     /**
      * We need to create additional sessions to
      * go with each new sessionType otherwise only the last one created will have any sessions
      * attached to it.
+     * @throws Exception
      */
-    protected function createMany(int $count): array
+    protected function createMany(int $count, string $jwt): array
     {
         $sessionDataLoader = self::getContainer()->get(SessionData::class);
         $sessions = $sessionDataLoader->createMany($count);
-        $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
+        $savedSessions = $this->postMany('sessions', 'sessions', $sessions, $jwt);
 
         $dataLoader = $this->getDataLoader();
         $data = [];
@@ -158,16 +152,22 @@ class SessionTypeTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    public function testPostMany()
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyTest(string $jwt): void
     {
-        $data = $this->createMany(51);
-        $this->postManyTest($data);
+        $data = $this->createMany(51, $jwt);
+        $this->postManyTest($data, $jwt);
     }
 
-    public function testPostManyJsonApi()
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyJsonApiTest(string $jwt): void
     {
-        $data = $this->createMany(10);
+        $data = $this->createMany(10, $jwt);
         $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 }

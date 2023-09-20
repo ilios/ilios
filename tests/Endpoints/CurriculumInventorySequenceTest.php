@@ -7,6 +7,7 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\CurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
+use Exception;
 
 /**
  * CurriculumInventorySequence API endpoint Test.
@@ -68,14 +69,15 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
     /**
      * We need to create additional reports to go with each Sequence
      * however when new reports are created a sequence is automatically created
-     * for them.  So we need to delete each of the new fresh sequences so we can create
+     * for them.  So we need to delete each of the new fresh sequences, so we can create
      * new ones of our own and link them to the report.
+     * @throws Exception
      */
-    protected function createMany(int $count): array
+    protected function createMany(int $count, string $jwt): array
     {
         $reportDataLoader = self::getContainer()->get(CurriculumInventoryReportData::class);
         $reports = $reportDataLoader->createMany($count);
-        $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports);
+        $savedReports = $this->postMany('curriculuminventoryreports', 'curriculumInventoryReports', $reports, $jwt);
 
 
         $dataLoader = $this->getDataLoader();
@@ -83,7 +85,7 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
 
         foreach ($savedReports as $i => $report) {
             $sequenceId = $report['sequence'];
-            $this->deleteOne('curriculuminventorysequences', $sequenceId);
+            $this->deleteOne('curriculuminventorysequences', $sequenceId, $jwt);
             $arr = $dataLoader->create();
             $arr['id'] += ($i + $count);
             $arr['report'] = $report['id'];
@@ -94,16 +96,22 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    public function testPostMany()
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyTest(string $jwt): void
     {
-        $data = $this->createMany(4);
-        $this->postManyTest($data);
+        $data = $this->createMany(4, $jwt);
+        $this->postManyTest($data, $jwt);
     }
 
-    public function testPostManyJsonApi()
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyJsonApiTest(string $jwt): void
     {
-        $data = $this->createMany(4);
+        $data = $this->createMany(4, $jwt);
         $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 }

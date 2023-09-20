@@ -26,17 +26,32 @@ interface GetEndpointTestInterface
     /**
      * Test fetching a single object
      */
-    public function testGetOne();
+    public function testGetOne(): void;
+
+    /**
+     * Test fetching a single object with a service token
+     */
+    public function testGetOneWithServiceToken(): void;
 
     /**
      * Test fetching ALL objects
      */
-    public function testGetAll();
+    public function testGetAll(): void;
+
+    /**
+     * Test fetching ALL objects with a service token
+     */
+    public function testGetAllWithServiceToken(): void;
 
     /**
      * Test that a bad ID produces a 404 response
      */
-    public function testNotFound();
+    public function testNotFound(): void;
+
+    /**
+     * Test that a bad ID produces a 404 response
+     */
+    public function testNotFoundWithServiceToken(): void;
 
     /**
      * @param array $dataKeys
@@ -45,10 +60,36 @@ interface GetEndpointTestInterface
      *
      * @dataProvider filtersToTest
      */
-    public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false);
+    public function testFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void;
 
     /**
+     * @param array $dataKeys
+     * @param array $filterParts
+     * @param bool $skipped
+     *
+     * @dataProvider filtersToTest
+     */
+    public function testFiltersWithServiceToken(
+        array $dataKeys = [],
+        array $filterParts = [],
+        bool $skipped = false
+    ): void;
+
+
+
+    /**
+     * Tests reading data from the GraphQL search endpoint.
+     */
+    public function testGraphQL(): void;
+
+    /**
+     * Tests reading data from the GraphQL search endpoint while providing input for filtering.
      * @dataProvider graphQLFiltersToTest
      */
-    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false);
+    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void;
+
+    /**
+     * Tests Access Denied conditions on the given API endpoint for anonymous user access.
+     */
+    public function testAnonymousAccessDenied(): void;
 }

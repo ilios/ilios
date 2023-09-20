@@ -6,6 +6,7 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAssessmentOptionData;
 use App\Tests\Fixture\LoadSessionTypeData;
+use Exception;
 
 /**
  * AssessmentOption API endpoint Test.
@@ -14,6 +15,10 @@ use App\Tests\Fixture\LoadSessionTypeData;
 class AssessmentOptionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'assessmentOptions';
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {
@@ -30,7 +35,7 @@ class AssessmentOptionTest extends AbstractReadWriteEndpoint
     {
         return [
             'name' => ['name', 'lorem ipsum'],
-            'sessionTypes' => ['sessionTypes', [2, 3], $skipped = true],
+            'sessionTypes' => ['sessionTypes', [2, 3], true],
         ];
     }
 
@@ -64,25 +69,91 @@ class AssessmentOptionTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testPutForAllData()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        foreach ($all as $key => $data) {
-            $data['name'] = 'text' . $key;
-
-            $this->putTest($data, $data, $data['id']);
-        }
-    }
-
-    public function testPatchForAllDataJsonApi()
+    protected function runPatchForAllDataJsonApiTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         foreach ($all as $key => $data) {
             $data['name'] = 'text' . $key;
             $jsonApiData = $dataLoader->createJsonApi($data);
-            $this->patchJsonApiTest($data, $jsonApiData);
+            $this->patchJsonApiTest($data, $jsonApiData, $jwt);
         }
+    }
+
+    protected function runPutForAllDataTest(string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        foreach ($all as $key => $data) {
+            $data['name'] = 'text' . $key;
+
+            $this->putTest($data, $data, $data['id'], $jwt);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_assessmentoptions_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_assessmentoptions_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_assessmentoptions_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_assessmentoptions_put',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_assessmentoptions_patch',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
     }
 }

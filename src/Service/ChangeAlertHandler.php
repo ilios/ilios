@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\AlertChangeTypeInterface;
+use App\Entity\AlertInterface;
 use App\Entity\OfferingInterface;
+use App\Entity\ServiceTokenInterface;
 use App\Entity\UserInterface;
 use App\Repository\AlertChangeTypeRepository;
 use App\Repository\AlertRepository;
@@ -24,13 +26,22 @@ class ChangeAlertHandler
     ) {
     }
 
-    public function createAlertForNewOffering(OfferingInterface $offering, UserInterface $instigator)
-    {
+    public function createAlertForNewOffering(
+        OfferingInterface $offering,
+        ?UserInterface $instigator = null,
+        ?ServiceTokenInterface $serviceTokenInstigator = null
+    ): void {
         // create new alert for this offering
+        /* @var AlertInterface $alert */
         $alert = $this->alertRepository->create();
         $alert->addChangeType($this->alertChangeTypeRepository->findOneBy([
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));
-        $alert->addInstigator($instigator);
+        if ($instigator) {
+            $alert->addInstigator($instigator);
+        }
+        if ($serviceTokenInstigator) {
+            $alert->addServiceTokenInstigator($serviceTokenInstigator);
+        }
         $alert->addRecipient($offering->getSession()->getCourse()->getSchool());
         $alert->setTableName('offering');
         $alert->setTableRowId($offering->getId());
@@ -39,9 +50,10 @@ class ChangeAlertHandler
 
     public function createOrUpdateAlertForUpdatedOffering(
         OfferingInterface $offering,
-        UserInterface $instigator,
-        array $originalProperties
-    ) {
+        array $originalProperties,
+        ?UserInterface $instigator = null,
+        ?ServiceTokenInterface $serviceTokenInstigator = null,
+    ): void {
         $updatedProperties = $offering->getAlertProperties();
 
         $changeTypes = [];
@@ -109,7 +121,12 @@ class ChangeAlertHandler
             $alert->addRecipient($recipient);
             $alert->setTableName('offering');
             $alert->setTableRowId($offering->getId());
-            $alert->addInstigator($instigator);
+            if ($instigator) {
+                $alert->addInstigator($instigator);
+            }
+            if ($serviceTokenInstigator) {
+                $alert->addServiceTokenInstigator($serviceTokenInstigator);
+            }
         }
 
         foreach ($changeTypes as $type) {

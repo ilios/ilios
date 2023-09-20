@@ -4,26 +4,128 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use Exception;
+
 /**
  * Trait PutEndpointTestable
  * @package App\Tests
  */
 trait PutEndpointTestable
 {
+    protected bool $enablePutTestsWithServiceToken = true;
+
     /**
-     * @see PutEndpointTestInterface::testPut()
      * @dataProvider putsToTest
+     * @throws Exception
+     * @see PutEndpointTestInterface::testPut()
      */
-    public function testPut($key, $value, $skipped = false)
+    public function testPut(string $key, mixed $value, bool $skipped = false): void
     {
         if ($skipped) {
             $this->markTestSkipped();
         }
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $this->runPutTest($key, $value, $jwt);
+    }
+
+    /**
+     * @dataProvider putsToTest
+     * @throws Exception
+     * @see PutEndpointTestInterface::testPutWithServiceToken()
+     */
+    public function testPutWithServiceToken(string $key, mixed $value, bool $skipped = false): void
+    {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
+        if (!$this->enablePutTestsWithServiceToken) {
+            $this->markTestSkipped('Put test with service token skipped for this endpoint.');
+        }
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools($this->kernelBrowser, $this->fixtures);
+        $this->runPutTest($key, $value, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     * @see PutEndpointTestInterface::testPutForAllData()
+     */
+    public function testPutForAllData(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $this->runPutForAllDataTest($jwt);
+    }
+
+    /**
+     * @throws Exception
+     * @see PutEndpointTestInterface::testPutForAllDataWithServiceToken()
+     */
+    public function testPutForAllDataWithServiceToken(): void
+    {
+        if (!$this->enablePutTestsWithServiceToken) {
+            $this->markTestSkipped('Put for all data test with service token skipped for this endpoint.');
+        }
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools($this->kernelBrowser, $this->fixtures);
+        $this->runPutForAllDataTest($jwt);
+    }
+
+    /**
+     * @dataProvider readOnlyPropertiesToTest
+     * @throws Exception
+     * @see PutEndpointTestInterface::testPutReadOnly()
+     */
+    public function testPutReadOnly(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        if ($skipped) {
+            $this->markTestSkipped();
+        }
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $this->runPutReadOnlyTest($jwt, $key, $id, $value);
+    }
+
+    /**
+     * @dataProvider readOnlyPropertiesToTest
+     * @throws Exception
+     * @see PutEndpointTestInterface::testPutReadOnlyWithServiceToken()
+     */
+    public function testPutReadOnlyWithServiceToken(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        if (!$this->enablePutTestsWithServiceToken) {
+            $this->markTestSkipped('Put read only test with service token skipped for this endpoint.');
+        }
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools($this->kernelBrowser, $this->fixtures);
+        $this->runPutReadOnlyTest($jwt, $key, $id, $value);
+    }
+
+    /**
+     * @throws Exception
+     * @see PutEndpointTestInterface::testPutAnonymousAccessDenied()
+     */
+    public function testPutAnonymousAccessDenied(): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+
+        $this->anonymousDeniedPutTest($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function runPutTest(string $key, mixed $value, string $jwt): void
+    {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         if (array_key_exists($key, $data) and $data[$key] === $value) {
             $this->fail(
-                "This value is already set for {$key}. " .
+                "This value is already set for $key. " .
                 "Modify " . $this::class . '::putsToTest'
             );
         }
@@ -38,13 +140,13 @@ trait PutEndpointTestable
         if (null === $value) {
             unset($data[$key]);
         }
-        $this->putTest($data, $postData, $id);
+        $this->putTest($data, $postData, $id, $jwt);
     }
 
     /**
-     * @see PutEndpointTestInterface::testPutForAllData()
+     * @throws Exception
      */
-    public function testPutForAllData()
+    protected function runPutForAllDataTest(string $jwt): void
     {
         $putsToTest = $this->putsToTest();
         $firstPut = array_shift($putsToTest);
@@ -54,20 +156,19 @@ trait PutEndpointTestable
         $all = $dataLoader->getAll();
         foreach ($all as $data) {
             $data[$changeKey] = $changeValue;
-
-            $this->putTest($data, $data, $data['id']);
+            $this->putTest($data, $data, $data['id'], $jwt);
         }
     }
 
     /**
-     * @see PutEndpointTestInterface::testPutReadOnly()
-     * @dataProvider readOnlyPropertiesToTest
+     * @throws Exception
      */
-    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
-    {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
+    protected function runPutReadOnlyTest(
+        string $jwt,
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+    ): void {
         if (
             null != $key &&
             null != $id &&
@@ -77,7 +178,7 @@ trait PutEndpointTestable
             $data = $dataLoader->getOne();
             if (array_key_exists($key, $data) and $data[$key] == $value) {
                 $this->fail(
-                    "This value is already set for {$key}. " .
+                    "This value is already set for $key. " .
                     "Modify " . $this::class . '::readOnlyPropertiesToTest'
                 );
             }
@@ -85,7 +186,7 @@ trait PutEndpointTestable
             $postData[$key] = $value;
 
             //nothing should change
-            $this->putTest($data, $postData, $id);
+            $this->putTest($data, $postData, $id, $jwt);
         }
     }
 }

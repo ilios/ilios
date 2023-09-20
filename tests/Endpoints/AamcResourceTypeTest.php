@@ -6,6 +6,7 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAamcResourceTypeData;
 use App\Tests\Fixture\LoadTermData;
+use Exception;
 
 /**
  * AamcResourceType API endpoint Test.
@@ -14,6 +15,10 @@ use App\Tests\Fixture\LoadTermData;
 class AamcResourceTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcResourceTypes';
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {
@@ -32,7 +37,7 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'sure thing'],
             'description' => ['description', 'lorem ipsum'],
             'terms' => ['terms', [3]],
-            'id' => ['id', 'FK1', $skipped = true],
+            'id' => ['id', 'FK1', true],
         ];
     }
 
@@ -57,20 +62,94 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function testPostTermAamcResourceType()
+    /**
+     * @throws Exception
+     */
+    public function testPostTermAamcResourceType(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'aamcResourceType', 'terms');
+        $this->relatedPostDataTest($data, $postData, $jwt, 'aamcResourceType', 'terms');
     }
 
-    public function testPutResourceTypeWithExtraData()
+    /**
+     * @throws Exception
+     */
+    public function testPutResourceTypeWithExtraData(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['garbage'] = 'LA Dodgers';
 
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcresourcetypes_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcresourcetypes_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcresourcetypes_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcresourcetypes_put',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcresourcetypes_patch',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
     }
 }

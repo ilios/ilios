@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\CourseInterface;
 use App\Entity\DTO\CourseDTO;
 use App\Exception\InvalidInputWithSafeUserMessageException;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CourseRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CourseRollover;
+use App\Traits\ApiAccessValidation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/{version<v3>}/courses')]
 class Courses extends AbstractApiController
 {
+    use ApiAccessValidation;
+
     public function __construct(
         protected CourseRepository $courseRepository,
         protected TokenStorageInterface $tokenStorage
@@ -166,8 +169,10 @@ class Courses extends AbstractApiController
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $my) {
+            $this->validateCurrentUserAsSessionUser();
             /** @var SessionUserInterface $currentUser */
-            $currentUser = $this->tokenStorage->getToken()->getUser();
+            $currentUser = $this->tokenStorage->getToken()?->getUser();
+
             $dtos = $this->courseRepository->findByUserId(
                 $currentUser->getId(),
                 $parameters['criteria'],
@@ -178,7 +183,7 @@ class Courses extends AbstractApiController
 
             $filteredResults = array_filter(
                 $dtos,
-                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+                fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
             );
 
             //Re-index numerically index the array
@@ -197,7 +202,7 @@ class Courses extends AbstractApiController
 
             $filteredResults = array_filter(
                 $dtos,
-                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+                fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
             );
 
             //Re-index numerically index the array
@@ -485,7 +490,7 @@ class Courses extends AbstractApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $course)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::EDIT, $course)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 
@@ -530,7 +535,7 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         Request $request
     ): Response {
-        if (!$authorizationChecker->isGranted(AbstractVoter::ARCHIVE, $entity)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::ARCHIVE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setArchived(true);
@@ -545,7 +550,7 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         Request $request
     ): Response {
-        if (!$authorizationChecker->isGranted(AbstractVoter::LOCK, $entity)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::LOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(true);
@@ -560,7 +565,7 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         Request $request
     ): Response {
-        if (!$authorizationChecker->isGranted(AbstractVoter::UNLOCK, $entity)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::UNLOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(false);

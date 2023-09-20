@@ -71,4 +71,13 @@ class CurriculumInventoryExportTest extends EntityBase
     {
         $this->entitySetTest('createdBy', 'User');
     }
+
+    /**
+     * @covers \App\Entity\CurriculumInventoryExport::setCreatedAt
+     * @covers \App\Entity\CurriculumInventoryExport::getCreatedAt
+     */
+    public function testSetCreatedAt()
+    {
+        $this->basicSetTest('createdAt', 'datetime');
+    }
 }

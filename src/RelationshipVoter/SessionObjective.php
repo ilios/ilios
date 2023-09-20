@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\SessionInterface;
 use App\Entity\SessionObjectiveInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -14,19 +16,21 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SessionObjective extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof SessionObjectiveInterface && in_array($attribute, [
-                self::VIEW, self::CREATE, self::EDIT, self::DELETE
-            ]);
+        parent::__construct(
+            $permissionChecker,
+            SessionObjectiveInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param SessionObjectiveInterface $objective
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $objective, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -37,19 +41,12 @@ class SessionObjective extends AbstractVoter
             return true;
         }
 
-        switch ($attribute) {
-            case self::VIEW:
-                return true;
-                break;
-            case self::CREATE:
-            case self::EDIT:
-            case self::DELETE:
-                /* @var SessionInterface $session */
-                $session = $objective->getSession();
-                return $this->permissionChecker->canUpdateSession($user, $session);
-                break;
-        }
-
-        return false;
+        return match ($attribute) {
+            VoterPermissions::VIEW => true,
+            VoterPermissions::CREATE,
+            VoterPermissions::EDIT,
+            VoterPermissions::DELETE => $this->permissionChecker->canUpdateSession($user, $subject->getSession()),
+            default => false,
+        };
     }
 }

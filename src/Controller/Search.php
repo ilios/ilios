@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Service\Index\Curriculum;
 use App\Service\Index\Users;
-use App\Service\PermissionChecker;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class Search extends AbstractController
         protected Curriculum $curriculumIndex,
         protected Users $userIndex,
         protected TokenStorageInterface $tokenStorage,
-        protected PermissionChecker $permissionChecker
+        protected SessionUserPermissionChecker $permissionChecker
     ) {
     }
 
@@ -36,9 +37,15 @@ class Search extends AbstractController
     )]
     public function curriculumSearch(Request $request): JsonResponse
     {
-        /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $this->tokenStorage->getToken()->getUser();
-        if (! $this->permissionChecker->canSearchCurriculum($sessionUser)) {
+        $user = $this->tokenStorage->getToken()?->getUser();
+
+        $canSearchCurriculum = false;
+        if ($user instanceof SessionUserInterface) {
+            $canSearchCurriculum = $this->permissionChecker->canSearchCurriculum($user);
+        } elseif ($user instanceof ServiceTokenUserInterface) {
+            $canSearchCurriculum = true;
+        }
+        if (! $canSearchCurriculum) {
             throw new AccessDeniedException();
         }
 
@@ -57,9 +64,15 @@ class Search extends AbstractController
     )]
     public function userSearch(Request $request): JsonResponse
     {
-        /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $this->tokenStorage->getToken()->getUser();
-        if (! $this->permissionChecker->canSearchUsers($sessionUser)) {
+        $user = $this->tokenStorage->getToken()?->getUser();
+
+        $canSearchUsers = false;
+        if ($user instanceof SessionUserInterface) {
+            $canSearchUsers = $this->permissionChecker->canSearchUsers($user);
+        } elseif ($user instanceof ServiceTokenUserInterface) {
+            $canSearchUsers = true;
+        }
+        if (! $canSearchUsers) {
             throw new AccessDeniedException();
         }
 

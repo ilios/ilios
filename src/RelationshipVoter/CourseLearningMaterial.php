@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\CourseLearningMaterialInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CourseLearningMaterial extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof CourseLearningMaterialInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            CourseLearningMaterialInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,8 +36,10 @@ class CourseLearningMaterial extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => $user->performsNonLearnerFunction(),
-            self::EDIT, self::CREATE, self::DELETE => $this->permissionChecker->canUpdateCourse(
+            VoterPermissions::VIEW => $user->performsNonLearnerFunction(),
+            VoterPermissions::EDIT,
+            VoterPermissions::CREATE,
+            VoterPermissions::DELETE => $this->permissionChecker->canUpdateCourse(
                 $user,
                 $subject->getCourse()
             ),

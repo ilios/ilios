@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\VocabularyInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Vocabulary extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof VocabularyInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            VocabularyInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,13 +36,16 @@ class Vocabulary extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => true,
-            self::CREATE => $this->permissionChecker->canCreateVocabulary($user, $subject->getSchool()->getId()),
-            self::EDIT => $this->permissionChecker->canUpdateVocabulary(
+            VoterPermissions::VIEW => true,
+            VoterPermissions::CREATE => $this->permissionChecker->canCreateVocabulary(
                 $user,
                 $subject->getSchool()->getId()
             ),
-            self::DELETE => $this->permissionChecker->canDeleteVocabulary(
+            VoterPermissions::EDIT => $this->permissionChecker->canUpdateVocabulary(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            VoterPermissions::DELETE => $this->permissionChecker->canDeleteVocabulary(
                 $user,
                 $subject->getSchool()->getId()
             ),

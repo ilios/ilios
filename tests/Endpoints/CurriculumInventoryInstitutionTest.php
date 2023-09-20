@@ -7,6 +7,7 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\SchoolData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadSchoolData;
+use Exception;
 
 /**
  * CurriculumInventoryInstitution API endpoint Test.
@@ -78,11 +79,67 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
+    /**
+     * We need to create additional schools to
+     * go with each new CI institution
+     * @throws Exception
+     */
+    public function testPostMany(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $data = $this->createMany(26);
+        $this->postManyTest($data, $jwt);
+    }
+
+    /**
+     * We need to create additional schools to
+     * go with each new CI institution
+     * @throws Exception
+     */
+    public function testPostManyWithServiceToken(): void
+    {
+        $data = $this->createMany(26);
+        $schoolIds = array_map(fn(array $newInstitution) => $newInstitution['school'], $data);
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser, $schoolIds);
+        $this->postManyTest($data, $jwt);
+    }
+
+    /**
+     * We need to create additional schools to
+     * go with each new CI institution
+     * @throws Exception
+     */
+    public function testPostManyJsonApi(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $data = $this->createMany(26);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
+    }
+
+    /**
+     * We need to create additional schools to
+     * go with each new CI institution
+     * @throws Exception
+     */
+    public function testPostManyJsonApiWithServiceToken(): void
+    {
+        $data = $this->createMany(26);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $schoolIds = array_map(fn(array $newInstitution) => $newInstitution['school'], $data);
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser, $schoolIds);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
     protected function createMany(int $count): array
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $schoolDataLoader = self::getContainer()->get(SchoolData::class);
         $schools = $schoolDataLoader->createMany($count);
-        $savedSchools = $this->postMany('schools', 'schools', $schools);
+        $savedSchools = $this->postMany('schools', 'schools', $schools, $jwt);
 
         $dataLoader = $this->getDataLoader();
         $id = $dataLoader->create()['id'];
@@ -97,26 +154,5 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
         }
 
         return $data;
-    }
-
-    /**
-     * We need to create additional schools to
-     * go with each new CI institution
-     */
-    public function testPostMany()
-    {
-        $data = $this->createMany(26);
-        $this->postManyTest($data);
-    }
-
-    /**
-     * We need to create additional schools to
-     * go with each new CI institution
-     */
-    public function testPostManyJsonApi()
-    {
-        $data = $this->createMany(26);
-        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
     }
 }

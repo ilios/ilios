@@ -11,6 +11,7 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadVocabularyData;
+use Exception;
 
 /**
  * LearnerGroup API endpoint Test.
@@ -46,7 +47,7 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
             'cohort' => ['cohort', 3],
             'parent' => ['parent', 2],
             'ancestor' => ['ancestor', '3'],
-            'children' => ['children', [1], $skipped = true],
+            'children' => ['children', [1], true],
             'ilmSessions' => ['ilmSessions', [2]],
             'offerings' => ['offerings', [2]],
             'instructorGroups' => ['instructorGroups', [1, 2]],
@@ -83,12 +84,12 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
             'parent' => [[3], ['parent' => 1]],
             'ancestor' => [[3], ['ancestor' => 3]],
             'noParent' => [[0, 1, 2, 4], ['parent' => 'null']],
-            'children' => [[0], ['children' => [4]], $skipped = true],
-            'ilmSessions' => [[0, 2], ['ilmSessions' => [1]], $skipped = true],
-            'offerings' => [[1, 4], ['offerings' => [2]], $skipped = true],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]], $skipped = true],
-            'users' => [[0, 4], ['users' => [5]], $skipped = true],
-            'instructors' => [[0, 2], ['instructors' => [1]], $skipped = true],
+            'children' => [[0], ['children' => [4]], true],
+            'ilmSessions' => [[0, 2], ['ilmSessions' => [1]], true],
+            'offerings' => [[1, 4], ['offerings' => [2]], true],
+            'instructorGroups' => [[0], ['instructorGroups' => [1]], true],
+            'users' => [[0, 4], ['users' => [5]], true],
+            'instructors' => [[0, 2], ['instructors' => [1]], true],
             'cohorts' => [[1], ['cohorts' => [2]]],
         ];
     }
@@ -101,30 +102,42 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testPostLearnerGroupIlmSession()
+    /**
+     * @throws Exception
+     */
+    public function testPostLearnerGroupIlmSession(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'learnerGroups', 'ilmSessions');
+        $this->relatedPostDataTest($data, $postData, $jwt, 'learnerGroups', 'ilmSessions');
     }
 
-    public function testPostLearnerGroupOfferings()
+    /**
+     * @throws Exception
+     */
+    public function testPostLearnerGroupOfferings(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $data;
-        $this->relatedPostDataTest($data, $postData, 'learnerGroups', 'offerings');
+        $this->relatedPostDataTest($data, $postData, $jwt, 'learnerGroups', 'offerings');
     }
 
-    public function testRemoveParent()
+    /**
+     * @throws Exception
+     */
+    public function testRemoveParent(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getAll()[3];
         $this->assertNotNull($data['parent']);
         $id = $data['id'];
         $data['parent'] = null;
         $postData = $data;
-        $this->putTest($data, $postData, $id);
+        $this->putTest($data, $postData, $id, $jwt);
     }
 }

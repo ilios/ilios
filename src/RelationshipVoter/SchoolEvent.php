@@ -7,6 +7,8 @@ namespace App\RelationshipVoter;
 use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent as Event;
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -14,20 +16,20 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class SchoolEvent extends AbstractCalendarEvent
 {
-    public const VIEW_VIRTUAL_LINK = 'view_virtual_link';
-
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof Event
-            && in_array($attribute, [self::VIEW, self::VIEW_DRAFT_CONTENTS, self::VIEW_VIRTUAL_LINK]);
+        parent::__construct(
+            $permissionChecker,
+            Event::class,
+            [
+                VoterPermissions::VIEW,
+                VoterPermissions::VIEW_DRAFT_CONTENTS,
+                VoterPermissions::VIEW_VIRTUAL_LINK,
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param Event $event
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $event, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -39,10 +41,10 @@ class SchoolEvent extends AbstractCalendarEvent
         }
 
         switch ($attribute) {
-            case self::VIEW:
-                // if the event is published and the it's owned by the current user's
+            case VoterPermissions::VIEW:
+                // if the event is published, and it's owned by the current user's
                 // primary school, then it can be viewed.
-                if ($event->isPublished && $user->getSchoolId() === $event->school) {
+                if ($subject->isPublished && $user->getSchoolId() === $subject->school) {
                     return true;
                 }
 
@@ -50,15 +52,15 @@ class SchoolEvent extends AbstractCalendarEvent
                 // in a directing/administrating/instructing capacity via the event's
                 // owning school/course/session/ILM/offering context,
                 // then it can be viewed, even if it is not published.
-                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $subject);
 
-            case self::VIEW_DRAFT_CONTENTS:
+            case VoterPermissions::VIEW_DRAFT_CONTENTS:
                 // can't view draft data on events, unless
                 // the event is being instructed/directed/administered by the current user.
-                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
-            case self::VIEW_VIRTUAL_LINK:
-                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event)
-                    || $this->isUserLearnerInEvent($user, $event);
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $subject);
+            case VoterPermissions::VIEW_VIRTUAL_LINK:
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $subject)
+                    || $this->isUserLearnerInEvent($user, $subject);
             default:
                 return false;
         }

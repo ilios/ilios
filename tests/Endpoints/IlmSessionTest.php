@@ -9,6 +9,7 @@ use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadSessionData;
 use DateTime;
 use DateTimeZone;
+use Exception;
 
 /**
  * IlmSession API endpoint Test.
@@ -79,55 +80,26 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
     }
 
     /**
-     * We need to create additional sessions to
-     * go with each new IlmSession
+     * @throws Exception
      */
-    protected function createMany(int $count): array
+    public function testDueDateInSystemTimeZone(): void
     {
-        $sessionDataLoader = self::getContainer()->get(SessionData::class);
-        $sessions = $sessionDataLoader->createMany($count);
-        $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
-
-        $dataLoader = $this->getDataLoader();
-        $data = [];
-
-        foreach ($savedSessions as $i => $session) {
-            $arr = $dataLoader->create();
-            $arr['id'] += $i;
-            $arr['session'] = $session['id'];
-
-            $data[] = $arr;
-        }
-
-        return $data;
-    }
-
-    public function testPostMany()
-    {
-        $data = $this->createMany(51);
-        $this->postManyTest($data);
-    }
-
-    public function testPostManyJsonApi()
-    {
-        $data = $this->createMany(10);
-        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
-    }
-
-    public function testDueDateInSystemTimeZone()
-    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $systemTimeZone = new DateTimeZone(date_default_timezone_get());
         $now = new DateTime('now', $systemTimeZone);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['dueDate'] = $now->format('c');
         $postData = $data;
-        $this->postTest($data, $postData);
+        $this->postTest($data, $postData, $jwt);
     }
 
-    public function testDueDateConvertedToSystemTimeZone()
+    /**
+     * @throws Exception
+     */
+    public function testDueDateConvertedToSystemTimeZone(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $americaLa = new DateTimeZone('America/Los_Angeles');
         $utc = new DateTimeZone('UTC');
         $systemTimeZone = date_default_timezone_get();
@@ -145,6 +117,50 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
         $postData['dueDate'] = $now->format('c');
         $data['dueDate'] = $now->setTimezone($systemTime)->format('c');
 
-        $this->postTest($data, $postData);
+        $this->postTest($data, $postData, $jwt);
+    }
+
+    /**
+     * We need to create additional sessions to
+     * go with each new IlmSession
+     * @throws Exception
+     */
+    protected function createMany(int $count, string $jwt): array
+    {
+        $sessionDataLoader = self::getContainer()->get(SessionData::class);
+        $sessions = $sessionDataLoader->createMany($count);
+        $savedSessions = $this->postMany('sessions', 'sessions', $sessions, $jwt);
+
+        $dataLoader = $this->getDataLoader();
+        $data = [];
+
+        foreach ($savedSessions as $i => $session) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['session'] = $session['id'];
+
+            $data[] = $arr;
+        }
+
+        return $data;
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyTest(string $jwt): void
+    {
+        $data = $this->createMany(51, $jwt);
+        $this->postManyTest($data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function runPostManyJsonApiTest(string $jwt): void
+    {
+        $data = $this->createMany(10, $jwt);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 }

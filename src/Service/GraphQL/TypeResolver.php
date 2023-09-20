@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\GraphQL;
 
 use App\Attributes\Id;
+use App\Classes\VoterPermissions;
 use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityMetadata;
 use App\Service\EntityRepositoryLookup;
@@ -82,7 +83,7 @@ class TypeResolver
 
     protected function authorizeValue(object $value): ?object
     {
-        if ($this->authorizationChecker->isGranted(AbstractVoter::VIEW, $value)) {
+        if ($this->authorizationChecker->isGranted(VoterPermissions::VIEW, $value)) {
             return $value;
         }
 
@@ -93,7 +94,7 @@ class TypeResolver
     {
         return array_filter(
             $values,
-            fn($value) => $this->authorizationChecker->isGranted(AbstractVoter::VIEW, $value)
+            fn($value) => $this->authorizationChecker->isGranted(VoterPermissions::VIEW, $value)
         );
     }
 

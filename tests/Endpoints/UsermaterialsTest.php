@@ -28,7 +28,7 @@ class UsermaterialsTest extends AbstractEndpoint
         ];
     }
 
-    public function testGetAllMaterials()
+    public function testGetAllMaterials(): void
     {
         $userId = 5;
         $materials = $this->getMaterials($userId);
@@ -57,14 +57,14 @@ class UsermaterialsTest extends AbstractEndpoint
         $this->assertEquals(17, count($materials[1]));
         $this->assertEquals('1', $materials[1]['id']);
         $this->assertEquals('1', $materials[1]['course']);
-        $this->assertFalse(array_key_exists('session', $materials[1]));
+        $this->assertArrayNotHasKey('session', $materials[1]);
         $this->assertFalse($materials[1]['isBlanked']);
 
         $this->assertEquals(19, count($materials[2]));
         $this->assertEquals('3', $materials[2]['id']);
         $this->assertEquals('1', $materials[2]['course']);
         $this->assertEquals('2016-09-04T00:00:00+00:00', $materials[2]['firstOfferingDate']);
-        $this->assertFalse(array_key_exists('session', $materials[2]));
+        $this->assertArrayNotHasKey('session', $materials[2]);
         $this->assertFalse($materials[2]['isBlanked']);
 
         $this->assertEquals(20, count($materials[3]));
@@ -107,7 +107,7 @@ class UsermaterialsTest extends AbstractEndpoint
         $this->assertTrue($materials[8]['isBlanked']);
     }
 
-    public function testGetAllMaterialsAsStudent()
+    public function testGetAllMaterialsAsStudent(): void
     {
         $userId = 5;
         $materials = $this->getMaterials($userId, null, null, $userId);
@@ -116,64 +116,56 @@ class UsermaterialsTest extends AbstractEndpoint
         $this->assertFalse(in_array('2', $materialIds), 'Draft material was filtered out.');
     }
 
-    public function testWhenViewingAnotherUsersEventsOnlyPublishedShows()
+    public function testWhenViewingAnotherUsersEventsOnlyPublishedShows(): void
     {
         $userId = 5;
-        $materials = $this->getMaterials($userId, null, null);
+        $materials = $this->getMaterials($userId);
         $this->assertCount(9, $materials, 'All expected materials returned');
         $materialIds = array_column($materials, 'id');
         $this->assertFalse(in_array('2', $materialIds), 'Draft material was filtered out.');
     }
 
-    public function testGetMaterialsBeforeTheBeginningOfTime()
+    public function testGetMaterialsBeforeTheBeginningOfTime(): void
     {
         $userId = 5;
-        $materials = $this->getMaterials($userId, $before = 0);
+        $materials = $this->getMaterials($userId, 0);
 
         $this->assertCount(0, $materials, 'No materials returned');
     }
 
-    public function testGetMaterialsAfterTheBeginningOfTime()
+    public function testGetMaterialsAfterTheBeginningOfTime(): void
     {
         $userId = 5;
-        $materials = $this->getMaterials($userId, $before = null, $after = 0);
+        $materials = $this->getMaterials($userId, null, 0);
         $this->assertCount(9, $materials, 'All materials returned');
     }
 
-    public function testGetMaterialsAfterTheEndOfTime()
+    public function testGetMaterialsAfterTheEndOfTime(): void
     {
         $userId = 5;
-        $materials = $this->getMaterials($userId, $before = null, $after = 2051233745);
+        $materials = $this->getMaterials($userId, null, 2051233745);
         $this->assertCount(0, $materials, 'No materials returned');
     }
 
-    public function testGetMaterialsBeforeTheEndOfTime()
+    public function testGetMaterialsBeforeTheEndOfTime(): void
     {
         $userId = 5;
-        $materials = $this->getMaterials($userId, $before = 2051233745);
+        $materials = $this->getMaterials($userId, 2051233745);
         $this->assertCount(9, $materials, 'All materials returned');
     }
 
-    public function testAccessDenied()
+    public function testAccessDenied(): void
     {
-        $parameters = [
-            'version' => $this->apiVersion,
-            'id' => 99
-        ];
-        $url = $this->getUrl(
+        $this->runAccessDeniedTest();
+    }
+
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
             $this->kernelBrowser,
-            'app_api_usermaterial_getmaterials',
-            $parameters
+            $this->fixtures
         );
-
-        $this->createJsonRequest(
-            'GET',
-            $url
-        );
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+        $this->runAccessDeniedTest($jwt, Response::HTTP_FORBIDDEN);
     }
 
     protected function getMaterials($userId, $before = null, $after = null, $authUser = null)
@@ -195,8 +187,8 @@ class UsermaterialsTest extends AbstractEndpoint
         );
 
         $token = isset($authUser) ?
-            $this->getTokenForUser($this->kernelBrowser, $authUser) :
-            $this->getAuthenticatedUserToken($this->kernelBrowser);
+            $this->createJwtFromUserId($this->kernelBrowser, $authUser) :
+            $this->createJwtForRootUser($this->kernelBrowser);
         $this->createJsonRequest(
             'GET',
             $url,
@@ -207,10 +199,36 @@ class UsermaterialsTest extends AbstractEndpoint
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
         return json_decode($response->getContent(), true)['userMaterials'];
+    }
+
+    protected function runAccessDeniedTest(
+        ?string $jwt = null,
+        int $expectedResponseCode = Response::HTTP_UNAUTHORIZED
+    ): void {
+        $parameters = [
+            'version' => $this->apiVersion,
+            'id' => 99
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'app_api_usermaterial_getmaterials',
+            $parameters
+        );
+
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $jwt
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, $expectedResponseCode);
     }
 }

@@ -16,6 +16,7 @@ use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\UserData;
 
@@ -27,6 +28,10 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'authentications';
     protected bool $isGraphQLTestable = false;
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {
@@ -78,23 +83,593 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    protected function createMany($count)
+    /**
+     * @throws Exception
+     */
+    public function testPostMultipleAuthenticationWithEmptyPassword(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $data = $this->createMany(101, $jwt);
+        $data = array_map(function ($arr) {
+            unset($arr['password']);
+            return $arr;
+        }, $data);
+        $this->postManyTest($data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPostMultipleAuthenticationWithEmptyPasswordJsonApi(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $arr = $this->createMany(101, $jwt);
+        $arr = array_map(function ($item) {
+            unset($item['password']);
+            return $item;
+        }, $arr);
+
+        $data = $this->createBulkJsonApi($arr);
+        $this->postManyJsonApiTest($data, $arr, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPostAuthenticationWithEmptyPassword(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['password']);
+
+        $this->postTest($data, $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPostAuthenticationWithEmptyPasswordJsonApi(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $arr = $dataLoader->create();
+        unset($arr['password']);
+        $data = $dataLoader->createJsonApi($arr);
+
+        $this->postJsonApiTest($data, $arr, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPutAuthenticationWithNewUsernameAndPassword(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['passwordHash']);
+        $data['username'] = 'somethingnew';
+        $data['password'] = 'somethingnew';
+
+        $this->putTest($data, $data, $data['user'], $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPutAuthenticationWithNewUsernameAndPasswordJsonApi(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        unset($data['passwordHash']);
+        $data['username'] = 'somethingnew';
+        $data['password'] = 'somethingnew';
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->patchJsonApiTest($data, $jsonApiData, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPostAuthenticationForUserWithNonPrimarySchool(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        $data['user'] = '4';
+        $user4 = parent::getOne('users', 'users', 4, $jwt);
+        $this->assertSame($user4['school'], 2, 'User #4 should be in school 2 or this test is garbage');
+
+        $this->postTest($data, $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPostAuthenticationWithNoUsernameOrPassword(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->create();
+        unset($data['username']);
+        unset($data['password']);
+
+        $this->postTest($data, $data, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testPostAuthenticationWithNoUsernameOrPasswordJsonApi(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $arr = $dataLoader->create();
+        unset($arr['username']);
+        unset($arr['password']);
+        $data = $dataLoader->createJsonApi($arr);
+
+        $this->postJsonApiTest($data, $arr, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test3396PutAuthenticationWithInvalidation(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $allData = $dataLoader->getAll();
+        $this->assertArrayHasKey(2, $allData);
+        $data = $allData[2];
+        $this->assertArrayHasKey('invalidateTokenIssuedBefore', $data);
+
+        unset($data['passwordHash']);
+        unset($data['invalidateTokenIssuedBefore']);
+        $data['username'] = 'changed';
+
+        $this->putTest($data, $data, $data['user'], $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test3396PatchAuthenticationWithInvalidation(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $allData = $dataLoader->getAll();
+        $this->assertArrayHasKey(2, $allData);
+        $data = $allData[2];
+        $this->assertArrayHasKey('invalidateTokenIssuedBefore', $data);
+
+        unset($data['passwordHash']);
+        unset($data['invalidateTokenIssuedBefore']);
+        $data['username'] = 'changed';
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+        $this->patchJsonApiTest($data, $jsonApiData, $jwt);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_applicationconfigs_delete',
+                ['version' => $this->apiVersion, 'id' => $data['user']],
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_applicationconfigs_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_applicationconfigs_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_applicationconfigs_put',
+                ['version' => $this->apiVersion, 'id' => $data['user']],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_applicationconfigs_patch',
+                ['version' => $this->apiVersion, 'id' => $data['user']],
+            ),
+            json_encode([])
+        );
+    }
+
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     * @throws Exception
+     */
+    protected function runDeleteTest(string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->deleteTest($data['user'], $jwt);
+    }
+
+    /**
+     * Overridden because authentication uses
+     * 'user' the ID
+     * @inheritdoc
+     */
+    protected function getOneTest(string $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $returnedData = $this->getOne($endpoint, $responseKey, $data['user'], $jwt);
+        $this->compareData($data, $returnedData);
+
+        return $returnedData;
+    }
+
+    /**
+     * Overridden because authentication uses
+     * 'user' as the ID
+     * @throws Exception
+     */
+    protected function getOneJsonApiTest(string $jwt): object
+    {
+        $endpoint = $this->getPluralName();
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $returnedData = $this->getOneJsonApi($endpoint, (string) $data['user'], $jwt);
+        $this->assertSame($this->getCamelCasedPluralName(), $returnedData->type);
+        $this->compareJsonApiData($data, $returnedData);
+
+        return $returnedData;
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @dataProvider putsToTest
+     * @inheritdoc
+     * @throws Exception
+     */
+    protected function runPutTest($key, $value, string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        if (array_key_exists($key, $data) and $data[$key] == $value) {
+            $this->fail(
+                "This value is already set for $key. " .
+                "Modify " . $this::class . '::putsToTest'
+            );
+        }
+        unset($data['passwordHash']);
+        $data[$key] = $value;
+
+        $postData = $data;
+        $this->putTest($data, $postData, $data['user'], $jwt);
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     * @throws Exception
+     */
+    protected function runPutForAllDataTest(string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        foreach ($all as $i => $data) {
+            $data['username'] = 'randomuser' . $i;
+            unset($data['passwordHash']);
+            $this->putTest($data, $data, $data['user'], $jwt);
+        }
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     * @throws Exception
+     */
+    protected function runPatchForAllDataJsonApiTest(string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+        foreach ($all as $i => $data) {
+            $data['username'] = 'randomuser' . $i;
+            unset($data['passwordHash']);
+            $jsonApiData = $dataLoader->createJsonApi($data);
+            $this->patchJsonApiTest($data, $jsonApiData, $jwt);
+        }
+    }
+
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     * @throws Exception
+     */
+    protected function runPostManyTest(string $jwt): void
+    {
+        $data = $this->createMany(10, $jwt);
+        $this->postManyTest($data, $jwt);
+    }
+
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     * @throws Exception
+     */
+    protected function runPostManyJsonApiTest(string $jwt): void
+    {
+        $arr = $this->createMany(10, $jwt);
+        $data = $this->createBulkJsonApi($arr);
+        $this->postManyJsonApiTest($data, $arr, $jwt);
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     */
+    protected function postTest(array $data, array $postData, string $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $postKey = $this->getCamelCasedSingularName();
+        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData, $jwt);
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['user'], $jwt);
+        $this->compareData($data, $fetchedResponseData);
+
+        return $fetchedResponseData;
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     */
+    protected function putTest(array $data, array $postData, mixed $id, string $jwt, $new = false): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $singularResponseKey = $this->getCamelCasedSingularName();
+        $responseData = $this->putOne($endpoint, $singularResponseKey, $id, $postData, $jwt);
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['user'], $jwt);
+        $this->compareData($data, $fetchedResponseData);
+
+        return $fetchedResponseData;
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     */
+    protected function postManyTest(array $data, string $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postMany($endpoint, $responseKey, $data, $jwt);
+        $ids = array_map(fn(array $arr) => $arr['user'], $responseData);
+        $filters = [
+            'filters[user]' => $ids,
+            'limit' => count($ids)
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
+
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+            $this->compareData($datum, $response);
+        }
+
+        return $fetchedResponseData;
+    }
+
+    protected function postManyJsonApiTest(object $postData, array $data, string $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postManyJsonApi($postData, $jwt);
+        $ids = array_column($responseData, 'id');
+        $filters = [
+            'filters[user]' => $ids
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
+
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+            $this->compareData($datum, $response);
+        }
+
+        return $fetchedResponseData;
+    }
+
+    /**
+     * Overridden because authentication users
+     * 'user' as the Primary Key
+     * @inheritdoc
+     */
+    protected function getOne(
+        string $endpoint,
+        string $responseKey,
+        mixed $id,
+        string $jwt,
+        ?string $version = null
+    ): array {
+        $version = $version ?: $this->apiVersion;
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            "app_api_authentications_getone",
+            ['version' => $version, 'id' => $id]
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $jwt
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
+            $this->fail("Unable to load url: $url");
+        }
+
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        return json_decode($response->getContent(), true)[$responseKey][0];
+    }
+
+    /**
+     * Overwritten b/c we need to unset the
+     * @throws Exception
+     */
+    protected function runPutReadOnlyTest(
+        string $jwt,
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+    ): void {
+        if (
+            null != $key &&
+            null != $id &&
+            null != $value
+        ) {
+            $dataLoader = $this->getDataLoader();
+            $data = $dataLoader->getOne();
+            if (array_key_exists($key, $data) and $data[$key] == $value) {
+                $this->fail(
+                    "This value is already set for $key. " .
+                    "Modify " . $this::class . '::readOnlyPropertiesToTest'
+                );
+            }
+            unset($data['passwordHash']);
+            $postData = $data;
+            $postData[$key] = $value;
+
+            //nothing should change
+            $this->putTest($data, $postData, $id, $jwt);
+        }
+    }
+
+    protected function anonymousAccessDeniedOneTest(): void
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getOne();
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_authentications_getone",
+                ['version' => $this->apiVersion, 'id' => $data['user']]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    protected function anonymousAccessDeniedAllTest(): void
+    {
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_authentications_getall",
+                ['version' => $this->apiVersion]
+            ),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    protected function anonymousDeniedPutTest(array $data): void
+    {
+        $data['id'] = $data['user'];
+        parent::anonymousDeniedPutTest($data);
+    }
+
+    protected function anonymousDeniedPatchTest(array $data): void
+    {
+        $data['id'] = $data['user'];
+        parent::anonymousDeniedPatchTest($data);
+    }
+
+    /**
+     * @param int $count
+     * @param string $jwt
+     * @return array
+     * @throws Exception
+     */
+    protected function createMany(int $count, string $jwt): array
     {
         $userDataLoader = self::getContainer()->get(UserData::class);
         $users = $userDataLoader->createMany($count);
-        $savedUsers = $this->postMany('users', 'users', $users);
+        $savedUsers = $this->postMany('users', 'users', $users, $jwt);
 
         $dataLoader = $this->getDataLoader();
 
-        $data = array_map(function ($user) use ($dataLoader) {
+        return array_map(function ($user) use ($dataLoader) {
             $arr = $dataLoader->create();
             $arr['user'] = (string) $user['id'];
             $arr['username'] .= $user['id'];
 
             return $arr;
         }, $savedUsers);
-
-        return $data;
     }
 
     protected function createBulkJsonApi($arr): object
@@ -125,7 +700,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         return json_decode(json_encode(['data' => $data]), false);
     }
 
-    protected function compareData(array $expected, array $result)
+    protected function compareData(array $expected, array $result): void
     {
         unset($expected['passwordHash']);
         unset($expected['password']);
@@ -136,457 +711,9 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         );
     }
 
-    protected function compareJsonApiData(array $expected, object $result)
+    protected function compareJsonApiData(array $expected, object $result): void
     {
         $this->assertEquals($expected['user'], $result->id);
         $this->assertEquals($expected['username'], $result->attributes->username);
-    }
-
-    public function testPostMultipleAuthenticationWithEmptyPassword()
-    {
-        $data = $this->createMany(101);
-        $data = array_map(function ($arr) {
-            unset($arr['password']);
-            return $arr;
-        }, $data);
-        $this->postManyTest($data);
-    }
-
-    public function testPostMultipleAuthenticationWithEmptyPasswordJsonApi()
-    {
-        $arr = $this->createMany(101);
-        $arr = array_map(function ($item) {
-            unset($item['password']);
-            return $item;
-        }, $arr);
-
-        $data = $this->createBulkJsonApi($arr);
-        $this->postManyJsonApiTest($data, $arr);
-    }
-
-    public function testPostAuthenticationWithEmptyPassword()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        unset($data['password']);
-
-        $this->postTest($data, $data);
-    }
-
-    public function testPostAuthenticationWithEmptyPasswordJsonApi()
-    {
-        $dataLoader = $this->getDataLoader();
-        $arr = $dataLoader->create();
-        unset($arr['password']);
-        $data = $dataLoader->createJsonApi($arr);
-
-        $this->postJsonApiTest($data, $arr);
-    }
-
-    public function testPutAuthenticationWithNewUsernameAndPassword()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        unset($data['passwordHash']);
-        $data['username'] = 'somethingnew';
-        $data['password'] = 'somethingnew';
-
-        $this->putTest($data, $data, $data['user']);
-    }
-
-    public function testPutAuthenticationWithNewUsernameAndPasswordJsonApi()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        unset($data['passwordHash']);
-        $data['username'] = 'somethingnew';
-        $data['password'] = 'somethingnew';
-        $jsonApiData = $dataLoader->createJsonApi($data);
-
-        $this->patchJsonApiTest($data, $jsonApiData);
-    }
-
-    public function testPostAuthenticationForUserWithNonPrimarySchool()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        $data['user'] = '4';
-        $user4 = parent::getOne('users', 'users', 4);
-        $this->assertSame($user4['school'], 2, 'User #4 should be in school 2 or this test is garbage');
-
-        $this->postTest($data, $data);
-    }
-
-    public function testPostAuthenticationWithNoUsernameOrPassword()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->create();
-        unset($data['username']);
-        unset($data['password']);
-
-        $this->postTest($data, $data);
-    }
-
-    public function testPostAuthenticationWithNoUsernameOrPasswordJsonApi()
-    {
-        $dataLoader = $this->getDataLoader();
-        $arr = $dataLoader->create();
-        unset($arr['username']);
-        unset($arr['password']);
-        $data = $dataLoader->createJsonApi($arr);
-
-        $this->postJsonApiTest($data, $arr);
-    }
-
-    public function test3396PutAuthenticationWithInvalidation()
-    {
-        $dataLoader = $this->getDataLoader();
-        $allData = $dataLoader->getAll();
-        $this->assertArrayHasKey(2, $allData);
-        $data = $allData[2];
-        $this->assertArrayHasKey('invalidateTokenIssuedBefore', $data);
-
-        unset($data['passwordHash']);
-        unset($data['invalidateTokenIssuedBefore']);
-        $data['username'] = 'changed';
-
-        $this->putTest($data, $data, $data['user']);
-    }
-
-    public function test3396PatchAuthenticationWithInvalidation()
-    {
-        $dataLoader = $this->getDataLoader();
-        $allData = $dataLoader->getAll();
-        $this->assertArrayHasKey(2, $allData);
-        $data = $allData[2];
-        $this->assertArrayHasKey('invalidateTokenIssuedBefore', $data);
-
-        unset($data['passwordHash']);
-        unset($data['invalidateTokenIssuedBefore']);
-        $data['username'] = 'changed';
-
-        $jsonApiData = $dataLoader->createJsonApi($data);
-        $this->patchJsonApiTest($data, $jsonApiData);
-    }
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    public function testDelete()
-    {
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        $this->deleteTest($data['user']);
-    }
-
-    /**
-     * Overridden because authentication uses
-     * 'user' the ID
-     * @inheritdoc
-     */
-    protected function getOneTest(): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $loader = $this->getDataLoader();
-        $data = $loader->getOne();
-        $returnedData = $this->getOne($endpoint, $responseKey, $data['user']);
-        $this->compareData($data, $returnedData);
-
-        return $returnedData;
-    }
-
-    /**
-     * Overridden because authetication uses
-     * 'user' as the ID
-     */
-    protected function getOneJsonApiTest(): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $loader = $this->getDataLoader();
-        $data = $loader->getOne();
-        $returnedData = $this->getOneJsonApi($endpoint, (string) $data['user']);
-        $this->assertSame($responseKey = $this->getCamelCasedPluralName(), $returnedData->type);
-        $this->compareJsonApiData($data, $returnedData);
-
-        return $returnedData;
-    }
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @dataProvider putsToTest
-     * @inheritdoc
-     */
-    public function testPut($key, $value, $skipped = false)
-    {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
-
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        if (array_key_exists($key, $data) and $data[$key] == $value) {
-            $this->fail(
-                "This value is already set for {$key}. " .
-                "Modify " . $this::class . '::putsToTest'
-            );
-        }
-        unset($data['passwordHash']);
-        $data[$key] = $value;
-
-        $postData = $data;
-        $this->putTest($data, $postData, $data['user']);
-    }
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    public function testPutForAllData()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        foreach ($all as $i => $data) {
-            $data['username'] = 'randomuser' . $i;
-            unset($data['passwordHash']);
-            $this->putTest($data, $data, $data['user']);
-        }
-    }
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    public function testPatchForAllDataJsonApi()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        foreach ($all as $i => $data) {
-            $data['username'] = 'randomuser' . $i;
-            unset($data['passwordHash']);
-            $jsonApiData = $dataLoader->createJsonApi($data);
-            $this->patchJsonApiTest($data, $jsonApiData);
-        }
-    }
-
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    public function testPostMany()
-    {
-        $data = $this->createMany(10);
-        $this->postManyTest($data);
-    }
-
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    public function testPostManyJsonApi()
-    {
-        $arr = $this->createMany(10);
-        $data = $this->createBulkJsonApi($arr);
-        $this->postManyJsonApiTest($data, $arr);
-    }
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    protected function postTest(array $data, array $postData): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $postKey = $this->getCamelCasedSingularName();
-        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData);
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['user']);
-        $this->compareData($data, $fetchedResponseData);
-
-        return $fetchedResponseData;
-    }
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    protected function putTest(array $data, array $postData, $id, $new = false): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $singularResponseKey = $this->getCamelCasedSingularName();
-        $responseData = $this->putOne($endpoint, $singularResponseKey, $id, $postData);
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['user']);
-        $this->compareData($data, $fetchedResponseData);
-
-        return $fetchedResponseData;
-    }
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    protected function postManyTest(array $data): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postMany($endpoint, $responseKey, $data);
-        $ids = array_map(fn(array $arr) => $arr['user'], $responseData);
-        $filters = [
-            'filters[user]' => $ids,
-            'limit' => count($ids)
-        ];
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
-
-        foreach ($data as $i => $datum) {
-            $response = $fetchedResponseData[$i];
-            $this->compareData($datum, $response);
-        }
-
-        return $fetchedResponseData;
-    }
-
-    /**
-     * Test saving new data to the JSON:API
-     */
-    protected function postManyJsonApiTest(object $postData, array $data): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postManyJsonApi($postData);
-        $ids = array_column($responseData, 'id');
-        $filters = [
-            'filters[user]' => $ids
-        ];
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
-
-        foreach ($data as $i => $datum) {
-            $response = $fetchedResponseData[$i];
-            $this->compareData($datum, $response);
-        }
-
-        return $fetchedResponseData;
-    }
-
-    /**
-     * Overridden because authentication users
-     * 'user' as the Primary Key
-     * @inheritdoc
-     */
-    protected function getOne($endpoint, $responseKey, $userId, $version = null): mixed
-    {
-        $version = $version ?: $this->apiVersion;
-        $url = $this->getUrl(
-            $this->kernelBrowser,
-            "app_api_authentications_getone",
-            ['version' => $version, 'id' => $userId]
-        );
-        $this->createJsonRequest(
-            'GET',
-            $url,
-            null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
-
-        $response = $this->kernelBrowser->getResponse();
-
-        if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
-        }
-
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        return json_decode($response->getContent(), true)[$responseKey][0];
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @dataProvider readOnlyPropertiesToTest
-     */
-    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false)
-    {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
-        if (
-            null != $key &&
-            null != $id &&
-            null != $value
-        ) {
-            $dataLoader = $this->getDataLoader();
-            $data = $dataLoader->getOne();
-            if (array_key_exists($key, $data) and $data[$key] == $value) {
-                $this->fail(
-                    "This value is already set for {$key}. " .
-                    "Modify " . $this::class . '::readOnlyPropertiesToTest'
-                );
-            }
-            unset($data['passwordHash']);
-            $postData = $data;
-            $postData[$key] = $value;
-
-            //nothing should change
-            $this->putTest($data, $postData, $id);
-        }
-    }
-
-    public function anonymousAccessDeniedOneTest()
-    {
-        $loader = $this->getDataLoader();
-        $data = $loader->getOne();
-        $this->createJsonRequest(
-            'GET',
-            $this->getUrl(
-                $this->kernelBrowser,
-                "app_api_authentications_getone",
-                ['version' => $this->apiVersion, 'id' => $data['user']]
-            ),
-        );
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
-    }
-    public function anonymousAccessDeniedAllTest()
-    {
-        $this->createJsonRequest(
-            'GET',
-            $this->getUrl(
-                $this->kernelBrowser,
-                "app_api_authentications_getall",
-                ['version' => $this->apiVersion]
-            ),
-        );
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
-    }
-
-    protected function anonymousDeniedPutTest(array $data)
-    {
-        $data['id'] = $data['user'];
-        parent::anonymousDeniedPutTest($data);
-    }
-
-    protected function anonymousDeniedPatchTest(array $data)
-    {
-        $data['id'] = $data['user'];
-        parent::anonymousDeniedPatchTest($data);
     }
 }

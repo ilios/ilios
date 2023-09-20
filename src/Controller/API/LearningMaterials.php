@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
 use App\RelationshipVoter\AbstractVoter;
@@ -13,6 +14,7 @@ use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
 use App\Service\TemporaryFileSystem;
+use App\Traits\ApiAccessValidation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,10 +44,14 @@ use RuntimeException;
 
 class LearningMaterials
 {
+    use ApiAccessValidation;
+
     protected string $endpoint;
 
-    public function __construct(protected LearningMaterialRepository $repository)
-    {
+    public function __construct(
+        protected LearningMaterialRepository $repository,
+        protected TokenStorageInterface $tokenStorage,
+    ) {
         $this->endpoint = 'learningmaterials';
     }
 
@@ -98,8 +104,8 @@ class LearningMaterials
         $sessionUser = $tokenStorage->getToken()->getUser();
 
         $values =  [];
-        if ($authorizationChecker->isGranted(AbstractVoter::VIEW, $dto)) {
-            if (! $sessionUser->performsNonLearnerFunction()) {
+        if ($authorizationChecker->isGranted(VoterPermissions::VIEW, $dto)) {
+            if ($sessionUser instanceof SessionUserInterface && ! $sessionUser->performsNonLearnerFunction()) {
                 $dto->clearMaterial();
             }
             $values = [$dto];
@@ -204,14 +210,14 @@ class LearningMaterials
 
         $filteredResults = array_filter(
             $dtos,
-            fn(LearningMaterialDTO $dto) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto)
+            fn(LearningMaterialDTO $dto) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $dto)
         );
 
         /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
         $values = array_map(function (LearningMaterialDTO $dto) use ($sessionUser) {
-            if (! $sessionUser->performsNonLearnerFunction()) {
+            if ($sessionUser instanceof SessionUserInterface && ! $sessionUser->performsNonLearnerFunction()) {
                 $dto->clearMaterial();
             }
 
@@ -282,7 +288,7 @@ class LearningMaterials
         IliosFileSystem $fs,
         SerializerInterface $serializer
     ): Response {
-
+        $this->validateCurrentUserAsSessionUser();
         $data = $requestParser->extractPostDataFromRequest($request, 'learningmaterials');
         $dataWithFilesAttributes = array_map(function ($obj) use ($fs, $temporaryFileSystem) {
             $tmpFile = false;
@@ -327,7 +333,7 @@ class LearningMaterials
             }
             $this->repository->update($entity, false);
             $this->validateLmEntity($entity, $validator);
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $entity)) {
+            if (! $authorizationChecker->isGranted(VoterPermissions::CREATE, $entity)) {
                 throw new AccessDeniedException('Unauthorized access!');
             }
 
@@ -417,16 +423,17 @@ class LearningMaterials
         ApiResponseBuilder $builder,
         SerializerInterface $serializer
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         /** @var LearningMaterialInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = AbstractVoter::EDIT;
+            $permission = VoterPermissions::EDIT;
         } else {
             $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
-            $permission = AbstractVoter::CREATE;
+            $permission = VoterPermissions::CREATE;
         }
 
         $data = $requestParser->extractPutDataFromRequest($request, 'learningmaterials');
@@ -471,6 +478,7 @@ class LearningMaterials
         ApiResponseBuilder $builder,
         SerializerInterface $serializer
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         $type = $request->getAcceptableContentTypes();
         if (!in_array("application/vnd.api+json", $type)) {
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
@@ -492,7 +500,7 @@ class LearningMaterials
         $serializer->deserialize($json, $entity::class, 'json', ['object_to_populate' => $entity]);
 
         $this->validateLmEntity($entity, $validator);
-        if (! $authorizationChecker->isGranted(AbstractVoter::EDIT, $entity)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::EDIT, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 
@@ -533,13 +541,14 @@ class LearningMaterials
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
-        $entity = $this->repository->findOneBy(['id' => $id]);
+        $this->validateCurrentUserAsSessionUser();
 
+        $entity = $this->repository->findOneBy(['id' => $id]);
         if (! $entity) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::DELETE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 
