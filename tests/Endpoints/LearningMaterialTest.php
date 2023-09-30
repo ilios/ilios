@@ -20,7 +20,6 @@ use App\Tests\DataLoader\LearningMaterialData;
 /**
  * LearningMaterial API endpoint Test.
  * @group api_4
- * @group time-sensitive
  */
 class LearningMaterialTest extends AbstractReadWriteEndpoint
 {

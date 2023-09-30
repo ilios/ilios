@@ -6,7 +6,6 @@ namespace App\EventListener;
 
 use DateTime;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\OnFlushEventArgs;
 use App\Service\Timestamper;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\OfferingsEntityInterface;
@@ -57,26 +56,26 @@ class TimestampEntityChanges
      */
     protected function stamp(object $entity)
     {
-        $timestamp = new Datetime();
+        $now = DateTime::createFromFormat('U', (string) time());
 
         if ($entity instanceof TimestampableEntityInterface) {
-            $this->timeStamper->add($entity, $timestamp);
-            $entity->setUpdatedAt($timestamp);
+            $this->timeStamper->add($entity, $now);
+            $entity->setUpdatedAt($now);
         }
 
         if ($entity instanceof OfferingsEntityInterface) {
             $offerings = $entity->getOfferings();
             foreach ($offerings as $offering) {
-                $this->timeStamper->add($offering, $timestamp);
-                $offering->setUpdatedAt($timestamp);
+                $this->timeStamper->add($offering, $now);
+                $offering->setUpdatedAt($now);
             }
         }
 
         if ($entity instanceof SessionStampableInterface) {
             $sessions = $entity->getSessions();
             foreach ($sessions as $session) {
-                $this->timeStamper->add($session, $timestamp);
-                $session->setUpdatedAt($timestamp);
+                $this->timeStamper->add($session, $now);
+                $session->setUpdatedAt($now);
             }
         }
     }

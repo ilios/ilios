@@ -19,7 +19,6 @@ use DateTimeZone;
 /**
  * Offering API endpoint Test.
  * @group api_1
- * @group time-sensitive
  */
 class OfferingTest extends AbstractReadWriteEndpoint
 {

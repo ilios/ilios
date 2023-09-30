@@ -10,7 +10,6 @@ use App\Tests\Fixture\LoadUserData;
 /**
  * Report API endpoint Test.
  * @group api_4
- * @group time-sensitive
  */
 class ReportTest extends AbstractReadWriteEndpoint
 {
