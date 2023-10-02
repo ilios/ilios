@@ -10,7 +10,6 @@ use App\Tests\Fixture\LoadMeshTermData;
 /**
  * MeshTerm API endpoint Test.
  * @group api_3
- * @group time-sensitive
  */
 class MeshTermTest extends AbstractMeshEndpoint
 {

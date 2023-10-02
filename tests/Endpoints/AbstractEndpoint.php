@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\EventListener\TimestampEntityChanges;
 use App\Service\InflectorFactory;
-use App\Service\Timestamper;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\GetUrlTrait;
 use DateTime;
@@ -13,7 +13,6 @@ use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Inflector\Inflector;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
-use Symfony\Bridge\PhpUnit\ClockMock;
 use App\Tests\DataLoader\DataLoaderInterface;
 use App\Tests\Traits\JsonControllerTest;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -59,7 +58,6 @@ abstract class AbstractEndpoint extends WebTestCase
         $executor = $this->databaseTool->loadFixtures($fixtures);
         $this->fixtures = $executor->getReferenceRepository();
 
-        ClockMock::register(Timestamper::class);
         $this->inflector = InflectorFactory::create();
     }
 
@@ -1445,11 +1443,10 @@ abstract class AbstractEndpoint extends WebTestCase
         $relatedResponseKey,
         $relatedData
     ) {
-        ClockMock::withClockMock(true);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
-        sleep(10);
+        sleep(2);
         $this->putOne($relatedEndpoint, $relatedResponseKey, $relatedData['id'], $relatedData);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
@@ -1459,11 +1456,10 @@ abstract class AbstractEndpoint extends WebTestCase
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
                 $diff > 0,
-                'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
+                'The timestamp has not increased. Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
-        ClockMock::withClockMock(false);
     }
 
     /**
@@ -1479,11 +1475,10 @@ abstract class AbstractEndpoint extends WebTestCase
         $relatedResponseKey,
         $relatedPostData
     ) {
-        ClockMock::withClockMock(true);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
-        sleep(10);
+        sleep(2);
         $this->postMany($relatedPluralObjectName, $relatedResponseKey, [$relatedPostData]);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
@@ -1493,11 +1488,10 @@ abstract class AbstractEndpoint extends WebTestCase
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
                 $diff > 0,
-                'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
+                'The timestamp has not increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
-        ClockMock::withClockMock(false);
     }
 
     /**
@@ -1511,11 +1505,10 @@ abstract class AbstractEndpoint extends WebTestCase
         $relatedPluralObjectName,
         $relatedId
     ) {
-        ClockMock::withClockMock(true);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $initialState = $this->getOne($endpoint, $responseKey, $id);
-        sleep(10);
+        sleep(2);
         $this->deleteOne($relatedPluralObjectName, $relatedId);
         $currentState = $this->getOne($endpoint, $responseKey, $id);
         foreach ($this->getTimeStampFields() as $field) {
@@ -1525,11 +1518,10 @@ abstract class AbstractEndpoint extends WebTestCase
             $diff = $currentStamp->getTimestamp() - $initialStamp->getTimestamp();
             $this->assertTrue(
                 $diff > 0,
-                'The timestamp has increased.  Original: ' . $initialStamp->format('c') .
+                'The timestamp has not increased.  Original: ' . $initialStamp->format('c') .
                 ' Now: ' . $currentStamp->format('c')
             );
         }
-        ClockMock::withClockMock(false);
     }
 
     protected function pruneData(array $data): array

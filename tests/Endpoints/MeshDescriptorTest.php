@@ -22,7 +22,6 @@ use App\Tests\QEndpointTrait;
 /**
  * MeshDescriptor API endpoint Test.
  * @group api_3
- * @group time-sensitive
  */
 class MeshDescriptorTest extends AbstractMeshEndpoint
 {

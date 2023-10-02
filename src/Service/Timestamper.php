@@ -30,7 +30,7 @@ class Timestamper
         if (!array_key_exists($class, $this->entities[$ts])) {
             $this->entities[$ts][$class] = [];
         }
-        // When and entity has already been deleted it will lose it's ID, so we need to record it here
+        // When and entity has already been deleted it will lose its ID, so we need to record it here
         $this->entities[$ts][$class][] = (string) $entity;
     }
 
@@ -40,14 +40,13 @@ class Timestamper
             /** @var EntityManager $om */
             $om = $this->registry->getManager();
             foreach ($this->entities as $timestamp => $entities) {
-                $dateTime = new DateTime();
-                $dateTime->setTimestamp($timestamp);
+                $dateTime = DateTime::createFromFormat('U', (string) $timestamp);
                 foreach ($entities as $class => $ids) {
                     if ($ids !== []) {
                         $qb = $om->createQueryBuilder();
                         $qb->update($class, 'c')
                             ->set('c.updatedAt', ':timestamp')
-                            ->where($qb->expr()->in('c.id', $ids))
+                            ->where($qb->expr()->in('c.id', array_unique($ids)))
                             ->setParameter('timestamp', $dateTime);
                         $query = $qb->getQuery();
                         $query->execute();

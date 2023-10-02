@@ -21,7 +21,6 @@ use App\Tests\QEndpointTrait;
 /**
  * Session API endpoint Test.
  * @group api_2
- * @group time-sensitive
  */
 class SessionTest extends AbstractReadWriteEndpoint
 {

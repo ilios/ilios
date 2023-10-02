@@ -9,7 +9,6 @@ use App\Tests\Fixture\LoadMeshQualifierData;
 /**
  * MeshQualifier API endpoint Test.
  * @group api_1
- * @group time-sensitive
  */
 class MeshQualifierTest extends AbstractMeshEndpoint
 {
