@@ -326,6 +326,7 @@ jobs:
   coverage:
     name: Upload Code Coverage
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     needs: tests
     steps:
       - uses: actions/checkout@v4
@@ -343,7 +344,7 @@ jobs:
           CC_TEST_REPORTER_ID: c2e072c72320901c23741e4c25bfd28e149441b5a19ba9abb8cf80ca0363ff9a
       - uses: act10ns/slack@v2.0.0
         with:
-          status: ${{ job.status }}
+          status: ${{ needs.tests.result }}
           message: Code Coverage Upload Failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
         if: failure()
         env:
