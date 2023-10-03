@@ -59,13 +59,19 @@ jobs:
     - name: Use PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v2
       with:
-        coverage: none
+        coverage: pcov
         php-version: ${{ matrix.php-version }}
         extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit --coverage-clover build/coverage.xml
+    - name: Archive Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-output
+        path: build/coverage.xml
+        retention-days: 1
 
   test_migrations_against_mysql:
     name: Test Migrations Against MySQL
@@ -316,3 +322,23 @@ jobs:
         run: composer install --no-interaction --prefer-dist
       - name: Run Update Frontend
         run: bin/console ilios:update-frontend
+
+  coverage:
+    name: Upload Code Coverage
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Coverage Report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-output
+      - run: ls -lh coverage.xml
+      - name: Upload to CodeClimate
+        uses: paambaati/codeclimate-action@v5.0.0
+        with:
+          coverageLocations:
+            coverage.xml:clover
+        env:
+          CC_TEST_REPORTER_ID: c2e072c72320901c23741e4c25bfd28e149441b5a19ba9abb8cf80ca0363ff9a
