@@ -77,7 +77,7 @@
     "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan": "@stable",
     "phpstan/phpstan-symfony": "@stable",
-    "phpunit/phpunit": "^9.5",
+    "phpunit/phpunit": "^10.4",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/browser-kit": "@stable",
     "symfony/css-selector": "@stable",
