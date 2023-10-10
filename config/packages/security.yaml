@@ -29,7 +29,6 @@ security:
       stateless: true
       custom_authenticators:
         - App\Security\JsonWebTokenAuthenticator
-      provider: session_user
 
 
 when@test:
