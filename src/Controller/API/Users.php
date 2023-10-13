@@ -14,6 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -345,8 +346,13 @@ class Users extends AbstractApiController
             /** @var SessionUserInterface $sessionUser */
             $sessionUser = $this->tokenStorage->getToken()->getUser();
             if (
-                $obj->root &&
-                (!$sessionUser->isRoot() && !$entity->isRoot())
+                //adding root by a non root user
+                ($obj->root &&
+                (!$sessionUser->isRoot() && !$entity->isRoot())) ||
+
+                //removing root be a non root user
+                (!$obj->root &&
+                (!$sessionUser->isRoot() && $entity->isRoot()))
             ) {
                 throw new AccessDeniedException('Unauthorized access!');
             }
@@ -369,6 +375,27 @@ class Users extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+        $entity = $this->repository->findOneBy(['id' => $id]);
+        if ($entity) {
+            $arr = $requestParser->extractJsonApiPatchDataFromRequest($request);
+            /** @var SessionUserInterface $sessionUser */
+            $sessionUser = $this->tokenStorage->getToken()->getUser();
+            if (
+                //adding root by a non root user
+                ($arr['root'] &&
+                    (!$sessionUser->isRoot() && !$entity->isRoot())) ||
+
+                //removing root be a non root user
+                (!$arr['root'] &&
+                    (!$sessionUser->isRoot() && $entity->isRoot()))
+            ) {
+                throw new AccessDeniedException('Unauthorized access!');
+            }
+        }
         return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 

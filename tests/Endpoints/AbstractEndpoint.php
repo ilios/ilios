@@ -1073,7 +1073,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * PUT a single item to the JSON:API
      */
-    protected function patchOneJsonApi(object $data): object
+    protected function patchOneJsonApi(object $data, $userId = 2): object
     {
         $endpoint = strtolower($data->data->type);
         $this->createJsonApiRequest(
@@ -1084,7 +1084,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $data->data->id]
             ),
             json_encode($data),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->getTokenForUser($this->kernelBrowser, $userId)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
