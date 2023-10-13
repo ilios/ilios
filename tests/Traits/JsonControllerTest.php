@@ -217,16 +217,42 @@ trait JsonControllerTest
 
     /**
      * Tests to ensure that a user cannot access a certain function
-     *
-     * @param KernelBrowser $browser
-     * @param string $userId
-     * @param string $method
-     * @param string $url
-     * @param string $data
      */
-    protected function canNot(KernelBrowser $browser, $userId, $method, $url, $data = null)
-    {
+    protected function canNot(
+        KernelBrowser $browser,
+        int $userId,
+        string $method,
+        string $url,
+        string $data = null
+    ): void {
         $this->makeJsonRequest(
+            $browser,
+            $method,
+            $url,
+            $data,
+            $this->getTokenForUser($browser, $userId)
+        );
+
+        $response = $browser->getResponse();
+        $this->assertEquals(
+            Response::HTTP_FORBIDDEN,
+            $response->getStatusCode(),
+            "User #{$userId} should be prevented from {$method} at {$url}" .
+            substr(var_export($response->getContent(), true), 0, 400)
+        );
+    }
+
+    /**
+     * Tests to ensure that a user cannot access a certain function
+     */
+    protected function canNotJsonApi(
+        KernelBrowser $browser,
+        int $userId,
+        string $method,
+        string $url,
+        string $data = null
+    ): void {
+        $this->makeJsonApiRequest(
             $browser,
             $method,
             $url,

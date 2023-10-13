@@ -327,31 +327,70 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
     }
 
-    public function testRejectUnprivilegedChangeUserToRoot()
+    public function testRejectUnprivilegedPutUserToRoot()
     {
         $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-        $user = $all[2];
-        $this->assertFalse($user['root'], 'User #3 is supposed to not be root or this test is garbage');
-        $userId = $user['id'];
 
-        $postData = $user;
-        $postData['root'] = true;
+        // create a new user with admin permissions in school 1, who is not root
+        $newUser = $dataLoader->create();
+        $newUser['administeredSchools'] = [1];
+        $administrator = $this->postOne('users', 'user', 'users', $newUser);
+        $this->assertFalse($administrator['root'], 'Administrator must not be root or this test is garbage');
+        $this->assertContains('1', $administrator['administeredSchools']);
+
+        $all = $dataLoader->getAll();
+        $user3 = $all[2];
+
+        // ensure our new user *can* make some changes to user3
+        $this->putOne('users', 'user', $user3['id'], $user3, false, $administrator['id']);
+
+        $user3['root'] = true;
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $administrator['id'],
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
                 'app_api_users_put',
-                ['version' => $this->apiVersion, 'id' => $postData['id']]
+                ['version' => $this->apiVersion, 'id' => $user3['id']]
             ),
-            json_encode(['user' => $postData])
+            json_encode(['user' => $user3])
+        );
+    }
+    public function testRejectUnprivilegedPatchUserToRoot()
+    {
+        $dataLoader = $this->getDataLoader();
+
+        // create a new user with admin permissions in school 1, who is not root
+        $newUser = $dataLoader->create();
+        $newUser['administeredSchools'] = [1];
+        $administrator = $this->postOne('users', 'user', 'users', $newUser);
+        $this->assertFalse($administrator['root'], 'Administrator must not be root or this test is garbage');
+        $this->assertContains('1', $administrator['administeredSchools']);
+
+        $all = $dataLoader->getAll();
+        $user3 = $all[2];
+
+        // ensure our new user *can* make some changes to user3
+        $this->patchOneJsonApi($dataLoader->createJsonApi($user3), $administrator['id']);
+
+        $user3['root'] = true;
+
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $administrator['id'],
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_users_put',
+                ['version' => $this->apiVersion, 'id' => $user3['id']]
+            ),
+            json_encode($dataLoader->createJsonApi($user3))
         );
     }
 
-    public function testRejectUnprivilegedAddDeveloperRoleToOwnAccount()
+    public function testRejectUnprivilegedPutDeveloperRoleToOwnAccount()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -375,33 +414,72 @@ class UserTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedRemoveRootFromUser()
+    public function testRejectUnprivilegedPutRemoveRootFromUser()
     {
         $dataLoader = $this->getDataLoader();
+
+        // create a new user with admin permissions in school 1, who is not root
+        $newUser = $dataLoader->create();
+        $newUser['administeredSchools'] = [1];
+        $administrator = $this->postOne('users', 'user', 'users', $newUser);
+        $this->assertFalse($administrator['root'], 'Administrator must not be root or this test is garbage');
+        $this->assertContains('1', $administrator['administeredSchools']);
+
         $all = $dataLoader->getAll();
-        $user = $all[2];
-        $this->assertFalse($user['root'], 'User #3 is supposed to not be root or this test is garbage');
-        $userId = $user['id'];
+        $user2 = $all[1];
 
-        $postData = $all[1];
-        $this->assertTrue($postData['root'], 'User #2 is supposed to be root or this test is garbage');
+        // ensure our new user *can* make some changes to user3
+        $this->putOne('users', 'user', $user2['id'], $user2, false, $administrator['id']);
+        $this->assertTrue($user2['root'], 'User #2 is supposed to be root or this test is garbage');
 
-        $postData['root'] = false;
+        $user2['root'] = false;
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $administrator['id'],
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
                 'app_api_users_put',
-                ['version' => $this->apiVersion, 'id' => $postData['id']]
+                ['version' => $this->apiVersion, 'id' => $user2['id']]
             ),
-            json_encode(['user' => $postData])
+            json_encode(['user' => $user2])
+        );
+    }
+    public function testRejectUnprivilegedPatchRemoveRootFromUser()
+    {
+        $dataLoader = $this->getDataLoader();
+
+        // create a new user with admin permissions in school 1, who is not root
+        $newUser = $dataLoader->create();
+        $newUser['administeredSchools'] = [1];
+        $administrator = $this->postOne('users', 'user', 'users', $newUser);
+        $this->assertFalse($administrator['root'], 'Administrator must not be root or this test is garbage');
+        $this->assertContains('1', $administrator['administeredSchools']);
+
+        $all = $dataLoader->getAll();
+        $user2 = $all[1];
+
+        // ensure our new user *can* make some changes to user3
+        $this->patchOneJsonApi($dataLoader->createJsonApi($user2), $administrator['id']);
+        $this->assertTrue($user2['root'], 'User #2 is supposed to be root or this test is garbage');
+
+        $user2['root'] = false;
+
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $administrator['id'],
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_users_put',
+                ['version' => $this->apiVersion, 'id' => $user2['id']]
+            ),
+            json_encode($dataLoader->createJsonApi($user2))
         );
     }
 
-    public function testUpdateRootAttributeAsRootUser()
+    public function testPutUpdateRootAttributeAsRootUser()
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();

@@ -190,13 +190,21 @@ class ApiRequestParser
     {
         $type = $request->getAcceptableContentTypes();
         if (in_array("application/vnd.api+json", $type)) {
-            $obj = json_decode($request->getContent());
-            $data = $this->dataShaper->flattenJsonApiData($obj->data);
+            $data = $this->extractJsonApiPatchDataFromRequest($request);
         } else {
             $data = $this->extractPutDataFromRequest($request, $object);
         }
         $json = json_encode($data);
 
         return $this->serializer->deserialize($json, $entity::class, 'json', ['object_to_populate' => $entity]);
+    }
+
+    /**
+     * Parse json:api PATCH request and pull out data,
+     */
+    public function extractJsonApiPatchDataFromRequest(Request $request): array
+    {
+        $obj = json_decode($request->getContent());
+        return $this->dataShaper->flattenJsonApiData($obj->data);
     }
 }
