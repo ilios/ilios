@@ -195,6 +195,7 @@ CMD ["ilios:update-frontend"]
 # do every hour
 ###############################################################################
 FROM php-base as consume-messages
+ENV ILIOS_SEARCH_HOSTS="https://localhost"
 ENTRYPOINT bin/console ilios:wait-for-database; \
            bin/console ilios:wait-for-index; \
            bin/console messenger:consume async
@@ -204,6 +205,7 @@ ENTRYPOINT bin/console ilios:wait-for-database; \
 # configured for development and verbose output
 ###############################################################################
 FROM fpm-dev as consume-messages-dev
+ENV ILIOS_SEARCH_HOSTS="https://localhost"
 ENTRYPOINT bin/console ilios:wait-for-database; \
            bin/console ilios:wait-for-index; \
            bin/console messenger:consume async -vv
