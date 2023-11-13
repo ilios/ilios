@@ -61,7 +61,6 @@ abstract class AbstractEndpoint extends WebTestCase
         ];
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);
-        /* @var DatabaseToolCollection $databaseToolCollection */
         $databaseToolCollection = self::getContainer()->get(DatabaseToolCollection::class);
         $this->databaseTool = $databaseToolCollection->get();
         $executor = $this->databaseTool->loadFixtures($fixtures);
