@@ -46,13 +46,13 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
             'description' => ['description', 'lorem ipsum'],
             'nullDescription' => ['description', null],
             'year' => ['year', 2022],
-            'startDate' => ['startDate', '2012-03-01', true],
-            'endDate' => ['endDate', '2012-04-01', true],
-            'export' => ['export', 2, true],
-            'sequence' => ['sequence', 1, true],
-            'sequenceBlocks' => ['sequenceBlocks', [1], true],
-            'program' => ['program', 'too much salt', true],
-            'academicLevels' => ['academicLevels', [1], true],
+            // 'startDate' => ['startDate', '2012-03-01'], // skipped
+            // 'endDate' => ['endDate', '2012-04-01'], // skipped
+            // 'export' => ['export', 2], // skipped
+            // 'sequence' => ['sequence', 1], // skipped
+            // 'sequenceBlocks' => ['sequenceBlocks', [1]], // skipped
+            // 'program' => ['program', 'too much salt'], // skipped
+            // 'academicLevels' => ['academicLevels', [1]], // skipped
             'administrators' => ['administrators', [1]],
             'removeAdministrators' => ['administrators', []],
 

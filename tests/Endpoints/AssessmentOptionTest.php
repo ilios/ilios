@@ -34,7 +34,7 @@ class AssessmentOptionTest extends AbstractReadWriteEndpoint
     {
         return [
             'name' => ['name', 'lorem ipsum'],
-            'sessionTypes' => ['sessionTypes', [2, 3], true],
+            // 'sessionTypes' => ['sessionTypes', [2, 3]], // skipped
         ];
     }
 

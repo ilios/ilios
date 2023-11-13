@@ -39,14 +39,14 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'minimum' => ['minimum', 2],
             'maximum' => ['maximum', 4],
             'track' => ['track', false],
-            'startDate' => ['startDate', '2012-03-01', true],
-            'endDate' => ['endDate', '2012-03-11', true],
+            // 'startDate' => ['startDate', '2012-03-01'], // skipped
+            // 'endDate' => ['endDate', '2012-03-11'], // skipped
             'duration' => ['duration', 10],
             'startingAcademicLevel' => ['startingAcademicLevel', 2],
             'endingAcademicLevel' => ['endingAcademicLevel', 3],
             'course' => ['course', 5],
             'parent' => ['parent', 2],
-            'children' => ['children', [1], true],
+            // 'children' => ['children', [1]], // skipped
             'report' => ['report', 2],
             'sessions' => ['sessions', [1, 2]],
             'excludedSessions' => ['excludedSessions', [1, 2]]

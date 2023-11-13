@@ -35,9 +35,8 @@ class AamcMethodTest extends AbstractReadWriteEndpoint
         return [
             'description' => ['description', 'lorem ipsum'],
             'sessionTypes' => ['sessionTypes', [1]],
-            'id' => ['id', 'NEW1', true],
+            // 'id' => ['id', 'NEW1'], // skipped
             'active' => ['active', false],
-
         ];
     }
 

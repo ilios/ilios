@@ -36,7 +36,7 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'sure thing'],
             'description' => ['description', 'lorem ipsum'],
             'terms' => ['terms', [3]],
-            'id' => ['id', 'FK1', true],
+            // 'id' => ['id', 'FK1', true], // skipped
         ];
     }
 

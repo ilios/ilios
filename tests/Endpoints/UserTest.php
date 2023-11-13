@@ -80,7 +80,7 @@ class UserTest extends AbstractReadWriteEndpoint
             'addedViaIlios' => ['addedViaIlios', true],
             'examined' => ['examined', false],
             'icsFeedKey' => ['icsFeedKey', hash('sha256', 'testValueICS')],
-            'reports' => ['reports', [1], true],
+            // 'reports' => ['reports', [1]], // skipped
             'school' => ['school', 3],
             'directedCourses' => ['directedCourses', [2]],
             'administeredCourses' => ['administeredCourses', [1, 2]],
@@ -96,9 +96,9 @@ class UserTest extends AbstractReadWriteEndpoint
             'instructedOfferings' => ['instructedOfferings', [1]],
             'programYears' => ['programYears', [2]],
             'roles' => ['roles', [2]],
-            'cohorts' => ['cohorts', [2], true],
-            'primaryCohort' => ['primaryCohort', 3, true],
-            'pendingUserUpdates' => ['pendingUserUpdates', [2], true],
+            // 'cohorts' => ['cohorts', [2]], // skipped
+            // 'primaryCohort' => ['primaryCohort', 3], // skipped
+            // 'pendingUserUpdates' => ['pendingUserUpdates', [2]], // skipped
             'directedSchools' => ['directedSchools', [2]],
             'administeredSchools' => ['administeredSchools', [1, 2]],
             'directedPrograms' => ['directedPrograms', [2]],

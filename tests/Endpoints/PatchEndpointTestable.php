@@ -11,11 +11,8 @@ trait PatchEndpointTestable
      * @dataProvider putsToTest
      * @see PatchEndpointTestInterface::testPatchJsonApi()
      */
-    public function testPatchJsonApi(string $key, mixed $value, bool $skipped = false): void
+    public function testPatchJsonApi(string $key, mixed $value): void
     {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->runPatchJsonApiTest($key, $value, $jwt);
     }
@@ -24,11 +21,8 @@ trait PatchEndpointTestable
      * @dataProvider putsToTest
      * @see PatchEndpointTestInterface::testPatchJsonApiWithServiceToken()
      */
-    public function testPatchJsonApiWithServiceToken(string $key, mixed $value, bool $skipped = false): void
+    public function testPatchJsonApiWithServiceToken(string $key, mixed $value): void
     {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
         if (!$this->enablePatchTestsWithServiceToken) {
             $this->markTestSkipped('Patch to JSON:API test with service token skipped for this endpoint.');
         }

@@ -49,16 +49,16 @@ class SchoolTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'university 123'],
             'templatePrefix' => ['templatePrefix', 'u213'],
             'changeAlertRecipients' => ['changeAlertRecipients', 'please.dont@email.me'],
-            'competencies' => ['competencies', [1], true],
-            'courses' => ['courses', [1], true],
-            'programs' => ['programs', [1], true],
-            'vocabularies' => ['vocabularies', [2], true],
-            'instructorGroups' => ['instructorGroups', [1], true],
-            'curriculumInventoryInstitution' => ['curriculumInventoryInstitution', 3, true],
-            'sessionTypes' => ['sessionTypes', [1], true],
+            // 'competencies' => ['competencies', [1]], // skipped
+            // 'courses' => ['courses', [1]], // skipped
+            // 'programs' => ['programs', [1]], // skipped
+            // 'vocabularies' => ['vocabularies', [2]], // skipped
+            // 'instructorGroups' => ['instructorGroups', [1]], // skipped
+            // 'curriculumInventoryInstitution' => ['curriculumInventoryInstitution', 3], // skipped
+            // 'sessionTypes' => ['sessionTypes', [1]], // skipped
             'directors' => ['directors', [2]],
             'administrators' => ['administrators', [2]],
-            'configurations' => ['configurations', [1], true],
+            // 'configurations' => ['configurations', [1]], // skipped
         ];
     }
 

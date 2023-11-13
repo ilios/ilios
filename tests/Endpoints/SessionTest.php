@@ -72,9 +72,9 @@ class SessionTest extends AbstractReadWriteEndpoint
             'course' => ['course', 2],
             'ilmSession' => ['ilmSession', 1],
             'terms' => ['terms', [1]],
-            'meshDescriptors' => ['meshDescriptors', [1], true],
-            'learningMaterials' => ['learningMaterials', [2], true],
-            'offerings' => ['offerings', [1], true],
+            // 'meshDescriptors' => ['meshDescriptors', [1]], // skipped
+            // 'learningMaterials' => ['learningMaterials', [2]], // skipped
+            // 'offerings' => ['offerings', [1]], // skipped
             'administrators' => ['administrators', [2]],
             'studentAdvisors' => ['studentAdvisors', [1]],
             'postrequisite' => ['postrequisite', 2],

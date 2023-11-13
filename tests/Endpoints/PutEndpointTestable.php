@@ -16,11 +16,8 @@ trait PutEndpointTestable
      * @dataProvider putsToTest
      * @see PutEndpointTestInterface::testPut()
      */
-    public function testPut(string $key, mixed $value, bool $skipped = false): void
+    public function testPut(string $key, mixed $value): void
     {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->runPutTest($key, $value, $jwt);
     }
@@ -29,11 +26,8 @@ trait PutEndpointTestable
      * @dataProvider putsToTest
      * @see PutEndpointTestInterface::testPutWithServiceToken()
      */
-    public function testPutWithServiceToken(string $key, mixed $value, bool $skipped = false): void
+    public function testPutWithServiceToken(string $key, mixed $value): void
     {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
         if (!$this->enablePutTestsWithServiceToken) {
             $this->markTestSkipped('Put test with service token skipped for this endpoint.');
         }

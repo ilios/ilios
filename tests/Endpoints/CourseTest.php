@@ -85,10 +85,10 @@ class CourseTest extends AbstractReadWriteEndpoint
             'terms' => ['terms', [2]],
             'courseObjectives' => ['courseObjectives', [1]],
             'meshDescriptors' => ['meshDescriptors', ['abc3']],
-            'learningMaterials' => ['learningMaterials', [1], true],
-            'sessions' => ['sessions', [1], true],
+            // 'learningMaterials' => ['learningMaterials', [1]], // skipped
+            // 'sessions' => ['sessions', [1]], // skipped
             'ancestor' => ['ancestor', 2],
-            'descendants' => ['descendants', ['3'], true],
+            // 'descendants' => ['descendants', ['3']], // skipped
         ];
     }
 

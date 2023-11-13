@@ -43,7 +43,7 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         return [
             'title' => ['title', 'dev null'],
             'courses' => ['courses', [1]],
-            'learnerGroups' => ['learnerGroups', [1], true],
+            // 'learnerGroups' => ['learnerGroups', [1]], // skipped
             'users' => ['users', [1]],
         ];
     }

@@ -50,7 +50,7 @@ class CompetencyTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'rhababerbarbara'],
             'school' => ['school', 3],
             'parent' => ['parent', 2],
-            'children' => ['children', [1], true],
+            // 'children' => ['children', [1]], // skipped
             'aamcPcrses' => ['aamcPcrses', ['aamc-pcrs-comp-c0102']],
             'programYears' => ['programYears', [2]],
             'active' => ['active', false],

@@ -31,7 +31,7 @@ class VocabularyTest extends AbstractReadWriteEndpoint
         return [
             'title' => ['title', 'foo bar'],
             'school' => ['school', 2],
-            'terms' => ['terms', [1], true],
+            // 'terms' => ['terms', [1]], // skipped
             'active' => ['active', false],
         ];
     }

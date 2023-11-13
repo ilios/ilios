@@ -62,11 +62,11 @@ class TermTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'ipsum'],
             'courses' => ['courses', [1]],
             'parent' => ['parent', 2],
-            'children' => ['children', [1], true],
+            // 'children' => ['children', [1]], // skipped
             'programYears' => ['programYears', [1]],
             'sessions' => ['sessions', [1]],
             'vocabulary' => ['vocabulary', 2],
-            'aamcResourceTypes' => ['aamcResourceTypes', [1], true],
+            // 'aamcResourceTypes' => ['aamcResourceTypes', [1]], // skipped
             'active' => ['active', false],
         ];
     }

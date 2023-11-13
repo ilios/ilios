@@ -68,12 +68,12 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
             'userRole' => ['userRole', 2],
             'status' => ['status', LearningMaterialStatusInterface::IN_DRAFT],
             'owningUser' => ['owningUser', 2],
-            'sessionLearningMaterials' => ['sessionLearningMaterials', [2], true],
-            'courseLearningMaterials' => ['courseLearningMaterials', [1], true],
+            // 'sessionLearningMaterials' => ['sessionLearningMaterials', [2]], // skipped
+            // 'courseLearningMaterials' => ['courseLearningMaterials', [1]], // skipped
             'citation' => ['citation', 'dev/null'],
             'copyrightPermission' => ['copyrightPermission', false],
             'copyrightRationale' => ['copyrightRationale', 'fair use'],
-            'link' => ['link', 'http://lorem.ipsum', true],
+            // 'link' => ['link', 'http://lorem.ipsum'], // skipped
         ];
     }
 

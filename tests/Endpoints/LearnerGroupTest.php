@@ -46,7 +46,7 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
             'cohort' => ['cohort', 3],
             'parent' => ['parent', 2],
             'ancestor' => ['ancestor', '3'],
-            'children' => ['children', [1], true],
+            // 'children' => ['children', [1]], // skipped
             'ilmSessions' => ['ilmSessions', [2]],
             'offerings' => ['offerings', [2]],
             'instructorGroups' => ['instructorGroups', [1, 2]],

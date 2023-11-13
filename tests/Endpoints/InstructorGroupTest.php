@@ -48,7 +48,7 @@ class InstructorGroupTest extends AbstractReadWriteEndpoint
             'learnerGroups' => ['learnerGroups', [2, 3]],
             'ilmSessions' => ['ilmSessions', [1, 2]],
             'users' => ['users', [1]],
-            'offerings' => ['offerings', [2, 3, 4], true],
+            // 'offerings' => ['offerings', [2, 3, 4]], // skipped
         ];
     }
 

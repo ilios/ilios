@@ -36,7 +36,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         return [
             'description' => ['description', 'lorem ipsum'],
             'competencies' => ['competencies', [3]],
-            'id' => ['id', 'new-id', true],
+            // 'id' => ['id', 'new-id'], // skipped
         ];
     }
 

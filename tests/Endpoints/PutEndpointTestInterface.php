@@ -37,20 +37,18 @@ interface PutEndpointTestInterface
     /**
      * @param string $key
      * @param mixed $value
-     * @param bool $skipped
      *
      * @dataProvider putsToTest
      */
-    public function testPut(string $key, mixed $value, bool $skipped = false): void;
+    public function testPut(string $key, mixed $value): void;
 
     /**
      * @param string $key
      * @param mixed $value
-     * @param bool $skipped
      *
      * @dataProvider putsToTest
      */
-    public function testPutWithServiceToken(string $key, mixed $value, bool $skipped = false): void;
+    public function testPutWithServiceToken(string $key, mixed $value): void;
 
     /**
      * Test PUTing each test data item to ensure
