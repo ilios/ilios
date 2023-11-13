@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\SchoolData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadSchoolData;
-use Exception;
 
 /**
  * CurriculumInventoryInstitution API endpoint Test.
@@ -82,7 +81,6 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
     /**
      * We need to create additional schools to
      * go with each new CI institution
-     * @throws Exception
      */
     public function testPostMany(): void
     {
@@ -94,7 +92,6 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
     /**
      * We need to create additional schools to
      * go with each new CI institution
-     * @throws Exception
      */
     public function testPostManyWithServiceToken(): void
     {
@@ -107,7 +104,6 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
     /**
      * We need to create additional schools to
      * go with each new CI institution
-     * @throws Exception
      */
     public function testPostManyJsonApi(): void
     {
@@ -120,7 +116,6 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
     /**
      * We need to create additional schools to
      * go with each new CI institution
-     * @throws Exception
      */
     public function testPostManyJsonApiWithServiceToken(): void
     {
@@ -131,9 +126,6 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
         $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function createMany(int $count): array
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

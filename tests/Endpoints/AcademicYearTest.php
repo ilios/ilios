@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Entity\Course;
 use App\Tests\Fixture\LoadCourseData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -44,9 +43,6 @@ class AcademicYearTest extends AbstractReadEndpoint
         $this->fourOhFourTest('POST');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutIs404()
     {
         $academicYears = $this->getYears();
@@ -55,9 +51,6 @@ class AcademicYearTest extends AbstractReadEndpoint
         $this->fourOhFourTest('PUT', ['id' => $id]);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeleteIs404()
     {
         $academicYears = $this->getYears();
@@ -84,9 +77,6 @@ class AcademicYearTest extends AbstractReadEndpoint
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getYears(): array
     {
         $courses = $this->fixtures->getReferencesByClass()[Course::class];

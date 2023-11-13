@@ -17,7 +17,6 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\QEndpointTrait;
-use Exception;
 
 /**
  * Session API endpoint Test.
@@ -162,9 +161,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         return ['updatedAt'];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingIlmUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -174,9 +170,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingIlmInstructorUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -186,9 +179,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -198,9 +188,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -210,9 +197,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingIlmLearnersUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -222,9 +206,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingLearningMaterialUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -234,9 +215,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest(1, 'learningmaterials', 'learningMaterial', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testNewSessionLearningMaterialUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -245,9 +223,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', 'sessionLearningMaterials', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingSessionLearningMaterialUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -257,9 +232,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest(1, 'sessionlearningmaterials', 'sessionLearningMaterial', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeletingSessionLearningMaterialUpdatesSessionStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -268,9 +240,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id'], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRemovePostrequisite(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -295,9 +264,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithLimit(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -309,9 +275,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[0], $all[1]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffset(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -321,9 +284,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[3], $all[4], $all[5], $all[6], $all[7]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffsetAndLimit(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -335,9 +295,6 @@ class SessionTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[4], $all[5]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

@@ -15,7 +15,6 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -89,7 +88,6 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
-     * @throws Exception
      */
     public function testInputSanitation(string $input, string $output): void
     {
@@ -134,7 +132,6 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
 
     /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
-     * @throws Exception
      */
     public function testInputSanitationFailure(): void
     {
@@ -158,9 +155,6 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
@@ -187,18 +181,12 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         $this->assertEquals($data['course'], $courseObjective->course->id);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);
@@ -206,9 +194,6 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPutForAllDataTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
@@ -226,9 +211,6 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPatchForAllDataJsonApiTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
@@ -251,7 +233,6 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
      * @param int $count
      * @param string $jwt
      * @return array
-     * @throws Exception
      */
     protected function createMany(int $count, string $jwt): array
     {

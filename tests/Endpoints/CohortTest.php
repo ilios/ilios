@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\ProgramYearData;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadUserData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\ProgramYearData;
 
 /**
  * Cohort API endpoint Test.
@@ -86,9 +85,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostFails(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -104,9 +100,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCreateWithPutFails(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -125,9 +118,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         $this->assertJsonResponse($response, Response::HTTP_GONE);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeleteFails(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -145,7 +135,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
 
     /**
      * Unlock program years before attempting to PUT cohorts
-     * @throws Exception
      */
     protected function runPutForAllDataTest(string $jwt): void
     {
@@ -172,7 +161,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
      * Get programYear data from loader by id
      * @param int $id
      * @return array
-     * @throws Exception
      */
     protected function getProgramYear(int $id): array
     {

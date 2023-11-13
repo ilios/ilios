@@ -10,9 +10,8 @@ use App\Tests\Fixture\LoadCurriculumInventoryExportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadUserData;
-use Exception;
-use Symfony\Component\HttpFoundation\Response;
 use DateTime;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * CurriculumInventoryExport API endpoint Test.
@@ -35,9 +34,6 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostCurriculumInventoryExport(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -62,7 +58,6 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
 
     /**
      * Test posting a single object
-     * @throws Exception
      */
     public function testPostOneJsonApi(): void
     {
@@ -99,9 +94,6 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetIs404(): void
     {
         $loader = $this->getDataLoader();
@@ -116,9 +108,6 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
         $this->fourOhFourTest('GET');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutIs404(): void
     {
         $loader = $this->getDataLoader();
@@ -128,9 +117,6 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
         $this->fourOhFourTest('PUT', ['id' => $id]);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPatchIs404(): void
     {
         $loader = $this->getDataLoader();
@@ -140,9 +126,6 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
         $this->fourOhFourTest('PATCH', ['id' => $id]);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeleteIs404(): void
     {
         $loader = $this->getDataLoader();
@@ -152,10 +135,6 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
         $this->fourOhFourTest('DELETE', ['id' => $id]);
     }
 
-
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

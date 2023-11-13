@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use Exception;
-
 trait PatchEndpointTestable
 {
     protected bool $enablePatchTestsWithServiceToken = true;
     /**
      * @dataProvider putsToTest
-     * @throws Exception
      * @see PatchEndpointTestInterface::testPatchJsonApi()
      */
     public function testPatchJsonApi(string $key, mixed $value, bool $skipped = false): void
@@ -25,7 +22,6 @@ trait PatchEndpointTestable
 
     /**
      * @dataProvider putsToTest
-     * @throws Exception
      * @see PatchEndpointTestInterface::testPatchJsonApiWithServiceToken()
      */
     public function testPatchJsonApiWithServiceToken(string $key, mixed $value, bool $skipped = false): void
@@ -41,7 +37,6 @@ trait PatchEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PatchEndpointTestInterface::testPatchForAllDataJsonApi()
      */
     public function testPatchForAllDataJsonApi(): void
@@ -51,7 +46,6 @@ trait PatchEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PatchEndpointTestInterface::testPatchForAllDataJsonApiWithServiceToken()
      */
     public function testPatchForAllDataJsonApiWithServiceToken(): void
@@ -65,7 +59,6 @@ trait PatchEndpointTestable
 
 
     /**
-     * @throws Exception
      * @see PatchEndpointTestInterface::testPatchAnonymousAccessDenied()
      */
     public function testPatchAnonymousAccessDenied(): void
@@ -75,9 +68,6 @@ trait PatchEndpointTestable
         $this->anonymousDeniedPatchTest($data);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPatchForAllDataJsonApiTest(string $jwt): void
     {
         $putsToTest = $this->putsToTest();
@@ -94,9 +84,6 @@ trait PatchEndpointTestable
         }
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPatchJsonApiTest(string $key, mixed $value, string $jwt): void
     {
         $dataLoader = $this->getDataLoader();

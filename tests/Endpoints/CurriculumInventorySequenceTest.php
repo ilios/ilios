@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Tests\DataLoader\CurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
-use Exception;
 
 /**
  * CurriculumInventorySequence API endpoint Test.
@@ -71,7 +70,6 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
      * however when new reports are created a sequence is automatically created
      * for them.  So we need to delete each of the new fresh sequences, so we can create
      * new ones of our own and link them to the report.
-     * @throws Exception
      */
     protected function createMany(int $count, string $jwt): array
     {
@@ -96,18 +94,12 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyTest(string $jwt): void
     {
         $data = $this->createMany(4, $jwt);
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
         $data = $this->createMany(4, $jwt);

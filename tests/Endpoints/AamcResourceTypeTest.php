@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAamcResourceTypeData;
 use App\Tests\Fixture\LoadTermData;
-use Exception;
 
 /**
  * AamcResourceType API endpoint Test.
@@ -62,9 +61,6 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostTermAamcResourceType(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -74,9 +70,6 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'aamcResourceType', 'terms');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutResourceTypeWithExtraData(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -87,9 +80,6 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

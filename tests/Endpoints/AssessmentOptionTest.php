@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAssessmentOptionData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use Exception;
 
 /**
  * AssessmentOption API endpoint Test.
@@ -91,9 +90,6 @@ class AssessmentOptionTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

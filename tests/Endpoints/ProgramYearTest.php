@@ -15,7 +15,6 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -104,9 +103,6 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPost(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -126,9 +122,6 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostWithNullCohort(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -139,9 +132,6 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPut(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -161,9 +151,6 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedDelete(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -182,9 +169,6 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testProgramYearCanBeUnlocked(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

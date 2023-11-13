@@ -15,7 +15,6 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -84,9 +83,6 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     protected function createMany(int $count, string $jwt): array
     {
         $programYearDataLoader = self::getContainer()->get(ProgramYearData::class);
@@ -107,18 +103,12 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);
@@ -126,9 +116,6 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPutForAllDataTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
@@ -151,7 +138,6 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
-     * @throws Exception
      */
     public function testInputSanitation(string $input, string $output): void
     {
@@ -196,7 +182,6 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
 
     /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
-     * @throws Exception
      */
     public function testInputSanitationFailure(): void
     {

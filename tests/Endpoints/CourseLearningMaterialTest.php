@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Entity\CourseLearningMaterial;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
-use Exception;
 
 use function array_key_exists;
 use function date_format;
@@ -129,9 +128,6 @@ class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
         parent::compareGraphQLData($expected, $result);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();

@@ -12,7 +12,6 @@ use App\Tests\GetUrlTrait;
 use DateTime;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Inflector\Inflector;
-use Exception;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use App\Tests\DataLoader\DataLoaderInterface;
@@ -45,9 +44,6 @@ abstract class AbstractEndpoint extends WebTestCase
     private Inflector $inflector;
     protected ReferenceRepository $fixtures;
 
-    /**
-     * @throws Exception
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -172,10 +168,6 @@ abstract class AbstractEndpoint extends WebTestCase
         }
     }
 
-
-    /**
-     * @throws Exception
-     */
     protected function getDataLoader(): DataLoaderInterface
     {
         $name = ucfirst($this->getCamelCasedSingularName());
@@ -252,7 +244,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test getting a single value from the API
-     * @throws Exception
      */
     protected function getOneTest(string $jwt): array
     {
@@ -277,7 +268,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test getting a single value from the JSON:API
-     * @throws Exception
      */
     protected function getOneJsonApiTest(string $jwt): object
     {
@@ -420,7 +410,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Get getting every piece of data in the test DB
-     * @throws Exception
      */
     protected function getAllTest(string $jwt): array
     {
@@ -460,7 +449,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Get with limit and offset
-     * @throws Exception
      */
     protected function getAllWithLimitAndOffsetTest(string $jwt): array
     {
@@ -500,7 +488,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Get getting every piece of data in the test DB
-     * @throws Exception
      */
     protected function getAllJsonApiTest(string $jwt): array
     {
@@ -547,7 +534,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Get getting every piece of data in the test DB
-     * @throws Exception
      */
     protected function getAllWithLimitAndOffsetJsonApiTest(string $jwt): array
     {
@@ -592,9 +578,6 @@ abstract class AbstractEndpoint extends WebTestCase
         return $content->data;
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getAllGraphQLTest(string $jwt): array
     {
         $name = $this->getCamelCasedPluralName();
@@ -636,9 +619,6 @@ abstract class AbstractEndpoint extends WebTestCase
         return $content->data->{$name};
     }
 
-    /**
-     * @throws Exception
-     */
     protected function getSomeGraphQLTest(string $jwt): array
     {
         $loader = $this->getDataLoader();
@@ -654,7 +634,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test that a filter returns the expected data for a graphql query
-     * @throws Exception
      */
     protected function graphQLFilterTest(array $filters, array $expectedIds, string $jwt): void
     {
@@ -681,7 +660,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param array $postData
      * @param string $jwt
      * @return array
-     * @throws Exception
      */
     protected function postTest(array $data, array $postData, string $jwt): array
     {
@@ -707,7 +685,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test saving new data to the JSON:API
-     * @throws Exception
      */
     protected function postJsonApiTest(object $postData, array $data, string $jwt): array
     {
@@ -736,7 +713,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param array $data
      * @param string $jwt
      * @return array
-     * @throws Exception
      */
     protected function postManyTest(array $data, string $jwt): array
     {
@@ -777,7 +753,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test saving new data to the JSON:API
-     * @throws Exception
      */
     protected function postManyJsonApiTest(object $postData, array $data, string $jwt): array
     {
@@ -1054,7 +1029,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $relationship the test target has to the subject
      * @param string $related the name of the related data
      * @param ?string $relatedName
-     * @throws Exception
      */
     public function relatedPostDataTest(
         array $data,
@@ -1083,7 +1057,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $jwt
      * @param bool $new if we are expecting this data to create a new item
      * @return array
-     * @throws Exception
      */
     protected function putTest(array $data, array $postData, mixed $id, string $jwt, bool $new = false): array
     {
@@ -1181,7 +1154,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test putting a  single value to the API
-     * @throws Exception
      */
     protected function patchJsonApiTest(array $data, object $postData, string $jwt): array
     {
@@ -1295,7 +1267,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Ensure that anonymous users cannot access the resource
-     * @throws Exception
      */
     protected function anonymousAccessDeniedOneTest(): void
     {
@@ -1527,7 +1498,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $relatedResponseKey
      * @param array $relatedData
      * @param string $jwt
-     * @throws Exception
      */
     protected function relatedTimeStampUpdateTest(
         mixed $id,
@@ -1562,7 +1532,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $relatedResponseKey
      * @param array $relatedPostData
      * @param string $jwt
-     * @throws Exception
      */
     protected function relatedTimeStampPostTest(
         mixed $id,
@@ -1596,7 +1565,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $relatedPluralObjectName
      * @param mixed $relatedId
      * @param string $jwt
-     * @throws Exception
      */
     protected function relatedTimeStampDeleteTest(
         mixed $id,

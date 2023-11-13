@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadIngestionExceptionData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -42,9 +41,6 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         $this->fourOhFourTest('POST');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutIs404(): void
     {
         $loader = $this->getDataLoader();
@@ -54,9 +50,6 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         $this->fourOhFourTest('PUT', ['id' => $id]);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeleteIs404(): void
     {
         $loader = $this->getDataLoader();

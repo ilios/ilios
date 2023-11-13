@@ -23,7 +23,6 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use DateTime;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -47,9 +46,6 @@ class SchooleventsTest extends AbstractEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAttachedUserMaterialsAreBlankedByTimedRelease(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -68,9 +64,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked'], 'start and end dates are in the past');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAttachedUserMaterialsAreBlankedForUsersWhenTheyLackPermissionToAccessThem(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -86,9 +79,6 @@ class SchooleventsTest extends AbstractEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAttachedUserMaterialsAreAvailableToCourseStudentAdvisors(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -111,9 +101,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked'], 'start and end dates are in the past');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAttachedUserMaterialsAreAvailableToSessionStudentAdvisors(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -137,9 +124,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked'], 'start and end dates are in the past');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetEvents(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -575,9 +559,6 @@ class SchooleventsTest extends AbstractEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testNotVirtualLinksForUnprivilegedUser(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -592,9 +573,6 @@ class SchooleventsTest extends AbstractEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testMultidayEvent(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -610,9 +588,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals($events[0]['offering'], $offerings[5]['id']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPrivilegedUsersGetsEventsForUnpublishedSessions(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -633,9 +608,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals('8', $lms[6]['sessionLearningMaterial']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetEventsBySession(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -655,9 +627,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals($sessionId, $events[1]['session']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAttachedInstructorsUseDisplayNameAndPronouns(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -669,9 +638,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertEquals($users[3]['displayName'], $events[0]['instructors'][1]);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testMissingFrom(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -697,9 +663,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testMissingT0(): void
     {
         $school = self::getContainer()->get(SchoolData::class)->getOne();
@@ -730,9 +693,6 @@ class SchooleventsTest extends AbstractEndpoint
         $this->runAccessDeniedTest();
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

@@ -12,7 +12,6 @@ use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadProgramData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -312,9 +311,6 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $fetchedResponseData;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutForAllData(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -332,9 +328,6 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPatchForAllDataJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -352,9 +345,6 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverCurriculumInventoryReport(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -519,9 +509,6 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverCurriculumInventoryReportWithOverrides(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -577,10 +564,6 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $this->assertNotSame($report['program'], $newReport['program']);
     }
 
-
-    /**
-     * @throws Exception
-     */
     public function testRolloverExportedCurriculumInventoryReport(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -611,9 +594,6 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $this->assertSame($report['description'], $newReport['description']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetVerificationPreview(): void
     {
         $dataLoader = $this->getDataLoader();

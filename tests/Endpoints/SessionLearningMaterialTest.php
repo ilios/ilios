@@ -10,7 +10,6 @@ use App\Tests\Fixture\LoadMeshDescriptorData;
 use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 use function date_format;
@@ -149,9 +148,6 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
         $this->assertEquals('seventh slm', $responses[4]['notes']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();

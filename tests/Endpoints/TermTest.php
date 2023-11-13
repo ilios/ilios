@@ -20,7 +20,6 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
-use Exception;
 
 /**
  * Term API endpoint Test.
@@ -124,9 +123,6 @@ class TermTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCreateTopLevelTerm(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -143,9 +139,6 @@ class TermTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotCreateTermWithEmptyTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -155,9 +148,6 @@ class TermTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotCreateTermWithNoTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -167,9 +157,6 @@ class TermTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotSaveTermWithEmptyTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -179,9 +166,6 @@ class TermTest extends AbstractReadWriteEndpoint
         $this->badPutTest($data, $data['id'], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotSaveTermWithNoTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

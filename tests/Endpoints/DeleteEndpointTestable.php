@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use Exception;
-
 /**
  * Trait DeleteEndpointTestable
  * @package App\Tests
@@ -15,7 +13,6 @@ trait DeleteEndpointTestable
     protected bool $enableDeleteTestsWithServiceToken = true;
 
     /**
-     * @throws Exception
      * @see DeleteEndpointTestInterface::testDelete
      */
     public function testDelete(): void
@@ -25,7 +22,6 @@ trait DeleteEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see DeleteEndpointTestInterface::testDeleteWithServiceToken
      */
     public function testDeleteWithServiceToken(): void
@@ -37,9 +33,6 @@ trait DeleteEndpointTestable
         $this->runDeleteTest($jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runDeleteTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();

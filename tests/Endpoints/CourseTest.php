@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\OfferingData;
+use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadCourseClerkshipTypeData;
 use App\Tests\Fixture\LoadCourseData;
@@ -20,11 +23,7 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\QEndpointTrait;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\IlmSessionData;
-use App\Tests\DataLoader\OfferingData;
-use App\Tests\DataLoader\SessionData;
 
 /**
  * Course API endpoint Test.
@@ -152,9 +151,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetMyCourses(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -167,9 +163,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetMyCoursesSorted(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -200,9 +193,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetMyCoursesWithLimit(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -215,9 +205,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetMyCoursesWithLimitAndOffset(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -230,9 +217,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetMyCoursesFilteredByYear(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -259,7 +243,6 @@ class CourseTest extends AbstractReadWriteEndpoint
 
     /**
      * Ember doesn't send the non-owning side of many-to-one relationships
-     * @throws Exception
      */
     public function testPutCourseWithoutSessionsAndLms(): void
     {
@@ -275,9 +258,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->putTest($data, $postData, $data['id'], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverCourse(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -331,9 +311,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals($secondSessionOfferings, $newSessionsData[1]['offerings']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverCourseWithStartDate(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -367,9 +344,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals('2023-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverCourseWithNoOfferings(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -397,9 +371,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEmpty($data[1]['offerings']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverCourseWithNewTitle(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -423,9 +394,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertSame($newCourseTitle, $newCourse['title']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFailRolloverToPassedYear(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -457,9 +425,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertStringContainsString('Courses cannot be rolled over to a new year before', $data['detail']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverIlmSessions(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -497,9 +462,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals($newIlmData[1]['hours'], $ilms[1]['hours']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRolloverCourseWithCohorts(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -562,9 +524,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         return $data[0];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPostCourse(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -584,9 +543,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPutCourse(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -607,9 +563,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPutCourseWithWrongId(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -631,9 +584,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedDeleteCourse(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -653,9 +603,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedRollover(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -678,9 +625,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCourseCanBeUnlocked(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -703,9 +647,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRemovingCourseObjectiveRemovesSessionObjectivesToo(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -743,9 +684,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertFalse(in_array($courseObjective['id'], $sessionObjective['courseObjectives']));
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutCourseWithBadSchoolId(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -756,9 +694,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutCourseWithBadSessionId(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -769,9 +704,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetMyCoursesIncludesAdministeredCourses(): void
     {
         $jwt = $this->createJwtFromUserId($this->kernelBrowser, 4);
@@ -901,9 +833,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertNotContains('users', $types);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
@@ -949,9 +878,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertCount(0, $course->sessions[1]->administrators);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGraphQLIncludedDataNotLoadedForUnprivilegedUsers(): void
     {
         $loader = $this->getDataLoader();
@@ -1004,9 +930,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithLimit(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -1018,9 +941,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[0], $all[1]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffset(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -1030,9 +950,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[2], $all[3], $all[4]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffsetAndLimit(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -1044,9 +961,6 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[1], $all[2]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

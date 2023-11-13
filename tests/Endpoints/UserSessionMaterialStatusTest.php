@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Entity\UserSessionMaterialStatusInterface;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
-use Exception;
 
 /**
  * UserSessionMaterialStatusTest API endpoint Test.
@@ -76,9 +75,6 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

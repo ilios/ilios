@@ -9,7 +9,6 @@ use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadSessionData;
 use DateTime;
 use DateTimeZone;
-use Exception;
 
 /**
  * IlmSession API endpoint Test.
@@ -79,9 +78,6 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDueDateInSystemTimeZone(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -94,9 +90,6 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDueDateConvertedToSystemTimeZone(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -123,7 +116,6 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
     /**
      * We need to create additional sessions to
      * go with each new IlmSession
-     * @throws Exception
      */
     protected function createMany(int $count, string $jwt): array
     {
@@ -145,18 +137,12 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyTest(string $jwt): void
     {
         $data = $this->createMany(51, $jwt);
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);

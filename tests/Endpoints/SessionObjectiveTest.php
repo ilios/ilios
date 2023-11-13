@@ -15,7 +15,6 @@ use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -104,7 +103,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
-     * @throws Exception
      */
     public function testInputSanitation(string $input, string $output): void
     {
@@ -134,7 +132,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
 
     /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
-     * @throws Exception
      */
     public function testInputSanitationFailure(): void
     {
@@ -158,9 +155,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function createMany(int $count, string $jwt): array
     {
         $sessionDataLoader = self::getContainer()->get(SessionData::class);
@@ -181,18 +175,12 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);
@@ -200,9 +188,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPutForAllDataTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();

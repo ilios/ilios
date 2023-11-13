@@ -20,7 +20,6 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use DateTime;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -114,9 +113,6 @@ class UsereventTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetEvents(): void
     {
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
@@ -936,9 +932,6 @@ class UsereventTest extends AbstractEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testMultidayEvent(): void
     {
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
@@ -1029,9 +1022,6 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame($sessionId, $events[1]['session']);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAttachedInstructorsUseDisplayNameAndPronouns(): void
     {
         $userId = 2;

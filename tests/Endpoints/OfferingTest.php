@@ -18,8 +18,6 @@ use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadOfferingData;
 use DateTime;
 use DateTimeZone;
-use Exception;
-use PHP_CodeSniffer\Tokenizers\JS;
 
 /**
  * Offering API endpoint Test.
@@ -34,7 +32,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
     /**
      * Reset date skipping for each test
-     * @throws Exception
      */
     public function setUp(): void
     {
@@ -135,7 +132,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
     /**
      * @dataProvider changeTypePutsToTest
-     * @throws Exception
      */
     public function testPutTriggerChangeType(string $key, $value, int $changeType): void
     {
@@ -160,7 +156,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
     /**
      * @dataProvider changeTypePutsToTest
-     * @throws Exception
      */
     public function testPatchJsonApiTriggerChangeType(string $key, $value, int $changeType): void
     {
@@ -179,9 +174,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->checkAlertChange($id, $changeType, UserData::ROOT_USER_ID, null, 1);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingLearnerGroupUpdatesOfferingStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -191,9 +183,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'learnergroups', 'learnerGroup', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingInstructorGroupUpdatesOfferingStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -203,9 +192,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['offerings'][0], 'instructorgroups', 'instructorGroup', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingInstructorUpdatesOfferingStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -215,9 +201,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['id'], 'offerings', 'offering', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdatingLearnerUpdatesOfferingStamp(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -227,9 +210,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->relatedTimeStampUpdateTest($data['id'], 'offerings', 'offering', $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testStartDateInSystemTimeZone(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -242,9 +222,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testStartDateConvertedToSystemTimeZone(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -268,9 +245,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testEndDateInSystemTimeZone(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -283,9 +257,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testEndDateConvertedToSystemTimeZone(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -312,7 +283,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
     /**
      * Some of the offering time stamps are dynamic, so we can't really test them
      * We have to skip that instead.
-     * @throws Exception
      */
     protected function runGetAllTest(string $jwt): void
     {

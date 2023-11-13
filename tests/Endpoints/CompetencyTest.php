@@ -15,7 +15,6 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
-use Exception;
 
 /**
  * Competency API endpoint Test.
@@ -101,9 +100,6 @@ class CompetencyTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostCompetencyProgramYear(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -113,9 +109,6 @@ class CompetencyTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'competencies', 'programYears');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRemoveParent(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

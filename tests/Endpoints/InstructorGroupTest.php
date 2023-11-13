@@ -13,7 +13,6 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
-use Exception;
 
 /**
  * InstructorGroup API endpoint Test.
@@ -95,9 +94,6 @@ class InstructorGroupTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostInstructorGroupIlmSession(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -107,9 +103,6 @@ class InstructorGroupTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'instructorGroups', 'learnerGroups');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostInstructorGroupLearnerGroup(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

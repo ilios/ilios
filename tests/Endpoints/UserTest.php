@@ -20,7 +20,6 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
 use App\Tests\QEndpointTrait;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -203,7 +202,6 @@ class UserTest extends AbstractReadWriteEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithLimit(): void
     {
@@ -218,7 +216,6 @@ class UserTest extends AbstractReadWriteEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithOffset(): void
     {
@@ -231,7 +228,6 @@ class UserTest extends AbstractReadWriteEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithOffsetAndLimit(): void
     {
@@ -244,9 +240,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[2], $all[3]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -258,9 +251,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->jsonApiFilterTest($filters, [$all[2], $all[3]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPostRootUser(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -285,9 +275,6 @@ class UserTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostRootUserAsRootUser(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -323,9 +310,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPutUserToRoot(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -359,9 +343,6 @@ class UserTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPatchUserToRoot(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -395,9 +376,6 @@ class UserTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPutDeveloperRoleToOwnAccount(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -423,9 +401,6 @@ class UserTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPutRemoveRootFromUser(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -460,9 +435,6 @@ class UserTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPatchRemoveRootFromUser(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -497,9 +469,6 @@ class UserTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutUpdateRootAttributeAsRootUser(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -512,9 +481,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->putTest($user, $user, $user['id'], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserCourse(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -524,9 +490,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'directors', 'courses', 'directedCourses');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserLearnerGroup(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -536,9 +499,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'users', 'learnerGroups', 'learnerGroups');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserInstructorLearnerGroup(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -548,9 +508,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'instructors', 'learnerGroups', 'instructedLearnerGroups');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserInstructorGroup(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -560,9 +517,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'users', 'instructorGroups', 'instructorGroups');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserIlmSession(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -572,9 +526,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'learners', 'ilmSessions', 'learnerIlmSessions');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserInstructedIlmSession(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -584,9 +535,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'instructors', 'ilmSessions', 'instructorIlmSessions');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserOffering(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -596,9 +544,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'learners', 'offerings');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserInstructedOffering(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -608,9 +553,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'instructors', 'offerings', 'instructedOfferings');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserProgramYear(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -620,9 +562,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'directors', 'programYears');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserCohort(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -632,9 +571,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'users', 'cohorts');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserWithNoIcsFeedKey(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -646,9 +582,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->assertEquals(64, strlen($response['icsFeedKey']), 'Not ICS feed key for user');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserWithNullIcsFeedKey(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -660,9 +593,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->assertEquals(64, strlen($response['icsFeedKey']), 'Not ICS feed key for user');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostUserWithNullAuthentication(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -675,9 +605,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testUpdateOwnIcsFeedKey(): void
     {
         $rootUserJwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -697,9 +624,6 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->compareData($user, $responseData);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

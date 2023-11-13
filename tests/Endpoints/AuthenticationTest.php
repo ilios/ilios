@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\UserData;
 use App\Tests\Fixture\LoadAlertData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCourseData;
@@ -16,9 +17,7 @@ use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\UserData;
 
 /**
  * Authentication API endpoint Test.
@@ -83,9 +82,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostMultipleAuthenticationWithEmptyPassword(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -97,9 +93,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostMultipleAuthenticationWithEmptyPasswordJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -113,9 +106,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->postManyJsonApiTest($data, $arr, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostAuthenticationWithEmptyPassword(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -126,9 +116,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostAuthenticationWithEmptyPasswordJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -140,9 +127,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->postJsonApiTest($data, $arr, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutAuthenticationWithNewUsernameAndPassword(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -155,9 +139,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->putTest($data, $data, $data['user'], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutAuthenticationWithNewUsernameAndPasswordJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -171,9 +152,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->patchJsonApiTest($data, $jsonApiData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostAuthenticationForUserWithNonPrimarySchool(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -186,9 +164,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostAuthenticationWithNoUsernameOrPassword(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -200,9 +175,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostAuthenticationWithNoUsernameOrPasswordJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -215,9 +187,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->postJsonApiTest($data, $arr, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function test3396PutAuthenticationWithInvalidation(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -234,9 +203,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->putTest($data, $data, $data['user'], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function test3396PatchAuthenticationWithInvalidation(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -254,9 +220,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $this->patchJsonApiTest($data, $jsonApiData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
@@ -325,7 +288,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
-     * @throws Exception
      */
     protected function runDeleteTest(string $jwt): void
     {
@@ -354,7 +316,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication uses
      * 'user' as the ID
-     * @throws Exception
      */
     protected function getOneJsonApiTest(string $jwt): object
     {
@@ -373,7 +334,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * 'user' as the Primary Key
      * @dataProvider putsToTest
      * @inheritdoc
-     * @throws Exception
      */
     protected function runPutTest($key, $value, string $jwt): void
     {
@@ -396,7 +356,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
-     * @throws Exception
      */
     protected function runPutForAllDataTest(string $jwt): void
     {
@@ -413,7 +372,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
-     * @throws Exception
      */
     protected function runPatchForAllDataJsonApiTest(string $jwt): void
     {
@@ -432,7 +390,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
-     * @throws Exception
      */
     protected function runPostManyTest(string $jwt): void
     {
@@ -445,7 +402,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      * @inheritdoc
-     * @throws Exception
      */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
@@ -573,7 +529,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
 
     /**
      * Overwritten b/c we need to unset the
-     * @throws Exception
      */
     protected function runPutReadOnlyTest(
         string $jwt,
@@ -653,7 +608,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * @param int $count
      * @param string $jwt
      * @return array
-     * @throws Exception
      */
     protected function createMany(int $count, string $jwt): array
     {

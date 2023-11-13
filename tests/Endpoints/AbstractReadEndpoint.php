@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use Exception;
-
 /**
  * Base class for all of our standardized API endpoint tests that read data from the API.
  */
@@ -20,17 +18,12 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
 
     abstract public function filtersToTest(): array;
 
-    /**
-     * @throws Exception
-     */
     public function testGetOne(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->runGetOneTest($jwt);
     }
-    /**
-     * @throws Exception
-     */
+
     public function testGetOneWithServiceToken(): void
     {
         if (!$this->enableGetTestsWithServiceToken) {
@@ -40,18 +33,12 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         $this->runGetOneTest($jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetAll(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->runGetAllTest($jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetAllWithServiceToken(): void
     {
         if (!$this->enableGetTestsWithServiceToken) {
@@ -61,9 +48,6 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         $this->runGetAllTest($jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGraphQL(): void
     {
         if (!property_exists($this, 'isGraphQLTestable') || !$this->isGraphQLTestable) {
@@ -90,7 +74,6 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
     }
 
     /**
-     * @throws Exception
      * @dataProvider filtersToTest
      */
     public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
@@ -103,7 +86,6 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
     }
 
     /**
-     * @throws Exception
      * @dataProvider filtersToTest
      */
     public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = [], $skipped = false): void
@@ -120,7 +102,6 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
 
     /**
      * @dataProvider graphQLFiltersToTest
-     * @throws Exception
      */
     public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
     {
@@ -141,9 +122,6 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         $this->graphQLFilterTest($filterParts, $expectedIds, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAnonymousAccessDenied(): void
     {
         $this->anonymousAccessDeniedOneTest();
@@ -155,18 +133,12 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         return $this->filtersToTest();
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runGetOneTest(string $jwt): void
     {
         $this->getOneTest($jwt);
         $this->getOneJsonApiTest($jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runGetAllTest(string $jwt): void
     {
         $this->getAllTest($jwt);
@@ -180,9 +152,6 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         $this->notFoundTest(99, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runFiltersTest(string $jwt, array $dataKeys = [], array $filterParts = []): void
     {
         if (empty($filterParts)) {

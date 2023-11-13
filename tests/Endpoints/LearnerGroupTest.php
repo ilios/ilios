@@ -11,7 +11,6 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadVocabularyData;
-use Exception;
 
 /**
  * LearnerGroup API endpoint Test.
@@ -102,9 +101,6 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostLearnerGroupIlmSession(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -114,9 +110,6 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'learnerGroups', 'ilmSessions');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostLearnerGroupOfferings(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -126,9 +119,6 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'learnerGroups', 'offerings');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRemoveParent(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

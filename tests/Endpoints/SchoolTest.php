@@ -13,7 +13,6 @@ use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use Exception;
 
 /**
  * School API endpoint Test.
@@ -115,9 +114,6 @@ class SchoolTest extends AbstractReadWriteEndpoint
         $this->markTestSkipped('intentionally skipped.');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

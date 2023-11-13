@@ -11,7 +11,6 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadTermData;
-use Exception;
 
 /**
  * Program API endpoint Test.
@@ -91,9 +90,6 @@ class ProgramTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPostProgram(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -113,9 +109,6 @@ class ProgramTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPutProgram(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -135,9 +128,6 @@ class ProgramTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedPutNewProgram(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -157,9 +147,6 @@ class ProgramTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testRejectUnprivilegedDeleteProgram(): void
     {
         $dataLoader = $this->getDataLoader();
@@ -178,9 +165,6 @@ class ProgramTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
@@ -209,7 +193,6 @@ class ProgramTest extends AbstractReadWriteEndpoint
     /**
      * Delete Program 2 explicitly as Program 1 is linked
      * to School 1.  Since sqlite doesn't cascade this doesn't work
-     * @inheritdoc
      */
     protected function runDeleteTest(string $jwt): void
     {

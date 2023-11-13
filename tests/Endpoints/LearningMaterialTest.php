@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\LearningMaterialStatusInterface;
+use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialData;
@@ -12,11 +13,9 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\QEndpointTrait;
-use Exception;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\LearningMaterialData;
 
 /**
  * LearningMaterial API endpoint Test.
@@ -168,7 +167,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithLimit(): void
     {
@@ -183,7 +181,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithOffset(): void
     {
@@ -196,7 +193,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithOffsetAndLimit(): void
     {
@@ -209,9 +205,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[3]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -260,9 +253,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostLearningMaterialCitation(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -273,9 +263,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostLearningMaterialLink(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -286,9 +273,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostLearningMaterialFile(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -343,9 +327,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->assertEquals(file_get_contents($fakeTestFileDir . '/TESTFILE.txt'), $response->getContent());
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostBadLearningMaterialCitation(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -355,9 +336,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostBadLearningMaterialLink(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -367,9 +345,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostLearningMaterialFileWithoutFile(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -386,7 +361,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
 
     /**
      * Ensure when LMs are side-loaded they have a correct URL path
-     * @throws Exception
      */
     public function testSideLoadedFileUrl(): void
     {
@@ -425,9 +399,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

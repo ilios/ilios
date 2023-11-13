@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadVocabularyData;
-use Exception;
 
 /**
  * Vocabulary API endpoint Test.
@@ -71,9 +70,6 @@ class VocabularyTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotCreateWithEmptyTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -83,9 +79,6 @@ class VocabularyTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotCreateWithoutTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -95,9 +88,6 @@ class VocabularyTest extends AbstractReadWriteEndpoint
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotSaveWithEmptyTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -107,9 +97,6 @@ class VocabularyTest extends AbstractReadWriteEndpoint
         $this->badPutTest($data, $data['id'], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCannotSaveWithoutTitle(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

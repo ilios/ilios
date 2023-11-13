@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadApplicationConfigData;
-use Exception;
 
 /**
  * ApplicationConfig API endpoint Test.
@@ -62,9 +61,6 @@ class ApplicationConfigTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

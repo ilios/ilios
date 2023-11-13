@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadSessionData;
-use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -103,9 +102,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeleteBlockFromStartOfOrderedSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -151,9 +147,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeleteBlockFromEndOfOrderedSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -199,9 +192,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testDeleteBlockFromMiddleOfOrderedSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -255,9 +245,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testCreateTopLevelSequenceBlockSucceeds(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -273,9 +260,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAddBlockToStartOfOrderedSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -335,9 +319,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAddBlockToEndOfOrderedSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -397,9 +378,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAddBlockToMiddleOfOrderedSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -467,9 +445,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testMoveBlockInOrderedSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -587,9 +562,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostBlockWithInvalidOrderInSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -646,9 +618,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         $this->postTest($block, $block, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPutBlockWithInvalidOrderInSequence(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -704,9 +673,6 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         $this->putTest($block, $block, $blockId, $jwt, true);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testChangeChildSequenceOrder(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

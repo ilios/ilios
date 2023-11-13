@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use Exception;
-
 /**
  * Trait PostEndpointTestable
  * @package App\Tests
@@ -15,7 +13,7 @@ trait PostEndpointTestable
     protected bool $enablePostTestsWithServiceToken = true;
 
     /**
-     * @throws Exception
+
      * @see PostEndpointTestInterface::testPostOne()
      */
     public function testPostOne(): void
@@ -25,7 +23,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostOneWithServiceToken()
      */
     public function testPostOneWithServiceToken(): void
@@ -38,7 +35,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostBad()
      */
     public function testPostBad(): void
@@ -48,7 +44,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostBadWithServiceToken()
      */
     public function testPostBadWithServiceToken(): void
@@ -61,7 +56,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostMany()
      */
     public function testPostMany(): void
@@ -71,7 +65,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostManyWithServiceToken()
      */
     public function testPostManyWithServiceToken(): void
@@ -84,7 +77,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostOneJsonApi()
      */
     public function testPostOneJsonApi(): void
@@ -94,7 +86,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostOneJsonApiWithServiceToken()
      */
     public function testPostOneJsonApiWithServiceToken(): void
@@ -107,7 +98,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostManyJsonApi()
      */
     public function testPostManyJsonApi(): void
@@ -117,7 +107,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostManyJsonApiWithServiceToken()
      */
     public function testPostManyJsonApiWithServiceToken(): void
@@ -130,7 +119,6 @@ trait PostEndpointTestable
     }
 
     /**
-     * @throws Exception
      * @see PostEndpointTestInterface::testPostAnonymousAccessDenied()
      */
     public function testPostAnonymousAccessDenied(): void
@@ -140,9 +128,6 @@ trait PostEndpointTestable
         $this->anonymousDeniedPostTest($data);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
@@ -151,9 +136,6 @@ trait PostEndpointTestable
         $this->postTest($data, $postData, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runBadPostTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
@@ -161,9 +143,6 @@ trait PostEndpointTestable
         $this->badPostTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
@@ -171,9 +150,6 @@ trait PostEndpointTestable
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostOneJsonApiTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
@@ -182,9 +158,6 @@ trait PostEndpointTestable
         $this->postJsonApiTest($jsonApiData, $data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();

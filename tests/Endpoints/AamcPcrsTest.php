@@ -7,7 +7,6 @@ namespace App\Tests\Endpoints;
 use App\Service\InflectorFactory;
 use App\Tests\Fixture\LoadAamcPcrsData;
 use App\Tests\Fixture\LoadCompetencyData;
-use Exception;
 
 /**
  * AamcPcrses API endpoint Test.
@@ -61,9 +60,6 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @throws Exception
-     */
     public function testPostTermAamcResourceType(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -127,9 +123,6 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         $this->assertSame($camelSingular, 'aamcpcrs');
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

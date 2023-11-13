@@ -18,7 +18,6 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\QEndpointTrait;
-use Exception;
 
 /**
  * MeshDescriptor API endpoint Test.
@@ -107,7 +106,6 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithLimit(): void
     {
@@ -122,7 +120,6 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithOffset(): void
     {
@@ -135,7 +132,6 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
 
     /**
      * Ensure offset and limit work
-     * @throws Exception
      */
     public function testFindByQWithOffsetAndLimit(): void
     {
@@ -148,9 +144,6 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         $this->filterTest($filters, [$all[1]], $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

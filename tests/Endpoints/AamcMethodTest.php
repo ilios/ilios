@@ -6,7 +6,6 @@ namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAamcMethodData;
 use App\Tests\Fixture\LoadSessionTypeData;
-use Exception;
 
 /**
  * AamcMethod API endpoint Test.
@@ -72,9 +71,6 @@ class AamcMethodTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * @throws Exception
-     */
     public function testAccessDeniedWithServiceToken(): void
     {
         $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(

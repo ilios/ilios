@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadAamcMethodData;
 use App\Tests\Fixture\LoadAssessmentOptionData;
 use App\Tests\Fixture\LoadCohortData;
@@ -22,9 +23,6 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadSessionTypeData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
-use Exception;
-use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\SessionData;
 
 /**
  * SessionType API endpoint Test.
@@ -130,7 +128,6 @@ class SessionTypeTest extends AbstractReadWriteEndpoint
      * We need to create additional sessions to
      * go with each new sessionType otherwise only the last one created will have any sessions
      * attached to it.
-     * @throws Exception
      */
     protected function createMany(int $count, string $jwt): array
     {
@@ -152,18 +149,12 @@ class SessionTypeTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyTest(string $jwt): void
     {
         $data = $this->createMany(51, $jwt);
         $this->postManyTest($data, $jwt);
     }
 
-    /**
-     * @throws Exception
-     */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
         $data = $this->createMany(10, $jwt);
