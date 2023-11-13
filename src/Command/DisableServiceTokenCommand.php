@@ -27,7 +27,6 @@ class DisableServiceTokenCommand extends Command
     {
         $this
             ->setName('ilios:service-token:disable')
-            ->setAliases(['ilios:maintenance:service-token:disable'])
             ->setDescription('Disable a given service token.')
             ->addArgument(
                 self::ID_KEY,

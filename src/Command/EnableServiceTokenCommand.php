@@ -27,7 +27,6 @@ class EnableServiceTokenCommand extends Command
     {
         $this
             ->setName('ilios:service-token:enable')
-            ->setAliases(['ilios:maintenance:service-token:enable'])
             ->setDescription('Enables a given service token.')
             ->addArgument(
                 self::ID_KEY,

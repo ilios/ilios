@@ -40,7 +40,6 @@ class CreateServiceTokenCommand extends Command
     {
         $this
             ->setName('ilios:service-token:create')
-            ->setAliases(['ilios:maintenance:service-token:create'])
             ->setDescription('Creates a new service token for the API with given capabilities.')
             ->addOption(
                 self::WRITEABLE_SCHOOLS_KEY,

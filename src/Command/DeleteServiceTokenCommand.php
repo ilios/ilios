@@ -27,7 +27,6 @@ class DeleteServiceTokenCommand extends Command
     {
         $this
             ->setName('ilios:service-token:delete')
-            ->setAliases(['ilios:maintenance:service-token:delete'])
             ->setDescription('Deletes a given service token.')
             ->addArgument(
                 self::ID_KEY,
