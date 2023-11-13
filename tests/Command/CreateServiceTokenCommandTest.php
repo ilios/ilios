@@ -92,7 +92,8 @@ class CreateServiceTokenCommandTest extends KernelTestCase
 
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
-            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum'
+            CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
         ]);
         $this->assertEquals('lorem ipsum', $serviceToken->getDescription());
 
@@ -145,8 +146,9 @@ class CreateServiceTokenCommandTest extends KernelTestCase
 
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
+            CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
-            '--' . CreateServiceTokenCommand::WRITEABLE_SCHOOLS_KEY => $schoolIdsInput
+            '--' . CreateServiceTokenCommand::WRITEABLE_SCHOOLS_KEY => $schoolIdsInput,
             ]);
     }
 
@@ -179,17 +181,28 @@ class CreateServiceTokenCommandTest extends KernelTestCase
 
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
+            CreateServiceTokenCommand::TTL_KEY => $ttl,
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
-            '--' . CreateServiceTokenCommand::TTL_KEY => $ttl
         ]);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
     public function testDescriptionRequired()
     {
-        $this->expectExceptionMessage('Not enough arguments (missing: "description")');
+        $this->expectExceptionMessage('Not enough arguments (missing: "description").');
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
+            CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
+        ]);
+        $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
+    }
+
+    public function testTtlRequired()
+    {
+        $this->expectExceptionMessage('Not enough arguments (missing: "ttl").');
+        $this->commandTester->execute([
+            'command' => self::COMMAND_NAME,
+            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
     }
@@ -198,9 +211,8 @@ class CreateServiceTokenCommandTest extends KernelTestCase
     {
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
+            CreateServiceTokenCommand::TTL_KEY => 'P1000D', // one.thousand.days.
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
-            '--' . CreateServiceTokenCommand::TTL_KEY => 'P1000D' // one.thousand.days.
-
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
         $this->assertStringStartsWith(
@@ -213,8 +225,8 @@ class CreateServiceTokenCommandTest extends KernelTestCase
     {
         $this->commandTester->execute([
             'command' => self::COMMAND_NAME,
+            CreateServiceTokenCommand::TTL_KEY => 'nyet',
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
-            '--' . CreateServiceTokenCommand::TTL_KEY => 'nyet',
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
         $this->assertStringStartsWith(

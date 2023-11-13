@@ -48,12 +48,10 @@ class CreateServiceTokenCommand extends Command
                 'Schools that the token has write access to, provided as a comma-separated list of ids.',
                 ''
             )
-            ->addOption(
+            ->addArgument(
                 self::TTL_KEY,
-                null,
-                InputOption::VALUE_REQUIRED,
-                "The token's time-to-live.",
-                self::TTL_MAX_VALUE,
+                InputArgument::REQUIRED,
+                "The token's time-to-live in ISO-8601 duration format, up to 180 days.",
             )
             ->addArgument(
                 self::DESCRIPTION_KEY,
@@ -65,7 +63,7 @@ class CreateServiceTokenCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $ttl = new DateInterval($input->getOption(self::TTL_KEY));
+            $ttl = new DateInterval($input->getArgument(self::TTL_KEY));
         } catch (Exception $e) {
             $output->writeln('Unable to parse given TTL value.');
             return Command::INVALID;
