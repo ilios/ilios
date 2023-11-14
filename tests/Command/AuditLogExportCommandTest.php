@@ -12,6 +12,7 @@ use Mockery as m;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -63,11 +64,12 @@ class AuditLogExportCommandTest extends KernelTestCase
                 return $from->format($format)  ===  $midnightYesterday->format($format)
                     && $to->format($format)  ===  $midnightToday->format($format);
             })
-            ->andReturn([]);
+            ->andReturn([])
+            ->once();
 
         $this->logger->shouldReceive('info');
-
         $this->commandTester->execute([]);
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
     /**
@@ -84,14 +86,15 @@ class AuditLogExportCommandTest extends KernelTestCase
                 return $from->format($format)  ===  $twoYearsAgo->format($format)
                     && $to->format($format)  ===  $twoDaysAgo->format($format);
             })
-            ->andReturn([]);
+            ->andReturn([])
+            ->once();
 
         $this->logger->shouldReceive('info');
-
         $this->commandTester->execute([
             'from' => '2 years ago',
             'to' => '2 days ago',
         ]);
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
     /**
@@ -124,6 +127,7 @@ class AuditLogExportCommandTest extends KernelTestCase
             "/1\s+\|\s+10\s+\|\s+update\s+\|\s+{$cleanNow}\s+\|\s+20\s+\|\s+FooBar\s+\|\s+phone/",
             $output
         );
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
     /**
@@ -168,6 +172,7 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->logger->shouldReceive('info')->with('Finished Audit Log Export.')->once();
 
         $this->commandTester->execute(['--delete' => 'true']);
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
     /**
@@ -194,5 +199,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         })->once();
 
         $this->commandTester->execute(['--delete' => 'true']);
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 }

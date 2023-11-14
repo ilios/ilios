@@ -11,27 +11,10 @@ use App\Tests\TestCase;
 
 class TemporaryFileSystemTest extends TestCase
 {
-    /**
-     *
-     * @var TemporaryFileSystem
-     */
-    private $tempFileSystem;
-
-    /**
-     * Mock File System
-     * @var SymfonyFileSystem
-     */
-    private $mockFileSystem;
-
-    /**
-     * @var string
-     */
-    private $uploadDirectory;
-
-    /**
-     * @var string
-     */
-    private $fakeTestFileDir;
+    private TemporaryFileSystem $tempFileSystem;
+    private m\MockInterface $mockFileSystem;
+    private string $uploadDirectory;
+    private string $fakeTestFileDir;
 
     public function setUp(): void
     {
@@ -69,7 +52,7 @@ class TemporaryFileSystemTest extends TestCase
         $path = __FILE__;
         $hash = md5_file($path);
         $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->andReturn($path)->getMock();
+            ->shouldReceive('getPathname')->twice()->andReturn($path)->getMock();
         $this->mockFileSystem->shouldReceive('exists')
             ->with($this->uploadDirectory . '/' . $hash);
         $this->mockFileSystem->shouldReceive('rename')
@@ -80,7 +63,7 @@ class TemporaryFileSystemTest extends TestCase
     public function testRemoveFile()
     {
         $file = 'foojunk';
-        $this->mockFileSystem->shouldReceive('remove')->with($this->uploadDirectory . '/' . $file);
+        $this->mockFileSystem->shouldReceive('remove')->once()->with($this->uploadDirectory . '/' . $file);
         $this->tempFileSystem->removeFile($file);
     }
 

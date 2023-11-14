@@ -16,21 +16,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IliosFileSystemTest extends TestCase
 {
-    /**
-     *
-     * @var IliosFileSystem
-     */
-    private $iliosFileSystem;
-
-    /**
-     * @var m\Mock
-     */
-    private $fileSystem;
-
-    /**
-     * @var string
-     */
-    private $fakeTestFileDir;
+    private IliosFileSystem $iliosFileSystem;
+    private m\MockInterface $fileSystemMock;
+    private string $fakeTestFileDir;
 
     public function setUp(): void
     {
@@ -41,14 +29,14 @@ class IliosFileSystemTest extends TestCase
             $fs->mkdir($this->fakeTestFileDir);
         }
 
-        $this->fileSystem = m::mock(Filesystem::class);
-        $this->iliosFileSystem = new IliosFileSystem($this->fileSystem);
+        $this->fileSystemMock = m::mock(Filesystem::class);
+        $this->iliosFileSystem = new IliosFileSystem($this->fileSystemMock);
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->fileSystem);
+        unset($this->fileSystemMock);
         unset($this->iliosFileSystem);
         unset($this->fakeTestFileDir);
     }
@@ -57,8 +45,8 @@ class IliosFileSystemTest extends TestCase
     {
         $path = __FILE__;
         $file = m::mock(File::class)
-            ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->fileSystem->shouldReceive('writeStream');
+            ->shouldReceive('getPathname')->andReturn($path)->twice()->getMock();
+        $this->fileSystemMock->shouldReceive('writeStream');
         $this->iliosFileSystem->storeLearningMaterialFile($file);
     }
 
@@ -66,7 +54,7 @@ class IliosFileSystemTest extends TestCase
     {
         $path = __FILE__;
         $file = m::mock(File::class)
-            ->shouldReceive('getPathname')->andReturn($path)->getMock();
+            ->shouldReceive('getPathname')->andReturn($path)->once()->getMock();
         $newPath = $this->iliosFileSystem->getLearningMaterialFilePath($file);
         $this->assertSame($this->fakeTestFileDir . '/' . $newPath, $this->getTestFilePath($path));
     }
@@ -74,7 +62,7 @@ class IliosFileSystemTest extends TestCase
     public function testRemoveFile()
     {
         $file = 'foojunk';
-        $this->fileSystem->shouldReceive('delete')->with($file);
+        $this->fileSystemMock->shouldReceive('delete')->once()->with($file);
         $this->iliosFileSystem->removeFile($file);
     }
 
@@ -82,8 +70,8 @@ class IliosFileSystemTest extends TestCase
     {
         $filename = 'test/file/name';
         $value = 'something something word word';
-        $this->fileSystem->shouldReceive('fileExists')->with($filename)->once()->andReturn(true);
-        $this->fileSystem->shouldReceive('read')->with($filename)->once()->andReturn($value);
+        $this->fileSystemMock->shouldReceive('fileExists')->with($filename)->once()->andReturn(true);
+        $this->fileSystemMock->shouldReceive('read')->with($filename)->once()->andReturn($value);
         $result = $this->iliosFileSystem->getFileContents($filename);
         $this->assertEquals($value, $result);
     }
@@ -91,7 +79,7 @@ class IliosFileSystemTest extends TestCase
     public function testMissingGetFileContents()
     {
         $filename = 'test/file/name';
-        $this->fileSystem->shouldReceive('fileExists')->with($filename)->once()->andReturn(false);
+        $this->fileSystemMock->shouldReceive('fileExists')->with($filename)->once()->andReturn(false);
         $result = $this->iliosFileSystem->getFileContents($filename);
         $this->assertFalse($result);
     }
@@ -104,9 +92,9 @@ class IliosFileSystemTest extends TestCase
         $badLm = m::mock(LearningMaterialInterface::class)
             ->shouldReceive('getRelativePath')->andReturn('badfile')
             ->mock();
-        $this->fileSystem->shouldReceive('fileExists')
+        $this->fileSystemMock->shouldReceive('fileExists')
             ->with('goodfile')->andReturn(true)->once();
-        $this->fileSystem->shouldReceive('fileExists')
+        $this->fileSystemMock->shouldReceive('fileExists')
             ->with('badfile')->andReturn(false)->once();
         $this->assertTrue($this->iliosFileSystem->checkLearningMaterialFilePath($goodLm));
         $this->assertFalse($this->iliosFileSystem->checkLearningMaterialFilePath($badLm));
@@ -139,8 +127,8 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
-        $this->fileSystem->shouldReceive('write')->with($lockFilePath, 'LOCK');
+        $this->fileSystemMock->shouldReceive('fileExists')->with($lockFilePath)->twice()->andReturn(false);
+        $this->fileSystemMock->shouldReceive('write')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->createLock($name);
     }
 
@@ -148,8 +136,8 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(true);
-        $this->fileSystem->shouldReceive('delete')->with($lockFilePath);
+        $this->fileSystemMock->shouldReceive('fileExists')->with($lockFilePath)->twice()->andReturn(true);
+        $this->fileSystemMock->shouldReceive('delete')->with($lockFilePath);
         $this->iliosFileSystem->releaseLock($name);
     }
 
@@ -157,7 +145,7 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
+        $this->fileSystemMock->shouldReceive('fileExists')->with($lockFilePath)->once()->andReturn(false);
         $this->iliosFileSystem->releaseLock($name);
     }
 
@@ -165,7 +153,7 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(true);
+        $this->fileSystemMock->shouldReceive('fileExists')->with($lockFilePath)->andReturn(true);
         $status = $this->iliosFileSystem->hasLock($name);
         $this->assertTrue($status);
     }
@@ -174,7 +162,7 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
+        $this->fileSystemMock->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
         $status = $this->iliosFileSystem->hasLock($name);
         $this->assertFalse($status);
     }
@@ -183,8 +171,8 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
-        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(false);
-        $this->fileSystem->shouldReceive('write')->with($lockFilePath, 'LOCK');
+        $this->fileSystemMock->shouldReceive('fileExists')->with($lockFilePath)->times(3)->andReturn(false);
+        $this->fileSystemMock->shouldReceive('write')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->waitForLock($name);
     }
 
@@ -192,8 +180,8 @@ class IliosFileSystemTest extends TestCase
     {
         $name = 'test && file .lock';
         $lockFilePath = $this->getTestFileLock('test-file-.lock');
-        $this->fileSystem->shouldReceive('fileExists')->with($lockFilePath)->andReturn(true);
-        $this->fileSystem->shouldReceive('write')->with($lockFilePath, 'LOCK');
+        $this->fileSystemMock->shouldReceive('fileExists')->with($lockFilePath)->once()->andReturn(true);
+        $this->fileSystemMock->shouldReceive('write')->with($lockFilePath, 'LOCK');
         $this->iliosFileSystem->createLock($name);
     }
 
@@ -201,8 +189,8 @@ class IliosFileSystemTest extends TestCase
     {
         $path = __FILE__;
         $file = m::mock(UploadedFile::class)
-            ->shouldReceive('getPathname')->andReturn($path)->getMock();
-        $this->fileSystem->shouldReceive('writeStream');
+            ->shouldReceive('getPathname')->andReturn($path)->twice()->getMock();
+        $this->fileSystemMock->shouldReceive('writeStream');
         $this->iliosFileSystem->storeUploadedTemporaryFile($file);
     }
 
@@ -210,9 +198,9 @@ class IliosFileSystemTest extends TestCase
     {
         $hash = md5_file(__FILE__);
         $testContents = file_get_contents(__FILE__);
-        $this->fileSystem->shouldReceive('fileExists')->with("tmp/{$hash}")->andReturn(true);
-        $this->fileSystem->shouldReceive('read')->with("tmp/{$hash}")->andReturn($testContents);
-        $this->fileSystem->shouldReceive('delete')->with("tmp/{$hash}");
+        $this->fileSystemMock->shouldReceive('fileExists')->with("tmp/{$hash}")->andReturn(true);
+        $this->fileSystemMock->shouldReceive('read')->with("tmp/{$hash}")->andReturn($testContents);
+        $this->fileSystemMock->shouldReceive('delete')->with("tmp/{$hash}");
         $contents = $this->iliosFileSystem->getUploadedTemporaryFileContentsAndRemoveFile($hash);
         $this->assertSame($contents, $testContents);
     }
