@@ -43,8 +43,8 @@ class ProgramTest extends AbstractReadWriteEndpoint
             'shortTitle' => ['shortTitle', 'histcon'],
             'duration' => ['duration', 12],
             'school' => ['school', 3],
-            'programYears' => ['programYears', [1], true],
-            'curriculumInventoryReports' => ['curriculumInventoryReports', [1], true],
+            // 'programYears' => ['programYears', [1]], // skipped
+            // 'curriculumInventoryReports' => ['curriculumInventoryReports', [1]], // skipped
             'directors' => ['directors', [1, 3]],
         ];
     }

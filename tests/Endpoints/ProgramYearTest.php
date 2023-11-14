@@ -52,7 +52,7 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
             'locked' => ['locked', true],
             'archived' => ['archived', true],
             'program' => ['program', 2],
-            'cohort' => ['cohort', 2, true],
+            // 'cohort' => ['cohort', 2], // skipped
             'directors' => ['directors', [2]],
             'competencies' => ['competencies', [2]],
             'terms' => ['terms', [2]],
