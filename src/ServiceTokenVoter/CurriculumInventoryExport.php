@@ -20,7 +20,7 @@ class CurriculumInventoryExport extends AbstractReadWriteEntityVoter
         );
     }
 
-    protected function getSchoolIdFromEntity(mixed $subject): int
+    protected function getSchoolIdFromEntity(object $subject): int
     {
         return $subject->getReport()->getSchool()->getId();
     }

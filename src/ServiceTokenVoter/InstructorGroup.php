@@ -22,7 +22,7 @@ class InstructorGroup extends AbstractReadWriteEntityVoter
         );
     }
 
-    protected function getSchoolIdFromEntity(mixed $subject): int
+    protected function getSchoolIdFromEntity(object $subject): int
     {
         return $subject->getSchool()->getId();
     }

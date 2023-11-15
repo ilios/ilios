@@ -22,7 +22,7 @@ class IlmSession extends AbstractReadWriteEntityVoter
         );
     }
 
-    protected function getSchoolIdFromEntity(mixed $subject): int
+    protected function getSchoolIdFromEntity(object $subject): int
     {
         return $subject->getSession()->getCourse()->getSchool()->getId();
     }

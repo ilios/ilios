@@ -22,7 +22,7 @@ class Term extends AbstractReadWriteEntityVoter
         );
     }
 
-    protected function getSchoolIdFromEntity(mixed $subject): int
+    protected function getSchoolIdFromEntity(object $subject): int
     {
         return $subject->getVocabulary()->getSchool()->getId();
     }

@@ -48,10 +48,10 @@ abstract class AbstractReadWriteEntityVoter extends Voter
 
     /**
      * Extracts the ID of the school that the given entity belongs to (or is).
-     * @param mixed $subject The given entity.
+     * @param object $subject The given entity.
      * @return int the school ID.
      */
-    abstract protected function getSchoolIdFromEntity(mixed $subject): int;
+    abstract protected function getSchoolIdFromEntity(object $subject): int;
 
     protected function getWriteableSchoolIdsFromToken(TokenInterface $token): array
     {
