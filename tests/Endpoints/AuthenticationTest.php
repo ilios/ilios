@@ -528,7 +528,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     }
 
     /**
-     * Overwritten b/c we need to unset the
+     * Overwritten b/c we need to unset the passwordHash
      */
     protected function runPutReadOnlyTest(
         string $jwt,
