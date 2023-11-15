@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Classes\VoterPermissions;
-use App\RelationshipVoter\IliosFileSystem as IFSVoter;
 use App\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
