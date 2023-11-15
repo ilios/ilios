@@ -48,14 +48,14 @@ use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\DTO\UserRoleDTO;
 use App\Entity\DTO\VocabularyDTO;
-use App\ServiceTokenVoter\DTOVoter as Voter;
+use App\ServiceTokenVoter\GreenlightViewDTOVoter;
 
-class DTOVoterTest extends AbstractReadonlyBase
+class GreenlightViewDTOVoterTest extends AbstractReadonlyBase
 {
     public function setUp(): void
     {
         parent::setUp();
-        $this->voter = new Voter();
+        $this->voter = new GreenlightViewDTOVoter();
     }
 
     public function subjectProvider(): array

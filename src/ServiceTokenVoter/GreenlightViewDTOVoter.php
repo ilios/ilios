@@ -53,7 +53,7 @@ use App\Entity\DTO\VocabularyDTO;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class DTOVoter extends Voter
+class GreenlightViewDTOVoter extends Voter
 {
     public function supportsAttribute(string $attribute): bool
     {
