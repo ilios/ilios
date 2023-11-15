@@ -32,7 +32,7 @@ class Logger
     ) {
         if (null !== $securityTokenStorage->getToken()) {
             /** @var SessionUserInterface $sessionUser */
-            $sessionUser = $securityTokenStorage->getToken()?->getUser();
+            $sessionUser = $securityTokenStorage->getToken()->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
                 $this->userId = $sessionUser->getId();
             } elseif ($sessionUser instanceof ServiceTokenUserInterface) {
