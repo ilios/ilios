@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Classes\SessionUserInterface;
 use App\Entity\DTO\UserSessionMaterialStatusDTO;
 use App\Repository\UserSessionMaterialStatusRepository;
 use App\Service\ApiRequestParser;
@@ -17,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[OA\Tag(name:'User Session Material Statuses')]
@@ -269,10 +267,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $currentUser = $this->tokenStorage->getToken()?->getUser();
-        if (! $currentUser instanceof SessionUserInterface) {
-            throw new AccessDeniedException('Unauthorized access.');
-        }
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePut($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
