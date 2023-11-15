@@ -112,6 +112,6 @@ class AuditLogExportCommand extends Command
 
         $this->logger->info('Finished Audit Log Export.');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

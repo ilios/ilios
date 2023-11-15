@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\SendTestEmailCommand;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Mailer\MailerInterface;
@@ -75,11 +76,13 @@ class SendTestEmailCommandTest extends KernelTestCase
                 }
 
                 return true;
-            }));
+            }))
+            ->once();
 
         $this->commandTester->execute([
             'to' => 'to@example.com',
             'from' => 'from@example.com',
         ]);
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 }
