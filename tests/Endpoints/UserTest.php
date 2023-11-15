@@ -142,30 +142,30 @@ class UserTest extends AbstractReadWriteEndpoint
             'examined' => [[0, 1], ['examined' => true]],
             'notExamined' => [[2, 3, 4], ['examined' => false]],
             'icsFeedKey' => [[1], ['icsFeedKey' => hash('sha256', '2')]],
-//            'authentication' => [[2], ['authentication' => 2]],
-//            'reports' => [[1], ['reports' => [1]]],
+            // 'authentication' => [[2], ['authentication' => 2]], // skipped
+            // 'reports' => [[1], ['reports' => [1]]], // skipped
             'school' => [[0, 1, 2, 4], ['school' => 1]],
             'schools' => [[0, 1, 2, 4], ['schools' => [1]]],
-//            'directedCourses' => [[0], ['directedCourses' => [1]]],
-//            'administeredCourses' => [[0], ['administeredCourses' => [1]]],
-//            'administeredSessions' => [[0], ['administeredSessions' => [1]]],
-//            'learnerGroups' => [[0], ['learnerGroups' => [1]]],
-//            'instructedLearnerGroups' => [[0], ['instructedLearnerGroups' => [1]]],
-//            'instructorGroups' => [[1], ['instructorGroups' => [1, 2, 3]]],
-//            'instructorIlmSessions' => [[0], ['instructorIlmSessions' => [1]]],
-//            'learnerIlmSessions' => [[0], ['learnerIlmSessions' => [1]]],
-//            'offerings' => [[0], ['offerings' => [1]]],
-//            'instructedOfferings' => [[0], ['instructedOfferings' => [1]]],
-//            'programYears' => [[0], ['programYears' => [1]]],
+            // 'directedCourses' => [[0], ['directedCourses' => [1]]], // skipped
+            // 'administeredCourses' => [[0], ['administeredCourses' => [1]]], // skipped
+            // 'administeredSessions' => [[0], ['administeredSessions' => [1]]], // skipped
+            // 'learnerGroups' => [[0], ['learnerGroups' => [1]]], // skipped
+            // 'instructedLearnerGroups' => [[0], ['instructedLearnerGroups' => [1]]], // skipped
+            'instructorGroups' => [[1], ['instructorGroups' => [1, 4]]],
+            // 'instructorIlmSessions' => [[0], ['instructorIlmSessions' => [1]]], // skipped
+            // 'learnerIlmSessions' => [[0], ['learnerIlmSessions' => [1]]], // skipped
+            // 'offerings' => [[0], ['offerings' => [1]]], // skipped
+            // 'instructedOfferings' => [[0], ['instructedOfferings' => [1]]], // skipped
+            // 'programYears' => [[0], ['programYears' => [1]]], // skipped
             'roles' => [[2], ['roles' => [2]]],
             'cohorts' => [[0, 1], ['cohorts' => [1]]],
             'nullCohorts' => [[2, 3, 4], ['cohorts' => 'null']],
             'primaryCohort' => [[0], ['primaryCohort' => 1]],
-//            'nullPrimaryCohort' => [[1, 2, 3, 4], ['primaryCohort' => null]],
-//            'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]],
-//            'directedSchools' => [[0], ['directedSchools' => [1]]],
-//            'administeredSchools' => [[0], ['administeredSchools' => [1]]],
-//            'directedPrograms' => [[0], ['directedPrograms' => [1]]],
+            //'nullPrimaryCohort' => [[1, 2, 3, 4], ['primaryCohort' => null]], // skipped
+            // 'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]], // skipped
+            // 'directedSchools' => [[0], ['directedSchools' => [1]]], // skipped
+            // 'administeredSchools' => [[0], ['administeredSchools' => [1]]], // skipped
+            // 'directedPrograms' => [[0], ['directedPrograms' => [1]]], //skipped
             'isRoot' => [[1], ['root' => true]],
             'isNotRoot' => [[0, 2, 3, 4], ['root' => false]],
             'instructedCourses' => [[1, 3], ['instructedCourses' => [1]]],

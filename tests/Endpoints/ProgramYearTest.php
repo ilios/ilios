@@ -82,9 +82,9 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
             'archived' => [[2], ['archived' => true]],
             'notArchived' => [[0, 1, 3, 4], ['archived' => false]],
             'program' => [[3], ['program' => 3]],
-            'cohort' => [[1], ['cohort' => 2], true],
-            'directors' => [[0], ['directors' => [1]], true],
-            'competencies' => [[0], ['competencies' => [1]], true],
+            // 'cohort' => [[1], ['cohort' => 2]], // skipped
+            // 'directors' => [[0], ['directors' => [1]]], // skipped
+            // 'competencies' => [[0], ['competencies' => [1]]], // skipped
             'terms' => [[1], ['terms' => [1]]],
             'courses' => [[2], ['courses' => [4]]],
             'sessions' => [[0], ['sessions' => [3]]],

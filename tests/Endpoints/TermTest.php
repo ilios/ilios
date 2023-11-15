@@ -93,7 +93,7 @@ class TermTest extends AbstractReadWriteEndpoint
             'courses' => [[0, 1, 3, 4], ['courses' => [1]]],
             'description' => [[2], ['description' => 'third description']],
             'parent' => [[1, 2], ['parent' => 1]],
-            'children' => [[0], ['children' => [3]], true],
+            // 'children' => [[0], ['children' => [3]]], // skipped
             'programYears' => [[0, 3], ['programYears' => [2]]],
             'sessions' => [[0, 1, 3, 4], ['sessions' => [1, 2]]],
             'vocabulary' => [[3, 4, 5], ['vocabulary' => 2]],

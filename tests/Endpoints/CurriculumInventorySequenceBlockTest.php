@@ -88,9 +88,9 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'startingAcademicLevel' => [[0], ['startingAcademicLevel' => 1]],
             'endingAcademicLevel' => [[0], ['endingAcademicLevel' => 2]],
             'parent' => [[1, 2, 3, 4], ['parent' => 1]],
-//            'children' => [[0], ['children' => [3]]],
+            'children' => [[0], ['children' => [3]]],
             'report' => [[0, 1, 2, 3, 4], ['report' => 1]],
-//            'sessions' => [[0], ['sessions' => [1]]],
+            'sessions' => [[0], ['sessions' => [1]]],
             'excludedSessions' => [[0], ['sessions' => [1]]],
         ];
     }

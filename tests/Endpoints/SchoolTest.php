@@ -83,16 +83,16 @@ class SchoolTest extends AbstractReadWriteEndpoint
             'title' => [[2], ['title' => 'third school']],
             'iliosAdministratorEmail' => [[1], ['iliosAdministratorEmail' => 'info@example.com']],
             'changeAlertRecipients' => [[2], ['changeAlertRecipients' => 'info@example.com']],
-            'competencies' => [[0], ['competencies' => [1]], true],
-            'courses' => [[0], ['courses' => [1]], true],
-            'programs' => [[0], ['programs' => [1]], true],
-            'vocabularies' => [[0], ['vocabularies' => [1]], true],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]], true],
-            'curriculumInventoryInstitution' => [[0], ['curriculumInventoryInstitution' => 'test'], true],
-            'sessionTypes' => [[0], ['sessionTypes' => [1]], true],
-            'directors' => [[0], ['directors' => [1]], true],
-            'administrators' => [[0], ['administrators' => [1]], true],
-            'configurations' => [[0], ['configurations' => [1]], true],
+            // 'competencies' => [[0], ['competencies' => [1]]], // skipped
+            // 'courses' => [[0], ['courses' => [1]]], // skipped
+            // 'programs' => [[0], ['programs' => [1]]], // skipped
+            // 'vocabularies' => [[0], ['vocabularies' => [1]]], // skipped
+            // 'instructorGroups' => [[0], ['instructorGroups' => [1]]], // skipped
+            // 'curriculumInventoryInstitution' => [[0], ['curriculumInventoryInstitution' => 'test']], // skipped
+            // 'sessionTypes' => [[0], ['sessionTypes' => [1]]], // skipped
+            // 'directors' => [[0], ['directors' => [1]]], // skipped
+            // 'administrators' => [[0], ['administrators' => [1]]], // skipped
+            // 'configurations' => [[0], ['configurations' => [1]]], // skipped
         ];
     }
 

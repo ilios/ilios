@@ -76,11 +76,8 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
     /**
      * @dataProvider filtersToTest
      */
-    public function testFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
+    public function testFilters(array $dataKeys = [], array $filterParts = []): void
     {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->runFiltersTest($jwt, $dataKeys, $filterParts);
     }
@@ -88,11 +85,8 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
     /**
      * @dataProvider filtersToTest
      */
-    public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = [], $skipped = false): void
+    public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = []): void
     {
-        if ($skipped) {
-            $this->markTestSkipped();
-        }
         if (!$this->enableGetTestsWithServiceToken) {
             $this->markTestSkipped('Filters test with service token skipped for this endpoint.');
         }

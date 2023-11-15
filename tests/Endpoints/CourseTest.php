@@ -113,8 +113,8 @@ class CourseTest extends AbstractReadWriteEndpoint
             'title' => [[0], ['title' => 'firstCourse']],
             'level' => [[3, 4], ['level' => 3]],
             'year' => [[1, 2], ['year' => 2012]],
-            'startDate' => [[1], ['startDate' => '2013-09-01T00:00:00+00:00'], true],
-            'endDate' => [[2], ['endDate' => '2013-12-14T00:00:00+00:00'], true],
+            // 'startDate' => [[1], ['startDate' => '2013-09-01T00:00:00+00:00']], // skipped
+            // 'endDate' => [[2], ['endDate' => '2013-12-14T00:00:00+00:00']], // skipped
             'externalId' => [[2], ['externalId' => 'course3']],
             'locked' => [[4], ['locked' => true]],
             'archived' => [[4], ['archived' => true]],
@@ -123,16 +123,16 @@ class CourseTest extends AbstractReadWriteEndpoint
             'clerkshipType' => [[0, 1], ['clerkshipType' => 1]],
             'school' => [[2, 3, 4], ['school' => 2]],
             'schools' => [[2, 3, 4], ['schools' => [2]]],
-            'directors' => [[1, 3], ['directors' => [2]], true],
-            'administrators' => [[0], ['administrators' => [1]], true],
-            'cohorts' => [[2], ['cohorts' => [2]], true],
+            // 'directors' => [[1, 3], ['directors' => [2]]], // skipped
+            // 'administrators' => [[0], ['administrators' => [1]]], // skipped
+            // 'cohorts' => [[2], ['cohorts' => [2]]], // skipped
             'terms' => [[0, 1], ['terms' => [1]]],
             'meshDescriptors' => [[0, 1, 3], ['meshDescriptors' => ['abc1', 'abc2']]],
             'learningMaterials' => [[0, 1, 3], ['learningMaterials' => [1, 3]]],
             'sessions' => [[1], ['sessions' => [3]]],
             'ancestor' => [[3], ['ancestor' => 3]],
             'ancestors' => [[3], ['ancestors' => [3]]],
-            'descendants' => [[0], ['descendants' => [1]], true],
+            // 'descendants' => [[0], ['descendants' => [1]]], // skipped
             'programs' => [[3, 4], ['programs' => [2]]],
             'instructors' => [[0, 1, 3], ['instructors' => [1, 2]]],
             'instructorGroups' => [[0, 1], ['instructorGroups' => [1]]],

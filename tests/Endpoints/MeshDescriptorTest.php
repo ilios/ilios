@@ -60,13 +60,13 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
             'annotation' => [[0], ['annotation' => 'annotation1']],
             'courses' => [[0, 1], ['courses' => [2, 3]]],
             'sessions' => [[1], ['sessions' => [3]]],
-            'concepts' => [[0], ['concepts' => [1]], true],
-            'qualifiers' => [[0], ['qualifiers' => [1]], true],
-            'trees' => [[0], ['trees' => [1]], true],
-            'sessionLearningMaterials' => [[0], ['sessionLearningMaterials' => [1]], true],
-            'courseLearningMaterials' => [[0], ['courseLearningMaterials' => [1]], true],
+            // 'concepts' => [[0], ['concepts' => [1]]], // skipped
+            // 'qualifiers' => [[0], ['qualifiers' => [1]]], // skipped
+            // 'trees' => [[0], ['trees' => [1]]], // skipped
+            // 'sessionLearningMaterials' => [[0], ['sessionLearningMaterials' => [1]]], // skipped
+            // 'courseLearningMaterials' => [[0], ['courseLearningMaterials' => [1]]], // skipped
             'learningMaterials' => [[0], ['learningMaterials' => [1, 2]]],
-            'previousIndexing' => [[1], ['previousIndexing' => 2], true],
+            // 'previousIndexing' => [[1], ['previousIndexing' => 2]], // skipped
             'terms' => [[0, 1, 2], ['terms' => [1, 2, 3]]],
             'sessionTypes' => [[0, 1, 2], ['sessionTypes' => [2]]],
             'school' => [[0, 2], ['schools' => 2]],

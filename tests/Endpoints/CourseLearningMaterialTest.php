@@ -71,7 +71,7 @@ class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
             'publicNotes' => [[0, 1, 3, 4, 5, 6, 7, 8, 9], ['publicNotes' => true]],
             'course' => [[2], ['course' => 4]],
             'learningMaterial' => [[1], ['learningMaterial' => 2]],
-            'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']], true],
+            // 'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']]], // skipped
             'position' => [[1], ['position' => 1]],
         ];
     }

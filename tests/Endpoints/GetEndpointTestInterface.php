@@ -56,26 +56,18 @@ interface GetEndpointTestInterface
     /**
      * @param array $dataKeys
      * @param array $filterParts
-     * @param bool $skipped
      *
      * @dataProvider filtersToTest
      */
-    public function testFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void;
+    public function testFilters(array $dataKeys = [], array $filterParts = []): void;
 
     /**
      * @param array $dataKeys
      * @param array $filterParts
-     * @param bool $skipped
      *
      * @dataProvider filtersToTest
      */
-    public function testFiltersWithServiceToken(
-        array $dataKeys = [],
-        array $filterParts = [],
-        bool $skipped = false
-    ): void;
-
-
+    public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = []): void;
 
     /**
      * Tests reading data from the GraphQL search endpoint.

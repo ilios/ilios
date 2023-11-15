@@ -83,12 +83,12 @@ class LearnerGroupTest extends AbstractReadWriteEndpoint
             'parent' => [[3], ['parent' => 1]],
             'ancestor' => [[3], ['ancestor' => 3]],
             'noParent' => [[0, 1, 2, 4], ['parent' => 'null']],
-            'children' => [[0], ['children' => [4]], true],
-            'ilmSessions' => [[0, 2], ['ilmSessions' => [1]], true],
-            'offerings' => [[1, 4], ['offerings' => [2]], true],
-            'instructorGroups' => [[0], ['instructorGroups' => [1]], true],
-            'users' => [[0, 4], ['users' => [5]], true],
-            'instructors' => [[0, 2], ['instructors' => [1]], true],
+            // 'children' => [[0], ['children' => [4]]], // skipped
+            // 'ilmSessions' => [[0, 2], ['ilmSessions' => [1]]], // skipped
+            // 'offerings' => [[1, 4], ['offerings' => [2]]], // skipped
+            // 'instructorGroups' => [[0], ['instructorGroups' => [1]]], // skipped
+            // 'users' => [[0, 4], ['users' => [5]]], // skipped
+            // 'instructors' => [[0, 2], ['instructors' => [1]]], // skipped
             'cohorts' => [[1], ['cohorts' => [2]]],
         ];
     }

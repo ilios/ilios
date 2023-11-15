@@ -31,10 +31,10 @@ class AcademicYearTest extends AbstractReadEndpoint
     public function filtersToTest(): array
     {
         return [
-            'id' => [[1], ['id' => 2013], true],
-            'ids' => [[0, 2], ['id' => [2012, 2016]], true],
-            'title' => [[1], ['id' => 2013], true],
-            'titles' => [[0, 2], ['id' => [2012, 2016]], true],
+            // 'id' => [[1], ['id' => 2013]], // skipped
+            // 'ids' => [[0, 2], ['id' => [2012, 2016]]], // skipped
+            // 'title' => [[1], ['id' => 2013]], // skipped
+            // 'titles' => [[0, 2], ['id' => [2012, 2016]]], // skipped
         ];
     }
 
@@ -209,5 +209,19 @@ class AcademicYearTest extends AbstractReadEndpoint
         }
 
         return $content->data;
+    }
+
+    protected function runFiltersTest(string $jwt, array $dataKeys = [], array $filterParts = []): void
+    {
+        if (empty($filterParts)) {
+            $this->markTestSkipped('Missing filters tests for this endpoint');
+        }
+        $all = $this->getYears();
+        $expectedData = array_map(fn($i) => $all[$i], $dataKeys);
+        $filters = [];
+        foreach ($filterParts as $key => $value) {
+            $filters["filters[$key]"] = $value;
+        }
+        $this->filterTest($filters, $expectedData, $jwt);
     }
 }

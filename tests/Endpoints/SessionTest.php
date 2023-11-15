@@ -127,15 +127,15 @@ class SessionTest extends AbstractReadWriteEndpoint
             'supplementalAndSessionType' => [[1, 2], ['supplemental' => true, 'sessionType' => 2]],
             'course' => [[3], ['course' => 4]],
             'multipleCourse' => [[0, 1, 3], ['course' => [1, 4]]],
-//            'ilmSession' => [[0], ['ilmSessions' => [1]]],
+            // 'ilmSession' => [[0], ['ilmSessions' => [1]]], // skipped
             'terms' => [[1], ['terms' => 1]],
             'termsMultiple' => [[0], ['terms' => [2, 5]]],
             'meshDescriptors' => [[3], ['meshDescriptors' => ['abc3']]],
             'meshDescriptorsMultiple' => [[0, 2, 3], ['meshDescriptors' => ['abc2', 'abc3']]],
-//            'sessionDescription' => [[0], ['sessionDescription' => 1]],
+            // 'sessionDescription' => [[0], ['sessionDescription' => 1]], // skipped
             'learningMaterials' => [[0], ['learningMaterials' => [1]]],
-//            'offerings' => [[0], ['offerings' => 1]],
-//            'administrators' => [[0], ['administrators' => [1]]],
+            // 'offerings' => [[0], ['offerings' => 1]], // skipped
+            // 'administrators' => [[0], ['administrators' => [1]]], // skipped
             'supplementalAndAttireRequired' => [[1], ['supplemental' => true, 'attireRequired' => true]],
             'programs' => [[3], ['programs' => [2]]],
             'instructors' => [[0, 1, 4, 5, 6], ['instructors' => [2]]],

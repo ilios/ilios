@@ -79,13 +79,13 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
             'name' => [[1], ['name' => 'second report']],
             'description' => [[2], ['description' => 'third report']],
             'year' => [[1], ['year' => 2015]],
-            'startDate' => [[0], ['startDate' => 'test'], true],
-            'endDate' => [[0], ['endDate' => 'test'], true],
-            'export' => [[0], ['export' => 1], true],
-            'sequence' => [[0], ['sequence' => 1], true],
-            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]], true],
+            // 'startDate' => [[0], ['startDate' => 'test']], // skipped
+            // 'endDate' => [[0], ['endDate' => 'test']], // skipped
+            // 'export' => [[0], ['export' => 1]], // skipped
+            // 'sequence' => [[0], ['sequence' => 1]], // skipped
+            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]]],
             'program' => [[0, 1, 2], ['program' => 1]],
-            'academicLevels' => [[0], ['academicLevels' => [1]], true],
+            'academicLevels' => [[0], ['academicLevels' => [1]]],
         ];
     }
 

@@ -78,10 +78,10 @@ class CompetencyTest extends AbstractReadWriteEndpoint
             'title' => [[2], ['title' => 'third competency']],
             'school' => [[0, 1, 2], ['school' => 1]],
             'schools' => [[0, 1, 2], ['schools' => [1]]],
-            'parent' => [[2], ['parent' => 1], true],
-            'children' => [[0], ['children' => 3], true],
-            'aamcPcrses' => [[1], ['aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102']], true],
-            'programYears' => [[0, 2], ['programYears' => [1]], true],
+            'parent' => [[2], ['parent' => 1]],
+            // 'children' => [[0], ['children' => 3]], // skipped
+            // 'aamcPcrses' => [[1], ['aamcPcrses' => ['aamc-pcrs-comp-c0101', 'aamc-pcrs-comp-c0102']]], // skipped
+            // 'programYears' => [[0, 2], ['programYears' => [1]]], // skipped
             'notActive' => [[1], ['active' => false]],
             'active' => [[0, 2], ['active' => true]],
             'terms' => [[0], ['terms' => [1]]],
