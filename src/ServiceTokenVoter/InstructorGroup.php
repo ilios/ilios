@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\ServiceTokenVoter;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\VoterPermissions;
 use App\Entity\InstructorGroupInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class InstructorGroup extends AbstractReadWriteEntityVoter
 {
@@ -22,8 +24,16 @@ class InstructorGroup extends AbstractReadWriteEntityVoter
         );
     }
 
-    protected function getSchoolIdFromEntity(object $subject): int
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        return $subject->getSchool()->getId();
+        $user = $token->getUser();
+        if (!$user instanceof ServiceTokenUserInterface) {
+            return false;
+        }
+
+        return match ($attribute) {
+            VoterPermissions::VIEW => true,
+            default => $this->hasWriteAccessToSchool($token, $subject->getSchool()->getId()),
+        };
     }
 }

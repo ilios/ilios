@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\ServiceTokenVoter;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\VoterPermissions;
 use App\Entity\PendingUserUpdateInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class PendingUserUpdate extends AbstractReadWriteEntityVoter
 {
@@ -21,8 +23,16 @@ class PendingUserUpdate extends AbstractReadWriteEntityVoter
         );
     }
 
-    protected function getSchoolIdFromEntity(object $subject): int
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        return $subject->getUser()->getSchool()->getId();
+        $user = $token->getUser();
+        if (!$user instanceof ServiceTokenUserInterface) {
+            return false;
+        }
+
+        return match ($attribute) {
+            VoterPermissions::VIEW => true,
+            default => $this->hasWriteAccessToSchool($token, $subject->getUser()->getSchool()->getId()),
+        };
     }
 }
