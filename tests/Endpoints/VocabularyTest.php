@@ -56,7 +56,7 @@ class VocabularyTest extends AbstractReadWriteEndpoint
             'ids' => [[0, 1], ['id' => [1, 2]]],
             'title' => [[1], ['title' => 'second vocabulary']],
             'school' => [[1], ['school' => 2]],
-            'terms' => [[1], ['terms' => [5]], true],
+            'terms' => [[1], ['terms' => [5]]],
             'active' => [[0], ['active' => true]],
             'notActive' => [[1], ['active' => false]],
         ];
