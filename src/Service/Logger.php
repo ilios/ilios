@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Repository\AuditLogRepository;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -15,15 +16,11 @@ use App\Classes\SessionUserInterface;
  */
 class Logger
 {
-    /**
-     * @var int
-     */
-    protected $userId;
+    protected ?int $userId = null;
 
-    /**
-     * @var array
-     */
-    protected $entries;
+    protected ?int $tokenId = null;
+
+    protected array $entries = [];
 
     /**
      * Set the userId from injected security context
@@ -33,14 +30,13 @@ class Logger
         protected AuditLogRepository $repository,
         protected LoggerInterface $frameworkLogger
     ) {
-        if (
-            null !== $securityTokenStorage &&
-            null !== $securityTokenStorage->getToken()
-        ) {
+        if (null !== $securityTokenStorage->getToken()) {
             /** @var SessionUserInterface $sessionUser */
             $sessionUser = $securityTokenStorage->getToken()->getUser();
             if ($sessionUser instanceof SessionUserInterface) {
                 $this->userId = $sessionUser->getId();
+            } elseif ($sessionUser instanceof ServiceTokenUserInterface) {
+                $this->tokenId = $sessionUser->getId();
             }
         }
     }
@@ -61,7 +57,7 @@ class Logger
         $valuesChanged,
         $andFlush = true
     ) {
-        if (!$this->userId) {
+        if (!$this->userId && !$this->tokenId) {
             throw new Exception('Attempted to log something but there is no authenticated user.');
         }
         $log = [
@@ -70,6 +66,7 @@ class Logger
             'objectClass' => $objectClass,
             'valuesChanged' => $valuesChanged,
             'userId' => $this->userId,
+            'tokenId' => $this->tokenId,
         ];
         $this->entries[] = $log;
 

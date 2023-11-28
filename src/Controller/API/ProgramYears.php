@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\VoterPermissions;
 use App\Entity\CohortInterface;
 use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\ProgramYearInterface;
@@ -217,7 +218,7 @@ class ProgramYears extends AbstractApiController
         $entities = $this->serializer->deserialize(json_encode($cleanData), $class, 'json');
 
         foreach ($entities as $entity) {
-            $this->validateAndAuthorizeEntity($entity, AbstractVoter::CREATE, $validator, $authorizationChecker);
+            $this->validateAndAuthorizeEntity($entity, VoterPermissions::CREATE, $validator, $authorizationChecker);
 
             $this->repository->update($entity, false);
             $this->createCohort($entity);
@@ -299,7 +300,7 @@ class ProgramYears extends AbstractApiController
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = AbstractVoter::EDIT;
+            $permission = VoterPermissions::EDIT;
             $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
             if (!$entity->isArchived() && $data->archived) {
                 return $this->archiveProgramYear($entity, $builder, $authorizationChecker, $request);
@@ -313,7 +314,7 @@ class ProgramYears extends AbstractApiController
         } else {
             $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
-            $permission = AbstractVoter::CREATE;
+            $permission = VoterPermissions::CREATE;
         }
 
         /* @var ProgramYearInterface $entity */
@@ -450,7 +451,7 @@ class ProgramYears extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         Request $request
     ): Response {
-        if (!$authorizationChecker->isGranted(AbstractVoter::ARCHIVE, $entity)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::ARCHIVE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setArchived(true);
@@ -465,7 +466,7 @@ class ProgramYears extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         Request $request
     ): Response {
-        if (!$authorizationChecker->isGranted(AbstractVoter::LOCK, $entity)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::LOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(true);
@@ -480,7 +481,7 @@ class ProgramYears extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         Request $request
     ): Response {
-        if (!$authorizationChecker->isGranted(AbstractVoter::UNLOCK, $entity)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::UNLOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(false);

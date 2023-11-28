@@ -6,11 +6,12 @@ namespace App\Tests\Controller;
 
 use App\Entity\LearningMaterial;
 use App\Tests\DataLoader\ApplicationConfigData;
-use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
+use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadOfferingData;
+use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\GetUrlTrait;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
@@ -21,8 +22,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
 /**
- * Download controller Test.
- * @group other
+ * @coversDefaultClass \App\Controller\DownloadController
+ * @group controller
  */
 class DownloadControllerTest extends WebTestCase
 {
@@ -39,11 +40,13 @@ class DownloadControllerTest extends WebTestCase
         $this->kernelBrowser = self::createClient();
         $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
         $executor = $databaseTool->loadFixtures([
-            LoadAuthenticationData::class,
-            LoadOfferingData::class,
-            LoadCourseLearningMaterialData::class,
-            LoadSessionLearningMaterialData::class,
             LoadApplicationConfigData::class,
+            LoadAuthenticationData::class,
+            LoadCourseLearningMaterialData::class,
+            LoadLearningMaterialData::class,
+            LoadOfferingData::class,
+            LoadServiceTokenData::class,
+            LoadSessionLearningMaterialData::class,
         ]);
         $this->fixtures = $executor->getReferenceRepository();
     }
@@ -55,24 +58,21 @@ class DownloadControllerTest extends WebTestCase
         unset($this->fixtures);
     }
 
-    public function testDownloadLearningMaterial()
+    public function testDownloadLearningMaterial(): void
     {
-        /* @var array $learningMaterials */
-        $learningMaterials = $this->kernelBrowser->getContainer()
-            ->get(LearningMaterialData::class)
-            ->getAll();
-        $fileLearningMaterials = array_filter($learningMaterials, fn($arr) => !empty($arr['filesize']));
-        $learningMaterial = array_values($fileLearningMaterials)[0];
+        $fileLms = $this->getFileLms();
+        $lm = $fileLms[0];
+
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'GET',
             $this->getUrl(
                 $this->kernelBrowser,
                 'app_api_learningmaterials_getone',
-                ['version' => $this->apiVersion, 'id' => $learningMaterial['id']]
+                ['version' => $this->apiVersion, 'id' => $lm->getId()]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -95,10 +95,9 @@ class DownloadControllerTest extends WebTestCase
         $this->assertEquals(file_get_contents($learningMaterialLoaderPath), $response->getContent());
     }
 
-    public function testPdfInlineDownload()
+    public function testPdfInlineDownload(): void
     {
         $learningMaterial = $this->fixtures->getReference('learningMaterials4', LearningMaterial::class);
-
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'GET',
@@ -108,7 +107,7 @@ class DownloadControllerTest extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $learningMaterial->getId()]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -128,7 +127,7 @@ class DownloadControllerTest extends WebTestCase
         );
     }
 
-    public function testBadLearningMaterialToken()
+    public function testBadLearningMaterialToken(): void
     {
         //sending bad hash
         $this->kernelBrowser->request(
@@ -143,7 +142,7 @@ class DownloadControllerTest extends WebTestCase
         );
     }
 
-    protected function setLearningMaterialsDisabled(string $setTo)
+    protected function setLearningMaterialsDisabled(string $setTo): void
     {
         $container = $this->kernelBrowser->getContainer();
         $config = $container->get(ApplicationConfigData::class)->getOne();
@@ -158,12 +157,12 @@ class DownloadControllerTest extends WebTestCase
                 ['version' => $this->apiVersion]
             ),
             json_encode(['applicationConfig' => $config]),
-            $this->getTokenForUser($this->kernelBrowser, 2)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $this->assertJsonResponse($this->kernelBrowser->getResponse(), Response::HTTP_CREATED);
     }
 
-    public function testDisabledMaterialsWithLM()
+    public function testDisabledMaterialsWithLM(): void
     {
         $this->setLearningMaterialsDisabled('true');
 
@@ -177,7 +176,7 @@ class DownloadControllerTest extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $learningMaterial->getId()]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -197,7 +196,7 @@ class DownloadControllerTest extends WebTestCase
         );
     }
 
-    public function testDisabledMaterialsWithMissingLm()
+    public function testDisabledMaterialsWithMissingLm(): void
     {
         $this->setLearningMaterialsDisabled('true');
         $this->kernelBrowser->request(
@@ -214,7 +213,7 @@ class DownloadControllerTest extends WebTestCase
         );
     }
 
-    public function testBadLearningMaterialTokenWithLmEnabled()
+    public function testBadLearningMaterialTokenWithLmEnabled(): void
     {
         $this->setLearningMaterialsDisabled('false');
         //sending bad hash
@@ -228,5 +227,47 @@ class DownloadControllerTest extends WebTestCase
             RESPONSE::HTTP_NOT_FOUND,
             $response->getStatusCode()
         );
+    }
+
+    public function testDownloadLearningMaterialWithServiceToken(): void
+    {
+        $fileLms = $this->getFileLms();
+        $lm = $fileLms[0];
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_learningmaterials_getone',
+                ['version' => $this->apiVersion, 'id' => $lm->getId()]
+            ),
+            null,
+            $this->createJwtForEnabledServiceToken($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $data = json_decode($response->getContent(), true)['learningMaterials'][0];
+
+        $this->kernelBrowser->request(
+            'GET',
+            $data['absoluteFileUri']
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertEquals(
+            $response->headers->get('Content-Disposition'),
+            'attachment; filename="' . $data['filename'] . '"'
+        );
+        $this->assertEquals(RESPONSE::HTTP_OK, $response->getStatusCode(), $response->getContent());
+        $learningMaterialLoaderPath = realpath(__DIR__ . '/../Fixture/LoadLearningMaterialData.php');
+        $this->assertEquals(file_get_contents($learningMaterialLoaderPath), $response->getContent());
+    }
+
+    protected function getFileLms(): array
+    {
+        $learningMaterials = $this->fixtures->getReferencesByClass()[LearningMaterial::class];
+        return array_values(array_filter($learningMaterials, fn(LearningMaterial $lm) => !!$lm->getFilename()));
     }
 }

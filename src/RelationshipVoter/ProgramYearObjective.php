@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\ProgramYearInterface;
 use App\Entity\ProgramYearObjectiveInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -14,19 +16,21 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class ProgramYearObjective extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof ProgramYearObjectiveInterface && in_array($attribute, [
-                self::VIEW, self::CREATE, self::EDIT, self::DELETE
-            ]);
+        parent::__construct(
+            $permissionChecker,
+            ProgramYearObjectiveInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param ProgramYearObjectiveInterface $objective
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $objective, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -38,14 +42,14 @@ class ProgramYearObjective extends AbstractVoter
         }
 
         switch ($attribute) {
-            case self::VIEW:
+            case VoterPermissions::VIEW:
                 return true;
                 break;
-            case self::CREATE:
-            case self::EDIT:
-            case self::DELETE:
+            case VoterPermissions::CREATE:
+            case VoterPermissions::EDIT:
+            case VoterPermissions::DELETE:
                 /* @var ProgramYearInterface $programYear */
-                $programYear = $objective->getProgramYear();
+                $programYear = $subject->getProgramYear();
                 return $this->permissionChecker->canUpdateProgramYear($user, $programYear);
                 break;
         }

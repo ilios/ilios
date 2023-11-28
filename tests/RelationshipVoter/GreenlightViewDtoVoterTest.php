@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\CourseObjectiveDTO;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 use App\Entity\DTO\SessionObjectiveDTO;
-use App\RelationshipVoter\AbstractVoter;
 use App\RelationshipVoter\GreenlightViewDTOVoter as Voter;
-use App\Service\PermissionChecker;
+use App\Service\SessionUserPermissionChecker;
 use App\Entity\DTO\AamcMethodDTO;
 use App\Entity\DTO\AamcPcrsDTO;
 use App\Entity\DTO\AamcResourceTypeDTO;
@@ -56,8 +56,8 @@ class GreenlightViewDtoVoterTest extends AbstractBase
     public function setUp(): void
     {
         parent::setUp();
-        $this->permissionChecker = m::mock(PermissionChecker::class);
-        $this->voter = new Voter($this->permissionChecker);
+        $this->permissionChecker = m::mock(SessionUserPermissionChecker::class);
+        $this->voter = new Voter();
     }
 
     public function canViewDTOProvider()
@@ -111,7 +111,67 @@ class GreenlightViewDtoVoterTest extends AbstractBase
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
         $dto = m::mock($class);
-        $response = $this->voter->vote($token, $dto, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
+    }
+
+    public function supportsTypeProvider(): array
+    {
+        return [
+            [AamcMethodDTO::class, true],
+            [AamcPcrsDTO::class, true],
+            [AamcResourceTypeDTO::class, true],
+            [AssessmentOptionDTO::class, true],
+            [CohortDTO::class, true],
+            [CompetencyDTO::class, true],
+            [CourseDTO::class, true],
+            [CourseClerkshipTypeDTO::class, true],
+            [CourseObjectiveDTO::class, true],
+            [CurriculumInventoryAcademicLevelDTO::class, true],
+            [CurriculumInventoryInstitutionDTO::class, true],
+            [CurriculumInventoryReportDTO::class, true],
+            [CurriculumInventorySequenceDTO::class, true],
+            [CurriculumInventorySequenceBlockDTO::class, true],
+            [IlmSessionDTO::class, true],
+            [InstructorGroupDTO::class, true],
+            [LearningMaterialDTO::class, true],
+            [LearningMaterialStatusDTO::class, true],
+            [LearningMaterialUserRoleDTO::class, true],
+            [MeshConceptDTO::class, true],
+            [MeshDescriptorDTO::class, true],
+            [MeshPreviousIndexingDTO::class, true],
+            [MeshQualifierDTO::class, true],
+            [MeshTermDTO::class, true],
+            [MeshTreeDTO::class, true],
+            [ProgramDTO::class, true],
+            [ProgramYearDTO::class, true],
+            [ProgramYearObjectiveDTO::class, true],
+            [SchoolDTO::class, true],
+            [SchoolConfigDTO::class, true],
+            [SessionDTO::class, true],
+            [SessionObjectiveDTO::class, true],
+            [SessionTypeDTO::class, true],
+            [TermDTO::class, true],
+            [UserRoleDTO::class, true],
+            [VocabularyDTO::class, true],
+            [self::class, false],
+        ];
+    }
+
+    public function supportsAttributesProvider(): array
+    {
+        return [
+            [VoterPermissions::VIEW, true],
+            [VoterPermissions::CREATE, false],
+            [VoterPermissions::DELETE, false],
+            [VoterPermissions::EDIT, false],
+            [VoterPermissions::LOCK, false],
+            [VoterPermissions::UNLOCK, false],
+            [VoterPermissions::ROLLOVER, false],
+            [VoterPermissions::CREATE_TEMPORARY_FILE, false],
+            [VoterPermissions::VIEW_DRAFT_CONTENTS, false],
+            [VoterPermissions::VIEW_VIRTUAL_LINK, false],
+            [VoterPermissions::ARCHIVE, false],
+        ];
     }
 }

@@ -8,6 +8,8 @@ use App\Entity\DTO\UserDTO;
 
 class UserData extends AbstractDataLoader
 {
+    public const ROOT_USER_ID = 2;
+
     protected function getData(): array
     {
         $arr = [];
@@ -57,7 +59,7 @@ class UserData extends AbstractDataLoader
         ];
 
         $arr[] = [
-            'id' => 2,
+            'id' => self::ROOT_USER_ID,
             'lastName' => 'first',
             'middleName' => 'first',
             'firstName' => 'first',
@@ -278,7 +280,7 @@ class UserData extends AbstractDataLoader
         ];
     }
 
-    public function createEmpty()
+    public function createEmpty(): array
     {
         return [
             'lastName' => 'new',

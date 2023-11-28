@@ -26,18 +26,6 @@ class MeshTermTest extends AbstractMeshEndpoint
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'id' => ['id', 1, 99],
-            'createdAt' => ['createdAt', 1, 99],
-            'updatedAt' => ['updatedAt', 1, 99],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function filtersToTest(): array
     {
         return [

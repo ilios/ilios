@@ -14,6 +14,11 @@ use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
 class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'userSessionMaterialStatuses';
+    protected bool $enableGetTestsWithServiceToken = false;
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {
@@ -68,6 +73,109 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
         ]]];
 
         return $filters;
+    }
+
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_getone',
+                ['version' => $this->apiVersion, 'id' => $data['id']]
+            ),
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_getone',
+                ['version' => $this->apiVersion, 'id' => $data['id']]
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_getall',
+                ['version' => $this->apiVersion]
+            ),
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_getall',
+                ['version' => $this->apiVersion]
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']]
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_put',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_usersessionmaterialstatuses_patch',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
     }
 
     protected function getTimeStampFields(): array

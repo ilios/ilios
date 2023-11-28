@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\DataLoader\CurriculumInventoryExportData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
@@ -11,6 +12,7 @@ use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
+use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\GetUrlTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -20,7 +22,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
 /**
- * Class CurriculumInventoryDownloadControllerTest
+ * @coversDefaultClass \App\Controller\CurriculumInventoryDownloadController
+ * @group controller
  */
 class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {
@@ -36,14 +39,15 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
         $this->kernelBrowser = self::createClient();
         $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
         $databaseTool->loadFixtures([
-            LoadCurriculumInventoryReportData::class,
+            LoadAuthenticationData::class,
+            LoadCurriculumInventoryAcademicLevelData::class,
             LoadCurriculumInventoryExportData::class,
             LoadCurriculumInventoryInstitutionData::class,
-            LoadCurriculumInventorySequenceData::class,
+            LoadCurriculumInventoryReportData::class,
             LoadCurriculumInventorySequenceBlockData::class,
-            LoadCurriculumInventoryAcademicLevelData::class,
+            LoadCurriculumInventorySequenceData::class,
+            LoadServiceTokenData::class,
             LoadSessionData::class,
-            LoadAuthenticationData::class,
         ]);
     }
 
@@ -53,52 +57,55 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    /**
-     * @covers \App\Controller\CurriculumInventoryDownloadController::getAction
-     */
-    public function testGetCurriculumInventoryDownload()
+    public function testGetCurriculumInventoryDownload(): void
     {
-        $curriculumInventoryExport = $this->kernelBrowser->getContainer()
-            ->get('App\Tests\DataLoader\CurriculumInventoryExportData')
-            ->getOne()
-        ;
+        $jwts = [
+            $this->createJwtFromUserId($this->kernelBrowser, 1),
+            $this->createJwtForEnabledServiceToken($this->kernelBrowser),
+        ];
+        foreach ($jwts as $jwt) {
+            $curriculumInventoryExport = $this->kernelBrowser->getContainer()
+                ->get(CurriculumInventoryExportData::class)
+                ->getOne()
+            ;
 
-        $this->makeJsonRequest(
-            $this->kernelBrowser,
-            'GET',
-            $this->getUrl(
+            $this->makeJsonRequest(
                 $this->kernelBrowser,
-                'app_api_curriculuminventoryreports_getone',
-                [
-                    'version' => $this->apiVersion,
-                    'id' => $curriculumInventoryExport['report']
-                ]
-            ),
-            null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
+                'GET',
+                $this->getUrl(
+                    $this->kernelBrowser,
+                    'app_api_curriculuminventoryreports_getone',
+                    [
+                        'version' => $this->apiVersion,
+                        'id' => $curriculumInventoryExport['report']
+                    ]
+                ),
+                null,
+                $jwt
+            );
 
-        $response = $this->kernelBrowser->getResponse();
+            $response = $this->kernelBrowser->getResponse();
 
-        $this->assertJsonResponse($response, Response::HTTP_OK);
-        $data = json_decode($response->getContent(), true)['curriculumInventoryReports'][0];
+            $this->assertJsonResponse($response, Response::HTTP_OK);
+            $data = json_decode($response->getContent(), true)['curriculumInventoryReports'][0];
 
-        $this->kernelBrowser->request(
-            'GET',
-            $data['absoluteFileUri']
-        );
+            $this->kernelBrowser->request(
+                'GET',
+                $data['absoluteFileUri']
+            );
 
-        $response = $this->kernelBrowser->getResponse();
-        $this->assertEquals($curriculumInventoryExport['document'], $response->getContent());
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
-        $downloadCookie = null;
-        $cookieName = 'report-download-' . $curriculumInventoryExport['report'];
-        foreach ($response->headers->getCookies() as $cookie) {
-            if ($cookieName === $cookie->getName()) {
-                $downloadCookie = $cookie;
-                break;
+            $response = $this->kernelBrowser->getResponse();
+            $this->assertEquals($curriculumInventoryExport['document'], $response->getContent());
+            $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
+            $downloadCookie = null;
+            $cookieName = 'report-download-' . $curriculumInventoryExport['report'];
+            foreach ($response->headers->getCookies() as $cookie) {
+                if ($cookieName === $cookie->getName()) {
+                    $downloadCookie = $cookie;
+                    break;
+                }
             }
+            $this->assertNotNull($downloadCookie);
         }
-        $this->assertNotNull($downloadCookie);
     }
 }

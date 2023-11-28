@@ -62,11 +62,11 @@ class TermTest extends AbstractReadWriteEndpoint
             'title' => ['title', 'ipsum'],
             'courses' => ['courses', [1]],
             'parent' => ['parent', 2],
-            'children' => ['children', [1], $skipped = true],
+            // 'children' => ['children', [1]], // skipped
             'programYears' => ['programYears', [1]],
             'sessions' => ['sessions', [1]],
             'vocabulary' => ['vocabulary', 2],
-            'aamcResourceTypes' => ['aamcResourceTypes', [1], $skipped = true],
+            // 'aamcResourceTypes' => ['aamcResourceTypes', [1]], // skipped
             'active' => ['active', false],
         ];
     }
@@ -93,7 +93,7 @@ class TermTest extends AbstractReadWriteEndpoint
             'courses' => [[0, 1, 3, 4], ['courses' => [1]]],
             'description' => [[2], ['description' => 'third description']],
             'parent' => [[1, 2], ['parent' => 1]],
-            'children' => [[0], ['children' => [3]], $skipped = true],
+            // 'children' => [[0], ['children' => [3]]], // skipped
             'programYears' => [[0, 3], ['programYears' => [2]]],
             'sessions' => [[0, 1, 3, 4], ['sessions' => [1, 2]]],
             'vocabulary' => [[3, 4, 5], ['vocabulary' => 2]],
@@ -123,8 +123,9 @@ class TermTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testCreateTopLevelTerm()
+    public function testCreateTopLevelTerm(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
 
         $postData = $dataLoader->create();
@@ -133,39 +134,44 @@ class TermTest extends AbstractReadWriteEndpoint
             'terms',
             'term',
             'terms',
-            $postData
+            $postData,
+            $jwt
         );
     }
 
-    public function testCannotCreateTermWithEmptyTitle()
+    public function testCannotCreateTermWithEmptyTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['title'] = '';
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testCannotCreateTermWithNoTitle()
+    public function testCannotCreateTermWithNoTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         unset($data['title']);
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testCannotSaveTermWithEmptyTitle()
+    public function testCannotSaveTermWithEmptyTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         $data['title'] = '';
-        $this->badPutTest($data, $data['id']);
+        $this->badPutTest($data, $data['id'], $jwt);
     }
 
-    public function testCannotSaveTermWithNoTitle()
+    public function testCannotSaveTermWithNoTitle(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         unset($data['title']);
-        $this->badPutTest($data, $data['id']);
+        $this->badPutTest($data, $data['id'], $jwt);
     }
 }

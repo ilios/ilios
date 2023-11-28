@@ -14,6 +14,10 @@ use App\Tests\Fixture\LoadSessionTypeData;
 class AamcMethodTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcMethods';
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     protected function getFixtures(): array
     {
@@ -31,9 +35,8 @@ class AamcMethodTest extends AbstractReadWriteEndpoint
         return [
             'description' => ['description', 'lorem ipsum'],
             'sessionTypes' => ['sessionTypes', [1]],
-            'id' => ['id', 'NEW1', $skip = true],
+            // 'id' => ['id', 'NEW1'], // skipped
             'active' => ['active', false],
-
         ];
     }
 
@@ -65,5 +68,68 @@ class AamcMethodTest extends AbstractReadWriteEndpoint
         $filters['ids'] = [[0, 1], ['ids' => ['AM001', 'AM002']]];
 
         return $filters;
+    }
+
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcmethods_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcmethods_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcmethods_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcmethods_put',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_aamcmethods_patch',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
     }
 }

@@ -6,24 +6,25 @@ namespace App\RelationshipVoter;
 
 use App\Classes\UserEvent as Event;
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-/**
- * Class UserEvent
- */
 class UserEvent extends AbstractCalendarEvent
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof Event && in_array($attribute, [self::VIEW, self::VIEW_DRAFT_CONTENTS]);
+        parent::__construct(
+            $permissionChecker,
+            Event::class,
+            [
+                VoterPermissions::VIEW,
+                VoterPermissions::VIEW_DRAFT_CONTENTS,
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param Event $event
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $event, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -36,10 +37,10 @@ class UserEvent extends AbstractCalendarEvent
         }
 
         switch ($attribute) {
-            case self::VIEW:
+            case VoterPermissions::VIEW:
                 // if the event is published and owned by the current user
                 // then it can be viewed.
-                if ($event->isPublished && $user->getId() === $event->user) {
+                if ($subject->isPublished && $user->getId() === $subject->user) {
                     return true;
                 }
 
@@ -47,12 +48,12 @@ class UserEvent extends AbstractCalendarEvent
                 // in a directing/administrating/instructing capacity via the event's
                 // owning school/course/session/ILM/offering context,
                 // then it can be viewed, even if it is not published.
-                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $subject);
 
-            case self::VIEW_DRAFT_CONTENTS:
+            case VoterPermissions::VIEW_DRAFT_CONTENTS:
                 // can't view draft data on events owned by the current user, unless
                 // the event is being instructed/directed/administered by the current user.
-                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $event);
+                return $this->isUserAdministratorDirectorsOrInstructorOfEvent($user, $subject);
 
             default:
                 return false;

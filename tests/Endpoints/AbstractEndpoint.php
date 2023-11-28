@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\EventListener\TimestampEntityChanges;
 use App\Service\InflectorFactory;
 use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\GetUrlTrait;
 use DateTime;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
@@ -51,10 +52,13 @@ abstract class AbstractEndpoint extends WebTestCase
 
         $authFixtures = [
             LoadAuthenticationData::class,
+            LoadSchoolData::class,
+            LoadServiceTokenData::class,
         ];
         $testFixtures = $this->getFixtures();
         $fixtures = array_merge($authFixtures, $testFixtures);
-        $this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseToolCollection = self::getContainer()->get(DatabaseToolCollection::class);
+        $this->databaseTool = $databaseToolCollection->get();
         $executor = $this->databaseTool->loadFixtures($fixtures);
         $this->fixtures = $executor->getReferenceRepository();
 
@@ -108,7 +112,7 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param array $expected
      * @param array $result
      */
-    protected function compareData(array $expected, array $result)
+    protected function compareData(array $expected, array $result): void
     {
 
         $this->assertEquals(
@@ -120,7 +124,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Transform JSON:API response into our normal data shape and compare it
      */
-    protected function compareJsonApiData(array $expected, object $result)
+    protected function compareJsonApiData(array $expected, object $result): void
     {
         $transformed = [
             'id' => (string) $result->id
@@ -159,11 +163,10 @@ abstract class AbstractEndpoint extends WebTestCase
                 }
             } else {
                 $this->assertArrayHasKey($key, $expected);
-                $this->assertEquals($expected[$key], $value, "'{$key}' doesn't match");
+                $this->assertEquals($expected[$key], $value, "'$key' doesn't match");
             }
         }
     }
-
 
     protected function getDataLoader(): DataLoaderInterface
     {
@@ -186,13 +189,18 @@ abstract class AbstractEndpoint extends WebTestCase
      *
      * @param string $method
      * @param string $url
-     * @param string $content
-     * @param string $token
+     * @param ?string $content
+     * @param ?string $jwt
      * @param array $files
      */
-    protected function createJsonRequest($method, $url, $content = null, $token = null, $files = [])
-    {
-        $this->makeJsonRequest($this->kernelBrowser, $method, $url, $content, $token, $files);
+    protected function createJsonRequest(
+        string $method,
+        string $url,
+        ?string $content = null,
+        ?string $jwt = null,
+        array $files = []
+    ): void {
+        $this->makeJsonRequest($this->kernelBrowser, $method, $url, $content, $jwt, $files);
     }
 
     /**
@@ -204,7 +212,7 @@ abstract class AbstractEndpoint extends WebTestCase
         ?string $content,
         ?string $token,
         array $files = []
-    ) {
+    ): void {
         $this->makeJsonApiRequest($this->kernelBrowser, $method, $url, $content, $token, $files);
     }
 
@@ -213,12 +221,12 @@ abstract class AbstractEndpoint extends WebTestCase
      */
     protected function createGraphQLRequest(
         ?string $content,
-        ?string $token
-    ) {
+        ?string $jwt
+    ): void {
         $headers = [];
 
-        if (! empty($token)) {
-            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
+        if (! empty($jwt)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $jwt;
         }
 
         $this->kernelBrowser->request(
@@ -237,20 +245,20 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test getting a single value from the API
      */
-    protected function getOneTest(): mixed
+    protected function getOneTest(string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
-        $returnedData = $this->getOne($endpoint, $responseKey, $data['id']);
+        $returnedData = $this->getOne($endpoint, $responseKey, $data['id'], $jwt);
 
         foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($returnedData[$field]);
             unset($returnedData[$field]);
             $now = new DateTime();
             $diff = $now->diff($stamp);
-            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
         }
         $prunedData = $this->pruneData($data);
         $this->compareData($prunedData, $returnedData);
@@ -261,20 +269,20 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test getting a single value from the JSON:API
      */
-    protected function getOneJsonApiTest(): mixed
+    protected function getOneJsonApiTest(string $jwt): object
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
-        $returnedData = $this->getOneJsonApi($endpoint, (string) $data['id']);
-        $this->assertSame($responseKey = $this->getCamelCasedPluralName(), $returnedData->type);
+        $returnedData = $this->getOneJsonApi($endpoint, (string) $data['id'], $jwt);
+        $this->assertSame($this->getCamelCasedPluralName(), $returnedData->type);
 
         foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($returnedData->attributes->$field);
             unset($returnedData->attributes->$field);
             $now = new DateTime();
             $diff = $now->diff($stamp);
-            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
         }
         $this->compareJsonApiData($data, $returnedData);
 
@@ -287,10 +295,17 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $endpoint the name of the API endpoint
      * @param string $responseKey the key data is returned under
      * @param mixed $id the ID to fetch
-     * @param string $version the version of the API endpoint
+     * @param string $jwt an API access token
+     * @param ?string $version the version of the API endpoint
+     * @return array The deserialized response data
      */
-    protected function getOne($endpoint, $responseKey, $id, $version = null): mixed
-    {
+    protected function getOne(
+        string $endpoint,
+        string $responseKey,
+        mixed $id,
+        string $jwt,
+        ?string $version = null
+    ): array {
         $version = $version ?: $this->apiVersion;
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -301,13 +316,13 @@ abstract class AbstractEndpoint extends WebTestCase
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt,
         );
 
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -320,7 +335,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Get a single value from a JSON:API endpoint
      */
-    protected function getOneJsonApi(string $endpoint, string $id): object
+    protected function getOneJsonApi(string $endpoint, string $id, string $jwt): object
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -331,13 +346,13 @@ abstract class AbstractEndpoint extends WebTestCase
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
@@ -352,9 +367,9 @@ abstract class AbstractEndpoint extends WebTestCase
         return $content->data;
     }
 
-    protected function getJsonApiIncludes(string $endpoint, string $id, string $include): array
+    protected function getJsonApiIncludes(string $endpoint, string $id, string $include, string $jwt): array
     {
-        $included = $this->getJsonApiIncludeContent($endpoint, $id, $include);
+        $included = $this->getJsonApiIncludeContent($endpoint, $id, $include, $jwt);
         return array_reduce($included, function (array $carry, object $obj) {
             if (!array_key_exists($obj->type, $carry)) {
                 $carry[$obj->type] = [];
@@ -366,7 +381,7 @@ abstract class AbstractEndpoint extends WebTestCase
         }, []);
     }
 
-    protected function getJsonApiIncludeContent(string $endpoint, string $id, string $include): array
+    protected function getJsonApiIncludeContent(string $endpoint, string $id, string $include, string $jwt): array
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -377,13 +392,13 @@ abstract class AbstractEndpoint extends WebTestCase
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
@@ -396,7 +411,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Get getting every piece of data in the test DB
      */
-    protected function getAllTest(): mixed
+    protected function getAllTest(string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -410,7 +425,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -423,7 +438,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $stamp = new DateTime($response[$field]);
                 unset($response[$field]);
                 $diff = $now->diff($stamp);
-                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+                $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
             }
             $prunedData = $this->pruneData($data[$i]);
             $this->compareData($prunedData, $response);
@@ -435,7 +450,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Get with limit and offset
      */
-    protected function getAllWithLimitAndOffsetTest(): mixed
+    protected function getAllWithLimitAndOffsetTest(string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -449,7 +464,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion, 'limit' => 1, 'offset' => 0]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -462,7 +477,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $stamp = new DateTime($response[$field]);
                 unset($response[$field]);
                 $diff = $now->diff($stamp);
-                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+                $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
             }
             $prunedData = $this->pruneData($data[$i]);
             $this->compareData($prunedData, $response);
@@ -474,7 +489,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Get getting every piece of data in the test DB
      */
-    protected function getAllJsonApiTest(): mixed
+    protected function getAllJsonApiTest(string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -487,7 +502,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -498,14 +513,13 @@ abstract class AbstractEndpoint extends WebTestCase
         $this->assertCount(0, $content->included, var_export($content, true));
         $this->assertIsArray($content->data);
 
-        $now = new DateTime();
         foreach ($content->data as $i => $item) {
             foreach ($this->getTimeStampFields() as $field) {
                 $stamp = new DateTime($item->attributes->$field);
                 unset($item->attributes->$field);
                 $now = new DateTime();
                 $diff = $now->diff($stamp);
-                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+                $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
             }
             $this->assertTrue(property_exists($item, 'id'));
             $this->assertTrue(property_exists($item, 'type'));
@@ -521,7 +535,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Get getting every piece of data in the test DB
      */
-    protected function getAllWithLimitAndOffsetJsonApiTest(): mixed
+    protected function getAllWithLimitAndOffsetJsonApiTest(string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -534,7 +548,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion, 'limit' => 1, 'offset' => 0]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -551,7 +565,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $stamp = new DateTime($item->attributes->$field);
                 unset($item->attributes->$field);
                 $diff = $now->diff($stamp);
-                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+                $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
             }
             $this->assertTrue(property_exists($item, 'id'));
             $this->assertTrue(property_exists($item, 'type'));
@@ -564,7 +578,7 @@ abstract class AbstractEndpoint extends WebTestCase
         return $content->data;
     }
 
-    protected function getAllGraphQLTest(): array
+    protected function getAllGraphQLTest(string $jwt): array
     {
         $name = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
@@ -573,9 +587,9 @@ abstract class AbstractEndpoint extends WebTestCase
         $data = $loader->getAll();
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { {$name} { {$fields} }}"
+                'query' => "query { $name { $fields }}"
             ]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -593,7 +607,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 if (in_array($f, $timeStampFields)) {
                     $stamp = new DateTime($item->{$f});
                     $diff = $now->diff($stamp);
-                    $this->assertTrue($diff->y < 1, "The {$f} timestamp is within the last year");
+                    $this->assertTrue($diff->y < 1, "The $f timestamp is within the last year");
                     unset($item->{$f});
                 } else {
                     $this->assertTrue(property_exists($item, $f));
@@ -605,12 +619,12 @@ abstract class AbstractEndpoint extends WebTestCase
         return $content->data->{$name};
     }
 
-    protected function getSomeGraphQLTest(): array
+    protected function getSomeGraphQLTest(string $jwt): array
     {
         $loader = $this->getDataLoader();
         $idField = $loader->getIdField();
         $data = $loader->getOne();
-        $result = $this->getGraphQLFiltered($idField, [$idField => $data[$idField]]);
+        $result = $this->getGraphQLFiltered($idField, [$idField => $data[$idField]], $jwt);
         $this->assertCount(1, $result);
         $this->assertTrue(property_exists($result[0], $idField));
         $this->assertEquals($data[$idField], $result[0]->{$idField});
@@ -621,10 +635,10 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test that a filter returns the expected data for a graphql query
      */
-    protected function graphQLFilterTest(array $filters, array $expectedIds, int $userId = 2)
+    protected function graphQLFilterTest(array $filters, array $expectedIds, string $jwt): void
     {
         $idField = $this->getDataLoader()->getIdField();
-        $result = $this->getGraphQLFiltered($idField, $filters, $userId);
+        $result = $this->getGraphQLFiltered($idField, $filters, $jwt);
 
         $this->assertCount(count($expectedIds), $result);
         $this->assertCount(
@@ -644,22 +658,24 @@ abstract class AbstractEndpoint extends WebTestCase
      *
      * @param array $data
      * @param array $postData
+     * @param string $jwt
+     * @return array
      */
-    protected function postTest(array $data, array $postData): mixed
+    protected function postTest(array $data, array $postData, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $postKey = $this->getCamelCasedSingularName();
-        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData);
+        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData, $jwt);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id']);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id'], $jwt);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($fetchedResponseData[$field]);
             unset($fetchedResponseData[$field]);
             $diff = $now->diff($stamp);
-            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
         }
         $prunedData = $this->pruneData($data);
         $this->compareData($prunedData, $fetchedResponseData);
@@ -670,21 +686,21 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test saving new data to the JSON:API
      */
-    protected function postJsonApiTest(object $postData, array $data): mixed
+    protected function postJsonApiTest(object $postData, array $data, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postOneJsonApi($postData);
+        $responseData = $this->postOneJsonApi($postData, $jwt);
 
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id, $jwt);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($fetchedResponseData[$field]);
             unset($fetchedResponseData[$field]);
             $diff = $now->diff($stamp);
-            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
         }
         $prunedData = $this->pruneData($data);
         $this->compareData($prunedData, $fetchedResponseData);
@@ -695,19 +711,21 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test POSTing an array of similar items to the API
      * @param array $data
+     * @param string $jwt
+     * @return array
      */
-    protected function postManyTest(array $data): mixed
+    protected function postManyTest(array $data, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postMany($endpoint, $responseKey, $data);
+        $responseData = $this->postMany($endpoint, $responseKey, $data, $jwt);
         $ids = array_map(fn(array $arr) => $arr['id'], $responseData);
         $filters = [
             'filters[id]' => $ids,
             'limit' => count($ids)
         ];
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
 
         usort($fetchedResponseData, function ($a, $b) {
             if (is_string($a['id']) && is_string($b['id'])) {
@@ -724,7 +742,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $stamp = new DateTime($response[$field]);
                 unset($response[$field]);
                 $diff = $now->diff($stamp);
-                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+                $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
             }
             $prunedData = $this->pruneData($datum);
             $this->compareData($prunedData, $response);
@@ -736,17 +754,17 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test saving new data to the JSON:API
      */
-    protected function postManyJsonApiTest(object $postData, array $data): mixed
+    protected function postManyJsonApiTest(object $postData, array $data, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postManyJsonApi($postData);
+        $responseData = $this->postManyJsonApi($postData, $jwt);
         $ids = array_column($responseData, 'id');
         $filters = [
             'filters[id]' => $ids
         ];
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
 
         usort($fetchedResponseData, function ($a, $b) {
             if (is_string($a['id']) && is_string($b['id'])) {
@@ -763,7 +781,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $stamp = new DateTime($response[$field]);
                 unset($response[$field]);
                 $diff = $now->diff($stamp);
-                $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+                $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
             }
             $prunedData = $this->pruneData($datum);
             $this->compareData($prunedData, $response);
@@ -779,10 +797,18 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $postKey the key to send the POST under
      * @param string $responseKey the key the response will be under
      * @param array $postData the data to send
-     * @param string $version the version of the API endpoint
+     * @param string $jwt an API access token
+     * @param ?string $version the version of the API endpoint
+     * @return array The deserialized response data
      */
-    protected function postOne($endpoint, $postKey, $responseKey, array $postData, $version = null): mixed
-    {
+    protected function postOne(
+        string $endpoint,
+        string $postKey,
+        string $responseKey,
+        array $postData,
+        string $jwt,
+        ?string $version = null,
+    ): array {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'POST',
@@ -792,7 +818,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $version]
             ),
             json_encode([$postKey => $postData]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
@@ -802,8 +828,11 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * POST a single item to the JSON:API
+     * @param object $postData
+     * @param string $jwt
+     * @return object
      */
-    protected function postOneJsonApi(object $postData): object
+    protected function postOneJsonApi(object $postData, string $jwt): object
     {
         $endpoint = strtolower($postData->data->type);
         $this->createJsonApiRequest(
@@ -814,7 +843,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion]
             ),
             json_encode($postData),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonApiResponse($response, Response::HTTP_CREATED);
@@ -832,10 +861,17 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $endpoint to send to
      * @param string $responseKey the data will be returned with
      * @param array $postData to send
-     * @param string $version the version of the API endpoint
+     * @param string $jwt an API access token
+     * @param ?string $version the version of the API endpoint
+     * @return array
      */
-    protected function postMany($endpoint, $responseKey, array $postData, $version = null): mixed
-    {
+    protected function postMany(
+        string $endpoint,
+        string $responseKey,
+        array $postData,
+        string $jwt,
+        ?string $version = null
+    ): array {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'POST',
@@ -845,7 +881,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $version]
             ),
             json_encode([$responseKey => $postData]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
@@ -855,8 +891,11 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * POST multiple items to the JSON:API
+     * @param object $postData
+     * @param string $jwt
+     * @return array
      */
-    protected function postManyJsonApi(object $postData): array
+    protected function postManyJsonApi(object $postData, string $jwt): array
     {
         $endpoint = strtolower($postData->data[0]->type);
         $this->createJsonApiRequest(
@@ -867,7 +906,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion]
             ),
             json_encode($postData),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonApiResponse($response, Response::HTTP_CREATED);
@@ -886,9 +925,10 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test POSTing bad data to the API
      * @param array $data
+     * @param string $jwt
      * @param int $code
      */
-    protected function badPostTest(array $data, $code = Response::HTTP_BAD_REQUEST)
+    protected function badPostTest(array $data, string $jwt, int $code = Response::HTTP_BAD_REQUEST): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -900,7 +940,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion]
             ),
             json_encode([$responseKey => [$data]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -911,7 +951,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test POSTing without authentication to the API
      */
-    protected function anonymousDeniedPostTest(array $data)
+    protected function anonymousDeniedPostTest(array $data): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -933,9 +973,11 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test POSTing bad data to the API
      * @param array $data
+     * @param mixed $id
+     * @param string $jwt
      * @param int $code
      */
-    protected function badPutTest(array $data, $id, $code = Response::HTTP_BAD_REQUEST)
+    protected function badPutTest(array $data, mixed $id, string $jwt, int $code = Response::HTTP_BAD_REQUEST): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -947,7 +989,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $id]
             ),
             json_encode([$responseKey => [$data]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -958,7 +1000,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test PUTing as anonymous to the API
      */
-    protected function anonymousDeniedPutTest(array $data)
+    protected function anonymousDeniedPutTest(array $data): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -983,20 +1025,26 @@ abstract class AbstractEndpoint extends WebTestCase
      *
      * @param array $data to match with
      * @param array $postData to send
+     * @param string $jwt an API access token
      * @param string $relationship the test target has to the subject
      * @param string $related the name of the related data
-     * @param null $relatedName
+     * @param ?string $relatedName
      */
-    public function relatedPostDataTest(array $data, array $postData, $relationship, $related, $relatedName = null)
-    {
-        $responseData = $this->postTest($data, $postData);
-
+    public function relatedPostDataTest(
+        array $data,
+        array $postData,
+        string $jwt,
+        string $relationship,
+        string $related,
+        ?string $relatedName = null
+    ): void {
+        $responseData = $this->postTest($data, $postData, $jwt);
         $newId = $responseData['id'];
         $relatedName = null == $relatedName ? $related : $relatedName;
         $this->assertArrayHasKey($relatedName, $postData, 'Missing related key: ' . var_export($postData, true));
         foreach ($postData[$relatedName] as $id) {
-            $obj = $this->getOne(strtolower($related), $related, $id);
-            $this->assertTrue(array_key_exists($relationship, $obj), var_export($obj, true));
+            $obj = $this->getOne(strtolower($related), $related, $id, $jwt);
+            $this->assertArrayHasKey($relationship, $obj, var_export($obj, true));
             $this->assertTrue(in_array($newId, $obj[$relationship]));
         }
     }
@@ -1006,23 +1054,25 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param array $data
      * @param array $postData
      * @param mixed $id
+     * @param string $jwt
      * @param bool $new if we are expecting this data to create a new item
+     * @return array
      */
-    protected function putTest(array $data, array $postData, $id, $new = false): mixed
+    protected function putTest(array $data, array $postData, mixed $id, string $jwt, bool $new = false): array
     {
         $endpoint = $this->getPluralName();
         $putResponseKey = $this->getCamelCasedSingularName();
         $getResponseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->putOne($endpoint, $putResponseKey, $id, $postData, $new);
+        $responseData = $this->putOne($endpoint, $putResponseKey, $id, $postData, $jwt, $new);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $getResponseKey, $responseData['id']);
+        $fetchedResponseData = $this->getOne($endpoint, $getResponseKey, $responseData['id'], $jwt);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($fetchedResponseData[$field]);
             unset($fetchedResponseData[$field]);
             $diff = $now->diff($stamp);
-            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
         }
 
         $prunedData = $this->pruneData($data);
@@ -1038,20 +1088,20 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $responseKey we expect to be returned
      * @param mixed $id of the data
      * @param array $data we are changing
-     * @param bool $new if this is expected to generate new data instead
-     *                  of updating existing data
-     * @param int $userId
-     * @param string $version the version of the API endpoint
+     * @param string $jwt an API access token
+     * @param bool $new if this is expected to generate new data instead of updating existing data
+     * @param ?string $version the version of the API endpoint
+     * @return array The deserialized response data
      */
     protected function putOne(
-        $endpoint,
-        $responseKey,
-        $id,
+        string $endpoint,
+        string $responseKey,
+        mixed $id,
         array $data,
-        $new = false,
-        $userId = 2,
-        $version = null,
-    ): mixed {
+        string $jwt,
+        bool $new = false,
+        ?string $version = null,
+    ): array {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
             'PUT',
@@ -1061,7 +1111,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $version, 'id' => $id]
             ),
             json_encode([$responseKey => $data]),
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $expectedHeader = $new ? Response::HTTP_CREATED : Response::HTTP_OK;
@@ -1072,8 +1122,12 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * PUT a single item to the JSON:API
+     *
+     * @param object $data
+     * @param string $jwt
+     * @return object
      */
-    protected function patchOneJsonApi(object $data, $userId = 2): object
+    protected function patchOneJsonApi(object $data, string $jwt): object
     {
         $endpoint = strtolower($data->data->type);
         $this->createJsonApiRequest(
@@ -1084,7 +1138,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $data->data->id]
             ),
             json_encode($data),
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
@@ -1101,21 +1155,22 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test putting a  single value to the API
      */
-    protected function patchJsonApiTest(array $data, object $postData)
+    protected function patchJsonApiTest(array $data, object $postData, string $jwt): array
     {
+
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->patchOneJsonApi($postData);
+        $responseData = $this->patchOneJsonApi($postData, $jwt);
 
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id, $jwt);
 
         $now = new DateTime();
         foreach ($this->getTimeStampFields() as $field) {
             $stamp = new DateTime($fetchedResponseData[$field]);
             unset($fetchedResponseData[$field]);
             $diff = $now->diff($stamp);
-            $this->assertTrue($diff->y < 1, "The {$field} timestamp is within the last year");
+            $this->assertTrue($diff->y < 1, "The $field timestamp is within the last year");
         }
 
         $prunedData = $this->pruneData($data);
@@ -1127,7 +1182,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test PATCHing as anonymous to the API
      */
-    protected function anonymousDeniedPatchTest(array $data)
+    protected function anonymousDeniedPatchTest(array $data): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -1149,23 +1204,25 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test deleting an object from the API
      *
-     * @param $id
+     * @param mixed $id
+     * @param string $jwt
      */
-    protected function deleteTest($id)
+    protected function deleteTest(mixed $id, string $jwt): void
     {
         $endpoint = $this->getPluralName();
-        $this->deleteOne($endpoint, $id);
-
-        $this->notFoundTest($id);
+        $this->deleteOne($endpoint, $id, $jwt);
+        $this->notFoundTest($id, $jwt);
     }
 
     /**
      * Delete an object from the API
      * @param string $endpoint we are testing
      * @param mixed $id we want to delete
-     * @param string $version the version of the API endpoint
+     * @param string $jwt an API access token
+     * @param ?string $version the version of the API endpoint
+     * @return Response
      */
-    protected function deleteOne($endpoint, $id, $version = null): ?Response
+    protected function deleteOne(string $endpoint, mixed $id, string $jwt, ?string $version = null): Response
     {
         $version = $version ?: $this->apiVersion;
         $this->createJsonRequest(
@@ -1176,22 +1233,20 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $version, 'id' => $id]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
-
-
         $this->assertJsonResponse($response, Response::HTTP_NO_CONTENT, false);
-
         return $response;
     }
 
     /**
      * Ensure that a bad ID returns a 404
      *
-     * @param $badId
+     * @param mixed $badId
+     * @param string $jwt
      */
-    protected function notFoundTest($badId)
+    protected function notFoundTest(mixed $badId, string $jwt): void
     {
         $endpoint = $this->getPluralName();
         $this->createJsonRequest(
@@ -1202,7 +1257,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 ['version' => $this->apiVersion, 'id' => $badId]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -1213,7 +1268,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Ensure that anonymous users cannot access the resource
      */
-    protected function anonymousAccessDeniedOneTest()
+    protected function anonymousAccessDeniedOneTest(): void
     {
         $endpoint = $this->getPluralName();
         $loader = $this->getDataLoader();
@@ -1235,10 +1290,9 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Ensure that anonymous users cannot access the resource
      */
-    protected function anonymousAccessDeniedAllTest()
+    protected function anonymousAccessDeniedAllTest(): void
     {
         $endpoint = $this->getPluralName();
-        $loader = $this->getDataLoader();
         $this->createJsonRequest(
             'GET',
             $this->getUrl(
@@ -1257,13 +1311,13 @@ abstract class AbstractEndpoint extends WebTestCase
      * Test that a filter returns the expected data
      * @param array $filters we are using
      * @param array $expectedData we hope to see
-     * @param int $userId
+     * @param string $jwt
      */
-    protected function filterTest(array $filters, array $expectedData, int $userId = 2)
+    protected function filterTest(array $filters, array $expectedData, string $jwt): void
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters, $userId);
+        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
 
         $timeStampFields = $this->getTimeStampFields();
         $responseData = array_map(function ($arr) use ($timeStampFields) {
@@ -1287,7 +1341,7 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test that a filter returns the expected data
      */
-    protected function jsonApiFilterTest(array $filters, array $expectedData)
+    protected function jsonApiFilterTest(array $filters, array $expectedData, string $jwt): void
     {
         $endpoint = $this->getPluralName();
         $parameters = array_merge([
@@ -1301,7 +1355,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -1329,14 +1383,20 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Get data from the API using filter parameters
-     * @param $endpoint
-     * @param $responseKey
+     * @param string $endpoint
+     * @param string $responseKey
      * @param array $filters
-     * @param int $userId
-     * @param string $version
+     * @param string $jwt
+     * @param ?string $version
+     * @return array
      */
-    protected function getFiltered($endpoint, $responseKey, array $filters, int $userId = 2, $version = null): mixed
-    {
+    protected function getFiltered(
+        string $endpoint,
+        string $responseKey,
+        array $filters,
+        string $jwt,
+        ?string $version = null
+    ): array {
         $version = $version ?: $this->apiVersion;
         $parameters = array_merge([
             'version' => $version,
@@ -1349,7 +1409,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $parameters
             ),
             null,
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -1365,8 +1425,8 @@ abstract class AbstractEndpoint extends WebTestCase
     protected function getGraphQLFiltered(
         string $idField,
         array $filters,
-        int $userId = 2
-    ): mixed {
+        string $jwt
+    ): array {
         $name = $this->getCamelCasedPluralName();
         $filterParts = [];
         foreach ($filters as $key => $value) {
@@ -1384,15 +1444,15 @@ abstract class AbstractEndpoint extends WebTestCase
             } else {
                 $filter = $quoter($value);
             }
-            $filterParts[] = "{$key}: {$filter}";
+            $filterParts[] = "$key: $filter";
         }
         $filterString = '(' . implode(',', $filterParts) . ')';
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { {$name}{$filterString} { {$idField} }}"
+                'query' => "query { $name$filterString { $idField }}"
             ]),
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertGraphQLResponse($response);
@@ -1407,8 +1467,9 @@ abstract class AbstractEndpoint extends WebTestCase
      * Test invalid filters
      *
      * @param array $badFilters
+     * @param string $jwt
      */
-    protected function badFilterTest(array $badFilters)
+    protected function badFilterTest(array $badFilters, string $jwt): void
     {
         $endpoint = $this->getPluralName();
         $parameters = array_merge([
@@ -1422,7 +1483,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -1432,23 +1493,25 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test that updating a related entity updates the timestamp on this one
-     * @param $id
-     * @param $relatedEndpoint
-     * @param $relatedResponseKey
-     * @param $relatedData
+     * @param mixed $id
+     * @param string $relatedEndpoint
+     * @param string $relatedResponseKey
+     * @param array $relatedData
+     * @param string $jwt
      */
     protected function relatedTimeStampUpdateTest(
-        $id,
-        $relatedEndpoint,
-        $relatedResponseKey,
-        $relatedData
-    ) {
+        mixed $id,
+        string $relatedEndpoint,
+        string $relatedResponseKey,
+        array $relatedData,
+        string $jwt
+    ): void {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $initialState = $this->getOne($endpoint, $responseKey, $id);
+        $initialState = $this->getOne($endpoint, $responseKey, $id, $jwt);
         sleep(2);
-        $this->putOne($relatedEndpoint, $relatedResponseKey, $relatedData['id'], $relatedData);
-        $currentState = $this->getOne($endpoint, $responseKey, $id);
+        $this->putOne($relatedEndpoint, $relatedResponseKey, $relatedData['id'], $relatedData, $jwt);
+        $currentState = $this->getOne($endpoint, $responseKey, $id, $jwt);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);
@@ -1464,23 +1527,25 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test that creating related data updates a timestamp on this endpoint
-     * @param $id
-     * @param $relatedPluralObjectName
-     * @param $relatedResponseKey
-     * @param $relatedPostData
+     * @param mixed $id
+     * @param string $relatedPluralObjectName
+     * @param string $relatedResponseKey
+     * @param array $relatedPostData
+     * @param string $jwt
      */
     protected function relatedTimeStampPostTest(
-        $id,
-        $relatedPluralObjectName,
-        $relatedResponseKey,
-        $relatedPostData
-    ) {
+        mixed $id,
+        string $relatedPluralObjectName,
+        string $relatedResponseKey,
+        array $relatedPostData,
+        string $jwt
+    ): void {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $initialState = $this->getOne($endpoint, $responseKey, $id);
+        $initialState = $this->getOne($endpoint, $responseKey, $id, $jwt);
         sleep(2);
-        $this->postMany($relatedPluralObjectName, $relatedResponseKey, [$relatedPostData]);
-        $currentState = $this->getOne($endpoint, $responseKey, $id);
+        $this->postMany($relatedPluralObjectName, $relatedResponseKey, [$relatedPostData], $jwt);
+        $currentState = $this->getOne($endpoint, $responseKey, $id, $jwt);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);
@@ -1496,21 +1561,23 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test that deleting a related entity updates a timestamp on this one
-     * @param $id
-     * @param $relatedPluralObjectName
-     * @param $relatedId
+     * @param mixed $id
+     * @param string $relatedPluralObjectName
+     * @param mixed $relatedId
+     * @param string $jwt
      */
     protected function relatedTimeStampDeleteTest(
-        $id,
-        $relatedPluralObjectName,
-        $relatedId
-    ) {
+        mixed $id,
+        string $relatedPluralObjectName,
+        mixed $relatedId,
+        string $jwt
+    ): void {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $initialState = $this->getOne($endpoint, $responseKey, $id);
+        $initialState = $this->getOne($endpoint, $responseKey, $id, $jwt);
         sleep(2);
-        $this->deleteOne($relatedPluralObjectName, $relatedId);
-        $currentState = $this->getOne($endpoint, $responseKey, $id);
+        $this->deleteOne($relatedPluralObjectName, $relatedId, $jwt);
+        $currentState = $this->getOne($endpoint, $responseKey, $id, $jwt);
         foreach ($this->getTimeStampFields() as $field) {
             $initialStamp = new DateTime($initialState[$field]);
             $currentStamp = new DateTime($currentState[$field]);

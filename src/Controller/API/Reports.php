@@ -8,11 +8,13 @@ use App\Entity\DTO\ReportDTO;
 use App\Repository\ReportRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use App\Traits\ApiAccessValidation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -20,7 +22,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/{version<v3>}/reports')]
 class Reports extends AbstractApiController
 {
-    public function __construct(ReportRepository $repository)
+    use ApiAccessValidation;
+
+    public function __construct(ReportRepository $repository, protected TokenStorageInterface $tokenStorage)
     {
         parent::__construct($repository, 'reports');
     }
@@ -63,6 +67,7 @@ class Reports extends AbstractApiController
         ApiResponseBuilder $builder,
         Request $request
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleGetOne($version, $id, $authorizationChecker, $builder, $request);
     }
 
@@ -136,6 +141,7 @@ class Reports extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleGetAll($version, $request, $authorizationChecker, $builder);
     }
 
@@ -190,6 +196,7 @@ class Reports extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePost($version, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -258,6 +265,7 @@ class Reports extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePut($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -274,6 +282,7 @@ class Reports extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
     }
 
@@ -303,6 +312,7 @@ class Reports extends AbstractApiController
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleDelete($version, $id, $authorizationChecker);
     }
 }

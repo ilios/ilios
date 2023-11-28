@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\VoterPermissions;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
@@ -214,7 +215,7 @@ class CurriculumInventoryReports extends AbstractApiController
     ): Response {
         $class = CurriculumInventoryReport::class . '[]';
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
-        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntities($entities, VoterPermissions::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             // create academic years and sequence while at it.
@@ -442,7 +443,7 @@ class CurriculumInventoryReports extends AbstractApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::ROLLOVER, $report)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::ROLLOVER, $report)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 
@@ -524,7 +525,7 @@ class CurriculumInventoryReports extends AbstractApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::VIEW, $report)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::VIEW, $report)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 

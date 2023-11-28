@@ -128,7 +128,7 @@ services:
     App\Service\CurriculumInventory\VerificationPreviewBuilder:
       ~
 
-    App\Service\PermissionChecker:
+    App\Service\SessionUserPermissionChecker:
       public: true
 
     App\Service\DefaultPermissionMatrix: ~

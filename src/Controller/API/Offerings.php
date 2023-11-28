@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\OfferingDTO;
 use App\Entity\OfferingInterface;
 use App\Entity\UserInterface;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\OfferingRepository;
+use App\Repository\ServiceTokenRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -33,6 +35,7 @@ class Offerings extends AbstractApiController
         OfferingRepository $repository,
         protected ChangeAlertHandler $alertHandler,
         protected UserRepository $userRepository,
+        protected ServiceTokenRepository $serviceTokenRepository,
         protected TokenStorageInterface $tokenStorage
     ) {
         parent::__construct($repository, 'offerings');
@@ -207,7 +210,7 @@ class Offerings extends AbstractApiController
 
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
 
-        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntities($entities, VoterPermissions::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             $this->repository->update($entity, false);
@@ -301,11 +304,11 @@ class Offerings extends AbstractApiController
 
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = AbstractVoter::EDIT;
+            $permission = VoterPermissions::EDIT;
         } else {
             $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
-            $permission = AbstractVoter::CREATE;
+            $permission = VoterPermissions::CREATE;
         }
         // capture the values of offering properties pre-update
         $alertProperties = $entity->getAlertProperties();
@@ -365,7 +368,7 @@ class Offerings extends AbstractApiController
 
         $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
-        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
 
         $this->repository->update($entity, true, false);
 
@@ -413,24 +416,38 @@ class Offerings extends AbstractApiController
 
     protected function createAlertForNewOffering(OfferingInterface $offering)
     {
-        /** @var SessionUserInterface $sessionUser */
+        $user = null;
+        $serviceToken = null;
+
         $sessionUser = $this->tokenStorage->getToken()->getUser();
+        if ($sessionUser instanceof SessionUserInterface) {
+            $user = $this->userRepository->findOneBy(['id' => $sessionUser->getId()]);
+        } elseif ($sessionUser instanceof ServiceTokenUserInterface) {
+            $serviceToken = $this->serviceTokenRepository->findOneBy(['id' => $sessionUser->getId()]);
+        }
 
-        /** @var UserInterface $instigator */
-        $instigator = $this->userRepository->findOneBy(['id' => $sessionUser->getId()]);
-
-        $this->alertHandler->createAlertForNewOffering($offering, $instigator);
+        $this->alertHandler->createAlertForNewOffering($offering, $user, $serviceToken);
     }
 
     protected function createOrUpdateAlertForUpdatedOffering(
         OfferingInterface $offering,
         array $originalProperties
     ) {
-        /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $this->tokenStorage->getToken()->getUser();
+        $user = null;
+        $serviceToken = null;
 
-        /** @var UserInterface $instigator */
-        $instigator = $this->userRepository->findOneBy(['id' => $sessionUser->getId()]);
-        $this->alertHandler->createOrUpdateAlertForUpdatedOffering($offering, $instigator, $originalProperties);
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
+        if ($sessionUser instanceof SessionUserInterface) {
+            $user = $this->userRepository->findOneBy(['id' => $sessionUser->getId()]);
+        } elseif ($sessionUser instanceof ServiceTokenUserInterface) {
+            $serviceToken = $this->serviceTokenRepository->findOneBy(['id' => $sessionUser->getId()]);
+        }
+
+        $this->alertHandler->createOrUpdateAlertForUpdatedOffering(
+            $offering,
+            $originalProperties,
+            $user,
+            $serviceToken
+        );
     }
 }

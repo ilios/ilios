@@ -6,10 +6,10 @@ namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
 use App\Classes\UserMaterial;
+use App\Classes\VoterPermissions;
 use App\Entity\LearningMaterialStatusInterface;
-use App\Entity\UserInterface;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\UserRepository;
+use App\Traits\ApiAccessValidation;
 use DateTime;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -28,6 +28,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[OA\Tag(name:'User materials')]
 class UsermaterialController extends AbstractController
 {
+    use ApiAccessValidation;
+
+    public function __construct(protected TokenStorageInterface $tokenStorage)
+    {
+    }
+
     #[Route(
         '/api/{version<v3>}/usermaterials/{id}',
         requirements: [
@@ -84,16 +90,16 @@ class UsermaterialController extends AbstractController
         AuthorizationCheckerInterface $authorizationChecker,
         UserRepository $userRepository,
         SerializerInterface $serializer,
-        TokenStorageInterface $tokenStorage
     ): Response {
-        /** @var UserInterface $user */
+        $this->validateCurrentUserAsSessionUser();
+
         $user = $userRepository->findOneBy(['id' => $id]);
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(AbstractVoter::VIEW, $user)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::VIEW, $user)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -111,11 +117,11 @@ class UsermaterialController extends AbstractController
 
         $materials = array_filter(
             $materials,
-            fn($entity) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $entity)
+            fn($entity) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $entity)
         );
 
         /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $tokenStorage->getToken()->getUser();
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
 
         // Remove all draft data when not viewing your own events
         // or if the requesting user does not have elevated privileges

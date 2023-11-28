@@ -24,17 +24,6 @@ class MeshQualifierTest extends AbstractMeshEndpoint
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest()
-    {
-        return [
-            'createdAt' => ['createdAt', 1, 99],
-            'updatedAt' => ['updatedAt', 1, 99],
-        ];
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function filtersToTest(): array
     {
         return [

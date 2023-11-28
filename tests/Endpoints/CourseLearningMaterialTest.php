@@ -71,7 +71,7 @@ class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
             'publicNotes' => [[0, 1, 3, 4, 5, 6, 7, 8, 9], ['publicNotes' => true]],
             'course' => [[2], ['course' => 4]],
             'learningMaterial' => [[1], ['learningMaterial' => 2]],
-            'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']], $skipped = true],
+            // 'meshDescriptors' => [[0, 2], ['meshDescriptors' => ['abc1']]], // skipped
             'position' => [[1], ['position' => 1]],
         ];
     }
@@ -105,16 +105,16 @@ class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
         return $expected;
     }
 
-    protected function compareData(array $expected, array $result)
+    protected function compareData(array $expected, array $result): void
     {
         $expected = $this->fixDatesInExpectedData($expected);
         if (array_key_exists('startDate', $expected) && is_null($expected['startDate'])) {
-            $this->assertFalse(array_key_exists('startDate', $result));
+            $this->assertArrayNotHasKey('startDate', $result);
             unset($expected['startDate']);
         }
 
         if (array_key_exists('endDate', $expected) && is_null($expected['endDate'])) {
-            $this->assertFalse(array_key_exists('endDate', $result));
+            $this->assertArrayNotHasKey('endDate', $result);
             unset($expected['endDate']);
         }
 
@@ -128,7 +128,7 @@ class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
         parent::compareGraphQLData($expected, $result);
     }
 
-    public function testGraphQLIncludedData()
+    public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -139,7 +139,7 @@ class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
                     "query { courseLearningMaterials(id: {$data['id']}) " .
                     "{ id, course { id, title }, learningMaterial { id } }}"
             ]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
 

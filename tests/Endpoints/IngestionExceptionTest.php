@@ -36,12 +36,12 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         ];
     }
 
-    public function testPostIs404()
+    public function testPostIs404(): void
     {
         $this->fourOhFourTest('POST');
     }
 
-    public function testPutIs404()
+    public function testPutIs404(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -50,7 +50,7 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         $this->fourOhFourTest('PUT', ['id' => $id]);
     }
 
-    public function testDeleteIs404()
+    public function testDeleteIs404(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -59,7 +59,7 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         $this->fourOhFourTest('DELETE', ['id' => $id]);
     }
 
-    protected function fourOhFourTest($type, array $parameters = [])
+    protected function fourOhFourTest($type, array $parameters = []): void
     {
         $url = '/api/' . $this->apiVersion . '/ingestionexceptions/';
         if (array_key_exists('id', $parameters)) {
@@ -69,7 +69,7 @@ class IngestionExceptionTest extends AbstractReadEndpoint
             $type,
             $url,
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();

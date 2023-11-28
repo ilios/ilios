@@ -7,26 +7,26 @@ namespace App\Tests\Service;
 use App\Classes\Capabilities;
 use App\Classes\PermissionMatrixInterface;
 use App\Classes\SessionUserInterface;
-use App\Service\PermissionChecker;
 use App\Entity\CourseInterface;
 use App\Entity\ProgramInterface;
 use App\Entity\ProgramYearInterface;
 use App\Entity\SchoolInterface;
 use App\Entity\SessionInterface;
+use App\Service\SessionUserPermissionChecker;
 use App\Tests\TestCase;
 use Mockery as m;
 
 /**
  * Class PermissionCheckerTest
  * @package App\Tests\Service
- * @coversDefaultClass \App\Service\PermissionChecker
+ * @coversDefaultClass \App\Service\SessionUserPermissionChecker
  */
-class PermissionCheckerTest extends TestCase
+class SessionUserPermissionCheckerTest extends TestCase
 {
     /**
-     * @var PermissionChecker
+     * @var SessionUserPermissionChecker
      */
-    protected $permissionChecker;
+    protected SessionUserPermissionChecker $permissionChecker;
 
     /**
      * @var m\MockInterface
@@ -37,7 +37,7 @@ class PermissionCheckerTest extends TestCase
     {
         parent::setUp();
         $this->permissionMatrix = m::mock(PermissionMatrixInterface::class);
-        $this->permissionChecker = new PermissionChecker($this->permissionMatrix);
+        $this->permissionChecker = new SessionUserPermissionChecker($this->permissionMatrix);
     }
 
     public function tearDown(): void

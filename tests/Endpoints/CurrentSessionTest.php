@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\GetUrlTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -14,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
 
 /**
- * AamcMethod API endpoint Test.
  * @group api_3
  */
 class CurrentSessionTest extends WebTestCase
@@ -33,6 +33,7 @@ class CurrentSessionTest extends WebTestCase
         $databaseTool->loadFixtures([
             LoadAuthenticationData::class,
             LoadUserData::class,
+            LoadServiceTokenData::class,
         ]);
     }
 
@@ -41,7 +42,7 @@ class CurrentSessionTest extends WebTestCase
         parent::tearDown();
     }
 
-    public function testGetCurrentSession()
+    public function testGetCurrentSession(): void
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -53,13 +54,13 @@ class CurrentSessionTest extends WebTestCase
             'GET',
             $url,
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -68,7 +69,8 @@ class CurrentSessionTest extends WebTestCase
 
         $this->assertEquals(2, $data['userId']);
     }
-    public function testAccessDeniedForAnonymousUser()
+
+    public function testAccessDeniedForAnonymousUser(): void
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -83,5 +85,24 @@ class CurrentSessionTest extends WebTestCase
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function testNoFoundForServiceToken(): void
+    {
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'app_api_currentsession_getcurrentsession',
+            ['version' => $this->apiVersion]
+        );
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'GET',
+            $url,
+            null,
+            $this->createJwtForEnabledServiceToken($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 }

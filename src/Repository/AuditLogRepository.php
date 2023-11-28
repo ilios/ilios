@@ -104,12 +104,15 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
         $now = new DateTime();
         $timestamp = $now->format('Y-m-d H:i:s');
         $logs = array_map(function (array $entry) use ($timestamp) {
-            $keys = ['action', 'objectId', 'objectClass', 'valuesChanged', 'userId'];
+            $keys = ['action', 'objectId', 'objectClass', 'valuesChanged', 'userId', 'tokenId'];
             $log = [];
             foreach ($keys as $key) {
                 if (!array_key_exists($key, $entry)) {
                     throw new Exception("Log entry missing required {$key} key: " . var_export($entry, true));
                 }
+            }
+            if (!$entry['userId'] && !$entry['tokenId']) {
+                throw new Exception('Log entry missing user- or service-token-id.');
             }
             $log['action'] = $entry['action'];
             $log['objectId'] = empty($entry['objectId']) ? 0 : $entry['objectId'];
@@ -117,6 +120,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
             $log['valuesChanged'] = $entry['valuesChanged'];
             $log['user_id'] = $entry['userId'];
             $log['createdAt'] = $timestamp;
+            $log['token_id'] = $entry['tokenId'];
 
             return $log;
         }, $entries);

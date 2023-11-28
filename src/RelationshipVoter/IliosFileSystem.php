@@ -4,25 +4,26 @@ declare(strict_types=1);
 
 namespace App\RelationshipVoter;
 
+use App\Classes\VoterPermissions;
 use App\Service\IliosFileSystem as FileSystem;
 use App\Classes\SessionUserInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class IliosFileSystem extends Voter
+class IliosFileSystem extends AbstractVoter
 {
-    public const CREATE_TEMPORARY_FILE = 'create_temporary_file';
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof FileSystem && $attribute == self::CREATE_TEMPORARY_FILE;
+        parent::__construct(
+            $permissionChecker,
+            FileSystem::class,
+            [
+                VoterPermissions::CREATE_TEMPORARY_FILE
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param TemporaryFileSystem $fileSystem
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $fileSystem, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {

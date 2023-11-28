@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\IdentifiableEntityInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Attributes as IA;
 
 interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInterface
 {
@@ -37,4 +35,9 @@ interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInte
     public function addRecipient(SchoolInterface $recipient);
     public function removeRecipient(SchoolInterface $recipient);
     public function getRecipients(): Collection;
+
+    public function setServiceTokenInstigators(Collection $instigators): void;
+    public function addServiceTokenInstigator(ServiceTokenInterface $instigator): void;
+    public function removeServiceTokenInstigator(ServiceTokenInterface $instigator): void;
+    public function getServiceTokenInstigators(): Collection;
 }

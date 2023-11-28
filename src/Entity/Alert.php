@@ -86,10 +86,20 @@ class Alert implements AlertInterface
     #[IA\Type('entityCollection')]
     protected Collection $recipients;
 
+    #[ORM\ManyToMany(targetEntity: 'ServiceToken', inversedBy: 'alerts')]
+    #[ORM\JoinTable(name: 'alert_service_token_instigators')]
+    #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'service_token_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\OrderBy(['id' => 'ASC'])]
+    #[IA\Expose]
+    #[IA\Type('entityCollection')]
+    protected Collection $serviceTokenInstigators;
+
     public function __construct()
     {
         $this->changeTypes = new ArrayCollection();
         $this->instigators = new ArrayCollection();
+        $this->serviceTokenInstigators = new ArrayCollection();
         $this->recipients = new ArrayCollection();
         $this->dispatched = false;
     }
@@ -210,5 +220,31 @@ class Alert implements AlertInterface
     public function getRecipients(): Collection
     {
         return $this->recipients;
+    }
+
+    public function setServiceTokenInstigators(Collection $instigators): void
+    {
+        $this->serviceTokenInstigators = new ArrayCollection();
+
+        foreach ($instigators as $instigator) {
+            $this->addServiceTokenInstigator($instigator);
+        }
+    }
+
+    public function addServiceTokenInstigator(ServiceTokenInterface $instigator): void
+    {
+        if (!$this->serviceTokenInstigators->contains($instigator)) {
+            $this->serviceTokenInstigators->add($instigator);
+        }
+    }
+
+    public function removeServiceTokenInstigator(ServiceTokenInterface $instigator): void
+    {
+        $this->serviceTokenInstigators->removeElement($instigator);
+    }
+
+    public function getServiceTokenInstigators(): Collection
+    {
+        return $this->serviceTokenInstigators;
     }
 }

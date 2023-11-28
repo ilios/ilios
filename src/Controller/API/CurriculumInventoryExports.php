@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\CurriculumInventoryExportInterface;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
 use App\Entity\UserInterface;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventoryExportRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\Exporter;
+use App\Traits\ApiAccessValidation;
 use App\Traits\ApiEntityValidation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -27,9 +28,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[OA\Tag(name:'Curriculum inventory exports')]
 #[Route('/api/{version<v3>}/curriculuminventoryexports')]
-class CurriculumInventoryExports
+class CurriculumInventoryExports extends AbstractApiController
 {
+    use ApiAccessValidation;
     use ApiEntityValidation;
+
+    public function __construct(
+        CurriculumInventoryExportRepository $repository,
+        protected TokenStorageInterface $tokenStorage,
+    ) {
+        parent::__construct($repository, 'applicationconfigs');
+    }
 
     /**
      * Create the XML document for a curriculum inventory report
@@ -78,26 +87,27 @@ class CurriculumInventoryExports
     public function post(
         string $version,
         Request $request,
-        CurriculumInventoryExportRepository $repository,
         ApiRequestParser $requestParser,
-        TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
         AuthorizationCheckerInterface $authorizationChecker,
         ValidatorInterface $validator,
         Exporter $exporter,
         ApiResponseBuilder $builder
     ): Response {
-        $class = $repository->getClass() . '[]';
-        $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, 'curriculuminventoryexports');
+        $this->validateCurrentUserAsSessionUser();
 
         /** @var SessionUserInterface $sessionUser */
-        $sessionUser = $tokenStorage->getToken()->getUser();
+        $sessionUser = $this->tokenStorage->getToken()->getUser();
+
+        $class = $this->repository->getClass() . '[]';
+        $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, 'curriculuminventoryexports');
+
         /** @var UserInterface $user */
         $user = $userRepository->findOneBy(['id' => $sessionUser->getId()]);
         /** @var CurriculumInventoryExportInterface $export */
         foreach ($entities as $export) {
             $export->setCreatedBy($user);
-            if (! $authorizationChecker->isGranted(AbstractVoter::CREATE, $export)) {
+            if (! $authorizationChecker->isGranted(VoterPermissions::CREATE, $export)) {
                 throw new AccessDeniedException('Unauthorized access!');
             }
 
@@ -106,14 +116,14 @@ class CurriculumInventoryExports
             $export->setDocument($document);
             $this->validateEntity($export, $validator);
 
-            $repository->update($export, false);
+            $this->repository->update($export, false);
         }
 
-        $repository->flush();
+        $this->repository->flush();
 
         $ids = array_map(fn($entity) => $entity->getId(), $entities);
 
-        $dtos = $repository->findDTOsBy(['id' => $ids]);
+        $dtos = $this->repository->findDTOsBy(['id' => $ids]);
 
         return $builder->buildResponseForPostRequest(
             'curriculuminventoryexports',

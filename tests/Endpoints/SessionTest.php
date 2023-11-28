@@ -72,9 +72,9 @@ class SessionTest extends AbstractReadWriteEndpoint
             'course' => ['course', 2],
             'ilmSession' => ['ilmSession', 1],
             'terms' => ['terms', [1]],
-            'meshDescriptors' => ['meshDescriptors', [1], $skipped = true],
-            'learningMaterials' => ['learningMaterials', [2], $skipped = true],
-            'offerings' => ['offerings', [1], $skipped = true],
+            // 'meshDescriptors' => ['meshDescriptors', [1]], // skipped
+            // 'learningMaterials' => ['learningMaterials', [2]], // skipped
+            // 'offerings' => ['offerings', [1]], // skipped
             'administrators' => ['administrators', [2]],
             'studentAdvisors' => ['studentAdvisors', [1]],
             'postrequisite' => ['postrequisite', 2],
@@ -127,15 +127,15 @@ class SessionTest extends AbstractReadWriteEndpoint
             'supplementalAndSessionType' => [[1, 2], ['supplemental' => true, 'sessionType' => 2]],
             'course' => [[3], ['course' => 4]],
             'multipleCourse' => [[0, 1, 3], ['course' => [1, 4]]],
-//            'ilmSession' => [[0], ['ilmSessions' => [1]]],
+            // 'ilmSession' => [[0], ['ilmSessions' => [1]]], // skipped
             'terms' => [[1], ['terms' => 1]],
             'termsMultiple' => [[0], ['terms' => [2, 5]]],
             'meshDescriptors' => [[3], ['meshDescriptors' => ['abc3']]],
             'meshDescriptorsMultiple' => [[0, 2, 3], ['meshDescriptors' => ['abc2', 'abc3']]],
-//            'sessionDescription' => [[0], ['sessionDescription' => 1]],
+            // 'sessionDescription' => [[0], ['sessionDescription' => 1]], // skipped
             'learningMaterials' => [[0], ['learningMaterials' => [1]]],
-//            'offerings' => [[0], ['offerings' => 1]],
-//            'administrators' => [[0], ['administrators' => [1]]],
+            // 'offerings' => [[0], ['offerings' => 1]], // skipped
+            // 'administrators' => [[0], ['administrators' => [1]]], // skipped
             'supplementalAndAttireRequired' => [[1], ['supplemental' => true, 'attireRequired' => true]],
             'programs' => [[3], ['programs' => [2]]],
             'instructors' => [[0, 1, 4, 5, 6], ['instructors' => [2]]],
@@ -161,85 +161,95 @@ class SessionTest extends AbstractReadWriteEndpoint
         return ['updatedAt'];
     }
 
-    public function testUpdatingIlmUpdatesSessionStamp()
+    public function testUpdatingIlmUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['hours'] += 5;
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    public function testUpdatingIlmInstructorUpdatesSessionStamp()
+    public function testUpdatingIlmInstructorUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['instructors'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp()
+    public function testUpdatingIlmInstructorGroupsUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['instructorGroups'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp()
+    public function testUpdatingIlmLearnerGroupsUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['learnerGroups'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    public function testUpdatingIlmLearnersUpdatesSessionStamp()
+    public function testUpdatingIlmLearnersUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(IlmSessionData::class);
         $data = $dataLoader->getOne();
         $data['learners'] = ["1", "2"];
-        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data);
+        $this->relatedTimeStampUpdateTest($data['session'], 'ilmsessions', 'ilmSession', $data, $jwt);
     }
 
-    public function testUpdatingLearningMaterialUpdatesSessionStamp()
+    public function testUpdatingLearningMaterialUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(LearningMaterialData::class);
         $data = $dataLoader->getOne();
         $data['status'] = '1';
-        $this->relatedTimeStampUpdateTest(1, 'learningmaterials', 'learningMaterial', $data);
+        $this->relatedTimeStampUpdateTest(1, 'learningmaterials', 'learningMaterial', $data, $jwt);
     }
 
-    public function testNewSessionLearningMaterialUpdatesSessionStamp()
+    public function testNewSessionLearningMaterialUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->create();
-        $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', 'sessionLearningMaterials', $data);
+        $this->relatedTimeStampPostTest(1, 'sessionlearningmaterials', 'sessionLearningMaterials', $data, $jwt);
     }
 
-    public function testUpdatingSessionLearningMaterialUpdatesSessionStamp()
+    public function testUpdatingSessionLearningMaterialUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
         $data['required'] = !$data['required'];
-        $this->relatedTimeStampUpdateTest(1, 'sessionlearningmaterials', 'sessionLearningMaterial', $data);
+        $this->relatedTimeStampUpdateTest(1, 'sessionlearningmaterials', 'sessionLearningMaterial', $data, $jwt);
     }
 
-    public function testDeletingSessionLearningMaterialUpdatesSessionStamp()
+    public function testDeletingSessionLearningMaterialUpdatesSessionStamp(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = self::getContainer()->get(SessionLearningMaterialData::class);
         $data = $dataLoader->getOne();
-        $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id']);
+        $this->relatedTimeStampDeleteTest(1, 'sessionlearningmaterials', $data['id'], $jwt);
     }
 
-    public function testRemovePostrequisite()
+    public function testRemovePostrequisite(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getAll()[1];
         $this->assertNotNull($data['postrequisite']);
         $id = $data['id'];
         $data['postrequisite'] = null;
         $postData = $data;
-        $this->putTest($data, $postData, $id);
+        $this->putTest($data, $postData, $id, $jwt);
     }
 
     protected function qsToTest(): array
@@ -256,39 +266,43 @@ class SessionTest extends AbstractReadWriteEndpoint
 
     public function testFindByQWithLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'sess', 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'ours', 'limit' => 2];
-        $this->filterTest($filters, [$all[0], $all[1]]);
+        $this->filterTest($filters, [$all[0], $all[1]], $jwt);
     }
 
     public function testFindByQWithOffset(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'sess', 'offset' => 2];
-        $this->filterTest($filters, [$all[3], $all[4], $all[5], $all[6], $all[7]]);
+        $this->filterTest($filters, [$all[3], $all[4], $all[5], $all[6], $all[7]], $jwt);
     }
 
     public function testFindByQWithOffsetAndLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'sess', 'offset' => 2, 'limit' => 1];
-        $this->filterTest($filters, [$all[3]]);
+        $this->filterTest($filters, [$all[3]], $jwt);
         $filters = ['q' => 'sess', 'offset' => 3, 'limit' => 2];
-        $this->filterTest($filters, [$all[4], $all[5]]);
+        $this->filterTest($filters, [$all[4], $all[5]], $jwt);
     }
 
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'sess', 'offset' => 2, 'limit' => 1];
-        $this->jsonApiFilterTest($filters, [$all[3]]);
+        $this->jsonApiFilterTest($filters, [$all[3]], $jwt);
         $filters = ['q' => 'sess', 'offset' => 3, 'limit' => 2];
-        $this->jsonApiFilterTest($filters, [$all[4], $all[5]]);
+        $this->jsonApiFilterTest($filters, [$all[4], $all[5]], $jwt);
     }
 }

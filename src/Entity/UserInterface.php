@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\EnableableEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\AlertableEntityInterface;
 use App\Traits\CohortsEntityInterface;
@@ -16,6 +17,7 @@ use App\Traits\ProgramYearsEntityInterface;
 use App\Traits\SchoolEntityInterface;
 
 interface UserInterface extends
+    EnableableEntityInterface,
     IdentifiableEntityInterface,
     OfferingsEntityInterface,
     ProgramYearsEntityInterface,
@@ -58,9 +60,6 @@ interface UserInterface extends
 
     public function setAddedViaIlios(bool $addedViaIlios);
     public function isAddedViaIlios(): bool;
-
-    public function setEnabled(bool $enabled);
-    public function isEnabled(): bool;
 
     public function setCampusId(?string $campusId);
     public function getCampusId(): ?string;
@@ -130,11 +129,6 @@ interface UserInterface extends
     public function addAuditLog(AuditLogInterface $auditLog);
     public function removeAuditLog(AuditLogInterface $auditLog);
     public function getAuditLogs(): Collection;
-
-    public function setAlerts(Collection $alerts);
-    public function addAlert(AlertInterface $alert);
-    public function removeAlert(AlertInterface $alert);
-    public function getAlerts(): Collection;
 
     public function setAdministeredSessions(Collection $administeredSessions);
     public function addAdministeredSession(SessionInterface $administeredSession);

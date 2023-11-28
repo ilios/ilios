@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\ProgramInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Program extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof ProgramInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            ProgramInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,14 +36,17 @@ class Program extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => true,
-            self::CREATE => $this->permissionChecker->canCreateProgram($user, $subject->getSchool()->getId()),
-            self::EDIT => $this->permissionChecker->canUpdateProgram(
+            VoterPermissions::VIEW => true,
+            VoterPermissions::CREATE => $this->permissionChecker->canCreateProgram(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            VoterPermissions::EDIT => $this->permissionChecker->canUpdateProgram(
                 $user,
                 $subject->getId(),
                 $subject->getSchool()->getId()
             ),
-            self::DELETE => $this->permissionChecker->canDeleteProgram(
+            VoterPermissions::DELETE => $this->permissionChecker->canDeleteProgram(
                 $user,
                 $subject->getId(),
                 $subject->getSchool()->getId()

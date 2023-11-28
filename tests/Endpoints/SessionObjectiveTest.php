@@ -84,89 +84,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    protected function createMany(int $count): array
-    {
-        $sessionDataLoader = self::getContainer()->get(SessionData::class);
-        $sessions = $sessionDataLoader->createMany($count);
-        $savedSessions = $this->postMany('sessions', 'sessions', $sessions);
-
-        $dataLoader = $this->getDataLoader();
-
-        $data = [];
-        for ($i = 0; $i < $count; $i++) {
-            $arr = $dataLoader->create();
-            $arr['id'] += $i;
-            $arr['session'] = $savedSessions[$i]['id'];
-            $arr['title'] = 'Session Objective ' . $arr['id'];
-            $data[] = $arr;
-        }
-
-        return $data;
-    }
-
-    public function testPostMany()
-    {
-        $data = $this->createMany(10);
-        $this->postManyTest($data);
-    }
-
-    public function testPostManyJsonApi()
-    {
-        $data = $this->createMany(10);
-        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
-    }
-
-    public function testPutForAllData()
-    {
-        $dataLoader = $this->getDataLoader();
-        $all = $dataLoader->getAll();
-
-        $n = count($all);
-        $termsDataLoader = self::getContainer()->get(TermData::class);
-        $terms = $termsDataLoader->createMany($n);
-        $savedTerms = $this->postMany('terms', 'terms', $terms);
-
-        for ($i = 0; $i < $n; $i++) {
-            $data = $all[$i];
-            $data['terms'][] = $savedTerms[$i]['id'];
-            $this->putTest($data, $data, $data['id']);
-        }
-    }
-
-    /**
-     * @dataProvider inputSanitationTestProvider
-     *
-     * @param string $input A given objective title as un-sanitized input.
-     * @param string $output The expected sanitized objective title output as returned from the server.
-     */
-    public function testInputSanitation($input, $output)
-    {
-        $postData = self::getContainer()->get(SessionObjectiveData::class)
-            ->create();
-        $postData['title'] = $input;
-        unset($postData['id']);
-
-        $this->createJsonRequest(
-            'POST',
-            $this->getUrl($this->kernelBrowser, 'app_api_sessionobjectives_post', [
-                'version' => $this->apiVersion
-            ]),
-            json_encode(['sessionObjectives' => [$postData]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
-        );
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_CREATED);
-        $this->assertEquals(
-            json_decode($response->getContent(), true)['sessionObjectives'][0]['title'],
-            $output,
-            $response->getContent()
-        );
-    }
-
-
     public function inputSanitationTestProvider(): array
     {
         return [
@@ -182,9 +99,41 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
     }
 
     /**
+     * @dataProvider inputSanitationTestProvider
+     *
+     * @param string $input A given objective title as un-sanitized input.
+     * @param string $output The expected sanitized objective title output as returned from the server.
+     */
+    public function testInputSanitation(string $input, string $output): void
+    {
+        $postData = self::getContainer()->get(SessionObjectiveData::class)
+            ->create();
+        $postData['title'] = $input;
+        unset($postData['id']);
+
+        $this->createJsonRequest(
+            'POST',
+            $this->getUrl($this->kernelBrowser, 'app_api_sessionobjectives_post', [
+                'version' => $this->apiVersion
+            ]),
+            json_encode(['sessionObjectives' => [$postData]]),
+            $this->createJwtForRootUser($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
+        $this->assertEquals(
+            json_decode($response->getContent(), true)['sessionObjectives'][0]['title'],
+            $output,
+            $response->getContent()
+        );
+    }
+
+    /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
      */
-    public function testInputSanitationFailure()
+    public function testInputSanitationFailure(): void
     {
         $postData = self::getContainer()->get(SessionObjectiveData::class)
             ->create();
@@ -199,10 +148,60 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
                 'version' => $this->apiVersion
             ]),
             json_encode(['sessionObjectives' => [$postData]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
+    }
+
+    protected function createMany(int $count, string $jwt): array
+    {
+        $sessionDataLoader = self::getContainer()->get(SessionData::class);
+        $sessions = $sessionDataLoader->createMany($count);
+        $savedSessions = $this->postMany('sessions', 'sessions', $sessions, $jwt);
+
+        $dataLoader = $this->getDataLoader();
+
+        $data = [];
+        for ($i = 0; $i < $count; $i++) {
+            $arr = $dataLoader->create();
+            $arr['id'] += $i;
+            $arr['session'] = $savedSessions[$i]['id'];
+            $arr['title'] = 'Session Objective ' . $arr['id'];
+            $data[] = $arr;
+        }
+
+        return $data;
+    }
+
+    protected function runPostManyTest(string $jwt): void
+    {
+        $data = $this->createMany(10, $jwt);
+        $this->postManyTest($data, $jwt);
+    }
+
+    protected function runPostManyJsonApiTest(string $jwt): void
+    {
+        $data = $this->createMany(10, $jwt);
+        $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
+    }
+
+    protected function runPutForAllDataTest(string $jwt): void
+    {
+        $dataLoader = $this->getDataLoader();
+        $all = $dataLoader->getAll();
+
+        $n = count($all);
+        $termsDataLoader = self::getContainer()->get(TermData::class);
+        $terms = $termsDataLoader->createMany($n);
+        $savedTerms = $this->postMany('terms', 'terms', $terms, $jwt);
+
+        for ($i = 0; $i < $n; $i++) {
+            $data = $all[$i];
+            $data['terms'][] = $savedTerms[$i]['id'];
+            $this->putTest($data, $data, $data['id'], $jwt);
+        }
     }
 }

@@ -5,26 +5,31 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\CourseInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Course extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof CourseInterface
-            && in_array($attribute, [
-                self::CREATE,
-                self::VIEW,
-                self::EDIT,
-                self::DELETE,
-                self::UNLOCK,
-                self::LOCK,
-                self::ARCHIVE,
-            ]);
+        parent::__construct(
+            $permissionChecker,
+            CourseInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+                VoterPermissions::UNLOCK,
+                VoterPermissions::LOCK,
+                VoterPermissions::ARCHIVE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -34,13 +39,13 @@ class Course extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => true,
-            self::CREATE => $this->permissionChecker->canCreateCourse($user, $subject->getSchool()),
-            self::EDIT => $this->permissionChecker->canUpdateCourse($user, $subject),
-            self::DELETE => $this->permissionChecker->canDeleteCourse($user, $subject),
-            self::UNLOCK => $this->permissionChecker->canUnlockCourse($user, $subject),
-            self::ARCHIVE => $this->permissionChecker->canArchiveCourse($user, $subject),
-            self::LOCK => $this->permissionChecker->canLockCourse($user, $subject),
+            VoterPermissions::VIEW => true,
+            VoterPermissions::CREATE => $this->permissionChecker->canCreateCourse($user, $subject->getSchool()),
+            VoterPermissions::EDIT => $this->permissionChecker->canUpdateCourse($user, $subject),
+            VoterPermissions::DELETE => $this->permissionChecker->canDeleteCourse($user, $subject),
+            VoterPermissions::UNLOCK => $this->permissionChecker->canUnlockCourse($user, $subject),
+            VoterPermissions::ARCHIVE => $this->permissionChecker->canArchiveCourse($user, $subject),
+            VoterPermissions::LOCK => $this->permissionChecker->canLockCourse($user, $subject),
             default => false,
         };
     }

@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\UserDTO;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use App\Traits\ApiAccessValidation;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +34,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/api/{version<v3>}/users')]
 class Users extends AbstractApiController
 {
+    use ApiAccessValidation;
+
     public function __construct(
         protected UserRepository $userRepository,
         protected TokenStorageInterface $tokenStorage,
@@ -174,7 +177,7 @@ class Users extends AbstractApiController
 
             $filteredResults = array_filter(
                 $dtos,
-                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+                fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
             );
 
             //Re-index numerically index the array
@@ -243,6 +246,7 @@ class Users extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         $data = $requestParser->extractPostDataFromRequest($request, $this->endpoint);
         $dataWithoutEmptyIcsFeed = array_map(function ($obj) {
             if (is_object($obj) && property_exists($obj, 'icsFeedKey')) {
@@ -258,7 +262,7 @@ class Users extends AbstractApiController
         $json = json_encode($dataWithoutEmptyIcsFeed);
         $entities = $this->serializer->deserialize($json, $class, 'json');
 
-        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntities($entities, VoterPermissions::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             $this->repository->update($entity, false);
@@ -340,19 +344,20 @@ class Users extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
+        /** @var SessionUserInterface $currentUser */
+        $currentUser = $this->tokenStorage->getToken()->getUser();
         $entity = $this->repository->findOneBy(['id' => $id]);
         if ($entity) {
             $obj = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
-            /** @var SessionUserInterface $sessionUser */
-            $sessionUser = $this->tokenStorage->getToken()->getUser();
             if (
-                //adding root by a non root user
+                //adding root by a non-root user
                 ($obj->root &&
-                (!$sessionUser->isRoot() && !$entity->isRoot())) ||
+                (!$currentUser->isRoot() && !$entity->isRoot())) ||
 
-                //removing root be a non root user
+                //removing root be a non-root user
                 (!$obj->root &&
-                (!$sessionUser->isRoot() && $entity->isRoot()))
+                (!$currentUser->isRoot() && $entity->isRoot()))
             ) {
                 throw new AccessDeniedException('Unauthorized access!');
             }
@@ -379,19 +384,20 @@ class Users extends AbstractApiController
         if (!in_array("application/vnd.api+json", $type)) {
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
         }
+        $this->validateCurrentUserAsSessionUser();
+        /** @var SessionUserInterface $currentUser */
+        $currentUser = $this->tokenStorage->getToken()->getUser();
         $entity = $this->repository->findOneBy(['id' => $id]);
         if ($entity) {
             $arr = $requestParser->extractJsonApiPatchDataFromRequest($request);
-            /** @var SessionUserInterface $sessionUser */
-            $sessionUser = $this->tokenStorage->getToken()->getUser();
             if (
-                //adding root by a non root user
+                //adding root by a non-root user
                 ($arr['root'] &&
-                    (!$sessionUser->isRoot() && !$entity->isRoot())) ||
+                    (!$currentUser->isRoot() && !$entity->isRoot())) ||
 
-                //removing root be a non root user
+                //removing root be a non-root user
                 (!$arr['root'] &&
-                    (!$sessionUser->isRoot() && $entity->isRoot()))
+                    (!$currentUser->isRoot() && $entity->isRoot()))
             ) {
                 throw new AccessDeniedException('Unauthorized access!');
             }
@@ -425,6 +431,7 @@ class Users extends AbstractApiController
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
         return $this->handleDelete($version, $id, $authorizationChecker);
     }
 }

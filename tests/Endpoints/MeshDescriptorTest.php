@@ -60,13 +60,13 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
             'annotation' => [[0], ['annotation' => 'annotation1']],
             'courses' => [[0, 1], ['courses' => [2, 3]]],
             'sessions' => [[1], ['sessions' => [3]]],
-            'concepts' => [[0], ['concepts' => [1]], $skipped = true],
-            'qualifiers' => [[0], ['qualifiers' => [1]], $skipped = true],
-            'trees' => [[0], ['trees' => [1]], $skipped = true],
-            'sessionLearningMaterials' => [[0], ['sessionLearningMaterials' => [1]], $skipped = true],
-            'courseLearningMaterials' => [[0], ['courseLearningMaterials' => [1]], $skipped = true],
+            // 'concepts' => [[0], ['concepts' => [1]]], // skipped
+            // 'qualifiers' => [[0], ['qualifiers' => [1]]], // skipped
+            // 'trees' => [[0], ['trees' => [1]]], // skipped
+            // 'sessionLearningMaterials' => [[0], ['sessionLearningMaterials' => [1]]], // skipped
+            // 'courseLearningMaterials' => [[0], ['courseLearningMaterials' => [1]]], // skipped
             'learningMaterials' => [[0], ['learningMaterials' => [1, 2]]],
-            'previousIndexing' => [[1], ['previousIndexing' => 2], $skipped = true],
+            // 'previousIndexing' => [[1], ['previousIndexing' => 2]], // skipped
             'terms' => [[0, 1, 2], ['terms' => [1, 2, 3]]],
             'sessionTypes' => [[0, 1, 2], ['sessionTypes' => [2]]],
             'school' => [[0, 2], ['schools' => 2]],
@@ -109,12 +109,13 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
      */
     public function testFindByQWithLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['name'], 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'desc', 'limit' => 2];
-        $this->filterTest($filters, [$all[0], $all[1]]);
+        $this->filterTest($filters, [$all[0], $all[1]], $jwt);
     }
 
     /**
@@ -122,10 +123,11 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
      */
     public function testFindByQWithOffset(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['name'], 'offset' => 0];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
     }
 
     /**
@@ -133,21 +135,23 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
      */
     public function testFindByQWithOffsetAndLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['name'], 'offset' => 0, 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'desc', 'offset' => 1, 'limit' => 1];
-        $this->filterTest($filters, [$all[1]]);
+        $this->filterTest($filters, [$all[1]], $jwt);
     }
 
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['name'], 'offset' => 0, 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'desc', 'offset' => 1, 'limit' => 1];
-        $this->jsonApiFilterTest($filters, [$all[1]]);
+        $this->jsonApiFilterTest($filters, [$all[1]], $jwt);
     }
 }

@@ -8,10 +8,12 @@ use App\Command\UpdateFrontendCommand;
 use Mockery as m;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Filesystem\Filesystem;
-use DateTime;
 
+/**
+ * @coversDefaultClass \App\Controller\IndexController
+ * @group controller
+ */
 class IndexControllerTest extends WebTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -53,7 +55,7 @@ class IndexControllerTest extends WebTestCase
         unset($this->fileSystem);
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
         $json = json_encode([
             'meta' => [],
@@ -84,7 +86,7 @@ class IndexControllerTest extends WebTestCase
         );
     }
 
-    public function testGzippedWhenRequested()
+    public function testGzippedWhenRequested(): void
     {
         $json = json_encode([
             'meta' => [],
@@ -119,7 +121,7 @@ class IndexControllerTest extends WebTestCase
         $this->assertStringContainsString('<title>Ilios</title>', $inflatedContent);
     }
 
-    public function testIndexFromCacheIsTheSameInGzippedAndUnCompressed()
+    public function testIndexFromCacheIsTheSameInGzippedAndUnCompressed(): void
     {
         $json = json_encode([
             'meta' => [],
@@ -174,7 +176,7 @@ class IndexControllerTest extends WebTestCase
         $this->assertEmpty($response->getContent());
     }
 
-    public function testErrorCaptureConfiguration()
+    public function testErrorCaptureConfiguration(): void
     {
         $json = json_encode([
             'meta' => [],
@@ -197,7 +199,7 @@ class IndexControllerTest extends WebTestCase
         $_ENV['ILIOS_ERROR_CAPTURE_ENABLED'] = $orig;
     }
 
-    protected function setupTestFile(string $path, string $contents, bool $compressContents)
+    protected function setupTestFile(string $path, string $contents, bool $compressContents): void
     {
         $this->testFiles[] = $path;
         if ($compressContents) {

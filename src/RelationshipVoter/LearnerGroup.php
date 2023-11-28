@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\LearnerGroupInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class LearnerGroup extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof LearnerGroupInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            LearnerGroupInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,13 +36,16 @@ class LearnerGroup extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => $this->permissionChecker->canViewLearnerGroup($user, $subject->getId()),
-            self::CREATE => $this->permissionChecker->canCreateLearnerGroup($user, $subject->getSchool()->getId()),
-            self::EDIT => $this->permissionChecker->canUpdateLearnerGroup(
+            VoterPermissions::VIEW => $this->permissionChecker->canViewLearnerGroup($user, $subject->getId()),
+            VoterPermissions::CREATE => $this->permissionChecker->canCreateLearnerGroup(
                 $user,
                 $subject->getSchool()->getId()
             ),
-            self::DELETE => $this->permissionChecker->canDeleteLearnerGroup(
+            VoterPermissions::EDIT => $this->permissionChecker->canUpdateLearnerGroup(
+                $user,
+                $subject->getSchool()->getId()
+            ),
+            VoterPermissions::DELETE => $this->permissionChecker->canDeleteLearnerGroup(
                 $user,
                 $subject->getSchool()->getId()
             ),

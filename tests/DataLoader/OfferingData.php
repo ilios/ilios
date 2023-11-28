@@ -69,7 +69,7 @@ class OfferingData extends AbstractDataLoader
             'id' => 5,
             'room' => 'conference room 22',
             'site' => 'offsite',
-            'url' => 'http://example.com',
+            'url' => 'https://example.com',
             'startDate' => "2014-12-15T15:00:00+00:00",
             'endDate' => "2014-12-15T17:00:00+00:00",
             'session' => 2,

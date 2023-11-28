@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\OfferingData;
+use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadCourseClerkshipTypeData;
 use App\Tests\Fixture\LoadCourseData;
@@ -21,9 +24,6 @@ use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\QEndpointTrait;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\IlmSessionData;
-use App\Tests\DataLoader\OfferingData;
-use App\Tests\DataLoader\SessionData;
 
 /**
  * Course API endpoint Test.
@@ -85,10 +85,10 @@ class CourseTest extends AbstractReadWriteEndpoint
             'terms' => ['terms', [2]],
             'courseObjectives' => ['courseObjectives', [1]],
             'meshDescriptors' => ['meshDescriptors', ['abc3']],
-            'learningMaterials' => ['learningMaterials', [1], $skipped = true],
-            'sessions' => ['sessions', [1], $skipped = true],
+            // 'learningMaterials' => ['learningMaterials', [1]], // skipped
+            // 'sessions' => ['sessions', [1]], // skipped
             'ancestor' => ['ancestor', 2],
-            'descendants' => ['descendants', ['3'], $skipped = true],
+            // 'descendants' => ['descendants', ['3']], // skipped
         ];
     }
 
@@ -113,8 +113,8 @@ class CourseTest extends AbstractReadWriteEndpoint
             'title' => [[0], ['title' => 'firstCourse']],
             'level' => [[3, 4], ['level' => 3]],
             'year' => [[1, 2], ['year' => 2012]],
-            'startDate' => [[1], ['startDate' => '2013-09-01T00:00:00+00:00'], $skipped = true],
-            'endDate' => [[2], ['endDate' => '2013-12-14T00:00:00+00:00'], $skipped = true],
+            // 'startDate' => [[1], ['startDate' => '2013-09-01T00:00:00+00:00']], // skipped
+            // 'endDate' => [[2], ['endDate' => '2013-12-14T00:00:00+00:00']], // skipped
             'externalId' => [[2], ['externalId' => 'course3']],
             'locked' => [[4], ['locked' => true]],
             'archived' => [[4], ['archived' => true]],
@@ -123,16 +123,16 @@ class CourseTest extends AbstractReadWriteEndpoint
             'clerkshipType' => [[0, 1], ['clerkshipType' => 1]],
             'school' => [[2, 3, 4], ['school' => 2]],
             'schools' => [[2, 3, 4], ['schools' => [2]]],
-            'directors' => [[1, 3], ['directors' => [2]], $skipped = true],
-            'administrators' => [[0], ['administrators' => [1]], $skipped = true],
-            'cohorts' => [[2], ['cohorts' => [2]], $skipped = true],
+            // 'directors' => [[1, 3], ['directors' => [2]]], // skipped
+            // 'administrators' => [[0], ['administrators' => [1]]], // skipped
+            // 'cohorts' => [[2], ['cohorts' => [2]]], // skipped
             'terms' => [[0, 1], ['terms' => [1]]],
             'meshDescriptors' => [[0, 1, 3], ['meshDescriptors' => ['abc1', 'abc2']]],
             'learningMaterials' => [[0, 1, 3], ['learningMaterials' => [1, 3]]],
             'sessions' => [[1], ['sessions' => [3]]],
             'ancestor' => [[3], ['ancestor' => 3]],
             'ancestors' => [[3], ['ancestors' => [3]]],
-            'descendants' => [[0], ['descendants' => [1]], $skipped = true],
+            // 'descendants' => [[0], ['descendants' => [1]]], // skipped
             'programs' => [[3, 4], ['programs' => [2]]],
             'instructors' => [[0, 1, 3], ['instructors' => [1, 2]]],
             'instructorGroups' => [[0, 1], ['instructorGroups' => [1]]],
@@ -151,85 +151,103 @@ class CourseTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testGetMyCourses()
+    public function testGetMyCourses(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true],
-            [$all[0], $all[1], $all[3]]
+            [$all[0], $all[1], $all[3]],
+            $jwt
         );
     }
 
-    public function testGetMyCoursesSorted()
+    public function testGetMyCoursesSorted(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true, 'order_by[year]' => 'ASC', 'order_by[id]' => 'DESC'],
-            [$all[1], $all[3], $all[0]]
+            [$all[1], $all[3], $all[0]],
+            $jwt
         );
     }
 
-    public function testGetMyCoursesFailureOnBogusOrderBy()
+    public function testGetMyCoursesFailureOnBogusOrderBy(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->badFilterTest(
-            ['my' => true, 'order_by[glefarknik]' => 'ASC']
+            ['my' => true, 'order_by[glefarknik]' => 'ASC'],
+            $jwt
         );
     }
 
-    public function testGetMyCoursesFailureOnBogusFilterBy()
+    public function testGetMyCoursesFailureOnBogusFilterBy(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->badFilterTest(
-            ['my' => true, 'filters[farnk]' => 1]
+            ['my' => true, 'filters[farnk]' => 1],
+            $jwt
         );
     }
 
-    public function testGetMyCoursesWithLimit()
+    public function testGetMyCoursesWithLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true, 'limit' => 2],
-            [$all[0], $all[1]]
+            [$all[0], $all[1]],
+            $jwt
         );
     }
 
-    public function testGetMyCoursesWithLimitAndOffset()
+    public function testGetMyCoursesWithLimitAndOffset(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true, 'limit' => 1, 'offset' => 1],
-            [$all[1]]
+            [$all[1]],
+            $jwt
         );
     }
 
-    public function testGetMyCoursesFilteredByYear()
+    public function testGetMyCoursesFilteredByYear(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true, 'filters[year]' => '2012'],
-            [$all[1]]
+            [$all[1]],
+            $jwt
         );
 
         $this->filterTest(
             ['my' => true, 'filters[year]' => '2013'],
-            [$all[3]]
+            [$all[3]],
+            $jwt
         );
 
         $this->filterTest(
             ['my' => true, 'filters[year]' => ['2012', '2013']],
-            [$all[1], $all[3]]
+            [$all[1], $all[3]],
+            $jwt
         );
     }
 
     /**
-     * Ember doesn't send the non-owning side of many2one relationships
+     * Ember doesn't send the non-owning side of many-to-one relationships
      */
-    public function testPutCourseWithoutSessionsAndLms()
+    public function testPutCourseWithoutSessionsAndLms(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
 
@@ -237,11 +255,12 @@ class CourseTest extends AbstractReadWriteEndpoint
         unset($postData['sessions']);
         unset($postData['learningMaterials']);
 
-        $this->putTest($data, $postData, $data['id']);
+        $this->putTest($data, $postData, $data['id'], $jwt);
     }
 
-    public function testRolloverCourse()
+    public function testRolloverCourse(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
@@ -274,14 +293,14 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals($course['id'], $newCourse['ancestor']);
 
         $newSessions = $newCourse['sessions'];
-        $this->assertEquals(count($newSessions), 2);
+        $this->assertEquals(2, count($newSessions));
         $sessions = self::getContainer()->get(SessionData::class)->getAll();
         $lastSessionId = array_pop($sessions)['id'];
 
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
         $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
 
-        $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
+        $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions], $jwt);
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
         $lastOfferingId = array_pop($offerings)['id'];
 
@@ -292,8 +311,9 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals($secondSessionOfferings, $newSessionsData[1]['offerings']);
     }
 
-    public function testRolloverCourseWithStartDate()
+    public function testRolloverCourseWithStartDate(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
@@ -308,19 +328,25 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertSame('2023-06-04T00:00:00+00:00', $newCourse['endDate'], 'end date is correct');
 
         $newSessions = $newCourse['sessions'];
-        $this->assertEquals(count($newSessions), 2);
+        $this->assertEquals(2, count($newSessions));
 
-        $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
+        $newSessionsData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions], $jwt);
 
         $session1Offerings = $newSessionsData[0]['offerings'];
-        $session1OfferingData = $this->getFiltered('offerings', 'offerings', ['filters[id]' => $session1Offerings]);
+        $session1OfferingData = $this->getFiltered(
+            'offerings',
+            'offerings',
+            ['filters[id]' => $session1Offerings],
+            $jwt
+        );
 
         usort($session1OfferingData, fn($a, $b) => strtotime($a['startDate']) - strtotime($b['startDate']));
         $this->assertEquals('2023-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
 
-    public function testRolloverCourseWithNoOfferings()
+    public function testRolloverCourseWithNoOfferings(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
@@ -332,30 +358,30 @@ class CourseTest extends AbstractReadWriteEndpoint
 
         $this->assertSame(2030, $newCourse['year']);
         $newSessions = $newCourse['sessions'];
-        $this->assertEquals(count($newSessions), 2);
+        $this->assertEquals(2, count($newSessions));
         $sessions = self::getContainer()->get(SessionData::class)->getAll();
         $lastSessionId = array_pop($sessions)['id'];
 
         $this->assertEquals($lastSessionId + 1, $newSessions[0], 'incremented session id 1');
         $this->assertEquals($lastSessionId + 2, $newSessions[1], 'incremented session id 2');
 
-        $data = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions]);
+        $data = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessions], $jwt);
 
         $this->assertEmpty($data[0]['offerings']);
         $this->assertEmpty($data[1]['offerings']);
     }
 
-    public function testRolloverCourseWithNewTitle()
+    public function testRolloverCourseWithNewTitle(): void
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
         /* KLUDGE!
-         * Fix up the course's year to be last year.
+         * Fix up the course's year to be last year's.
          * Otherwise, rollover may bomb out with a "Courses cannot be rolled over to a new year before YYYY" error,
          * with YYYY being last year.
          * [ST 2018/01/02].
          */
-        $course['year'] = intval(date('Y'), 10) - 1;
+        $course['year'] = intval(date('Y')) - 1;
         $newCourseTitle = 'New (very cool) course title';
 
         $newCourse = $this->rolloverCourse([
@@ -368,7 +394,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertSame($newCourseTitle, $newCourse['title']);
     }
 
-    public function testFailRolloverToPassedYear()
+    public function testFailRolloverToPassedYear(): void
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
@@ -390,7 +416,7 @@ class CourseTest extends AbstractReadWriteEndpoint
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -399,8 +425,9 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertStringContainsString('Courses cannot be rolled over to a new year before', $data['detail']);
     }
 
-    public function testRolloverIlmSessions()
+    public function testRolloverIlmSessions(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $course = $all[1];
@@ -411,9 +438,9 @@ class CourseTest extends AbstractReadWriteEndpoint
         ]);
 
         $newSessionIds = $newCourse['sessions'];
-        $this->assertEquals(count($newSessionIds), 5);
+        $this->assertEquals(5, count($newSessionIds));
 
-        $newSessionData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessionIds]);
+        $newSessionData = $this->getFiltered('sessions', 'sessions', ['filters[id]' => $newSessionIds], $jwt);
 
         $newSessionsWithILMs = array_filter($newSessionData, fn(array $session) => !empty($session['ilmSession']));
         $this->assertEquals(4, count($newSessionsWithILMs));
@@ -429,14 +456,15 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals($lastIlmId + 3, $newIlmIds[2], 'incremented ilm id 3');
         $this->assertEquals($lastIlmId + 4, $newIlmIds[3], 'incremented ilm id 4');
 
-        $newIlmData = $this->getFiltered('ilmsessions', 'ilmSessions', ['filters[id]' => $newIlmIds]);
+        $newIlmData = $this->getFiltered('ilmsessions', 'ilmSessions', ['filters[id]' => $newIlmIds], $jwt);
 
         $this->assertEquals($newIlmData[0]['hours'], $ilms[0]['hours']);
         $this->assertEquals($newIlmData[1]['hours'], $ilms[1]['hours']);
     }
 
-    public function testRolloverCourseWithCohorts()
+    public function testRolloverCourseWithCohorts(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
@@ -455,12 +483,14 @@ class CourseTest extends AbstractReadWriteEndpoint
         $oldCourseObjectiveData = $this->getFiltered(
             'courseobjectives',
             'courseObjectives',
-            ['filters[id]' => $course['courseObjectives']]
+            ['filters[id]' => $course['courseObjectives']],
+            $jwt
         );
         $newCourseObjectivesData = $this->getFiltered(
             'courseobjectives',
             'courseObjectives',
-            ['filters[id]' => $newCourse['courseObjectives']]
+            ['filters[id]' => $newCourse['courseObjectives']],
+            $jwt
         );
 
         $this->assertCount(count($oldCourseObjectiveData), $newCourseObjectivesData);
@@ -468,7 +498,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals('2', $newCourseObjectivesData[0]['programYearObjectives'][0]);
     }
 
-    protected function rolloverCourse(array $rolloverDetails)
+    protected function rolloverCourse(array $rolloverDetails): array
     {
         $parameters = array_merge([
             'version' => $this->apiVersion,
@@ -482,7 +512,7 @@ class CourseTest extends AbstractReadWriteEndpoint
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -494,15 +524,15 @@ class CourseTest extends AbstractReadWriteEndpoint
         return $data[0];
     }
 
-    public function testRejectUnprivilegedPostCourse()
+    public function testRejectUnprivilegedPostCourse(): void
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -513,16 +543,16 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedPutCourse()
+    public function testRejectUnprivilegedPutCourse(): void
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
         $id = $course['id'];
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -533,17 +563,17 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedPutCourseWithWrongId()
+    public function testRejectUnprivilegedPutCourseWithWrongId(): void
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
         $id = $course['id'];
 
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -554,16 +584,16 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedDeleteCourse()
+    public function testRejectUnprivilegedDeleteCourse(): void
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
         $id = $course['id'];
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -573,11 +603,11 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedRollover()
+    public function testRejectUnprivilegedRollover(): void
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
         $id = $course['id'];
 
         $rolloverData = [
@@ -589,19 +619,20 @@ class CourseTest extends AbstractReadWriteEndpoint
         ];
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'POST',
             $this->getUrl($this->kernelBrowser, "app_api_courses_rollover", $rolloverData)
         );
     }
 
-    public function testCourseCanBeUnlocked()
+    public function testCourseCanBeUnlocked(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         $data['locked'] = true;
         $postData = $data;
-        $responseData = $this->putTest($data, $postData, $data['id']);
+        $responseData = $this->putTest($data, $postData, $data['id'], $jwt);
         $this->assertTrue(
             $responseData['locked']
         );
@@ -610,68 +641,89 @@ class CourseTest extends AbstractReadWriteEndpoint
         $data = $dataLoader->getOne();
         $data['locked'] = false;
         $postData = $data;
-        $responseData = $this->putTest($data, $postData, $data['id']);
+        $responseData = $this->putTest($data, $postData, $data['id'], $jwt);
         $this->assertFalse(
             $responseData['locked']
         );
     }
 
-    public function testRemovingCourseObjectiveRemovesSessionObjectivesToo()
+    public function testRemovingCourseObjectiveRemovesSessionObjectivesToo(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         $courseObjectiveId = $data['courseObjectives'][0];
-        $courseObjective = $this->getOne('courseobjectives', 'courseObjectives', $courseObjectiveId);
+        $courseObjective = $this->getOne(
+            'courseobjectives',
+            'courseObjectives',
+            $courseObjectiveId,
+            $jwt
+        );
         $sessionObjectiveId = $courseObjective['sessionObjectives'][0];
-        $sessionObjective = $this->getOne('sessionobjectives', 'sessionObjectives', $sessionObjectiveId);
+        $sessionObjective = $this->getOne(
+            'sessionobjectives',
+            'sessionObjectives',
+            $sessionObjectiveId,
+            $jwt
+        );
         // session objective is linked to course objective
         $this->assertTrue(in_array($courseObjective['id'], $sessionObjective['courseObjectives']));
 
         // remove course objective
         $data['courseObjectives'] = [];
         $postData = $data;
-        $this->putOne('courses', 'course', $postData['id'], $postData);
+        $this->putOne('courses', 'course', $postData['id'], $postData, $jwt);
 
         // verify that session objective is no longer linked to removed course objective
-        $sessionObjective = $this->getOne('sessionobjectives', 'sessionObjectives', $sessionObjectiveId);
+        $sessionObjective = $this->getOne(
+            'sessionobjectives',
+            'sessionObjectives',
+            $sessionObjectiveId,
+            $jwt,
+        );
         $this->assertFalse(in_array($courseObjective['id'], $sessionObjective['courseObjectives']));
     }
 
-    public function testPutCourseWithBadSchoolId()
+    public function testPutCourseWithBadSchoolId(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['school'] = 99;
 
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testPutCourseWithBadSessionId()
+    public function testPutCourseWithBadSessionId(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $data['sessions'] = [1, 99, 14];
 
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testGetMyCoursesIncludesAdministeredCourses()
+    public function testGetMyCoursesIncludesAdministeredCourses(): void
     {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 4);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $this->filterTest(
             ['my' => true],
             [$all[0], $all[2], $all[4]],
-            4
+            $jwt
         );
     }
 
-    public function testIncludeBothProgramYearProgramAndObjectivesWithCohort()
+    public function testIncludeBothProgramYearProgramAndObjectivesWithCohort(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $includes = $this->getJsonApiIncludes(
             'courses',
             '1',
-            'cohorts.programYear.program,cohorts.programYear.programYearObjectives'
+            'cohorts.programYear.program,cohorts.programYear.programYearObjectives',
+            $jwt
         );
 
         $this->assertArrayHasKey('programYears', $includes);
@@ -686,8 +738,9 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals(['1'], $includes['programYearObjectives']);
     }
 
-    public function testIncludeSessionDetails()
+    public function testIncludeSessionDetails(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $sessionRelationships = [
             'learningMaterials.learningMaterial.owningUser',
             'sessionObjectives.courseObjectives',
@@ -704,13 +757,9 @@ class CourseTest extends AbstractReadWriteEndpoint
             'terms.vocabulary',
             'meshDescriptors.trees',
         ];
-        $sessionIncludes = array_reduce($sessionRelationships, fn($carry, $item) => "{$carry}sessions.{$item},", '');
+        $sessionIncludes = array_reduce($sessionRelationships, fn($carry, $item) => "{$carry}sessions.$item,", '');
 
-        $includes = $this->getJsonApiIncludes(
-            'courses',
-            '1',
-            $sessionIncludes
-        );
+        $includes = $this->getJsonApiIncludes('courses', '1', $sessionIncludes, $jwt);
 
         $this->assertArrayHasKey('sessions', $includes);
         $this->assertArrayHasKey('terms', $includes);
@@ -751,7 +800,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals(['1', '2'], $includes['instructorGroups']);
     }
 
-    public function testIncludedDataNotLoadedForUnprivilegedUsers()
+    public function testIncludedDataNotLoadedForUnprivilegedUsers(): void
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -766,13 +815,13 @@ class CourseTest extends AbstractReadWriteEndpoint
             'GET',
             $url,
             null,
-            $this->getTokenForUser($this->kernelBrowser, 5)
+            $this->createJwtFromUserId($this->kernelBrowser, 5)
         );
 
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonApiResponse($response, Response::HTTP_OK);
@@ -784,7 +833,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertNotContains('users', $types);
     }
 
-    public function testGraphQLIncludedData()
+    public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -794,7 +843,7 @@ class CourseTest extends AbstractReadWriteEndpoint
                 'query' =>
                     "query { courses(id: {$data['id']}) { id, school { id }, sessions { id, administrators { id }} }}"
             ]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -829,7 +878,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertCount(0, $course->sessions[1]->administrators);
     }
 
-    public function testGraphQLIncludedDataNotLoadedForUnprivilegedUsers()
+    public function testGraphQLIncludedDataNotLoadedForUnprivilegedUsers(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -838,7 +887,7 @@ class CourseTest extends AbstractReadWriteEndpoint
             json_encode([
                 'query' => "query { courses(id: {$data['id']}) { id, sessions { id, administrators { id }} }}"
             ]),
-            $this->getTokenForUser($this->kernelBrowser, 5)
+            $this->createJwtFromUserId($this->kernelBrowser, 5)
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -883,39 +932,43 @@ class CourseTest extends AbstractReadWriteEndpoint
 
     public function testFindByQWithLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'first', 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'course', 'limit' => 2];
-        $this->filterTest($filters, [$all[0], $all[1]]);
+        $this->filterTest($filters, [$all[0], $all[1]], $jwt);
     }
 
     public function testFindByQWithOffset(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'course', 'offset' => 2];
-        $this->filterTest($filters, [$all[2], $all[3], $all[4]]);
+        $this->filterTest($filters, [$all[2], $all[3], $all[4]], $jwt);
     }
 
     public function testFindByQWithOffsetAndLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'course', 'offset' => 2, 'limit' => 1];
-        $this->filterTest($filters, [$all[2]]);
+        $this->filterTest($filters, [$all[2]], $jwt);
         $filters = ['q' => 'course', 'offset' => 1, 'limit' => 2];
-        $this->filterTest($filters, [$all[1], $all[2]]);
+        $this->filterTest($filters, [$all[1], $all[2]], $jwt);
     }
 
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => 'course', 'offset' => 2, 'limit' => 1];
-        $this->filterTest($filters, [$all[2]]);
+        $this->filterTest($filters, [$all[2]], $jwt);
         $filters = ['q' => 'course', 'offset' => 1, 'limit' => 2];
-        $this->filterTest($filters, [$all[1], $all[2]]);
+        $this->filterTest($filters, [$all[1], $all[2]], $jwt);
     }
 }

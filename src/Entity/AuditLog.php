@@ -52,15 +52,19 @@ class AuditLog implements AuditLogInterface
     protected string $valuesChanged;
 
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'auditLogs')]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
-    protected UserInterface $user;
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', nullable: true)]
+    protected ?UserInterface $user;
+
+    #[ORM\ManyToOne(targetEntity: 'ServiceToken', inversedBy: 'auditLogs')]
+    #[ORM\JoinColumn(name: 'token_id', referencedColumnName: 'id', nullable: true)]
+    protected ?ServiceTokenInterface $serviceToken;
 
     public function __construct()
     {
         $this->createdAt = new DateTime();
     }
 
-    public function setAction(string $action)
+    public function setAction(string $action): void
     {
         $this->action = $action;
     }
@@ -75,7 +79,7 @@ class AuditLog implements AuditLogInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt)
+    public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -84,7 +88,7 @@ class AuditLog implements AuditLogInterface
      * object ID sometimes comes as an int,
      * so we need to cast it back to a string for storage
      */
-    public function setObjectId(mixed $objectId)
+    public function setObjectId(mixed $objectId): void
     {
         $this->objectId = (string) $objectId;
     }
@@ -94,7 +98,7 @@ class AuditLog implements AuditLogInterface
         return $this->objectId;
     }
 
-    public function setObjectClass(string $objectClass)
+    public function setObjectClass(string $objectClass): void
     {
         $this->objectClass = $objectClass;
     }
@@ -104,7 +108,7 @@ class AuditLog implements AuditLogInterface
         return $this->objectClass;
     }
 
-    public function setValuesChanged(string $valuesChanged)
+    public function setValuesChanged(string $valuesChanged): void
     {
         $this->valuesChanged = $valuesChanged;
     }
@@ -114,13 +118,23 @@ class AuditLog implements AuditLogInterface
         return $this->valuesChanged;
     }
 
-    public function setUser(UserInterface $user = null)
+    public function setUser(?UserInterface $user): void
     {
         $this->user = $user;
     }
 
-    public function getUser(): UserInterface
+    public function getUser(): ?UserInterface
     {
         return $this->user;
+    }
+
+    public function setServiceToken(?ServiceTokenInterface $serviceToken): void
+    {
+        $this->serviceToken = $serviceToken;
+    }
+
+    public function getServiceToken(): ?ServiceTokenInterface
+    {
+        return $this->serviceToken;
     }
 }

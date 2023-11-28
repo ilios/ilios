@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\SessionLearningMaterialDTO;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionLearningMaterialRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -74,13 +74,15 @@ class SessionLearningMaterials extends AbstractApiController
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
-        $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
+        $values = $authorizationChecker->isGranted(VoterPermissions::VIEW, $dto) ? [$dto] : [];
 
         $currentUser = $tokenStorage->getToken()->getUser();
-        array_walk(
-            $values,
-            fn(SessionLearningMaterialDTO $dto) => $this->cleanDto($currentUser, $dto)
-        );
+        if ($currentUser instanceof SessionUserInterface) {
+            array_walk(
+                $values,
+                fn(SessionLearningMaterialDTO $dto) => $this->cleanDto($currentUser, $dto)
+            );
+        }
 
         return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
@@ -167,14 +169,16 @@ class SessionLearningMaterials extends AbstractApiController
 
         $filteredResults = array_filter(
             $dtos,
-            fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+            fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
         );
 
         $currentUser = $tokenStorage->getToken()->getUser();
-        array_walk(
-            $filteredResults,
-            fn(SessionLearningMaterialDTO $dto) => $this->cleanDto($currentUser, $dto)
-        );
+        if ($currentUser instanceof SessionUserInterface) {
+            array_walk(
+                $filteredResults,
+                fn(SessionLearningMaterialDTO $dto) => $this->cleanDto($currentUser, $dto)
+            );
+        }
 
         //Re-index numerically index the array
         $values = array_values($filteredResults);

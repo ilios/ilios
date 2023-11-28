@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\RelationshipVoter\AbstractVoter;
+use App\Classes\VoterPermissions;
 use App\Repository\RepositoryInterface;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
@@ -44,7 +44,7 @@ abstract class AbstractApiController
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
-        $values = $authorizationChecker->isGranted(AbstractVoter::VIEW, $dto) ? [$dto] : [];
+        $values = $authorizationChecker->isGranted(VoterPermissions::VIEW, $dto) ? [$dto] : [];
 
         return $builder->buildResponseForGetOneRequest($this->endpoint, $values, Response::HTTP_OK, $request);
     }
@@ -69,7 +69,7 @@ abstract class AbstractApiController
 
         $filteredResults = array_filter(
             $dtos,
-            fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+            fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
         );
 
         //Re-index numerically index the array
@@ -91,7 +91,7 @@ abstract class AbstractApiController
     ): Response {
         $class = $this->repository->getClass() . '[]';
         $entities = $requestParser->extractEntitiesFromPostRequest($request, $class, $this->endpoint);
-        $this->validateAndAuthorizeEntities($entities, AbstractVoter::CREATE, $validator, $authorizationChecker);
+        $this->validateAndAuthorizeEntities($entities, VoterPermissions::CREATE, $validator, $authorizationChecker);
 
         foreach ($entities as $entity) {
             $this->repository->update($entity, false);
@@ -123,18 +123,18 @@ abstract class AbstractApiController
         $entity = $this->repository->findOneBy(['id' => $id]);
         if ($entity) {
             $code = Response::HTTP_OK;
-            $permission = AbstractVoter::EDIT;
+            $permission = VoterPermissions::EDIT;
         } else {
             $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
-            $permission = AbstractVoter::CREATE;
+            $permission = VoterPermissions::CREATE;
         }
 
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
         $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
 
-        $this->repository->update($entity, true, false);
+        $this->repository->update($entity);
 
         return $builder->buildResponseForPutRequest($this->endpoint, $entity, $code, $request);
     }
@@ -164,8 +164,8 @@ abstract class AbstractApiController
         }
 
         $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
-        $this->validateAndAuthorizeEntity($entity, AbstractVoter::EDIT, $validator, $authorizationChecker);
-        $this->repository->update($entity, true, false);
+        $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
+        $this->repository->update($entity);
 
         $dtos = $this->fetchDtosForEntities([$entity]);
 
@@ -186,7 +186,7 @@ abstract class AbstractApiController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (!$authorizationChecker->isGranted(AbstractVoter::DELETE, $entity)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::DELETE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 

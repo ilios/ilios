@@ -12,7 +12,7 @@ security:
     - { path: '^/', roles: PUBLIC_ACCESS }
   access_decision_manager:
     allow_if_all_abstain: false
-    strategy: unanimous
+    strategy: affirmative
   password_hashers:
     App\Classes\SessionUserInterface:
       algorithm: auto
@@ -21,6 +21,8 @@ security:
   providers:
     session_user:
       id: App\Service\SessionUserProvider
+    service_account_token:
+      id: App\Service\ServiceTokenUserProvider
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -29,7 +31,7 @@ security:
       stateless: true
       custom_authenticators:
         - App\Security\JsonWebTokenAuthenticator
-
+      provider: session_user
 
 when@test:
      security:

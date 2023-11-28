@@ -41,14 +41,14 @@ class UsereventTest extends AbstractEndpoint
         ];
     }
 
-    public function testAttachedUserMaterials()
+    public function testAttachedUserMaterials(): void
     {
         $userId = 5;
         $events = $this->getEvents(
             $userId,
             0,
             100000000000,
-            $this->getTokenForUser($this->kernelBrowser, 5)
+            $this->createJwtFromUserId($this->kernelBrowser, 5)
         );
         $lms = $events[0]['learningMaterials'];
 
@@ -113,7 +113,7 @@ class UsereventTest extends AbstractEndpoint
         $this->assertTrue($lms[8]['isBlanked']);
     }
 
-    public function testGetEvents()
+    public function testGetEvents(): void
     {
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
         $sessionTypes = self::getContainer()->get(SessionTypeData::class)->getAll();
@@ -127,7 +127,7 @@ class UsereventTest extends AbstractEndpoint
             $userId,
             0,
             100000000000,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $this->assertSame(12, count($events), 'Expected events returned');
@@ -932,7 +932,7 @@ class UsereventTest extends AbstractEndpoint
         }
     }
 
-    public function testMultidayEvent()
+    public function testMultidayEvent(): void
     {
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
         $userId = 2;
@@ -943,7 +943,7 @@ class UsereventTest extends AbstractEndpoint
             $userId,
             $from->getTimestamp(),
             $to->getTimestamp(),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $this->assertSame(1, count($events), 'Expected events returned');
 
@@ -952,14 +952,14 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame($events[0]['offering'], $offerings[5]['id']);
     }
 
-    public function testPrivilegedUsersGetsEventsForUnpublishedSessions()
+    public function testPrivilegedUsersGetsEventsForUnpublishedSessions(): void
     {
         $userId = 2;
         $events = $this->getEvents(
             $userId,
             0,
             100000000000,
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $this->createJwtFromUserId($this->kernelBrowser, $userId)
         );
         $event = $events[3];
         $this->assertFalse($event['isPublished']);
@@ -976,7 +976,7 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame('8', $lms[6]['sessionLearningMaterial']);
     }
 
-    public function testGetEventsBySessionForCourseDirector()
+    public function testGetEventsBySessionForCourseDirector(): void
     {
         $userId = 2;
         $sessionId = 3;
@@ -984,7 +984,7 @@ class UsereventTest extends AbstractEndpoint
         $events = $this->getEventsForSessionId(
             $userId,
             $sessionId,
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $this->createJwtFromUserId($this->kernelBrowser, $userId)
         );
 
         $this->assertSame(3, count($events), 'Expected events returned');
@@ -1000,7 +1000,7 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame($sessionId, $events[2]['session']);
     }
 
-    public function testGetEventsBySessionForLearner()
+    public function testGetEventsBySessionForLearner(): void
     {
         $userId = 5;
         $sessionId = 1;
@@ -1008,7 +1008,7 @@ class UsereventTest extends AbstractEndpoint
         $events = $this->getEventsForSessionId(
             $userId,
             $sessionId,
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $this->createJwtFromUserId($this->kernelBrowser, $userId)
         );
 
         $this->assertSame(2, count($events), 'Expected events returned');
@@ -1022,14 +1022,14 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame($sessionId, $events[1]['session']);
     }
 
-    public function testAttachedInstructorsUseDisplayNameAndPronouns()
+    public function testAttachedInstructorsUseDisplayNameAndPronouns(): void
     {
         $userId = 2;
         $events = $this->getEvents(
             $userId,
             0,
             100000000000,
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $this->createJwtFromUserId($this->kernelBrowser, $userId)
         );
         $users = self::getContainer()->get(UserData::class)->getAll();
 
@@ -1040,7 +1040,7 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame($users[3]['displayName'], $events[0]['instructors'][1]);
     }
 
-    public function testMissingFrom()
+    public function testMissingFrom(): void
     {
         $userId = 5;
         $parameters = [
@@ -1057,7 +1057,7 @@ class UsereventTest extends AbstractEndpoint
             'GET',
             $url,
             null,
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $this->createJwtFromUserId($this->kernelBrowser, $userId)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -1065,7 +1065,7 @@ class UsereventTest extends AbstractEndpoint
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    public function testMissingTo()
+    public function testMissingTo(): void
     {
         $userId = 5;
         $parameters = [
@@ -1082,7 +1082,7 @@ class UsereventTest extends AbstractEndpoint
             'GET',
             $url,
             null,
-            $this->getTokenForUser($this->kernelBrowser, $userId)
+            $this->createJwtFromUserId($this->kernelBrowser, $userId)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -1090,36 +1090,21 @@ class UsereventTest extends AbstractEndpoint
         $this->assertJsonResponse($response, Response::HTTP_BAD_REQUEST);
     }
 
-    public function testAccessDenied()
+    public function testAccessDenied(): void
     {
-        $parameters = [
-            'version' => $this->apiVersion,
-            'from' => 1000000,
-            'to' => 1000000,
-            'id' => 99,
-        ];
-        $url = $this->getUrl(
-            $this->kernelBrowser,
-            'app_api_userevent_getevents',
-            $parameters
-        );
-        $this->createJsonRequest(
-            'GET',
-            $url,
-        );
-
-        $response = $this->kernelBrowser->getResponse();
-
-        $this->assertJsonResponse($response, Response::HTTP_UNAUTHORIZED);
+        $this->runAccessDeniedTest();
     }
 
-    /**
-     * @param int $userId
-     * @param int $from
-     * @param int $to
-     * @param string|null $userToken
-     */
-    protected function getEvents($userId, $from, $to, $userToken): array
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $this->runAccessDeniedTest($jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    protected function getEvents(int $userId, int $from, int $to, ?string $jwt = null): array
     {
         $parameters = [
             'version' => $this->apiVersion,
@@ -1136,13 +1121,13 @@ class UsereventTest extends AbstractEndpoint
             'GET',
             $url,
             null,
-            $userToken
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -1150,12 +1135,7 @@ class UsereventTest extends AbstractEndpoint
         return json_decode($response->getContent(), true)['userEvents'];
     }
 
-    /**
-     * @param int $userId
-     * @param int $sessionId
-     * @param string|null $userToken
-     */
-    protected function getEventsForSessionId($userId, $sessionId, $userToken): array
+    protected function getEventsForSessionId(int $userId, int $sessionId, ?string $jwt = null): array
     {
         $parameters = [
             'version' => $this->apiVersion,
@@ -1171,17 +1151,44 @@ class UsereventTest extends AbstractEndpoint
             'GET',
             $url,
             null,
-            $userToken
+            $jwt
         );
 
         $response = $this->kernelBrowser->getResponse();
 
         if (Response::HTTP_NOT_FOUND === $response->getStatusCode()) {
-            $this->fail("Unable to load url: {$url}");
+            $this->fail("Unable to load url: $url");
         }
 
         $this->assertJsonResponse($response, Response::HTTP_OK);
 
         return json_decode($response->getContent(), true)['userEvents'];
+    }
+
+    protected function runAccessDeniedTest(
+        ?string $jwt = null,
+        int $expectedResponseCode = Response::HTTP_UNAUTHORIZED
+    ): void {
+        $parameters = [
+            'version' => $this->apiVersion,
+            'from' => 1000000,
+            'to' => 1000000,
+            'id' => 99,
+        ];
+        $url = $this->getUrl(
+            $this->kernelBrowser,
+            'app_api_userevent_getevents',
+            $parameters
+        );
+        $this->createJsonRequest(
+            'GET',
+            $url,
+            null,
+            $jwt
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, $expectedResponseCode);
     }
 }

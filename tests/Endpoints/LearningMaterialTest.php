@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Entity\LearningMaterialStatusInterface;
+use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialData;
@@ -15,7 +16,6 @@ use App\Tests\QEndpointTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\LearningMaterialData;
 
 /**
  * LearningMaterial API endpoint Test.
@@ -24,6 +24,11 @@ use App\Tests\DataLoader\LearningMaterialData;
 class LearningMaterialTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
+
+    protected bool $enableDeleteTestsWithServiceToken = false;
+    protected bool $enablePatchTestsWithServiceToken = false;
+    protected bool $enablePostTestsWithServiceToken = false;
+    protected bool $enablePutTestsWithServiceToken = false;
 
     private const UNBLANKED_ATTRIBUTES = [
         'id',
@@ -63,12 +68,12 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
             'userRole' => ['userRole', 2],
             'status' => ['status', LearningMaterialStatusInterface::IN_DRAFT],
             'owningUser' => ['owningUser', 2],
-            'sessionLearningMaterials' => ['sessionLearningMaterials', [2], $skipped = true],
-            'courseLearningMaterials' => ['courseLearningMaterials', [1], $skipped = true],
+            // 'sessionLearningMaterials' => ['sessionLearningMaterials', [2]], // skipped
+            // 'courseLearningMaterials' => ['courseLearningMaterials', [1]], // skipped
             'citation' => ['citation', 'dev/null'],
             'copyrightPermission' => ['copyrightPermission', false],
             'copyrightRationale' => ['copyrightRationale', 'fair use'],
-            'link' => ['link', 'http://lorem.ipsum', $skipped = true],
+            // 'link' => ['link', 'http://lorem.ipsum'], // skipped
         ];
     }
 
@@ -112,7 +117,7 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
             'filename' => [[2], ['filename' => 'testfile.txt']],
             'mimetype' => [[2], ['mimetype' => 'text/plain']],
             'filesize' => [[2, 3, 4, 5, 6, 7, 8, 9], ['filesize' => 1000]],
-            'link' => [[1], ['link' => 'http://example.com/example-file.txt']],
+            'link' => [[1], ['link' => 'https://example.com/example-file.txt']],
             'courses' => [[0, 1, 2, 4, 5, 6, 7, 8, 9], ['courses' => [1]]],
             'sessions' => [[0], ['sessions' => [1]]],
             'instructors' => [[0, 2, 4, 5, 6, 7, 8, 9], ['instructors' => [1, 2]]],
@@ -154,36 +159,10 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    protected function compareData(array $expected, array $result)
+    protected function compareData(array $expected, array $result): void
     {
         unset($result['absoluteFileUri']);
-        return parent::compareData($expected, $result);
-    }
-
-    public function testGetAll()
-    {
-        $responses = $this->getAllTest();
-        foreach ($responses as $response) {
-            $uri = $response['absoluteFileUri'] ?? null;
-            if ($uri) {
-                $this->kernelBrowser->request(
-                    'GET',
-                    $uri
-                );
-
-                $response = $this->kernelBrowser->getResponse();
-
-                $this->assertEquals(
-                    Response::HTTP_OK,
-                    $response->getStatusCode(),
-                    'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
-                );
-                $this->assertEquals(
-                    file_get_contents(LoadLearningMaterialData::TEST_FILE_PATH),
-                    $response->getContent()
-                );
-            }
-        }
+        parent::compareData($expected, $result);
     }
 
     /**
@@ -191,12 +170,13 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
      */
     public function testFindByQWithLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['title'], 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'lm', 'limit' => 2];
-        $this->filterTest($filters, [$all[0], $all[1]]);
+        $this->filterTest($filters, [$all[0], $all[1]], $jwt);
     }
 
     /**
@@ -204,10 +184,11 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
      */
     public function testFindByQWithOffset(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['title'], 'offset' => 0];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
     }
 
     /**
@@ -215,38 +196,41 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
      */
     public function testFindByQWithOffsetAndLimit(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['title'], 'offset' => 0, 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'lm', 'offset' => 3, 'limit' => 1];
-        $this->filterTest($filters, [$all[3]]);
+        $this->filterTest($filters, [$all[3]], $jwt);
     }
 
     public function testFindByQWithOffsetAndLimitJsonApi(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $filters = ['q' => $all[0]['title'], 'offset' => 0, 'limit' => 1];
-        $this->filterTest($filters, [$all[0]]);
+        $this->filterTest($filters, [$all[0]], $jwt);
         $filters = ['q' => 'lm', 'offset' => 3, 'limit' => 1];
-        $this->jsonApiFilterTest($filters, [$all[3]]);
+        $this->jsonApiFilterTest($filters, [$all[3]], $jwt);
     }
 
     /**
      * @covers \App\Controller\API\LearningMaterials::getAll
      */
-    public function testFindByQAsLearner()
+    public function testFindByQAsLearner(): void
     {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 5);
         $filters = ['q' => 'lm'];
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters, 5);
-        $this->assertEquals(count($filteredData), 10);
+        $filteredData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
+        $this->assertEquals(10, count($filteredData));
         foreach ($filteredData as $lm) {
-            $this->assertEquals(count($lm), 9);
+            $this->assertEquals(9, count($lm));
             foreach (self::UNBLANKED_ATTRIBUTES as $attr) {
-                $this->assertTrue(array_key_exists($attr, $lm));
+                $this->assertArrayHasKey($attr, $lm);
             }
         }
     }
@@ -254,40 +238,44 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
     /**
      * @covers \App\Controller\API\LearningMaterials::getAll
      */
-    public function testGetAllAsLearner()
+    public function testGetAllAsLearner(): void
     {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 5);
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $filteredData = $this->getFiltered($endpoint, $responseKey, [], 5);
-        $this->assertEquals(count($filteredData), 10);
+        $filteredData = $this->getFiltered($endpoint, $responseKey, [], $jwt);
+        $this->assertEquals(10, count($filteredData));
         foreach ($filteredData as $lm) {
-            $this->assertEquals(count($lm), 9);
+            $this->assertEquals(9, count($lm));
             foreach (self::UNBLANKED_ATTRIBUTES as $attr) {
-                $this->assertTrue(array_key_exists($attr, $lm));
+                $this->assertArrayHasKey($attr, $lm);
             }
         }
     }
 
-    public function testPostLearningMaterialCitation()
+    public function testPostLearningMaterialCitation(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var LearningMaterialData $dataLoader */
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createCitation();
         $postData = $data;
-        $this->postTest($data, $postData);
+        $this->postTest($data, $postData, $jwt);
     }
 
-    public function testPostLearningMaterialLink()
+    public function testPostLearningMaterialLink(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var LearningMaterialData $dataLoader */
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createLink();
         $postData = $data;
-        $this->postTest($data, $postData);
+        $this->postTest($data, $postData, $jwt);
     }
 
-    public function testPostLearningMaterialFile()
+    public function testPostLearningMaterialFile(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $fs = new Filesystem();
         $fakeTestFileDir = __DIR__ . '/FakeTestFiles';
         if (!$fs->exists($fakeTestFileDir)) {
@@ -305,7 +293,7 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
             'POST',
             '/upload',
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser),
+            $this->createJwtForRootUser($this->kernelBrowser),
             ['file' => $fakeTestFile]
         );
         $response = $this->kernelBrowser->getResponse();
@@ -322,7 +310,7 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $data['mimetype'] = 'text/x-php';
         $data['filesize'] = $filesize;
         unset($data['fileHash']);
-        $response = $this->postTest($data, $postData);
+        $response = $this->postTest($data, $postData, $jwt);
 
         $uri = $response['absoluteFileUri'] ?? null;
         $this->kernelBrowser->request(
@@ -339,24 +327,27 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->assertEquals(file_get_contents($fakeTestFileDir . '/TESTFILE.txt'), $response->getContent());
     }
 
-    public function testPostBadLearningMaterialCitation()
+    public function testPostBadLearningMaterialCitation(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var LearningMaterialData $dataLoader */
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createInvalidCitation();
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testPostBadLearningMaterialLink()
+    public function testPostBadLearningMaterialLink(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var LearningMaterialData $dataLoader */
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createInvalidLink();
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
-    public function testPostLearningMaterialFileWithoutFile()
+    public function testPostLearningMaterialFileWithoutFile(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         /** @var LearningMaterialData $dataLoader */
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->createFile();
@@ -365,14 +356,15 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
 
         $data['mimetype'] = 'text/x-php';
         $data['filesize'] = '33M';
-        $this->badPostTest($data);
+        $this->badPostTest($data, $jwt);
     }
 
     /**
-     * Ensure when LMs are sideloaded they have a correct URL path
+     * Ensure when LMs are side-loaded they have a correct URL path
      */
-    public function testSideLoadedFileUrl()
+    public function testSideLoadedFileUrl(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
         $data = $all[2];
@@ -382,7 +374,8 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $includes = $this->getJsonApiIncludeContent(
             'sessions',
             '3',
-            'learningMaterials.learningMaterial'
+            'learningMaterials.learningMaterial',
+            $jwt
         );
         $lms = array_filter($includes, fn(object $obj) => $obj->id === $id && $obj->type === 'learningMaterials');
         $lm = array_shift($lms);
@@ -404,5 +397,94 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
             file_get_contents(LoadLearningMaterialData::TEST_FILE_PATH),
             $response->getContent()
         );
+    }
+
+    public function testAccessDeniedWithServiceToken(): void
+    {
+        $jwt = $this->createJwtFromServiceTokenWithWriteAccessInAllSchools(
+            $this->kernelBrowser,
+            $this->fixtures
+        );
+        $data = $this->getDataLoader()->getOne();
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'DELETE',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_learningmaterials_delete',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_learningmaterials_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_learningmaterials_post',
+                ['version' => $this->apiVersion],
+            ),
+            json_encode([])
+        );
+        $this->canNot(
+            $this->kernelBrowser,
+            $jwt,
+            'PUT',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_learningmaterials_put',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
+        $this->canNotJsonApi(
+            $this->kernelBrowser,
+            $jwt,
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                'app_api_learningmaterials_patch',
+                ['version' => $this->apiVersion, 'id' => $data['id']],
+            ),
+            json_encode([])
+        );
+    }
+
+    protected function runGetAllTest(string $jwt): void
+    {
+        $responses = $this->getAllTest($jwt);
+        foreach ($responses as $response) {
+            $uri = $response['absoluteFileUri'] ?? null;
+            if ($uri) {
+                $this->kernelBrowser->request(
+                    'GET',
+                    $uri
+                );
+
+                $response = $this->kernelBrowser->getResponse();
+
+                $this->assertEquals(
+                    Response::HTTP_OK,
+                    $response->getStatusCode(),
+                    'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
+                );
+                $this->assertEquals(
+                    file_get_contents(LoadLearningMaterialData::TEST_FILE_PATH),
+                    $response->getContent()
+                );
+            }
+        }
     }
 }

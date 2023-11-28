@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\RelationshipVoter;
 
+use App\Classes\VoterPermissions;
 use App\Entity\LearningMaterialInterface;
 use App\Classes\SessionUserInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
@@ -13,19 +15,21 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class LearningMaterial extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof LearningMaterialInterface && in_array($attribute, [
-                self::VIEW, self::CREATE, self::EDIT, self::DELETE
-            ]);
+        parent::__construct(
+            $permissionChecker,
+            LearningMaterialInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    /**
-     * @param string $attribute
-     * @param LearningMaterialInterface $learningMaterial
-     * @param TokenInterface $token
-     */
-    protected function voteOnAttribute($attribute, $learningMaterial, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -36,8 +40,10 @@ class LearningMaterial extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => true,
-            self::CREATE, self::EDIT, self::DELETE => $user->performsNonLearnerFunction(),
+            VoterPermissions::VIEW => true,
+            VoterPermissions::CREATE,
+            VoterPermissions::EDIT,
+            VoterPermissions::DELETE => $user->performsNonLearnerFunction(),
             default => false,
         };
     }

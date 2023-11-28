@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\RelationshipVoter\IliosFileSystem as IFSVoter;
+use App\Classes\VoterPermissions;
 use App\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -24,7 +24,7 @@ class UploadController extends AbstractController
         IliosFileSystem $iliosFileSystem,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
-        if (! $authorizationChecker->isGranted(IFSVoter::CREATE_TEMPORARY_FILE, $iliosFileSystem)) {
+        if (! $authorizationChecker->isGranted(VoterPermissions::CREATE_TEMPORARY_FILE, $iliosFileSystem)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 

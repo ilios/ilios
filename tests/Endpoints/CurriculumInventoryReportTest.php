@@ -12,7 +12,6 @@ use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadProgramData;
-use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -47,13 +46,13 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
             'description' => ['description', 'lorem ipsum'],
             'nullDescription' => ['description', null],
             'year' => ['year', 2022],
-            'startDate' => ['startDate', '2012-03-01', $skipped = true],
-            'endDate' => ['endDate', '2012-04-01', $skipped = true],
-            'export' => ['export', 2, $skipped = true],
-            'sequence' => ['sequence', 1, $skipped = true],
-            'sequenceBlocks' => ['sequenceBlocks', [1], $skipped = true],
-            'program' => ['program', 'too much salt', $skipped = true],
-            'academicLevels' => ['academicLevels', [1], $skipped = true],
+            // 'startDate' => ['startDate', '2012-03-01'], // skipped
+            // 'endDate' => ['endDate', '2012-04-01'], // skipped
+            // 'export' => ['export', 2], // skipped
+            // 'sequence' => ['sequence', 1], // skipped
+            // 'sequenceBlocks' => ['sequenceBlocks', [1]], // skipped
+            // 'program' => ['program', 'too much salt'], // skipped
+            // 'academicLevels' => ['academicLevels', [1]], // skipped
             'administrators' => ['administrators', [1]],
             'removeAdministrators' => ['administrators', []],
 
@@ -80,13 +79,13 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
             'name' => [[1], ['name' => 'second report']],
             'description' => [[2], ['description' => 'third report']],
             'year' => [[1], ['year' => 2015]],
-            'startDate' => [[0], ['startDate' => 'test'], $skipped = true],
-            'endDate' => [[0], ['endDate' => 'test'], $skipped = true],
-            'export' => [[0], ['export' => 1], $skipped = true],
-            'sequence' => [[0], ['sequence' => 1], $skipped = true],
-            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]], $skipped = true],
+            // 'startDate' => [[0], ['startDate' => 'test']], // skipped
+            // 'endDate' => [[0], ['endDate' => 'test']], // skipped
+            // 'export' => [[0], ['export' => 1]], // skipped
+            // 'sequence' => [[0], ['sequence' => 1]], // skipped
+            'sequenceBlocks' => [[0], ['sequenceBlocks' => [1]]],
             'program' => [[0, 1, 2], ['program' => 1]],
-            'academicLevels' => [[0], ['academicLevels' => [1]], $skipped = true],
+            'academicLevels' => [[0], ['academicLevels' => [1]]],
         ];
     }
 
@@ -98,7 +97,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    protected function compareData(array $expected, array $result)
+    protected function compareData(array $expected, array $result): void
     {
         unset($result['absoluteFileUri']);
         parent::compareData($expected, $result);
@@ -110,13 +109,13 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         parent::compareGraphQLData($expected, $result);
     }
 
-    protected function getOneTest(): mixed
+    protected function getOneTest(string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
-        $returnedData = $this->getOne($endpoint, $responseKey, $data['id']);
+        $returnedData = $this->getOne($endpoint, $responseKey, $data['id'], $jwt);
         $this->assertNotEmpty($returnedData['absoluteFileUri']);
         $prunedData = $this->pruneData($data);
         $this->compareData($prunedData, $returnedData);
@@ -124,7 +123,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $returnedData;
     }
 
-    protected function getAllTest(): mixed
+    protected function getAllTest(string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -138,7 +137,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 ['version' => $this->apiVersion]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $jwt
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -154,14 +153,14 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $responses;
     }
 
-    protected function postTest(array $data, array $postData): mixed
+    protected function postTest(array $data, array $postData, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
         $postKey = $this->getCamelCasedSingularName();
-        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData);
+        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData, $jwt);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id']);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id'], $jwt);
 
         $this->assertNotEmpty($fetchedResponseData['absoluteFileUri']);
         $this->assertEquals(
@@ -187,17 +186,14 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $fetchedResponseData;
     }
 
-    /**
-     * Test saving new data to the JSON:API
-     */
-    protected function postJsonApiTest(object $postData, array $data): mixed
+    protected function postJsonApiTest(object $postData, array $data, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postOneJsonApi($postData);
+        $responseData = $this->postOneJsonApi($postData, $jwt);
 
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id, $jwt);
 
         $this->assertNotEmpty($fetchedResponseData['absoluteFileUri']);
         $this->assertEquals(
@@ -223,18 +219,18 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $fetchedResponseData;
     }
 
-    protected function postManyTest(array $data): mixed
+    protected function postManyTest(array $data, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postMany($endpoint, $responseKey, $data);
+        $responseData = $this->postMany($endpoint, $responseKey, $data, $jwt);
         $ids = array_map(fn(array $arr) => $arr['id'], $responseData);
         $filters = [
             'filters[id]' => $ids,
             'limit' => count($ids)
         ];
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
 
         usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
 
@@ -261,17 +257,17 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $fetchedResponseData;
     }
 
-    protected function postManyJsonApiTest(object $postData, array $data): mixed
+    protected function postManyJsonApiTest(object $postData, array $data, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postManyJsonApi($postData);
+        $responseData = $this->postManyJsonApi($postData, $jwt);
         $ids = array_column($responseData, 'id');
         $filters = [
             'filters[id]' => $ids
         ];
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
 
         usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
 
@@ -298,14 +294,14 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $fetchedResponseData;
     }
 
-    protected function putTest(array $data, array $postData, $id, $new = false): mixed
+    protected function putTest(array $data, array $postData, mixed $id, string $jwt, $new = false): array
     {
         $endpoint = $this->getPluralName();
         $putResponseKey = $this->getCamelCasedSingularName();
         $getResponseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->putOne($endpoint, $putResponseKey, $id, $postData, $new);
+        $responseData = $this->putOne($endpoint, $putResponseKey, $id, $postData, $jwt, $new);
         //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $getResponseKey, $responseData['id']);
+        $fetchedResponseData = $this->getOne($endpoint, $getResponseKey, $responseData['id'], $jwt);
 
         $this->assertNotEmpty($fetchedResponseData['absoluteFileUri']);
 
@@ -315,12 +311,10 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $fetchedResponseData;
     }
 
-
-
-    public function testPutForAllData()
+    public function testPutForAllData(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $putsToTest = $this->putsToTest();
-
         $firstPut = array_shift($putsToTest);
         $changeKey = $firstPut[0];
         $changeValue = $firstPut[1];
@@ -330,14 +324,14 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         foreach ($nonExportedReports as $data) {
             $data[$changeKey] = $changeValue;
 
-            $this->putTest($data, $data, $data['id']);
+            $this->putTest($data, $data, $data['id'], $jwt);
         }
     }
 
-    public function testPatchForAllDataJsonApi()
+    public function testPatchForAllDataJsonApi(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $putsToTest = $this->putsToTest();
-
         $firstPut = array_shift($putsToTest);
         $changeKey = $firstPut[0];
         $changeValue = $firstPut[1];
@@ -347,12 +341,13 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         foreach ($nonExportedReports as $data) {
             $data[$changeKey] = $changeValue;
             $jsonApiData = $dataLoader->createJsonApi($data);
-            $this->patchJsonApiTest($data, $jsonApiData);
+            $this->patchJsonApiTest($data, $jsonApiData, $jwt);
         }
     }
 
-    public function testRolloverCurriculumInventoryReport()
+    public function testRolloverCurriculumInventoryReport(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $report = $dataLoader->getOne();
 
@@ -367,7 +362,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
@@ -387,12 +382,14 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $newSequence = $this->getOne(
             'curriculuminventorysequences',
             'curriculumInventorySequences',
-            $newReport['sequence']
+            $newReport['sequence'],
+            $jwt
         );
         $sequence = $this->getOne(
             'curriculuminventorysequences',
             'curriculumInventorySequences',
-            $report['sequence']
+            $report['sequence'],
+            $jwt
         );
 
         $this->assertSame($sequence['description'], $newSequence['description']);
@@ -401,7 +398,8 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $levels = $this->getFiltered(
             'curriculuminventoryacademiclevels',
             'curriculumInventoryAcademicLevels',
-            ['filters[report]' => $report['id']]
+            ['filters[report]' => $report['id']],
+            $jwt
         );
         $levelsById = [];
         $levelsByLevel = [];
@@ -413,7 +411,8 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $newLevels = $this->getFiltered(
             'curriculuminventoryacademiclevels',
             'curriculumInventoryAcademicLevels',
-            ['filters[report]' => $newReport['id']]
+            ['filters[report]' => $newReport['id']],
+            $jwt
         );
         $newLevelsById = [];
         foreach ($newLevels as $level) {
@@ -430,7 +429,8 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $blocks = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[report]' => $report['id']]
+            ['filters[report]' => $report['id']],
+            $jwt
         );
         $blocksById = [];
         $blocksByTitle = [];
@@ -442,7 +442,8 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $newBlocks = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[report]' => $newReport['id']]
+            ['filters[report]' => $newReport['id']],
+            $jwt
         );
         $newBlocksById = [];
         foreach ($newBlocks as $block) {
@@ -469,7 +470,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 $levelsById[$block['endingAcademicLevel']]['level'],
                 $newLevelsById[$newBlock['endingAcademicLevel']]['level']
             );
-            $this->assertFalse(array_key_exists('course', $newBlock));
+            $this->assertArrayNotHasKey('course', $newBlock);
             $this->assertEmpty($newBlock['sessions']);
             $this->assertSame(count($block['children']), count($newBlock['children']));
             if (count($newBlock['children'])) {
@@ -484,12 +485,12 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 $oldParent = $blocksById[$block['parent']];
                 $this->assertSame($oldParent['title'], $newParent['title']);
             } else {
-                $this->assertFalse(array_key_exists('parent', $block));
+                $this->assertArrayNotHasKey('parent', $block);
             }
         }
     }
 
-    public function testRolloverCurriculumInventoryReportNotFound()
+    public function testRolloverCurriculumInventoryReportNotFound(): void
     {
         $this->createJsonRequest(
             'POST',
@@ -502,13 +503,13 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);
     }
 
-    public function testRolloverCurriculumInventoryReportWithOverrides()
+    public function testRolloverCurriculumInventoryReportWithOverrides(): void
     {
         $dataLoader = $this->getDataLoader();
         $report = $dataLoader->getOne();
@@ -522,7 +523,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 'version' => $this->apiVersion
             ]),
             json_encode(['programs' => [$postData]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $newProgramId = json_decode($this->kernelBrowser->getResponse()->getContent(), true)['programs'][0]['id'];
 
@@ -546,7 +547,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 $parameters
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
@@ -563,8 +564,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $this->assertNotSame($report['program'], $newReport['program']);
     }
 
-
-    public function testRolloverExportedCurriculumInventoryReport()
+    public function testRolloverExportedCurriculumInventoryReport(): void
     {
         $dataLoader = $this->getDataLoader();
         $reports = $dataLoader->getAll();
@@ -582,7 +582,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_CREATED);
@@ -594,7 +594,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $this->assertSame($report['description'], $newReport['description']);
     }
 
-    public function testGetVerificationPreview()
+    public function testGetVerificationPreview(): void
     {
         $dataLoader = $this->getDataLoader();
         $reports = $dataLoader->getAll();
@@ -611,7 +611,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_OK);
@@ -628,7 +628,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $this->assertArrayHasKey('all_resource_types', $data);
     }
 
-    public function testGetVerificationPreviewNotFound()
+    public function testGetVerificationPreviewNotFound(): void
     {
         $invalidReportId = 1000;
         $this->createJsonRequest(
@@ -642,7 +642,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
                 ]
             ),
             null,
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_NOT_FOUND);

@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\CurriculumInventoryInstitutionInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CurriculumInventoryInstitution extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof CurriculumInventoryInstitutionInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            CurriculumInventoryInstitutionInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,16 +36,16 @@ class CurriculumInventoryInstitution extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => true,
-            self::CREATE => $this->permissionChecker->canCreateCurriculumInventoryInstitution(
+            VoterPermissions::VIEW => true,
+            VoterPermissions::CREATE => $this->permissionChecker->canCreateCurriculumInventoryInstitution(
                 $user,
                 $subject->getSchool()->getId()
             ),
-            self::EDIT => $this->permissionChecker->canUpdateCurriculumInventoryInstitution(
+            VoterPermissions::EDIT => $this->permissionChecker->canUpdateCurriculumInventoryInstitution(
                 $user,
                 $subject->getSchool()->getId()
             ),
-            self::DELETE => $this->permissionChecker->canDeleteCurriculumInventoryInstitution(
+            VoterPermissions::DELETE => $this->permissionChecker->canDeleteCurriculumInventoryInstitution(
                 $user,
                 $subject->getSchool()->getId()
             ),

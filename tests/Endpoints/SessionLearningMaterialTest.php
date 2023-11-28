@@ -10,7 +10,6 @@ use App\Tests\Fixture\LoadMeshDescriptorData;
 use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
-use App\Tests\Fixture\LoadUserData;
 use Symfony\Component\HttpFoundation\Response;
 
 use function date_format;
@@ -42,7 +41,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
     {
         return [
             'notes' => ['notes', 'something else'],
-            'emptyNotees' => ['notes', ''],
+            'emptyNotes' => ['notes', ''],
             'nullNotes' => ['notes', null],
             'required' => ['required', false],
             'publicNotes' => ['publicNotes', true],
@@ -93,7 +92,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testCanViewOneAsLearnerInSessionWhenAvailable()
+    public function testCanViewOneAsLearnerInSessionWhenAvailable(): void
     {
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -104,7 +103,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
             'GET',
             $url,
             null,
-            $this->getTokenForUser($this->kernelBrowser, 5)
+            $this->createJwtFromUserId($this->kernelBrowser, 5)
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -119,7 +118,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
         $this->assertArrayNotHasKey('notes', $data);
     }
 
-    public function testCanViewAllAsLearnerInSessionWhenAvailable()
+    public function testCanViewAllAsLearnerInSessionWhenAvailable(): void
     {
         $this->createJsonRequest(
             'GET',
@@ -129,7 +128,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
                 ['version' => $this->apiVersion]
             ),
             null,
-            $this->getTokenForUser($this->kernelBrowser, 5)
+            $this->createJwtFromUserId($this->kernelBrowser, 5)
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -149,50 +148,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
         $this->assertEquals('seventh slm', $responses[4]['notes']);
     }
 
-    /**
-     * TOTAL GROSSNESS!
-     * get the expected fixture from the repo, then correct
-     * the expected start- and end-dates by overriding them.
-     * @todo load fixtures upstream without regenerating them [ST/JJ 2021/09/18].
-     */
-    protected function fixDatesInExpectedData(array $expected): array
-    {
-        $ref = 'sessionLearningMaterials' . $expected['id'];
-        if ($this->fixtures->hasReference($ref, SessionLearningMaterial::class)) {
-            $fixture = $this->fixtures->getReference($ref, SessionLearningMaterial::class);
-            $startDate = $fixture->getStartDate();
-            $endDate = $fixture->getEndDate();
-            $expected['startDate'] = is_null($startDate) ? null : date_format($startDate, 'c');
-            $expected['endDate'] = is_null($endDate) ? null : date_format($endDate, 'c');
-        }
-
-        return $expected;
-    }
-
-    protected function compareData(array $expected, array $result)
-    {
-        $expected = $this->fixDatesInExpectedData($expected);
-        if (array_key_exists('startDate', $expected) && is_null($expected['startDate'])) {
-            $this->assertFalse(array_key_exists('startDate', $result));
-            unset($expected['startDate']);
-        }
-
-        if (array_key_exists('endDate', $expected) && is_null($expected['endDate'])) {
-            $this->assertFalse(array_key_exists('endDate', $result));
-            unset($expected['endDate']);
-        }
-
-        parent::compareData($expected, $result);
-    }
-
-    protected function compareGraphQLData(array $expected, object $result): void
-    {
-        $expected = $this->fixDatesInExpectedData($expected);
-
-        parent::compareGraphQLData($expected, $result);
-    }
-
-    public function testGraphQLIncludedData()
+    public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -203,7 +159,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
                     "query { sessionLearningMaterials(id: {$data['id']}) " .
                     "{ id, session { id, title, course { id } }, learningMaterial { id } }}"
             ]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
 
@@ -233,5 +189,48 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
         $this->assertTrue(property_exists($slm->session, 'course'));
         $this->assertTrue(property_exists($slm->session->course, 'id'));
         $this->assertEquals('1', $slm->session->course->id);
+    }
+
+    /**
+     * TOTAL GROSSNESS!
+     * get the expected fixture from the repo, then correct
+     * the expected start- and end-dates by overriding them.
+     * @todo load fixtures upstream without regenerating them [ST/JJ 2021/09/18].
+     */
+    protected function fixDatesInExpectedData(array $expected): array
+    {
+        $ref = 'sessionLearningMaterials' . $expected['id'];
+        if ($this->fixtures->hasReference($ref, SessionLearningMaterial::class)) {
+            $fixture = $this->fixtures->getReference($ref, SessionLearningMaterial::class);
+            $startDate = $fixture->getStartDate();
+            $endDate = $fixture->getEndDate();
+            $expected['startDate'] = is_null($startDate) ? null : date_format($startDate, 'c');
+            $expected['endDate'] = is_null($endDate) ? null : date_format($endDate, 'c');
+        }
+
+        return $expected;
+    }
+
+    protected function compareData(array $expected, array $result): void
+    {
+        $expected = $this->fixDatesInExpectedData($expected);
+        if (array_key_exists('startDate', $expected) && is_null($expected['startDate'])) {
+            $this->assertArrayNotHasKey('startDate', $result);
+            unset($expected['startDate']);
+        }
+
+        if (array_key_exists('endDate', $expected) && is_null($expected['endDate'])) {
+            $this->assertArrayNotHasKey('endDate', $result);
+            unset($expected['endDate']);
+        }
+
+        parent::compareData($expected, $result);
+    }
+
+    protected function compareGraphQLData(array $expected, object $result): void
+    {
+        $expected = $this->fixDatesInExpectedData($expected);
+
+        parent::compareGraphQLData($expected, $result);
     }
 }

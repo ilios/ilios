@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use App\RelationshipVoter\AbstractVoter;
+use App\Classes\VoterPermissions;
+use App\Entity\CourseInterface;
+use App\Entity\IlmSessionInterface;
+use App\Entity\SchoolInterface;
+use App\Entity\SessionInterface;
 use App\RelationshipVoter\IlmSession as Voter;
-use App\Service\PermissionChecker;
-use App\Entity\Course;
-use App\Entity\IlmSession;
-use App\Entity\Session;
-use App\Entity\School;
-use App\Service\Config;
+use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -20,128 +19,153 @@ class IlmSessionTest extends AbstractBase
     public function setUp(): void
     {
         parent::setUp();
-        $this->permissionChecker = m::mock(PermissionChecker::class);
+        $this->permissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
     }
 
     public function testAllowsRootFullAccess()
     {
-        $this->checkRootEntityAccess(m::mock(IlmSession::class));
+        $this->checkRootEntityAccess(m::mock(IlmSessionInterface::class));
     }
 
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(IlmSession::class);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $entity = m::mock(IlmSessionInterface::class);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(IlmSession::class);
-        $session = m::mock(Session::class);
+        $entity = m::mock(IlmSessionInterface::class);
+        $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
+        $course = m::mock(CourseInterface::class);
         $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
     public function testCanNotEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(IlmSession::class);
-        $session = m::mock(Session::class);
+        $entity = m::mock(IlmSessionInterface::class);
+        $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
+        $course = m::mock(CourseInterface::class);
         $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
     public function testCanDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(IlmSession::class);
-        $session = m::mock(Session::class);
+        $entity = m::mock(IlmSessionInterface::class);
+        $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
+        $course = m::mock(CourseInterface::class);
         $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
     public function testCanNotDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(IlmSession::class);
-        $session = m::mock(Session::class);
+        $entity = m::mock(IlmSessionInterface::class);
+        $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
+        $course = m::mock(CourseInterface::class);
         $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
     public function testCanCreate()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(IlmSession::class);
-        $session = m::mock(Session::class);
+        $entity = m::mock(IlmSessionInterface::class);
+        $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
+        $course = m::mock(CourseInterface::class);
         $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
     public function testCanNotCreate()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(IlmSession::class);
-        $session = m::mock(Session::class);
+        $entity = m::mock(IlmSessionInterface::class);
+        $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
-        $course = m::mock(Course::class);
+        $course = m::mock(CourseInterface::class);
         $course->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
         $entity->shouldReceive('getSession')->andReturn($session);
         $session->shouldReceive('getCourse')->andReturn($course);
         $course->shouldReceive('getSchool')->andReturn($school);
         $this->permissionChecker->shouldReceive('canUpdateSession')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::CREATE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::CREATE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
+    }
+
+    public function supportsTypeProvider(): array
+    {
+        return [
+            [IlmSessionInterface::class, true],
+            [self::class, false],
+        ];
+    }
+
+    public function supportsAttributesProvider(): array
+    {
+        return [
+            [VoterPermissions::VIEW, true],
+            [VoterPermissions::CREATE, true],
+            [VoterPermissions::DELETE, true],
+            [VoterPermissions::EDIT, true],
+            [VoterPermissions::LOCK, false],
+            [VoterPermissions::UNLOCK, false],
+            [VoterPermissions::ROLLOVER, false],
+            [VoterPermissions::CREATE_TEMPORARY_FILE, false],
+            [VoterPermissions::VIEW_DRAFT_CONTENTS, false],
+            [VoterPermissions::VIEW_VIRTUAL_LINK, false],
+            [VoterPermissions::ARCHIVE, false],
+        ];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\EnableableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\AlertableEntity;
 use App\Traits\CohortsEntity;
@@ -27,6 +28,7 @@ use App\Repository\UserRepository;
 #[IA\Entity]
 class User implements UserInterface
 {
+    use EnableableEntity;
     use IdentifiableEntity;
     use StringableIdEntity;
     use OfferingsEntity;
@@ -466,16 +468,6 @@ class User implements UserInterface
         return $this->addedViaIlios;
     }
 
-    public function setEnabled(bool $enabled)
-    {
-        $this->enabled = $enabled;
-    }
-
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
-    }
-
     public function setCampusId(?string $campusId)
     {
         $this->campusId = $campusId;
@@ -798,7 +790,7 @@ class User implements UserInterface
         return $this->learnerIlmSessions;
     }
 
-    public function addAlert(AlertInterface $alert)
+    public function addAlert(AlertInterface $alert): void
     {
         if (!$this->alerts->contains($alert)) {
             $this->alerts->add($alert);
@@ -806,7 +798,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeAlert(AlertInterface $alert)
+    public function removeAlert(AlertInterface $alert): void
     {
         $this->alerts->removeElement($alert);
         $alert->removeInstigator($this);

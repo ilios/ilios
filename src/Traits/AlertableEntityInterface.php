@@ -13,11 +13,11 @@ use App\Entity\AlertInterface;
  */
 interface AlertableEntityInterface
 {
-    public function setAlerts(Collection $alerts);
+    public function setAlerts(Collection $alerts): void;
 
-    public function addAlert(AlertInterface $alert);
+    public function addAlert(AlertInterface $alert): void;
 
-    public function removeAlert(AlertInterface $alert);
+    public function removeAlert(AlertInterface $alert): void;
 
     public function getAlerts(): Collection;
 }

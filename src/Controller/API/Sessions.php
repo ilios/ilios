@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\SessionDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionRepository;
@@ -157,7 +158,7 @@ class Sessions extends AbstractApiController
 
             $filteredResults = array_filter(
                 $dtos,
-                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+                fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
             );
 
             //Re-index numerically index the array

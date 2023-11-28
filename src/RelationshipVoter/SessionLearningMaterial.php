@@ -5,19 +5,29 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\SessionLearningMaterialInterface;
+use App\Service\SessionUserPermissionChecker;
 use DateTime;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class SessionLearningMaterial extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof SessionLearningMaterialInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            SessionLearningMaterialInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -27,10 +37,12 @@ class SessionLearningMaterial extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW =>
+            VoterPermissions::VIEW =>
                 $user->performsNonLearnerFunction() ||
                 ($this->canLearnerSeeMaterial($subject) && $user->isLearnerInSession($subject->getSession()->getId())),
-            self::EDIT, self::CREATE, self::DELETE => $this->permissionChecker->canUpdateSession(
+            VoterPermissions::EDIT,
+            VoterPermissions::CREATE,
+            VoterPermissions::DELETE => $this->permissionChecker->canUpdateSession(
                 $user,
                 $subject->getSession()
             ),

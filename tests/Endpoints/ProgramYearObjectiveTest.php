@@ -83,11 +83,11 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    protected function createMany(int $count): array
+    protected function createMany(int $count, string $jwt): array
     {
         $programYearDataLoader = self::getContainer()->get(ProgramYearData::class);
         $programYears = $programYearDataLoader->createMany($count);
-        $savedProgramYears = $this->postMany('programyears', 'programYears', $programYears);
+        $savedProgramYears = $this->postMany('programyears', 'programYears', $programYears, $jwt);
 
         $dataLoader = $this->getDataLoader();
 
@@ -103,20 +103,20 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         return $data;
     }
 
-    public function testPostMany()
+    protected function runPostManyTest(string $jwt): void
     {
-        $data = $this->createMany(10);
-        $this->postManyTest($data);
+        $data = $this->createMany(10, $jwt);
+        $this->postManyTest($data, $jwt);
     }
 
-    public function testPostManyJsonApi()
+    protected function runPostManyJsonApiTest(string $jwt): void
     {
-        $data = $this->createMany(10);
+        $data = $this->createMany(10, $jwt);
         $jsonApiData = $this->getDataLoader()->createBulkJsonApi($data);
-        $this->postManyJsonApiTest($jsonApiData, $data);
+        $this->postManyJsonApiTest($jsonApiData, $data, $jwt);
     }
 
-    public function testPutForAllData()
+    protected function runPutForAllDataTest(string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
         $all = $dataLoader->getAll();
@@ -124,12 +124,12 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         $n = count($all);
         $termsDataLoader = self::getContainer()->get(TermData::class);
         $terms = $termsDataLoader->createMany($n);
-        $savedTerms = $this->postMany('terms', 'terms', $terms);
+        $savedTerms = $this->postMany('terms', 'terms', $terms, $jwt);
 
         for ($i = 0; $i < $n; $i++) {
             $data = $all[$i];
             $data['terms'][] = $savedTerms[$i]['id'];
-            $this->putTest($data, $data, $data['id']);
+            $this->putTest($data, $data, $data['id'], $jwt);
         }
     }
 
@@ -139,7 +139,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
      */
-    public function testInputSanitation($input, $output)
+    public function testInputSanitation(string $input, string $output): void
     {
         $postData = self::getContainer()->get(ProgramYearObjectiveData::class)
             ->create();
@@ -152,7 +152,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
                 'version' => $this->apiVersion
             ]),
             json_encode(['programYearObjectives' => [$postData]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -183,7 +183,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
     /**
      * Assert that a POST request fails if form validation fails due to input sanitation.
      */
-    public function testInputSanitationFailure()
+    public function testInputSanitationFailure(): void
     {
         $postData = self::getContainer()->get(ProgramYearObjectiveData::class)
             ->create();
@@ -198,7 +198,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
                 'version' => $this->apiVersion
             ]),
             json_encode(['programYearObjectives' => [$postData]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();

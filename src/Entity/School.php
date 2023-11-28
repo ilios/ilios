@@ -208,7 +208,7 @@ class School implements SchoolInterface
         return $this->curriculumInventoryInstitution;
     }
 
-    public function addAlert(AlertInterface $alert)
+    public function addAlert(AlertInterface $alert): void
     {
         if (!$this->alerts->contains($alert)) {
             $this->alerts->add($alert);
@@ -216,7 +216,7 @@ class School implements SchoolInterface
         }
     }
 
-    public function removeAlert(AlertInterface $alert)
+    public function removeAlert(AlertInterface $alert): void
     {
         if ($this->alerts->contains($alert)) {
             $this->alerts->removeElement($alert);

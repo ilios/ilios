@@ -43,8 +43,8 @@ class ProgramTest extends AbstractReadWriteEndpoint
             'shortTitle' => ['shortTitle', 'histcon'],
             'duration' => ['duration', 12],
             'school' => ['school', 3],
-            'programYears' => ['programYears', [1], $skipped = true],
-            'curriculumInventoryReports' => ['curriculumInventoryReports', [1], $skipped = true],
+            // 'programYears' => ['programYears', [1]], // skipped
+            // 'curriculumInventoryReports' => ['curriculumInventoryReports', [1]], // skipped
             'directors' => ['directors', [1, 3]],
         ];
     }
@@ -72,9 +72,9 @@ class ProgramTest extends AbstractReadWriteEndpoint
             'duration' => [[1, 2], ['duration' => 4]],
             'school' => [[2], ['school' => 2]],
             'schools' => [[0, 1], ['schools' => 1]],
-            'programYears' => [[0], ['programYears' => [1]], $skipped = true],
-            'curriculumInventoryReports' => [[0], ['curriculumInventoryReports' => [1]], $skipped = true],
-            'directors' => [[0], ['directors' => [1]], $skipped = true],
+            // 'programYears' => [[0], ['programYears' => [1]]], // skipped
+            // 'curriculumInventoryReports' => [[0], ['curriculumInventoryReports' => [1]]], // skipped
+            // 'directors' => [[0], ['directors' => [1]]], // skipped
             'durationAndSchool' => [[1], ['school' => 1, 'duration' => 4]],
             'courses' => [[1], ['courses' => [4]]],
             'sessions' => [[0], ['sessions' => [3]]],
@@ -90,25 +90,15 @@ class ProgramTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    /**
-     * Delete Program 2 explicitly as Program 1 is linked
-     * to School 1.  Since sqlite doesn't cascade this doesn't work
-     * @inheritdoc
-     */
-    public function testDelete()
-    {
-        $this->deleteTest(2);
-    }
-
-    public function testRejectUnprivilegedPostProgram()
+    public function testRejectUnprivilegedPostProgram(): void
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -119,15 +109,15 @@ class ProgramTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedPutProgram()
+    public function testRejectUnprivilegedPutProgram(): void
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -138,15 +128,15 @@ class ProgramTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedPutNewProgram()
+    public function testRejectUnprivilegedPutNewProgram(): void
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -157,15 +147,15 @@ class ProgramTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedDeleteProgram()
+    public function testRejectUnprivilegedDeleteProgram(): void
     {
         $dataLoader = $this->getDataLoader();
         $program = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -174,7 +164,8 @@ class ProgramTest extends AbstractReadWriteEndpoint
             )
         );
     }
-    public function testGraphQLIncludedData()
+
+    public function testGraphQLIncludedData(): void
     {
         $loader = $this->getDataLoader();
         $data = $loader->getOne();
@@ -183,7 +174,7 @@ class ProgramTest extends AbstractReadWriteEndpoint
             json_encode([
                 'query' => "query { programs(id: {$data['id']}) { id, school { id } }}"
             ]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertGraphQLResponse($response);
@@ -197,5 +188,14 @@ class ProgramTest extends AbstractReadWriteEndpoint
         $this->assertTrue(property_exists($program, 'school'));
         $this->assertTrue(property_exists($program->school, 'id'));
         $this->assertEquals($data['school'], $program->school->id);
+    }
+
+    /**
+     * Delete Program 2 explicitly as Program 1 is linked
+     * to School 1.  Since sqlite doesn't cascade this doesn't work
+     */
+    protected function runDeleteTest(string $jwt): void
+    {
+        $this->deleteTest(2, $jwt);
     }
 }

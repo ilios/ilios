@@ -37,25 +37,63 @@ interface PutEndpointTestInterface
     /**
      * @param string $key
      * @param mixed $value
-     * @param bool $skipped
      *
      * @dataProvider putsToTest
      */
-    public function testPut($key, $value, $skipped = false);
+    public function testPut(string $key, mixed $value): void;
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @dataProvider putsToTest
+     */
+    public function testPutWithServiceToken(string $key, mixed $value): void;
 
     /**
      * Test PUTing each test data item to ensure
      * they all are saved as we would expect
      */
-    public function testPutForAllData();
+    public function testPutForAllData(): void;
 
     /**
-     * @param string|null $key
-     * @param mixed|null $id
-     * @param mixed|null $value
+     * Test PUTing each test data item to ensure
+     * they all are saved as we would expect, using a service token.
+     */
+    public function testPutForAllDataWithServiceToken(): void;
+
+    /**
+     * @param ?string $key
+     * @param mixed $id
+     * @param mixed $value
      * @param bool $skipped
      *
      * @dataProvider readOnlyPropertiesToTest
      */
-    public function testPutReadOnly($key = null, $id = null, $value = null, $skipped = false);
+    public function testPutReadOnly(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void;
+
+    /**
+     * @param ?string $key
+     * @param mixed $id
+     * @param mixed $value
+     * @param bool $skipped
+     *
+     * @dataProvider readOnlyPropertiesToTest
+     */
+    public function testPutReadOnlyWithServiceToken(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void;
+
+    /**
+     * Test to ensure that an anonymous PUT request is denied.
+     */
+    public function testPutAnonymousAccessDenied(): void;
 }

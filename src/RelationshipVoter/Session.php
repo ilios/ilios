@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
+use App\Classes\VoterPermissions;
 use App\Entity\SessionInterface;
+use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class Session extends AbstractVoter
 {
-    protected function supports($attribute, $subject): bool
+    public function __construct(SessionUserPermissionChecker $permissionChecker)
     {
-        return $subject instanceof SessionInterface
-            && in_array($attribute, [self::CREATE, self::VIEW, self::EDIT, self::DELETE]);
+        parent::__construct(
+            $permissionChecker,
+            SessionInterface::class,
+            [
+                VoterPermissions::CREATE,
+                VoterPermissions::VIEW,
+                VoterPermissions::EDIT,
+                VoterPermissions::DELETE,
+            ]
+        );
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
@@ -26,10 +36,10 @@ class Session extends AbstractVoter
             return true;
         }
         return match ($attribute) {
-            self::VIEW => $user->performsNonLearnerFunction(),
-            self::EDIT => $this->permissionChecker->canUpdateSession($user, $subject),
-            self::CREATE => $this->permissionChecker->canCreateSession($user, $subject->getCourse()),
-            self::DELETE => $this->permissionChecker->canDeleteSession($user, $subject),
+            VoterPermissions::VIEW => $user->performsNonLearnerFunction(),
+            VoterPermissions::EDIT => $this->permissionChecker->canUpdateSession($user, $subject),
+            VoterPermissions::CREATE => $this->permissionChecker->canCreateSession($user, $subject->getCourse()),
+            VoterPermissions::DELETE => $this->permissionChecker->canDeleteSession($user, $subject),
             default => false,
         };
     }

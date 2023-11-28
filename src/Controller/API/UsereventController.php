@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\API;
 
 use App\Classes\UserEvent;
+use App\Classes\VoterPermissions;
 use App\Entity\SessionInterface;
 use App\Entity\UserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
-use App\RelationshipVoter\AbstractCalendarEvent;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
+use App\Traits\ApiAccessValidation;
 use DateTime;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -27,6 +27,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[OA\Tag(name:'User events')]
 class UsereventController extends AbstractController
 {
+    use ApiAccessValidation;
+
+    public function __construct(protected TokenStorageInterface $tokenStorage)
+    {
+    }
+
     #[Route(
         '/api/{version<v3>}/userevents/{id}',
         requirements: [
@@ -84,8 +90,9 @@ class UsereventController extends AbstractController
         UserRepository $repository,
         SessionRepository $sessionRepository,
         SerializerInterface $serializer,
-        TokenStorageInterface $tokenStorage
     ): Response {
+        $this->validateCurrentUserAsSessionUser();
+
         /** @var UserInterface $user */
         $user = $repository->findOneBy(['id' => $id]);
 
@@ -93,7 +100,7 @@ class UsereventController extends AbstractController
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
 
-        if (!$authorizationChecker->isGranted(AbstractVoter::VIEW, $user)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::VIEW, $user)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -122,7 +129,7 @@ class UsereventController extends AbstractController
 
         $events = array_values(array_filter(
             $events,
-            fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
+            fn($event) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $event)
         ));
 
         $events = $repository->addPreAndPostRequisites($user->getId(), $events);
@@ -134,13 +141,13 @@ class UsereventController extends AbstractController
             $event->prerequisites = array_values(
                 array_filter(
                     $event->prerequisites,
-                    fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
+                    fn($event) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $event)
                 )
             );
             $event->postrequisites = array_values(
                 array_filter(
                     $event->postrequisites,
-                    fn($event) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $event)
+                    fn($event) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $event)
                 )
             );
         }
@@ -159,7 +166,7 @@ class UsereventController extends AbstractController
 
         $now = new DateTime();
         foreach ($allEvents as $event) {
-            if (! $authorizationChecker->isGranted(AbstractCalendarEvent::VIEW_DRAFT_CONTENTS, $event)) {
+            if (! $authorizationChecker->isGranted(VoterPermissions::VIEW_DRAFT_CONTENTS, $event)) {
                 $event->clearDataForUnprivilegedUsers($now);
             }
         }

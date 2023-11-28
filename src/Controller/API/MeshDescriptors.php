@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
+use App\Classes\VoterPermissions;
 use App\Entity\DTO\MeshDescriptorDTO;
 use App\RelationshipVoter\AbstractVoter;
 use App\Repository\MeshDescriptorRepository;
@@ -154,7 +155,7 @@ class MeshDescriptors extends AbstractApiController
 
             $filteredResults = array_filter(
                 $dtos,
-                fn($object) => $authorizationChecker->isGranted(AbstractVoter::VIEW, $object)
+                fn($object) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $object)
             );
 
             //Re-index numerically index the array

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
+use App\Entity\School;
+use App\Tests\DataLoader\ServiceTokenData;
+use App\Tests\DataLoader\UserData;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use App\Service\JsonWebTokenManager;
 
 use function json_decode;
@@ -18,13 +21,79 @@ use function substr;
 trait JsonControllerTest
 {
     /**
+     * Create a JSON:API request
+     */
+    public function makeJsonApiRequest(
+        KernelBrowser $client,
+        string $method,
+        string $url,
+        ?string $content,
+        ?string $jwt,
+        array $files = []
+    ): void {
+        $headers = [
+            'HTTP_ACCEPT' => 'application/vnd.api+json',
+        ];
+
+        if (! empty($jwt)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $jwt;
+        }
+
+        $client->request(
+            $method,
+            $url,
+            [],
+            $files,
+            $headers,
+            $content
+        );
+    }
+
+    /**
+     * Create a JSON request
+     *
+     * @param KernelBrowser $client
+     * @param string $method
+     * @param string $url
+     * @param ?string $content
+     * @param ?string $jwt
+     * @param array $files
+     */
+    public function makeJsonRequest(
+        KernelBrowser $client,
+        string $method,
+        string $url,
+        ?string $content = null,
+        ?string $jwt = null,
+        array $files = []
+    ): void {
+        $headers = [
+            'HTTP_ACCEPT' => 'application/json',
+            'CONTENT_TYPE' => 'application/json'
+        ];
+
+        if (! empty($jwt)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $jwt;
+        }
+
+        $client->request(
+            $method,
+            $url,
+            [],
+            $files,
+            $headers,
+            $content
+        );
+    }
+
+    /**
      * Check if the response is valid
      * tests the status code, headers, and the content
      * @param Response $response
      * @param int $statusCode
      * @param bool $checkValidJson
      */
-    protected function assertJsonResponse(Response $response, $statusCode, $checkValidJson = true)
+    protected function assertJsonResponse(Response $response, int $statusCode, bool $checkValidJson = true): void
     {
         $this->assertEquals(
             $statusCode,
@@ -45,10 +114,7 @@ trait JsonControllerTest
 
             $decode = json_decode($response->getContent());
 
-            $this->assertTrue(
-                ($decode != null && $decode != false),
-                'Invalid JSON: [' . $response->getContent() . ']'
-            );
+            $this->assertNotNull($decode, 'Invalid JSON: [' . $response->getContent() . ']');
         }
     }
 
@@ -59,7 +125,7 @@ trait JsonControllerTest
      * @param int $statusCode
      * @param bool $checkValidJson
      */
-    protected function assertJsonApiResponse(Response $response, $statusCode, $checkValidJson = true)
+    protected function assertJsonApiResponse(Response $response, int $statusCode, bool $checkValidJson = true): void
     {
         $this->assertEquals(
             $statusCode,
@@ -80,10 +146,7 @@ trait JsonControllerTest
 
             $decode = json_decode($response->getContent());
 
-            $this->assertTrue(
-                ($decode != null && $decode != false),
-                'Invalid JSON: [' . $response->getContent() . ']'
-            );
+            $this->assertNotNull($decode, 'Invalid JSON: [' . $response->getContent() . ']');
             $this->assertIsObject($decode);
             $this->assertTrue(property_exists($decode, 'data'));
             $this->assertTrue(property_exists($decode, 'included'));
@@ -127,100 +190,12 @@ trait JsonControllerTest
         );
     }
 
-
-    /**
-     * Logs the 'newuser' user in and returns the user's JSON Web Token (JWT).
-     * @param KernelBrowser $browser
-     */
-    protected function getAuthenticatedUserToken(KernelBrowser $browser): string
-    {
-        return $this->getTokenForUser($browser, 2);
-    }
-
-
-    /**
-     * Logs in a specific user and returns the token for them
-     */
-    protected function getTokenForUser(KernelBrowser $browser, int $userId): string
-    {
-        $container = $browser->getContainer();
-        /** @var JsonWebTokenManager $jwtManager */
-        $jwtManager = $container->get(JsonWebTokenManager::class);
-        return $jwtManager->createJwtFromUserId($userId);
-    }
-
-    /**
-     * Create a JSON request
-     *
-     * @param KernelBrowser $client
-     * @param string $method
-     * @param string $url
-     * @param string $content
-     * @param string $token
-     * @param array $files
-     */
-    public function makeJsonRequest(
-        KernelBrowser $client,
-        $method,
-        $url,
-        $content = null,
-        $token = null,
-        $files = []
-    ) {
-        $headers = [
-            'HTTP_ACCEPT' => 'application/json',
-            'CONTENT_TYPE' => 'application/json'
-        ];
-
-        if (! empty($token)) {
-            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
-        }
-
-        $client->request(
-            $method,
-            $url,
-            [],
-            $files,
-            $headers,
-            $content
-        );
-    }
-
-    /**
-     * Create a JSON:API request
-     */
-    public function makeJsonApiRequest(
-        KernelBrowser $client,
-        string $method,
-        string $url,
-        ?string $content,
-        ?string $token,
-        array $files = []
-    ) {
-        $headers = [
-            'HTTP_ACCEPT' => 'application/vnd.api+json',
-        ];
-
-        if (! empty($token)) {
-            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $token;
-        }
-
-        $client->request(
-            $method,
-            $url,
-            [],
-            $files,
-            $headers,
-            $content
-        );
-    }
-
     /**
      * Tests to ensure that a user cannot access a certain function
      */
     protected function canNot(
         KernelBrowser $browser,
-        int $userId,
+        string $jwt,
         string $method,
         string $url,
         string $data = null
@@ -230,14 +205,14 @@ trait JsonControllerTest
             $method,
             $url,
             $data,
-            $this->getTokenForUser($browser, $userId)
+            $jwt
         );
 
         $response = $browser->getResponse();
         $this->assertEquals(
             Response::HTTP_FORBIDDEN,
             $response->getStatusCode(),
-            "User #{$userId} should be prevented from {$method} at {$url}" .
+            "Access denied from $method at $url" .
             substr(var_export($response->getContent(), true), 0, 400)
         );
     }
@@ -247,7 +222,7 @@ trait JsonControllerTest
      */
     protected function canNotJsonApi(
         KernelBrowser $browser,
-        int $userId,
+        string $jwt,
         string $method,
         string $url,
         string $data = null
@@ -257,15 +232,86 @@ trait JsonControllerTest
             $method,
             $url,
             $data,
-            $this->getTokenForUser($browser, $userId)
+            $jwt,
         );
-
         $response = $browser->getResponse();
         $this->assertEquals(
             Response::HTTP_FORBIDDEN,
             $response->getStatusCode(),
-            "User #{$userId} should be prevented from {$method} at {$url}" .
+            "Access denied from $method at $url" .
             substr(var_export($response->getContent(), true), 0, 400)
         );
+    }
+
+
+    protected function createJwtForRootUser(KernelBrowser $browser): string
+    {
+        return $this->createJwtFromUserId($browser, UserData::ROOT_USER_ID);
+    }
+
+    /**
+     * Creates a user-based JWT for a given user id.
+     *
+     * @param KernelBrowser $browser
+     * @param int $userId the user ID
+     * @return string the generated JWT
+     */
+    protected function createJwtFromUserId(KernelBrowser $browser, int $userId): string
+    {
+        $container = $browser->getContainer();
+        /** @var JsonWebTokenManager $jwtManager */
+        $jwtManager = $container->get(JsonWebTokenManager::class);
+        return $jwtManager->createJwtFromUserId($userId);
+    }
+
+    /**
+     * Creates a service-token based JWT for an active, un-expired service token,
+     * optionally with write permissions to given schools.
+     *
+     * @param KernelBrowser $browser
+     * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
+     * @return string the generated JWT
+     */
+    protected function createJwtForEnabledServiceToken(KernelBrowser $browser, ?array $writeableSchoolIds = []): string
+    {
+        return $this->createJwtFromServiceTokenId(
+            $browser,
+            ServiceTokenData::ENABLED_SERVICE_TOKEN_ID,
+            $writeableSchoolIds
+        );
+    }
+
+    /**
+     * Creates a service-token based JWT for a given service token, optionally with write permissions to given schools.
+     *
+     * @param KernelBrowser $browser
+     * @param int $serviceTokenId the service token id
+     * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
+     * @return string the generated JWT
+     */
+    protected function createJwtFromServiceTokenId(
+        KernelBrowser $browser,
+        int $serviceTokenId,
+        ?array $writeableSchoolIds = [],
+    ): string {
+        $container = $browser->getContainer();
+        /** @var JsonWebTokenManager $jwtManager */
+        $jwtManager = $container->get(JsonWebTokenManager::class);
+        return $jwtManager->createJwtFromServiceTokenId($serviceTokenId, $writeableSchoolIds);
+    }
+
+    /**
+     * Utility method for creating a service-token-based JWT that's enabled and has write access to
+     * all schools defined in our test vectors.
+     *
+     * @return string the JWT
+     */
+    protected function createJwtFromServiceTokenWithWriteAccessInAllSchools(
+        KernelBrowser $kernelBrowser,
+        ReferenceRepository $fixtures
+    ): string {
+        $schools = $fixtures->getReferencesByClass()[School::class];
+        $schoolIds = array_values(array_map(fn(School $school) => $school->getId(), $schools));
+        return $this->createJwtForEnabledServiceToken($kernelBrowser, $schoolIds);
     }
 }

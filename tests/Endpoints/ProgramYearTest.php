@@ -52,7 +52,7 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
             'locked' => ['locked', true],
             'archived' => ['archived', true],
             'program' => ['program', 2],
-            'cohort' => ['cohort', 2, $skipped = true],
+            // 'cohort' => ['cohort', 2], // skipped
             'directors' => ['directors', [2]],
             'competencies' => ['competencies', [2]],
             'terms' => ['terms', [2]],
@@ -82,9 +82,9 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
             'archived' => [[2], ['archived' => true]],
             'notArchived' => [[0, 1, 3, 4], ['archived' => false]],
             'program' => [[3], ['program' => 3]],
-            'cohort' => [[1], ['cohort' => 2], $skipped = true],
-            'directors' => [[0], ['directors' => [1]], $skipped = true],
-            'competencies' => [[0], ['competencies' => [1]], $skipped = true],
+            // 'cohort' => [[1], ['cohort' => 2]], // skipped
+            // 'directors' => [[0], ['directors' => [1]]], // skipped
+            // 'competencies' => [[0], ['competencies' => [1]]], // skipped
             'terms' => [[1], ['terms' => [1]]],
             'courses' => [[2], ['courses' => [4]]],
             'sessions' => [[0], ['sessions' => [3]]],
@@ -103,143 +103,15 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    protected function postTest(array $data, array $postData): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $postKey = $this->getCamelCasedSingularName();
-        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData);
-
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id']);
-
-        $cohortId = $fetchedResponseData['cohort'];
-        $this->assertNotEmpty($cohortId);
-        unset($fetchedResponseData['cohort']);
-        $this->compareData($data, $fetchedResponseData);
-
-        $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
-        $program = $this->getOne('programs', 'programs', $fetchedResponseData['program']);
-
-        $this->assertEquals($cohort['programYear'], $fetchedResponseData['id']);
-        $this->assertEquals($cohort['title'], 'Class of ' . ($fetchedResponseData['startYear'] + $program['duration']));
-
-        return $fetchedResponseData;
-    }
-
-    /**
-     * Test saving new data to the JSON:API
-     */
-    protected function postJsonApiTest(object $postData, array $data): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postOneJsonApi($postData);
-
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id);
-
-        $cohortId = $fetchedResponseData['cohort'];
-        $this->assertNotEmpty($cohortId);
-        unset($fetchedResponseData['cohort']);
-        $this->compareData($data, $fetchedResponseData);
-
-        $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
-        $program = $this->getOne('programs', 'programs', $fetchedResponseData['program']);
-
-        $this->assertEquals($cohort['programYear'], $fetchedResponseData['id']);
-        $this->assertEquals($cohort['title'], 'Class of ' . ($fetchedResponseData['startYear'] + $program['duration']));
-
-        return $fetchedResponseData;
-    }
-
-
-    protected function postManyTest(array $data): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postMany($endpoint, $responseKey, $data);
-        $ids = array_map(
-            fn(array $arr) => $arr['id'],
-            $responseData
-        );
-        $filters = [
-            'filters[id]' => $ids,
-            'limit' => count($ids),
-        ];
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
-
-        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
-
-        $program = $this->getOne('programs', 'programs', $data[0]['program']);
-        foreach ($data as $i => $datum) {
-            $response = $fetchedResponseData[$i];
-
-            $cohortId = $response['cohort'];
-            $this->assertNotEmpty($cohortId);
-            unset($response['cohort']);
-            $this->compareData($datum, $response);
-
-            $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
-            $this->assertEquals($cohort['programYear'], $response['id']);
-            $this->assertEquals($cohort['title'], 'Class of ' . ($response['startYear'] + $program['duration']));
-        }
-
-        return $fetchedResponseData;
-    }
-
-    protected function postManyJsonApiTest(object $postData, array $data): mixed
-    {
-        $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
-        $responseData = $this->postManyJsonApi($postData);
-        $ids = array_column($responseData, 'id');
-        $filters = [
-            'filters[id]' => $ids,
-            'limit' => count($ids),
-        ];
-        //re-fetch the data to test persistence
-        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters);
-
-        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
-
-        $program = $this->getOne('programs', 'programs', $data[0]['program']);
-        foreach ($data as $i => $datum) {
-            $response = $fetchedResponseData[$i];
-
-            $cohortId = $response['cohort'];
-            $this->assertNotEmpty($cohortId);
-            unset($response['cohort']);
-            $this->compareData($datum, $response);
-
-            $cohort = $this->getOne('cohorts', 'cohorts', $cohortId);
-            $this->assertEquals($cohort['programYear'], $response['id']);
-            $this->assertEquals($cohort['title'], 'Class of ' . ($response['startYear'] + $program['duration']));
-        }
-
-        return $fetchedResponseData;
-    }
-
-    /**
-     * Delete ProgramYear 3 explicitly as ProgramYear 1 is linked
-     * to Program 1.  Since sqlite doesn't cascade this doesn't work
-     * @inheritdoc
-     */
-    public function testDelete()
-    {
-        $this->deleteTest(3);
-    }
-
-    public function testRejectUnprivilegedPost()
+    public function testRejectUnprivilegedPost(): void
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'POST',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -250,24 +122,25 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testPostWithNullCohort()
+    public function testPostWithNullCohort(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
         $postData = $dataLoader->create();
         $postData['cohort'] = null;
-        $this->postTest($data, $postData);
+        $this->postTest($data, $postData, $jwt);
     }
 
-    public function testRejectUnprivilegedPut()
+    public function testRejectUnprivilegedPut(): void
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'PUT',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -278,15 +151,15 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testRejectUnprivilegedDelete()
+    public function testRejectUnprivilegedDelete(): void
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
-        $userId = 3;
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
 
         $this->canNot(
             $this->kernelBrowser,
-            $userId,
+            $jwt,
             'DELETE',
             $this->getUrl(
                 $this->kernelBrowser,
@@ -296,26 +169,27 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         );
     }
 
-    public function testProgramYearCanBeUnlocked()
+    public function testProgramYearCanBeUnlocked(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         //lock programYear
         $data['locked'] = true;
-        $response = $this->putOne('programyears', 'programYear', $data['id'], $data);
+        $response = $this->putOne('programyears', 'programYear', $data['id'], $data, $jwt);
 
         $this->assertTrue($response['locked']);
 
         //unlock programYear
         $data['locked'] = false;
-        $response = $this->putOne('programyears', 'programYear', $data['id'], $data);
+        $response = $this->putOne('programyears', 'programYear', $data['id'], $data, $jwt);
         $this->assertFalse($response['locked']);
     }
 
     /**
      * @covers \App\Controller\API\ProgramYears::downloadCourseObjectivesReport
      */
-    public function testDownloadCourseObjectivesReport()
+    public function testDownloadCourseObjectivesReport(): void
     {
         $parameters = ['version' => $this->apiVersion, 'object' => $this->getPluralName(), 'id' => 1];
 
@@ -327,7 +201,7 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
                 $parameters
             ),
             null,
-            $this->getTokenForUser($this->kernelBrowser, 2)
+            $this->createJwtFromUserId($this->kernelBrowser, 2)
         );
 
         $response = $this->kernelBrowser->getResponse();
@@ -354,8 +228,126 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         ];
 
         $actual = array_map('str_getcsv', explode(PHP_EOL, trim($response->getContent())));
-        $this->assertEquals($response->getStatusCode(), Response::HTTP_OK);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertStringStartsWith('text/csv', $response->headers->get('Content-Type'));
         $this->assertEquals($expected, $actual);
+    }
+
+    protected function postTest(array $data, array $postData, $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $postKey = $this->getCamelCasedSingularName();
+        $responseData = $this->postOne($endpoint, $postKey, $responseKey, $postData, $jwt);
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData['id'], $jwt);
+
+        $cohortId = $fetchedResponseData['cohort'];
+        $this->assertNotEmpty($cohortId);
+        unset($fetchedResponseData['cohort']);
+        $this->compareData($data, $fetchedResponseData);
+
+        $cohort = $this->getOne('cohorts', 'cohorts', $cohortId, $jwt);
+        $program = $this->getOne('programs', 'programs', $fetchedResponseData['program'], $jwt);
+
+        $this->assertEquals($cohort['programYear'], $fetchedResponseData['id']);
+        $this->assertEquals($cohort['title'], 'Class of ' . ($fetchedResponseData['startYear'] + $program['duration']));
+
+        return $fetchedResponseData;
+    }
+
+    /**
+     * Test saving new data to the JSON:API
+     */
+    protected function postJsonApiTest(object $postData, array $data, string $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postOneJsonApi($postData, $jwt);
+
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getOne($endpoint, $responseKey, $responseData->id, $jwt);
+
+        $cohortId = $fetchedResponseData['cohort'];
+        $this->assertNotEmpty($cohortId);
+        unset($fetchedResponseData['cohort']);
+        $this->compareData($data, $fetchedResponseData);
+
+        $cohort = $this->getOne('cohorts', 'cohorts', $cohortId, $jwt);
+        $program = $this->getOne('programs', 'programs', $fetchedResponseData['program'], $jwt);
+
+        $this->assertEquals($cohort['programYear'], $fetchedResponseData['id']);
+        $this->assertEquals($cohort['title'], 'Class of ' . ($fetchedResponseData['startYear'] + $program['duration']));
+
+        return $fetchedResponseData;
+    }
+
+
+    protected function postManyTest(array $data, string $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postMany($endpoint, $responseKey, $data, $jwt);
+        $ids = array_map(
+            fn(array $arr) => $arr['id'],
+            $responseData
+        );
+        $filters = [
+            'filters[id]' => $ids,
+            'limit' => count($ids),
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
+
+        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
+
+        $program = $this->getOne('programs', 'programs', $data[0]['program'], $jwt);
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+
+            $cohortId = $response['cohort'];
+            $this->assertNotEmpty($cohortId);
+            unset($response['cohort']);
+            $this->compareData($datum, $response);
+
+            $cohort = $this->getOne('cohorts', 'cohorts', $cohortId, $jwt);
+            $this->assertEquals($cohort['programYear'], $response['id']);
+            $this->assertEquals($cohort['title'], 'Class of ' . ($response['startYear'] + $program['duration']));
+        }
+
+        return $fetchedResponseData;
+    }
+
+    protected function postManyJsonApiTest(object $postData, array $data, string $jwt): array
+    {
+        $endpoint = $this->getPluralName();
+        $responseKey = $this->getCamelCasedPluralName();
+        $responseData = $this->postManyJsonApi($postData, $jwt);
+        $ids = array_column($responseData, 'id');
+        $filters = [
+            'filters[id]' => $ids,
+            'limit' => count($ids),
+        ];
+        //re-fetch the data to test persistence
+        $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
+
+        usort($fetchedResponseData, fn($a, $b) => $a['id'] <=> $b['id']);
+
+        $program = $this->getOne('programs', 'programs', $data[0]['program'], $jwt);
+        foreach ($data as $i => $datum) {
+            $response = $fetchedResponseData[$i];
+
+            $cohortId = $response['cohort'];
+            $this->assertNotEmpty($cohortId);
+            unset($response['cohort']);
+            $this->compareData($datum, $response);
+
+            $cohort = $this->getOne('cohorts', 'cohorts', $cohortId, $jwt);
+            $this->assertEquals($cohort['programYear'], $response['id']);
+            $this->assertEquals($cohort['title'], 'Class of ' . ($response['startYear'] + $program['duration']));
+        }
+
+        return $fetchedResponseData;
     }
 }

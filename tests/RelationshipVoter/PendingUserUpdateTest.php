@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use App\RelationshipVoter\AbstractVoter;
+use App\Classes\VoterPermissions;
+use App\Entity\PendingUserUpdateInterface;
+use App\Entity\SchoolInterface;
+use App\Entity\UserInterface;
 use App\RelationshipVoter\PendingUserUpdate as Voter;
-use App\Service\PermissionChecker;
-use App\Entity\PendingUserUpdate;
-use App\Entity\School;
-use App\Entity\User;
-use App\Service\Config;
+use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -19,15 +18,15 @@ class PendingUserUpdateTest extends AbstractBase
     public function setUp(): void
     {
         parent::setUp();
-        $this->permissionChecker = m::mock(PermissionChecker::class);
+        $this->permissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
     }
 
     public function testAllowsRootFullAccess()
     {
         $this->checkRootEntityAccess(
-            m::mock(PendingUserUpdate::class),
-            [AbstractVoter::VIEW, AbstractVoter::DELETE, AbstractVoter::EDIT]
+            m::mock(PendingUserUpdateInterface::class),
+            [VoterPermissions::VIEW, VoterPermissions::DELETE, VoterPermissions::EDIT]
         );
     }
 
@@ -35,78 +34,103 @@ class PendingUserUpdateTest extends AbstractBase
     public function testCanView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(PendingUserUpdate::class);
+        $entity = m::mock(PendingUserUpdateInterface::class);
         $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
     public function testCanNotView()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(PendingUserUpdate::class);
+        $entity = m::mock(PendingUserUpdateInterface::class);
         $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::VIEW]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
     public function testCanEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(PendingUserUpdate::class);
+        $entity = m::mock(PendingUserUpdateInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $user = m::mock(User::class);
+        $user = m::mock(UserInterface::class);
         $user->shouldReceive('getSchool')->andReturn($school);
         $entity->shouldReceive('getUser')->andReturn($user);
         $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
     public function testCanNotEdit()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(PendingUserUpdate::class);
+        $entity = m::mock(PendingUserUpdateInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $user = m::mock(User::class);
+        $user = m::mock(UserInterface::class);
         $user->shouldReceive('getSchool')->andReturn($school);
         $entity->shouldReceive('getUser')->andReturn($user);
         $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::EDIT]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::EDIT]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
     public function testCanDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(PendingUserUpdate::class);
+        $entity = m::mock(PendingUserUpdateInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $user = m::mock(User::class);
+        $user = m::mock(UserInterface::class);
         $user->shouldReceive('getSchool')->andReturn($school);
         $entity->shouldReceive('getUser')->andReturn($user);
         $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(true);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
     public function testCanNotDelete()
     {
         $token = $this->createMockTokenWithNonRootSessionUser();
-        $entity = m::mock(PendingUserUpdate::class);
+        $entity = m::mock(PendingUserUpdateInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
-        $school = m::mock(School::class);
+        $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
-        $user = m::mock(User::class);
+        $user = m::mock(UserInterface::class);
         $user->shouldReceive('getSchool')->andReturn($school);
         $entity->shouldReceive('getUser')->andReturn($user);
         $this->permissionChecker->shouldReceive('canUpdateUser')->andReturn(false);
-        $response = $this->voter->vote($token, $entity, [AbstractVoter::DELETE]);
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::DELETE]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
+    }
+
+    public function supportsTypeProvider(): array
+    {
+        return [
+            [PendingUserUpdateInterface::class, true],
+            [self::class, false],
+        ];
+    }
+
+    public function supportsAttributesProvider(): array
+    {
+        return [
+            [VoterPermissions::VIEW, true],
+            [VoterPermissions::CREATE, false],
+            [VoterPermissions::DELETE, true],
+            [VoterPermissions::EDIT, true],
+            [VoterPermissions::LOCK, false],
+            [VoterPermissions::UNLOCK, false],
+            [VoterPermissions::ROLLOVER, false],
+            [VoterPermissions::CREATE_TEMPORARY_FILE, false],
+            [VoterPermissions::VIEW_DRAFT_CONTENTS, false],
+            [VoterPermissions::VIEW_VIRTUAL_LINK, false],
+            [VoterPermissions::ARCHIVE, false],
+        ];
     }
 }

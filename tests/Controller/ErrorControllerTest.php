@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Tests\Fixture\LoadAuthenticationData;
+use App\Tests\Fixture\LoadServiceTokenData;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\JsonControllerTest;
-use Faker\Factory as FakerFactory;
 
+/**
+ * @coversDefaultClass \App\Controller\ErrorController
+ * @group controller
+ */
 class ErrorControllerTest extends WebTestCase
 {
     use JsonControllerTest;
@@ -25,6 +29,7 @@ class ErrorControllerTest extends WebTestCase
         $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
         $databaseTool->loadFixtures([
             LoadAuthenticationData::class,
+            LoadServiceTokenData::class,
         ]);
     }
 
@@ -34,7 +39,7 @@ class ErrorControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
         $data = [
             'mainMessage' => 'dev/null',
@@ -45,14 +50,14 @@ class ErrorControllerTest extends WebTestCase
             'POST',
             '/errors',
             json_encode(['data' => json_encode($data)]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode(), $response->getContent());
     }
 
-    public function testAnonymousAccessDenied()
+    public function testAnonymousAccessDenied(): void
     {
         $data = [
             'mainMessage' => 'lorem ipsum',
@@ -67,5 +72,23 @@ class ErrorControllerTest extends WebTestCase
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
+    public function testServiceTokenForbidden(): void
+    {
+        $data = [
+            'mainMessage' => 'lorem ipsum',
+            'stack' => 'dev/null'
+        ];
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'POST',
+            '/errors',
+            json_encode(['data' => json_encode($data)]),
+            $this->createJwtForEnabledServiceToken($this->kernelBrowser),
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 }

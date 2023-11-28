@@ -39,14 +39,14 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'minimum' => ['minimum', 2],
             'maximum' => ['maximum', 4],
             'track' => ['track', false],
-            'startDate' => ['startDate', '2012-03-01', $skipped = true],
-            'endDate' => ['endDate', '2012-03-11', $skipped = true],
+            // 'startDate' => ['startDate', '2012-03-01'], // skipped
+            // 'endDate' => ['endDate', '2012-03-11'], // skipped
             'duration' => ['duration', 10],
             'startingAcademicLevel' => ['startingAcademicLevel', 2],
             'endingAcademicLevel' => ['endingAcademicLevel', 3],
             'course' => ['course', 5],
             'parent' => ['parent', 2],
-            'children' => ['children', [1], $skipped = true],
+            // 'children' => ['children', [1]], // skipped
             'report' => ['report', 2],
             'sessions' => ['sessions', [1, 2]],
             'excludedSessions' => ['excludedSessions', [1, 2]]
@@ -88,9 +88,9 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'startingAcademicLevel' => [[0], ['startingAcademicLevel' => 1]],
             'endingAcademicLevel' => [[0], ['endingAcademicLevel' => 2]],
             'parent' => [[1, 2, 3, 4], ['parent' => 1]],
-//            'children' => [[0], ['children' => [3]]],
+            'children' => [[0], ['children' => [3]]],
             'report' => [[0, 1, 2, 3, 4], ['report' => 1]],
-//            'sessions' => [[0], ['sessions' => [1]]],
+            'sessions' => [[0], ['sessions' => [1]]],
             'excludedSessions' => [[0], ['sessions' => [1]]],
         ];
     }
@@ -102,15 +102,17 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         return $filters;
     }
 
-    public function testDeleteBlockFromStartOfOrderedSequence()
+    public function testDeleteBlockFromStartOfOrderedSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
 
@@ -121,12 +123,13 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             $blockMap[$block['id']] = $block;
         }
 
-        $this->deleteOne('curriculuminventorysequenceblocks', $firstBlockInSequence['id']);
+        $this->deleteOne('curriculuminventorysequenceblocks', $firstBlockInSequence['id'], $jwt);
 
         $childrenAfterDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenAfterDeletion = $this->sortOrderedSequence($childrenAfterDeletion);
 
@@ -144,15 +147,17 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    public function testDeleteBlockFromEndOfOrderedSequence()
+    public function testDeleteBlockFromEndOfOrderedSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
 
@@ -163,12 +168,13 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             $blockMap[$block['id']] = $block;
         }
 
-        $this->deleteOne('curriculuminventorysequenceblocks', $lastBlockInSequence['id']);
+        $this->deleteOne('curriculuminventorysequenceblocks', $lastBlockInSequence['id'], $jwt);
 
         $childrenAfterDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenAfterDeletion = $this->sortOrderedSequence($childrenAfterDeletion);
 
@@ -186,15 +192,17 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    public function testDeleteBlockFromMiddleOfOrderedSequence()
+    public function testDeleteBlockFromMiddleOfOrderedSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeDeletion = $this->sortOrderedSequence($childrenBeforeDeletion);
         $blockInSequence = $childrenBeforeDeletion[2];
@@ -204,12 +212,13 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             $blockMap[$block['id']] = $block;
         }
 
-        $this->deleteOne('curriculuminventorysequenceblocks', $blockInSequence['id']);
+        $this->deleteOne('curriculuminventorysequenceblocks', $blockInSequence['id'], $jwt);
 
         $childrenAfterDeletion = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenAfterDeletion = $this->sortOrderedSequence($childrenAfterDeletion);
 
@@ -236,29 +245,32 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    public function testCreateTopLevelSequenceBlockSucceeds()
+    public function testCreateTopLevelSequenceBlockSucceeds(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
-
         $postData = $dataLoader->create();
         $postData['parent'] = null;
         $this->postOne(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlock',
             'curriculumInventorySequenceBlocks',
-            $postData
+            $postData,
+            $jwt
         );
     }
 
-    public function testAddBlockToStartOfOrderedSequence()
+    public function testAddBlockToStartOfOrderedSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
 
@@ -273,13 +285,15 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlock',
             'curriculumInventorySequenceBlocks',
-            $postData
+            $postData,
+            $jwt
         );
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $this->assertEquals(
             count($childrenBeforeAddition) + 1,
@@ -290,8 +304,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         foreach ($childrenAfterAddition as $block) {
             if ($newBlock['id'] === $block['id']) {
                 $this->assertEquals(
-                    $block['orderInSequence'],
                     1,
+                    $block['orderInSequence'],
                     'New block holds first position in sequence.'
                 );
             } else {
@@ -305,15 +319,17 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    public function testAddBlockToEndOfOrderedSequence()
+    public function testAddBlockToEndOfOrderedSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
 
@@ -328,13 +344,15 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlock',
             'curriculumInventorySequenceBlocks',
-            $postData
+            $postData,
+            $jwt
         );
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
 
         $this->assertEquals(
@@ -360,15 +378,17 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    public function testAddBlockToMiddleOfOrderedSequence()
+    public function testAddBlockToMiddleOfOrderedSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeAddition = $this->sortOrderedSequence($childrenBeforeAddition);
 
@@ -383,13 +403,15 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlock',
             'curriculumInventorySequenceBlocks',
-            $postData
+            $postData,
+            $jwt
         );
 
         $childrenAfterAddition = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
 
         $this->assertEquals(
@@ -423,15 +445,17 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    public function testMoveBlockInOrderedSequence()
+    public function testMoveBlockInOrderedSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeMove = $this->sortOrderedSequence($childrenBeforeMove);
 
@@ -453,7 +477,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlock',
             $blockId,
-            $postData
+            $postData,
+            $jwt
         );
 
         $this->assertEquals(
@@ -465,7 +490,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         $childrenAfterMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
 
         $this->assertEquals(
@@ -502,7 +528,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlock',
             $blockId,
-            $postData
+            $postData,
+            $jwt
         );
         $this->assertEquals(
             $postData['orderInSequence'],
@@ -513,7 +540,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         $childrenAfterMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenAfterMove = $this->sortOrderedSequence($childrenAfterMove);
 
@@ -534,15 +562,17 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
     }
 
-    public function testPostBlockWithInvalidOrderInSequence()
+    public function testPostBlockWithInvalidOrderInSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeMove = $this->sortOrderedSequence($childrenBeforeMove);
 
@@ -563,7 +593,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
                 ['version' => $this->apiVersion]
             ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         //Fails on lower boundary
@@ -578,25 +608,27 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
                 ['version' => $this->apiVersion]
             ),
             json_encode(['curriculumInventorySequenceBlocks' => [$block]]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         //Fails on upper boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         $block['orderInSequence'] = count($parent['children']) + 1; // ok
-        $this->postTest($block, $block);
+        $this->postTest($block, $block, $jwt);
     }
 
-    public function testPutBlockWithInvalidOrderInSequence()
+    public function testPutBlockWithInvalidOrderInSequence(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
 
         $childrenBeforeMove = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         $childrenBeforeMove = $this->sortOrderedSequence($childrenBeforeMove);
 
@@ -617,7 +649,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
                 'id' => $blockId
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         //Fails on lower boundary
@@ -631,41 +663,56 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
                 'id' => $blockId
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),
-            $this->getAuthenticatedUserToken($this->kernelBrowser)
+            $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
         //Fails on upper boundary
         $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
 
         $block['orderInSequence'] = count($parent['children']) + 1; // ok
-        $this->putTest($block, $block, $blockId, $new = true);
+        $this->putTest($block, $block, $blockId, $jwt, true);
     }
 
-    public function testChangeChildSequenceOrder()
+    public function testChangeChildSequenceOrder(): void
     {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
         $parent = $dataLoader->getOne();
-        $this->assertEquals($parent['childSequenceOrder'], CurriculumInventorySequenceBlockInterface::ORDERED);
+        $this->assertEquals(CurriculumInventorySequenceBlockInterface::ORDERED, $parent['childSequenceOrder']);
 
         $parentId = $parent['id'];
         $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::UNORDERED;
-        $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $parentId, $parent);
+        $this->putOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            $parentId,
+            $parent,
+            $jwt
+        );
 
         $unorderedSequence = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         foreach ($unorderedSequence as $block) {
             $this->assertEquals(0, $block['orderInSequence'], 'Blocks in an unordered sequence hold a 0 position.');
         }
 
         $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::ORDERED;
-        $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $parentId, $parent);
+        $this->putOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            $parentId,
+            $parent,
+            $jwt
+        );
         $orderedSequence = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
 
         $orderedSequence = $this->sortOrderedSequence($orderedSequence);
@@ -679,11 +726,18 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         }
 
         $parent['childSequenceOrder'] = CurriculumInventorySequenceBlockInterface::PARALLEL;
-        $this->putOne('curriculuminventorysequenceblocks', 'curriculumInventorySequenceBlock', $parentId, $parent);
+        $this->putOne(
+            'curriculuminventorysequenceblocks',
+            'curriculumInventorySequenceBlock',
+            $parentId,
+            $parent,
+            $jwt
+        );
         $unorderedSequence = $this->getFiltered(
             'curriculuminventorysequenceblocks',
             'curriculumInventorySequenceBlocks',
-            ['filters[parent]' => $parent['id']]
+            ['filters[parent]' => $parent['id']],
+            $jwt
         );
         foreach ($unorderedSequence as $block) {
             $this->assertEquals(0, $block['orderInSequence'], 'Blocks in a parallel sequence hold a 0 position.');
