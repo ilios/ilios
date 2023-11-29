@@ -1045,30 +1045,30 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.14.3",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "fb0d71a7393298a7b232cbf4c8b1f73f3ec3d5af"
+                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/fb0d71a7393298a7b232cbf4c8b1f73f3ec3d5af",
-                "reference": "fb0d71a7393298a7b232cbf4c8b1f73f3ec3d5af",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
+                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
                 "shasum": ""
             },
             "require": {
-                "doctrine/lexer": "^1 || ^2",
+                "doctrine/lexer": "^2 || ^3",
                 "ext-tokenizer": "*",
-                "php": "^7.1 || ^8.0",
+                "php": "^7.2 || ^8.0",
                 "psr/cache": "^1 || ^2 || ^3"
             },
             "require-dev": {
-                "doctrine/cache": "^1.11 || ^2.0",
-                "doctrine/coding-standard": "^9 || ^10",
-                "phpstan/phpstan": "~1.4.10 || ^1.8.0",
+                "doctrine/cache": "^2.0",
+                "doctrine/coding-standard": "^10",
+                "phpstan/phpstan": "^1.8.0",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "symfony/cache": "^4.4 || ^5.4 || ^6",
+                "symfony/cache": "^5.4 || ^6",
                 "vimeo/psalm": "^4.10"
             },
             "suggest": {
@@ -1115,9 +1115,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/1.14.3"
+                "source": "https://github.com/doctrine/annotations/tree/2.0.1"
             },
-            "time": "2023-02-01T09:20:38+00:00"
+            "time": "2023-02-02T22:02:53+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -3108,16 +3108,16 @@
         },
         {
             "name": "flagception/flagception",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/playox/flagception-sdk.git",
-                "reference": "76b40fdaa720adbe46e7942dd997b7bb1f2726cb"
+                "reference": "e5ebf9760057a38ee884a1c4872e43522f2225cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/playox/flagception-sdk/zipball/76b40fdaa720adbe46e7942dd997b7bb1f2726cb",
-                "reference": "76b40fdaa720adbe46e7942dd997b7bb1f2726cb",
+                "url": "https://api.github.com/repos/playox/flagception-sdk/zipball/e5ebf9760057a38ee884a1c4872e43522f2225cc",
+                "reference": "e5ebf9760057a38ee884a1c4872e43522f2225cc",
                 "shasum": ""
             },
             "require": {
@@ -3162,26 +3162,26 @@
             ],
             "support": {
                 "issues": "https://github.com/playox/flagception-sdk/issues",
-                "source": "https://github.com/playox/flagception-sdk/tree/1.9.0"
+                "source": "https://github.com/playox/flagception-sdk/tree/1.9.1"
             },
-            "time": "2023-09-27T09:37:27+00:00"
+            "time": "2023-11-28T20:25:43+00:00"
         },
         {
             "name": "flagception/flagception-bundle",
-            "version": "4.3.1",
+            "version": "4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/playox/flagception-bundle.git",
-                "reference": "1e898a146be42d9f408f414c625a1cf0587a691c"
+                "reference": "f3945b54f51ecf67681811ba164f9dbecae3aab9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/playox/flagception-bundle/zipball/1e898a146be42d9f408f414c625a1cf0587a691c",
-                "reference": "1e898a146be42d9f408f414c625a1cf0587a691c",
+                "url": "https://api.github.com/repos/playox/flagception-bundle/zipball/f3945b54f51ecf67681811ba164f9dbecae3aab9",
+                "reference": "f3945b54f51ecf67681811ba164f9dbecae3aab9",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^1.7",
+                "doctrine/annotations": "^1.7 | ^2.0",
                 "flagception/flagception": "^1.5",
                 "php": "^7.1.3 | ^8",
                 "symfony/config": "^4.4 | ^5.0 | ^6.0",
@@ -3232,14 +3232,13 @@
                 "flags",
                 "rollout",
                 "symfony",
-                "testing",
                 "toggle"
             ],
             "support": {
                 "issues": "https://github.com/playox/flagception-bundle/issues",
-                "source": "https://github.com/playox/flagception-bundle/tree/4.3.1"
+                "source": "https://github.com/playox/flagception-bundle/tree/4.4.0"
             },
-            "time": "2023-09-24T14:08:03+00:00"
+            "time": "2023-11-28T22:36:07+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
