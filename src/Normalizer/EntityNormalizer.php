@@ -92,11 +92,19 @@ class EntityNormalizer implements NormalizerInterface
     }
 
 
+    /**
+     * Send *[null] to indicate we don't support anything by default
+     * if it's a json-api request we will cache and support all the entities
+     */
     public function getSupportedTypes(?string $format): array
     {
-        $types = [];
-        foreach ($this->entityMetadata->getEntityList() as $name) {
-            $types[$name] = true;
+        $types = [
+            '*' => null,
+        ];
+        if ($format === 'json') {
+            foreach ($this->entityMetadata->getEntityList() as $name) {
+                $types[$name] = true;
+            }
         }
 
         return $types;

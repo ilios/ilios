@@ -179,9 +179,15 @@ class EntityDenormalizer implements DenormalizerInterface
         return $this->entityMetadata->isAnIliosEntity($type);
     }
 
+    /**
+     * The only things we denormalize are entities, for anything else *[null] tells
+     * symfony to not even bother.
+     */
     public function getSupportedTypes(?string $format): array
     {
-        $types = [];
+        $types = [
+            '*' => null,
+        ];
         foreach ($this->entityMetadata->getEntityList() as $name) {
             $types[$name] = true;
         }
