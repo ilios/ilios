@@ -68,4 +68,15 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
         $class = is_object($data) ? $data::class : $data;
         return in_array($class, $decoratedTypes);
     }
+
+    /**
+     * For the most part we cannot cache normalization of any types because we rely on the $context
+     * in our supportsNormalization method. However, when the $format isn't supported we can cache that.
+     */
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            '*' => !in_array($format, ['json', 'json-api']),
+        ];
+    }
 }

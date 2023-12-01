@@ -86,12 +86,22 @@ class DTONormalizer implements NormalizerInterface
         return $format === 'json' && $this->entityMetadata->isAnIliosDto($classNameOrObject);
     }
 
+    /**
+     * Send *[null] to indicate we don't support anything by default
+     * if it's a json request we will cache and support all the DTOs
+     */
     public function getSupportedTypes(?string $format): array
     {
-        $types = [];
-        foreach ($this->entityMetadata->getDtoList() as $name) {
-            $types[$name] = true;
+        $types = [
+            '*' => null,
+        ];
+
+        if ($format === 'json') {
+            foreach ($this->entityMetadata->getDtoList() as $name) {
+                $types[$name] = true;
+            }
         }
+
 
         return $types;
     }
