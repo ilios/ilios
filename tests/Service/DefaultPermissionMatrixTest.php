@@ -51,7 +51,7 @@ class DefaultPermissionMatrixTest extends TestCase
         unset($this->permissionMatrix);
     }
 
-    public function hasPermissionProvider()
+    public static function hasPermissionProvider(): array
     {
         return [
             [

@@ -33,7 +33,7 @@ class ApplicationConfigDTOTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [ApplicationConfigDTO::class, true],
@@ -41,7 +41,7 @@ class ApplicationConfigDTOTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

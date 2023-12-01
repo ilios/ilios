@@ -87,7 +87,7 @@ class LearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [LearningMaterialInterface::class, true],
@@ -95,7 +95,7 @@ class LearningMaterialTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

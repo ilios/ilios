@@ -74,7 +74,7 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [UserSessionMaterialStatusDTO::class, true],
@@ -82,7 +82,7 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

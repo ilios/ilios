@@ -28,7 +28,7 @@ class AcademicYearTest extends AbstractReadEndpoint
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             // 'id' => [[1], ['id' => 2013]], // skipped
@@ -36,6 +36,14 @@ class AcademicYearTest extends AbstractReadEndpoint
             // 'title' => [[1], ['id' => 2013]], // skipped
             // 'titles' => [[0, 2], ['id' => [2012, 2016]]], // skipped
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     public function testPostIs404()

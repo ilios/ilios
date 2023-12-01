@@ -1033,7 +1033,7 @@ class UserEventTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [UserEvent::class, true],
@@ -1041,7 +1041,7 @@ class UserEventTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

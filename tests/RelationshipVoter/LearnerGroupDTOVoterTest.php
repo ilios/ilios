@@ -62,7 +62,7 @@ class LearnerGroupDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View not allowed");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [LearnerGroupDTO::class, true],
@@ -70,7 +70,7 @@ class LearnerGroupDTOVoterTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

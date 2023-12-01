@@ -39,7 +39,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'title' => ['title', 'gather all the salt'],
@@ -54,12 +54,15 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [];
     }
 
-    public function filtersToTest(): array
+    /**
+     * @inheritdoc
+     */
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -75,9 +78,12 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    /**
+     * @inheritdoc
+     */
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
 
         return $filters;
@@ -166,7 +172,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
     }
 
 
-    public function inputSanitationTestProvider(): array
+    public static function inputSanitationTestProvider(): array
     {
         return [
             ['foo', 'foo'],

@@ -24,7 +24,7 @@ class MeshQualifierTest extends AbstractMeshEndpoint
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => '1']],
@@ -34,9 +34,12 @@ class MeshQualifierTest extends AbstractMeshEndpoint
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    /**
+     * @inheritdoc
+     */
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => ['1', '2']]];
 
         return $filters;

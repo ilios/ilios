@@ -74,7 +74,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'session' => ['session', 3],
@@ -86,7 +86,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
@@ -97,7 +97,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -116,9 +116,12 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    /**
+     * @inheritdoc
+     */
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[3, 4], ['ids' => [4, 5]]];
 
         return $filters;

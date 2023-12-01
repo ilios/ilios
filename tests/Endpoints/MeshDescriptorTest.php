@@ -51,7 +51,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 'abc1']],
@@ -75,9 +75,12 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    /**
+     * @inheritdoc
+     */
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => ['abc2', 'abc3']]];
         unset($filters['school']);
 
@@ -89,7 +92,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         return ['updatedAt', 'createdAt'];
     }
 
-    public function qsToTest(): array
+    public static function qsToTest(): array
     {
         return [
             ['abc1', [0]],

@@ -36,7 +36,7 @@ class CurriculumInventoryAcademicLevelTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [CurriculumInventoryAcademicLevelInterface::class, true],
@@ -44,7 +44,7 @@ class CurriculumInventoryAcademicLevelTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

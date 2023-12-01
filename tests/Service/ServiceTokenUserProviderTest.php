@@ -35,7 +35,7 @@ class ServiceTokenUserProviderTest extends TestCase
         unset($this->provider);
     }
 
-    public function supportsClassProvider(): array
+    public static function supportsClassProvider(): array
     {
         return [
             [ServiceTokenUser::class, true],

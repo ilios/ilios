@@ -185,16 +185,16 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->getExpiresAtFromToken($jwt)->getTimestamp(), $expiresAt->getTimestamp());
     }
 
-    public function getWriteableSchoolIdsFromTokenProvider(): array
+    public static function getWriteableSchoolIdsFromTokenProvider(): array
     {
         return [
-            [$this->buildJwt(), []],
-            [$this->buildUserJwt(), []],
-            [$this->buildUserJwt(['writeable_schools' => [1, 2, 3]]), []],
-            [$this->buildServiceTokenJwt(), []],
-            [$this->buildServiceTokenJwt(['writeable_schools' => []]), []],
-            [$this->buildServiceTokenJwt(['writeable_schools' => '1,2,3']), []],
-            [$this->buildServiceTokenJwt(['writeable_schools' => [1, 2, 3]]), [1, 2, 3]],
+            [self::buildJwt(), []],
+            [self::buildUserJwt(), []],
+            [self::buildUserJwt(['writeable_schools' => [1, 2, 3]]), []],
+            [self::buildServiceTokenJwt(), []],
+            [self::buildServiceTokenJwt(['writeable_schools' => []]), []],
+            [self::buildServiceTokenJwt(['writeable_schools' => '1,2,3']), []],
+            [self::buildServiceTokenJwt(['writeable_schools' => [1, 2, 3]]), [1, 2, 3]],
         ];
     }
 
@@ -207,12 +207,12 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->getWriteableSchoolIdsFromToken($jwt), $schoolIds);
     }
 
-    public function isUserTokenProvider(): array
+    public static function isUserTokenProvider(): array
     {
         return [
-            [$this->buildJwt(), false,],
-            [$this->buildServiceTokenJwt(), false],
-            [$this->buildUserJwt(), true],
+            [self::buildJwt(), false],
+            [self::buildServiceTokenJwt(), false],
+            [self::buildUserJwt(), true],
         ];
     }
 
@@ -225,12 +225,12 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->isUserToken($jwt), $expected);
     }
 
-    public function isServiceTokenProvider(): array
+    public static function isServiceTokenProvider(): array
     {
         return [
-            [$this->buildJwt(), false,],
-            [$this->buildUserJwt(), false],
-            [$this->buildServiceTokenJwt(), true],
+            [self::buildJwt(), false,],
+            [self::buildUserJwt(), false],
+            [self::buildServiceTokenJwt(), true],
         ];
     }
 
@@ -243,17 +243,17 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->isServiceToken($jwt), $expected);
     }
 
-    protected function buildUserJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
+    protected static function buildUserJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
     {
-        return $this->buildJwt(array_merge([JsonWebTokenManager::USER_ID_KEY => 42], $values), $secretKey);
+        return self::buildJwt(array_merge([JsonWebTokenManager::USER_ID_KEY => 42], $values), $secretKey);
     }
 
-    protected function buildServiceTokenJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
+    protected static function buildServiceTokenJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
     {
-        return $this->buildJwt(array_merge([JsonWebTokenManager::TOKEN_ID_KEY => 12], $values), $secretKey);
+        return self::buildJwt(array_merge([JsonWebTokenManager::TOKEN_ID_KEY => 12], $values), $secretKey);
     }
 
-    protected function buildJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
+    protected static function buildJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
     {
         $now = new DateTime();
         $default = [

@@ -17,22 +17,7 @@ abstract class AbstractReadonlyBase extends AbstractBase
         $this->voter = new Voter();
     }
 
-    public function supportsTypeProvider(): array
-    {
-        return array_merge(
-            array_map(
-                function (array $a) {
-                    return [$a[0], true];
-                },
-                $this->subjectProvider()
-            ),
-            [
-                [self::class, false],
-            ]
-        );
-    }
-
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],
@@ -49,7 +34,7 @@ abstract class AbstractReadonlyBase extends AbstractBase
         ];
     }
 
-    abstract public function subjectProvider(): array;
+    abstract public static function subjectProvider(): array;
 
     /**
      * @dataProvider subjectProvider

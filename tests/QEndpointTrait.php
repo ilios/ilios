@@ -9,7 +9,7 @@ use Exception;
 
 trait QEndpointTrait
 {
-    abstract protected function qsToTest(): array;
+    abstract public static function qsToTest(): array;
     abstract protected function getDataLoader(): DataLoaderInterface;
     abstract protected function jsonApiFilterTest(array $filters, array $expectedData, string $jwt): void;
     abstract protected function filterTest(array $filters, array $expectedData, string $jwt): void;

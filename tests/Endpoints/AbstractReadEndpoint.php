@@ -16,7 +16,15 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
 
     protected bool $enableGetTestsWithServiceToken = true;
 
-    abstract public function filtersToTest(): array;
+    /**
+     * @inheritdoc
+     */
+    abstract public static function filtersToTest(): array;
+
+    /**
+     * @inheritdoc
+     */
+    abstract public static function graphQLFiltersToTest(): array;
 
     public function testGetOne(): void
     {
@@ -120,11 +128,6 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
     {
         $this->anonymousAccessDeniedOneTest();
         $this->anonymousAccessDeniedAllTest();
-    }
-
-    public function graphQLFiltersToTest(): array
-    {
-        return $this->filtersToTest();
     }
 
     protected function runGetOneTest(string $jwt): void

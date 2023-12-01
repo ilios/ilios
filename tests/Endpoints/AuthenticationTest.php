@@ -53,7 +53,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * @inheritDoc
      */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'username' => ['username', 'devnull'],
@@ -64,7 +64,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * @inheritDoc
      */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'invalidateTokenIssuedBefore' => ['invalidateTokenIssuedBefore', 1, 99],
@@ -74,12 +74,20 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'user' => [[1], ['user' => 2]],
             'username' => [[1], ['username' => 'newuser']],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     public function testPostMultipleAuthenticationWithEmptyPassword(): void

@@ -26,7 +26,7 @@ class LearningMaterialStatusTest extends AbstractReadEndpoint
     /**
      * @inheritDoc
      */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -35,9 +35,12 @@ class LearningMaterialStatusTest extends AbstractReadEndpoint
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    /**
+     * @inheritdoc
+     */
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
 
         return $filters;

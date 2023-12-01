@@ -59,7 +59,7 @@ class UserSessionMaterialStatusTest extends AbstractBase
         }
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [UserSessionMaterialStatusInterface::class, true],
@@ -67,7 +67,7 @@ class UserSessionMaterialStatusTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

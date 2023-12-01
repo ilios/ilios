@@ -141,7 +141,7 @@ class CurriculumInventoryReportTest extends AbstractBase
         }
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [CurriculumInventoryReportInterface::class, true],
@@ -149,7 +149,7 @@ class CurriculumInventoryReportTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

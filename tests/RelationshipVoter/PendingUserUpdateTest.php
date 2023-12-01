@@ -109,7 +109,7 @@ class PendingUserUpdateTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [PendingUserUpdateInterface::class, true],
@@ -117,7 +117,7 @@ class PendingUserUpdateTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

@@ -22,7 +22,7 @@ abstract class AbstractBase extends TestCase
         unset($this->voter);
     }
 
-    abstract public function supportsTypeProvider(): array;
+    abstract public static function supportsTypeProvider(): array;
 
     /**
      * @dataProvider supportsTypeProvider
@@ -32,7 +32,7 @@ abstract class AbstractBase extends TestCase
         $this->assertEquals($this->voter->supportsType($className), $isSupported);
     }
 
-    abstract public function supportsAttributesProvider(): array;
+    abstract public static function supportsAttributesProvider(): array;
 
     /**
      * @dataProvider supportsAttributesProvider

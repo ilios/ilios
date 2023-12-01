@@ -19,7 +19,7 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteBase
         $this->voter = new Voter();
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [CurriculumInventorySequenceInterface::class, true],
@@ -27,7 +27,7 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],
@@ -44,7 +44,7 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteBase
         ];
     }
 
-    public function writePermissionsProvider(): array
+    public static function writePermissionsProvider(): array
     {
         return [
             [VoterPermissions::CREATE],

@@ -1451,7 +1451,7 @@ class SessionUserTest extends TestCase
         $this->assertFalse($sessionUser->isThePrimarySchool($otherSchool));
     }
 
-    public function rolesInSessionProvider(): array
+    public static function rolesInSessionProvider(): array
     {
         $sessionId = 2;
         return [
