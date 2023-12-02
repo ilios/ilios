@@ -54,9 +54,14 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public static function readOnlyPropertiesToTest(): array
     {
-        return [];
+        return [
+            'id' => ['id', 1, 99],
+        ];
     }
 
     /**
