@@ -136,4 +136,22 @@ class AamcMethodTest extends AbstractReadWriteEndpoint
             json_encode([])
         );
     }
+
+    public function testPutReadOnly(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        $this->markTestSkipped('test not applicable');
+    }
+
+    public function testPutReadOnlyWithServiceToken(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        $this->markTestSkipped('test not applicable');
+    }
 }

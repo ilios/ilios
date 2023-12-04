@@ -232,4 +232,19 @@ class AcademicYearTest extends AbstractReadEndpoint
         }
         $this->filterTest($filters, $expectedData, $jwt);
     }
+
+    public function testFilters(array $dataKeys = [], array $filterParts = []): void
+    {
+        $this->markTestSkipped('test not applicable');
+    }
+
+    public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = []): void
+    {
+        $this->markTestSkipped('test not applicable');
+    }
+
+    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
+    {
+        $this->markTestSkipped('test not applicable');
+    }
 }
