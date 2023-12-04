@@ -59,7 +59,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function changeTypePutsToTest(): array
+    public static function changeTypePutsToTest(): array
     {
         return [
             'room' => ['room', 'room 101', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
