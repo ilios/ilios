@@ -21,7 +21,7 @@
     "doctrine/inflector": "^2.0",
     "doctrine/orm": "^2.9",
     "eluceo/ical": "^2.5.1",
-    "exercise/htmlpurifier-bundle": "^4.0",
+    "exercise/htmlpurifier-bundle": "^5.0",
     "firebase/php-jwt": "@stable",
     "flagception/flagception-bundle": "^4.3",
     "ilios/mesh-parser": "^2.0",
