@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\JsonControllerTestable;
+use App\Tests\Traits\TestableJsonController;
 
 /**
  * @coversDefaultClass \App\Controller\UploadController
@@ -20,7 +20,7 @@ use App\Tests\Traits\JsonControllerTestable;
  */
 class UploadControllerTest extends WebTestCase
 {
-    use JsonControllerTestable;
+    use TestableJsonController;
 
     protected KernelBrowser $kernelBrowser;
     protected string $fakeTestFileDir;

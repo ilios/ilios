@@ -19,7 +19,7 @@ use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\JsonControllerTestable;
+use App\Tests\Traits\TestableJsonController;
 
 /**
  * @coversDefaultClass \App\Controller\DownloadController
@@ -27,7 +27,7 @@ use App\Tests\Traits\JsonControllerTestable;
  */
 class DownloadControllerTest extends WebTestCase
 {
-    use JsonControllerTestable;
+    use TestableJsonController;
     use GetUrlTrait;
 
     protected ProxyReferenceRepository $fixtures;

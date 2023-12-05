@@ -10,7 +10,7 @@ use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\JsonControllerTestable;
+use App\Tests\Traits\TestableJsonController;
 
 /**
  * @coversDefaultClass \App\Controller\ErrorController
@@ -18,7 +18,7 @@ use App\Tests\Traits\JsonControllerTestable;
  */
 class ErrorControllerTest extends WebTestCase
 {
-    use JsonControllerTestable;
+    use TestableJsonController;
 
     protected KernelBrowser $kernelBrowser;
 

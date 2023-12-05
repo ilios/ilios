@@ -8,7 +8,7 @@ use App\Service\JsonWebTokenManager;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\GetUrlTrait;
-use App\Tests\Traits\JsonControllerTestable;
+use App\Tests\Traits\TestableJsonController;
 use DateTime;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -27,7 +27,7 @@ use function var_export;
  */
 class AuthControllerTest extends WebTestCase
 {
-    use JsonControllerTestable;
+    use TestableJsonController;
     use GetUrlTrait;
 
     protected string $apiVersion = 'v3';

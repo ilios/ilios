@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
-use App\Tests\Traits\JsonControllerTestable;
+use App\Tests\Traits\TestableJsonController;
 
 /**
  * @coversDefaultClass \App\Controller\IcsController
@@ -26,7 +26,7 @@ use App\Tests\Traits\JsonControllerTestable;
  */
 class IcsControllerTest extends WebTestCase
 {
-    use JsonControllerTestable;
+    use TestableJsonController;
     use GetUrlTrait;
 
     protected string $apiVersion = 'v3';

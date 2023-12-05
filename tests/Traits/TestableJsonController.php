@@ -15,7 +15,7 @@ use App\Service\JsonWebTokenManager;
 use function json_decode;
 use function substr;
 
-trait JsonControllerTestable
+trait TestableJsonController
 {
     /**
      * Create a JSON:API request
