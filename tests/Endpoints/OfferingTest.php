@@ -83,9 +83,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [
@@ -94,9 +91,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -116,9 +110,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();
@@ -356,7 +347,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
     /**
      * Check for updated alerts in addition to other info
-     * @inheritdoc
      */
     protected function postTest(array $data, array $postData, string $jwt): array
     {
@@ -385,7 +375,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
     /**
      * Check for updated alerts in addition to other info
-     * @inheritdoc
      */
     protected function postJsonApiTest(object $postData, array $data, string $jwt): array
     {
@@ -419,7 +408,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
     /**
      * Allow dates to be skipped if required for a test
-     * @inheritdoc
      */
     protected function compareData(array $expected, array $result): void
     {
@@ -435,7 +423,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
 
     /**
      * Allow dates to be skipped if required for a test
-     * @inheritdoc
      */
     protected function compareGraphQLData(array $expected, object $result): void
     {

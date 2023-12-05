@@ -23,9 +23,6 @@ class MeshTermTest extends AbstractMeshEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -44,9 +41,6 @@ class MeshTermTest extends AbstractMeshEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

@@ -51,9 +51,6 @@ class TermTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function putsToTest(): array
     {
         return [
@@ -71,9 +68,6 @@ class TermTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [
@@ -81,9 +75,6 @@ class TermTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -115,9 +106,6 @@ class TermTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

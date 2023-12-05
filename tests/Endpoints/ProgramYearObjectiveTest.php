@@ -54,9 +54,6 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [
@@ -64,9 +61,6 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -83,9 +77,6 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

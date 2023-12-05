@@ -23,9 +23,6 @@ class MeshConceptTest extends AbstractMeshEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [

@@ -29,9 +29,6 @@ class CurriculumInventoryAcademicLevelTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -46,9 +43,6 @@ class CurriculumInventoryAcademicLevelTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

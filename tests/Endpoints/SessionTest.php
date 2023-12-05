@@ -45,8 +45,6 @@ class SessionTest extends AbstractReadWriteEndpoint
     }
 
     /**
-     * @inheritDoc
-     *
      * returns an array of field / value pairs to modify
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
@@ -86,8 +84,6 @@ class SessionTest extends AbstractReadWriteEndpoint
     }
 
     /**
-     * @inheritDoc
-     *
      * returns an array of field / value pairs that are readOnly
      * the key for each item is reflected in the failure message
      * each one will be separately tested in a PUT request
@@ -102,8 +98,6 @@ class SessionTest extends AbstractReadWriteEndpoint
 
 
     /**
-     * @inheritDoc
-     *
      * returns an array of filters to test
      * the key for each item is reflected in the failure message
      * the first item is an array of the positions the expected items

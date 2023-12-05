@@ -23,9 +23,6 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -36,9 +33,6 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         return self::filtersToTest();

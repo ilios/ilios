@@ -35,9 +35,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function putsToTest(): array
     {
         return [
@@ -48,9 +45,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [
@@ -58,9 +52,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -76,9 +67,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

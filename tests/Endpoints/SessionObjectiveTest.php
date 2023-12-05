@@ -52,9 +52,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [
@@ -62,9 +59,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -84,9 +78,6 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

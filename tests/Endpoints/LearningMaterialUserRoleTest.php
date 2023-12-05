@@ -23,10 +23,6 @@ class LearningMaterialUserRoleTest extends AbstractReadEndpoint
         ];
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -36,9 +32,6 @@ class LearningMaterialUserRoleTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

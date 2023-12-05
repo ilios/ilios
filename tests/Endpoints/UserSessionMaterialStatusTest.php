@@ -44,9 +44,6 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -64,9 +61,6 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

@@ -16,14 +16,8 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
 
     protected bool $enableGetTestsWithServiceToken = true;
 
-    /**
-     * @inheritdoc
-     */
     abstract public static function filtersToTest(): array;
 
-    /**
-     * @inheritdoc
-     */
     abstract public static function graphQLFiltersToTest(): array;
 
     public function testGetOne(): void

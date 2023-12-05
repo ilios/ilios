@@ -24,9 +24,6 @@ class UserRoleTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -36,9 +33,6 @@ class UserRoleTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         return self::filtersToTest();

@@ -29,9 +29,6 @@ class MeshPreviousIndexingTest extends AbstractMeshEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -42,9 +39,6 @@ class MeshPreviousIndexingTest extends AbstractMeshEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         $filters = self::filtersToTest();

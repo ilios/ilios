@@ -26,9 +26,6 @@ class PendingUserUpdateTest extends AbstractReadEndpoint implements PutEndpointI
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function putsToTest(): array
     {
         return [
@@ -39,9 +36,6 @@ class PendingUserUpdateTest extends AbstractReadEndpoint implements PutEndpointI
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [
@@ -49,9 +43,6 @@ class PendingUserUpdateTest extends AbstractReadEndpoint implements PutEndpointI
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -66,9 +57,6 @@ class PendingUserUpdateTest extends AbstractReadEndpoint implements PutEndpointI
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         return self::filtersToTest();

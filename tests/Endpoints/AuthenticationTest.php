@@ -50,9 +50,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function putsToTest(): array
     {
         return [
@@ -61,9 +58,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function readOnlyPropertiesToTest(): array
     {
         return [
@@ -71,9 +65,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function filtersToTest(): array
     {
         return [
@@ -82,9 +73,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function graphQLFiltersToTest(): array
     {
         return self::filtersToTest();
@@ -295,7 +283,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function runDeleteTest(string $jwt): void
     {
@@ -307,7 +294,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication uses
      * 'user' the ID
-     * @inheritdoc
      */
     protected function getOneTest(string $jwt): array
     {
@@ -341,7 +327,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      * @dataProvider putsToTest
-     * @inheritdoc
      */
     protected function runPutTest($key, $value, string $jwt): void
     {
@@ -363,7 +348,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function runPutForAllDataTest(string $jwt): void
     {
@@ -379,7 +363,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function runPatchForAllDataJsonApiTest(string $jwt): void
     {
@@ -397,7 +380,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function runPostManyTest(string $jwt): void
     {
@@ -409,7 +391,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function runPostManyJsonApiTest(string $jwt): void
     {
@@ -421,7 +402,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function postTest(array $data, array $postData, string $jwt): array
     {
@@ -439,7 +419,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function putTest(array $data, array $postData, mixed $id, string $jwt, $new = false): array
     {
@@ -457,7 +436,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function postManyTest(array $data, string $jwt): array
     {
@@ -503,7 +481,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @inheritdoc
      */
     protected function getOne(
         string $endpoint,
