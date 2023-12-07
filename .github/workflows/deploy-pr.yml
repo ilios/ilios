@@ -24,9 +24,6 @@ jobs:
           - opensearch
           - redis
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
       with:
