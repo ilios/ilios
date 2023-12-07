@@ -73,6 +73,7 @@ jobs:
     - name: Deploy to Docker Registry
       uses: docker/build-push-action@v5
       with:
+        context: .
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
