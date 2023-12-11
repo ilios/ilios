@@ -114,9 +114,6 @@ class ChangeAlertHandler
 
         if (! $alert) {
             $recipient = $offering->getSchool();
-            if (! $recipient) {
-                return; // SOL.
-            }
             $alert = $this->alertRepository->create();
             $alert->addRecipient($recipient);
             $alert->setTableName('offering');
