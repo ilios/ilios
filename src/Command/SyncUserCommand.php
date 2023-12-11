@@ -49,7 +49,6 @@ class SyncUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $userId = $input->getArgument('userId');
-        /** @var User $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception(

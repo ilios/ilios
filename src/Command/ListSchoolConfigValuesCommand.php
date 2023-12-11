@@ -43,8 +43,6 @@ class ListSchoolConfigValuesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $schoolId = $input->getArgument('school');
-
-        /** @var SchoolInterface $school */
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id {$schoolId}.</error>");
