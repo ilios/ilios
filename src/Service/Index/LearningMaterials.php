@@ -9,7 +9,6 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
 use OpenSearch\Client;
-use Psr\Log\LoggerInterface;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\FpdiException;
 use setasign\Fpdi\PdfParser\StreamReader;
@@ -23,7 +22,6 @@ class LearningMaterials extends OpenSearchBase
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
         Config $config,
-        private LoggerInterface $logger,
         Client $client = null
     ) {
         parent::__construct($config, $client);
