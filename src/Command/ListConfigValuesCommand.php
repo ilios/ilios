@@ -6,7 +6,7 @@ namespace App\Command;
 
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
-use Doctrine\DBAL\Exception\ConnectionException;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,9 +49,10 @@ class ListConfigValuesCommand extends Command
         try {
             /** @var ApplicationConfig[] $configs */
             $configs = $this->applicationConfigRepository->findBy([], ['name' => 'asc']);
-        } catch (ConnectionException $e) {
-            $output->writeln('<error>Unable to connect to database.</error>');
-            $output->writeln($e->getMessage());
+        } catch (Exception $e) {
+            $output->writeln('<error>Failed to fetch application configuration from database.</error>');
+            $output->writeln("<error>{$e->getMessage()}</error>");
+            return Command::FAILURE;
         }
         if (empty($configs)) {
             $output->writeln('<error>There are no configuration values in the database.</error>');
@@ -80,6 +81,6 @@ class ListConfigValuesCommand extends Command
         $table->setRows($rows);
         $table->render();
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

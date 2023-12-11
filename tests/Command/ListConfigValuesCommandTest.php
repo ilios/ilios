@@ -7,9 +7,10 @@ namespace App\Tests\Command;
 use App\Command\ListConfigValuesCommand;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
-use Doctrine\DBAL\Exception\ConnectionException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
@@ -84,35 +85,29 @@ class ListConfigValuesCommandTest extends KernelTestCase
             '/\sDatabase URL\s|\smysql\s/',
             $output
         );
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
     public function testExecuteWithConnectionException()
     {
-        $connectionException = m::mock(ConnectionException::class);
+        $exception = new Exception('some sort of database error occurred');
         $this->applicationConfigRepository->shouldReceive('findBy')
             ->with([], ['name' => 'asc'])
             ->once()
-            ->andThrow($connectionException);
+            ->andThrow($exception);
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
         ]);
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
-            '/^Unable to connect to database./',
+            '/^Failed to fetch application configuration from database./',
             $output
         );
         $this->assertMatchesRegularExpression(
-            '/\sEnvironment\s|\sTESTING123\s/',
+            '/some sort of database error occurred/',
             $output
         );
-        $this->assertMatchesRegularExpression(
-            '/\sKernel Secret\s|\sSECRET\s/',
-            $output
-        );
-        $this->assertMatchesRegularExpression(
-            '/\sDatabase URL\s|\smysql\s/',
-            $output
-        );
+        $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
     }
 }
