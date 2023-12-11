@@ -47,7 +47,6 @@ class ChangeUsernameCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $userId = $input->getArgument('userId');
-        /** @var UserInterface $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception(
