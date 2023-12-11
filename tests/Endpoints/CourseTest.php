@@ -56,10 +56,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'title' => ['title', 'icicles are not a snack'],
@@ -92,20 +89,14 @@ class CourseTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -143,9 +134,9 @@ class CourseTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    public function graphQLFiltersToTest(): array
+    public static function graphQLFiltersToTest(): array
     {
-        $filters = $this->filtersToTest();
+        $filters = self::filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
 
         return $filters;
@@ -918,7 +909,7 @@ class CourseTest extends AbstractReadWriteEndpoint
     }
 
 
-    protected function qsToTest(): array
+    public static function qsToTest(): array
     {
         return [
             ['first', [0]],

@@ -58,7 +58,7 @@ class GreenlightViewDTOVoterTest extends AbstractReadonlyBase
         $this->voter = new GreenlightViewDTOVoter();
     }
 
-    public function subjectProvider(): array
+    public static function subjectProvider(): array
     {
         return [
             [AamcMethodDTO::class],
@@ -105,6 +105,57 @@ class GreenlightViewDTOVoterTest extends AbstractReadonlyBase
             [UserDTO::class],
             [UserRoleDTO::class],
             [VocabularyDTO::class],
+        ];
+    }
+
+    public static function supportsTypeProvider(): array
+    {
+        return [
+            [AamcMethodDTO::class, true],
+            [AamcPcrsDTO::class, true],
+            [AamcResourceTypeDTO::class, true],
+            [AssessmentOptionDTO::class, true],
+            [AuthenticationDTO::class, true],
+            [CohortDTO::class, true],
+            [CompetencyDTO::class, true],
+            [CourseClerkshipTypeDTO::class, true],
+            [CourseDTO::class, true],
+            [CourseLearningMaterialDTO::class, true],
+            [CourseObjectiveDTO::class, true],
+            [CurriculumInventoryAcademicLevelDTO::class, true],
+            [CurriculumInventoryInstitutionDTO::class, true],
+            [CurriculumInventoryReportDTO::class, true],
+            [CurriculumInventorySequenceBlockDTO::class, true],
+            [CurriculumInventorySequenceDTO::class, true],
+            [IlmSessionDTO::class, true],
+            [IngestionExceptionDTO::class, true],
+            [InstructorGroupDTO::class, true],
+            [LearnerGroupDTO::class, true],
+            [LearningMaterialDTO::class, true],
+            [LearningMaterialStatusDTO::class, true],
+            [LearningMaterialUserRoleDTO::class, true],
+            [MeshConceptDTO::class, true],
+            [MeshDescriptorDTO::class, true],
+            [MeshPreviousIndexingDTO::class, true],
+            [MeshQualifierDTO::class, true],
+            [MeshTermDTO::class, true],
+            [MeshTreeDTO::class, true],
+            [OfferingDTO::class, true],
+            [PendingUserUpdateDTO::class, true],
+            [ProgramDTO::class, true],
+            [ProgramYearDTO::class, true],
+            [ProgramYearObjectiveDTO::class, true],
+            [SchoolConfigDTO::class, true],
+            [SchoolDTO::class, true],
+            [SessionDTO::class, true],
+            [SessionLearningMaterialDTO::class, true],
+            [SessionObjectiveDTO::class, true],
+            [SessionTypeDTO::class, true],
+            [TermDTO::class, true],
+            [UserDTO::class, true],
+            [UserRoleDTO::class, true],
+            [VocabularyDTO::class, true],
+            [self::class, false]
         ];
     }
 }

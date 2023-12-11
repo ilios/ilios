@@ -25,10 +25,7 @@ class AcademicYearTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             // 'id' => [[1], ['id' => 2013]], // skipped
@@ -36,6 +33,11 @@ class AcademicYearTest extends AbstractReadEndpoint
             // 'title' => [[1], ['id' => 2013]], // skipped
             // 'titles' => [[0, 2], ['id' => [2012, 2016]]], // skipped
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     public function testPostIs404()
@@ -223,5 +225,20 @@ class AcademicYearTest extends AbstractReadEndpoint
             $filters["filters[$key]"] = $value;
         }
         $this->filterTest($filters, $expectedData, $jwt);
+    }
+
+    public function testFilters(array $dataKeys = [], array $filterParts = []): void
+    {
+        $this->markTestSkipped('test not applicable');
+    }
+
+    public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = []): void
+    {
+        $this->markTestSkipped('test not applicable');
+    }
+
+    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
+    {
+        $this->markTestSkipped('test not applicable');
     }
 }

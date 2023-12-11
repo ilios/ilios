@@ -25,7 +25,7 @@ class MeshTest extends AbstractBase
         $this->voter = new Voter();
     }
 
-    public function meshEntitiesProvider(): array
+    public static function meshEntitiesProvider(): array
     {
         return [
             [MeshConceptInterface::class],
@@ -56,7 +56,7 @@ class MeshTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [MeshConceptInterface::class, true],
@@ -69,7 +69,7 @@ class MeshTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

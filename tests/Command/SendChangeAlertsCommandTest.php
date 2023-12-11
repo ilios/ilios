@@ -300,9 +300,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->assertStringContainsString("Marked 1 offering change alerts as dispatched.", $output);
     }
 
-
-
-    public function executeProvider(): array
+    public static function executeProvider(): array
     {
         $schoolA = new School();
         $schoolA->setId(1);
@@ -410,8 +408,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         ];
     }
 
-
-    public function executeRecipientWithoutEmailProvider(): array
+    public static function executeRecipientWithoutEmailProvider(): array
     {
         $school = new School();
         $course = new Course();
@@ -431,8 +428,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         return [[ $alert, $offering ]];
     }
 
-
-    public function executeNoRecipientsConfiguredProvider(): array
+    public static function executeNoRecipientsConfiguredProvider(): array
     {
         $school = new School();
         $school->setId(1);
@@ -452,8 +448,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         return [[ $alert, $offering ]];
     }
 
-
-    public function executeDeletedOfferingProvider(): array
+    public static function executeDeletedOfferingProvider(): array
     {
         $school = new School();
         $course = new Course();

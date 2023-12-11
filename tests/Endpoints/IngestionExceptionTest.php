@@ -23,10 +23,7 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -34,6 +31,11 @@ class IngestionExceptionTest extends AbstractReadEndpoint
             'uid' => [[1], ['uid' => 'second exception']],
             'user' => [[1], ['user' => 2]],
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     public function testPostIs404(): void

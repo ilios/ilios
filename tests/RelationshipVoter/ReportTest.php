@@ -103,7 +103,7 @@ class ReportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [ReportInterface::class, true],
@@ -111,7 +111,7 @@ class ReportTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

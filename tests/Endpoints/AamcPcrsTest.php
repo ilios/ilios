@@ -28,10 +28,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'description' => ['description', 'lorem ipsum'],
@@ -40,24 +37,23 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 'aamc-pcrs-comp-c0101']],
             'description' => [[1], ['description' => 'second description']],
             'competencies' => [[0], ['competencies' => [1]]],
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     public function testPostTermAamcResourceType(): void
@@ -184,5 +180,23 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
             ),
             json_encode([])
         );
+    }
+
+    public function testPutReadOnly(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        $this->markTestSkipped('test not applicable');
+    }
+
+    public function testPutReadOnlyWithServiceToken(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        $this->markTestSkipped('test not applicable');
     }
 }

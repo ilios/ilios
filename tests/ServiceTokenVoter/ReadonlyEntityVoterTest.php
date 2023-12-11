@@ -32,7 +32,7 @@ class ReadonlyEntityVoterTest extends AbstractReadonlyBase
         $this->voter = new Voter();
     }
 
-    public function subjectProvider(): array
+    public static function subjectProvider(): array
     {
         return [
             [AamcMethodInterface::class],
@@ -53,6 +53,31 @@ class ReadonlyEntityVoterTest extends AbstractReadonlyBase
             [MeshTreeInterface::class],
             [UserInterface::class],
             [UserRoleInterface::class],
+        ];
+    }
+
+    public static function supportsTypeProvider(): array
+    {
+        return [
+            [AamcMethodInterface::class, true],
+            [AamcPcrsInterface::class, true],
+            [AamcResourceTypeInterface::class, true],
+            [AssessmentOptionInterface::class, true],
+            [CourseClerkshipTypeInterface::class, true],
+            [CurriculumInventoryAcademicLevelInterface::class, true],
+            [IngestionExceptionInterface::class, true],
+            [LearningMaterialInterface::class, true],
+            [LearningMaterialStatusInterface::class, true],
+            [LearningMaterialUserRoleInterface::class, true],
+            [MeshConceptInterface::class, true],
+            [MeshDescriptorInterface::class, true],
+            [MeshPreviousIndexingInterface::class, true],
+            [MeshQualifierInterface::class, true],
+            [MeshTermInterface::class, true],
+            [MeshTreeInterface::class, true],
+            [UserInterface::class, true],
+            [UserRoleInterface::class, true],
+            [self::class, false],
         ];
     }
 }

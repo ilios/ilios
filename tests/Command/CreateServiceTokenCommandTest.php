@@ -104,7 +104,7 @@ class CreateServiceTokenCommandTest extends KernelTestCase
         );
     }
 
-    public function createTokenWithWriteableSchoolsProvider(): array
+    public static function createTokenWithWriteableSchoolsProvider(): array
     {
         return [
             ['1', [1]],

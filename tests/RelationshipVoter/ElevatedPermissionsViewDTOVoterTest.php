@@ -30,7 +30,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         $this->voter = new Voter();
     }
 
-    public function dtoProvider()
+    public static function dtoProvider(): array
     {
         return [
             [AuthenticationDTO::class],
@@ -77,7 +77,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [AuthenticationDTO::class, true],
@@ -89,7 +89,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

@@ -60,7 +60,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
         $this->voter = new Voter();
     }
 
-    public function canViewDTOProvider()
+    public static function canViewDTOProvider(): array
     {
         return [
             [AamcMethodDTO::class],
@@ -115,7 +115,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    public function supportsTypeProvider(): array
+    public static function supportsTypeProvider(): array
     {
         return [
             [AamcMethodDTO::class, true],
@@ -158,7 +158,7 @@ class GreenlightViewDtoVoterTest extends AbstractBase
         ];
     }
 
-    public function supportsAttributesProvider(): array
+    public static function supportsAttributesProvider(): array
     {
         return [
             [VoterPermissions::VIEW, true],

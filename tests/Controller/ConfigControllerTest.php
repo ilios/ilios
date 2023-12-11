@@ -6,7 +6,7 @@ namespace App\Tests\Controller;
 
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\TestVersionProvider;
-use App\Tests\Traits\JsonControllerTest;
+use App\Tests\Traits\TestableJsonController;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ConfigControllerTest extends WebTestCase
 {
-    use JsonControllerTest;
+    use TestableJsonController;
 
     protected KernelBrowser $kernelBrowser;
 

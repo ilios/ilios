@@ -27,10 +27,7 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'title' => ['title', 'sure thing'],
@@ -40,18 +37,12 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[2], ['id' => 'RE003']],
@@ -59,6 +50,11 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
             'description' => [[1], ['description' => 'second description']],
             'terms' => [[0], ['terms' => [1]]],
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 
     public function testPostTermAamcResourceType(): void
@@ -141,5 +137,23 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
             ),
             json_encode([])
         );
+    }
+
+    public function testPutReadOnly(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        $this->markTestSkipped('test not applicable');
+    }
+
+    public function testPutReadOnlyWithServiceToken(
+        ?string $key = null,
+        mixed $id = null,
+        mixed $value = null,
+        bool $skipped = false
+    ): void {
+        $this->markTestSkipped('test not applicable');
     }
 }

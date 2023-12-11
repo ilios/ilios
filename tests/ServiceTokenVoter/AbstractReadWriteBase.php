@@ -38,7 +38,7 @@ abstract class AbstractReadWriteBase extends AbstractBase
         );
     }
 
-    abstract public function writePermissionsProvider(): array;
+    abstract public static function writePermissionsProvider(): array;
 
     /**
      * @dataProvider writePermissionsProvider

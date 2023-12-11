@@ -350,7 +350,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         );
     }
 
-    public function correctLearningMaterialLinksProvider(): array
+    public static function correctLearningMaterialLinksProvider(): array
     {
         return [
             ['iliosproject.org', 'https://iliosproject.org'],
@@ -382,7 +382,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
     }
 
-    public function correctLearningMaterialLinksWhithoutFetchingProvider(): array
+    public static function correctLearningMaterialLinksWhithoutFetchingProvider(): array
     {
         return [
             [' http://iliosproject.org', 'http://iliosproject.org'],
@@ -420,7 +420,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
     }
 
-    public function correctLearningMaterialLinksNoChangesProvider(): array
+    public static function correctLearningMaterialLinksNoChangesProvider(): array
     {
         return [
             [null],

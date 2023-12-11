@@ -77,7 +77,7 @@ class ReportRolloverTest extends TestCase
         unset($this->reportRepository);
     }
 
-    public function reportProvider()
+    public static function reportProvider(): array
     {
         $report = new CurriculumInventoryReport();
         $report->setId(1);

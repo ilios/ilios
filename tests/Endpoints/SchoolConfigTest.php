@@ -24,10 +24,7 @@ class SchoolConfigTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function putsToTest(): array
+    public static function putsToTest(): array
     {
         return [
             'value' => ['value', 'lorem'],
@@ -36,20 +33,14 @@ class SchoolConfigTest extends AbstractReadWriteEndpoint
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function readOnlyPropertiesToTest(): array
+    public static function readOnlyPropertiesToTest(): array
     {
         return [
             'id' => ['id', 1, 99],
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filtersToTest(): array
+    public static function filtersToTest(): array
     {
         return [
             'id' => [[0], ['id' => 1]],
@@ -58,5 +49,10 @@ class SchoolConfigTest extends AbstractReadWriteEndpoint
             'value' => [[2], ['value' => 'third value']],
             'school' => [[2], ['school' => 2]],
         ];
+    }
+
+    public static function graphQLFiltersToTest(): array
+    {
+        return self::filtersToTest();
     }
 }

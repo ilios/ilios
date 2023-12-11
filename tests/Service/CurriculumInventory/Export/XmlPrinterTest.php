@@ -37,7 +37,7 @@ class XmlPrinterTest extends TestCase
         parent::tearDown();
     }
 
-    public function inventoryDataProvider(): array
+    public static function inventoryDataProvider(): array
     {
         $academicLevel1 = new CurriculumInventoryAcademicLevel();
         $academicLevel1->setName('Year 1');

@@ -38,7 +38,7 @@ class SessionUserProviderTest extends TestCase
         unset($this->provider);
     }
 
-    public function supportsClassProvider(): array
+    public static function supportsClassProvider(): array
     {
         return [
             [SessionUser::class, true],
