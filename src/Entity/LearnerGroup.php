@@ -308,10 +308,7 @@ class LearnerGroup implements LearnerGroupInterface
 
     public function getProgramYear(): ?ProgramYearInterface
     {
-        if ($cohort = $this->getCohort()) {
-            return $cohort->getProgramYear();
-        }
-        return null;
+        return $this->getCohort()->getProgramYear();
     }
 
     public function setNeedsAccommodation(bool $needsAccommodation): void
