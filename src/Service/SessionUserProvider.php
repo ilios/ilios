@@ -36,7 +36,6 @@ class SessionUserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier($identifier): SessionUserInterface
     {
-        /** @var IliosUser $user */
         $user = $this->userRepository->findOneBy(['id' => $identifier]);
 
         if ($user) {
