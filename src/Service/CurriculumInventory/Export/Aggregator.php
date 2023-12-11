@@ -118,18 +118,9 @@ class Aggregator
      */
     public function getData(CurriculumInventoryReportInterface $invReport): array
     {
-        // report validation
         $program = $invReport->getProgram();
-        if (! $program) {
-            throw new Exception('No program found for report with id = ' . $invReport->getId() . '.');
-        }
-
         $school  = $program->getSchool();
-        if (! $school) {
-            throw new Exception('No school found for program with id = ' . $program->getId() . '.');
-        }
 
-        /** @var CurriculumInventoryInstitutionInterface $institution */
         $institution = $this->institutionRepository->findOneBy(['school' => $school->getId()]);
         if (! $institution) {
             throw new Exception(
