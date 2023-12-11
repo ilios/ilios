@@ -64,7 +64,6 @@ class JsonApiDTONormalizer implements NormalizerInterface
         }
 
         if ($type === 'dateTime') {
-            /** @var DateTime $value */
             $value = $object->{$property->name};
             return null === $value ? null : $value->format('c');
         }
