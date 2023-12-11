@@ -31,10 +31,7 @@ class ApiRequestParser
         ];
 
 
-        $criteria = $request->query->has('filters') ? $request->query->all()['filters'] : [];
-        if (is_null($criteria)) {
-            $criteria = [];
-        }
+        $criteria = $request->query->all('filters');
         $criteria = array_map(function ($item) {
             //convert boolean/null strings to boolean/null values
             $item = $item === 'null' ? null : $item;
