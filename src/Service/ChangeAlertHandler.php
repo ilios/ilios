@@ -104,7 +104,7 @@ class ChangeAlertHandler
         if (empty($changeTypes)) {
             return;
         }
-        array_unique($changeTypes);
+        $changeTypes = array_unique($changeTypes);
 
         $alert = $this->alertRepository->findOneBy([
             'dispatched' => false,
