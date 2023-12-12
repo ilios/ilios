@@ -321,7 +321,7 @@ class Offerings extends AbstractApiController
         $this->repository->update($entity, true, false);
 
         $session = $entity->getSession();
-        if ($session && $session->isPublished()) {
+        if ($session->isPublished()) {
             if (Response::HTTP_CREATED === $code) {
                 $this->createAlertForNewOffering($entity);
             } else {
