@@ -49,9 +49,7 @@ class IcsController extends AbstractController
     )]
     public function getICSFeed(Request $request, $key)
     {
-        /** @var User $user */
         $user = $this->userRepository->findOneBy(['icsFeedKey' => $key]);
-
         if (!$user) {
             throw new NotFoundHttpException();
         }
