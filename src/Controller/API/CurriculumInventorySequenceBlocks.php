@@ -285,7 +285,6 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        /** @var CurriculumInventorySequenceBlockInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
@@ -347,7 +346,6 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
         string $id,
         AuthorizationCheckerInterface $authorizationChecker
     ): Response {
-        /** @var CurriculumInventorySequenceBlockInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (! $entity) {

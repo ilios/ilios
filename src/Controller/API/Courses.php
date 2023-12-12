@@ -333,7 +333,6 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        /** @var CourseInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {

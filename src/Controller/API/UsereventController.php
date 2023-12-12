@@ -93,9 +93,7 @@ class UsereventController extends AbstractController
     ): Response {
         $this->validateCurrentUserAsSessionUser();
 
-        /** @var UserInterface $user */
         $user = $repository->findOneBy(['id' => $id]);
-
         if (!$user) {
             throw new NotFoundHttpException(sprintf('The user \'%s\' was not found.', $id));
         }
@@ -105,9 +103,7 @@ class UsereventController extends AbstractController
         }
 
         if ($sessionId = $request->get('session')) {
-            /** @var SessionInterface $session */
             $session = $sessionRepository->findOneBy(['id' => $sessionId]);
-
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }

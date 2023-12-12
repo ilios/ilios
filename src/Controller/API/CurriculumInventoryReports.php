@@ -436,7 +436,6 @@ class CurriculumInventoryReports extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        /** @var CurriculumInventoryReportInterface $report */
         $report = $this->repository->findOneBy(['id' => $id]);
 
         if (! $report) {
@@ -462,7 +461,6 @@ class CurriculumInventoryReports extends AbstractApiController
         // optional program override
         $programId = (int) $request->get('program');
         if ($programId) {
-            /* @var ProgramInterface $program */
             $program = $this->programRepository->findOneById($programId);
             if (! $program) {
                 throw new InvalidInputWithSafeUserMessageException("no program with id = {$programId} exists.");

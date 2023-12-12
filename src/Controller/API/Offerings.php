@@ -357,9 +357,7 @@ class Offerings extends AbstractApiController
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
         }
 
-        /** @var OfferingInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
-
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }

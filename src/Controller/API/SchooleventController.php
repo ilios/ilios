@@ -104,9 +104,7 @@ class SchooleventController extends AbstractController
         }
 
         if ($sessionId = $request->get('session')) {
-            /** @var SessionInterface $session */
             $session = $sessionRepository->findOneBy(['id' => $sessionId]);
-
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
