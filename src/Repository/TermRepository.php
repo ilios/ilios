@@ -15,8 +15,8 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
-
 use Exception;
+
 use function array_values;
 use function array_keys;
 

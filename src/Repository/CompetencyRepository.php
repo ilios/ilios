@@ -14,8 +14,8 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CompetencyDTO;
 use Doctrine\Persistence\ManagerRegistry;
-
 use Exception;
+
 use function array_values;
 use function array_keys;
 
