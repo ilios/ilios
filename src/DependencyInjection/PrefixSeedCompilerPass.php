@@ -16,7 +16,7 @@ class PrefixSeedCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if ($container->hasParameter('cache.prefix.seed')) {
+        if ($container->hasParameter('cache.prefix.seed')) { /** @phpstan-ignore-line */
             $seed = $container->getParameterBag()->resolveValue($container->getParameter('cache.prefix.seed'));
         } else {
             $seed = '_' . $container->getParameter('kernel.project_dir');
