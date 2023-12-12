@@ -16,6 +16,7 @@ use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
 
+use Exception;
 use function array_values;
 use function array_keys;
 
@@ -328,6 +329,7 @@ class TermRepository extends ServiceEntityRepository implements
             DefaultDataImporter::TERM => $this->importTerm($data, $type, $referenceMap),
             DefaultDataImporter::TERM_X_AAMC_RESOURCE_TYPE
                 => $this->importTermToResourceTypeMapping($data, $referenceMap),
+            default => throw new Exception("Unable to import data of type $type."),
         };
     }
 

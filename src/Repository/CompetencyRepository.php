@@ -15,6 +15,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CompetencyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use Exception;
 use function array_values;
 use function array_keys;
 
@@ -189,6 +190,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
         return match ($type) {
             DefaultDataImporter::COMPETENCY => $this->importCompetencies($data, $type, $referenceMap),
             DefaultDataImporter::COMPETENCY_X_AAMC_PCRS => $this->importCompetencyToPcrsMapping($data, $referenceMap),
+            default => throw new Exception("Unable to import data of type $type."),
         };
     }
 

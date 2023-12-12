@@ -15,6 +15,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\SessionTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
+use Exception;
 use function array_values;
 use function array_keys;
 
@@ -244,6 +245,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
             DefaultDataImporter::SESSION_TYPE => $this->importSessionType($data, $type, $referenceMap),
             DefaultDataImporter::SESSION_TYPE_X_AAMC_METHOD
                 => $this->importSessionTypeToMethodMapping($data, $referenceMap),
+            default => throw new Exception("Unable to import data of type $type."),
         };
     }
 
