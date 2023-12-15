@@ -16,10 +16,7 @@ use App\Tests\TestCase;
 
 class ProgramsEntityTest extends TestCase
 {
-    /**
-     * @var ProgramsEntity
-     */
-    private $traitObject;
+    private object $traitObject;
     public function setUp(): void
     {
         parent::setUp();

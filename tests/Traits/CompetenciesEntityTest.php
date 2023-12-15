@@ -16,10 +16,7 @@ use App\Tests\TestCase;
 
 class CompetenciesEntityTest extends TestCase
 {
-    /**
-     * @var CompetenciesEntity
-     */
-    private $traitObject;
+    private object $traitObject;
     public function setUp(): void
     {
         parent::setUp();

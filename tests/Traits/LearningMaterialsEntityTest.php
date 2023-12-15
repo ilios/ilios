@@ -16,10 +16,7 @@ use App\Tests\TestCase;
 
 class LearningMaterialsEntityTest extends TestCase
 {
-    /**
-     * @var LearningMaterialsEntity
-     */
-    private $traitObject;
+    private object $traitObject;
     public function setUp(): void
     {
         parent::setUp();
