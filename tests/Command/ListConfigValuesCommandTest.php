@@ -7,7 +7,7 @@ namespace App\Tests\Command;
 use App\Command\ListConfigValuesCommand;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
-use Exception;
+use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -90,7 +90,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
 
     public function testExecuteWithConnectionException()
     {
-        $exception = new Exception('some sort of database error occurred');
+        $exception = m::mock(ConnectionException::class);
         $this->applicationConfigRepository->shouldReceive('findBy')
             ->with([], ['name' => 'asc'])
             ->once()
@@ -101,11 +101,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
         ]);
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
-            '/^Failed to fetch application configuration from database./',
-            $output
-        );
-        $this->assertMatchesRegularExpression(
-            '/some sort of database error occurred/',
+            '/^Unable to connect to database./',
             $output
         );
         $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());

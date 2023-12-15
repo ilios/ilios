@@ -6,7 +6,7 @@ namespace App\Command;
 
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
-use Exception;
+use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -49,8 +49,8 @@ class ListConfigValuesCommand extends Command
         try {
             /** @var ApplicationConfig[] $configs */
             $configs = $this->applicationConfigRepository->findBy([], ['name' => 'asc']);
-        } catch (Exception $e) {
-            $output->writeln('<error>Failed to fetch application configuration from database.</error>');
+        } catch (ConnectionException $e) {
+            $output->writeln('<error>Unable to connect to database.</error>');
             $output->writeln("<error>{$e->getMessage()}</error>");
             return Command::FAILURE;
         }
