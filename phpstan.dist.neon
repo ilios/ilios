@@ -7,5 +7,6 @@ parameters:
         - config/
         - public/
         - src/
+        - tests/
     level: 4
     reportUnmatchedIgnoredErrors: true

@@ -36,15 +36,10 @@ jobs:
       run: vendor/bin/phpcs
     - name: lint twig
       run: bin/console lint:twig templates custom
-    - name: phpstan src
+    - name: phpstan
       run: |
         bin/console cache:warmup --env=dev
         vendor/bin/phpstan analyse --no-progress
-    - name: phpstan tests
-      run: |
-        bin/console cache:warmup --env=test
-        vendor/bin/phpstan analyse -c tests/phpstan.dist.neon tests --no-progress
-
   tests:
     name: PHPUnit Tests
     needs: code_style

@@ -76,6 +76,7 @@
     "mockery/mockery": "@stable",
     "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan": "@stable",
+    "phpstan/phpstan-mockery": "^1.1",
     "phpstan/phpstan-symfony": "@stable",
     "phpunit/phpunit": "^9.6",
     "squizlabs/php_codesniffer": "@stable",
