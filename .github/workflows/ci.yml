@@ -67,7 +67,7 @@ jobs:
     - name: Run Tests
       run: vendor/bin/phpunit --coverage-clover build/coverage.xml
     - name: Archive Coverage Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-output
         path: build/coverage.xml
@@ -151,7 +151,7 @@ jobs:
         outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar
         tags: ${{ matrix.image }}:testing
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.image }}-image
         path: /tmp/${{ matrix.image }}.tar
