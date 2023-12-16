@@ -10,6 +10,7 @@ use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use Exception;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -23,17 +24,13 @@ use Mockery as m;
  */
 class ChangeUsernameCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:change-username';
 
-    /** @var CommandTester */
-    protected $commandTester;
-
-    /** @var m\Mock */
-    protected $userRepository;
-    /** @var m\Mock */
-    protected $authenticationRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $authenticationRepository;
 
     public function setUp(): void
     {
@@ -63,7 +60,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testChangeUsername()
+    public function testChangeUsername(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -89,7 +86,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         );
     }
 
-    public function testUserWithoutAuthentication()
+    public function testUserWithoutAuthentication(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -117,7 +114,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         );
     }
 
-    public function testDuplicationUsername()
+    public function testDuplicationUsername(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -132,7 +129,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testDuplicateUsernameCase()
+    public function testDuplicateUsernameCase(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -147,7 +144,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testDuplicateUsernameCaseInDB()
+    public function testDuplicateUsernameCaseInDB(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -162,7 +159,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testCaseIsPreserved()
+    public function testCaseIsPreserved(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -190,7 +187,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         );
     }
 
-    public function testWhitespaceIsTrimmed()
+    public function testWhitespaceIsTrimmed(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -218,7 +215,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         );
     }
 
-    public function testBadUserId()
+    public function testBadUserId(): void
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
@@ -228,7 +225,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testUserRequired()
+    public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);

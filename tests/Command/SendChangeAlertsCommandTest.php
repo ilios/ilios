@@ -29,6 +29,7 @@ use App\Repository\OfferingRepository;
 use App\Service\Config;
 use DateTime;
 use DateTimeZone;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -45,22 +46,16 @@ use Twig\Environment;
  */
 class SendChangeAlertsCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:send-change-alerts';
 
     protected m\MockInterface $offeringRepository;
-
     protected m\MockInterface $alertRepository;
-
     protected m\MockInterface $auditLogRepository;
-
     protected m\MockInterface $twig;
-
     protected m\MockInterface $mailer;
-
     protected CommandTester $commandTester;
-
     protected string $timezone;
 
     public function setUp(): void
@@ -104,6 +99,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         unset($this->auditLogRepository);
         unset($this->mailer);
         unset($this->commandTester);
+        unset($this->timezone);
     }
 
     /**
@@ -114,7 +110,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @param OfferingInterface $offering
      * @param AuditLogInterface[] $auditLogs
      */
-    public function testExecuteDryRun(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
+    public function testExecuteDryRun(AlertInterface $alert, OfferingInterface $offering, array $auditLogs): void
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
         $this->offeringRepository
@@ -199,9 +195,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @param OfferingInterface $offering
      * @param AuditLogInterface[] $auditLogs
      */
-    public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs)
+    public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs): void
     {
-        $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ])->shouldReceive('update');
+        $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
+        $this->alertRepository->shouldReceive('update');
         $this->offeringRepository
             ->shouldReceive('findOneBy')
             ->with([ "id" => $offering->getId() ])
@@ -220,7 +217,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
      */
-    public function testExecuteNoPendingAlerts()
+    public function testExecuteNoPendingAlerts(): void
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([]);
         $this->commandTester->execute([]);
@@ -235,9 +232,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      */
-    public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering)
+    public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering): void
     {
-        $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ])->shouldReceive('update');
+        $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
+        $this->alertRepository->shouldReceive('update');
         $this->offeringRepository
             ->shouldReceive('findOneBy')
             ->with([ "id" => $offering->getId() ])
@@ -258,9 +256,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      */
-    public function testExecuteRecipientWithoutEmail(AlertInterface $alert, OfferingInterface $offering)
+    public function testExecuteRecipientWithoutEmail(AlertInterface $alert, OfferingInterface $offering): void
     {
-        $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ])->shouldReceive('update');
+        $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
+        $this->alertRepository->shouldReceive('update');
         $this->offeringRepository
             ->shouldReceive('findOneBy')
             ->with([ "id" => $offering->getId() ])
@@ -284,10 +283,10 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @param AlertInterface $alert
      * @param OfferingInterface $offering
      */
-    public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering)
+    public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering): void
     {
-        $this->alertRepository
-            ->shouldReceive('findBy')->andReturn([ $alert ])->shouldReceive('update');
+        $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
+        $this->alertRepository->shouldReceive('update');
         $this->offeringRepository
             ->shouldReceive('findOneBy')
             ->with([ "id" => $offering->getId() ])

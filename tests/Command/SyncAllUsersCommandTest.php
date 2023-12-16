@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\SyncAllUsersCommand;
+use App\Entity\PendingUserUpdateInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\PendingUserUpdateRepository;
 use App\Repository\UserRepository;
@@ -12,6 +13,7 @@ use App\Service\Directory;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -23,36 +25,16 @@ use Mockery as m;
  */
 class SyncAllUsersCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:sync-users';
 
-    /**
-     * @var m\Mock
-     */
-    protected $userRepository;
-
-    /**
-     * @var m\Mock
-     */
-    protected $authenticationRepository;
-
-    /**
-     * @var m\Mock
-     */
-    protected $pendingUserUpdateRepository;
-    protected $commandTester;
-    protected $questionHelper;
-
-    /**
-     * @var m\Mock
-     */
-    protected $directory;
-
-    /**
-     * @var m\Mock
-     */
-    protected $em;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $authenticationRepository;
+    protected m\MockInterface $pendingUserUpdateRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $directory;
+    protected m\MockInterface $em;
 
     public function setUp(): void
     {
@@ -75,8 +57,6 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
-        $this->questionHelper = $command->getHelper('question');
-
         $this->pendingUserUpdateRepository->shouldReceive('removeAllPendingUserUpdates')->once();
         $this->userRepository->shouldReceive('resetExaminedFlagForAllUsers')->once();
     }
@@ -95,7 +75,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testExecuteUserWithNoChanges()
+    public function testExecuteUserWithNoChanges(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -113,22 +93,22 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('username')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('username');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -158,7 +138,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithFirstNameChange()
+    public function testExecuteWithFirstNameChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -176,23 +156,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->shouldReceive('setFirstName')->with('new-first')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setFirstName')->with('new-first');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -223,7 +203,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithLastNameChange()
+    public function testExecuteWithLastNameChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -241,23 +221,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->shouldReceive('setLastName')->with('new-last')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setLastName')->with('new-last');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -288,7 +268,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithPhoneNumberChange()
+    public function testExecuteWithPhoneNumberChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -306,23 +286,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->shouldReceive('setPhone')->with('new-phone')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setPhone')->with('new-phone');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -353,7 +333,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithEmailChange()
+    public function testExecuteWithEmailChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -371,22 +351,22 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -398,12 +378,12 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->andReturn([])
             ->once();
         $this->userRepository->shouldReceive('update')->with($user, false)->once();
-        $update = m::mock('App\Entity\PendingUserUpdate')
-            ->shouldReceive('setType')->with('emailMismatch')->once()
-            ->shouldReceive('setProperty')->with('email')->once()
-            ->shouldReceive('setValue')->with('new-email')->once()
-            ->shouldReceive('setUser')->with($user)->once()
-            ->mock();
+        $update = m::mock(PendingUserUpdateInterface::class);
+        $update->shouldReceive('setType')->with('emailMismatch')->once();
+        $update->shouldReceive('setProperty')->with('email')->once();
+        $update->shouldReceive('setValue')->with('new-email')->once();
+        $update->shouldReceive('setUser')->with($user)->once();
+
         $this->pendingUserUpdateRepository->shouldReceive('create')->andReturn($update)->once();
         $this->pendingUserUpdateRepository->shouldReceive('update')->with($update, false)->once();
 
@@ -425,7 +405,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithEmailCaseChange()
+    public function testExecuteWithEmailCaseChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -443,23 +423,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->shouldReceive('setEmail')->with('EMAIL')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setEmail')->with('EMAIL');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -490,7 +470,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithDisplayNameChange()
+    public function testExecuteWithDisplayNameChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -508,23 +488,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->shouldReceive('setDisplayName')->with('new display')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setDisplayName')->with('new display');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -555,7 +535,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithPronounChange()
+    public function testExecuteWithPronounChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -573,23 +553,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->shouldReceive('setPronouns')->with('new pronouns')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setPronouns')->with('new pronouns');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -619,7 +599,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithPronounRemoved()
+    public function testExecuteWithPronounRemoved(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -637,23 +617,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->shouldReceive('setPronouns')->with(null)
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setPronouns')->with(null);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -683,7 +663,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithUsernameChange()
+    public function testExecuteWithUsernameChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -701,23 +681,23 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->shouldReceive('setUsername')->with('new-abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+        $authentication->shouldReceive('setUsername')->with('new-abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -750,7 +730,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
     }
 
 
-    public function testExecuteWithNoAuthenticationDataChange()
+    public function testExecuteWithNoAuthenticationDataChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -768,24 +748,24 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn(null)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('setUser')->with($user)
-            ->shouldReceive('setUsername')->with('abc123')
-            ->shouldReceive('getUsername')->andReturn('')
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn(null);
+        $user->shouldReceive('setExamined')->with(true);
+
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('setUser')->with($user);
+        $authentication->shouldReceive('setUsername')->with('abc123');
+        $authentication->shouldReceive('getUsername')->andReturn('');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -824,7 +804,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithMultipleUserMatches()
+    public function testExecuteWithMultipleUserMatches(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -842,30 +822,30 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user1 = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn(null)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
-        $user2 = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(11)
-            ->shouldReceive('getFirstAndLastName')->andReturn('other guy')
-            ->shouldReceive('getFirstName')->andReturn('other')
-            ->shouldReceive('getLastName')->andReturn('guy')
-            ->shouldReceive('getEmail')->andReturn('other-guy')
-            ->shouldReceive('getPhone')->andReturn('')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn(null)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $user1 = m::mock(UserInterface::class);
+        $user1->shouldReceive('getId')->andReturn(42);
+        $user1->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user1->shouldReceive('getFirstName')->andReturn('first');
+        $user1->shouldReceive('getLastName')->andReturn('last');
+        $user1->shouldReceive('getEmail')->andReturn('email');
+        $user1->shouldReceive('getDisplayName')->andReturn('display');
+        $user1->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user1->shouldReceive('getPhone')->andReturn('phone');
+        $user1->shouldReceive('getCampusId')->andReturn('abc');
+        $user1->shouldReceive('getAuthentication')->andReturn(null);
+        $user1->shouldReceive('setExamined')->with(true);
+
+        $user2 = m::mock(UserInterface::class);
+        $user2->shouldReceive('getId')->andReturn(11);
+        $user2->shouldReceive('getFirstAndLastName')->andReturn('other guy');
+        $user2->shouldReceive('getFirstName')->andReturn('other');
+        $user2->shouldReceive('getLastName')->andReturn('guy');
+        $user2->shouldReceive('getEmail')->andReturn('other-guy');
+        $user2->shouldReceive('getPhone')->andReturn('');
+        $user2->shouldReceive('getCampusId')->andReturn('abc');
+        $user2->shouldReceive('getAuthentication')->andReturn(null);
+        $user2->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -897,7 +877,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithEmptyFirstName()
+    public function testExecuteWithEmptyFirstName(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -915,14 +895,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('missing person');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -941,7 +921,6 @@ class SyncAllUsersCommandTest extends KernelTestCase
             'command'      => self::COMMAND_NAME
         ]);
 
-
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
             '/firstName is required and it is missing from record with campus ID \(abc\)\.  User will not be updated./',
@@ -953,7 +932,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithEmptyLastName()
+    public function testExecuteWithEmptyLastName(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -971,14 +950,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('missing person');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -1009,7 +988,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithEmptyEmail()
+    public function testExecuteWithEmptyEmail(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -1027,14 +1006,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('missing person');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -1065,7 +1044,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithEmptyUsernamelName()
+    public function testExecuteWithEmptyUsernamelName(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -1083,14 +1062,14 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('missing person');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -1121,41 +1100,31 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithUserNotInTheDirectory()
+    public function testExecuteWithUserNotInTheDirectory(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
-        $fakeDirectoryUser = [
-            'firstName' => 'first',
-            'lastName' => 'last',
-            'email' => 'email',
-            'displayName' => 'display',
-            'pronouns' => 'pronouns',
-            'telephoneNumber' => 'phone',
-            'campusId' => 'abc',
-            'username' => 'abc123',
-        ];
         $this->directory
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([]);
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('missing person')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('missing person');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(m::hasKey('examined'), m::any())->andReturn([])
             ->andReturn([$user])
             ->once();
 
-        $update = m::mock('App\Entity\PendingUserUpdate')
-            ->shouldReceive('setType')->with('missingFromDirectory')->once()
-            ->shouldReceive('setUser')->with($user)->once()
-            ->mock();
+        $update = m::mock(PendingUserUpdateInterface::class);
+        $update->shouldReceive('setType')->with('missingFromDirectory')->once();
+        $update->shouldReceive('setUser')->with($user)->once();
+
         $this->pendingUserUpdateRepository->shouldReceive('create')->andReturn($update)->once();
         $this->pendingUserUpdateRepository->shouldReceive('update')->with($update, false)->once();
 
@@ -1163,7 +1132,6 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
         ]);
-
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -1176,7 +1144,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteEmailChangeDoesNotChangeOthers()
+    public function testExecuteEmailChangeDoesNotChangeOthers(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -1193,22 +1161,22 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $authentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUsername')->andReturn('abc123')
-            ->mock();
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])
@@ -1220,12 +1188,12 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->andReturn([])
             ->once();
         $this->userRepository->shouldReceive('update')->with($user, false)->once();
-        $update = m::mock('App\Entity\PendingUserUpdate')
-            ->shouldReceive('setType')->with('emailMismatch')->once()
-            ->shouldReceive('setProperty')->with('email')->once()
-            ->shouldReceive('setValue')->with('new-email')->once()
-            ->shouldReceive('setUser')->with($user)->once()
-            ->mock();
+        $update = m::mock(PendingUserUpdateInterface::class);
+        $update->shouldReceive('setType')->with('emailMismatch')->once();
+        $update->shouldReceive('setProperty')->with('email')->once();
+        $update->shouldReceive('setValue')->with('new-email')->once();
+        $update->shouldReceive('setUser')->with($user)->once();
+
         $this->pendingUserUpdateRepository->shouldReceive('create')->andReturn($update)->once();
         $this->pendingUserUpdateRepository->shouldReceive('update')->with($update, false)->once();
 
@@ -1242,7 +1210,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithIgnoredAuthenticationWithSameUserName()
+    public function testExecuteWithIgnoredAuthenticationWithSameUserName(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
             ->with(false, false)->andReturn(['abc']);
@@ -1260,33 +1228,33 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->shouldReceive('findByCampusIds')
             ->with(['abc'])
             ->andReturn([$fakeDirectoryUser]);
-        $user1 = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstAndLastName')->andReturn('first last')
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getDisplayName')->andReturn('display')
-            ->shouldReceive('getPronouns')->andReturn('pronouns')
-            ->shouldReceive('getPhone')->andReturn('phone')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn(null)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
-        $user2 = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(11)
-            ->shouldReceive('getFirstAndLastName')->andReturn('other guy')
-            ->shouldReceive('getFirstName')->andReturn('other')
-            ->shouldReceive('getLastName')->andReturn('guy')
-            ->shouldReceive('getEmail')->andReturn('other-guy')
-            ->shouldReceive('getPhone')->andReturn('')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('getAuthentication')->andReturn(null)
-            ->shouldReceive('setExamined')->with(true)
-            ->mock();
-        $duplicateAuthentication = m::mock(AuthenticationInterface::class)
-            ->shouldReceive('getUser')->andReturn($user2)
-            ->mock();
+        $user1 = m::mock(UserInterface::class);
+        $user1->shouldReceive('getId')->andReturn(42);
+        $user1->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user1->shouldReceive('getFirstName')->andReturn('first');
+        $user1->shouldReceive('getLastName')->andReturn('last');
+        $user1->shouldReceive('getEmail')->andReturn('email');
+        $user1->shouldReceive('getDisplayName')->andReturn('display');
+        $user1->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user1->shouldReceive('getPhone')->andReturn('phone');
+        $user1->shouldReceive('getCampusId')->andReturn('abc');
+        $user1->shouldReceive('getAuthentication')->andReturn(null);
+        $user1->shouldReceive('setExamined')->with(true);
+
+        $user2 = m::mock(UserInterface::class);
+        $user2->shouldReceive('getId')->andReturn(11);
+        $user2->shouldReceive('getFirstAndLastName')->andReturn('other guy');
+        $user2->shouldReceive('getFirstName')->andReturn('other');
+        $user2->shouldReceive('getLastName')->andReturn('guy');
+        $user2->shouldReceive('getEmail')->andReturn('other-guy');
+        $user2->shouldReceive('getPhone')->andReturn('');
+        $user2->shouldReceive('getCampusId')->andReturn('abc');
+        $user2->shouldReceive('getAuthentication')->andReturn(null);
+        $user2->shouldReceive('setExamined')->with(true);
+
+        $duplicateAuthentication = m::mock(AuthenticationInterface::class);
+        $duplicateAuthentication->shouldReceive('getUser')->andReturn($user2);
+
         $this->userRepository
             ->shouldReceive('findBy')
             ->with(['campusId' => 'abc', 'enabled' => true])

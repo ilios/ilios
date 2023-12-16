@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\FindUserCommand;
 use App\Service\Directory;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -19,12 +20,12 @@ use Mockery as m;
  */
 class FindUserCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:find-user';
 
-    protected $commandTester;
-    protected $directory;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $directory;
 
     public function setUp(): void
     {
@@ -48,7 +49,7 @@ class FindUserCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $fakeDirectoryUser = [
             'firstName' => 'first',
@@ -72,7 +73,7 @@ class FindUserCommandTest extends KernelTestCase
         );
     }
 
-    public function testTermRequired()
+    public function testTermRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);

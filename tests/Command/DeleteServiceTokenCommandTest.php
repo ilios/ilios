@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\DeleteServiceTokenCommand;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -20,7 +21,7 @@ use Mockery as m;
  */
 class DeleteServiceTokenCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:service-token:delete';
 

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\InvalidateUserTokenCommand;
+use App\Entity\AuthenticationInterface;
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use Exception;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -21,13 +24,13 @@ use DateTime;
  */
 class InvalidateUserTokenCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:invalidate-user-tokens';
 
-    protected $userRepository;
-    protected $authenticationRepository;
-    protected $commandTester;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $authenticationRepository;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -54,16 +57,16 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testHappyPathExecute()
+    public function testHappyPathExecute(): void
     {
         $now = new DateTime();
         sleep(2);
-        $authentication = m::mock('App\Entity\AuthenticationInterface')
-            ->shouldReceive('setInvalidateTokenIssuedBefore')->mock();
-        $user = m::mock('App\Entity\UserInterface')
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('setInvalidateTokenIssuedBefore');
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('somebody great');
+
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $this->commandTester->execute([
@@ -86,20 +89,19 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         );
     }
 
-    public function testNoAuthenticationForUser()
+    public function testNoAuthenticationForUser(): void
     {
-        $authentication = m::mock('App\Entity\AuthenticationInterface')
-            ->shouldReceive('setUser')
-            ->shouldReceive('setInvalidateTokenIssuedBefore')
-            ->mock();
-        $user = m::mock('App\Entity\UserInterface')
-            ->shouldReceive('getAuthentication')->andReturn(null)
-            ->shouldReceive('getFirstAndLastName')->andReturn('somebody great')
-            ->mock();
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('setUser');
+        $authentication->shouldReceive('setInvalidateTokenIssuedBefore');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getAuthentication')->andReturn(null);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('somebody great');
+
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
-        $this->authenticationRepository
-            ->shouldReceive('create')->andReturn($authentication)
-            ->shouldReceive('update')->with($authentication);
+        $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME,
             'userId'         => '1'
@@ -112,7 +114,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         );
     }
 
-    public function testBadUserId()
+    public function testBadUserId(): void
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
@@ -122,7 +124,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testUserRequired()
+    public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);

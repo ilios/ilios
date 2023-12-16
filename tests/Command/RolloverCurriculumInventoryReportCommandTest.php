@@ -9,6 +9,7 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -21,25 +22,13 @@ use Mockery as m;
  */
 class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:rollover-ci-report';
 
-    /**
-     * @var m\MockInterface
-     */
-
-    protected $service;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $reportRepository;
-
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $service;
+    protected m\MockInterface $reportRepository;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -62,7 +51,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testCommandFailsWithoutArguments()
+    public function testCommandFailsWithoutArguments(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -70,7 +59,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testCommandPassesArgumentsAndDefaultOptions()
+    public function testCommandPassesArgumentsAndDefaultOptions(): void
     {
         $reportId  = 1;
         $newReportId = 5;
@@ -99,7 +88,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
     }
 
 
-    public function testCommandPassesUserProvidedOptions()
+    public function testCommandPassesUserProvidedOptions(): void
     {
         $options = [
             'name' => 'foo',
@@ -140,7 +129,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
             ->once();
     }
 
-    public function testCommandPrintsOutNewReportIdOnSuccess()
+    public function testCommandPrintsOutNewReportIdOnSuccess(): void
     {
         $reportId  = 1;
         $newReportId = 5;

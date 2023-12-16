@@ -9,6 +9,7 @@ use App\Entity\SchoolConfig;
 use App\Entity\SchoolInterface;
 use App\Repository\SchoolConfigRepository;
 use App\Repository\SchoolRepository;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -22,13 +23,13 @@ use Mockery as m;
  */
 class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:set-school-config-value';
 
-    protected $commandTester;
-    protected $schoolRepository;
-    protected $schoolConfigRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $schoolRepository;
+    protected m\MockInterface $schoolConfigRepository;
 
     public function setUp(): void
     {
@@ -54,7 +55,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testSaveExistingConfig()
+    public function testSaveExistingConfig(): void
     {
         $mockSchool = m::mock(SchoolInterface::class);
         $mockSchool->shouldReceive('getId')->once()->andReturn(1);
@@ -75,7 +76,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testSaveNewConfig()
+    public function testSaveNewConfig(): void
     {
         $mockSchool = m::mock(SchoolInterface::class);
         $mockSchool->shouldReceive('getId')->once()->andReturn(1);
@@ -100,7 +101,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testNameRequired()
+    public function testNameRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -110,7 +111,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testValueRequired()
+    public function testValueRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -120,7 +121,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testSchoolRequired()
+    public function testSchoolRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([

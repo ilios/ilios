@@ -9,6 +9,7 @@ use App\Entity\SchoolConfigInterface;
 use App\Entity\SchoolInterface;
 use App\Repository\SchoolConfigRepository;
 use App\Repository\SchoolRepository;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -22,13 +23,13 @@ use Mockery as m;
  */
 class ListSchoolConfigValuesCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:list-school-config-values';
 
-    protected $commandTester;
-    protected $schoolRepository;
-    protected $schoolConfigRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $schoolRepository;
+    protected m\MockInterface $schoolConfigRepository;
 
     public function setUp(): void
     {
@@ -54,7 +55,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $mockSchool = m::mock(SchoolInterface::class);
         $this->schoolRepository->shouldReceive('findOneBy')->once()->with(['id' => '1'])->andReturn($mockSchool);
@@ -77,7 +78,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
         );
     }
 
-    public function testSchoolRequired()
+    public function testSchoolRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([

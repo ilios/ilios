@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\SetupAuthenticationCommand;
 use App\Entity\ApplicationConfigInterface;
 use App\Repository\ApplicationConfigRepository;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -18,17 +19,12 @@ use Mockery as m;
  */
 class SetupAuthenticationCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:setup-authentication';
 
-    protected $applicationConfigRepository;
-    protected $questionHelper;
-
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $applicationConfigRepository;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -43,20 +39,19 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
-        $this->questionHelper = $commandInApp->getHelper('question');
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
         unset($this->applicationConfigRepository);
-        unset($this->questionHelper);
+        unset($this->commandTester);
     }
 
-    public function testFormAuth()
+    public function testFormAuth(): void
     {
-        $authTypeConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('form')->mock();
+        $authTypeConfig = m::mock(ApplicationConfigInterface::class);
+        $authTypeConfig->shouldReceive('setValue')->once()->with('form');
         $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
         $this->applicationConfigRepository->shouldReceive('update')->with($authTypeConfig, false)->once();
@@ -72,16 +67,16 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $this->assertStringContainsString('Authentication Setup Successfully!', $output);
     }
 
-    public function testCasAuth()
+    public function testCasAuth(): void
     {
-        $authTypeConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('cas')->mock();
-        $urlConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('URL')->mock();
-        $versionConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('3')->mock();
-        $verifySslConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('true')->mock();
+        $authTypeConfig = m::mock(ApplicationConfigInterface::class);
+        $authTypeConfig->shouldReceive('setValue')->once()->with('cas');
+        $urlConfig = m::mock(ApplicationConfigInterface::class);
+        $urlConfig->shouldReceive('setValue')->once()->with('URL');
+        $versionConfig = m::mock(ApplicationConfigInterface::class);
+        $versionConfig->shouldReceive('setValue')->once()->with('3');
+        $verifySslConfig = m::mock(ApplicationConfigInterface::class);
+        $verifySslConfig->shouldReceive('setValue')->once()->with('true');
         $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
         $this->applicationConfigRepository->shouldReceive('findOneBy')
@@ -112,16 +107,16 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $this->assertStringContainsString('Authentication Setup Successfully!', $output);
     }
 
-    public function testLdapAuth()
+    public function testLdapAuth(): void
     {
-        $authTypeConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('ldap')->mock();
-        $hostConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('MOON13')->mock();
-        $portConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('PORT88')->mock();
-        $bindTemplateConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('uid=?')->mock();
+        $authTypeConfig = m::mock(ApplicationConfigInterface::class);
+        $authTypeConfig->shouldReceive('setValue')->once()->with('ldap');
+        $hostConfig = m::mock(ApplicationConfigInterface::class);
+        $hostConfig->shouldReceive('setValue')->once()->with('MOON13');
+        $portConfig = m::mock(ApplicationConfigInterface::class);
+        $portConfig->shouldReceive('setValue')->once()->with('PORT88');
+        $bindTemplateConfig = m::mock(ApplicationConfigInterface::class);
+        $bindTemplateConfig->shouldReceive('setValue')->once()->with('uid=?');
         $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
         $this->applicationConfigRepository->shouldReceive('findOneBy')
@@ -151,16 +146,16 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $this->assertStringContainsString('Authentication Setup Successfully!', $output);
     }
 
-    public function testShibAuth()
+    public function testShibAuth(): void
     {
-        $authTypeConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('shibboleth')->mock();
-        $loginPathConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('/LOGIN')->mock();
-        $logoutPathConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('/LOGOUT')->mock();
-        $attributeConfig = m::mock(ApplicationConfigInterface::class)->shouldReceive('setValue')
-            ->once()->with('cn1')->mock();
+        $authTypeConfig = m::mock(ApplicationConfigInterface::class);
+        $authTypeConfig->shouldReceive('setValue')->once()->with('shibboleth');
+        $loginPathConfig = m::mock(ApplicationConfigInterface::class);
+        $loginPathConfig->shouldReceive('setValue')->once()->with('/LOGIN');
+        $logoutPathConfig = m::mock(ApplicationConfigInterface::class);
+        $logoutPathConfig->shouldReceive('setValue')->once()->with('/LOGOUT');
+        $attributeConfig = m::mock(ApplicationConfigInterface::class);
+        $attributeConfig->shouldReceive('setValue')->once()->with('cn1');
         $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'authentication_type'])->once()->andReturn($authTypeConfig);
         $this->applicationConfigRepository->shouldReceive('findOneBy')

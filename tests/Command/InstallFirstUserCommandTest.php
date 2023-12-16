@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Classes\SessionUserInterface;
+use App\Entity\AuthenticationInterface;
+use App\Entity\SchoolInterface;
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
@@ -12,6 +15,7 @@ use App\Service\SessionUserProvider;
 use App\Command\InstallFirstUserCommand;
 use App\Entity\User;
 use Exception;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -24,21 +28,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class InstallFirstUserCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:setup-first-user';
 
-    protected $userRepository;
-    protected $authenticationRepository;
-    protected $schoolRepository;
-    protected $hasher;
-    protected $questionHelper;
-    protected $sessionUserProvider;
-
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $authenticationRepository;
+    protected m\MockInterface $schoolRepository;
+    protected m\MockInterface $hasher;
+    protected m\MockInterface $sessionUserProvider;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -61,7 +60,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
-        $this->questionHelper = $commandInApp->getHelper('question');
     }
 
     public function tearDown(): void
@@ -70,12 +68,12 @@ class InstallFirstUserCommandTest extends KernelTestCase
         unset($this->userRepository);
         unset($this->authenticationRepository);
         unset($this->schoolRepository);
+        unset($this->hasher);
         unset($this->commandTester);
-        unset($this->questionHelper);
         unset($this->sessionUserProvider);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $this->getReadyForInput();
         $this->commandTester->execute([
@@ -87,7 +85,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->checkOuput();
     }
 
-    public function testUserExists()
+    public function testUserExists(): void
     {
         $this->userRepository->shouldReceive('findOneBy')->with([])->andReturn(new User());
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
@@ -98,7 +96,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testBadSchoolId()
+    public function testBadSchoolId(): void
     {
         $this->userRepository->shouldReceive('findOneBy')->with([])->andReturn(null);
         $this->schoolRepository->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([]);
@@ -109,7 +107,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testAskForMissingSchools()
+    public function testAskForMissingSchools(): void
     {
         $this->getReadyForInput();
         $this->commandTester->setInputs(['0', 'Yes']);
@@ -120,7 +118,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->checkOuput();
     }
 
-    public function testAskForMissingEmail()
+    public function testAskForMissingEmail(): void
     {
         $this->getReadyForInput();
         $this->commandTester->setInputs(['email@example.com', 'Yes']);
@@ -131,32 +129,29 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->checkOuput();
     }
 
-    protected function getReadyForInput()
+    protected function getReadyForInput(): void
     {
-        $school = m::mock('App\Entity\SchoolInterface')
-            ->shouldReceive('getId')->andReturn(1)
-            ->shouldReceive('getTitle')->andReturn('Big School Title')
-            ->mock();
+        $school = m::mock(SchoolInterface::class);
+        $school->shouldReceive('getId')->andReturn(1);
+        $school->shouldReceive('getTitle')->andReturn('Big School Title');
         $sessionUser = m::mock(SessionUserInterface::class);
-        $developerRole = m::mock('App\Entity\UserRoleInterface');
-        $courseDirectorRole = m::mock('App\Entity\UserRoleInterface');
-        $user = m::mock('App\Entity\UserInterface')
-            ->shouldReceive('setFirstName')->with('First')
-            ->shouldReceive('setLastName')->with('User')
-            ->shouldReceive('setMiddleName')
-            ->shouldReceive('setEmail')->with('email@example.com')
-            ->shouldReceive('setAddedViaIlios')->with(true)
-            ->shouldReceive('setEnabled')->with(true)
-            ->shouldReceive('setUserSyncIgnore')->with(false)
-            ->shouldReceive('setSchool')->with($school)
-            ->shouldReceive('setRoot')->with(true)
-            ->mock();
-        $authentication = m::mock('App\Entity\AuthenticationInterface')
-            ->shouldReceive('setUsername')->with('first_user')
-            ->shouldReceive('setPasswordHash')->with('hashBlurb')
-            ->shouldReceive('getUser')->andReturn($user)
-            ->shouldReceive('setUser')
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('setFirstName')->with('First');
+        $user->shouldReceive('setLastName')->with('User');
+        $user->shouldReceive('setMiddleName');
+        $user->shouldReceive('setEmail')->with('email@example.com');
+        $user->shouldReceive('setAddedViaIlios')->with(true);
+        $user->shouldReceive('setEnabled')->with(true);
+        $user->shouldReceive('setUserSyncIgnore')->with(false);
+        $user->shouldReceive('setSchool')->with($school);
+        $user->shouldReceive('setRoot')->with(true);
+
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('setUsername')->with('first_user');
+        $authentication->shouldReceive('setPasswordHash')->with('hashBlurb');
+        $authentication->shouldReceive('getUser')->andReturn($user);
+        $authentication->shouldReceive('setUser');
+
         $user->shouldReceive('setAuthentication')->with($authentication);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($school);
         $this->schoolRepository->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([$school]);
@@ -170,7 +165,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
     }
 
-    protected function checkOuput()
+    protected function checkOuput(): void
     {
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('Success!', $output);

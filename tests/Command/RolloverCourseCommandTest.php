@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\RolloverCourseCommand;
 use App\Entity\Course;
 use App\Service\CourseRollover;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -19,20 +20,12 @@ use Mockery as m;
  */
 class RolloverCourseCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:rollover-course';
 
-    /**
-     * @var m\MockInterface
-     */
-
-    protected $service;
-
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $service;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -54,7 +47,7 @@ class RolloverCourseCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testCommandFailsWithoutArguments()
+    public function testCommandFailsWithoutArguments(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -62,7 +55,7 @@ class RolloverCourseCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testCommandPassesArgumentsAndDefaultOptions()
+    public function testCommandPassesArgumentsAndDefaultOptions(): void
     {
         $courseId  = '1';
         $newAcademicYear = '2017';
@@ -101,7 +94,7 @@ class RolloverCourseCommandTest extends KernelTestCase
             ->once();
     }
 
-    public function testCommandPassesUserProvidedOptions()
+    public function testCommandPassesUserProvidedOptions(): void
     {
         $customOptions = [
             'new-start-date' => '2016-03-12',
@@ -146,7 +139,7 @@ class RolloverCourseCommandTest extends KernelTestCase
             ->once();
     }
 
-    public function testCommandPrintsOutNewCourseIdOnSuccess()
+    public function testCommandPrintsOutNewCourseIdOnSuccess(): void
     {
         $courseId  = '1';
         $newAcademicYear = '2017';

@@ -8,6 +8,7 @@ use App\Command\ListConfigValuesCommand;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -21,12 +22,12 @@ use Mockery as m;
  */
 class ListConfigValuesCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:list-config-values';
 
-    protected $commandTester;
-    protected $applicationConfigRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $applicationConfigRepository;
 
     public function setUp(): void
     {
@@ -55,7 +56,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $mockConfig = m::mock(ApplicationConfig::class);
         $mockConfig->shouldReceive('getName')->once()->andReturn('the-name');
@@ -88,7 +89,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    public function testExecuteWithConnectionException()
+    public function testExecuteWithConnectionException(): void
     {
         $exception = m::mock(ConnectionException::class);
         $this->applicationConfigRepository->shouldReceive('findBy')

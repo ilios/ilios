@@ -6,6 +6,7 @@ namespace App\Tests\Command\Index;
 
 use App\Command\Index\DropCommand;
 use App\Service\Index\Manager;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -16,13 +17,10 @@ use Mockery as m;
  */
 class DropCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
-    /** @var CommandTester */
-    protected $commandTester;
-
-    /** @var m\Mock */
-    protected $indexManager;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $indexManager;
 
 
     public function setUp(): void
@@ -45,9 +43,10 @@ class DropCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->indexManager);
+        unset($this->commandTester);
     }
 
-    public function testRequireForce()
+    public function testRequireForce(): void
     {
         $this->commandTester->execute([
             'command' => DropCommand::COMMAND_NAME,
@@ -60,7 +59,7 @@ class DropCommandTest extends KernelTestCase
         );
     }
 
-    public function testDropsWithForce()
+    public function testDropsWithForce(): void
     {
         $this->indexManager->shouldReceive('drop')->once();
 

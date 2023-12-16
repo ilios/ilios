@@ -9,11 +9,13 @@ use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
 use App\Service\IliosFileSystem;
 use Exception;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -23,23 +25,19 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:migrate-learning-materials';
 
-    protected $symfonyFileSystem;
-    protected $iliosFileSystem;
-    protected $learningMaterialRepository;
-
-    /**
-     * @var CommandTester
-     */
-    private $commandTester;
+    protected m\MockInterface $symfonyFileSystem;
+    protected m\MockInterface $iliosFileSystem;
+    protected m\MockInterface $learningMaterialRepository;
+    private CommandTester $commandTester;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->symfonyFileSystem = m::mock('Symfony\Component\Filesystem\Filesystem');
+        $this->symfonyFileSystem = m::mock(Filesystem::class);
         $this->iliosFileSystem = m::mock(IliosFileSystem::class);
         $this->learningMaterialRepository = m::mock(LearningMaterialRepository::class);
 
@@ -63,25 +61,22 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->symfonyFileSystem);
         unset($this->iliosFileSystem);
-        unset($this->directory);
         unset($this->learningMaterialRepository);
+        unset($this->commandTester);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
-        $this->symfonyFileSystem
-            ->shouldReceive('exists')->with(__DIR__ . '/')->andReturn(true)
-            ->shouldReceive('exists')->with(__FILE__)->andReturn(true);
-        $lm = m::mock(LearningMaterialInterface::class)
-            ->shouldReceive('getRelativePath')->andReturn(basename(__FILE__))->once()
-            ->shouldReceive('setRelativePath')->with('newrelativepath')->once()
-            ->mock();
-        $this->learningMaterialRepository
-            ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
-            ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
-            ->shouldReceive('update')->with($lm, false)->once()
-            ->shouldReceive('flushAndClear')->once()
-        ;
+        $this->symfonyFileSystem->shouldReceive('exists')->with(__DIR__ . '/')->andReturn(true);
+        $this->symfonyFileSystem->shouldReceive('exists')->with(__FILE__)->andReturn(true);
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getRelativePath')->andReturn(basename(__FILE__))->once();
+        $lm->shouldReceive('setRelativePath')->with('newrelativepath')->once();
+
+        $this->learningMaterialRepository->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once();
+        $this->learningMaterialRepository->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once();
+        $this->learningMaterialRepository->shouldReceive('update')->with($lm, false)->once();
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->iliosFileSystem
             ->shouldReceive('storeLearningMaterialFile')->with(\Mockery::on(function ($argument) {
@@ -111,20 +106,17 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         );
     }
 
-    public function testExecuteWithBadRelativePath()
+    public function testExecuteWithBadRelativePath(): void
     {
-        $this->symfonyFileSystem
-            ->shouldReceive('exists')->with('path')->andReturn(true)
-            ->shouldReceive('exists')->with('path/pathtofile')->andReturn(false);
+        $this->symfonyFileSystem->shouldReceive('exists')->with('path')->andReturn(true);
+        $this->symfonyFileSystem->shouldReceive('exists')->with('path/pathtofile')->andReturn(false);
 
-        $lm = m::mock('App\Entity\LearningMaterial')
-            ->shouldReceive('getRelativePath')->andReturn('/pathtofile')->once()
-            ->mock();
-        $this->learningMaterialRepository
-            ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
-            ->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once()
-            ->shouldReceive('flushAndClear')->once()
-        ;
+        $lm = m::mock(LearningMaterialInterface::class);
+        $lm->shouldReceive('getRelativePath')->andReturn('/pathtofile')->once();
+
+        $this->learningMaterialRepository->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once();
+        $this->learningMaterialRepository->shouldReceive('findFileLearningMaterials')->andReturn([$lm])->once();
+        $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
@@ -143,7 +135,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         );
     }
 
-    public function testBadIlios2Path()
+    public function testBadIlios2Path(): void
     {
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
         $this->expectException(Exception::class);
@@ -153,7 +145,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testIlios2PathRequired()
+    public function testIlios2PathRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);

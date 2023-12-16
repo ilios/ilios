@@ -23,6 +23,7 @@ use App\Repository\TermRepository;
 use App\Repository\UserRoleRepository;
 use App\Repository\VocabularyRepository;
 use App\Service\DefaultDataImporter;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -37,7 +38,7 @@ use Mockery as m;
  */
 class ImportDefaultDataCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     protected CommandTester $commandTester;
     protected m\MockInterface $defaultDataImporter;
@@ -58,9 +59,7 @@ class ImportDefaultDataCommandTest extends KernelTestCase
     protected m\MockInterface $userRoleRepository;
     protected m\MockInterface $vocabularyRepository;
 
-
     private const COMMAND_NAME = 'ilios:import-default-data';
-
 
     public function setUp(): void
     {

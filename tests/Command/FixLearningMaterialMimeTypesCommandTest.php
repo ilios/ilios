@@ -9,6 +9,7 @@ use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
 use App\Service\TemporaryFileSystem;
 use ErrorException;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -23,14 +24,14 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:fix-mime-types';
 
-    protected $iliosFileSystem;
-    protected $temporaryFileSystem;
-    protected $learningMaterialRepository;
-    protected $commandTester;
+    protected m\MockInterface $iliosFileSystem;
+    protected m\MockInterface $temporaryFileSystem;
+    protected m\MockInterface $learningMaterialRepository;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -58,11 +59,12 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->iliosFileSystem);
+        unset($this->temporaryFileSystem);
         unset($this->learningMaterialRepository);
         unset($this->commandTester);
     }
 
-    public function testFixCitationType()
+    public function testFixCitationType(): void
     {
         $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
@@ -92,7 +94,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         );
     }
 
-    public function testFixBlankCitationType()
+    public function testFixBlankCitationType(): void
     {
         $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
@@ -122,7 +124,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         );
     }
 
-    public function testFixLinkType()
+    public function testFixLinkType(): void
     {
         $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
@@ -153,7 +155,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         );
     }
 
-    public function testFixBlankLinkType()
+    public function testFixBlankLinkType(): void
     {
         $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
@@ -184,7 +186,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         );
     }
 
-    public function testFixFileType()
+    public function testFixFileType(): void
     {
         $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
@@ -193,7 +195,8 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         $mockLm->shouldReceive('getMimetype')->once()->andReturn('citation');
         $mockLm->shouldReceive('setMimetype')->with('pdf-type-file')->once();
 
-        $mockFile = m::mock(File::class)->shouldReceive('getMimeType')->once()->andReturn('pdf-type-file')->mock();
+        $mockFile = m::mock(File::class);
+        $mockFile->shouldReceive('getMimeType')->once()->andReturn('pdf-type-file');
         $this->iliosFileSystem->shouldReceive('getFileContents')
             ->once()->with('/tmp/somewhere')->andReturn('some contents');
         $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);
@@ -219,7 +222,7 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         );
     }
 
-    public function testFixFileWithUndetectableTypeType()
+    public function testFixFileWithUndetectableTypeType(): void
     {
         $this->learningMaterialRepository->shouldReceive('getTotalLearningMaterialCount')
             ->once()->andReturn(1);
@@ -230,8 +233,8 @@ class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         $mockLm->shouldReceive('getFilename')->once()->andReturn('test.pdf');
 
 
-        $mockFile = m::mock(File::class)->shouldReceive('getMimeType')
-            ->once()->andThrow(new ErrorException())->mock();
+        $mockFile = m::mock(File::class);
+        $mockFile->shouldReceive('getMimeType')->once()->andThrow(new ErrorException());
         $this->iliosFileSystem->shouldReceive('getFileContents')
             ->once()->with('/tmp/somewhere')->andReturn('some contents');
         $this->temporaryFileSystem->shouldReceive('createFile')->once()->with('some contents')->andReturn($mockFile);

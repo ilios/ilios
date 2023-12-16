@@ -6,6 +6,7 @@ namespace App\Tests\Command\Index;
 
 use App\Command\Index\CreateCommand;
 use App\Service\Index\Manager;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -16,7 +17,7 @@ use Mockery as m;
  */
 class CreateCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     protected CommandTester $commandTester;
     protected m\MockInterface $indexManager;
@@ -41,9 +42,10 @@ class CreateCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->indexManager);
+        unset($this->commandTester);
     }
 
-    public function testCreateWithIndexDisabled()
+    public function testCreateWithIndexDisabled(): void
     {
         $this->indexManager->shouldReceive('isEnabled')->once()->andReturn(false);
         $this->indexManager->shouldNotReceive('create');
@@ -58,7 +60,7 @@ class CreateCommandTest extends KernelTestCase
             $output
         );
     }
-    public function testCreateWithIndexEnabled()
+    public function testCreateWithIndexEnabled(): void
     {
         $this->indexManager->shouldReceive('isEnabled')->once()->andReturn(true);
         $this->indexManager->shouldReceive('create')->once();

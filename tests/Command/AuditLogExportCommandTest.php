@@ -9,6 +9,7 @@ use App\Repository\AuditLogRepository;
 use DateTime;
 use DateTimeZone;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -25,16 +26,11 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class AuditLogExportCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
-
-    protected $logger;
-
-    protected $auditLogRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $logger;
+    protected m\MockInterface $auditLogRepository;
 
     public function setUp(): void
     {
@@ -53,7 +49,7 @@ class AuditLogExportCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\InstallFirstUserCommand::execute
      */
-    public function testExecuteWithDefaultRange()
+    public function testExecuteWithDefaultRange(): void
     {
         $this->auditLogRepository
             ->shouldReceive('findInRange')
@@ -75,7 +71,7 @@ class AuditLogExportCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\InstallFirstUserCommand::execute
      */
-    public function testExecuteWithCustomRange()
+    public function testExecuteWithCustomRange(): void
     {
         $this->auditLogRepository
             ->shouldReceive('findInRange')
@@ -100,7 +96,7 @@ class AuditLogExportCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\InstallFirstUserCommand::execute
      */
-    public function testExecuteCheckTableOutput()
+    public function testExecuteCheckTableOutput(): void
     {
         $now = new DateTime();
 
@@ -133,7 +129,7 @@ class AuditLogExportCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\InstallFirstUserCommand::execute
      */
-    public function testExecuteCheckLogging()
+    public function testExecuteCheckLogging(): void
     {
         $from = (new DateTime('midnight yesterday', new DateTimeZone('UTC')))->format('c');
         $to = (new DateTime('midnight today', new DateTimeZone('UTC')))->format('c');
@@ -179,7 +175,7 @@ class AuditLogExportCommandTest extends KernelTestCase
      * @covers \App\Command\InstallFirstUserCommand::execute
      */
 
-    public function testExecuteWithDeletion()
+    public function testExecuteWithDeletion(): void
     {
         $midnightYesterday = new DateTime('midnight yesterday', new DateTimeZone('UTC'));
         $midnightToday = new DateTime('midnight today', new DateTimeZone('UTC'));

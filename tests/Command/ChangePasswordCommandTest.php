@@ -31,16 +31,11 @@ class ChangePasswordCommandTest extends KernelTestCase
 
     private const COMMAND_NAME = 'ilios:change-password';
 
-    /** @var CommandTester */
-    protected $commandTester;
-
-    /** @var UserRepository */
-    protected $userRepository;
-    /** @var AuthenticationRepository */
-    protected $authenticationRepository;
-    protected m\MockInterface|UserPasswordHasherInterface $hasher;
-    /** @var SessionUserProvider */
-    protected $sessionUserProvider;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $authenticationRepository;
+    protected m\MockInterface $hasher;
+    protected m\MockInterface $sessionUserProvider;
 
     public function setUp(): void
     {
@@ -80,7 +75,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testChangePassword()
+    public function testChangePassword(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -107,7 +102,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         );
     }
 
-    public function testUserWithoutAuthentication()
+    public function testUserWithoutAuthentication(): void
     {
         $user = m::mock(UserInterface::class);
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -139,7 +134,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         );
     }
 
-    public function testBadUserId()
+    public function testBadUserId(): void
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
@@ -149,7 +144,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testUserRequired()
+    public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);
