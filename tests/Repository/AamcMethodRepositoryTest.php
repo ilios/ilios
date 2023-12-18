@@ -11,7 +11,6 @@ use App\Tests\Fixture\LoadAamcMethodData;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class AamcMethodRepositoryTest extends KernelTestCase
 {
@@ -28,10 +27,8 @@ class AamcMethodRepositoryTest extends KernelTestCase
         ]);
         $this->fixtures = $executor->getReferenceRepository();
 
-        $this->repository = self::$kernel->getContainer()
-            ->get('doctrine')
-            ->getManager()
-            ->getRepository(AamcMethod::class);
+        $entityManager = self::$kernel->getContainer()->get('doctrine')->getManager();
+        $this->repository = $entityManager->getRepository(AamcMethod::class); /** @phpstan-ignore-line */
     }
 
     public function testFindById()
@@ -42,7 +39,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
         $this->assertSame('AM002', $entity->getId());
     }
 
-    public function testFindDtoById()
+    public function testFindDtoById(): void
     {
         $dto = $this->repository->findDTOBy(['id' => 'AM002']);
         $this->assertNotNull($dto);
@@ -50,7 +47,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
         $this->assertSame('AM002', $dto->id);
     }
 
-    public function testFindDtosBy()
+    public function testFindDtosBy(): void
     {
         $dtos = $this->repository->findDTOsBy([]);
         $this->assertIsArray($dtos);
@@ -61,7 +58,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
         $this->assertSame('AM002', $dtos[1]->id);
     }
 
-    public function testFindDtosByWithCacheEnabled()
+    public function testFindDtosByWithCacheEnabled(): void
     {
         $env = getenv('ILIOS_FEATURE_DTO_CACHING');
         putenv("ILIOS_FEATURE_DTO_CACHING=true");
@@ -80,7 +77,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-
+        unset($this->fixtures);
         unset($this->repository);
     }
 }
