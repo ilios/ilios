@@ -47,7 +47,7 @@ class TemporaryFileSystemTest extends TestCase
         $fs->remove($this->fakeTestFileDir);
     }
 
-    public function testStoreFile()
+    public function testStoreFile(): void
     {
         $path = __FILE__;
         $hash = md5_file($path);
@@ -60,14 +60,14 @@ class TemporaryFileSystemTest extends TestCase
         $this->tempFileSystem->storeFile($file);
     }
 
-    public function testRemoveFile()
+    public function testRemoveFile(): void
     {
         $file = 'foojunk';
         $this->mockFileSystem->shouldReceive('remove')->once()->with($this->uploadDirectory . '/' . $file);
         $this->tempFileSystem->removeFile($file);
     }
 
-    public function testGetFile()
+    public function testGetFile(): void
     {
         $fs = new SymfonyFileSystem();
         $someJunk = 'whatever dude';
@@ -79,7 +79,7 @@ class TemporaryFileSystemTest extends TestCase
         $this->mockFileSystem->shouldReceive('exists')
             ->with($testFilePath)->andReturn(true);
         $this->mockFileSystem->shouldReceive('move');
-        $newHash = $this->tempFileSystem->storeFile($file, false);
+        $newHash = $this->tempFileSystem->storeFile($file);
 
         $newFile = $this->tempFileSystem->getFile($newHash);
         $this->assertSame($hash, $newHash);
