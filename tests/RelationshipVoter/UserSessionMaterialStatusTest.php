@@ -21,10 +21,10 @@ class UserSessionMaterialStatusTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testSelfHasFullAccess()
+    public function testSelfHasFullAccess(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $sessionUser = $token->getUser();
+        $sessionUser = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $user = m::mock(UserInterface::class);
         $entity = m::mock(UserSessionMaterialStatusInterface::class);
         foreach ([VoterPermissions::VIEW, VoterPermissions::DELETE, VoterPermissions::EDIT] as $attr) {
@@ -36,10 +36,10 @@ class UserSessionMaterialStatusTest extends AbstractBase
         }
     }
 
-    public function testDenyOtherUserAccess()
+    public function testDenyOtherUserAccess(): void
     {
-        $token = $this->createMockTokenWithRootSessionUser();
-        $sessionUser = $token->getUser();
+        $sessionUser = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $user = m::mock(UserInterface::class);
         $user2 = m::mock(UserInterface::class);
         $entity = m::mock(UserSessionMaterialStatusInterface::class);

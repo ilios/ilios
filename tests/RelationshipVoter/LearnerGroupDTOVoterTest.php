@@ -28,9 +28,10 @@ class LearnerGroupDTOVoterTest extends AbstractBase
     /**
      * @covers ::voteOnAttribute()
      */
-    public function testRootCanViewDTO()
+    public function testRootCanViewDTO(): void
     {
-        $token = $this->createMockTokenWithRootSessionUser();
+        $user = $this->createMockRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock(LearnerGroupDTO::class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
@@ -39,9 +40,10 @@ class LearnerGroupDTOVoterTest extends AbstractBase
     /**
      * @covers ::voteOnAttribute()
      */
-    public function testUserCanViewDTO()
+    public function testUserCanViewDTO(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock(LearnerGroupDTO::class);
         $dto->id = 1;
         $this->permissionChecker->shouldReceive('canViewLearnerGroup')->andReturn(true);
@@ -52,9 +54,10 @@ class LearnerGroupDTOVoterTest extends AbstractBase
     /**
      * @covers ::voteOnAttribute()
      */
-    public function testCanNotViewDTO()
+    public function testCanNotViewDTO(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock(LearnerGroupDTO::class);
         $dto->id = 1;
         $this->permissionChecker->shouldReceive('canViewLearnerGroup')->andReturn(false);

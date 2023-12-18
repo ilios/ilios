@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
 {
-    protected $dto;
+    protected UserSessionMaterialStatusDTOVoter $dto;
 
     public function setUp(): void
     {
@@ -29,11 +29,11 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
     /**
      * @covers \App\RelationshipVoter\UserSessionMaterialStatusDTOVoter::voteOnAttribute
      */
-    public function testCanViewDTOifYourself()
+    public function testCanViewDTOifYourself(): void
     {
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $dto = m::mock(UserSessionMaterialStatusDTO::class);
         $dto->user = $userId;
@@ -45,12 +45,12 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
     /**
      * @covers \App\RelationshipVoter\UserSessionMaterialStatusDTOVoter::voteOnAttribute
      */
-    public function testRootCanNotViewDTO()
+    public function testRootCanNotViewDTO(): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(true);
         $sessionUser->shouldReceive('getId')->andReturn(13);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $dto = m::mock(UserSessionMaterialStatusDTO::class);
         $dto->user = 1;
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
@@ -60,12 +60,12 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
     /**
      * @covers \App\RelationshipVoter\UserSessionMaterialStatusDTOVoter::voteOnAttribute
      */
-    public function testCanNotViewDTO()
+    public function testCanNotViewDTO(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $dto = m::mock(UserSessionMaterialStatusDTO::class);
         $dto->user = $dtoId;

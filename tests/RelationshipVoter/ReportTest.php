@@ -21,15 +21,15 @@ class ReportTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(m::mock(ReportInterface::class));
     }
 
-    public function testCanView()
+    public function testCanView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(ReportInterface::class);
         $entity->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
         $user->shouldReceive('isTheUser')->andReturn(true);
@@ -37,10 +37,10 @@ class ReportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanEdit()
+    public function testCanEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(ReportInterface::class);
         $entity->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
         $user->shouldReceive('isTheUser')->andReturn(true);
@@ -48,10 +48,10 @@ class ReportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
-    public function testCanNotEdit()
+    public function testCanNotEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(ReportInterface::class);
         $entity->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
         $user->shouldReceive('isTheUser')->andReturn(false);
@@ -59,10 +59,10 @@ class ReportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
-    public function testCanDelete()
+    public function testCanDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(ReportInterface::class);
         $entity->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
         $user->shouldReceive('isTheUser')->andReturn(true);
@@ -70,10 +70,10 @@ class ReportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
-    public function testCanNotDelete()
+    public function testCanNotDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(ReportInterface::class);
         $entity->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
         $user->shouldReceive('isTheUser')->andReturn(false);
@@ -81,10 +81,10 @@ class ReportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
-    public function testCanCreate()
+    public function testCanCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(ReportInterface::class);
         $entity->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
         $user->shouldReceive('isTheUser')->andReturn(true);
@@ -92,10 +92,10 @@ class ReportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
-    public function testCanNotCreate()
+    public function testCanNotCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(ReportInterface::class);
         $entity->shouldReceive('getUser')->andReturn(m::mock(UserInterface::class));
         $user->shouldReceive('isTheUser')->andReturn(false);

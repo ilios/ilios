@@ -25,26 +25,27 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(m::mock(SessionLearningMaterialInterface::class));
     }
 
-    public function testCanViewUserPerformingNonLearnerFunction()
+    public function testCanViewUserPerformingNonLearnerFunction(): void
     {
-        $token = $this->createMockTokenWithSessionUserPerformingNonLearnerFunction();
+        $user = $this->createMockSessionUserPerformingNonLearnerFunction();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanNotViewAsLearnerOnly()
+    public function testCanNotViewAsLearnerOnly(): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $sessionUser->shouldReceive('isLearnerInSession')->andReturn(false);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(13);
@@ -55,13 +56,13 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
     }
 
-    public function testCanNotViewAsLearnerBeforeStartDate()
+    public function testCanNotViewAsLearnerBeforeStartDate(): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $sessionUser->shouldReceive('isLearnerInSession')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(13);
@@ -72,13 +73,13 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
     }
 
-    public function testCanNotViewAsLearnerAfterEndDate()
+    public function testCanNotViewAsLearnerAfterEndDate(): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $sessionUser->shouldReceive('isLearnerInSession')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(13);
@@ -89,13 +90,13 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View allowed");
     }
 
-    public function testCanViewAsLearnerInSession()
+    public function testCanViewAsLearnerInSession(): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $sessionUser->shouldReceive('isLearnerInSession')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(13);
@@ -106,9 +107,10 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanEdit()
+    public function testCanEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -124,9 +126,10 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
-    public function testCanNotEdit()
+    public function testCanNotEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -142,9 +145,10 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
-    public function testCanDelete()
+    public function testCanDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -160,9 +164,10 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
-    public function testCanNotDelete()
+    public function testCanNotDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -178,9 +183,10 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
-    public function testCanCreate()
+    public function testCanCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -196,9 +202,10 @@ class SessionLearningMaterialTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
-    public function testCanNotCreate()
+    public function testCanNotCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SessionLearningMaterialInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);

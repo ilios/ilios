@@ -20,14 +20,15 @@ class ApplicationConfigDTOTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootDTOAccess(ApplicationConfigDTO::class);
     }
 
-    public function testCanNotViewDTO()
+    public function testCanNotViewDTO(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock(ApplicationConfigDTO::class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");

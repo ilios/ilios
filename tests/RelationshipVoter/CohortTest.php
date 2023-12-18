@@ -21,22 +21,24 @@ class CohortTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(m::mock(CohortInterface::class), [VoterPermissions::VIEW, VoterPermissions::EDIT]);
     }
 
-    public function testCanView()
+    public function testCanView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CohortInterface::class);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanEdit()
+    public function testCanEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CohortInterface::class);
         $entity->shouldReceive('getProgramYear')->andReturn(m::mock(ProgramYearInterface::class));
         $this->permissionChecker->shouldReceive('canUpdateProgramYear')->andReturn(true);
@@ -44,9 +46,10 @@ class CohortTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
-    public function testCanNotEdit()
+    public function testCanNotEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CohortInterface::class);
         $entity->shouldReceive('getProgramYear')->andReturn(m::mock(ProgramYearInterface::class));
         $this->permissionChecker->shouldReceive('canUpdateProgramYear')->andReturn(false);

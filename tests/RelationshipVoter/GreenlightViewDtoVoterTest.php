@@ -107,9 +107,10 @@ class GreenlightViewDtoVoterTest extends AbstractBase
      * @covers ::voteOnAttribute()
      * @param string $class The fully qualified class name.
      */
-    public function testCanViewDTO($class)
+    public function testCanViewDTO(string $class): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock($class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");

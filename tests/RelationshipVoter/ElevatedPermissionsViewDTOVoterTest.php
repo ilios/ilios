@@ -45,9 +45,10 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
      * @dataProvider dtoProvider
      * @covers ::voteOnAttribute()
      */
-    public function testCanViewDTO($class)
+    public function testCanViewDTO(string $class): void
     {
-        $token = $this->createMockTokenWithSessionUserPerformingNonLearnerFunction();
+        $user = $this->createMockSessionUserPerformingNonLearnerFunction();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock($class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
@@ -57,9 +58,10 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
      * @dataProvider dtoProvider
      * @covers ::voteOnAttribute()
      */
-    public function testRootCanViewDTO($class)
+    public function testRootCanViewDTO(string $class): void
     {
-        $token = $this->createMockTokenWithRootSessionUser();
+        $user = $this->createMockRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock($class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
@@ -69,9 +71,10 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
      * @dataProvider dtoProvider
      * @covers ::voteOnAttribute()
      */
-    public function testCanNotViewDTO($class)
+    public function testCanNotViewDTO(string $class): void
     {
-        $token = $this->createMockTokenWithSessionUserPerformingOnlyLearnerFunction();
+        $user = $this->createMockSessionUserPerformingOnlyLearnerFunction();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock($class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
