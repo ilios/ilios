@@ -23,15 +23,8 @@ use Mockery as m;
  */
 class SessionUserPermissionCheckerTest extends TestCase
 {
-    /**
-     * @var SessionUserPermissionChecker
-     */
     protected SessionUserPermissionChecker $permissionChecker;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $permissionMatrix;
+    protected m\MockInterface $permissionMatrix;
 
     public function setUp(): void
     {
@@ -50,7 +43,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCourse()
      */
-    public function testCanUpdateAllCourses()
+    public function testCanUpdateAllCourses(): void
     {
         $rolesInSchool = ['foo'];
         $courseId = 10;
@@ -81,7 +74,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCourse()
      */
-    public function testCanUpdateTheirCourses()
+    public function testCanUpdateTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -123,7 +116,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCourse()
      */
-    public function testCanNotUpdateCourses()
+    public function testCanNotUpdateCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -165,7 +158,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCourse()
      */
-    public function testCanNotUpdateLockedCourses()
+    public function testCanNotUpdateLockedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -179,7 +172,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCourse()
      */
-    public function testCanNotUpdateArchivedCourses()
+    public function testCanNotUpdateArchivedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -193,7 +186,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCourse()
      */
-    public function testCanDeleteAllCourses()
+    public function testCanDeleteAllCourses(): void
     {
         $rolesInSchool = ['foo'];
         $courseId = 20;
@@ -225,7 +218,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCourse()
      */
-    public function testCanDeleteTheirCourses()
+    public function testCanDeleteTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -267,7 +260,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCourse()
      */
-    public function testCanNotDeleteCourses()
+    public function testCanNotDeleteCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -309,7 +302,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCourse()
      */
-    public function testCanNotDeleteLockedCourses()
+    public function testCanNotDeleteLockedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -323,7 +316,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCourse()
      */
-    public function testCanNotDeleteArchivedCourses()
+    public function testCanNotDeleteArchivedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -337,7 +330,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCourse()
      */
-    public function testCanCreateCourse()
+    public function testCanCreateCourse(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -362,7 +355,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCourse()
      */
-    public function testCanNotCreateCourse()
+    public function testCanNotCreateCourse(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -387,7 +380,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockCourse()
      */
-    public function testCanUnlockAllCourses()
+    public function testCanUnlockAllCourses(): void
     {
         $rolesInSchool = ['foo'];
         $courseId = 20;
@@ -417,7 +410,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockCourse()
      */
-    public function testCanUnlockTheirCourses()
+    public function testCanUnlockTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -457,7 +450,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockCourse()
      */
-    public function testCanNotUnlockCourses()
+    public function testCanNotUnlockCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -498,7 +491,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockCourse()
      */
-    public function testCanNotUnlockCourseIfCourseIsArchived()
+    public function testCanNotUnlockCourseIfCourseIsArchived(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -511,7 +504,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canLockCourse()
      */
-    public function testCanLockAllCourses()
+    public function testCanLockAllCourses(): void
     {
         $rolesInSchool = ['foo'];
         $courseId = 20;
@@ -541,7 +534,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canLockCourse()
      */
-    public function testCanLockTheirCourses()
+    public function testCanLockTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -581,7 +574,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canLockCourse()
      */
-    public function testCanNotLockCourses()
+    public function testCanNotLockCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -622,7 +615,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockCourse()
      */
-    public function testCanNotLockCourseIfCourseIsArchived()
+    public function testCanNotLockCourseIfCourseIsArchived(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -635,7 +628,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canArchiveCourse()
      */
-    public function testCanArchiveAllCourses()
+    public function testCanArchiveAllCourses(): void
     {
         $rolesInSchool = ['foo'];
         $courseId = 20;
@@ -664,7 +657,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canArchiveCourse()
      */
-    public function testCanArchiveTheirCourses()
+    public function testCanArchiveTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -703,7 +696,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canArchiveCourse()
      */
-    public function testCanNotArchiveCourses()
+    public function testCanNotArchiveCourses(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -743,7 +736,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSession()
      */
-    public function testCanUpdateAllSessions()
+    public function testCanUpdateAllSessions(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -778,7 +771,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSession()
      */
-    public function testCanUpdateTheirSessions()
+    public function testCanUpdateTheirSessions(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInSession = ['bar'];
@@ -823,7 +816,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSession()
      */
-    public function testCanUpdateSessionsIfUserCanUpdateCourse()
+    public function testCanUpdateSessionsIfUserCanUpdateCourse(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInSession = ['bar'];
@@ -881,7 +874,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSession()
      */
-    public function testCanNotUpdateSessions()
+    public function testCanNotUpdateSessions(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInSession = ['bar'];
@@ -947,7 +940,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSession()
      */
-    public function testCanNotUpdateSessionsInLockedCourse()
+    public function testCanNotUpdateSessionsInLockedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
         $course = m::mock(CourseInterface::class);
@@ -963,7 +956,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSession()
      */
-    public function testCanNotUpdateSessionsInArchivedCourse()
+    public function testCanNotUpdateSessionsInArchivedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
         $course = m::mock(CourseInterface::class);
@@ -979,7 +972,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSession()
      */
-    public function testCanDeleteAllSessions()
+    public function testCanDeleteAllSessions(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -1014,7 +1007,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSession()
      */
-    public function testCanDeleteTheirSessions()
+    public function testCanDeleteTheirSessions(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInSession = ['bar'];
@@ -1060,7 +1053,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSession()
      */
-    public function testCanDeleteSessionsIfUserCanUpdateCourse()
+    public function testCanDeleteSessionsIfUserCanUpdateCourse(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInSession = ['bar'];
@@ -1116,7 +1109,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSession()
      */
-    public function testCanNotDeleteSessions()
+    public function testCanNotDeleteSessions(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInSession = ['bar'];
@@ -1182,7 +1175,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSession()
      */
-    public function testCanNotDeleteSessionsInLockedCourse()
+    public function testCanNotDeleteSessionsInLockedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
         $course = m::mock(CourseInterface::class);
@@ -1198,7 +1191,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSession()
      */
-    public function testCanNotDeleteSessionsInArchivedCourse()
+    public function testCanNotDeleteSessionsInArchivedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
         $course = m::mock(CourseInterface::class);
@@ -1214,7 +1207,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSession()
      */
-    public function testCanCreateSession()
+    public function testCanCreateSession(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -1244,7 +1237,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSession()
      */
-    public function testCanCreateSessionIfUserCanUpdateCourse()
+    public function testCanCreateSessionIfUserCanUpdateCourse(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -1282,7 +1275,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSession()
      */
-    public function testCanNotCreateSession()
+    public function testCanNotCreateSession(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInCourse = ['bar'];
@@ -1332,7 +1325,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSession()
      */
-    public function testCanNotCreateSessionInLockedCourse()
+    public function testCanNotCreateSessionInLockedCourse(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -1346,7 +1339,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSession()
      */
-    public function testCanNotCreateSessionInArchivedCourse()
+    public function testCanNotCreateSessionInArchivedCourse(): void
     {
         $course = m::mock(CourseInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -1360,7 +1353,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSessionType()
      */
-    public function testCanUpdateSessionType()
+    public function testCanUpdateSessionType(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1383,7 +1376,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSessionType()
      */
-    public function testCanNotUpdateSessionType()
+    public function testCanNotUpdateSessionType(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1406,7 +1399,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSessionType()
      */
-    public function testCanDeleteSessionType()
+    public function testCanDeleteSessionType(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1429,7 +1422,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSessionType()
      */
-    public function testCanNotDeleteSessionType()
+    public function testCanNotDeleteSessionType(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1452,7 +1445,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSessionType()
      */
-    public function testCanCreateSessionType()
+    public function testCanCreateSessionType(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1475,7 +1468,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSessionType()
      */
-    public function testCanNotCreateSessionType()
+    public function testCanNotCreateSessionType(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1498,7 +1491,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgram()
      */
-    public function testCanUpdateAllPrograms()
+    public function testCanUpdateAllPrograms(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -1522,7 +1515,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgram()
      */
-    public function testCanUpdateTheirPrograms()
+    public function testCanUpdateTheirPrograms(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgram = ['bar'];
@@ -1558,7 +1551,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgram()
      */
-    public function testCanNotUpdatePrograms()
+    public function testCanNotUpdatePrograms(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgram = ['bar'];
@@ -1594,7 +1587,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgram()
      */
-    public function testCanDeleteAllPrograms()
+    public function testCanDeleteAllPrograms(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -1618,7 +1611,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgram()
      */
-    public function testCanDeleteTheirPrograms()
+    public function testCanDeleteTheirPrograms(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgram = ['bar'];
@@ -1654,7 +1647,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgram()
      */
-    public function testCanNotDeletePrograms()
+    public function testCanNotDeletePrograms(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgram = ['bar'];
@@ -1690,7 +1683,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateProgram()
      */
-    public function testCanCreateProgram()
+    public function testCanCreateProgram(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1713,7 +1706,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateProgram()
      */
-    public function testCanNotCreateProgram()
+    public function testCanNotCreateProgram(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -1736,7 +1729,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgramYear()
      */
-    public function testCanUpdateAllProgramYears()
+    public function testCanUpdateAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
         $programYearId = 10;
@@ -1768,7 +1761,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgramYear()
      */
-    public function testCanUpdateTheirProgramYears()
+    public function testCanUpdateTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -1810,7 +1803,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgramYear()
      */
-    public function testCanUpdateProgramYearsIfUserCanUpdateProgram()
+    public function testCanUpdateProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -1864,7 +1857,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgramYear()
      */
-    public function testCanNotUpdateProgramYears()
+    public function testCanNotUpdateProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -1928,7 +1921,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgramYear()
      */
-    public function testCanNotUpdateLockedProgramYears()
+    public function testCanNotUpdateLockedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -1942,7 +1935,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateProgramYear()
      */
-    public function testCanNotUpdateArchivedProgramYears()
+    public function testCanNotUpdateArchivedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -1956,7 +1949,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgramYear()
      */
-    public function testCanDeleteAllProgramYears()
+    public function testCanDeleteAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
         $programYearId = 20;
@@ -1988,7 +1981,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgramYear()
      */
-    public function testCanDeleteTheirProgramYears()
+    public function testCanDeleteTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2030,7 +2023,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgramYear()
      */
-    public function testCanDeleteProgramYearsIfUserCanUpdateProgram()
+    public function testCanDeleteProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2085,7 +2078,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgramYear()
      */
-    public function testCanNotDeleteProgramYears()
+    public function testCanNotDeleteProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2149,7 +2142,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgramYear()
      */
-    public function testCanNotDeleteLockedProgramYears()
+    public function testCanNotDeleteLockedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -2163,7 +2156,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteProgramYear()
      */
-    public function testCanNotDeleteArchivedProgramYears()
+    public function testCanNotDeleteArchivedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -2177,7 +2170,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateProgramYear()
      */
-    public function testCanCreateProgramYear()
+    public function testCanCreateProgramYear(): void
     {
         $programId = 20;
         $schoolId = 10;
@@ -2207,7 +2200,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateProgramYear()
      */
-    public function testCanCreateProgramYearIfUserCanUpdateProgram()
+    public function testCanCreateProgramYearIfUserCanUpdateProgram(): void
     {
         $programId = 20;
         $schoolId = 10;
@@ -2245,7 +2238,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateProgramYear()
      */
-    public function testCanNotCreateProgramYear()
+    public function testCanNotCreateProgramYear(): void
     {
         $programId = 20;
         $schoolId = 10;
@@ -2294,7 +2287,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canLockProgramYear()
      */
-    public function testCanLockAllProgramYears()
+    public function testCanLockAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
         $programYearId = 10;
@@ -2325,7 +2318,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canLockProgramYear()
      */
-    public function testCanLockTheirProgramYears()
+    public function testCanLockTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2366,7 +2359,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canLockProgramYear()
      */
-    public function testCanLockProgramYearsIfUserCanUpdateProgram()
+    public function testCanLockProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2419,7 +2412,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canLockProgramYear()
      */
-    public function testCanNotLockProgramYearIfProgramYearIsArchived()
+    public function testCanNotLockProgramYearIfProgramYearIsArchived(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
         $programYear->shouldReceive('isArchived')->andReturn(true);
@@ -2432,7 +2425,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockProgramYear()
      */
-    public function testCanUnlockAllProgramYears()
+    public function testCanUnlockAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
         $programYearId = 10;
@@ -2463,7 +2456,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockProgramYear()
      */
-    public function testCanUnlockTheirProgramYears()
+    public function testCanUnlockTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2504,7 +2497,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockProgramYear()
      */
-    public function testCanUnlockProgramYearsIfUserCanUpdateProgram()
+    public function testCanUnlockProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2557,7 +2550,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUnlockProgramYear()
      */
-    public function testCanNotUnlockProgramYearIfProgramYearIsArchived()
+    public function testCanNotUnlockProgramYearIfProgramYearIsArchived(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
         $programYear->shouldReceive('isArchived')->andReturn(true);
@@ -2570,7 +2563,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canArchiveProgramYear()
      */
-    public function testCanArchiveAllProgramYears()
+    public function testCanArchiveAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
         $programYearId = 10;
@@ -2600,7 +2593,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canArchiveProgramYear()
      */
-    public function testCanArchiveTheirProgramYears()
+    public function testCanArchiveTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2640,7 +2633,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canArchiveProgramYear()
      */
-    public function testCanArchiveProgramYearsIfUserCanUpdateProgram()
+    public function testCanArchiveProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
         $rolesInProgramYear = ['bar'];
@@ -2692,7 +2685,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSchoolConfig()
      */
-    public function testCanUpdateSchoolConfig()
+    public function testCanUpdateSchoolConfig(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2715,7 +2708,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSchoolConfig()
      */
-    public function testCanNotUpdateSchoolConfig()
+    public function testCanNotUpdateSchoolConfig(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2738,7 +2731,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSchoolConfig()
      */
-    public function testCanDeleteSchoolConfig()
+    public function testCanDeleteSchoolConfig(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2761,7 +2754,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteSchoolConfig()
      */
-    public function testCanNotDeleteSchoolConfig()
+    public function testCanNotDeleteSchoolConfig(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2784,7 +2777,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSchoolConfig()
      */
-    public function testCanCreateSchoolConfig()
+    public function testCanCreateSchoolConfig(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2807,7 +2800,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateSchoolConfig()
      */
-    public function testCanNotCreateSchoolConfig()
+    public function testCanNotCreateSchoolConfig(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2830,7 +2823,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSchool()
      */
-    public function testCanUpdateSchool()
+    public function testCanUpdateSchool(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2853,7 +2846,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateSchool()
      */
-    public function testCanNotUpdateSchool()
+    public function testCanNotUpdateSchool(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2876,7 +2869,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCompetency()
      */
-    public function testCanUpdateCompetency()
+    public function testCanUpdateCompetency(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2899,7 +2892,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCompetency()
      */
-    public function testCanNotUpdateCompetency()
+    public function testCanNotUpdateCompetency(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2922,7 +2915,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCompetency()
      */
-    public function testCanDeleteCompetency()
+    public function testCanDeleteCompetency(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2945,7 +2938,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCompetency()
      */
-    public function testCanNotDeleteCompetency()
+    public function testCanNotDeleteCompetency(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2968,7 +2961,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCompetency()
      */
-    public function testCanCreateCompetency()
+    public function testCanCreateCompetency(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -2991,7 +2984,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCompetency()
      */
-    public function testCanNotCreateCompetency()
+    public function testCanNotCreateCompetency(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3014,7 +3007,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateVocabulary()
      */
-    public function testCanUpdateVocabulary()
+    public function testCanUpdateVocabulary(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3037,7 +3030,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateVocabulary()
      */
-    public function testCanNotUpdateVocabulary()
+    public function testCanNotUpdateVocabulary(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3060,7 +3053,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteVocabulary()
      */
-    public function testCanDeleteVocabulary()
+    public function testCanDeleteVocabulary(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3083,7 +3076,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteVocabulary()
      */
-    public function testCanNotDeleteVocabulary()
+    public function testCanNotDeleteVocabulary(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3106,7 +3099,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateVocabulary()
      */
-    public function testCanCreateVocabulary()
+    public function testCanCreateVocabulary(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3129,7 +3122,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateVocabulary()
      */
-    public function testCanNotCreateVocabulary()
+    public function testCanNotCreateVocabulary(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3152,7 +3145,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateTerm()
      */
-    public function testCanUpdateTerm()
+    public function testCanUpdateTerm(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3175,7 +3168,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateTerm()
      */
-    public function testCanNotUpdateTerm()
+    public function testCanNotUpdateTerm(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3198,7 +3191,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteTerm()
      */
-    public function testCanDeleteTerm()
+    public function testCanDeleteTerm(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3221,7 +3214,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteTerm()
      */
-    public function testCanNotDeleteTerm()
+    public function testCanNotDeleteTerm(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3244,7 +3237,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateTerm()
      */
-    public function testCanCreateTerm()
+    public function testCanCreateTerm(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3267,7 +3260,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateTerm()
      */
-    public function testCanNotCreateTerm()
+    public function testCanNotCreateTerm(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3290,7 +3283,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateInstructorGroup()
      */
-    public function testCanUpdateInstructorGroup()
+    public function testCanUpdateInstructorGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3313,7 +3306,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateInstructorGroup()
      */
-    public function testCanNotUpdateInstructorGroup()
+    public function testCanNotUpdateInstructorGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3336,7 +3329,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteInstructorGroup()
      */
-    public function testCanDeleteInstructorGroup()
+    public function testCanDeleteInstructorGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3359,7 +3352,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteInstructorGroup()
      */
-    public function testCanNotDeleteInstructorGroup()
+    public function testCanNotDeleteInstructorGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3382,7 +3375,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateInstructorGroup()
      */
-    public function testCanCreateInstructorGroup()
+    public function testCanCreateInstructorGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3405,7 +3398,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateInstructorGroup()
      */
-    public function testCanNotCreateInstructorGroup()
+    public function testCanNotCreateInstructorGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3428,7 +3421,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCurriculumInventoryReport()
      */
-    public function testCanUpdateAllCurriculumInventoryReports()
+    public function testCanUpdateAllCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -3454,7 +3447,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCurriculumInventoryReport()
      */
-    public function testCanUpdateTheirCurriculumInventoryReports()
+    public function testCanUpdateTheirCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
         $rolesInReport = ['bar'];
@@ -3491,7 +3484,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCurriculumInventoryReport()
      */
-    public function testCanNotUpdateCurriculumInventoryReport()
+    public function testCanNotUpdateCurriculumInventoryReport(): void
     {
         $rolesInSchool = ['foo'];
         $rolesInReport = ['bar'];
@@ -3528,7 +3521,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCurriculumInventoryReport()
      */
-    public function testCanDeleteAllCurriculumInventoryReports()
+    public function testCanDeleteAllCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
         $schoolId = 10;
@@ -3554,7 +3547,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCurriculumInventoryReport()
      */
-    public function testCanDeleteTheirCurriculumInventoryReports()
+    public function testCanDeleteTheirCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
         $rolesInReport = ['bar'];
@@ -3591,7 +3584,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCurriculumInventoryReport()
      */
-    public function testCanNotDeleteCurriculumInventoryReport()
+    public function testCanNotDeleteCurriculumInventoryReport(): void
     {
         $rolesInSchool = ['foo'];
         $rolesInReport = ['bar'];
@@ -3628,7 +3621,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCurriculumInventoryReport()
      */
-    public function testCanCreateCurriculumInventoryReport()
+    public function testCanCreateCurriculumInventoryReport(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3651,7 +3644,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCurriculumInventoryReport()
      */
-    public function testCanNotCreateCurriculumInventoryReport()
+    public function testCanNotCreateCurriculumInventoryReport(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3674,7 +3667,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCurriculumInventoryInstitution()
      */
-    public function testCanUpdateCurriculumInventoryInstitution()
+    public function testCanUpdateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3697,7 +3690,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateCurriculumInventoryInstitution()
      */
-    public function testCanNotUpdateCurriculumInventoryInstitution()
+    public function testCanNotUpdateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3720,7 +3713,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCurriculumInventoryInstitution()
      */
-    public function testCanDeleteCurriculumInventoryInstitution()
+    public function testCanDeleteCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3743,7 +3736,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteCurriculumInventoryInstitution()
      */
-    public function testCanNotDeleteCurriculumInventoryInstitution()
+    public function testCanNotDeleteCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3766,7 +3759,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCurriculumInventoryInstitution()
      */
-    public function testCanCreateCurriculumInventoryInstitution()
+    public function testCanCreateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3789,7 +3782,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCurriculumInventoryInstitution()
      */
-    public function testCanNotCreateCurriculumInventoryInstitution()
+    public function testCanNotCreateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3812,7 +3805,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateLearnerGroup()
      */
-    public function testCanUpdateLearnerGroup()
+    public function testCanUpdateLearnerGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3835,7 +3828,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateLearnerGroup()
      */
-    public function testCanNotUpdateLearnerGroup()
+    public function testCanNotUpdateLearnerGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3858,7 +3851,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteLearnerGroup()
      */
-    public function testCanDeleteLearnerGroup()
+    public function testCanDeleteLearnerGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3881,7 +3874,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteLearnerGroup()
      */
-    public function testCanNotDeleteLearnerGroup()
+    public function testCanNotDeleteLearnerGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3904,7 +3897,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateLearnerGroup()
      */
-    public function testCanCreateLearnerGroup()
+    public function testCanCreateLearnerGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3927,7 +3920,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateLearnerGroup()
      */
-    public function testCanNotCreateLearnerGroup()
+    public function testCanNotCreateLearnerGroup(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3950,7 +3943,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateUser()
      */
-    public function testCanUpdateUser()
+    public function testCanUpdateUser(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3973,7 +3966,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canUpdateUser()
      */
-    public function testCanNotUpdateUser()
+    public function testCanNotUpdateUser(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -3996,7 +3989,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteUser()
      */
-    public function testCanDeleteUser()
+    public function testCanDeleteUser(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -4019,7 +4012,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canDeleteUser()
      */
-    public function testCanNotDeleteUser()
+    public function testCanNotDeleteUser(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -4042,7 +4035,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateUser()
      */
-    public function testCanCreateUser()
+    public function testCanCreateUser(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -4065,7 +4058,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateUser()
      */
-    public function testCanNotCreateUser()
+    public function testCanNotCreateUser(): void
     {
         $schoolId = 10;
         $rolesInSchool = ['foo'];
@@ -4089,7 +4082,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canViewLearnerGroup()
      */
-    public function testCanViewLearnerGroupIfUseIsInLearnerGroup()
+    public function testCanViewLearnerGroupIfUseIsInLearnerGroup(): void
     {
         $learnerGroupId = 10;
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -4106,7 +4099,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canViewLearnerGroup()
      */
-    public function testCanViewLearnerGroupIfUserPerformsNonLearnerFunction()
+    public function testCanViewLearnerGroupIfUserPerformsNonLearnerFunction(): void
     {
         $learnerGroupId = 10;
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -4125,7 +4118,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canViewLearnerGroup()
      */
-    public function testCanNotViewLearnerGroup()
+    public function testCanNotViewLearnerGroup(): void
     {
         $learnerGroupId = 10;
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -4144,7 +4137,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateUsersInAnySchool()
      */
-    public function testCanCreateUsersInAnySchool()
+    public function testCanCreateUsersInAnySchool(): void
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
@@ -4152,7 +4145,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateOrUpdateUsersInAnySchool()
      */
-    public function testCanCreateOrUpdateUsersInAnySchool()
+    public function testCanCreateOrUpdateUsersInAnySchool(): void
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
@@ -4160,7 +4153,7 @@ class SessionUserPermissionCheckerTest extends TestCase
     /**
      * @covers ::canCreateCurriculumInventoryReportInAnySchool()
      */
-    public function testCanCreateCurriculumInventoryReportUserInAnySchool()
+    public function testCanCreateCurriculumInventoryReportUserInAnySchool(): void
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }

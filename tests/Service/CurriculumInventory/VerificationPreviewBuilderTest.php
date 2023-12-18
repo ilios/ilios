@@ -360,7 +360,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getAllEventsWithAssessmentsTaggedAsFormativeOrSummative
      */
-    public function testGetAllEventsWithAssessmentsTaggedAsFormativeOrSummative()
+    public function testGetAllEventsWithAssessmentsTaggedAsFormativeOrSummative(): void
     {
         $data['events'] = [
             ['method_id' => 'IM002'],
@@ -397,7 +397,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getAllResourceTypes
      */
-    public function testGetAllResourceTypes()
+    public function testGetAllResourceTypes(): void
     {
         $data['events'] = [
             [],
@@ -427,7 +427,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getClerkshipSequenceBlockAssessmentMethods
      */
-    public function testGetClerkshipSequenceBlockAssessmentMethods()
+    public function testGetClerkshipSequenceBlockAssessmentMethods(): void
     {
         $data = [];
 
@@ -574,7 +574,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getClerkshipSequenceBlockInstructionalTime
      */
-    public function testGetClerkshipSequenceBlockInstructionalTime()
+    public function testGetClerkshipSequenceBlockInstructionalTime(): void
     {
         $data = [];
 
@@ -707,7 +707,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getInstructionalMethodCounts
      */
-    public function testGetInstructionalMethodCounts()
+    public function testGetInstructionalMethodCounts(): void
     {
         $data['events'] = [
             ['method_id' => 'IM002'],
@@ -748,7 +748,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getNonClerkshipSequenceBlockAssessmentMethods
      */
-    public function testGetNonClerkshipSequenceBlockAssessmentMethods()
+    public function testGetNonClerkshipSequenceBlockAssessmentMethods(): void
     {
         $data = [];
 
@@ -900,7 +900,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getNonClerkshipSequenceBlockInstructionalTime
      */
-    public function testGetNonClerkshipSequenceBlockInstructionalTime()
+    public function testGetNonClerkshipSequenceBlockInstructionalTime(): void
     {
         $data = [];
 
@@ -1030,7 +1030,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock
      */
-    public function testGetPrimaryInstructionalMethodsByNonClerkshipSequenceBlock()
+    public function testGetPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(): void
     {
         $level1 = new CurriculumInventoryAcademicLevel();
         $level1->setLevel(1);
@@ -1158,7 +1158,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::getProgramExpectationsMappedToPcrs
      */
-    public function testGetProgramExpectationsMappedToPcrs()
+    public function testGetProgramExpectationsMappedToPcrs(): void
     {
         $data['expectations'] = [
             'program_objectives' => [
@@ -1216,7 +1216,7 @@ class VerificationPreviewBuilderTest extends TestCase
     /**
      * @covers ::build
      */
-    public function testBuild()
+    public function testBuild(): void
     {
         $report = new CurriculumInventoryReport();
         $this->aggregator->shouldReceive('getData')->andReturn([

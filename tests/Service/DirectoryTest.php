@@ -12,9 +12,9 @@ use App\Tests\TestCase;
 
 class DirectoryTest extends TestCase
 {
-    protected $ldapManager;
-    protected $config;
-    protected $obj;
+    protected m\MockInterface $ldapManager;
+    protected m\MockInterface $config;
+    protected Directory $obj;
 
     public function setUp(): void
     {
@@ -38,7 +38,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertTrue($this->obj instanceof Directory);
     }
@@ -46,7 +46,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::findByCampusId
      */
-    public function testFindByCampusId()
+    public function testFindByCampusId(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $this->ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn([['id' => 1]]);
@@ -58,7 +58,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::findByCampusId
      */
-    public function testFindByCampusIds()
+    public function testFindByCampusIds(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $this->ldapManager->shouldReceive('search')
@@ -71,7 +71,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::findByCampusId
      */
-    public function testFindByCampusIdsOnlyUseUnique()
+    public function testFindByCampusIdsOnlyUseUnique(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $this->ldapManager->shouldReceive('search')
@@ -84,7 +84,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::findByCampusId
      */
-    public function testFindByCampusIdsInChunks()
+    public function testFindByCampusIdsInChunks(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $ids = [];
@@ -114,7 +114,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::find
      */
-    public function testFind()
+    public function testFind(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $filter = '(&(|(sn=a*)(givenname=a*)(mail=a*)(campusId=a*))(|(sn=b*)(givenname=b*)(mail=b*)(campusId=b*)))';
@@ -127,7 +127,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::find
      */
-    public function testFindOutputEscaping()
+    public function testFindOutputEscaping(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $filter = '(&(|(sn=a\2a*)(givenname=a\2a*)(mail=a\2a*)(campusId=a\2a*)))';
@@ -140,7 +140,7 @@ class DirectoryTest extends TestCase
     /**
      * @covers \App\Service\Directory::findByLdapFilter
      */
-    public function testFindByLdapFilter()
+    public function testFindByLdapFilter(): void
     {
         $filter = '(one)(two)';
         $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);

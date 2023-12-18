@@ -16,12 +16,12 @@ use App\Service\AuthenticationFactory;
 
 class AuthenticationFactoryTest extends TestCase
 {
-    protected $config;
-    protected $cas;
-    protected $form;
-    protected $ldap;
-    protected $shib;
-    protected $obj;
+    protected m\MockInterface $config;
+    protected m\MockInterface $cas;
+    protected m\MockInterface $form;
+    protected m\MockInterface $ldap;
+    protected m\MockInterface $shib;
+    protected AuthenticationFactory $obj;
 
     public function setUp(): void
     {
@@ -54,7 +54,7 @@ class AuthenticationFactoryTest extends TestCase
         unset($this->shib);
     }
 
-    public function testCreateCasService()
+    public function testCreateCasService(): void
     {
         $this->config->shouldReceive('get')->once()->with('authentication_type')->andReturn('cas');
 
@@ -62,7 +62,7 @@ class AuthenticationFactoryTest extends TestCase
         $this->assertSame($this->cas, $service);
     }
 
-    public function testCreateFormService()
+    public function testCreateFormService(): void
     {
         $this->config->shouldReceive('get')->once()->with('authentication_type')->andReturn('form');
 
@@ -70,7 +70,7 @@ class AuthenticationFactoryTest extends TestCase
         $this->assertSame($this->form, $service);
     }
 
-    public function testCreateLdapService()
+    public function testCreateLdapService(): void
     {
         $this->config->shouldReceive('get')->once()->with('authentication_type')->andReturn('ldap');
 
@@ -78,7 +78,7 @@ class AuthenticationFactoryTest extends TestCase
         $this->assertSame($this->ldap, $service);
     }
 
-    public function testCreateShibService()
+    public function testCreateShibService(): void
     {
         $this->config->shouldReceive('get')->once()->with('authentication_type')->andReturn('shibboleth');
 
@@ -86,7 +86,7 @@ class AuthenticationFactoryTest extends TestCase
         $this->assertSame($this->shib, $service);
     }
 
-    public function testCreateUnknownService()
+    public function testCreateUnknownService(): void
     {
         $this->expectException(Exception::class);
         $this->config->shouldReceive('get')->once()->with('authentication_type')->andReturn('nothing');

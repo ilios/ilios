@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
+use App\Entity\AuthenticationInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\JsonWebTokenManager;
@@ -14,22 +15,19 @@ use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 use App\Service\FormAuthentication;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class FormAuthenticationTest extends TestCase
 {
-    protected $authenticationRepository;
-    protected $userRepository;
-    protected $hasher;
-    protected $tokenStorage;
-    protected $jwtManager;
-    protected $sessionUserProvider;
-
-    /**
-     * @var FormAuthentication
-     */
-    protected $obj;
+    protected m\MockInterface $authenticationRepository;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $hasher;
+    protected m\MockInterface $tokenStorage;
+    protected m\MockInterface $jwtManager;
+    protected m\MockInterface $sessionUserProvider;
+    protected FormAuthentication $obj;
 
     protected function setUp(): void
     {
@@ -61,14 +59,14 @@ class FormAuthenticationTest extends TestCase
         unset($this->obj);
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertTrue($this->obj instanceof FormAuthentication);
     }
 
-    public function testMissingValues()
+    public function testMissingValues(): void
     {
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $arr = [
             'username' => null,
             'password' => null
@@ -85,9 +83,9 @@ class FormAuthenticationTest extends TestCase
         $this->assertTrue(in_array('missingPassword', $data->errors));
     }
 
-    public function testBadUserName()
+    public function testBadUserName(): void
     {
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $arr = [
             'username' => 'abc',
             'password' => '123'
@@ -105,21 +103,21 @@ class FormAuthenticationTest extends TestCase
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
 
-    public function testBadPassword()
+    public function testBadPassword(): void
     {
         $arr = [
             'username' => 'abc',
             'password' => '123'
         ];
 
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class)
-            ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)->mock();
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isEnabled')->andReturn(true);
+        $authenticationEntity = m::mock(AuthenticationInterface::class);
+        $authenticationEntity->shouldReceive('getUser')->andReturn($user);
         $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
@@ -133,21 +131,21 @@ class FormAuthenticationTest extends TestCase
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
 
-    public function testDisabledUser()
+    public function testDisabledUser(): void
     {
         $arr = [
             'username' => 'abc',
             'password' => '123'
         ];
 
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class)
-            ->shouldReceive('isEnabled')->andReturn(false)->mock();
-        $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)->mock();
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isEnabled')->andReturn(false);
+        $authenticationEntity = m::mock(AuthenticationInterface::class);
+        $authenticationEntity->shouldReceive('getUser')->andReturn($user);
         $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
@@ -160,21 +158,21 @@ class FormAuthenticationTest extends TestCase
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
 
-    public function testSuccess()
+    public function testSuccess(): void
     {
         $arr = [
             'username' => 'abc',
             'password' => '123'
         ];
 
-        $request = m::mock('Symfony\Component\HttpFoundation\Request');
+        $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
         $user = m::mock(UserInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class)
-            ->shouldReceive('isEnabled')->andReturn(true)->mock();
-        $authenticationEntity = m::mock('App\Entity\AuthenticationInterface')
-            ->shouldReceive('getUser')->andReturn($user)->mock();
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isEnabled')->andReturn(true);
+        $authenticationEntity = m::mock(AuthenticationInterface::class);
+        $authenticationEntity->shouldReceive('getUser')->andReturn($user);
         $this->hasher->shouldReceive('needsRehash')->with($sessionUser)->andReturn(false);
         $this->authenticationRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);

@@ -34,7 +34,7 @@ class DefaultDataLoaderTest extends KernelTestCase
     /**
      * @covers ::load
      */
-    public function testImport()
+    public function testImport(): void
     {
         $defaultDataLoader = new DefaultDataLoader(new DataimportFileLocator($this->projectRootDir));
         $assessmentOptions = $defaultDataLoader->load(DefaultDataImporter::ASSESSMENT_OPTION);
@@ -44,7 +44,7 @@ class DefaultDataLoaderTest extends KernelTestCase
     /**
      * @covers ::load
      */
-    public function testImportFailsIfFileNotFound()
+    public function testImportFailsIfFileNotFound(): void
     {
         $this->expectException(FileLocatorFileNotFoundException::class);
         $defaultDataLoader = new DefaultDataLoader(new DataimportFileLocator($this->projectRootDir));

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Classes\LocalCachingFilesystemDecorator;
 use App\Entity\LearningMaterialInterface;
 use League\Flysystem\Filesystem;
 use Mockery as m;
@@ -41,32 +40,32 @@ class IliosFileSystemTest extends TestCase
         unset($this->fakeTestFileDir);
     }
 
-    public function testStoreLeaningMaterialFile()
+    public function testStoreLeaningMaterialFile(): void
     {
         $path = __FILE__;
-        $file = m::mock(File::class)
-            ->shouldReceive('getPathname')->andReturn($path)->twice()->getMock();
+        $file = m::mock(File::class);
+        $file->shouldReceive('getPathname')->andReturn($path)->twice();
         $this->fileSystemMock->shouldReceive('writeStream');
         $this->iliosFileSystem->storeLearningMaterialFile($file);
     }
 
-    public function testGetLearningMaterialFilePath()
+    public function testGetLearningMaterialFilePath(): void
     {
         $path = __FILE__;
-        $file = m::mock(File::class)
-            ->shouldReceive('getPathname')->andReturn($path)->once()->getMock();
+        $file = m::mock(File::class);
+        $file->shouldReceive('getPathname')->andReturn($path)->once();
         $newPath = $this->iliosFileSystem->getLearningMaterialFilePath($file);
         $this->assertSame($this->fakeTestFileDir . '/' . $newPath, $this->getTestFilePath($path));
     }
 
-    public function testRemoveFile()
+    public function testRemoveFile(): void
     {
         $file = 'foojunk';
         $this->fileSystemMock->shouldReceive('delete')->once()->with($file);
         $this->iliosFileSystem->removeFile($file);
     }
 
-    public function testGetFileContents()
+    public function testGetFileContents(): void
     {
         $filename = 'test/file/name';
         $value = 'something something word word';
@@ -76,7 +75,7 @@ class IliosFileSystemTest extends TestCase
         $this->assertEquals($value, $result);
     }
 
-    public function testMissingGetFileContents()
+    public function testMissingGetFileContents(): void
     {
         $filename = 'test/file/name';
         $this->fileSystemMock->shouldReceive('fileExists')->with($filename)->once()->andReturn(false);
@@ -84,14 +83,14 @@ class IliosFileSystemTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testCheckLearningMaterialFilePath()
+    public function testCheckLearningMaterialFilePath(): void
     {
-        $goodLm = m::mock(LearningMaterialInterface::class)
-            ->shouldReceive('getRelativePath')->andReturn('goodfile')
-            ->mock();
-        $badLm = m::mock(LearningMaterialInterface::class)
-            ->shouldReceive('getRelativePath')->andReturn('badfile')
-            ->mock();
+        $goodLm = m::mock(LearningMaterialInterface::class);
+        $goodLm->shouldReceive('getRelativePath')->andReturn('goodfile');
+
+        $badLm = m::mock(LearningMaterialInterface::class);
+        $badLm->shouldReceive('getRelativePath')->andReturn('badfile');
+
         $this->fileSystemMock->shouldReceive('fileExists')
             ->with('goodfile')->andReturn(true)->once();
         $this->fileSystemMock->shouldReceive('fileExists')
@@ -100,7 +99,7 @@ class IliosFileSystemTest extends TestCase
         $this->assertFalse($this->iliosFileSystem->checkLearningMaterialFilePath($badLm));
     }
 
-    protected function getTestFilePath($path)
+    protected function getTestFilePath($path): string
     {
         $hash = md5_file($path);
         $hashDirectory = substr($hash, 0, 2);
@@ -114,7 +113,7 @@ class IliosFileSystemTest extends TestCase
         return implode('/', $parts);
     }
 
-    protected function getTestFileLock($name)
+    protected function getTestFileLock($name): string
     {
         $parts = [
             IliosFileSystem::LOCK_FILE_DIRECTORY,
@@ -123,7 +122,7 @@ class IliosFileSystemTest extends TestCase
         return implode('/', $parts);
     }
 
-    public function testCreateLock()
+    public function testCreateLock(): void
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
@@ -132,7 +131,7 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem->createLock($name);
     }
 
-    public function testReleaseLock()
+    public function testReleaseLock(): void
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
@@ -141,7 +140,7 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem->releaseLock($name);
     }
 
-    public function testReleaseLockWithNoLock()
+    public function testReleaseLockWithNoLock(): void
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
@@ -149,7 +148,7 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem->releaseLock($name);
     }
 
-    public function testHasLock()
+    public function testHasLock(): void
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
@@ -158,7 +157,7 @@ class IliosFileSystemTest extends TestCase
         $this->assertTrue($status);
     }
 
-    public function testDoesNotHaveLock()
+    public function testDoesNotHaveLock(): void
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
@@ -167,7 +166,7 @@ class IliosFileSystemTest extends TestCase
         $this->assertFalse($status);
     }
 
-    public function testWaitForLock()
+    public function testWaitForLock(): void
     {
         $name = 'test.lock';
         $lockFilePath = $this->getTestFileLock($name);
@@ -176,7 +175,7 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem->waitForLock($name);
     }
 
-    public function testConvertsUnsafeFileNames()
+    public function testConvertsUnsafeFileNames(): void
     {
         $name = 'test && file .lock';
         $lockFilePath = $this->getTestFileLock('test-file-.lock');
@@ -185,16 +184,16 @@ class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem->createLock($name);
     }
 
-    public function testStoreUploadedTemporaryFile()
+    public function testStoreUploadedTemporaryFile(): void
     {
         $path = __FILE__;
-        $file = m::mock(UploadedFile::class)
-            ->shouldReceive('getPathname')->andReturn($path)->twice()->getMock();
+        $file = m::mock(UploadedFile::class);
+        $file->shouldReceive('getPathname')->andReturn($path)->twice();
         $this->fileSystemMock->shouldReceive('writeStream');
         $this->iliosFileSystem->storeUploadedTemporaryFile($file);
     }
 
-    public function testGetUploadedTemporaryFileContents()
+    public function testGetUploadedTemporaryFileContents(): void
     {
         $hash = md5_file(__FILE__);
         $testContents = file_get_contents(__FILE__);

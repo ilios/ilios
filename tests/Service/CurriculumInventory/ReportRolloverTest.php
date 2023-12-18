@@ -6,6 +6,7 @@ namespace App\Tests\Service\CurriculumInventory;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReport;
+use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequence;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
@@ -159,7 +160,7 @@ class ReportRolloverTest extends TestCase
      * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
-    public function testRollover(CurriculumInventoryReport $report)
+    public function testRollover(CurriculumInventoryReport $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', 2022);
         $this->assertEquals('new name', $newReport->getName());
@@ -208,9 +209,9 @@ class ReportRolloverTest extends TestCase
     /**
      * @covers ::rollover
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReport $report
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function testRolloverKeepName($report)
+    public function testRolloverKeepName(CurriculumInventoryReportInterface $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), null, 'new description', 2022);
         $this->assertEquals($report->getName(), $newReport->getName());
@@ -219,9 +220,9 @@ class ReportRolloverTest extends TestCase
     /**
      * @covers ::rollover
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReport $report
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function testRolloverKeepDescription($report)
+    public function testRolloverKeepDescription(CurriculumInventoryReportInterface $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', null, 2022);
         $this->assertEquals($report->getDescription(), $newReport->getDescription());
@@ -230,9 +231,9 @@ class ReportRolloverTest extends TestCase
     /**
      * @covers ::rollover
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReport $report
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function testRolloverKeepYear($report)
+    public function testRolloverKeepYear(CurriculumInventoryReportInterface $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', null);
         $year = $report->getYear();
@@ -242,12 +243,12 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @param CurriculumInventorySequenceBlock $sequenceBlock
-     * @param CurriculumInventorySequenceBlock $newSequenceBlock
+     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
+     * @param CurriculumInventorySequenceBlockInterface $newSequenceBlock
      */
     protected function assertSequenceBlockEquals(
-        CurriculumInventorySequenceBlock $sequenceBlock,
-        CurriculumInventorySequenceBlock $newSequenceBlock
+        CurriculumInventorySequenceBlockInterface $sequenceBlock,
+        CurriculumInventorySequenceBlockInterface $newSequenceBlock
     ) {
         $this->assertEquals(empty($sequenceBlock->getParent()), empty($newSequenceBlock->getParent()));
         if (! empty($sequenceBlock->getParent())) {
@@ -288,9 +289,9 @@ class ReportRolloverTest extends TestCase
     /**
      * @covers ::rollover
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReport $report
+     * @param CurriculumInventoryReportInterface $report
      */
-    public function testRolloverWithDifferentProgram(CurriculumInventoryReport $report)
+    public function testRolloverWithDifferentProgram(CurriculumInventoryReportInterface $report): void
     {
         $program = new Program();
         $program->setTitle('something else');

@@ -8,6 +8,7 @@ use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use App\Service\TemporaryFileSystem;
 use App\Tests\TestCase;
+use Symfony\Component\HttpFoundation\File\File;
 
 class TemporaryFileSystemTest extends TestCase
 {
@@ -51,8 +52,8 @@ class TemporaryFileSystemTest extends TestCase
     {
         $path = __FILE__;
         $hash = md5_file($path);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->twice()->andReturn($path)->getMock();
+        $file = m::mock(File::class);
+        $file->shouldReceive('getPathname')->twice()->andReturn($path);
         $this->mockFileSystem->shouldReceive('exists')
             ->with($this->uploadDirectory . '/' . $hash);
         $this->mockFileSystem->shouldReceive('rename')
@@ -74,8 +75,8 @@ class TemporaryFileSystemTest extends TestCase
         $hash = md5($someJunk);
         $testFilePath = $this->uploadDirectory . '/' . $hash;
         file_put_contents($testFilePath, $someJunk);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->andReturn($testFilePath)->getMock();
+        $file = m::mock(File::class);
+        $file->shouldReceive('getPathname')->andReturn($testFilePath);
         $this->mockFileSystem->shouldReceive('exists')
             ->with($testFilePath)->andReturn(true);
         $this->mockFileSystem->shouldReceive('move');

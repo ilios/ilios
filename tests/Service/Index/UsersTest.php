@@ -16,15 +16,8 @@ use Mockery as m;
 
 class UsersTest extends TestCase
 {
-    /**
-     * @var Client|m\MockInterface
-     */
-    private $client;
-
-    /**
-     * @var Config|m\MockInterface
-     */
-    private $config;
+    private m\MockInterface $client;
+    private m\MockInterface $config;
 
     public function setUp(): void
     {
@@ -35,6 +28,7 @@ class UsersTest extends TestCase
             ->with('search_upload_limit')
             ->andReturn(8000000);
     }
+
     public function tearDown(): void
     {
         parent::tearDown();
@@ -42,7 +36,7 @@ class UsersTest extends TestCase
         unset($this->config);
     }
 
-    public function testSetup()
+    public function testSetup(): void
     {
         $obj1 = new Users($this->config, $this->client);
         $this->assertTrue($obj1 instanceof Users);
@@ -53,7 +47,7 @@ class UsersTest extends TestCase
         $this->assertFalse($obj2->isEnabled());
     }
 
-    public function testIndexUsersThrowsWhenNotDTO()
+    public function testIndexUsersThrowsWhenNotDTO(): void
     {
         $obj = new Users($this->config, null);
         $this->expectException(InvalidArgumentException::class);
@@ -65,7 +59,7 @@ class UsersTest extends TestCase
         $obj->index($users);
     }
 
-    public function testIndexUsersWorksWithoutSearch()
+    public function testIndexUsersWorksWithoutSearch(): void
     {
         $obj = new Users($this->config, null);
         $users = [
@@ -75,8 +69,7 @@ class UsersTest extends TestCase
         $this->assertTrue($obj->index($users));
     }
 
-
-    public function testIndexUsers()
+    public function testIndexUsers(): void
     {
         $obj = new Users($this->config, $this->client);
         $user1 = $this->createUserDto(13);
@@ -127,7 +120,7 @@ class UsersTest extends TestCase
         $obj->index([$user1, $user2]);
     }
 
-    public function testSearchThrowsExceptionWhenNotConfigured()
+    public function testSearchThrowsExceptionWhenNotConfigured(): void
     {
         $obj = new Users($this->config, null);
         $this->expectException(Exception::class);

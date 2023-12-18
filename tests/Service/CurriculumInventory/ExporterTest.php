@@ -18,7 +18,7 @@ class ExporterTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Exporter::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $aggregator = m::mock(Aggregator::class);
         $printer = m::mock(XmlPrinter::class);

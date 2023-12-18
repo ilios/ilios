@@ -18,11 +18,7 @@ use App\Tests\TestCase;
  */
 class ManagerTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    protected $repository;
-
+    protected m\MockInterface $repository;
     protected Manager $manager;
 
     protected function setUp(): void
@@ -42,7 +38,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getEventReferencesForSequenceBlocks
      */
-    public function testGetEventReferencesForSequenceBlocks()
+    public function testGetEventReferencesForSequenceBlocks(): void
     {
         $report = new CurriculumInventoryReport();
 
@@ -74,7 +70,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getCompetencyObjectReferencesForSequenceBlocks
      */
-    public function testGetCompetencyObjectReferencesForSequenceBlocks()
+    public function testGetCompetencyObjectReferencesForSequenceBlocks(): void
     {
         $report = new CurriculumInventoryReport();
 
@@ -136,7 +132,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getCompetencyObjectReferencesForEvents
      */
-    public function testGetCompetencyObjectReferencesForEvents()
+    public function testGetCompetencyObjectReferencesForEvents(): void
     {
         $report = new CurriculumInventoryReport();
 
@@ -260,7 +256,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getSessionObjectivesToCourseObjectivesRelations
      */
-    public function testGetSessionObjectivesToCourseObjectivesRelations()
+    public function testGetSessionObjectivesToCourseObjectivesRelations(): void
     {
         $objectiveRelationships = [
             ['objective_id' => 10, 'course_objective_id' => 20],
@@ -289,7 +285,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getCourseObjectivesToProgramObjectivesRelations
      */
-    public function testGetCourseObjectivesToProgramObjectivesRelations()
+    public function testGetCourseObjectivesToProgramObjectivesRelations(): void
     {
         $objectiveRelationships = [
             ['objective_id' => 10, 'program_objective_id' => 20],
@@ -324,7 +320,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getProgramObjectivesToPcrsRelations
      */
-    public function testGetProgramObjectivesToPcrsRelations()
+    public function testGetProgramObjectivesToPcrsRelations(): void
     {
         $objectiveRelationships = [
             ['objective_id' => 10, 'pcrs_id' => 'a'],
@@ -358,7 +354,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getEventsFromIlmOnlySessions
      */
-    public function testGetEventsFromIlmOnlySessions()
+    public function testGetEventsFromIlmOnlySessions(): void
     {
         $report = new CurriculumInventoryReport();
         $excludedSessionIds = []; // doesn't matter here
@@ -384,7 +380,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getEventsFromOfferingsOnlySessions
      */
-    public function testGetEventsFromOfferingsOnlySessions()
+    public function testGetEventsFromOfferingsOnlySessions(): void
     {
         $report = new CurriculumInventoryReport();
         $sessionIds = [30];
@@ -418,7 +414,7 @@ class ManagerTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Manager::getEventsFromIlmSessionsWithOfferings
      */
-    public function testGetEventsFromIlmSessionsWithOfferings()
+    public function testGetEventsFromIlmSessionsWithOfferings(): void
     {
         $report = new CurriculumInventoryReport();
         $sessionIds = [30];

@@ -15,23 +15,22 @@ use App\Tests\TestCase;
  */
 class LoggerQueueTest extends TestCase
 {
-    public function testFlush()
+    public function testFlush(): void
     {
         $action = 'create';
         $changes = 'foo,bar';
         $school = new School();
         $school->setId(12);
-        $logger = m::mock(Logger::class)
-            ->shouldReceive('log')
+        $logger = m::mock(Logger::class);
+        $logger->shouldReceive('log')
             ->times(1)
-            ->with($action, '12', 'IliosTestSchoolEntity', $changes, false)
-            ->getMock();
+            ->with($action, '12', 'IliosTestSchoolEntity', $changes, false);
         $queue = new LoggerQueue($logger);
         $queue->add($action, $school, 'IliosTestSchoolEntity', $changes);
         $queue->flush();
     }
 
-    public function testFlushEmptyQueue()
+    public function testFlushEmptyQueue(): void
     {
         $logger = m::mock(Logger::class);
         $queue = new LoggerQueue($logger);

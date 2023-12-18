@@ -48,7 +48,6 @@ use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\DataFixtures\Executor\PHPCRExecutor;
 use Exception;
 use Mockery as m;
 
@@ -57,60 +56,17 @@ use Mockery as m;
  */
 class CourseRolloverTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    protected $courseRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $learningMaterialRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $courseLearningMaterialRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $sessionRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $sessionLearningMaterialRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $offeringRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $ilmSessionRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $cohortRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $courseObjectiveRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $sessionObjectiveRepository;
-
-    /**
-     * @var CourseRollover
-     */
-    protected $service;
+    protected m\MockInterface $courseRepository;
+    protected m\MockInterface $learningMaterialRepository;
+    protected m\MockInterface $courseLearningMaterialRepository;
+    protected m\MockInterface $sessionRepository;
+    protected m\MockInterface $sessionLearningMaterialRepository;
+    protected m\MockInterface $offeringRepository;
+    protected m\MockInterface $ilmSessionRepository;
+    protected m\MockInterface $cohortRepository;
+    protected m\MockInterface $courseObjectiveRepository;
+    protected m\MockInterface $sessionObjectiveRepository;
+    protected CourseRollover $service;
 
 
     public function setUp(): void
@@ -156,7 +112,7 @@ class CourseRolloverTest extends TestCase
         unset($this->service);
     }
 
-    public function testRolloverWithEverything()
+    public function testRolloverWithEverything(): void
     {
         $course = $this->createTestCourseWithAssociations();
         $newCourse = m::mock(CourseInterface::class);
@@ -365,7 +321,7 @@ class CourseRolloverTest extends TestCase
         $this->assertSame($newCourse, $rhett);
     }
 
-    public function testRolloverWithYearFarInTheFuture()
+    public function testRolloverWithYearFarInTheFuture(): void
     {
         $course = $this->createTestCourseWithOfferings();
 
@@ -431,7 +387,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, []);
     }
 
-    public function testRolloverWithSpecificStartDate()
+    public function testRolloverWithSpecificStartDate(): void
     {
         $course = $this->createTestCourseWithOfferings();
 
@@ -551,7 +507,7 @@ class CourseRolloverTest extends TestCase
     }
 
 
-    public function testRolloverWithInSameYearWithNewStartDate()
+    public function testRolloverWithInSameYearWithNewStartDate(): void
     {
         $course = $this->createTestCourseWithOfferings();
 
@@ -656,7 +612,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['new-start-date' => $newStartDate->format('c')]);
     }
 
-    public function testRolloverSessionObjectiveWithOrphanedParents()
+    public function testRolloverSessionObjectiveWithOrphanedParents(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -710,7 +666,7 @@ class CourseRolloverTest extends TestCase
         $this->assertSame($newCourse, $rhett);
     }
 
-    public function testRolloverInSameYearKeepsRelationships()
+    public function testRolloverInSameYearKeepsRelationships(): void
     {
         $course = $this->createTestCourseWithAssociations();
         $newCourse = m::mock(CourseInterface::class);
@@ -854,7 +810,7 @@ class CourseRolloverTest extends TestCase
         $this->assertSame($newCourse, $rhett);
     }
 
-    public function testRolloverWithEmptyClerkshipType()
+    public function testRolloverWithEmptyClerkshipType(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -866,17 +822,17 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['']);
     }
 
-    public function testRolloverWithNewStartDate()
+    public function testRolloverWithNewStartDate(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutSessions()
+    public function testRolloverWithoutSessions(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutCourseLearningMaterials()
+    public function testRolloverWithoutCourseLearningMaterials(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -890,7 +846,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-learning-materials' => true]);
     }
 
-    public function testRolloverWithoutCourseObjectives()
+    public function testRolloverWithoutCourseObjectives(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -905,7 +861,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-objectives' => true]);
     }
 
-    public function testRolloverWithoutCourseTerms()
+    public function testRolloverWithoutCourseTerms(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -918,7 +874,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-terms' => true]);
     }
 
-    public function testRolloverWithoutCourseMesh()
+    public function testRolloverWithoutCourseMesh(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -931,7 +887,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['skip-course-mesh' => true]);
     }
 
-    public function testRolloverWithoutCourseAncestor()
+    public function testRolloverWithoutCourseAncestor(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -944,53 +900,53 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, []);
     }
 
-    public function testRolloverWithoutSessionLearningMaterials()
+    public function testRolloverWithoutSessionLearningMaterials(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutSessionObjectives()
+    public function testRolloverWithoutSessionObjectives(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutSessionTerms()
+    public function testRolloverWithoutSessionTerms(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutSessionMesh()
+    public function testRolloverWithoutSessionMesh(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutOfferings()
+    public function testRolloverWithoutOfferings(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutInstructors()
+    public function testRolloverWithoutInstructors(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithoutInstructorGroups()
+    public function testRolloverWithoutInstructorGroups(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverWithNewCourseTitle()
+    public function testRolloverWithNewCourseTitle(): void
     {
         $this->markTestIncomplete();
     }
 
     // @todo test the hell out of this. use a data provider here. [ST 2016/06/17]
-    public function testRolloverOffsetCalculation()
+    public function testRolloverOffsetCalculation(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testRolloverFailsOnDuplicate()
+    public function testRolloverFailsOnDuplicate(): void
     {
         $course = $this->createTestCourse();
         $newYear = $course->getYear() + 1;
@@ -1005,7 +961,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['']);
     }
 
-    public function testRolloverFailsOnYearPast()
+    public function testRolloverFailsOnYearPast(): void
     {
         $courseId = 10;
         $pastDate = new DateTime();
@@ -1017,7 +973,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($courseId, $year, []);
     }
 
-    public function testRolloverFailsOnMissingCourse()
+    public function testRolloverFailsOnMissingCourse(): void
     {
         $courseId = -1;
         $futureDate = new DateTime();
@@ -1030,7 +986,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($courseId, $year, []);
     }
 
-    public function testRolloverFailsOnStartDateOnDifferentDay()
+    public function testRolloverFailsOnStartDateOnDifferentDay(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -1052,7 +1008,7 @@ class CourseRolloverTest extends TestCase
         $this->service->rolloverCourse($course->getId(), $newYear, ['new-start-date' => $newStartDate->format('c')]);
     }
 
-    public function testRolloverCohortAndReLinkObjectives()
+    public function testRolloverCohortAndReLinkObjectives(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());
@@ -1114,7 +1070,7 @@ class CourseRolloverTest extends TestCase
         $this->assertSame($newCourse, $rhett);
     }
 
-    public function testRolloverLinkedSessions()
+    public function testRolloverLinkedSessions(): void
     {
         $course = $this->createTestCourse();
         $course->setSchool(new School());

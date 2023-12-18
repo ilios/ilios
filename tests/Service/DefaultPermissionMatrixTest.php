@@ -19,15 +19,8 @@ use Mockery as m;
  */
 class DefaultPermissionMatrixTest extends TestCase
 {
-    /**
-     * @var DefaultPermissionMatrix
-     */
-    protected $permissionMatrix;
-
-    /**
-     * @var SchoolDTO
-     */
-    protected $schoolDTO;
+    protected DefaultPermissionMatrix $permissionMatrix;
+    protected SchoolDTO $schoolDTO;
 
     public function setUp(): void
     {
@@ -1131,7 +1124,7 @@ class DefaultPermissionMatrixTest extends TestCase
     /**
      * @dataProvider hasPermissionProvider
      */
-    public function testHasPermission($capability, array $allowedRoles, array $deniedRoles)
+    public function testHasPermission(string $capability, array $allowedRoles, array $deniedRoles): void
     {
         $this->assertEquals(count($allowedRoles) +  count($deniedRoles), 10);
         foreach ($allowedRoles as $role) {

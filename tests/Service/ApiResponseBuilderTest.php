@@ -12,10 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiResponseBuilderTest extends TestCase
 {
-    /**
-     * @var ApiResponseBuilder
-     */
-    private $obj;
+    private ApiResponseBuilder $obj;
 
     public function setUp(): void
     {
@@ -32,7 +29,7 @@ class ApiResponseBuilderTest extends TestCase
         unset($this->obj);
     }
 
-    public function testSimpleTree()
+    public function testSimpleTree(): void
     {
         $input = 'cohorts,objective';
         $tree = $this->obj->extractJsonApiSideLoadFields($input);
@@ -43,7 +40,7 @@ class ApiResponseBuilderTest extends TestCase
         $this->assertEquals($expected, $tree);
     }
 
-    public function testTwoLevelTree()
+    public function testTwoLevelTree(): void
     {
         $input = 'cohorts.green,objective.green';
         $tree = $this->obj->extractJsonApiSideLoadFields($input);
@@ -58,7 +55,7 @@ class ApiResponseBuilderTest extends TestCase
         $this->assertEquals($expected, $tree);
     }
 
-    public function testEmptyTree()
+    public function testEmptyTree(): void
     {
         $input = '';
         $tree = $this->obj->extractJsonApiSideLoadFields($input);
@@ -66,7 +63,7 @@ class ApiResponseBuilderTest extends TestCase
         $this->assertEquals($expected, $tree);
     }
 
-    public function testDoubleTopLevelTree()
+    public function testDoubleTopLevelTree(): void
     {
         $input = 'cohorts.programYear.program,cohorts.programYear.programYearObjectives.objective';
         $tree = $this->obj->extractJsonApiSideLoadFields($input);
@@ -83,7 +80,7 @@ class ApiResponseBuilderTest extends TestCase
         $this->assertEquals($expected, $tree);
     }
 
-    public function testDoubleDeepLevelTree()
+    public function testDoubleDeepLevelTree(): void
     {
         $input = 'cohorts.programYear.program.school,cohorts.programYear.program.directors';
         $tree = $this->obj->extractJsonApiSideLoadFields($input);
@@ -100,7 +97,7 @@ class ApiResponseBuilderTest extends TestCase
         $this->assertEquals($expected, $tree);
     }
 
-    public function testCourseSessionTree()
+    public function testCourseSessionTree(): void
     {
         $sessionRelationships = [
             'learningMaterials.learningMaterial.owningUser',
