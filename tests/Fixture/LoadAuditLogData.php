@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\AuditLog;
+use App\Tests\DataLoader\AuditLogData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -17,6 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LoadAuditLogData extends AbstractFixture implements
     ORMFixtureInterface,
     ContainerAwareInterface
+
 {
     /**
      * @var ContainerInterface
@@ -31,7 +33,7 @@ class LoadAuditLogData extends AbstractFixture implements
     public function load(ObjectManager $manager)
     {
         $data = $this->container
-            ->get('app.dataloader.auditlog')
+            ->get(AuditLogData::class)
             ->getAll();
         foreach ($data as $arr) {
             $entity = new AuditLog();
