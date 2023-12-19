@@ -17,7 +17,7 @@ use App\Tests\TestCase;
  */
 class EntityBase extends TestCase
 {
-    protected $object;
+    protected object $object;
 
     /**
      * Remove all mock objects
@@ -32,7 +32,7 @@ class EntityBase extends TestCase
      * Engage the symfony validator and test the object.
      * @param int $expectedCount how many errors are you expecting
      */
-    protected function validate($expectedCount): array
+    protected function validate(int $expectedCount): array
     {
         $validator = Validation::createValidatorBuilder()
                 ->enableAnnotationMapping()
@@ -56,10 +56,7 @@ class EntityBase extends TestCase
         return $parsedErrors;
     }
 
-    /**
-     * @param array $fields
-     */
-    protected function validateNotBlanks(array $fields)
+    protected function validateNotBlanks(array $fields): void
     {
 
         $errors = $this->validate(count($fields));
@@ -73,10 +70,7 @@ class EntityBase extends TestCase
         }
     }
 
-    /**
-     * @param array $fields
-     */
-    protected function validateNotNulls(array $fields)
+    protected function validateNotNulls(array $fields): void
     {
 
         $errors = $this->validate(count($fields));
@@ -96,7 +90,7 @@ class EntityBase extends TestCase
      * @param string $property
      * @param string $type
      */
-    protected function basicSetTest($property, $type)
+    protected function basicSetTest(string $property, string $type): void
     {
         $setMethod = $this->getSetMethodForProperty($property);
         $getMethod = $this->getGetMethodForProperty($property);
@@ -113,7 +107,7 @@ class EntityBase extends TestCase
      * @param string $property
      * @param bool $is should we use is vs has when generating the method.
      */
-    protected function booleanSetTest($property, $is = true)
+    protected function booleanSetTest(string $property, bool $is = true): void
     {
         $setMethod = $this->getSetMethodForProperty($property);
         $isMethod = $is ? $this->getIsMethodForProperty($property) : $this->getHasMethodForProperty($property);
@@ -130,7 +124,7 @@ class EntityBase extends TestCase
      * @param string $property
      * @param string $entityName
      */
-    protected function entitySetTest($property, $entityName)
+    protected function entitySetTest(string $property, string $entityName): void
     {
         $setMethod = $this->getSetMethodForProperty($property);
         $getMethod = $this->getGetMethodForProperty($property);
@@ -152,12 +146,12 @@ class EntityBase extends TestCase
      * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
      */
     protected function entityCollectionSetTest(
-        $property,
-        $entityName,
-        $getter = false,
-        $setter = false,
-        $crossSaveMethod = false
-    ) {
+        string $property,
+        string $entityName,
+        string|bool $getter = false,
+        string|bool $setter = false,
+        string|bool $crossSaveMethod = false
+    ): void {
         $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
         $setMethod = $setter ? $setter : $this->getSetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
@@ -189,12 +183,12 @@ class EntityBase extends TestCase
      * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
      */
     protected function entityCollectionAddTest(
-        $property,
-        $entityName,
-        $getter = false,
-        $setter = false,
-        $crossSaveMethod = false
-    ) {
+        string $property,
+        string $entityName,
+        string|bool $getter = false,
+        string|bool $setter = false,
+        string|bool $crossSaveMethod = false
+    ): void {
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
         $addMethod = $setter ? $setter : $this->getAddMethodForProperty($property);
         $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
@@ -225,13 +219,13 @@ class EntityBase extends TestCase
      * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
      */
     protected function entityCollectionRemoveTest(
-        $property,
-        $entityName,
-        $getter = false,
-        $adder = false,
-        $remover = false,
-        $crossSaveMethod = false
-    ) {
+        string $property,
+        string $entityName,
+        string|bool $getter = false,
+        string|bool $adder = false,
+        string|bool $remover = false,
+        string|bool $crossSaveMethod = false
+    ): void {
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
         $addMethod = $adder ? $adder : $this->getAddMethodForProperty($property);
         $removeMethod = $remover ? $remover : $this->getRemoveMethodForProperty($property);
@@ -266,11 +260,7 @@ class EntityBase extends TestCase
         }
     }
 
-    /**
-     * @param $className
-     * @param $count
-     */
-    protected function getArrayOfMockObjects($className, $count): array
+    protected function getArrayOfMockObjects(string $className, int $count): array
     {
         $arr = [];
         for ($i = 0; $i < $count; $i++) {
@@ -280,66 +270,42 @@ class EntityBase extends TestCase
         return $arr;
     }
 
-    /**
-     * @param $property
-     */
-    protected function getSetMethodForProperty($property): string
+    protected function getSetMethodForProperty(string $property): string
     {
         return 'set' . ucfirst($property);
     }
 
-    /**
-     * @param $property
-     */
-    protected function getGetMethodForProperty($property): string
+    protected function getGetMethodForProperty(string $property): string
     {
         return 'get' . ucfirst($property);
     }
 
-    /**
-     * @param $property
-     */
-    protected function getIsMethodForProperty($property): string
+    protected function getIsMethodForProperty(string $property): string
     {
         return 'is' . ucfirst($property);
     }
 
-    /**
-     * @param $property
-     */
-    protected function getHasMethodForProperty($property): string
+    protected function getHasMethodForProperty(string $property): string
     {
         return 'has' . ucfirst($property);
     }
 
-    /**
-     * @param $property
-     */
-    protected function getGetMethodForCollectionProperty($property): string
+    protected function getGetMethodForCollectionProperty(string $property): string
     {
         return 'get' . ucfirst($property) . 's';
     }
 
-    /**
-     * @param $property
-     */
-    protected function getSetMethodForCollectionProperty($property): string
+    protected function getSetMethodForCollectionProperty(string $property): string
     {
         return 'set' . ucfirst($property) . 's';
     }
 
-    /**
-     * @param $property
-     */
-    protected function getAddMethodForProperty($property): string
+    protected function getAddMethodForProperty(string $property): string
     {
         return 'add' . ucfirst($property);
     }
 
-    /**
-     * @param $property
-     */
-    protected function getRemoveMethodForProperty($property): string
+    protected function getRemoveMethodForProperty(string $property): string
     {
         return 'remove' . ucfirst($property);
     }
