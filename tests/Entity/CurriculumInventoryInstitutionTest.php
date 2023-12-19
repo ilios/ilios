@@ -14,20 +14,12 @@ use Mockery as m;
  */
 class CurriculumInventoryInstitutionTest extends EntityBase
 {
-    /**
-     * @var CurriculumInventoryInstitution
-     */
-    protected $object;
-
-    /**
-     * Instantiate a CurriculumInventoryInstitution object
-     */
     protected function setUp(): void
     {
         $this->object = new CurriculumInventoryInstitution();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name',
@@ -51,7 +43,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'school'
@@ -74,7 +66,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setName
      * @covers \App\Entity\CurriculumInventoryInstitution::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -83,7 +75,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setAamcCode
      * @covers \App\Entity\CurriculumInventoryInstitution::getAamcCode
      */
-    public function testSetAamcCode()
+    public function testSetAamcCode(): void
     {
         $this->basicSetTest('aamcCode', 'string');
     }
@@ -92,7 +84,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setAddressStreet
      * @covers \App\Entity\CurriculumInventoryInstitution::getAddressStreet
      */
-    public function testSetAddressStreet()
+    public function testSetAddressStreet(): void
     {
         $this->basicSetTest('addressStreet', 'string');
     }
@@ -101,7 +93,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setAddressCity
      * @covers \App\Entity\CurriculumInventoryInstitution::getAddressCity
      */
-    public function testSetAddressCity()
+    public function testSetAddressCity(): void
     {
         $this->basicSetTest('addressCity', 'string');
     }
@@ -110,7 +102,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setAddressStateOrProvince
      * @covers \App\Entity\CurriculumInventoryInstitution::getAddressStateOrProvince
      */
-    public function testSetAddressStateOrProvince()
+    public function testSetAddressStateOrProvince(): void
     {
         $this->basicSetTest('addressStateOrProvince', 'string');
     }
@@ -119,7 +111,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setAddressZipcode
      * @covers \App\Entity\CurriculumInventoryInstitution::getAddressZipcode
      */
-    public function testSetAddressZipcode()
+    public function testSetAddressZipcode(): void
     {
         $this->basicSetTest('addressZipcode', 'string');
     }
@@ -128,7 +120,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setAddressCountryCode
      * @covers \App\Entity\CurriculumInventoryInstitution::getAddressCountryCode
      */
-    public function testSetAddressCountryCode()
+    public function testSetAddressCountryCode(): void
     {
         $this->basicSetTest('addressCountryCode', 'string');
     }
@@ -137,7 +129,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryInstitution::setSchool
      * @covers \App\Entity\CurriculumInventoryInstitution::getSchool
      */
-    public function testSetSchool()
+    public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }

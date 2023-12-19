@@ -17,20 +17,12 @@ use Mockery as m;
  */
 class SessionTest extends EntityBase
 {
-    /**
-     * @var Session
-     */
-    protected $object;
-
-    /**
-     * Instantiate a Session object
-     */
     protected function setUp(): void
     {
         $this->object = new Session();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $this->object->setSessionType(m::mock(SessionTypeInterface::class));
         $this->object->setCourse(m::mock(CourseInterface::class));
@@ -42,7 +34,7 @@ class SessionTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'sessionType',
@@ -58,7 +50,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertEmpty($this->object->getSessionObjectives());
@@ -74,7 +66,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setTitle
      * @covers \App\Entity\Session::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -83,7 +75,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setDescription
      * @covers \App\Entity\Session::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $description = 'lorem ipsum';
         $this->object->setDescription($description);
@@ -94,7 +86,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setAttireRequired
      * @covers \App\Entity\Session::isAttireRequired
      */
-    public function testSetAttireRequired()
+    public function testSetAttireRequired(): void
     {
         $this->booleanSetTest('attireRequired');
     }
@@ -103,7 +95,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setEquipmentRequired
      * @covers \App\Entity\Session::isEquipmentRequired
      */
-    public function testSetEquipmentRequired()
+    public function testSetEquipmentRequired(): void
     {
         $this->booleanSetTest('equipmentRequired');
     }
@@ -112,7 +104,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setSupplemental
      * @covers \App\Entity\Session::isSupplemental
      */
-    public function testSetSupplemental()
+    public function testSetSupplemental(): void
     {
         $this->booleanSetTest('supplemental');
     }
@@ -121,7 +113,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setAttendanceRequired
      * @covers \App\Entity\Session::isAttendanceRequired
      */
-    public function testSetAttendanceRequired()
+    public function testSetAttendanceRequired(): void
     {
         $this->booleanSetTest('attendanceRequired');
     }
@@ -130,7 +122,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setPublishedAsTbd
      * @covers \App\Entity\Session::isPublishedAsTbd
      */
-    public function testSetPublishedAsTbd()
+    public function testSetPublishedAsTbd(): void
     {
         $this->booleanSetTest('publishedAsTbd');
     }
@@ -139,7 +131,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setPublished
      * @covers \App\Entity\Session::isPublished
      */
-    public function testSetPublished()
+    public function testSetPublished(): void
     {
         $this->booleanSetTest('published');
     }
@@ -148,7 +140,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setInstructionalNotes
      * @covers \App\Entity\Session::getInstructionalNotes
      */
-    public function testSetInstructionalNotes()
+    public function testSetInstructionalNotes(): void
     {
         $this->basicSetTest('instructionalNotes', 'string');
     }
@@ -157,7 +149,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setSessionType
      * @covers \App\Entity\Session::getSessionType
      */
-    public function testSetSessionType()
+    public function testSetSessionType(): void
     {
         $this->entitySetTest('sessionType', "SessionType");
     }
@@ -166,7 +158,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setCourse
      * @covers \App\Entity\Session::getCourse
      */
-    public function testSetCourse()
+    public function testSetCourse(): void
     {
         $this->entitySetTest('course', "Course");
     }
@@ -175,7 +167,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setIlmSession
      * @covers \App\Entity\Session::getIlmSession
      */
-    public function testSetIlmSession()
+    public function testSetIlmSession(): void
     {
         $this->assertTrue(method_exists($this->object, 'getIlmSession'), "Method getIlmSession missing");
         $this->assertTrue(method_exists($this->object, 'setIlmSession'), "Method setIlmSession missing");
@@ -188,7 +180,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addLearningMaterial
      */
-    public function testAddLearningMaterial()
+    public function testAddLearningMaterial(): void
     {
         $this->entityCollectionAddTest('learningMaterial', 'SessionLearningMaterial');
     }
@@ -196,7 +188,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeLearningMaterial
      */
-    public function testRemoveLearningMaterial()
+    public function testRemoveLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('learningMaterial', 'SessionLearningMaterial');
     }
@@ -205,7 +197,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setLearningMaterials
      * @covers \App\Entity\Session::getLearningMaterials
      */
-    public function testGetLearningMaterials()
+    public function testGetLearningMaterials(): void
     {
         $this->entityCollectionSetTest('learningMaterial', 'SessionLearningMaterial');
     }
@@ -213,7 +205,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::getSchool
      */
-    public function testGetSchool()
+    public function testGetSchool(): void
     {
         $school = new School();
         $course = new Course();
@@ -226,7 +218,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
@@ -234,7 +226,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
@@ -243,7 +235,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::getTerms
      * @covers \App\Entity\Session::setTerms
      */
-    public function testSetTerms()
+    public function testSetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
@@ -251,7 +243,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addSessionObjective
      */
-    public function testAddSessionObjective()
+    public function testAddSessionObjective(): void
     {
         $this->entityCollectionAddTest('sessionObjective', 'SessionObjective');
     }
@@ -259,7 +251,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeSessionObjective
      */
-    public function testRemoveSessionObjective()
+    public function testRemoveSessionObjective(): void
     {
         $this->entityCollectionRemoveTest('sessionObjective', 'SessionObjective');
     }
@@ -268,7 +260,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setSessionObjectives
      * @covers \App\Entity\Session::getSessionObjectives
      */
-    public function testGetSessionObjectives()
+    public function testGetSessionObjectives(): void
     {
         $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
     }
@@ -276,7 +268,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addMeshDescriptor
      */
-    public function testAddMeshDescriptor()
+    public function testAddMeshDescriptor(): void
     {
         $this->entityCollectionAddTest('meshDescriptor', 'MeshDescriptor');
     }
@@ -284,7 +276,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeMeshDescriptor
      */
-    public function testRemoveMeshDescriptor()
+    public function testRemoveMeshDescriptor(): void
     {
         $this->entityCollectionRemoveTest('meshDescriptor', 'MeshDescriptor');
     }
@@ -293,7 +285,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::getMeshDescriptors
      * @covers \App\Entity\Session::setMeshDescriptors
      */
-    public function testSetMeshDescriptors()
+    public function testSetMeshDescriptors(): void
     {
         $this->entityCollectionSetTest('meshDescriptor', 'MeshDescriptor');
     }
@@ -301,7 +293,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addSequenceBlock
      */
-    public function testAddSequenceBlock()
+    public function testAddSequenceBlock(): void
     {
         $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -309,7 +301,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeSequenceBlock
      */
-    public function testRemoveSequenceBlock()
+    public function testRemoveSequenceBlock(): void
     {
         $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -318,7 +310,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setSequenceBlocks
      * @covers \App\Entity\Session::getSequenceBlocks
      */
-    public function testGetSequenceBlocks()
+    public function testGetSequenceBlocks(): void
     {
         $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -326,7 +318,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addOffering
      */
-    public function testAddOffering()
+    public function testAddOffering(): void
     {
         $this->entityCollectionAddTest('offering', 'Offering');
     }
@@ -334,7 +326,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeOffering
      */
-    public function testRemoveOffering()
+    public function testRemoveOffering(): void
     {
         $this->entityCollectionRemoveTest('offering', 'Offering');
     }
@@ -343,7 +335,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::getOfferings
      * @covers \App\Entity\Session::setOfferings
      */
-    public function testSetOfferings()
+    public function testSetOfferings(): void
     {
         $this->entityCollectionSetTest('offering', 'Offering');
     }
@@ -351,7 +343,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addAdministrator
      */
-    public function testAddAdministrator()
+    public function testAddAdministrator(): void
     {
         $this->entityCollectionAddTest('administrator', 'User', false, false, 'addAdministeredSession');
     }
@@ -359,7 +351,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeAdministrator
      */
-    public function testRemoveAdministrator()
+    public function testRemoveAdministrator(): void
     {
         $this->entityCollectionRemoveTest('administrator', 'User', false, false, false, 'removeAdministeredSession');
     }
@@ -368,7 +360,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::getAdministrators
      * @covers \App\Entity\Session::setAdministrators
      */
-    public function testSetAdministrators()
+    public function testSetAdministrators(): void
     {
         $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredSession');
     }
@@ -376,7 +368,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addStudentAdvisor
      */
-    public function testAddStudentAdvisor()
+    public function testAddStudentAdvisor(): void
     {
         $this->entityCollectionAddTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedSession');
     }
@@ -384,7 +376,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeStudentAdvisor
      */
-    public function testRemoveStudentAdvisor()
+    public function testRemoveStudentAdvisor(): void
     {
         $this->entityCollectionRemoveTest('studentAdvisor', 'User', false, false, false, 'removeStudentAdvisedSession');
     }
@@ -393,7 +385,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::getStudentAdvisors
      * @covers \App\Entity\Session::setStudentAdvisors
      */
-    public function testSetStudentAdvisors()
+    public function testSetStudentAdvisors(): void
     {
         $this->entityCollectionSetTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedSession');
     }
@@ -401,7 +393,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addExcludedSequenceBlock
      */
-    public function testAddExcludedSequenceBlock()
+    public function testAddExcludedSequenceBlock(): void
     {
         $this->entityCollectionAddTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -409,7 +401,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removeExcludedSequenceBlock
      */
-    public function testRemoveExcludedSequenceBlock()
+    public function testRemoveExcludedSequenceBlock(): void
     {
         $this->entityCollectionRemoveTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -418,7 +410,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setExcludedSequenceBlocks
      * @covers \App\Entity\Session::getExcludedSequenceBlocks
      */
-    public function testGetExcludedSequenceBlocks()
+    public function testGetExcludedSequenceBlocks(): void
     {
         $this->entityCollectionSetTest('excludedSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -427,7 +419,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::setPostrequisite
      * @covers \App\Entity\Session::getPostrequisite
      */
-    public function testSetPostrequisite()
+    public function testSetPostrequisite(): void
     {
         $this->entitySetTest('postrequisite', 'Session');
     }
@@ -435,7 +427,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::addPrerequisite
      */
-    public function testAddPrerequisite()
+    public function testAddPrerequisite(): void
     {
         $this->entityCollectionAddTest('prerequisite', 'Session', false, false, 'setPostrequisite');
     }
@@ -443,7 +435,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::removePrerequisite
      */
-    public function testRemovePrerequisite()
+    public function testRemovePrerequisite(): void
     {
         $this->entityCollectionRemoveTest('prerequisite', 'Session');
     }
@@ -452,7 +444,7 @@ class SessionTest extends EntityBase
      * @covers \App\Entity\Session::getPrerequisites
      * @covers \App\Entity\Session::setPrerequisites
      */
-    public function testGetPrerequisites()
+    public function testGetPrerequisites(): void
     {
         $this->entityCollectionSetTest('prerequisite', 'Session', false, false, 'setPostrequisite');
     }
@@ -460,7 +452,7 @@ class SessionTest extends EntityBase
     /**
      * @covers \App\Entity\Session::getIndexableCourses
      */
-    public function testGetIndexableCourses()
+    public function testGetIndexableCourses(): void
     {
         $course = m::mock(CourseInterface::class);
         $this->object->setCourse($course);

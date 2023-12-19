@@ -15,20 +15,12 @@ use function method_exists;
  */
 class AuditLogTest extends EntityBase
 {
-    /**
-     * @var AuditLog
-     */
-    protected $object;
-
-    /**
-     * Instantiate a AuditLog object
-     */
     protected function setUp(): void
     {
         $this->object = new AuditLog();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'action',
@@ -48,7 +40,7 @@ class AuditLogTest extends EntityBase
     /**
      * @covers ::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertNotEmpty($this->object->getCreatedAt());
     }
@@ -57,7 +49,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setAction
      * @covers ::getAction
      */
-    public function testSetAction()
+    public function testSetAction(): void
     {
         $this->basicSetTest('action', 'string');
     }
@@ -66,7 +58,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setObjectId
      * @covers ::getObjectId
      */
-    public function testSetObjectIdConvertsIntToString()
+    public function testSetObjectIdConvertsIntToString(): void
     {
         $this->assertTrue(method_exists($this->object, 'setObjectId'));
         $this->assertTrue(method_exists($this->object, 'getObjectId'));
@@ -78,7 +70,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setObjectId
      * @covers ::getObjectId
      */
-    public function testSetObjectIdString()
+    public function testSetObjectIdString(): void
     {
         $this->basicSetTest('objectId', 'string');
     }
@@ -87,7 +79,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setObjectClass
      * @covers ::getObjectClass
      */
-    public function testSetObjectClass()
+    public function testSetObjectClass(): void
     {
         $this->basicSetTest('objectClass', 'string');
     }
@@ -96,7 +88,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setValuesChanged
      * @covers ::getValuesChanged
      */
-    public function testSetValuesChanged()
+    public function testSetValuesChanged(): void
     {
         $this->basicSetTest('valuesChanged', 'string');
     }
@@ -105,7 +97,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setUser
      * @covers ::getUser
      */
-    public function testSetUser()
+    public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
     }
@@ -114,7 +106,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setServiceToken
      * @covers ::getServiceToken
      */
-    public function testSetServiceToken()
+    public function testSetServiceToken(): void
     {
         $this->entitySetTest('serviceToken', 'ServiceToken');
     }
@@ -123,7 +115,7 @@ class AuditLogTest extends EntityBase
      * @covers ::setCreatedAt
      * @covers ::getCreatedAt
      */
-    public function testSetCreatedAt()
+    public function testSetCreatedAt(): void
     {
         $this->basicSetTest('createdAt', 'datetime');
     }

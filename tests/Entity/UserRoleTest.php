@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\UserRole;
-use Mockery as m;
 
 /**
  * Tests for Entity UserRole
@@ -13,20 +12,12 @@ use Mockery as m;
  */
 class UserRoleTest extends EntityBase
 {
-    /**
-     * @var UserRole
-     */
-    protected $object;
-
-    /**
-     * Instantiate a UserRole object
-     */
     protected function setUp(): void
     {
         $this->object = new UserRole();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -40,7 +31,7 @@ class UserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\UserRole::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getUsers());
     }
@@ -49,7 +40,7 @@ class UserRoleTest extends EntityBase
      * @covers \App\Entity\UserRole::setTitle
      * @covers \App\Entity\UserRole::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -57,7 +48,7 @@ class UserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\UserRole::addUser
      */
-    public function testAddUser()
+    public function testAddUser(): void
     {
         $this->entityCollectionAddTest('user', 'User', false, false, 'addRole');
     }
@@ -65,7 +56,7 @@ class UserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\UserRole::removeUser
      */
-    public function testRemoveUser()
+    public function testRemoveUser(): void
     {
         $this->entityCollectionRemoveTest('user', 'User', false, false, false, 'removeRole');
     }
@@ -73,7 +64,7 @@ class UserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\UserRole::getUsers
      */
-    public function testGetUsers()
+    public function testGetUsers(): void
     {
         $this->entityCollectionSetTest('user', 'User', false, false, 'addRole');
     }

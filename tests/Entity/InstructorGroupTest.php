@@ -13,20 +13,12 @@ use Mockery as m;
  */
 class InstructorGroupTest extends EntityBase
 {
-    /**
-     * @var InstructorGroup
-     */
-    protected $object;
-
-    /**
-     * Instantiate a InstructorGroup object
-     */
     protected function setUp(): void
     {
         $this->object = new InstructorGroup();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -38,7 +30,7 @@ class InstructorGroupTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNulls = [
             'school'
@@ -55,7 +47,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getIlmSessions());
@@ -66,7 +58,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::addLearnerGroup
      */
-    public function testAddLearnerGroup()
+    public function testAddLearnerGroup(): void
     {
         $this->entityCollectionAddTest('learnerGroup', 'LearnerGroup', false, false, 'addInstructorGroup');
     }
@@ -74,7 +66,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::removeLearnerGroup
      */
-    public function testRemoveLearnerGroup()
+    public function testRemoveLearnerGroup(): void
     {
         $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup', false, false, false, 'removeInstructorGroup');
     }
@@ -82,7 +74,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::getLearnerGroups
      */
-    public function testGetLearnerGroups()
+    public function testGetLearnerGroups(): void
     {
         $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup', false, false, 'addInstructorGroup');
     }
@@ -90,7 +82,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::addIlmSession
      */
-    public function testAddIlmSession()
+    public function testAddIlmSession(): void
     {
         $this->entityCollectionAddTest('ilmSession', 'IlmSession', false, false, 'addInstructorGroup');
     }
@@ -98,7 +90,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::removeIlmSession
      */
-    public function testRemoveIlmSession()
+    public function testRemoveIlmSession(): void
     {
         $this->entityCollectionRemoveTest('ilmSession', 'IlmSession', false, false, false, 'removeInstructorGroup');
     }
@@ -106,7 +98,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::getIlmSessions
      */
-    public function testGetIlmSessions()
+    public function testGetIlmSessions(): void
     {
         $this->entityCollectionSetTest('ilmSession', 'IlmSession', false, false, 'addInstructorGroup');
     }
@@ -114,7 +106,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::addUser
      */
-    public function testAddUser()
+    public function testAddUser(): void
     {
         $this->entityCollectionAddTest('user', 'User');
     }
@@ -122,7 +114,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::removeUser
      */
-    public function testRemoveUser()
+    public function testRemoveUser(): void
     {
         $this->entityCollectionRemoveTest('user', 'User');
     }
@@ -130,7 +122,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::getUsers
      */
-    public function testGetUsers()
+    public function testGetUsers(): void
     {
         $this->entityCollectionSetTest('user', 'User');
     }
@@ -138,7 +130,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::addOffering
      */
-    public function testAddOffering()
+    public function testAddOffering(): void
     {
         $this->entityCollectionAddTest('offering', 'Offering');
     }
@@ -146,7 +138,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::removeOffering
      */
-    public function testRemoveOffering()
+    public function testRemoveOffering(): void
     {
         $this->entityCollectionRemoveTest('offering', 'Offering');
     }
@@ -154,7 +146,7 @@ class InstructorGroupTest extends EntityBase
     /**
      * @covers \App\Entity\InstructorGroup::getOfferings
      */
-    public function testGetOfferings()
+    public function testGetOfferings(): void
     {
         $this->entityCollectionSetTest('offering', 'Offering');
     }

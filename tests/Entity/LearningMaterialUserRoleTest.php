@@ -13,20 +13,12 @@ use Mockery as m;
  */
 class LearningMaterialUserRoleTest extends EntityBase
 {
-    /**
-     * @var LearningMaterialUserRole
-     */
-    protected $object;
-
-    /**
-     * Instantiate a LearningMaterialUserRole object
-     */
     protected function setUp(): void
     {
         $this->object = new LearningMaterialUserRole();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -40,7 +32,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterialUserRole::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getLearningMaterials());
     }
@@ -49,7 +41,7 @@ class LearningMaterialUserRoleTest extends EntityBase
      * @covers \App\Entity\LearningMaterialUserRole::setTitle
      * @covers \App\Entity\LearningMaterialUserRole::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -57,7 +49,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterialUserRole::addLearningMaterial
      */
-    public function testAddLearningMaterial()
+    public function testAddLearningMaterial(): void
     {
         $this->entityCollectionAddTest('learningMaterial', 'LearningMaterial');
     }
@@ -65,7 +57,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterialUserRole::removeLearningMaterial
      */
-    public function testRemoveLearningMaterial()
+    public function testRemoveLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
     }
@@ -73,7 +65,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterialUserRole::getLearningMaterials
      */
-    public function testGetLearningMaterials()
+    public function testGetLearningMaterials(): void
     {
         $this->entityCollectionSetTest('learningMaterial', 'LearningMaterial');
     }

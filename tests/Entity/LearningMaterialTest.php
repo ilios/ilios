@@ -22,20 +22,12 @@ use Mockery as m;
  */
 class LearningMaterialTest extends EntityBase
 {
-    /**
-     * @var LearningMaterial
-     */
-    protected $object;
-
-    /**
-     * Instantiate a LearningMaterial object
-     */
     protected function setUp(): void
     {
         $this->object = new LearningMaterial();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -55,7 +47,7 @@ class LearningMaterialTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNulls = [
             'userRole',
@@ -76,7 +68,7 @@ class LearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCourseLearningMaterials());
         $this->assertEmpty($this->object->getSessionLearningMaterials());
@@ -86,7 +78,7 @@ class LearningMaterialTest extends EntityBase
      * @covers \App\Entity\LearningMaterial::setTitle
      * @covers \App\Entity\LearningMaterial::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -95,7 +87,7 @@ class LearningMaterialTest extends EntityBase
      * @covers \App\Entity\LearningMaterial::setDescription
      * @covers \App\Entity\LearningMaterial::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -104,7 +96,7 @@ class LearningMaterialTest extends EntityBase
      * @covers \App\Entity\LearningMaterial::setOriginalAuthor
      * @covers \App\Entity\LearningMaterial::getOriginalAuthor
      */
-    public function testSetOriginalAuthor()
+    public function testSetOriginalAuthor(): void
     {
         $this->basicSetTest('originalAuthor', 'string');
     }
@@ -112,7 +104,7 @@ class LearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::getOwningSchool
      */
-    public function testGetOwningSchool()
+    public function testGetOwningSchool(): void
     {
         $school = new School();
         $user = new User();
@@ -125,7 +117,7 @@ class LearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::addCourseLearningMaterial
      */
-    public function testAddCourseLearningMaterial()
+    public function testAddCourseLearningMaterial(): void
     {
         $this->entityCollectionAddTest('courseLearningMaterial', 'CourseLearningMaterial');
     }
@@ -133,7 +125,7 @@ class LearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::removeCourseLearningMaterial
      */
-    public function testRemoveCourseLearningMaterial()
+    public function testRemoveCourseLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('courseLearningMaterial', 'CourseLearningMaterial');
     }
@@ -142,7 +134,7 @@ class LearningMaterialTest extends EntityBase
      * @covers \App\Entity\LearningMaterial::getCourseLearningMaterials
      * @covers \App\Entity\LearningMaterial::setCourseLearningMaterials
      */
-    public function getGetCourseLearningMaterials()
+    public function getGetCourseLearningMaterials(): void
     {
         $this->entityCollectionSetTest('courseLearningMaterial', 'CourseLearningMaterial');
     }
@@ -150,7 +142,7 @@ class LearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::addSessionLearningMaterial
      */
-    public function testAddSessionLearningMaterial()
+    public function testAddSessionLearningMaterial(): void
     {
         $this->entityCollectionAddTest('sessionLearningMaterial', 'SessionLearningMaterial');
     }
@@ -158,7 +150,7 @@ class LearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::removeSessionLearningMaterial
      */
-    public function testRemoveSessionLearningMaterial()
+    public function testRemoveSessionLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('sessionLearningMaterial', 'SessionLearningMaterial');
     }
@@ -167,7 +159,7 @@ class LearningMaterialTest extends EntityBase
      * @covers \App\Entity\LearningMaterial::getSessionLearningMaterials
      * @covers \App\Entity\LearningMaterial::setSessionLearningMaterials
      */
-    public function getGetSessionLearningMaterials()
+    public function getGetSessionLearningMaterials(): void
     {
         $this->entityCollectionSetTest('sessionLearningMaterial', 'SessionLearningMaterial');
     }
@@ -175,7 +167,7 @@ class LearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::getIndexableCourses
      */
-    public function testGetIndexableCourses()
+    public function testGetIndexableCourses(): void
     {
         $course1 = m::mock(CourseInterface::class);
         $courseLearningMaterial = m::mock(CourseLearningMaterialInterface::class)

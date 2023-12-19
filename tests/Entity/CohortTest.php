@@ -16,20 +16,12 @@ use Mockery as m;
  */
 class CohortTest extends EntityBase
 {
-    /**
-     * @var Cohort
-     */
-    protected $object;
-
-    /**
-     * Instantiate a Cohort object
-     */
     protected function setUp(): void
     {
         $this->object = new Cohort();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -43,7 +35,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCourses());
         $this->assertEmpty($this->object->getLearnerGroups());
@@ -54,7 +46,7 @@ class CohortTest extends EntityBase
      * @covers \App\Entity\Cohort::setTitle
      * @covers \App\Entity\Cohort::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -63,7 +55,7 @@ class CohortTest extends EntityBase
      * @covers \App\Entity\Cohort::setProgramYear
      * @covers \App\Entity\Cohort::getProgramYear
      */
-    public function testSetProgramYear()
+    public function testSetProgramYear(): void
     {
         $this->entitySetTest('programYear', 'ProgramYear');
     }
@@ -71,7 +63,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::addCourse
      */
-    public function testAddCourse()
+    public function testAddCourse(): void
     {
         $this->entityCollectionAddTest('course', 'Course', false, false, 'addCohort');
     }
@@ -79,7 +71,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::removeCourse
      */
-    public function testRemoveCourse()
+    public function testRemoveCourse(): void
     {
         $this->entityCollectionRemoveTest('course', 'Course', false, false, false, 'removeCohort');
     }
@@ -87,7 +79,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::getCourses
      */
-    public function testGetCourses()
+    public function testGetCourses(): void
     {
         $this->entityCollectionSetTest('course', 'Course', false, false, 'addCohort');
     }
@@ -95,7 +87,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::addUser
      */
-    public function testAddUser()
+    public function testAddUser(): void
     {
         $this->entityCollectionAddTest('user', 'User', false, false, 'addCohort');
     }
@@ -103,7 +95,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::removeUser
      */
-    public function testRemoveUser()
+    public function testRemoveUser(): void
     {
         $this->entityCollectionRemoveTest('user', 'User', false, false, false, 'removeCohort');
     }
@@ -111,7 +103,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::getUsers
      */
-    public function testGetUsers()
+    public function testGetUsers(): void
     {
         $this->entityCollectionSetTest('user', 'User', false, false, 'addCohort');
     }
@@ -119,7 +111,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::addLearnerGroup
      */
-    public function testAddLearnerGroup()
+    public function testAddLearnerGroup(): void
     {
         $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
     }
@@ -127,7 +119,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::removeLearnerGroup
      */
-    public function testRemoveLearnerGroup()
+    public function testRemoveLearnerGroup(): void
     {
         $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
     }
@@ -135,7 +127,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::getLearnerGroups
      */
-    public function testGetLearnerGroups()
+    public function testGetLearnerGroups(): void
     {
         $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
     }
@@ -143,7 +135,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::getProgram
      */
-    public function testGetProgram()
+    public function testGetProgram(): void
     {
         $program = new Program();
         $programYear = new ProgramYear();
@@ -159,7 +151,7 @@ class CohortTest extends EntityBase
     /**
      * @covers \App\Entity\Cohort::getSchool
      */
-    public function testGetSchool()
+    public function testGetSchool(): void
     {
         $school = new School();
         $program = new Program();

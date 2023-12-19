@@ -17,20 +17,12 @@ use Mockery as m;
  */
 class ProgramYearTest extends EntityBase
 {
-    /**
-     * @var ProgramYear
-     */
-    protected $object;
-
-    /**
-     * Instantiate a ProgramYear object
-     */
     protected function setUp(): void
     {
         $this->object = new ProgramYear();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'startYear',
@@ -43,7 +35,7 @@ class ProgramYearTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'program',
@@ -60,7 +52,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCompetencies());
         $this->assertEmpty($this->object->getDirectors());
@@ -72,7 +64,7 @@ class ProgramYearTest extends EntityBase
      * @covers \App\Entity\ProgramYear::setStartYear
      * @covers \App\Entity\ProgramYear::getStartYear
      */
-    public function testSetStartYear()
+    public function testSetStartYear(): void
     {
         $this->basicSetTest('startYear', 'integer');
     }
@@ -81,7 +73,7 @@ class ProgramYearTest extends EntityBase
      * @covers \App\Entity\ProgramYear::setLocked
      * @covers \App\Entity\ProgramYear::isLocked
      */
-    public function testSetLocked()
+    public function testSetLocked(): void
     {
         $this->booleanSetTest('locked');
     }
@@ -90,7 +82,7 @@ class ProgramYearTest extends EntityBase
      * @covers \App\Entity\ProgramYear::setArchived
      * @covers \App\Entity\ProgramYear::isArchived
      */
-    public function testSetArchived()
+    public function testSetArchived(): void
     {
         $this->booleanSetTest('archived');
     }
@@ -99,7 +91,7 @@ class ProgramYearTest extends EntityBase
      * @covers \App\Entity\ProgramYear::setProgram
      * @covers \App\Entity\ProgramYear::getProgram
      */
-    public function testSetProgram()
+    public function testSetProgram(): void
     {
         $this->entitySetTest('program', 'Program');
     }
@@ -107,7 +99,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::addDirector
      */
-    public function testAddDirector()
+    public function testAddDirector(): void
     {
         $this->entityCollectionAddTest('director', 'User');
     }
@@ -115,7 +107,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::removeDirector
      */
-    public function testRemoveDirector()
+    public function testRemoveDirector(): void
     {
         $this->entityCollectionRemoveTest('director', 'User');
     }
@@ -123,7 +115,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::getDirectors
      */
-    public function testGetDirectors()
+    public function testGetDirectors(): void
     {
         $this->entityCollectionSetTest('director', 'User');
     }
@@ -131,7 +123,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::getSchool
      */
-    public function testGetSchool()
+    public function testGetSchool(): void
     {
         $school = new School();
         $program = new Program();
@@ -144,7 +136,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
@@ -152,7 +144,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
@@ -161,7 +153,7 @@ class ProgramYearTest extends EntityBase
      * @covers \App\Entity\ProgramYear::getTerms
      * @covers \App\Entity\ProgramYear::setTerms
      */
-    public function testSetTerms()
+    public function testSetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
@@ -169,7 +161,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::addProgramYearObjective
      */
-    public function testAddProgramYearObjective()
+    public function testAddProgramYearObjective(): void
     {
         $this->entityCollectionAddTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -177,7 +169,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::removeProgramYearObjective
      */
-    public function testRemoveProgramYearObjective()
+    public function testRemoveProgramYearObjective(): void
     {
         $this->entityCollectionRemoveTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -186,7 +178,7 @@ class ProgramYearTest extends EntityBase
      * @covers \App\Entity\ProgramYear::setProgramYearObjectives
      * @covers \App\Entity\ProgramYear::getProgramYearObjectives
      */
-    public function testGetProgramYearObjectives()
+    public function testGetProgramYearObjectives(): void
     {
         $this->entityCollectionSetTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -194,7 +186,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::addCompetency
      */
-    public function testAddCompetency()
+    public function testAddCompetency(): void
     {
         $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'addCompetency');
     }
@@ -202,7 +194,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::getCompetencies
      */
-    public function testGetCompetencies()
+    public function testGetCompetencies(): void
     {
         $this->entityCollectionSetTest(
             'competencies',
@@ -215,7 +207,7 @@ class ProgramYearTest extends EntityBase
     /**
      * @covers \App\Entity\ProgramYear::removeCompetency
      */
-    public function testRemoveCompetency()
+    public function testRemoveCompetency(): void
     {
         $this->entityCollectionRemoveTest(
             'competencies',
@@ -230,7 +222,7 @@ class ProgramYearTest extends EntityBase
      * @covers \App\Entity\ProgramYear::setCohort
      * @covers \App\Entity\ProgramYear::getCohort
      */
-    public function testSetCohort()
+    public function testSetCohort(): void
     {
         $this->entitySetTest('cohort', 'Cohort');
     }

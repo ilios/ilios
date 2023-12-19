@@ -15,20 +15,12 @@ use Mockery as m;
  */
 class IlmSessionTest extends EntityBase
 {
-    /**
-     * @var IlmSession
-     */
-    protected $object;
-
-    /**
-     * Instantiate a IlmSession object
-     */
     protected function setUp(): void
     {
         $this->object = new IlmSession();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'session',
@@ -46,7 +38,7 @@ class IlmSessionTest extends EntityBase
     /**
      * Ensure we can set a float for hours
      */
-    public function testHourValidation()
+    public function testHourValidation(): void
     {
         $this->object->setSession(new Session());
         $this->object->setHours(55);
@@ -58,7 +50,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getInstructors());
@@ -70,7 +62,7 @@ class IlmSessionTest extends EntityBase
      * @covers \App\Entity\IlmSession::setHours
      * @covers \App\Entity\IlmSession::getHours
      */
-    public function testSetHours()
+    public function testSetHours(): void
     {
         $this->basicSetTest('hours', 'float');
     }
@@ -79,7 +71,7 @@ class IlmSessionTest extends EntityBase
      * @covers \App\Entity\IlmSession::setDueDate
      * @covers \App\Entity\IlmSession::getDueDate
      */
-    public function testSetDueDate()
+    public function testSetDueDate(): void
     {
         $this->basicSetTest('dueDate', 'datetime');
     }
@@ -87,7 +79,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::addLearnerGroup
      */
-    public function testAddLearnerGroup()
+    public function testAddLearnerGroup(): void
     {
         $this->entityCollectionAddTest('learnerGroup', 'LearnerGroup');
     }
@@ -95,7 +87,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::removeLearnerGroup
      */
-    public function testRemoveLearnerGroup()
+    public function testRemoveLearnerGroup(): void
     {
         $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
     }
@@ -103,7 +95,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::getLearnerGroups
      */
-    public function testGetLearnerGroups()
+    public function testGetLearnerGroups(): void
     {
         $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
     }
@@ -111,7 +103,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::addInstructorGroup
      */
-    public function testAddInstructorGroup()
+    public function testAddInstructorGroup(): void
     {
         $this->entityCollectionAddTest('instructorGroup', 'InstructorGroup');
     }
@@ -119,7 +111,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::removeInstructorGroup
      */
-    public function testRemoveInstructorGroup()
+    public function testRemoveInstructorGroup(): void
     {
         $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
     }
@@ -127,7 +119,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::getInstructorGroups
      */
-    public function testGetInstructorGroups()
+    public function testGetInstructorGroups(): void
     {
         $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
     }
@@ -135,7 +127,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::addInstructor
      */
-    public function testAddInstructor()
+    public function testAddInstructor(): void
     {
         $this->entityCollectionAddTest('instructor', 'User');
     }
@@ -143,7 +135,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::removeInstructor
      */
-    public function testRemoveInstructor()
+    public function testRemoveInstructor(): void
     {
         $this->entityCollectionRemoveTest('instructor', 'User');
     }
@@ -151,7 +143,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::getInstructors
      */
-    public function testGetInstructors()
+    public function testGetInstructors(): void
     {
         $this->entityCollectionSetTest('instructor', 'User');
     }
@@ -159,7 +151,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::addLearner
      */
-    public function testAddLearner()
+    public function testAddLearner(): void
     {
         $this->entityCollectionAddTest('learner', 'User');
     }
@@ -167,7 +159,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::removeLearner
      */
-    public function testRemoveLearner()
+    public function testRemoveLearner(): void
     {
         $this->entityCollectionRemoveTest('learner', 'User');
     }
@@ -175,7 +167,7 @@ class IlmSessionTest extends EntityBase
     /**
      * @covers \App\Entity\IlmSession::getLearners
      */
-    public function testGetLearners()
+    public function testGetLearners(): void
     {
         $this->entityCollectionSetTest('learner', 'User');
     }
@@ -184,7 +176,7 @@ class IlmSessionTest extends EntityBase
      * @covers \App\Entity\IlmSession::setSession
      * @covers \App\Entity\IlmSession::getSession
      */
-    public function testSetSession()
+    public function testSetSession(): void
     {
         $this->entitySetTest('session', 'Session');
     }

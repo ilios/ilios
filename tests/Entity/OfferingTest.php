@@ -18,20 +18,12 @@ use Mockery as m;
  */
 class OfferingTest extends EntityBase
 {
-    /**
-     * @var Offering
-     */
-    protected $object;
-
-    /**
-     * Instantiate a Offering object
-     */
     protected function setUp(): void
     {
         $this->object = new Offering();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'startDate',
@@ -51,7 +43,7 @@ class OfferingTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNulls = [
             'session'
@@ -70,7 +62,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getLearnerGroups());
         $this->assertEmpty($this->object->getInstructorGroups());
@@ -83,7 +75,7 @@ class OfferingTest extends EntityBase
      * @covers \App\Entity\Offering::setRoom
      * @covers \App\Entity\Offering::getRoom
      */
-    public function testSetRoom()
+    public function testSetRoom(): void
     {
         $this->basicSetTest('room', 'string');
     }
@@ -92,7 +84,7 @@ class OfferingTest extends EntityBase
      * @covers \App\Entity\Offering::setSite
      * @covers \App\Entity\Offering::getSite
      */
-    public function testSetSite()
+    public function testSetSite(): void
     {
         $this->basicSetTest('site', 'string');
     }
@@ -101,12 +93,12 @@ class OfferingTest extends EntityBase
      * @covers \App\Entity\Offering::setUrl
      * @covers \App\Entity\Offering::getUrl
      */
-    public function testSetUrl()
+    public function testSetUrl(): void
     {
         $this->basicSetTest('url', 'string');
     }
 
-    public function testValidateUrl()
+    public function testValidateUrl(): void
     {
         $this->object->setUrl('something');
         $errors = $this->validate(4);
@@ -127,7 +119,7 @@ class OfferingTest extends EntityBase
      * @covers \App\Entity\Offering::setStartDate
      * @covers \App\Entity\Offering::getStartDate
      */
-    public function testSetStartDate()
+    public function testSetStartDate(): void
     {
         $this->basicSetTest('startDate', 'datetime');
     }
@@ -136,7 +128,7 @@ class OfferingTest extends EntityBase
      * @covers \App\Entity\Offering::setEndDate
      * @covers \App\Entity\Offering::getEndDate
      */
-    public function testSetEndDate()
+    public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
     }
@@ -145,7 +137,7 @@ class OfferingTest extends EntityBase
      * @covers \App\Entity\Offering::setSession
      * @covers \App\Entity\Offering::getSession
      */
-    public function testSetSession()
+    public function testSetSession(): void
     {
         $this->entitySetTest('session', 'Session');
     }
@@ -153,7 +145,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::addLearnerGroup
      */
-    public function testAddLearnerGroup()
+    public function testAddLearnerGroup(): void
     {
         $this->entityCollectionAddTest('learnerGroup', 'LearnerGroup');
     }
@@ -161,7 +153,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::removeLearnerGroup
      */
-    public function testRemoveLearnerGroup()
+    public function testRemoveLearnerGroup(): void
     {
         $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
     }
@@ -169,7 +161,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::setLearnerGroups
      */
-    public function testSetLearnerGroup()
+    public function testSetLearnerGroup(): void
     {
         $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
     }
@@ -177,7 +169,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::addInstructorGroup
      */
-    public function testAddInstructorGroup()
+    public function testAddInstructorGroup(): void
     {
         $this->entityCollectionAddTest('instructorGroup', 'InstructorGroup');
     }
@@ -185,7 +177,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::removeInstructorGroup
      */
-    public function testRemoveInstructorGroup()
+    public function testRemoveInstructorGroup(): void
     {
         $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
     }
@@ -193,7 +185,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::setInstructorGroups
      */
-    public function testSetInstructorGroup()
+    public function testSetInstructorGroup(): void
     {
         $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
     }
@@ -201,7 +193,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::addLearner
      */
-    public function testAddLearner()
+    public function testAddLearner(): void
     {
         $this->entityCollectionAddTest('learner', 'User');
     }
@@ -209,7 +201,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::removeLearner
      */
-    public function testRemoveLearner()
+    public function testRemoveLearner(): void
     {
         $this->entityCollectionRemoveTest('learner', 'User');
     }
@@ -217,7 +209,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::setLearners
      */
-    public function testSetLearner()
+    public function testSetLearner(): void
     {
         $this->entityCollectionSetTest('learner', 'User');
     }
@@ -225,7 +217,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::addInstructor
      */
-    public function testAddInstructor()
+    public function testAddInstructor(): void
     {
         $this->entityCollectionAddTest('instructor', 'User');
     }
@@ -233,7 +225,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::removeInstructor
      */
-    public function testRemoveInstructor()
+    public function testRemoveInstructor(): void
     {
         $this->entityCollectionRemoveTest('instructor', 'User');
     }
@@ -241,7 +233,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::setInstructors
      */
-    public function testSetInstructor()
+    public function testSetInstructor(): void
     {
         $this->entityCollectionSetTest('instructor', 'User');
     }
@@ -249,7 +241,7 @@ class OfferingTest extends EntityBase
     /**
      * @covers \App\Entity\Offering::getSchool
      */
-    public function testGetSchool()
+    public function testGetSchool(): void
     {
         $school = new School();
         $course = new Course();

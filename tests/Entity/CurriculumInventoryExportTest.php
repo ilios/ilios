@@ -13,20 +13,12 @@ use Mockery as m;
  */
 class CurriculumInventoryExportTest extends EntityBase
 {
-    /**
-     * @var CurriculumInventoryExport
-     */
-    protected $object;
-
-    /**
-     * Instantiate a CurriculumInventoryExport object
-     */
     protected function setUp(): void
     {
         $this->object = new CurriculumInventoryExport();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'document',
@@ -40,7 +32,7 @@ class CurriculumInventoryExportTest extends EntityBase
     /**
      * @covers \App\Entity\Session::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertNotEmpty($this->object->getCreatedAt());
     }
@@ -49,7 +41,7 @@ class CurriculumInventoryExportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryExport::setDocument
      * @covers \App\Entity\CurriculumInventoryExport::getDocument
      */
-    public function testSetDocument()
+    public function testSetDocument(): void
     {
         $this->basicSetTest('document', 'string');
     }
@@ -58,7 +50,7 @@ class CurriculumInventoryExportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryExport::setReport
      * @covers \App\Entity\CurriculumInventoryExport::getReport
      */
-    public function testSetReport()
+    public function testSetReport(): void
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');
     }
@@ -67,7 +59,7 @@ class CurriculumInventoryExportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryExport::setCreatedBy
      * @covers \App\Entity\CurriculumInventoryExport::getCreatedBy
      */
-    public function testSetCreatedBy()
+    public function testSetCreatedBy(): void
     {
         $this->entitySetTest('createdBy', 'User');
     }
@@ -76,7 +68,7 @@ class CurriculumInventoryExportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryExport::setCreatedAt
      * @covers \App\Entity\CurriculumInventoryExport::getCreatedAt
      */
-    public function testSetCreatedAt()
+    public function testSetCreatedAt(): void
     {
         $this->basicSetTest('createdAt', 'datetime');
     }

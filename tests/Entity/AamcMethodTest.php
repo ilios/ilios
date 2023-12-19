@@ -12,20 +12,12 @@ use App\Entity\AamcMethod;
  */
 class AamcMethodTest extends EntityBase
 {
-    /**
-     * @var AamcMethod
-     */
-    protected $object;
-
-    /**
-     * Instantiate a AamcMethod object
-     */
     protected function setUp(): void
     {
         $this->object = new AamcMethod();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'id',
@@ -41,7 +33,7 @@ class AamcMethodTest extends EntityBase
     /**
      * @covers \App\Entity\AamcMethod::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getSessionTypes());
     }
@@ -50,7 +42,7 @@ class AamcMethodTest extends EntityBase
      * @covers \App\Entity\AamcMethod::setDescription
      * @covers \App\Entity\AamcMethod::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -58,7 +50,7 @@ class AamcMethodTest extends EntityBase
     /**
      * @covers \App\Entity\AamcMethod::addSessionType
      */
-    public function testAddSessionType()
+    public function testAddSessionType(): void
     {
         $this->entityCollectionAddTest('sessionType', 'SessionType', false, false, 'addAamcMethod');
     }
@@ -66,7 +58,7 @@ class AamcMethodTest extends EntityBase
     /**
      * @covers \App\Entity\AamcMethod::removeSessionType
      */
-    public function testRemoveSessionType()
+    public function testRemoveSessionType(): void
     {
         $this->entityCollectionRemoveTest('sessionType', 'SessionType', false, false, false, 'removeAamcMethod');
     }
@@ -74,7 +66,7 @@ class AamcMethodTest extends EntityBase
     /**
      * @covers \App\Entity\AamcMethod::getSessionTypes
      */
-    public function testGetSessionTypes()
+    public function testGetSessionTypes(): void
     {
         $this->entityCollectionSetTest('sessionType', 'SessionType', false, false, 'addAamcMethod');
     }
@@ -83,7 +75,7 @@ class AamcMethodTest extends EntityBase
      * @covers \App\Entity\AamcMethod::setActive
      * @covers \App\Entity\AamcMethod::isActive
      */
-    public function testIsActive()
+    public function testIsActive(): void
     {
         $this->booleanSetTest('active');
     }

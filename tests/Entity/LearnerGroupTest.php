@@ -17,20 +17,12 @@ use Mockery as m;
  */
 class LearnerGroupTest extends EntityBase
 {
-    /**
-     * @var LearnerGroup
-     */
-    protected $object;
-
-    /**
-     * Instantiate a LearnerGroup object
-     */
     protected function setUp(): void
     {
         $this->object = new LearnerGroup();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -46,7 +38,7 @@ class LearnerGroupTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNulls = [
             'cohort'
@@ -62,7 +54,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getIlmSessions());
         $this->assertEmpty($this->object->getInstructorGroups());
@@ -77,7 +69,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::setTitle
      * @covers \App\Entity\LearnerGroup::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -86,7 +78,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::setLocation
      * @covers \App\Entity\LearnerGroup::getLocation
      */
-    public function testSetLocation()
+    public function testSetLocation(): void
     {
         $this->basicSetTest('location', 'string');
     }
@@ -95,7 +87,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::setUrl
      * @covers \App\Entity\LearnerGroup::getUrl
      */
-    public function testSetUrl()
+    public function testSetUrl(): void
     {
         $this->basicSetTest('url', 'string');
     }
@@ -104,7 +96,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::setNeedsAccommodation
      * @covers \App\Entity\LearnerGroup::getNeedsAccommodation
      */
-    public function testSetNeedsAccommodation()
+    public function testSetNeedsAccommodation(): void
     {
         $this->basicSetTest('needsAccommodation', 'bool');
     }
@@ -113,7 +105,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::setCohort
      * @covers \App\Entity\LearnerGroup::getCohort
      */
-    public function testSetCohort()
+    public function testSetCohort(): void
     {
         $this->entitySetTest('cohort', 'Cohort');
     }
@@ -121,7 +113,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::addIlmSession
      */
-    public function testAddIlmSession()
+    public function testAddIlmSession(): void
     {
         $this->entityCollectionAddTest('ilmSession', 'IlmSession', false, false, 'addLearnerGroup');
     }
@@ -129,7 +121,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::removeIlmSession
      */
-    public function testRemoveIlmSession()
+    public function testRemoveIlmSession(): void
     {
         $this->entityCollectionRemoveTest('ilmSession', 'IlmSession', false, false, false, 'removeLearnerGroup');
     }
@@ -137,7 +129,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getIlmSessions
      */
-    public function getGetIlmSessions()
+    public function getGetIlmSessions(): void
     {
         $this->entityCollectionSetTest('ilmSession', 'IlmSession', false, false, 'addLearnerGroup');
     }
@@ -145,7 +137,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::addOffering
      */
-    public function testAddOffering()
+    public function testAddOffering(): void
     {
         $this->entityCollectionAddTest('offering', 'Offering', false, false, 'addLearnerGroup');
     }
@@ -153,7 +145,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::removeOffering
      */
-    public function testRemoveOffering()
+    public function testRemoveOffering(): void
     {
         $this->entityCollectionRemoveTest('offering', 'Offering', false, false, false, 'removeLearnerGroup');
     }
@@ -161,7 +153,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getOfferings
      */
-    public function getGetOfferings()
+    public function getGetOfferings(): void
     {
         $this->entityCollectionSetTest('offering', 'Offering', false, false, 'addLearnerGroup');
     }
@@ -169,7 +161,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::addInstructorGroup
      */
-    public function testAddInstructorGroup()
+    public function testAddInstructorGroup(): void
     {
         $this->entityCollectionAddTest('instructorGroup', 'InstructorGroup');
     }
@@ -177,7 +169,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::removeInstructorGroup
      */
-    public function testRemoveInstructorGroup()
+    public function testRemoveInstructorGroup(): void
     {
         $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
     }
@@ -185,7 +177,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getInstructorGroups
      */
-    public function getGetInstructorGroups()
+    public function getGetInstructorGroups(): void
     {
         $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
     }
@@ -193,7 +185,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::addUser
      */
-    public function testAddUser()
+    public function testAddUser(): void
     {
         $this->entityCollectionAddTest('user', 'User');
     }
@@ -201,7 +193,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::removeUser
      */
-    public function testRemoveUser()
+    public function testRemoveUser(): void
     {
         $this->entityCollectionRemoveTest('user', 'User');
     }
@@ -209,7 +201,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getUsers
      */
-    public function getGetUsers()
+    public function getGetUsers(): void
     {
         $this->entityCollectionSetTest('user', 'User');
     }
@@ -217,7 +209,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::addInstructor
      */
-    public function testAddInstructor()
+    public function testAddInstructor(): void
     {
         $this->entityCollectionAddTest('instructor', 'User');
     }
@@ -225,7 +217,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::removeInstructor
      */
-    public function testRemoveInstructor()
+    public function testRemoveInstructor(): void
     {
         $this->entityCollectionRemoveTest('instructor', 'User');
     }
@@ -233,7 +225,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getInstructors
      */
-    public function getGetInstructors()
+    public function getGetInstructors(): void
     {
         $this->entityCollectionSetTest('instructor', 'User');
     }
@@ -241,7 +233,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getProgramYear
      */
-    public function testGetProgramYear()
+    public function testGetProgramYear(): void
     {
         $programYear = new ProgramYear();
         $cohort = new Cohort();
@@ -259,7 +251,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getProgram
      */
-    public function testGetProgram()
+    public function testGetProgram(): void
     {
         $program = new Program();
         $programYear = new ProgramYear();
@@ -279,7 +271,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getSchool
      */
-    public function testGetSchool()
+    public function testGetSchool(): void
     {
         $school = new School();
         $program = new Program();
@@ -301,7 +293,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::addChild
      */
-    public function testAddChild()
+    public function testAddChild(): void
     {
         $this->entityCollectionAddTest('child', 'LearnerGroup', 'getChildren');
     }
@@ -309,7 +301,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::removeChild
      */
-    public function testRemoveChild()
+    public function testRemoveChild(): void
     {
         $this->entityCollectionRemoveTest('child', 'LearnerGroup', 'getChildren');
     }
@@ -318,7 +310,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::getChildren
      * @covers \App\Entity\LearnerGroup::setChildren
      */
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
         $this->entityCollectionSetTest('child', 'LearnerGroup', 'getChildren', 'setChildren');
     }
@@ -327,7 +319,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::setAncestor
      * @covers \App\Entity\LearnerGroup::getAncestor
      */
-    public function testSetAncestor()
+    public function testSetAncestor(): void
     {
         $this->entitySetTest('ancestor', 'LearnerGroup');
     }
@@ -335,7 +327,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getAncestorOrSelf
      */
-    public function testGetAncestorOrSelfWithAncestor()
+    public function testGetAncestorOrSelfWithAncestor(): void
     {
         $ancestor = m::mock('App\Entity\LearnerGroup');
         $this->object->setAncestor($ancestor);
@@ -345,7 +337,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getAncestorOrSelf
      */
-    public function testGetAncestorOrSelfWithNoAncestor()
+    public function testGetAncestorOrSelfWithNoAncestor(): void
     {
         $this->assertSame($this->object, $this->object->getAncestorOrSelf());
     }
@@ -353,7 +345,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::addDescendant
      */
-    public function testAddDescendant()
+    public function testAddDescendant(): void
     {
         $this->entityCollectionAddTest('descendant', 'LearnerGroup', 'getDescendants', 'addDescendant', 'setAncestor');
     }
@@ -361,7 +353,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::removeDescendant
      */
-    public function testRemoveDescendant()
+    public function testRemoveDescendant(): void
     {
         $this->entityCollectionRemoveTest('descendant', 'LearnerGroup');
     }
@@ -370,7 +362,7 @@ class LearnerGroupTest extends EntityBase
      * @covers \App\Entity\LearnerGroup::getDescendants
      * @covers \App\Entity\LearnerGroup::setDescendants
      */
-    public function testGetDescendants()
+    public function testGetDescendants(): void
     {
         $this->entityCollectionSetTest('descendant', 'LearnerGroup', 'getDescendants', 'setDescendants', 'setAncestor');
     }

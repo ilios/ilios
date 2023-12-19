@@ -14,14 +14,6 @@ use Mockery as m;
  */
 class VocabularyTest extends EntityBase
 {
-    /**
-     * @var Vocabulary
-     */
-    protected $object;
-
-    /**
-     * Instantiate a Vocabulary object
-     */
     protected function setUp(): void
     {
         $this->object = new Vocabulary();
@@ -30,12 +22,12 @@ class VocabularyTest extends EntityBase
     /**
      * @covers \App\Entity\Vocabulary::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getTerms());
     }
 
-    public function testNotEmptyValidation()
+    public function testNotEmptyValidation(): void
     {
         $errors = $this->validate(2);
         $this->assertEquals([
@@ -52,7 +44,7 @@ class VocabularyTest extends EntityBase
      * @covers \App\Entity\Vocabulary::setTitle
      * @covers \App\Entity\Vocabulary::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -61,7 +53,7 @@ class VocabularyTest extends EntityBase
      * @covers \App\Entity\Vocabulary::setSchool
      * @covers \App\Entity\Vocabulary::getSchool
      */
-    public function testSetSchool()
+    public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
@@ -69,7 +61,7 @@ class VocabularyTest extends EntityBase
     /**
      * @covers \App\Entity\Vocabulary::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
@@ -77,7 +69,7 @@ class VocabularyTest extends EntityBase
     /**
      * @covers \App\Entity\Vocabulary::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
@@ -85,7 +77,7 @@ class VocabularyTest extends EntityBase
     /**
      * @covers \App\Entity\Vocabulary::getTerms
      */
-    public function testGetTerm()
+    public function testGetTerm(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
@@ -94,7 +86,7 @@ class VocabularyTest extends EntityBase
      * @covers \App\Entity\Vocabulary::setActive
      * @covers \App\Entity\Vocabulary::isActive
      */
-    public function testIsActive()
+    public function testIsActive(): void
     {
         $this->booleanSetTest('active');
     }

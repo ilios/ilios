@@ -16,17 +16,12 @@ use Mockery as m;
  */
 class UserSessionMaterialStatusTest extends EntityBase
 {
-    /**
-     * @var UserSessionMaterialStatus
-     */
-    protected $object;
-
     protected function setUp(): void
     {
         $this->object = new UserSessionMaterialStatus();
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'user',
@@ -44,7 +39,7 @@ class UserSessionMaterialStatusTest extends EntityBase
     /**
      * @covers \App\Entity\UserSessionMaterialStatus::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $now = new DateTime();
         $this->assertInstanceOf(DateTime::class, $this->object->getUpdatedAt());
@@ -56,7 +51,7 @@ class UserSessionMaterialStatusTest extends EntityBase
      * @covers \App\Entity\UserSessionMaterialStatus::setStatus
      * @covers \App\Entity\UserSessionMaterialStatus::getStatus
      */
-    public function testSetStatus()
+    public function testSetStatus(): void
     {
         $this->object->setStatus(UserSessionMaterialStatusInterface::NONE);
         $this->assertSame(UserSessionMaterialStatusInterface::NONE, $this->object->getStatus());
@@ -66,7 +61,7 @@ class UserSessionMaterialStatusTest extends EntityBase
      * @covers \App\Entity\UserSessionMaterialStatus::setUser
      * @covers \App\Entity\UserSessionMaterialStatus::getUser
      */
-    public function testSetUser()
+    public function testSetUser(): void
     {
         $this->entitySetTest('user', "User");
     }
@@ -75,7 +70,7 @@ class UserSessionMaterialStatusTest extends EntityBase
      * @covers \App\Entity\UserSessionMaterialStatus::setMaterial
      * @covers \App\Entity\UserSessionMaterialStatus::getMaterial
      */
-    public function testSetMaterial()
+    public function testSetMaterial(): void
     {
         $this->entitySetTest('material', "SessionLearningMaterial");
     }

@@ -14,20 +14,12 @@ use Mockery as m;
  */
 class AuthenticationTest extends EntityBase
 {
-    /**
-     * @var Authentication
-     */
-    protected $object;
-
-    /**
-     * Instantiate a Authentication object
-     */
     protected function setUp(): void
     {
         $this->object = new Authentication();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'user',
@@ -47,7 +39,7 @@ class AuthenticationTest extends EntityBase
      * @covers \App\Entity\Authentication::setUsername
      * @covers \App\Entity\Authentication::getUsername
      */
-    public function testSetUsername()
+    public function testSetUsername(): void
     {
         $this->assertNull($this->object->getUsername());
         $this->basicSetTest('username', 'string');
@@ -57,7 +49,7 @@ class AuthenticationTest extends EntityBase
      * @covers \App\Entity\Authentication::setUser
      * @covers \App\Entity\Authentication::getUser
      */
-    public function testSetUser()
+    public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
     }
@@ -66,7 +58,7 @@ class AuthenticationTest extends EntityBase
      * @covers \App\Entity\Authentication::setInvalidateTokenIssuedBefore
      * @covers \App\Entity\Authentication::getInvalidateTokenIssuedBefore
      */
-    public function testSetInvalidateTokenIssuedBefore()
+    public function testSetInvalidateTokenIssuedBefore(): void
     {
         $this->basicSetTest('invalidateTokenIssuedBefore', 'datetime');
     }
@@ -75,7 +67,7 @@ class AuthenticationTest extends EntityBase
      * @covers \App\Entity\Authentication::setPasswordHash
      * @covers \App\Entity\Authentication::getPasswordHash
      */
-    public function testPasswordHash()
+    public function testPasswordHash(): void
     {
         $this->assertNull($this->object->getPasswordHash());
         $this->basicSetTest('passwordHash', 'string');
@@ -84,7 +76,7 @@ class AuthenticationTest extends EntityBase
     /**
      * @covers \App\Entity\Authentication::getPassword
      */
-    public function testPassword()
+    public function testPassword(): void
     {
         $this->assertNull($this->object->getPassword());
         $this->object->setPasswordHash('test');

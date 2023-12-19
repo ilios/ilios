@@ -13,20 +13,12 @@ use Mockery as m;
  */
 class MeshPreviousIndexingTest extends EntityBase
 {
-    /**
-     * @var MeshPreviousIndexing
-     */
-    protected $object;
-
-    /**
-     * Instantiate a MeshPreviousIndexing object
-     */
     protected function setUp(): void
     {
         $this->object = new MeshPreviousIndexing();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'previousIndexing'
@@ -42,7 +34,7 @@ class MeshPreviousIndexingTest extends EntityBase
      * @covers \App\Entity\MeshPreviousIndexing::setPreviousIndexing
      * @covers \App\Entity\MeshPreviousIndexing::getPreviousIndexing
      */
-    public function testSetPreviousIndexing()
+    public function testSetPreviousIndexing(): void
     {
         $this->basicSetTest('previousIndexing', 'string');
     }
@@ -51,7 +43,7 @@ class MeshPreviousIndexingTest extends EntityBase
      * @covers \App\Entity\MeshPreviousIndexing::getDescriptor
      * @covers \App\Entity\MeshPreviousIndexing::setDescriptor
      */
-    public function testSetDescriptor()
+    public function testSetDescriptor(): void
     {
         $this->entitySetTest('descriptor', "MeshDescriptor");
     }

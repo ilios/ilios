@@ -51,7 +51,7 @@ class LearningMaterialDTOTest extends TestCase
     /**
      * @covers \App\Entity\DTO\LearningMaterialDTO::clearMaterial
      */
-    public function testClearMaterial()
+    public function testClearMaterial(): void
     {
         $this->dto->absoluteFileUri = 'https://ilios.demo.edu/lm/1234567890';
         $this->dto->citation = 'Lorem Ipsum';

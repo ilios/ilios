@@ -13,20 +13,12 @@ use Mockery as m;
  */
 class ApplicationConfigTest extends EntityBase
 {
-    /**
-     * @var ApplicationConfig
-     */
-    protected $object;
-
-    /**
-     * Instantiate a ApplicationConfig object
-     */
     protected function setUp(): void
     {
         $this->object = new ApplicationConfig();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name',
@@ -43,7 +35,7 @@ class ApplicationConfigTest extends EntityBase
      * @covers \App\Entity\ApplicationConfig::setName
      * @covers \App\Entity\ApplicationConfig::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -52,7 +44,7 @@ class ApplicationConfigTest extends EntityBase
      * @covers \App\Entity\ApplicationConfig::setValue
      * @covers \App\Entity\ApplicationConfig::getValue
      */
-    public function testSetValue()
+    public function testSetValue(): void
     {
         $this->basicSetTest('value', 'string');
     }

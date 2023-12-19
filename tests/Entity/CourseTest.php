@@ -20,20 +20,12 @@ use Mockery as m;
  */
 class CourseTest extends EntityBase
 {
-    /**
-     * @var Course
-     */
-    protected $object;
-
-    /**
-     * Instantiate a Course object
-     */
     protected function setUp(): void
     {
         $this->object = new Course();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title',
@@ -56,7 +48,7 @@ class CourseTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'school',
@@ -75,7 +67,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCohorts());
         $this->assertEmpty($this->object->getDirectors());
@@ -93,7 +85,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setTitle
      * @covers \App\Entity\Course::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -102,7 +94,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setLevel
      * @covers \App\Entity\Course::getLevel
      */
-    public function testSetCourseLevel()
+    public function testSetCourseLevel(): void
     {
         $this->basicSetTest('level', 'integer');
     }
@@ -111,7 +103,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setYear
      * @covers \App\Entity\Course::getYear
      */
-    public function testSetYear()
+    public function testSetYear(): void
     {
         $this->basicSetTest('year', 'integer');
     }
@@ -120,7 +112,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setStartDate
      * @covers \App\Entity\Course::getStartDate
      */
-    public function testSetStartDate()
+    public function testSetStartDate(): void
     {
         $this->basicSetTest('startDate', 'datetime');
     }
@@ -129,7 +121,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setEndDate
      * @covers \App\Entity\Course::getEndDate
      */
-    public function testSetEndDate()
+    public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
     }
@@ -138,7 +130,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setId
      * @covers \App\Entity\Course::getId
      */
-    public function testSetExternalId()
+    public function testSetExternalId(): void
     {
         $this->basicSetTest('externalId', 'string');
     }
@@ -147,7 +139,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setLocked
      * @covers \App\Entity\Course::isLocked
      */
-    public function testSetLocked()
+    public function testSetLocked(): void
     {
         $this->booleanSetTest('locked');
     }
@@ -156,7 +148,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setArchived
      * @covers \App\Entity\Course::isArchived
      */
-    public function testSetArchived()
+    public function testSetArchived(): void
     {
         $this->booleanSetTest('archived');
     }
@@ -165,7 +157,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setPublishedAsTbd
      * @covers \App\Entity\Course::isPublishedAsTbd
      */
-    public function testSetPublishedAsTbd()
+    public function testSetPublishedAsTbd(): void
     {
         $this->booleanSetTest('publishedAsTbd');
     }
@@ -174,7 +166,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setPublished
      * @covers \App\Entity\Course::isPublished
      */
-    public function testSetPublished()
+    public function testSetPublished(): void
     {
         $this->booleanSetTest('published');
     }
@@ -183,7 +175,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setSchool
      * @covers \App\Entity\Course::getSchool
      */
-    public function testSetSchool()
+    public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
@@ -192,7 +184,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setClerkshipType
      * @covers \App\Entity\Course::getClerkshipType
      */
-    public function testSetClerkshipType()
+    public function testSetClerkshipType(): void
     {
          $this->entitySetTest('clerkshipType', 'CourseClerkshipType');
     }
@@ -200,7 +192,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addDirector
      */
-    public function testAddDirector()
+    public function testAddDirector(): void
     {
         $this->entityCollectionAddTest('director', 'User', false, false, 'addDirectedCourse');
     }
@@ -208,7 +200,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeDirector
      */
-    public function testRemoveDirector()
+    public function testRemoveDirector(): void
     {
         $this->entityCollectionRemoveTest('director', 'User', false, false, false, 'removeDirectedCourse');
     }
@@ -216,7 +208,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::getDirectors
      */
-    public function testGetDirectors()
+    public function testGetDirectors(): void
     {
         $this->entityCollectionSetTest('director', 'User', false, false, 'addDirectedCourse');
     }
@@ -224,7 +216,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addCohort
      */
-    public function testAddCohort()
+    public function testAddCohort(): void
     {
         $this->entityCollectionAddTest('cohort', 'Cohort', false, false, 'addCourse');
     }
@@ -232,7 +224,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeCohort
      */
-    public function testRemoveCohort()
+    public function testRemoveCohort(): void
     {
         $this->entityCollectionRemoveTest('cohort', 'Cohort', false, false, false, 'removeCourse');
     }
@@ -240,7 +232,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::getCohorts
      */
-    public function testGetCohorts()
+    public function testGetCohorts(): void
     {
         $this->entityCollectionSetTest('cohort', 'Cohort', false, false, 'addCourse');
     }
@@ -248,7 +240,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addLearningMaterial
      */
-    public function testAddLearningMaterial()
+    public function testAddLearningMaterial(): void
     {
         $this->entityCollectionAddTest('learningMaterial', 'CourseLearningMaterial');
     }
@@ -256,7 +248,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeLearningMaterial
      */
-    public function testRemoveLearningMaterial()
+    public function testRemoveLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('learningMaterial', 'CourseLearningMaterial');
     }
@@ -265,7 +257,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setLearningMaterials
      * @covers \App\Entity\Course::getLearningMaterials
      */
-    public function testGetLearningMaterials()
+    public function testGetLearningMaterials(): void
     {
         $this->entityCollectionSetTest('learningMaterial', 'CourseLearningMaterial');
     }
@@ -273,7 +265,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term', false, false, 'addCourse');
     }
@@ -281,7 +273,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term', false, false, false, 'removeCourse');
     }
@@ -290,7 +282,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::getTerms
      * @covers \App\Entity\Course::setTerms
      */
-    public function testSetTerms()
+    public function testSetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term', false, false, 'addCourse');
     }
@@ -299,7 +291,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setAncestor
      * @covers \App\Entity\Course::getAncestor
      */
-    public function testSetAncestor()
+    public function testSetAncestor(): void
     {
         $this->entitySetTest('ancestor', 'Course');
     }
@@ -307,7 +299,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::getAncestorOrSelf
      */
-    public function testGetAncestorOrSelfWithAncestor()
+    public function testGetAncestorOrSelfWithAncestor(): void
     {
         $ancestor = m::mock('App\Entity\Course');
         $this->object->setAncestor($ancestor);
@@ -317,7 +309,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::getAncestorOrSelf
      */
-    public function testGetAncestorOrSelfWithNoAncestor()
+    public function testGetAncestorOrSelfWithNoAncestor(): void
     {
         $this->assertSame($this->object, $this->object->getAncestorOrSelf());
     }
@@ -325,7 +317,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addDescendant
      */
-    public function testAddDescendant()
+    public function testAddDescendant(): void
     {
         $this->entityCollectionAddTest('descendant', 'Course');
     }
@@ -333,7 +325,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeDescendant
      */
-    public function testRemoveDescendant()
+    public function testRemoveDescendant(): void
     {
         $this->entityCollectionRemoveTest('descendant', 'Course');
     }
@@ -342,7 +334,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::getDescendants
      * @covers \App\Entity\Course::setDescendants
      */
-    public function testGetDescendants()
+    public function testGetDescendants(): void
     {
         $this->entityCollectionSetTest('descendant', 'Course');
     }
@@ -350,7 +342,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addSession
      */
-    public function testAddSession()
+    public function testAddSession(): void
     {
         $this->entityCollectionAddTest('session', 'Session');
     }
@@ -358,7 +350,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeSession
      */
-    public function testRemoveSession()
+    public function testRemoveSession(): void
     {
         $this->entityCollectionRemoveTest('session', 'Session');
     }
@@ -366,7 +358,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::getSessions
      */
-    public function testGetSessions()
+    public function testGetSessions(): void
     {
         $this->entityCollectionSetTest('session', 'Session');
     }
@@ -374,7 +366,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addAdministrator
      */
-    public function testAddAdministrator()
+    public function testAddAdministrator(): void
     {
         $this->entityCollectionAddTest('administrator', 'User', false, false, 'addAdministeredCourse');
     }
@@ -382,7 +374,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeAdministrator
      */
-    public function testRemoveAdministrator()
+    public function testRemoveAdministrator(): void
     {
         $this->entityCollectionRemoveTest('administrator', 'User', false, false, false, 'removeAdministeredCourse');
     }
@@ -391,7 +383,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::getAdministrators
      * @covers \App\Entity\Course::setAdministrators
      */
-    public function testSetAdministrators()
+    public function testSetAdministrators(): void
     {
         $this->entityCollectionSetTest('administrator', 'User', false, false, 'addAdministeredCourse');
     }
@@ -399,7 +391,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addStudentAdvisor
      */
-    public function testAddStudentAdvisor()
+    public function testAddStudentAdvisor(): void
     {
         $this->entityCollectionAddTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedCourse');
     }
@@ -407,7 +399,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeStudentAdvisor
      */
-    public function testRemoveStudentAdvisor()
+    public function testRemoveStudentAdvisor(): void
     {
         $this->entityCollectionRemoveTest('studentAdvisor', 'User', false, false, false, 'removeStudentAdvisedCourse');
     }
@@ -416,7 +408,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::getStudentAdvisors
      * @covers \App\Entity\Course::setStudentAdvisors
      */
-    public function testSetStudentAdvisors()
+    public function testSetStudentAdvisors(): void
     {
         $this->entityCollectionSetTest('studentAdvisor', 'User', false, false, 'addStudentAdvisedCourse');
     }
@@ -424,7 +416,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeCourseObjective
      */
-    public function testRemoveObjectiveWithSessionChildren()
+    public function testRemoveObjectiveWithSessionChildren(): void
     {
         $courseObjective = m::mock(CourseObjectiveInterface::class);
         $sessionObjective = m::mock(SessionObjectiveInterface::class);
@@ -440,7 +432,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addCourseObjective
      */
-    public function testAddCourseObjective()
+    public function testAddCourseObjective(): void
     {
         $this->entityCollectionAddTest('courseObjective', 'CourseObjective');
     }
@@ -448,7 +440,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeCourseObjective
      */
-    public function testRemoveCourseObjective()
+    public function testRemoveCourseObjective(): void
     {
         $this->entityCollectionRemoveTest('courseObjective', 'CourseObjective');
     }
@@ -457,7 +449,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::setCourseObjectives
      * @covers \App\Entity\Course::getCourseObjectives
      */
-    public function testGetCourseObjectives()
+    public function testGetCourseObjectives(): void
     {
         $this->entityCollectionSetTest('courseObjective', 'CourseObjective');
     }
@@ -465,7 +457,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::addSequenceBlock
      */
-    public function testAddSequenceBlock()
+    public function testAddSequenceBlock(): void
     {
         $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -473,7 +465,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::removeSequenceBlock
      */
-    public function testRemoveSequenceBlock()
+    public function testRemoveSequenceBlock(): void
     {
         $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -482,7 +474,7 @@ class CourseTest extends EntityBase
      * @covers \App\Entity\Course::getSequenceBlocks
      * @covers \App\Entity\Course::setSequenceBlocks
      */
-    public function testSetSequenceBlocks()
+    public function testSetSequenceBlocks(): void
     {
         $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -490,7 +482,7 @@ class CourseTest extends EntityBase
     /**
      * @covers \App\Entity\Course::getIndexableCourses
      */
-    public function testGetIndexableCourses()
+    public function testGetIndexableCourses(): void
     {
         $this->assertEquals([$this->object], $this->object->getIndexableCourses());
     }

@@ -19,20 +19,12 @@ use Mockery as m;
  */
 class MeshDescriptorTest extends EntityBase
 {
-    /**
-     * @var MeshDescriptor
-     */
-    protected $object;
-
-    /**
-     * Instantiate a MeshDescriptor object
-     */
     protected function setUp(): void
     {
         $this->object = new MeshDescriptor();
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name'
@@ -50,7 +42,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCourses());
         $this->assertEmpty($this->object->getCourseLearningMaterials());
@@ -68,7 +60,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::setName
      * @covers \App\Entity\MeshDescriptor::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -77,7 +69,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::setAnnotation
      * @covers \App\Entity\MeshDescriptor::getAnnotation
      */
-    public function testSetAnnotation()
+    public function testSetAnnotation(): void
     {
         $this->basicSetTest('annotation', 'string');
     }
@@ -85,7 +77,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addCourse
      */
-    public function testAddCourse()
+    public function testAddCourse(): void
     {
         $this->entityCollectionAddTest('course', 'Course', false, false, 'addMeshDescriptor');
     }
@@ -93,7 +85,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeCourse
      */
-    public function testRemoveCourse()
+    public function testRemoveCourse(): void
     {
         $this->entityCollectionRemoveTest('course', 'Course', false, false, false, 'removeMeshDescriptor');
     }
@@ -101,7 +93,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::getCourses
      */
-    public function testGetCourses()
+    public function testGetCourses(): void
     {
         $this->entityCollectionSetTest('course', 'Course', false, false, 'addMeshDescriptor');
     }
@@ -109,7 +101,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addSession
      */
-    public function testAddSession()
+    public function testAddSession(): void
     {
         $this->entityCollectionAddTest('session', 'Session', false, false, 'addMeshDescriptor');
     }
@@ -117,7 +109,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeSession
      */
-    public function testRemoveSession()
+    public function testRemoveSession(): void
     {
         $this->entityCollectionRemoveTest('session', 'Session', false, false, false, 'removeMeshDescriptor');
     }
@@ -125,7 +117,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::getSessions
      */
-    public function testGetSessions()
+    public function testGetSessions(): void
     {
         $this->entityCollectionSetTest('session', 'Session', false, false, 'addMeshDescriptor');
     }
@@ -133,7 +125,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addConcept
      */
-    public function testAddConcept()
+    public function testAddConcept(): void
     {
         $this->entityCollectionAddTest('concept', 'MeshConcept', false, false, 'addDescriptor');
     }
@@ -141,7 +133,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeConcept
      */
-    public function testRemoveConcept()
+    public function testRemoveConcept(): void
     {
         $this->entityCollectionRemoveTest('concept', 'MeshConcept', false, false, false, 'removeDescriptor');
     }
@@ -149,7 +141,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::getConcepts
      */
-    public function testGetConcepts()
+    public function testGetConcepts(): void
     {
         $this->entityCollectionSetTest('concept', 'MeshConcept', false, false, 'addDescriptor');
     }
@@ -157,7 +149,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addQualifier
      */
-    public function testAddQualifier()
+    public function testAddQualifier(): void
     {
         $this->entityCollectionAddTest('qualifier', 'MeshQualifier', false, false, 'addDescriptor');
     }
@@ -165,7 +157,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeQualifier
      */
-    public function testRemoveQualifier()
+    public function testRemoveQualifier(): void
     {
         $this->entityCollectionRemoveTest('qualifier', 'MeshQualifier', false, false, false, 'removeDescriptor');
     }
@@ -174,7 +166,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::getQualifiers
      * @covers \App\Entity\MeshDescriptor::setQualifiers
      */
-    public function testGetQualifiers()
+    public function testGetQualifiers(): void
     {
         $this->entityCollectionSetTest('qualifier', 'MeshQualifier', false, false, 'addDescriptor');
     }
@@ -182,7 +174,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addTree
      */
-    public function testAddTree()
+    public function testAddTree(): void
     {
         $this->entityCollectionAddTest('tree', 'MeshTree');
     }
@@ -190,7 +182,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeTree
      */
-    public function testRemoveTree()
+    public function testRemoveTree(): void
     {
         $this->entityCollectionRemoveTest('tree', 'MeshTree');
     }
@@ -199,7 +191,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::getTrees
      * @covers \App\Entity\MeshDescriptor::setTrees
      */
-    public function testGetTrees()
+    public function testGetTrees(): void
     {
         $this->entityCollectionSetTest('tree', 'MeshTree');
     }
@@ -207,7 +199,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addSessionLearningMaterial
      */
-    public function testAddSessionLearningMaterial()
+    public function testAddSessionLearningMaterial(): void
     {
         $this->entityCollectionAddTest(
             'sessionLearningMaterial',
@@ -221,7 +213,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeSessionLearningMaterial
      */
-    public function testRemoveSessionLearningMaterial()
+    public function testRemoveSessionLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest(
             'sessionLearningMaterial',
@@ -237,7 +229,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::getSessionLearningMaterials
      * @covers \App\Entity\MeshDescriptor::setSessionLearningMaterials
      */
-    public function testGetSessionLearningMaterials()
+    public function testGetSessionLearningMaterials(): void
     {
         $this->entityCollectionSetTest(
             'sessionLearningMaterial',
@@ -251,7 +243,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addCourseLearningMaterial
      */
-    public function testAddCourseLearningMaterial()
+    public function testAddCourseLearningMaterial(): void
     {
         $this->entityCollectionAddTest(
             'courseLearningMaterial',
@@ -265,7 +257,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeCourseLearningMaterial
      */
-    public function testRemoveCourseLearningMaterial()
+    public function testRemoveCourseLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest(
             'courseLearningMaterial',
@@ -281,7 +273,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::getCourseLearningMaterials
      * @covers \App\Entity\MeshDescriptor::setCourseLearningMaterials
      */
-    public function testGetCourseLearningMaterials()
+    public function testGetCourseLearningMaterials(): void
     {
         $this->entityCollectionSetTest(
             'courseLearningMaterial',
@@ -296,7 +288,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::setDeleted
      * @covers \App\Entity\MeshDescriptor::isDeleted()
      */
-    public function testSetPermuted()
+    public function testSetPermuted(): void
     {
         $this->booleanSetTest('deleted');
     }
@@ -304,7 +296,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::getIndexableCourses
      */
-    public function testGetIndexableCoursesFromObjectives()
+    public function testGetIndexableCoursesFromObjectives(): void
     {
         $course1 = m::mock(CourseInterface::class);
         $objective1 = m::mock(CourseObjectiveInterface::class);
@@ -326,7 +318,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::getIndexableCourses
      */
-    public function testGetIndexableCoursesForLearningMaterials()
+    public function testGetIndexableCoursesForLearningMaterials(): void
     {
         $course1 = m::mock(CourseInterface::class);
         $courseLearningMaterial = m::mock(CourseLearningMaterialInterface::class)
@@ -352,7 +344,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::getIndexableCourses
      */
-    public function testGetIndexableCoursesForCoursesAndSessions()
+    public function testGetIndexableCoursesForCoursesAndSessions(): void
     {
         $course1 = m::mock(CourseInterface::class)
             ->shouldReceive('addMeshDescriptor')->once()->with($this->object)->getMock();
@@ -372,7 +364,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addProgramYearObjective
      */
-    public function testAddProgramYearObjective()
+    public function testAddProgramYearObjective(): void
     {
         $this->entityCollectionAddTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -380,7 +372,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeProgramYearObjective
      */
-    public function testRemoveProgramYearObjective()
+    public function testRemoveProgramYearObjective(): void
     {
         $this->entityCollectionRemoveTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -389,7 +381,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::setProgramYearObjectives
      * @covers \App\Entity\MeshDescriptor::getProgramYearObjectives
      */
-    public function testGetProgramYearObjectives()
+    public function testGetProgramYearObjectives(): void
     {
         $this->entityCollectionSetTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -397,7 +389,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addCourseObjective
      */
-    public function testAddCourseObjective()
+    public function testAddCourseObjective(): void
     {
         $this->entityCollectionAddTest('courseObjective', 'CourseObjective');
     }
@@ -405,7 +397,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeCourseObjective
      */
-    public function testRemoveCourseObjective()
+    public function testRemoveCourseObjective(): void
     {
         $this->entityCollectionRemoveTest('courseObjective', 'CourseObjective');
     }
@@ -414,7 +406,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::setCourseObjectives
      * @covers \App\Entity\MeshDescriptor::getCourseObjectives
      */
-    public function testGetCourseObjectives()
+    public function testGetCourseObjectives(): void
     {
         $this->entityCollectionSetTest('courseObjective', 'CourseObjective');
     }
@@ -422,7 +414,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::addSessionObjective
      */
-    public function testAddSessionObjective()
+    public function testAddSessionObjective(): void
     {
         $this->entityCollectionAddTest('sessionObjective', 'SessionObjective');
     }
@@ -430,7 +422,7 @@ class MeshDescriptorTest extends EntityBase
     /**
      * @covers \App\Entity\MeshDescriptor::removeSessionObjective
      */
-    public function testRemoveSessionObjective()
+    public function testRemoveSessionObjective(): void
     {
         $this->entityCollectionRemoveTest('sessionObjective', 'SessionObjective');
     }
@@ -439,7 +431,7 @@ class MeshDescriptorTest extends EntityBase
      * @covers \App\Entity\MeshDescriptor::setSessionObjectives
      * @covers \App\Entity\MeshDescriptor::getSessionObjectives
      */
-    public function testGetSessionObjectives()
+    public function testGetSessionObjectives(): void
     {
         $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
     }
