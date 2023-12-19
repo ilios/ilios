@@ -35,7 +35,7 @@ class EntityBase extends TestCase
     protected function validate(int $expectedCount): array
     {
         $validator = Validation::createValidatorBuilder()
-                ->enableAnnotationMapping()
+                ->enableAttributeMapping()
                 ->getValidator();
         $errors = $validator->validate($this->object);
         $errorCount = count($errors);
