@@ -13,9 +13,18 @@ use Mockery as m;
  */
 class InstructorGroupTest extends EntityBase
 {
+    protected InstructorGroup $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new InstructorGroup();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -149,5 +158,10 @@ class InstructorGroupTest extends EntityBase
     public function testGetOfferings(): void
     {
         $this->entityCollectionSetTest('offering', 'Offering');
+    }
+
+    protected function getObject(): InstructorGroup
+    {
+        return $this->object;
     }
 }

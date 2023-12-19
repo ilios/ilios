@@ -7,7 +7,6 @@ namespace App\Tests\Entity;
 use App\Entity\IlmSession;
 use App\Entity\Session;
 use DateTime;
-use Mockery as m;
 
 /**
  * Tests for Entity IlmSession
@@ -15,9 +14,18 @@ use Mockery as m;
  */
 class IlmSessionTest extends EntityBase
 {
+    protected IlmSession $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new IlmSession();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -179,5 +187,10 @@ class IlmSessionTest extends EntityBase
     public function testSetSession(): void
     {
         $this->entitySetTest('session', 'Session');
+    }
+
+    protected function getObject(): IlmSession
+    {
+        return $this->object;
     }
 }

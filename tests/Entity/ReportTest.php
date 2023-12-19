@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class ReportTest extends EntityBase
 {
+    protected Report $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Report();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
@@ -112,5 +121,10 @@ class ReportTest extends EntityBase
     {
         $this->object->setSchool(null);
         $this->assertNull($this->object->getSchool());
+    }
+
+    protected function getObject(): Report
+    {
+        return $this->object;
     }
 }

@@ -6,7 +6,6 @@ namespace App\Tests\Entity;
 
 use App\Entity\PendingUserUpdate;
 use App\Entity\User;
-use Mockery as m;
 
 /**
  * Tests for Entity PendingUserUpdate
@@ -14,9 +13,18 @@ use Mockery as m;
  */
 class PendingUserUpdateTest extends EntityBase
 {
+    protected PendingUserUpdate $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new PendingUserUpdate();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -84,5 +92,10 @@ class PendingUserUpdateTest extends EntityBase
     public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
+    }
+
+    protected function getObject(): PendingUserUpdate
+    {
+        return $this->object;
     }
 }

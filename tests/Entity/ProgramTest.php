@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class ProgramTest extends EntityBase
 {
+    protected Program $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Program();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -169,5 +178,10 @@ class ProgramTest extends EntityBase
     public function testGetDirectors(): void
     {
         $this->entityCollectionSetTest('director', 'User', false, false, 'addDirectedProgram');
+    }
+
+    protected function getObject(): Program
+    {
+        return $this->object;
     }
 }

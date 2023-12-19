@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class AuthenticationTest extends EntityBase
 {
+    protected Authentication $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Authentication();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -81,5 +90,10 @@ class AuthenticationTest extends EntityBase
         $this->assertNull($this->object->getPassword());
         $this->object->setPasswordHash('test');
         $this->assertEquals('test', $this->object->getPassword());
+    }
+
+    protected function getObject(): Authentication
+    {
+        return $this->object;
     }
 }

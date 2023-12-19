@@ -14,9 +14,18 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class UserTest extends EntityBase
 {
+    protected User $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new User();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -966,5 +975,10 @@ class UserTest extends EntityBase
             'getSessionMaterialStatuses',
             'setSessionMaterialStatuses'
         );
+    }
+
+    protected function getObject(): User
+    {
+        return $this->object;
     }
 }

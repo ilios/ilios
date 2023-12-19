@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class CompetencyTest extends EntityBase
 {
+    protected Competency $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Competency();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -170,5 +179,10 @@ class CompetencyTest extends EntityBase
     public function testIsActive(): void
     {
         $this->booleanSetTest('active');
+    }
+
+    protected function getObject(): Competency
+    {
+        return $this->object;
     }
 }

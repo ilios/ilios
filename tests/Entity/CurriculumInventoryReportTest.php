@@ -8,7 +8,6 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Entity\School;
 use DateTime;
-use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventoryReport
@@ -16,9 +15,18 @@ use Mockery as m;
  */
 class CurriculumInventoryReportTest extends EntityBase
 {
+    protected CurriculumInventoryReport $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventoryReport();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -232,5 +240,10 @@ class CurriculumInventoryReportTest extends EntityBase
             false,
             'addAdministeredCurriculumInventoryReport'
         );
+    }
+
+    protected function getObject(): CurriculumInventoryReport
+    {
+        return $this->object;
     }
 }

@@ -12,9 +12,18 @@ use App\Entity\UserRole;
  */
 class UserRoleTest extends EntityBase
 {
+    protected UserRole $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new UserRole();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -67,5 +76,10 @@ class UserRoleTest extends EntityBase
     public function testGetUsers(): void
     {
         $this->entityCollectionSetTest('user', 'User', false, false, 'addRole');
+    }
+
+    protected function getObject(): UserRole
+    {
+        return $this->object;
     }
 }

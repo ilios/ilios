@@ -7,7 +7,6 @@ namespace App\Tests\Entity;
 use App\Entity\Program;
 use App\Entity\ProgramInterface;
 use App\Entity\ProgramYear;
-use App\Entity\ProgramYearObjective;
 use App\Entity\School;
 use Mockery as m;
 
@@ -17,9 +16,18 @@ use Mockery as m;
  */
 class ProgramYearTest extends EntityBase
 {
+    protected ProgramYear $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new ProgramYear();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -225,5 +233,10 @@ class ProgramYearTest extends EntityBase
     public function testSetCohort(): void
     {
         $this->entitySetTest('cohort', 'Cohort');
+    }
+
+    protected function getObject(): ProgramYear
+    {
+        return $this->object;
     }
 }

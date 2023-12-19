@@ -13,9 +13,18 @@ use DateTime;
  */
 class MeshQualifierTest extends EntityBase
 {
+    protected MeshQualifier $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshQualifier();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -72,5 +81,10 @@ class MeshQualifierTest extends EntityBase
     public function getGetDescriptors(): void
     {
         $this->entityCollectionSetTest('descriptor', 'MeshDescriptor');
+    }
+
+    protected function getObject(): MeshQualifier
+    {
+        return $this->object;
     }
 }

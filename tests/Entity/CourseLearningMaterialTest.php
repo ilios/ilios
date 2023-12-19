@@ -15,9 +15,18 @@ use Mockery as m;
  */
 class CourseLearningMaterialTest extends EntityBase
 {
+    protected CourseLearningMaterial $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CourseLearningMaterial();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -138,5 +147,10 @@ class CourseLearningMaterialTest extends EntityBase
     public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
+    }
+
+    protected function getObject(): CourseLearningMaterial
+    {
+        return $this->object;
     }
 }

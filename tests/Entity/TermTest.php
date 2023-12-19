@@ -7,7 +7,6 @@ namespace App\Tests\Entity;
 use App\Entity\CourseInterface;
 use App\Entity\SessionInterface;
 use App\Entity\Term;
-use App\Entity\TermInterface;
 use App\Entity\VocabularyInterface;
 use Mockery as m;
 
@@ -17,9 +16,18 @@ use Mockery as m;
  */
 class TermTest extends EntityBase
 {
+    protected Term $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Term();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
@@ -313,5 +321,10 @@ class TermTest extends EntityBase
     public function testGetSessionObjectives(): void
     {
         $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
+    }
+
+    protected function getObject(): Term
+    {
+        return $this->object;
     }
 }

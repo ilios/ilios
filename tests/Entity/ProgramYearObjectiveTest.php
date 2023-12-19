@@ -17,9 +17,18 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class ProgramYearObjectiveTest extends EntityBase
 {
+    protected ProgramYearObjective $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new ProgramYearObjective();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
@@ -286,5 +295,10 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertTrue($this->object->isActive());
         $this->object->setActive(false);
         $this->assertFalse($this->object->isActive());
+    }
+
+    protected function getObject(): ProgramYearObjective
+    {
+        return $this->object;
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AamcResourceType;
-use Mockery as m;
 
 /**
  * Tests for Entity AamcResourceType
@@ -13,9 +12,18 @@ use Mockery as m;
  */
 class AamcResourceTypeTest extends EntityBase
 {
+    protected AamcResourceType $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AamcResourceType();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -81,5 +89,10 @@ class AamcResourceTypeTest extends EntityBase
     public function testGetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term', false, false, 'addAamcResourceType');
+    }
+
+    protected function getObject(): AamcResourceType
+    {
+        return $this->object;
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AlertChangeType;
-use Mockery as m;
 
 /**
  * Tests for Entity AlertChangeType
@@ -13,9 +12,18 @@ use Mockery as m;
  */
 class AlertChangeTypeTest extends EntityBase
 {
+    protected AlertChangeType $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AlertChangeType();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -67,5 +75,10 @@ class AlertChangeTypeTest extends EntityBase
     public function testGetAlerts(): void
     {
         $this->entityCollectionSetTest('alert', 'Alert', false, false, 'addChangeType');
+    }
+
+    protected function getObject(): AlertChangeType
+    {
+        return $this->object;
     }
 }

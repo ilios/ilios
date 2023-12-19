@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class CurriculumInventorySequenceTest extends EntityBase
 {
+    protected CurriculumInventorySequence $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventorySequence();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -49,5 +58,10 @@ class CurriculumInventorySequenceTest extends EntityBase
     public function testSetReport(): void
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');
+    }
+
+    protected function getObject(): CurriculumInventorySequence
+    {
+        return $this->object;
     }
 }

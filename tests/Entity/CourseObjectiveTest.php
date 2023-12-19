@@ -17,9 +17,18 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class CourseObjectiveTest extends EntityBase
 {
+    protected CourseObjective $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CourseObjective();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
@@ -317,5 +326,10 @@ class CourseObjectiveTest extends EntityBase
         $this->assertTrue($this->object->isActive());
         $this->object->setActive(false);
         $this->assertFalse($this->object->isActive());
+    }
+
+    protected function getObject(): CourseObjective
+    {
+        return $this->object;
     }
 }

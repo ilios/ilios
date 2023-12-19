@@ -16,9 +16,18 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class SessionObjectiveTest extends EntityBase
 {
+    protected SessionObjective $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new SessionObjective();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
@@ -274,5 +283,10 @@ class SessionObjectiveTest extends EntityBase
         $this->assertTrue($this->object->isActive());
         $this->object->setActive(false);
         $this->assertFalse($this->object->isActive());
+    }
+
+    protected function getObject(): SessionObjective
+    {
+        return $this->object;
     }
 }

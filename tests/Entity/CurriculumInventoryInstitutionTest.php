@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class CurriculumInventoryInstitutionTest extends EntityBase
 {
+    protected CurriculumInventoryInstitution $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventoryInstitution();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -132,5 +141,10 @@ class CurriculumInventoryInstitutionTest extends EntityBase
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
+    }
+
+    protected function getObject(): CurriculumInventoryInstitution
+    {
+        return $this->object;
     }
 }

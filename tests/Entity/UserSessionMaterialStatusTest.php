@@ -16,9 +16,18 @@ use Mockery as m;
  */
 class UserSessionMaterialStatusTest extends EntityBase
 {
+    protected UserSessionMaterialStatus $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new UserSessionMaterialStatus();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotNullValidation(): void
@@ -73,5 +82,10 @@ class UserSessionMaterialStatusTest extends EntityBase
     public function testSetMaterial(): void
     {
         $this->entitySetTest('material', "SessionLearningMaterial");
+    }
+
+    public function getObject(): UserSessionMaterialStatus
+    {
+        return $this->object;
     }
 }

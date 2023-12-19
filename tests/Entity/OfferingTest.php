@@ -18,9 +18,18 @@ use Mockery as m;
  */
 class OfferingTest extends EntityBase
 {
+    protected Offering $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Offering();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -251,5 +260,10 @@ class OfferingTest extends EntityBase
         $offering = new Offering();
         $offering->setSession($session);
         $this->assertSame($school, $offering->getSchool());
+    }
+
+    protected function getObject(): Offering
+    {
+        return $this->object;
     }
 }

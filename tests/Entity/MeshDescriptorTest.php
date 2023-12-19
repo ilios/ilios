@@ -19,9 +19,18 @@ use Mockery as m;
  */
 class MeshDescriptorTest extends EntityBase
 {
+    protected MeshDescriptor $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshDescriptor();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -434,5 +443,10 @@ class MeshDescriptorTest extends EntityBase
     public function testGetSessionObjectives(): void
     {
         $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
+    }
+
+    protected function getObject(): MeshDescriptor
+    {
+        return $this->object;
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AssessmentOption;
-use Mockery as m;
 
 /**
  * Tests for Entity AssessmentOption
@@ -13,11 +12,19 @@ use Mockery as m;
  */
 class AssessmentOptionTest extends EntityBase
 {
+    protected AssessmentOption $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AssessmentOption();
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
 
     public function testNotBlankValidation(): void
     {
@@ -69,5 +76,10 @@ class AssessmentOptionTest extends EntityBase
     public function testGetSessionTypes(): void
     {
         $this->entityCollectionSetTest('sessionType', 'SessionType');
+    }
+
+    protected function getObject(): AssessmentOption
+    {
+        return $this->object;
     }
 }

@@ -12,9 +12,18 @@ use App\Entity\IngestionException;
  */
 class IngestionExceptionTest extends EntityBase
 {
+    protected IngestionException $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new IngestionException();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -46,5 +55,10 @@ class IngestionExceptionTest extends EntityBase
     public function testSetTitle(): void
     {
         $this->basicSetTest('uid', 'string');
+    }
+
+    protected function getObject(): IngestionException
+    {
+        return $this->object;
     }
 }

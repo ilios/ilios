@@ -15,9 +15,18 @@ use function method_exists;
  */
 class AuditLogTest extends EntityBase
 {
+    protected AuditLog $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AuditLog();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -118,5 +127,10 @@ class AuditLogTest extends EntityBase
     public function testSetCreatedAt(): void
     {
         $this->basicSetTest('createdAt', 'datetime');
+    }
+
+    protected function getObject(): AuditLog
+    {
+        return $this->object;
     }
 }

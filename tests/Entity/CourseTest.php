@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Course;
-use App\Entity\CourseObjective;
 use App\Entity\CourseObjectiveInterface;
 use App\Entity\School;
 use App\Entity\SessionInterface;
@@ -20,9 +19,18 @@ use Mockery as m;
  */
 class CourseTest extends EntityBase
 {
+    protected Course $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Course();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -485,5 +493,10 @@ class CourseTest extends EntityBase
     public function testGetIndexableCourses(): void
     {
         $this->assertEquals([$this->object], $this->object->getIndexableCourses());
+    }
+
+    protected function getObject(): Course
+    {
+        return $this->object;
     }
 }

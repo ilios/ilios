@@ -6,7 +6,6 @@ namespace App\Tests\Entity;
 
 use App\Entity\School;
 use App\Entity\SchoolConfig;
-use Mockery as m;
 
 /**
  * Tests for SchoolConfig entity.
@@ -14,9 +13,18 @@ use Mockery as m;
  */
 class SchoolConfigTest extends EntityBase
 {
+    protected SchoolConfig $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new SchoolConfig();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -71,5 +79,10 @@ class SchoolConfigTest extends EntityBase
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
+    }
+
+    protected function getObject(): SchoolConfig
+    {
+        return $this->object;
     }
 }

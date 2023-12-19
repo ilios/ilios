@@ -17,9 +17,18 @@ use Mockery as m;
  */
 class CurriculumInventorySequenceBlockTest extends EntityBase
 {
+    protected CurriculumInventorySequenceBlock $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventorySequenceBlock();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -428,5 +437,10 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     public function testGetExcludedSessions(): void
     {
         $this->entityCollectionSetTest('excludedSession', 'Session');
+    }
+
+    protected function getObject(): CurriculumInventorySequenceBlock
+    {
+        return $this->object;
     }
 }

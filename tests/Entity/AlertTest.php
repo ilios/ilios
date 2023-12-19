@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Alert;
-use Mockery as m;
 
 /**
  * Tests for Entity Alert
@@ -13,9 +12,18 @@ use Mockery as m;
  */
 class AlertTest extends EntityBase
 {
+    protected Alert $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Alert();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -146,5 +154,10 @@ class AlertTest extends EntityBase
     public function testGetRecipients(): void
     {
         $this->entityCollectionSetTest('recipient', 'School');
+    }
+
+    protected function getObject(): Alert
+    {
+        return $this->object;
     }
 }

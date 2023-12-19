@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\ApplicationConfig;
-use Mockery as m;
 
 /**
  * Tests for ApplicationConfig entity.
@@ -13,9 +12,18 @@ use Mockery as m;
  */
 class ApplicationConfigTest extends EntityBase
 {
+    protected ApplicationConfig $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new ApplicationConfig();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -47,5 +55,10 @@ class ApplicationConfigTest extends EntityBase
     public function testSetValue(): void
     {
         $this->basicSetTest('value', 'string');
+    }
+
+    protected function getObject(): ApplicationConfig
+    {
+        return $this->object;
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\MeshPreviousIndexing;
-use Mockery as m;
 
 /**
  * Tests for Entity MeshPreviousIndexing
@@ -13,9 +12,18 @@ use Mockery as m;
  */
 class MeshPreviousIndexingTest extends EntityBase
 {
+    protected MeshPreviousIndexing $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshPreviousIndexing();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -46,5 +54,10 @@ class MeshPreviousIndexingTest extends EntityBase
     public function testSetDescriptor(): void
     {
         $this->entitySetTest('descriptor', "MeshDescriptor");
+    }
+
+    protected function getObject(): MeshPreviousIndexing
+    {
+        return $this->object;
     }
 }

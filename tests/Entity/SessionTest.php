@@ -17,9 +17,18 @@ use Mockery as m;
  */
 class SessionTest extends EntityBase
 {
+    protected Session $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Session();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -460,5 +469,10 @@ class SessionTest extends EntityBase
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals([$course], $rhett);
+    }
+
+    protected function getObject(): Session
+    {
+        return $this->object;
     }
 }

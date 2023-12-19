@@ -12,9 +12,18 @@ use App\Entity\CurriculumInventoryAcademicLevel;
  */
 class CurriculumInventoryAcademicLevelTest extends EntityBase
 {
+    protected CurriculumInventoryAcademicLevel $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventoryAcademicLevel();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -126,5 +135,10 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     public function testGetEndingSequenceBlocks(): void
     {
         $this->entityCollectionSetTest('endingSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    protected function getObject(): CurriculumInventoryAcademicLevel
+    {
+        return $this->object;
     }
 }

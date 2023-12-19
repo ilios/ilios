@@ -15,9 +15,18 @@ use Mockery as m;
  */
 class SessionLearningMaterialTest extends EntityBase
 {
+    protected SessionLearningMaterial $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new SessionLearningMaterial();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
@@ -140,5 +149,10 @@ class SessionLearningMaterialTest extends EntityBase
     public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
+    }
+
+    protected function getObject(): SessionLearningMaterial
+    {
+        return $this->object;
     }
 }

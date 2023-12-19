@@ -8,7 +8,6 @@ use App\Entity\Cohort;
 use App\Entity\Program;
 use App\Entity\ProgramYear;
 use App\Entity\School;
-use Mockery as m;
 
 /**
  * Tests for Entity Cohort
@@ -16,9 +15,18 @@ use Mockery as m;
  */
 class CohortTest extends EntityBase
 {
+    protected Cohort $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Cohort();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -164,5 +172,10 @@ class CohortTest extends EntityBase
 
         $cohort = new Cohort();
         $this->assertNull($cohort->getSchool());
+    }
+
+    protected function getObject(): Cohort
+    {
+        return $this->object;
     }
 }

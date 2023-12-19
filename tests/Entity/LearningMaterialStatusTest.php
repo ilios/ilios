@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\LearningMaterialStatus;
-use Mockery as m;
 
 /**
  * Tests for Entity LearningMaterialStatus
@@ -13,9 +12,18 @@ use Mockery as m;
  */
 class LearningMaterialStatusTest extends EntityBase
 {
+    protected LearningMaterialStatus $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new LearningMaterialStatus();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -67,7 +75,11 @@ class LearningMaterialStatusTest extends EntityBase
      */
     public function testGetLearningMaterials(): void
     {
-
         $this->entityCollectionSetTest('learningMaterial', 'LearningMaterial');
+    }
+
+    protected function getObject(): LearningMaterialStatus
+    {
+        return $this->object;
     }
 }

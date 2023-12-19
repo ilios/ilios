@@ -12,9 +12,18 @@ use App\Entity\AamcPcrs;
  */
 class AamcPcrsTest extends EntityBase
 {
+    protected AamcPcrs $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AamcPcrs();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -83,5 +92,10 @@ class AamcPcrsTest extends EntityBase
             'removeCompetency',
             'removeAamcPcrs'
         );
+    }
+
+    protected function getObject(): AamcPcrs
+    {
+        return $this->object;
     }
 }

@@ -13,9 +13,18 @@ use DateTime;
  */
 class MeshTermTest extends EntityBase
 {
+    protected MeshTerm $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshTerm();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -114,5 +123,10 @@ class MeshTermTest extends EntityBase
     public function getGetConcepts(): void
     {
         $this->entityCollectionSetTest('concept', 'MeshConcept');
+    }
+
+    protected function getObject(): MeshTerm
+    {
+        return $this->object;
     }
 }

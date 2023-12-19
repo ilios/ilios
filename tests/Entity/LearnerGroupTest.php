@@ -17,9 +17,18 @@ use Mockery as m;
  */
 class LearnerGroupTest extends EntityBase
 {
+    protected LearnerGroup $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new LearnerGroup();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -365,5 +374,10 @@ class LearnerGroupTest extends EntityBase
     public function testGetDescendants(): void
     {
         $this->entityCollectionSetTest('descendant', 'LearnerGroup', 'getDescendants', 'setDescendants', 'setAncestor');
+    }
+
+    protected function getObject(): LearnerGroup
+    {
+        return $this->object;
     }
 }

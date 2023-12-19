@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\CourseClerkshipType;
-use Mockery as m;
 
 /**
  * Tests for Entity CourseClerkshipType
@@ -13,9 +12,18 @@ use Mockery as m;
  */
 class CourseClerkshipTypeTest extends EntityBase
 {
+    protected CourseClerkshipType $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CourseClerkshipType();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -68,5 +76,10 @@ class CourseClerkshipTypeTest extends EntityBase
     public function testGetCourses(): void
     {
         $this->entityCollectionSetTest('course', 'Course', false, false, 'setClerkshipType');
+    }
+
+    protected function getObject(): CourseClerkshipType
+    {
+        return $this->object;
     }
 }

@@ -13,9 +13,18 @@ use DateTime;
  */
 class ServiceTokenTest extends EntityBase
 {
+    protected ServiceToken $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new ServiceToken();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -92,5 +101,10 @@ class ServiceTokenTest extends EntityBase
     public function testSetAuditLogs(): void
     {
         $this->entityCollectionSetTest('auditLog', 'AuditLog');
+    }
+
+    protected function getObject(): ServiceToken
+    {
+        return $this->object;
     }
 }

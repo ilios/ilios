@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class SchoolTest extends EntityBase
 {
+    protected School $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new School();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -362,5 +371,10 @@ class SchoolTest extends EntityBase
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals([$course1, $course2], $rhett);
+    }
+
+    protected function getObject(): School
+    {
+        return $this->object;
     }
 }

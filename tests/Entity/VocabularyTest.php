@@ -14,9 +14,18 @@ use Mockery as m;
  */
 class VocabularyTest extends EntityBase
 {
+    protected Vocabulary $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Vocabulary();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
@@ -92,5 +101,10 @@ class VocabularyTest extends EntityBase
     public function testIsActive(): void
     {
         $this->booleanSetTest('active');
+    }
+
+    protected function getObject(): Vocabulary
+    {
+        return $this->object;
     }
 }

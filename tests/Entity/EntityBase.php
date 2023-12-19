@@ -15,18 +15,12 @@ use App\Tests\TestCase;
  * Class EntityBase
  * @group model
  */
-class EntityBase extends TestCase
+abstract class EntityBase extends TestCase
 {
-    protected object $object;
-
     /**
-     * Remove all mock objects
+     * Returns the entity under test.
      */
-    public function tearDown(): void
-    {
-        parent::tearDown();
-        unset($this->object);
-    }
+    abstract protected function getObject(): object;
 
     /**
      * Engage the symfony validator and test the object.
@@ -37,7 +31,7 @@ class EntityBase extends TestCase
         $validator = Validation::createValidatorBuilder()
                 ->enableAttributeMapping()
                 ->getValidator();
-        $errors = $validator->validate($this->object);
+        $errors = $validator->validate($this->getObject());
         $errorCount = count($errors);
         $parsedErrors = [];
         foreach ($errors as $error) {
@@ -91,11 +85,11 @@ class EntityBase extends TestCase
     {
         $setMethod = $this->getSetMethodForProperty($property);
         $getMethod = $this->getGetMethodForProperty($property);
-        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $setMethod), "Method {$setMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing");
         $expected = $this->getValueForType($type);
-        $this->object->$setMethod($expected);
-        $this->assertSame($expected, $this->object->$getMethod());
+        $this->getObject()->$setMethod($expected);
+        $this->assertSame($expected, $this->getObject()->$getMethod());
     }
 
     /**
@@ -108,11 +102,11 @@ class EntityBase extends TestCase
     {
         $setMethod = $this->getSetMethodForProperty($property);
         $isMethod = $is ? $this->getIsMethodForProperty($property) : $this->getHasMethodForProperty($property);
-        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
-        $this->assertTrue(method_exists($this->object, $isMethod), "Method {$isMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $setMethod), "Method {$setMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $isMethod), "Method {$isMethod} missing");
         $expected = $this->getValueForType('boolean');
-        $this->object->$setMethod($expected);
-        $this->assertSame($expected, $this->object->$isMethod());
+        $this->getObject()->$setMethod($expected);
+        $this->assertSame($expected, $this->getObject()->$isMethod());
     }
 
     /**
@@ -125,11 +119,11 @@ class EntityBase extends TestCase
     {
         $setMethod = $this->getSetMethodForProperty($property);
         $getMethod = $this->getGetMethodForProperty($property);
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
-        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $setMethod), "Method {$setMethod} missing");
         $obj = m::mock('App\Entity\\' . $entityName);
-        $this->object->$setMethod($obj);
-        $this->assertSame($obj, $this->object->$getMethod());
+        $this->getObject()->$setMethod($obj);
+        $this->assertSame($obj, $this->getObject()->$getMethod());
     }
 
     /**
@@ -151,17 +145,17 @@ class EntityBase extends TestCase
     ): void {
         $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
         $setMethod = $setter ? $setter : $this->getSetMethodForCollectionProperty($property);
-        $this->assertTrue(method_exists($this->object, $setMethod), "Method {$setMethod} missing");
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $setMethod), "Method {$setMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing");
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
         if ($crossSaveMethod) {
             foreach ($arr as $obj) {
-                $obj->shouldReceive($crossSaveMethod)->with($this->object)->once();
+                $obj->shouldReceive($crossSaveMethod)->with($this->getObject())->once();
             }
         }
         $collection = new Collection($arr);
-        $this->object->$setMethod($collection);
-        $results = $this->object->$getMethod();
+        $this->getObject()->$setMethod($collection);
+        $results = $this->getObject()->$getMethod();
         $this->assertTrue($results instanceof Collection, 'Collection not returned.');
 
         foreach ($arr as $obj) {
@@ -189,15 +183,15 @@ class EntityBase extends TestCase
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
         $addMethod = $setter ? $setter : $this->getAddMethodForProperty($property);
         $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
-        $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing");
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $addMethod), "Method {$addMethod} missing");
+        $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing");
         foreach ($arr as $obj) {
             if ($crossSaveMethod) {
-                $obj->shouldReceive($crossSaveMethod)->with($this->object)->once();
+                $obj->shouldReceive($crossSaveMethod)->with($this->getObject())->once();
             }
-            $this->object->$addMethod($obj);
+            $this->getObject()->$addMethod($obj);
         }
-        $results = $this->object->$getMethod();
+        $results = $this->getObject()->$getMethod();
         $this->assertTrue($results instanceof Collection, 'Collection not returned.');
 
         foreach ($arr as $obj) {
@@ -227,30 +221,30 @@ class EntityBase extends TestCase
         $addMethod = $adder ? $adder : $this->getAddMethodForProperty($property);
         $removeMethod = $remover ? $remover : $this->getRemoveMethodForProperty($property);
         $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
-        $this->assertTrue(method_exists($this->object, $addMethod), "Method {$addMethod} missing from {$entityName}");
+        $this->assertTrue(method_exists($this->getObject(), $addMethod), "Method {$addMethod} missing from {$entityName}");
         $this->assertTrue(
-            method_exists($this->object, $removeMethod),
+            method_exists($this->getObject(), $removeMethod),
             "Method {$removeMethod} missing from {$entityName}"
         );
-        $this->assertTrue(method_exists($this->object, $getMethod), "Method {$getMethod} missing from {$entityName}");
+        $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing from {$entityName}");
 
         foreach ($arr as $obj) {
             $obj->shouldIgnoreMissing();
-            $this->object->$addMethod($obj);
+            $this->getObject()->$addMethod($obj);
         }
-        $results = $this->object->$getMethod();
+        $results = $this->getObject()->$getMethod();
         $this->assertTrue($results instanceof Collection, 'Collection not returned.');
         foreach ($arr as $obj) {
             if ($crossSaveMethod) {
-                $obj->shouldReceive($crossSaveMethod)->with($this->object)->once();
+                $obj->shouldReceive($crossSaveMethod)->with($this->getObject())->once();
             }
             $this->assertTrue($results->contains($obj));
         }
 
         foreach ($arr as $obj) {
-            $this->object->$removeMethod($obj);
+            $this->getObject()->$removeMethod($obj);
         }
-        $results = $this->object->$getMethod();
+        $results = $this->getObject()->$getMethod();
         $this->assertTrue($results instanceof Collection, 'Collection not returned.');
         foreach ($arr as $obj) {
             $this->assertTrue(!$results->contains($obj), 'Entity was not removed correctly');

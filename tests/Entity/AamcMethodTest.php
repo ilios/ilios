@@ -12,9 +12,18 @@ use App\Entity\AamcMethod;
  */
 class AamcMethodTest extends EntityBase
 {
+    protected AamcMethod $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AamcMethod();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -78,5 +87,10 @@ class AamcMethodTest extends EntityBase
     public function testIsActive(): void
     {
         $this->booleanSetTest('active');
+    }
+
+    protected function getObject(): AamcMethod
+    {
+        return $this->object;
     }
 }

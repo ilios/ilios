@@ -15,9 +15,18 @@ use Mockery as m;
  */
 class SessionTypeTest extends EntityBase
 {
+    protected SessionType $object;
+
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new SessionType();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -184,5 +193,10 @@ class SessionTypeTest extends EntityBase
 
         $this->object->setCalendarColor('#0');
         $this->validate(1);
+    }
+
+    protected function getObject(): SessionType
+    {
+        return $this->object;
     }
 }
