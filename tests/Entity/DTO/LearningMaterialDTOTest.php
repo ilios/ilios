@@ -15,10 +15,7 @@ use DateTime;
  */
 class LearningMaterialDTOTest extends TestCase
 {
-    /**
-     * @var LearningMaterialDTO $dto
-     */
-    protected $dto;
+    protected LearningMaterialDTO $dto;
 
     protected function setUp(): void
     {
@@ -46,7 +43,6 @@ class LearningMaterialDTOTest extends TestCase
         unset($this->dto);
         parent::tearDown();
     }
-
 
     /**
      * @covers \App\Entity\DTO\LearningMaterialDTO::clearMaterial
