@@ -120,7 +120,7 @@ class MeshTermTest extends EntityBase
     /**
      * @covers \App\Entity\MeshTerm::getConcepts
      */
-    public function getGetConcepts(): void
+    public function testGetConcepts(): void
     {
         $this->entityCollectionSetTest('concept', 'MeshConcept');
     }

@@ -78,7 +78,7 @@ class MeshQualifierTest extends EntityBase
      * @covers \App\Entity\MeshQualifier::getDescriptors
      * @covers \App\Entity\MeshQualifier::setDescriptors
      */
-    public function getGetDescriptors(): void
+    public function testGetDescriptors(): void
     {
         $this->entityCollectionSetTest('descriptor', 'MeshDescriptor');
     }

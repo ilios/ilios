@@ -143,7 +143,7 @@ class LearningMaterialTest extends EntityBase
      * @covers \App\Entity\LearningMaterial::getCourseLearningMaterials
      * @covers \App\Entity\LearningMaterial::setCourseLearningMaterials
      */
-    public function getGetCourseLearningMaterials(): void
+    public function testGetCourseLearningMaterials(): void
     {
         $this->entityCollectionSetTest('courseLearningMaterial', 'CourseLearningMaterial');
     }
@@ -168,7 +168,7 @@ class LearningMaterialTest extends EntityBase
      * @covers \App\Entity\LearningMaterial::getSessionLearningMaterials
      * @covers \App\Entity\LearningMaterial::setSessionLearningMaterials
      */
-    public function getGetSessionLearningMaterials(): void
+    public function testGetSessionLearningMaterials(): void
     {
         $this->entityCollectionSetTest('sessionLearningMaterial', 'SessionLearningMaterial');
     }

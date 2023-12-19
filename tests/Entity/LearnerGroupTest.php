@@ -138,7 +138,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getIlmSessions
      */
-    public function getGetIlmSessions(): void
+    public function testGetIlmSessions(): void
     {
         $this->entityCollectionSetTest('ilmSession', 'IlmSession', false, false, 'addLearnerGroup');
     }
@@ -162,7 +162,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getOfferings
      */
-    public function getGetOfferings(): void
+    public function testGetOfferings(): void
     {
         $this->entityCollectionSetTest('offering', 'Offering', false, false, 'addLearnerGroup');
     }
@@ -186,7 +186,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getInstructorGroups
      */
-    public function getGetInstructorGroups(): void
+    public function testGetInstructorGroups(): void
     {
         $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
     }
@@ -210,7 +210,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getUsers
      */
-    public function getGetUsers(): void
+    public function testGetUsers(): void
     {
         $this->entityCollectionSetTest('user', 'User');
     }
@@ -234,7 +234,7 @@ class LearnerGroupTest extends EntityBase
     /**
      * @covers \App\Entity\LearnerGroup::getInstructors
      */
-    public function getGetInstructors(): void
+    public function testGetInstructors(): void
     {
         $this->entityCollectionSetTest('instructor', 'User');
     }

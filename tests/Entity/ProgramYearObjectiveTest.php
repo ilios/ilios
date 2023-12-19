@@ -191,7 +191,7 @@ class ProgramYearObjectiveTest extends EntityBase
      * @covers \App\Entity\ProgramYearObjective::getCourseObjectives
      * @covers \App\Entity\ProgramYearObjective::setCourseObjectives
      */
-    public function getGetCourseObjectives(): void
+    public function testGetCourseObjectives(): void
     {
         $courseObjectives = [];
         for ($i = 0; $i < 10; $i++) {
