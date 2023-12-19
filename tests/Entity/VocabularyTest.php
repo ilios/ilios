@@ -27,16 +27,19 @@ class VocabularyTest extends EntityBase
         $this->assertEmpty($this->object->getTerms());
     }
 
-    public function testNotEmptyValidation(): void
+    public function testNotBlankValidation(): void
     {
-        $errors = $this->validate(2);
-        $this->assertEquals([
-            "title" => "NotBlank",
-            "school" => "NotNull",
-        ], $errors);
-
         $this->object->setSchool(m::mock(SchoolInterface::class));
+        $this->validateNotBlanks(['title']);
         $this->object->setTitle('Jackson is the best dog!');
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation(): void
+    {
+        $this->object->setTitle('Jackson is the best dog!');
+        $this->validateNotNulls(['school']);
+        $this->object->setSchool(m::mock(SchoolInterface::class));
         $this->validate(0);
     }
 

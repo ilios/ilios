@@ -34,16 +34,20 @@ class TermTest extends EntityBase
         $this->assertEmpty($this->object->getAamcResourceTypes());
     }
 
+    public function testNotNullValidation(): void
+    {
+        $this->object->setTitle('test');
+        $this->validateNotNulls(['vocabulary']);
+        $this->object->setVocabulary(m::mock(VocabularyInterface::class));
+        $this->validate(0);
+    }
+
     public function testNotBlankValidation(): void
     {
-        $errors = $this->validate(2);
-        $this->assertEquals([
-            "title" => "NotBlank",
-            "vocabulary" => "NotNull",
-        ], $errors);
-
         $this->object->setVocabulary(m::mock(VocabularyInterface::class));
+        $this->validateNotBlanks(['title']);
         $this->object->setTitle('test');
+        $this->validate(0);
         $this->object->setDescription('');
         $this->validate(0);
         $this->object->setDescription('test');

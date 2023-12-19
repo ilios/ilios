@@ -106,7 +106,7 @@ class OfferingTest extends EntityBase
             array_key_exists('url', $errors),
             "url key not found in errors: " . var_export(array_keys($errors), true)
         );
-        $this->assertSame('Url', $errors['url']);
+        $this->assertSame('This value is not a valid URL.', $errors['url']);
 
         $this->object->setUrl('http://example.edu');
         $this->validate(3);

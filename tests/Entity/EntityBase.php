@@ -41,10 +41,7 @@ class EntityBase extends TestCase
         $errorCount = count($errors);
         $parsedErrors = [];
         foreach ($errors as $error) {
-            $constraintClass = $error->getConstraint()::class;
-            //remove the namespace info
-            $arr = explode('\\', $constraintClass);
-            $parsedErrors[$error->getPropertyPath()] = array_pop($arr);
+            $parsedErrors[$error->getPropertyPath()] = $error->getMessage();
         }
         $this->assertEquals(
             $errorCount,
@@ -66,7 +63,7 @@ class EntityBase extends TestCase
                 array_key_exists($key, $errors),
                 "{$key} key not found in errors: " . var_export(array_keys($errors), true)
             );
-            $this->assertSame('NotBlank', $errors[$key]);
+            $this->assertSame('This value should not be blank.', $errors[$key]);
         }
     }
 
@@ -80,7 +77,7 @@ class EntityBase extends TestCase
                 array_key_exists($key, $errors),
                 "{$key} key not found in errors: " . var_export(array_keys($errors), true)
             );
-            $this->assertSame('NotNull', $errors[$key]);
+            $this->assertSame('This value should not be null.', $errors[$key]);
         }
     }
 

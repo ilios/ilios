@@ -27,16 +27,11 @@ class ReportTest extends EntityBase
         $this->assertNotEmpty($this->object->getCreatedAt());
     }
 
-    public function testNotBlankValidation(): void
+    public function testNotNullValidation(): void
     {
-        $errors = $this->validate(2);
-        $this->assertEquals([
-            "subject" => "NotBlank",
-            "user" => "NotNull",
-        ], $errors);
-
-        $this->object->setUser(m::mock(UserInterface::class));
         $this->object->setSubject('test');
+        $this->validateNotNulls(['user']);
+        $this->object->setUser(m::mock(UserInterface::class));
         $this->object->setTitle('');
         $this->object->setPrepositionalObject('');
         $this->object->setPrepositionalObjectTableRowId('');
@@ -44,6 +39,14 @@ class ReportTest extends EntityBase
         $this->object->setTitle('test');
         $this->object->setPrepositionalObject('test');
         $this->object->setPrepositionalObjectTableRowId('test');
+        $this->validate(0);
+    }
+
+    public function testNotBlankValidation(): void
+    {
+        $this->object->setUser(m::mock(UserInterface::class));
+        $this->validateNotBlanks(['subject']);
+        $this->object->setSubject('test');
         $this->validate(0);
     }
 
