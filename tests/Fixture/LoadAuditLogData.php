@@ -9,32 +9,16 @@ use App\Tests\DataLoader\AuditLogData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * Class LoadAuditLogData
- */
-class LoadAuditLogData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface
-
+class LoadAuditLogData extends AbstractFixture implements ORMFixtureInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected AuditLogData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get(AuditLogData::class)
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new AuditLog();
             $entity->setObjectId($arr['objectId']);

@@ -9,31 +9,22 @@ use App\Entity\LearnerGroup;
 use App\Entity\Offering;
 use App\Entity\Session;
 use App\Entity\User;
+use App\Tests\DataLoader\OfferingData;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadOfferingData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadOfferingData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected OfferingData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\OfferingData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new Offering();
             $entity->setId($arr['id']);
@@ -63,13 +54,13 @@ class LoadOfferingData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadSessionData',
-            'App\Tests\Fixture\LoadLearnerGroupData',
-            'App\Tests\Fixture\LoadInstructorGroupData',
-            'App\Tests\Fixture\LoadUserData',
+            LoadSessionData::class,
+            LoadLearnerGroupData::class,
+            LoadInstructorGroupData::class,
+            LoadUserData::class,
         ];
     }
 }

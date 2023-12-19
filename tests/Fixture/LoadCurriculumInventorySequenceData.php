@@ -6,30 +6,23 @@ namespace App\Tests\Fixture;
 
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventorySequence;
+use App\Tests\DataLoader\CurriculumInventorySequenceData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventorySequenceData extends AbstractFixture implements
     ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+    DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CurriculumInventorySequenceData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CurriculumInventorySequenceData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequence();
             $entity->setId($arr['id']);
@@ -46,10 +39,10 @@ class LoadCurriculumInventorySequenceData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
+            LoadCurriculumInventoryReportData::class,
         ];
     }
 }

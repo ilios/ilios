@@ -10,30 +10,21 @@ use App\Entity\MeshDescriptor;
 use App\Entity\ProgramYearObjective;
 use App\Entity\SessionObjective;
 use App\Entity\Term;
+use App\Tests\DataLoader\CourseObjectiveData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadCourseObjectiveData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface,
-    DependentFixtureInterface
+class LoadCourseObjectiveData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CourseObjectiveData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CourseObjectiveData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new CourseObjective();
             $entity->setId($arr['id']);
@@ -74,14 +65,14 @@ class LoadCourseObjectiveData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadMeshDescriptorData',
-            'App\Tests\Fixture\LoadSessionObjectiveData',
-            'App\Tests\Fixture\LoadProgramYearObjectiveData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadCourseData',
+            LoadMeshDescriptorData::class,
+            LoadSessionObjectiveData::class,
+            LoadProgramYearObjectiveData::class,
+            LoadTermData::class,
+            LoadCourseData::class,
         ];
     }
 }

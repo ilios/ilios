@@ -11,31 +11,22 @@ use App\Entity\MeshDescriptor;
 use App\Entity\School;
 use App\Entity\Term;
 use App\Entity\User;
+use App\Tests\DataLoader\CourseData;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadCourseData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface,
-    DependentFixtureInterface
+class LoadCourseData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CourseData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CourseData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new Course();
             $entity->setId($arr['id']);
@@ -86,15 +77,15 @@ class LoadCourseData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadCohortData',
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadCourseClerkshipTypeData',
-            'App\Tests\Fixture\LoadMeshDescriptorData',
+            LoadCohortData::class,
+            LoadSchoolData::class,
+            LoadUserData::class,
+            LoadTermData::class,
+            LoadCourseClerkshipTypeData::class,
+            LoadMeshDescriptorData::class,
         ];
     }
 }

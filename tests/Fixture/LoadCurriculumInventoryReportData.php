@@ -5,32 +5,25 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\Program;
+use App\Tests\DataLoader\CurriculumInventoryReportData;
 use DateTime;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\Entity\CurriculumInventoryReport;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventoryReportData extends AbstractFixture implements
     ORMFixtureInterface,
-    ContainerAwareInterface,
     DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CurriculumInventoryReportData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CurriculumInventoryReportData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryReport();
             $entity->setId($arr['id']);
@@ -47,10 +40,10 @@ class LoadCurriculumInventoryReportData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadProgramData',
+            LoadProgramData::class,
         ];
     }
 }

@@ -7,30 +7,21 @@ namespace App\Tests\Fixture;
 use App\Entity\AamcPcrs;
 use App\Entity\Competency;
 use App\Entity\School;
+use App\Tests\DataLoader\CompetencyData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadCompetencyData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadCompetencyData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CompetencyData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CompetencyData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new Competency();
             $entity->setId($arr['id']);
@@ -51,11 +42,11 @@ class LoadCompetencyData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadAamcPcrsData',
-            'App\Tests\Fixture\LoadSchoolData',
+            LoadAamcPcrsData::class,
+            LoadSchoolData::class,
         ];
     }
 }

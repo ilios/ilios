@@ -8,30 +8,21 @@ use App\Entity\Cohort;
 use App\Entity\InstructorGroup;
 use App\Entity\LearnerGroup;
 use App\Entity\User;
+use App\Tests\DataLoader\LearnerGroupData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadLearnerGroupData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadLearnerGroupData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected LearnerGroupData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\LearnerGroupData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new LearnerGroup();
             $entity->setId($arr['id']);
@@ -66,12 +57,12 @@ class LoadLearnerGroupData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadCohortData',
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadInstructorGroupData',
+            LoadCohortData::class,
+            LoadUserData::class,
+            LoadInstructorGroupData::class,
         ];
     }
 }

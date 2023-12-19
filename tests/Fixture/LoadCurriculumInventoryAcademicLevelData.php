@@ -6,30 +6,23 @@ namespace App\Tests\Fixture;
 
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReport;
+use App\Tests\DataLoader\CurriculumInventoryAcademicLevelData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implements
     ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+    DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CurriculumInventoryAcademicLevelData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CurriculumInventoryAcademicLevelData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventoryAcademicLevel();
             $entity->setId($arr['id']);
@@ -48,10 +41,10 @@ class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implement
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadCurriculumInventoryReportData',
+            LoadCurriculumInventoryReportData::class,
         ];
     }
 }
