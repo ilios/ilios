@@ -53,7 +53,7 @@ class LearningMaterialDTOTest extends TestCase
         $this->dto->citation = 'Lorem Ipsum';
         $this->dto->copyrightPermission = true;
         $this->dto->copyrightRationale = 'this is mine.';
-        $this->dto->courseLearningMaterials = [1, 2, 3];
+        $this->dto->courseLearningMaterials = ['1', '2', '3'];
         $this->dto->description = 'LM Description';
         $this->dto->filesize = 1100000;
         $this->dto->filename = 'my.txt';
@@ -62,7 +62,7 @@ class LearningMaterialDTOTest extends TestCase
         $this->dto->mimetype = 'text/plain';
         $this->dto->originalAuthor = 'Joe Doe';
         $this->dto->owningUser = 1;
-        $this->dto->sessionLearningMaterials = [4,5,6];
+        $this->dto->sessionLearningMaterials = ['4', '5', '6'];
         $this->dto->status = 1;
         $this->dto->title = 'My Material';
         $this->dto->token = 'aaabbbcccdddeee';
