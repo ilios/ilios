@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\Tests\Endpoints;
 
 use App\Service\InflectorFactory;
+use App\Tests\DataLoader\DataLoaderInterface;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\GetUrlTrait;
+use App\Tests\Traits\TestableJsonController;
 use DateTime;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Inflector\Inflector;
+use Exception;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
-use App\Tests\DataLoader\DataLoaderInterface;
-use App\Tests\Traits\TestableJsonController;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -1436,6 +1437,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 $v === false, $v === 'false' => 'false',
                 is_int($v), is_float($v) => $v,
                 is_string($v) => '"' . $v . '"',
+                default => throw new Exception("Unable to process GraphQL filter $key: $v"),
             };
 
             if (is_array($value)) {
