@@ -18,6 +18,7 @@ use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadOfferingData;
 use DateTime;
 use DateTimeZone;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Offering API endpoint Test.
@@ -305,6 +306,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         ?int $serviceTokenId,
         int $recipient
     ): void {
+        /** @var EntityManager $entityManager */
         $entityManager = $this->kernelBrowser->getContainer()
             ->get('doctrine')
             ->getManager();
