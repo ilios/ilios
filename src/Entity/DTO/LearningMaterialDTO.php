@@ -188,7 +188,7 @@ class LearningMaterialDTO
     public ?string $citation;
 
     /**
-     * @var string[]
+     * @var int[]
      */
     #[IA\Expose]
     #[IA\Related]
@@ -196,7 +196,7 @@ class LearningMaterialDTO
     public array $sessionLearningMaterials = [];
 
     /**
-     * @var string[]
+     * @var int[]
      */
     #[IA\Expose]
     #[IA\Related]
