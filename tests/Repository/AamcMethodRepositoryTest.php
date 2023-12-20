@@ -28,7 +28,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
         $this->fixtures = $executor->getReferenceRepository();
 
         $entityManager = self::$kernel->getContainer()->get('doctrine')->getManager();
-        $this->repository = $entityManager->getRepository(AamcMethod::class); /** @phpstan-ignore-line */
+        $this->repository = $entityManager->getRepository(AamcMethod::class);
     }
 
     public function testFindById()
