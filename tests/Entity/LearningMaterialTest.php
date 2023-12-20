@@ -179,19 +179,16 @@ class LearningMaterialTest extends EntityBase
     public function testGetIndexableCourses(): void
     {
         $course1 = m::mock(CourseInterface::class);
-        $courseLearningMaterial = m::mock(CourseLearningMaterialInterface::class)
-            ->shouldReceive('getCourse')->once()
-            ->andReturn($course1);
-        $this->object->addCourseLearningMaterial($courseLearningMaterial->getMock());
+        $courseLearningMaterial = m::mock(CourseLearningMaterialInterface::class);
+        $courseLearningMaterial->shouldReceive('getCourse')->once()->andReturn($course1);
+        $this->object->addCourseLearningMaterial($courseLearningMaterial);
 
         $course2 = m::mock(CourseInterface::class);
-        $session = m::mock(SessionInterface::class)
-            ->shouldReceive('getCourse')->once()
-            ->andReturn($course2);
-        $sessionLearningMaterial = m::mock(SessionLearningMaterialInterface::class)
-                    ->shouldReceive('getSession')->once()
-                    ->andReturn($session->getMock());
-        $this->object->addSessionLearningMaterial($sessionLearningMaterial->getMock());
+        $session = m::mock(SessionInterface::class);
+        $session->shouldReceive('getCourse')->once()->andReturn($course2);
+        $sessionLearningMaterial = m::mock(SessionLearningMaterialInterface::class);
+        $sessionLearningMaterial->shouldReceive('getSession')->once()->andReturn($session);
+        $this->object->addSessionLearningMaterial($sessionLearningMaterial);
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals([$course1, $course2], $rhett);

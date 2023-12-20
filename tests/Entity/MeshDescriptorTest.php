@@ -330,21 +330,18 @@ class MeshDescriptorTest extends EntityBase
     public function testGetIndexableCoursesForLearningMaterials(): void
     {
         $course1 = m::mock(CourseInterface::class);
-        $courseLearningMaterial = m::mock(CourseLearningMaterialInterface::class)
-            ->shouldReceive('addMeshDescriptor')->once()
-            ->shouldReceive('getCourse')->once()
-            ->andReturn($course1);
-        $this->object->addCourseLearningMaterial($courseLearningMaterial->getMock());
+        $courseLearningMaterial = m::mock(CourseLearningMaterialInterface::class);
+        $courseLearningMaterial->shouldReceive('addMeshDescriptor')->once();
+        $courseLearningMaterial->shouldReceive('getCourse')->once()->andReturn($course1);
+        $this->object->addCourseLearningMaterial($courseLearningMaterial);
 
         $course2 = m::mock(CourseInterface::class);
-        $session = m::mock(SessionInterface::class)
-            ->shouldReceive('getCourse')->once()
-            ->andReturn($course2);
-        $sessionLearningMaterial = m::mock(SessionLearningMaterialInterface::class)
-            ->shouldReceive('addMeshDescriptor')->once()
-            ->shouldReceive('getSession')->once()
-            ->andReturn($session->getMock());
-        $this->object->addSessionLearningMaterial($sessionLearningMaterial->getMock());
+        $session = m::mock(SessionInterface::class);
+        $session->shouldReceive('getCourse')->once()->andReturn($course2);
+        $sessionLearningMaterial = m::mock(SessionLearningMaterialInterface::class);
+        $sessionLearningMaterial->shouldReceive('addMeshDescriptor')->once();
+        $sessionLearningMaterial->shouldReceive('getSession')->once()->andReturn($session);
+        $this->object->addSessionLearningMaterial($sessionLearningMaterial);
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals([$course1, $course2], $rhett);
@@ -355,16 +352,15 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testGetIndexableCoursesForCoursesAndSessions(): void
     {
-        $course1 = m::mock(CourseInterface::class)
-            ->shouldReceive('addMeshDescriptor')->once()->with($this->object)->getMock();
+        $course1 = m::mock(CourseInterface::class);
+        $course1->shouldReceive('addMeshDescriptor')->once()->with($this->object);
         $this->object->addCourse($course1);
 
         $course2 = m::mock(CourseInterface::class);
-        $session = m::mock(SessionInterface::class)
-            ->shouldReceive('addMeshDescriptor')->once()->with($this->object)
-            ->shouldReceive('getCourse')->once()
-            ->andReturn($course2);
-        $this->object->addSession($session->getMock());
+        $session = m::mock(SessionInterface::class);
+        $session->shouldReceive('addMeshDescriptor')->once()->with($this->object);
+        $session->shouldReceive('getCourse')->once()->andReturn($course2);
+        $this->object->addSession($session);
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);

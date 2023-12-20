@@ -233,16 +233,15 @@ class TermTest extends EntityBase
      */
     public function testGetIndexableCourses(): void
     {
-        $course1 = m::mock(CourseInterface::class)
-            ->shouldReceive('addTerm')->once()->with($this->object)->getMock();
+        $course1 = m::mock(CourseInterface::class);
+        $course1->shouldReceive('addTerm')->once()->with($this->object);
         $this->object->addCourse($course1);
 
         $course2 = m::mock(CourseInterface::class);
-        $session = m::mock(SessionInterface::class)
-            ->shouldReceive('addTerm')->once()->with($this->object)
-            ->shouldReceive('getCourse')->once()
-            ->andReturn($course2);
-        $this->object->addSession($session->getMock());
+        $session = m::mock(SessionInterface::class);
+        $session->shouldReceive('addTerm')->once()->with($this->object);
+        $session->shouldReceive('getCourse')->once()->andReturn($course2);
+        $this->object->addSession($session);
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);
