@@ -67,7 +67,6 @@ class SchooleventsTest extends AbstractEndpoint
     public function testAttachedUserMaterialsAreBlankedForUsersWhenTheyLackPermissionToAccessThem(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
-        /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
         $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty(), $jwt);
 
@@ -82,7 +81,6 @@ class SchooleventsTest extends AbstractEndpoint
     public function testAttachedUserMaterialsAreAvailableToCourseStudentAdvisors(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
-        /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
         $postData = $userLoader->createEmpty();
         $postData['studentAdvisedCourses'] = ['1'];
@@ -104,7 +102,6 @@ class SchooleventsTest extends AbstractEndpoint
     public function testAttachedUserMaterialsAreAvailableToSessionStudentAdvisors(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
-        /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
         $postData = $userLoader->createEmpty();
         $postData['studentAdvisedSessions'] = ['1'];
@@ -562,7 +559,6 @@ class SchooleventsTest extends AbstractEndpoint
     public function testNotVirtualLinksForUnprivilegedUser(): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
-        /** @var DataLoaderInterface $dataLoader */
         $userLoader = self::getContainer()->get(UserData::class);
         $newUser = $this->postOne('users', 'user', 'users', $userLoader->createEmpty(), $jwt);
 
