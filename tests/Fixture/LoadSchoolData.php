@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\School;
-use App\Tests\DataLoader\LearningMaterialUserRoleData;
+use App\Tests\DataLoader\SchoolData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class LoadSchoolData extends AbstractFixture implements ORMFixtureInterface
 {
-    public function __construct(protected LearningMaterialUserRoleData $data)
+    public function __construct(protected SchoolData $data)
     {
     }
 
