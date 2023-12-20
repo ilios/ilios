@@ -38,7 +38,7 @@ jobs:
       run: bin/console lint:twig templates custom
     - name: phpstan
       run: |
-        bin/console cache:warmup --env=dev
+        bin/console cache:warmup --env=test
         vendor/bin/phpstan analyse --no-progress
   tests:
     name: PHPUnit Tests
