@@ -155,5 +155,4 @@ class MeshConceptTest extends EntityBase
     {
         return $this->object;
     }
-
 }

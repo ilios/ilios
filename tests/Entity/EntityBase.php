@@ -221,12 +221,18 @@ abstract class EntityBase extends TestCase
         $addMethod = $adder ? $adder : $this->getAddMethodForProperty($property);
         $removeMethod = $remover ? $remover : $this->getRemoveMethodForProperty($property);
         $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
-        $this->assertTrue(method_exists($this->getObject(), $addMethod), "Method {$addMethod} missing from {$entityName}");
+        $this->assertTrue(
+            method_exists($this->getObject(), $addMethod),
+            "Method {$addMethod} missing from {$entityName}"
+        );
         $this->assertTrue(
             method_exists($this->getObject(), $removeMethod),
             "Method {$removeMethod} missing from {$entityName}"
         );
-        $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing from {$entityName}");
+        $this->assertTrue(
+            method_exists($this->getObject(), $getMethod),
+            "Method {$getMethod} missing from {$entityName}"
+        );
 
         foreach ($arr as $obj) {
             $obj->shouldIgnoreMissing();
