@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace App\Encoder;
 
 use App\Service\JsonApiDataShaper;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
 class JsonApiEncoder implements EncoderInterface, DecoderInterface
 {
-    use ContainerAwareTrait;
-
     protected const FORMAT = 'json-api';
 
     public function __construct(protected JsonApiDataShaper $dataShaper)

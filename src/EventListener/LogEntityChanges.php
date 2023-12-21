@@ -9,7 +9,6 @@ use Doctrine\ORM\PersistentCollection;
 use App\Entity\LoggableEntityInterface;
 use App\Service\LoggerQueue;
 use ReflectionClass;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Doctrine event listener.
@@ -19,8 +18,9 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
  */
 class LogEntityChanges
 {
-    //We have to inject the container to avoid a circular service reference
-    use ContainerAwareTrait;
+    public function __construct(protected LoggerQueue $loggerQueue)
+    {
+    }
 
     /**
      * Get all the entities that have changed and create log entries for them
@@ -85,11 +85,11 @@ class LogEntityChanges
                 $updates[$entityClass]['changes'][] = 'Ref:' . $ref->getShortName();
             }
         }
-        $loggerQueue = $this->container->get(LoggerQueue::class);
+
         foreach ($updates as $arr) {
             $valuesChanged = implode(',', $arr['changes']);
             $entityName = $objectManager->getMetadataFactory()->getMetadataFor($arr['entity']::class)->getName();
-            $loggerQueue->add($arr['action'], $arr['entity'], $entityName, $valuesChanged);
+            $this->loggerQueue->add($arr['action'], $arr['entity'], $entityName, $valuesChanged);
         }
     }
 }

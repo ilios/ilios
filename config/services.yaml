@@ -68,9 +68,6 @@ services:
       tags:
       - { name: doctrine.event_listener, event: onFlush }
 
-      calls:
-      - [ setContainer, ['@service_container'] ]
-
     App\EventListener\IndexEntityChanges:
       tags:
         - { name: doctrine.event_listener, event: postPersist }
