@@ -9,6 +9,7 @@ use App\Repository\ServiceTokenRepository;
 use DateInterval;
 use DateTimeImmutable;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Lists out service tokens, with some filtering options.
  */
+#[AsCommand(
+    name: 'ilios:service-token:list',
+    description: 'List service tokens.',
+    aliases: ['ilios:maintenance:service-token:list']
+)]
 class ListServiceTokensCommand extends Command
 {
     public const EXCLUDE_DISABLED_KEY = 'exclude-disabled';
@@ -33,9 +39,6 @@ class ListServiceTokensCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:service-token:list')
-            ->setAliases(['ilios:maintenance:service-token:list'])
-            ->setDescription('List service tokens.')
             ->addOption(
                 self::EXCLUDE_DISABLED_KEY,
                 null,

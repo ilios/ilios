@@ -22,7 +22,6 @@ class DropCommandTest extends KernelTestCase
     protected CommandTester $commandTester;
     protected m\MockInterface $indexManager;
 
-
     public function setUp(): void
     {
         parent::setUp();
@@ -32,7 +31,7 @@ class DropCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(DropCommand::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -48,9 +47,7 @@ class DropCommandTest extends KernelTestCase
 
     public function testRequireForce(): void
     {
-        $this->commandTester->execute([
-            'command' => DropCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -64,7 +61,6 @@ class DropCommandTest extends KernelTestCase
         $this->indexManager->shouldReceive('drop')->once();
 
         $this->commandTester->execute([
-            'command' => DropCommand::COMMAND_NAME,
             '--force' => true,
         ]);
 

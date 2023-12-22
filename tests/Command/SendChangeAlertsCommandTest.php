@@ -48,8 +48,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:send-change-alerts';
-
     protected m\MockInterface $offeringRepository;
     protected m\MockInterface $alertRepository;
     protected m\MockInterface $auditLogRepository;
@@ -87,7 +85,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
             sys_get_temp_dir()
         );
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 

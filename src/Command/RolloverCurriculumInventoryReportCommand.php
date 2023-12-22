@@ -8,6 +8,7 @@ use App\Entity\CurriculumInventoryReportInterface;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,6 +18,11 @@ use Symfony\Component\Console\Input\InputArgument;
 /**
  * Rolls over (copies) a given curriculum inventory report.
  */
+#[AsCommand(
+    name: 'ilios:rollover-ci-report',
+    description: 'Rolls over (copies) a given curriculum inventory report.',
+    aliases: ['ilios:maintenance:rollover-ci-report'],
+)]
 class RolloverCurriculumInventoryReportCommand extends Command
 {
     public function __construct(
@@ -29,9 +35,6 @@ class RolloverCurriculumInventoryReportCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:rollover-ci-report')
-            ->setAliases(['ilios:maintenance:rollover-ci-report'])
-            ->setDescription('Rolls over (copies) a given curriculum inventory report.')
             //required arguments
             ->addArgument(
                 'reportId',
@@ -79,6 +82,6 @@ class RolloverCurriculumInventoryReportCommand extends Command
         //output message with the new courseId on success
         $output->writeln("The given report has been rolled over. The new report id is {$newReport->getId()}.");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

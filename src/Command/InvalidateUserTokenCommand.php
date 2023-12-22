@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,6 +19,11 @@ use DateTime;
  *
  * Class InvalidateUserTokenCommand
  */
+#[AsCommand(
+    name: 'ilios:invalidate-user-tokens',
+    description: 'Invalidate all user tokens issued before now.',
+    aliases: ['ilios:maintenance:invalidate-user-tokens']
+)]
 class InvalidateUserTokenCommand extends Command
 {
     public function __construct(
@@ -29,15 +35,7 @@ class InvalidateUserTokenCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:invalidate-user-tokens')
-            ->setAliases(['ilios:maintenance:invalidate-user-tokens'])
-            ->setDescription('Invalidate all user tokens issued before now.')
-            ->addArgument(
-                'userId',
-                InputArgument::REQUIRED,
-                'A valid user id.'
-            );
+        $this->addArgument('userId', InputArgument::REQUIRED, 'A valid user id.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -67,6 +65,6 @@ class InvalidateUserTokenCommand extends Command
             ' have been invalidated.'
         );
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

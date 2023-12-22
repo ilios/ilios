@@ -11,6 +11,7 @@ use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,6 +22,10 @@ use App\Service\JsonWebTokenManager;
 /**
  * Create a new service account token.
  */
+#[AsCommand(
+    name: 'ilios:service-token:create',
+    description: 'Creates a new service token for the API with given capabilities.'
+)]
 class CreateServiceTokenCommand extends Command
 {
     public const TTL_KEY = 'ttl';
@@ -39,8 +44,6 @@ class CreateServiceTokenCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:service-token:create')
-            ->setDescription('Creates a new service token for the API with given capabilities.')
             ->addOption(
                 self::WRITEABLE_SCHOOLS_KEY,
                 null,

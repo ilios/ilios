@@ -24,8 +24,6 @@ class SendTestEmailCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:send-test-email';
-
     protected m\MockInterface $mailer;
     protected CommandTester $commandTester;
 
@@ -40,7 +38,7 @@ class SendTestEmailCommandTest extends KernelTestCase
             $this->mailer
         );
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 

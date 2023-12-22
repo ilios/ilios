@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,6 +17,10 @@ use Symfony\Component\Mime\Email;
  *
  * Class SendTestEmailCommand
  */
+#[AsCommand(
+    name: 'ilios:send-test-email',
+    description: 'Sends out a test email, useful for ensuring email is working.',
+)]
 class SendTestEmailCommand extends Command
 {
     public function __construct(protected MailerInterface $mailer)
@@ -26,8 +31,6 @@ class SendTestEmailCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:send-test-email')
-            ->setDescription('Sends out a test email, useful for ensuring email is working.')
             ->addArgument(
                 'from',
                 InputArgument::REQUIRED,

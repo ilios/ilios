@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,19 +19,16 @@ use Symfony\Component\Console\Question\Question;
  * Class SetupAuthenticationCommand
  * @package App\Command
  */
+#[AsCommand(
+    name: 'ilios:setup-authentication',
+    description: 'Sets up authentication.',
+    aliases: ['ilios:setup:authentication'],
+)]
 class SetupAuthenticationCommand extends Command
 {
     public function __construct(protected ApplicationConfigRepository $applicationConfigRepository)
     {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:setup-authentication')
-            ->setAliases(['ilios:setup:authentication'])
-            ->setDescription('Sets up authentication.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -73,7 +71,7 @@ class SetupAuthenticationCommand extends Command
 
         $output->writeln('<info>Authentication Setup Successfully!</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function setupForm(): array

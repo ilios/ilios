@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Exception\IliosFilesystemException;
 use App\Service\Config;
 use App\Service\IliosFileSystem;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,6 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Class CheckS3PermissionsCommand
  */
+#[AsCommand(
+    name: 'ilios:check-s3-permissions',
+    description: 'Checks the configured S3 filesystem for any permission issues.'
+)]
 class CheckS3PermissionsCommand extends Command
 {
     public function __construct(
@@ -23,13 +28,6 @@ class CheckS3PermissionsCommand extends Command
         protected IliosFileSystem $iliosFileSystem
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:check-s3-permissions')
-            ->setDescription('Checks the configured S3 filesystem for any permission issues.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

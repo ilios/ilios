@@ -8,6 +8,7 @@ use App\Repository\AuditLogRepository;
 use DateTime;
 use DateTimeZone;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,6 +24,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @link http://symfony.com/doc/current/cookbook/console/logging.html
  * @link http://symfony.com/doc/current/components/console/helpers/table.html
  */
+#[AsCommand(
+    name: 'ilios:export-audit-log',
+    description: 'Exports audit log entries in a given time range and, optionally, deletes them.',
+    aliases: ['ilios:maintenance:export-audit-log']
+)]
 class AuditLogExportCommand extends Command
 {
     public function __construct(protected LoggerInterface $logger, protected AuditLogRepository $auditLogRepository)
@@ -33,9 +39,6 @@ class AuditLogExportCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:export-audit-log')
-            ->setAliases(['ilios:maintenance:export-audit-log'])
-            ->setDescription('Exports audit log entries in a given time range and, optionally, deletes them.')
             ->addOption(
                 'delete',
                 null,

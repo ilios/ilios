@@ -9,6 +9,7 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\PendingUserUpdateRepository;
 use App\Repository\UserRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,6 +23,11 @@ use App\Service\Directory;
  *
  * Class SyncUserCommand
  */
+#[AsCommand(
+    name: 'ilios:sync-user',
+    description: 'Sync a user from the directory.',
+    aliases: ['ilios:directory:sync-user'],
+)]
 class SyncUserCommand extends Command
 {
     public function __construct(
@@ -35,15 +41,7 @@ class SyncUserCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:sync-user')
-            ->setAliases(['ilios:directory:sync-user'])
-            ->setDescription('Sync a user from the directory.')
-            ->addArgument(
-                'userId',
-                InputArgument::REQUIRED,
-                'A valid user id.'
-            );
+        $this->addArgument('userId', InputArgument::REQUIRED, 'A valid user id.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -60,7 +58,7 @@ class SyncUserCommand extends Command
 
         if (!$userRecord) {
             $output->writeln('<error>Unable to find ' . $user->getCampusId() . ' in the directory.');
-            return 1;
+            return Command::FAILURE;
         }
 
         $table = new Table($output);
@@ -132,11 +130,11 @@ class SyncUserCommand extends Command
 
             $output->writeln('<info>User updated successfully!</info>');
 
-            return 0;
+            return Command::SUCCESS;
         } else {
             $output->writeln('<comment>Update canceled.</comment>');
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 }

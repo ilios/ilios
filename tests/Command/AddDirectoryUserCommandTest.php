@@ -28,8 +28,6 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:add-directory-user';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
     protected m\MockInterface $schoolRepository;
@@ -53,7 +51,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -110,9 +108,8 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'campusId'         => 'abc',
-            'schoolId'         => '1',
+            'campusId' => 'abc',
+            'schoolId' => '1',
         ]);
 
 
@@ -135,9 +132,8 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn($user);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'campusId'         => '1',
-            'schoolId'         => '1'
+            'campusId' => '1',
+            'schoolId' => '1'
         ]);
     }
 
@@ -147,9 +143,8 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'campusId'         => '1',
-            'schoolId'         => '1'
+            'campusId' => '1',
+            'schoolId' => '1'
         ]);
     }
 
@@ -157,8 +152,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'schoolId'         => '1'
+            'schoolId' => '1'
         ]);
     }
 
@@ -166,8 +160,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'campusId'         => '1',
+            'campusId' => '1',
         ]);
     }
 }

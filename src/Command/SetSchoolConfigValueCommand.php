@@ -8,6 +8,7 @@ use App\Entity\SchoolConfig;
 use App\Entity\SchoolInterface;
 use App\Repository\SchoolConfigRepository;
 use App\Repository\SchoolRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,6 +17,11 @@ use Symfony\Component\Console\Input\InputArgument;
 /**
  * Set a school configuration value in the DB
  */
+#[AsCommand(
+    name: 'ilios:set-school-config-value',
+    description: 'Set a school configuration value in the DB',
+    aliases: ['ilios:maintenance:set-school-config-value'],
+)]
 class SetSchoolConfigValueCommand extends Command
 {
     public function __construct(
@@ -28,9 +34,6 @@ class SetSchoolConfigValueCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:set-school-config-value')
-            ->setAliases(['ilios:maintenance:set-school-config-value'])
-            ->setDescription('Set a configuration value in the DB')
             //required arguments
             ->addArgument(
                 'school',
@@ -58,7 +61,7 @@ class SetSchoolConfigValueCommand extends Command
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id {$schoolId}.</error>");
-            return 1;
+            return Command::FAILURE;
         }
 
         $config = $this->schoolConfigRepository->findOneBy(['school' => $school->getId(), 'name' => $name]);
@@ -73,6 +76,6 @@ class SetSchoolConfigValueCommand extends Command
 
         $output->writeln('<info>Done.</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

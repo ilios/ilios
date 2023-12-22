@@ -21,8 +21,6 @@ class SyncStudentStatusCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:sync-students';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $userRoleRepository;
     protected CommandTester $commandTester;
@@ -39,7 +37,7 @@ class SyncStudentStatusCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -95,8 +93,7 @@ class SyncStudentStatusCommandTest extends KernelTestCase
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
-            'command'   => self::COMMAND_NAME,
-            'filter'    => 'FILTER'
+            'filter' => 'FILTER'
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -126,6 +123,6 @@ class SyncStudentStatusCommandTest extends KernelTestCase
     public function testFilterRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

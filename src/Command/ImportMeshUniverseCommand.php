@@ -8,6 +8,7 @@ use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
 use Ilios\MeSH\Parser;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -20,6 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Class ImportMeshUniverseCommand
  */
+#[AsCommand(
+    name: 'ilios:import-mesh-universe',
+    description: 'Imports the MeSH universe into Ilios.',
+    aliases: ['ilios:maintenance:import-mesh-universe']
+)]
 class ImportMeshUniverseCommand extends Command
 {
     use LockableTrait;
@@ -43,9 +49,6 @@ class ImportMeshUniverseCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:import-mesh-universe')
-            ->setAliases(['ilios:maintenance:import-mesh-universe'])
-            ->setDescription('Imports the MeSH universe into Ilios.')
             ->addOption(
                 'url',
                 'u',
@@ -71,7 +74,7 @@ class ImportMeshUniverseCommand extends Command
     {
         if (!$this->lock()) {
             $output->writeln('The command is already running in another process.');
-            return 0;
+            return Command::SUCCESS;
         }
         $steps = $this->meshIndex->isEnabled() ? 5 : 4;
         $startTime = time();
@@ -112,7 +115,7 @@ class ImportMeshUniverseCommand extends Command
         $output->writeln("Finished MeSH universe import in {$duration} seconds.");
         $this->release();
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function getUri(InputInterface $input): string

@@ -10,6 +10,7 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use Exception;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,6 +20,10 @@ use Symfony\Component\Console\Question\Question;
 /**
  * Change a user's username
  */
+#[AsCommand(
+    name: 'ilios:change-username',
+    description: 'Change the username for a user.'
+)]
 class ChangeUsernameCommand extends Command
 {
     public function __construct(
@@ -30,14 +35,7 @@ class ChangeUsernameCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:change-username')
-            ->setDescription('Change the username for a user.')
-            ->addArgument(
-                'userId',
-                InputArgument::REQUIRED,
-                'A valid user id.'
-            );
+        $this->addArgument('userId', InputArgument::REQUIRED, 'A valid user id.');
     }
 
     /**
@@ -82,6 +80,6 @@ class ChangeUsernameCommand extends Command
 
         $output->writeln('<info>Username Changed.</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\CsvWriter;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +19,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Class ExportMeshUniverseCommand
  */
+#[AsCommand(
+    name: 'ilios:export-mesh-universe',
+    description: 'Dumps the contents of all mesh_* tables into dataimport files.'
+)]
 class ExportMeshUniverseCommand extends Command
 {
     use LockableTrait;
@@ -30,13 +35,6 @@ class ExportMeshUniverseCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:export-mesh-universe')
-            ->setDescription('Dumps the contents of all mesh_* tables into dataimport files.');
-    }
-
     /**
      * @inheritdoc
      * @throws Exception
@@ -45,7 +43,7 @@ class ExportMeshUniverseCommand extends Command
     {
         if (!$this->lock()) {
             $output->writeln('The command is already running in another process.');
-            return 0;
+            return Command::SUCCESS;
         }
 
         $header = [
@@ -100,7 +98,7 @@ class ExportMeshUniverseCommand extends Command
         $this->writeToFile($header, $data, 'mesh_tree.csv');
 
         $this->release();
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -109,7 +107,7 @@ class ExportMeshUniverseCommand extends Command
      * @param string $fileName
      * @throws Exception
      */
-    protected function writeToFile($header, $data, $fileName)
+    protected function writeToFile(array $header, array $data, string $fileName): void
     {
         $this->writer->writeToFile($header, $data, $this->kernelProjectDir . '/config/dataimport/' . $fileName);
     }

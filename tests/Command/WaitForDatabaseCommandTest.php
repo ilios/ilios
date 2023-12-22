@@ -35,7 +35,7 @@ class WaitForDatabaseCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(WaitForDatabaseCommand::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -52,9 +52,7 @@ class WaitForDatabaseCommandTest extends KernelTestCase
         $connection->shouldReceive('executeQuery')->with('Select 1');
         $this->entityManager->shouldReceive('getConnection')->once()->andReturn($connection);
 
-        $this->commandTester->execute([
-            'command' => WaitForDatabaseCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
 
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
@@ -69,9 +67,7 @@ class WaitForDatabaseCommandTest extends KernelTestCase
 
         $stopwatch = new Stopwatch();
         $stopwatch->start('test');
-        $this->commandTester->execute([
-            'command' => WaitForDatabaseCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
         $duration = $stopwatch->stop('test')->getDuration();
         $this->assertGreaterThan(2000, $duration);
 

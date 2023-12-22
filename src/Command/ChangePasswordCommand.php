@@ -11,6 +11,7 @@ use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use Exception;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,6 +22,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Change a user's password
  */
+#[AsCommand(
+    name: 'ilios:change-password',
+    description: 'Change the password for a user.'
+)]
 class ChangePasswordCommand extends Command
 {
     public function __construct(
@@ -34,14 +39,7 @@ class ChangePasswordCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:change-password')
-            ->setDescription('Change the password for a user.')
-            ->addArgument(
-                'userId',
-                InputArgument::REQUIRED,
-                'A valid user id.'
-            );
+        $this->addArgument('userId', InputArgument::REQUIRED, 'A valid user id.');
     }
 
     /**
@@ -87,6 +85,6 @@ class ChangePasswordCommand extends Command
 
         $output->writeln('<info>Password Changed.</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

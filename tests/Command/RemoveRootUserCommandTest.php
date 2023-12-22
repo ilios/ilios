@@ -37,7 +37,7 @@ class RemoveRootUserCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(RemoveRootUserCommand::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -61,7 +61,6 @@ class RemoveRootUserCommandTest extends KernelTestCase
         $user->shouldReceive('setRoot');
 
         $this->commandTester->execute([
-            'command' => RemoveRootUserCommand::COMMAND_NAME,
             'userId' => $userId
         ]);
 
@@ -79,9 +78,7 @@ class RemoveRootUserCommandTest extends KernelTestCase
     public function testMissingInput(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute([
-            'command' => RemoveRootUserCommand::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
     }
 
     /**
@@ -94,7 +91,6 @@ class RemoveRootUserCommandTest extends KernelTestCase
 
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command' => RemoveRootUserCommand::COMMAND_NAME,
             'userId' => $userId
         ]);
     }

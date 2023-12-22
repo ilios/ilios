@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,6 +15,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Enables a service token.
  */
+#[AsCommand(
+    name: 'ilios:service-token:enable',
+    description: 'Enables a given service token.'
+)]
 class EnableServiceTokenCommand extends Command
 {
     public const ID_KEY = 'id';
@@ -25,14 +30,7 @@ class EnableServiceTokenCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:service-token:enable')
-            ->setDescription('Enables a given service token.')
-            ->addArgument(
-                self::ID_KEY,
-                InputArgument::REQUIRED,
-                "The token ID.",
-            );
+        $this->addArgument(self::ID_KEY, InputArgument::REQUIRED, "The token ID.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -9,6 +9,7 @@ use App\Service\FilesystemFactory;
 use App\Service\IliosFileSystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +19,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package App\Command
  */
+#[AsCommand(
+    name: 'ilios:cleanup-s3-cache',
+    description: 'Remove stale files if the cache disk space is low'
+)]
 class CleanupS3FilesystemCacheCommand extends Command
 {
     protected FilesystemOperator $filesystem;
@@ -30,13 +35,6 @@ class CleanupS3FilesystemCacheCommand extends Command
         $this->localCacheDirectory = $filesystemFactory->getLocalS3CacheDirectory();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:cleanup-s3-cache')
-            ->setDescription('Remove stale files if the cache disk space is low');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Checking for available disk space.</info>');
@@ -44,7 +42,7 @@ class CleanupS3FilesystemCacheCommand extends Command
 
         if ($percentageFree > 30) {
             $output->writeln("<info>{$percentageFree}% free space. Not cleaning up any files.</info>");
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln("<info>{$percentageFree}% free space. Will cleanup old files...</info>");
         $contents = $this->filesystem->listContents(IliosFileSystem::HASHED_LM_DIRECTORY, true);
@@ -62,10 +60,10 @@ class CleanupS3FilesystemCacheCommand extends Command
         $percentageFree = $this->getFreeSpace();
         $output->writeln("<info>{$percentageFree}% free space now.</info>");
 
-        return 0;
+        return Command::SUCCESS;
     }
 
-    protected function getFreeSpace()
+    protected function getFreeSpace(): float
     {
         $freeSpace = $this->diskSpace->freeSpace($this->localCacheDirectory);
         $totalSpace = $this->diskSpace->totalSpace($this->localCacheDirectory);

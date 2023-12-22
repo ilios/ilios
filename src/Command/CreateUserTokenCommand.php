@@ -8,6 +8,7 @@ use App\Classes\SessionUser;
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,6 +21,11 @@ use App\Service\JsonWebTokenManager;
  *
  * Class CreateUserTokenCommand
  */
+#[AsCommand(
+    name: 'ilios:create-user-token',
+    description: 'Create a new API token for a user.',
+    aliases: ['ilios:maintenance:create-user-token']
+)]
 class CreateUserTokenCommand extends Command
 {
     public function __construct(
@@ -32,9 +38,6 @@ class CreateUserTokenCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:create-user-token')
-            ->setAliases(['ilios:maintenance:create-user-token'])
-            ->setDescription('Create a new API token for a user.')
             ->addArgument(
                 'userId',
                 InputArgument::REQUIRED,
@@ -63,6 +66,6 @@ class CreateUserTokenCommand extends Command
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

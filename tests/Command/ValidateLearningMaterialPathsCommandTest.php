@@ -23,8 +23,6 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:validate-learning-materials';
-
     protected m\MockInterface $iliosFileSystem;
     protected m\MockInterface $learningMaterialRepository;
     protected CommandTester $commandTester;
@@ -42,7 +40,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -74,10 +72,7 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
         $this->iliosFileSystem
             ->shouldReceive('checkLearningMaterialFilePath')->with($badLm)->andReturn(false)->once();
 
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(

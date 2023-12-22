@@ -25,8 +25,6 @@ class CreateUserTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:create-user-token';
-
     protected m\MockInterface $userRepository;
     protected CommandTester $commandTester;
     protected m\MockInterface $jwtManager;
@@ -41,7 +39,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -63,8 +61,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         $this->jwtManager->shouldReceive('createJwtFromUserId')->with(1, 'PT8H')->andReturn('123JWT');
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
 
@@ -81,9 +78,8 @@ class CreateUserTokenCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->jwtManager->shouldReceive('createJwtFromUserId')->with(1, '108Franks')->andReturn('123JWT');
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'       => '1',
-            '--ttl'        => '108Franks'
+            'userId' => '1',
+            '--ttl' => '108Franks'
         ]);
 
 
@@ -99,14 +95,13 @@ class CreateUserTokenCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
     }
 
     public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

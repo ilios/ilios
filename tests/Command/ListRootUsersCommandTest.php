@@ -35,7 +35,7 @@ class ListRootUsersCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(ListRootUsersCommand::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -93,9 +93,7 @@ class ListRootUsersCommandTest extends KernelTestCase
 
         $this->userRepository->shouldReceive('findDTOsBy')->with(['root' => true])->andReturn($users);
 
-        $this->commandTester->execute([
-            'command' => ListRootUsersCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
 
         $this->assertMatchesRegularExpression(
@@ -118,9 +116,7 @@ class ListRootUsersCommandTest extends KernelTestCase
             ->with(['root' => true])
             ->andReturn([]);
 
-        $this->commandTester->execute([
-            'command' => ListRootUsersCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
         $this->assertEquals('No users with root-level privileges found.', trim($output));
     }

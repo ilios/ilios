@@ -30,8 +30,6 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:add-students';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $userRolerepository;
     protected m\MockInterface $schoolRepository;
@@ -58,7 +56,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -146,9 +144,8 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
-            'command'   => self::COMMAND_NAME,
-            'schoolId'    => 1,
-            'filter'    => 'FILTER',
+            'schoolId' => 1,
+            'filter' => 'FILTER',
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -180,9 +177,8 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'filter'         => 'FILTER',
-            'schoolId'         => '1'
+            'filter' => 'FILTER',
+            'schoolId' => '1'
         ]);
     }
 
@@ -190,8 +186,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'schoolId'         => '1'
+            'schoolId' => '1'
         ]);
     }
 
@@ -199,8 +194,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'filter'         => '1',
+            'filter' => '1',
         ]);
     }
 }

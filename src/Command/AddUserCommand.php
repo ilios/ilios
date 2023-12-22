@@ -11,6 +11,7 @@ use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use Exception;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,6 +27,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  *
  * Class AddUserCommand
  */
+#[AsCommand(
+    name: 'ilios:add-user',
+    description: 'Add a user to ilios.',
+    aliases: ['ilios:maintenance:add-user']
+)]
 class AddUserCommand extends Command
 {
     public function __construct(
@@ -40,10 +46,6 @@ class AddUserCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:add-user')
-            ->setAliases(['ilios:maintenance:add-user'])
-            ->setDescription('Add a user to ilios.');
         $userOptions = [
             'schoolId',
             'firstName',
@@ -182,15 +184,15 @@ class AddUserCommand extends Command
             $output->writeln(
                 '<info>Success! New user #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' created.</info>'
             );
-            return 0;
+            return Command::SUCCESS;
         } else {
             $output->writeln('<comment>Canceled.</comment>');
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 
-    protected function fillUserRecord(array $userRecord, $input, $output)
+    protected function fillUserRecord(array $userRecord, $input, $output): array
     {
         if (empty($userRecord['firstName'])) {
             $userRecord['firstName'] = $this->askForString('First Name', 1, 50, $input, $output);
@@ -243,7 +245,7 @@ class AddUserCommand extends Command
         return $userRecord;
     }
 
-    protected function askForString($what, $min, $max, $input, $output)
+    protected function askForString($what, $min, $max, $input, $output): mixed
     {
         $question = new Question("What is the user's {$what}? ");
         $question->setValidator(function ($answer) use ($what, $min, $max) {

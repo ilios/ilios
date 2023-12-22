@@ -25,8 +25,6 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:set-school-config-value';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $schoolRepository;
     protected m\MockInterface $schoolConfigRepository;
@@ -40,7 +38,7 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -69,10 +67,9 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         $this->schoolConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'school'         => '1',
-            'name'         => 'foo',
-            'value'        => 'bar',
+            'school' => '1',
+            'name' => 'foo',
+            'value' => 'bar',
         ]);
     }
 
@@ -94,7 +91,6 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
         $this->schoolConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             'school' => '1',
             'name' => 'foo',
             'value' => 'bar',
@@ -105,9 +101,8 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'school'         => '1',
-            'value'        => 'bar',
+            'school' => '1',
+            'value' => 'bar',
         ]);
     }
 
@@ -115,9 +110,8 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'school'         => '1',
-            'name'         => 'foo',
+            'school' => '1',
+            'name' => 'foo',
         ]);
     }
 
@@ -125,9 +119,8 @@ class SetSchoolConfigValueCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'name'         => 'foo',
-            'value'         => 'bar',
+            'name' => 'foo',
+            'value' => 'bar',
         ]);
     }
 }

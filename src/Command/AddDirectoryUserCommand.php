@@ -7,20 +7,26 @@ namespace App\Command;
 use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
-use Exception;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use App\Service\Directory;
+use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * Add a user by looking them up in the directory
  *
  * Class AddDirectoryUserCommand
  */
+#[AsCommand(
+    name: 'ilios:add-directory-user',
+    description: 'Add a user to ilios.',
+    aliases: ['ilios:directory:add-user']
+)]
 class AddDirectoryUserCommand extends Command
 {
     public function __construct(
@@ -35,9 +41,6 @@ class AddDirectoryUserCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:add-directory-user')
-            ->setAliases(['ilios:directory:add-user'])
-            ->setDescription('Add a user to ilios.')
             ->addArgument(
                 'campusId',
                 InputArgument::REQUIRED,
@@ -71,7 +74,7 @@ class AddDirectoryUserCommand extends Command
 
         if (!$userRecord) {
             $output->writeln("<error>Unable to find campus ID {$campusId} in the directory.</error>");
-            return 0;
+            return Command::SUCCESS;
         }
 
         $table = new Table($output);
@@ -121,6 +124,6 @@ class AddDirectoryUserCommand extends Command
             $output->writeln('<comment>Canceled.</comment>');
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

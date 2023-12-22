@@ -8,6 +8,7 @@ use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
@@ -20,6 +21,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class GenerateCurriculumInventoryVerificationPreviewCommand
  * @package App\Command
  */
+#[AsCommand(
+    name: 'ilios:generate-curriculum-inventory-verification-report-preview',
+    description: 'Generates a preview of the verification report tables for a given curriculum inventory report'
+)]
 class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
 {
     /**
@@ -75,17 +80,12 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         );
         $this->printAllResourceTypesTable($output, $preview['all_resource_types']);
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:generate-curriculum-inventory-verification-report-preview')
-            ->setDescription(
-                'Generates a preview of the verification report tables for a given curriculum inventory report'
-            )
-            ->addArgument('reportId', InputArgument::REQUIRED, 'The ID of the CI report to preview.');
+        $this->addArgument('reportId', InputArgument::REQUIRED, 'The ID of the CI report to preview.');
     }
 
     protected function printAllResourceTypesTable(OutputInterface $output, array $data): void
@@ -344,7 +344,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
      * @param OutputInterface $output
      * @param string $title
      */
-    protected function printTableHeadline(OutputInterface $output, $title): void
+    protected function printTableHeadline(OutputInterface $output, string $title): void
     {
         $output->writeln('');
         $output->writeln("<options=bold,underscore>{$title}</>");

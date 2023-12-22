@@ -22,8 +22,6 @@ class FindUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:find-user';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $directory;
 
@@ -35,7 +33,7 @@ class FindUserCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -61,8 +59,7 @@ class FindUserCommandTest extends KernelTestCase
         $this->directory->shouldReceive('find')->with(['a', 'b'])->andReturn([$fakeDirectoryUser]);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'searchTerms'         => ['a', 'b']
+            'searchTerms' => ['a', 'b']
         ]);
 
 
@@ -76,6 +73,6 @@ class FindUserCommandTest extends KernelTestCase
     public function testTermRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

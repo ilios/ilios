@@ -26,8 +26,6 @@ class ChangeUsernameCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:change-username';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
@@ -37,7 +35,6 @@ class ChangeUsernameCommandTest extends KernelTestCase
         parent::setUp();
         $this->userRepository = m::mock(UserRepository::class);
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
-
         $command = new ChangeUsernameCommand(
             $this->userRepository,
             $this->authenticationRepository
@@ -45,7 +42,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -74,8 +71,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
 
@@ -102,8 +98,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
 
@@ -124,8 +119,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
     }
 
@@ -139,8 +133,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
     }
 
@@ -154,8 +147,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
     }
 
@@ -175,8 +167,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
 
@@ -203,8 +194,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
 
@@ -220,14 +210,13 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
     }
 
     public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

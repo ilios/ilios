@@ -21,8 +21,6 @@ class SetupAuthenticationCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:setup-authentication';
-
     protected m\MockInterface $applicationConfigRepository;
     protected CommandTester $commandTester;
 
@@ -37,7 +35,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -58,9 +56,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $this->applicationConfigRepository->shouldReceive('flush')->once();
 
         $this->commandTester->setInputs(['form']);
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);
@@ -91,9 +87,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $this->applicationConfigRepository->shouldReceive('update')->with($verifySslConfig, false)->once();
         $this->applicationConfigRepository->shouldReceive('flush')->once();
         $this->commandTester->setInputs(['cas', 'URL', '3']);
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);
@@ -131,9 +125,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $this->applicationConfigRepository->shouldReceive('update')->with($bindTemplateConfig, false)->once();
         $this->applicationConfigRepository->shouldReceive('flush')->once();
         $this->commandTester->setInputs(['ldap', 'MOON13', 'PORT88', 'uid=?']);
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);
@@ -170,9 +162,7 @@ class SetupAuthenticationCommandTest extends KernelTestCase
         $this->applicationConfigRepository->shouldReceive('update')->with($attributeConfig, false)->once();
         $this->applicationConfigRepository->shouldReceive('flush')->once();
         $this->commandTester->setInputs(['shibboleth', '/LOGIN', '/LOGOUT', 'cn1']);
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('How will your users authentication to Ilios (defaults to form)?', $output);

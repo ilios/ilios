@@ -26,8 +26,6 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:invalidate-user-tokens';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
     protected CommandTester $commandTester;
@@ -42,7 +40,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -70,8 +68,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -103,8 +100,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -119,14 +115,13 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
     }
 
     public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

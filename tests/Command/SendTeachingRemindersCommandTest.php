@@ -44,8 +44,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:send-teaching-reminders';
-
     protected m\MockInterface $fakeOfferingRepository;
     protected m\MockInterface $fakeSchoolRepository;
     protected m\MockInterface $mailer;
@@ -81,7 +79,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->testDir
         );
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 

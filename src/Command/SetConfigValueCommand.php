@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,6 +20,11 @@ use Symfony\Component\Console\Input\InputArgument;
  * Class SetConfigValueCommand
  * @package App\Command
  */
+#[AsCommand(
+    name: 'ilios:set-config-value',
+    description: 'Set a configuration value in the DB',
+    aliases: ['ilios:maintenance:set-config-value'],
+)]
 class SetConfigValueCommand extends Command
 {
     /**
@@ -32,9 +38,6 @@ class SetConfigValueCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:set-config-value')
-            ->setAliases(['ilios:maintenance:set-config-value'])
-            ->setDescription('Set a configuration value in the DB')
             //required arguments
             ->addArgument(
                 'name',

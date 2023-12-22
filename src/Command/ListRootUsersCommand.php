@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Repository\UserRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,24 +16,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Class ListRootUsersCommand
  */
+#[AsCommand(
+    name: 'ilios:list-root-users',
+    description: 'Lists all users with root-level privileges.',
+    aliases: ['ilios:maintenance:list-root-users']
+)]
 class ListRootUsersCommand extends Command
 {
-    /**
-     * @var string
-     */
-    public const COMMAND_NAME = 'ilios:list-root-users';
-
     public function __construct(protected UserRepository $userRepository)
     {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName(self::COMMAND_NAME)
-            ->setAliases(['ilios:maintenance:list-root-users'])
-            ->setDescription('Lists all users with root-level privileges.');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -41,7 +34,7 @@ class ListRootUsersCommand extends Command
 
         if (empty($users)) {
             $output->writeln("No users with root-level privileges found.");
-            return 0;
+            return Command::SUCCESS;
         }
 
         $rows = array_map(fn($dto) => [
@@ -60,6 +53,6 @@ class ListRootUsersCommand extends Command
         ;
         $table->render();
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,6 +21,11 @@ use App\Service\Directory;
  *
  * Class SyncUserCommand
  */
+#[AsCommand(
+    name: 'ilios:sync-users',
+    description: 'Sync all users against the directory by their campus ID.',
+    aliases: ['ilios:directory:sync-users'],
+)]
 class SyncAllUsersCommand extends Command
 {
     public function __construct(
@@ -30,14 +36,6 @@ class SyncAllUsersCommand extends Command
         protected EntityManagerInterface $em
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:sync-users')
-            ->setAliases(['ilios:directory:sync-users'])
-            ->setDescription('Sync all users against the directory by their campus ID.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -245,10 +243,10 @@ class SyncAllUsersCommand extends Command
             "{$updated} users updated.</info>"
         );
 
-        return 0;
+        return Command::SUCCESS;
     }
 
-    protected function validateDirectoryRecord(array $record, OutputInterface $output)
+    protected function validateDirectoryRecord(array $record, OutputInterface $output): bool
     {
         $valid = true;
         $requiredFields = ['firstName', 'lastName', 'email', 'username'];

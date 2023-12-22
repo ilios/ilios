@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\UserRoleInterface;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,6 +22,11 @@ use App\Service\Directory;
  *
  * Class SyncFormerStudentsCommand
  */
+#[AsCommand(
+    name: 'ilios:sync-former-students',
+    description: 'Sync former students from the directory.',
+    aliases: ['ilios:directory:sync-former-students'],
+)]
 class SyncFormerStudentsCommand extends Command
 {
     public function __construct(
@@ -34,9 +40,6 @@ class SyncFormerStudentsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:sync-former-students')
-            ->setAliases(['ilios:directory:sync-former-students'])
-            ->setDescription('Sync former students from the directory.')
             ->addArgument(
                 'filter',
                 InputArgument::REQUIRED,
@@ -53,7 +56,7 @@ class SyncFormerStudentsCommand extends Command
 
         if (!$formerStudents) {
             $output->writeln("<error>{$filter} returned no results.</error>");
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln('<info>Found ' . count($formerStudents) . ' former students in the directory.</info>');
 
@@ -63,7 +66,7 @@ class SyncFormerStudentsCommand extends Command
         $usersToUpdate = $notFormerStudents->filter(fn(UserInterface $user) => !$user->isUserSyncIgnore());
         if (!$usersToUpdate->count() > 0) {
             $output->writeln("<info>There are no students to update.</info>");
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln(
             '<info>There are ' .
@@ -100,11 +103,11 @@ class SyncFormerStudentsCommand extends Command
 
             $output->writeln('<info>Former students updated successfully!</info>');
 
-            return 0;
+            return Command::SUCCESS;
         } else {
             $output->writeln('<comment>Update canceled,</comment>');
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 }

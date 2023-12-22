@@ -41,9 +41,16 @@ class AuditLogExportCommandTest extends KernelTestCase
         $application = new Application($kernel);
         $command = new AuditLogExportCommand($this->logger, $this->auditLogRepository);
         $application->add($command);
-
-        $command = $application->find('ilios:export-audit-log');
+        $command = $application->find($command->getName());
         $this->commandTester = new CommandTester($command);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->auditLogRepository);
+        unset($this->commandTester);
+        unset($this->logger);
     }
 
     /**
