@@ -51,7 +51,7 @@ class ListConfigValuesCommand extends Command
             $configs = $this->applicationConfigRepository->findBy([], ['name' => 'asc']);
         } catch (ConnectionException $e) {
             $output->writeln('<error>Unable to connect to database.</error>');
-            $output->writeln($e->getMessage());
+            $output->writeln("<error>{$e->getMessage()}</error>");
         }
         if (empty($configs)) {
             $output->writeln('<error>There are no configuration values in the database.</error>');
@@ -80,6 +80,6 @@ class ListConfigValuesCommand extends Command
         $table->setRows($rows);
         $table->render();
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

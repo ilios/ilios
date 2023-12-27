@@ -55,14 +55,12 @@ class SetSchoolConfigValueCommand extends Command
         $name = $input->getArgument('name');
         $value = $input->getArgument('value');
 
-        /** @var SchoolInterface $school */
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id {$schoolId}.</error>");
             return 1;
         }
 
-        /** @var SchoolConfig $config */
         $config = $this->schoolConfigRepository->findOneBy(['school' => $school->getId(), 'name' => $name]);
         if (!$config) {
             $config = $this->schoolConfigRepository->create();

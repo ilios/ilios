@@ -112,7 +112,6 @@ class CourseRollover
         $newCourse->setAdministrators($origCourse->getAdministrators());
 
         foreach ($newCohortIds as $id) {
-            /** @var CohortInterface $cohort */
             $cohort = $this->cohortRepository->findOneBy(['id' => $id]);
             if (!$cohort) {
                 throw new Exception("There are no cohorts with id {$id}.");

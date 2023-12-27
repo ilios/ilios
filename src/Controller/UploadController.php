@@ -28,7 +28,6 @@ class UploadController extends AbstractController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        /** @var UploadedFile $uploadedFile */
         $uploadedFile = $request->files->get('file');
         if (is_null($uploadedFile)) {
             return new JsonResponse([

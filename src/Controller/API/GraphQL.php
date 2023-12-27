@@ -32,8 +32,8 @@ class GraphQL
         $schema = new Schema([
             'query' => $queryType
         ]);
-        $input = json_decode($request->getContent() ?? '', true);
-        $variableValues = $input['variables'] ?? null;
+        $input = json_decode($request->getContent() ?: '', true);
+        $variableValues = array_key_exists('variables', $input) ? $input['variables'] : null;
         $result = \GraphQL\GraphQL::executeQuery(
             $schema,
             $input['query'] ?? null,

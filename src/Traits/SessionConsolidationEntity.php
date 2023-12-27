@@ -16,10 +16,6 @@ trait SessionConsolidationEntity
     public function getSessions(): Collection
     {
         $session = $this->getSession();
-        if ($session) {
-            return new ArrayCollection([$session]);
-        }
-
-        return new ArrayCollection();
+        return new ArrayCollection([$session]);
     }
 }

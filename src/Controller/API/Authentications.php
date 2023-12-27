@@ -155,20 +155,17 @@ class Authentications
         $userIdsForHashing = array_map(fn($obj) => $obj->user, $needingHashedPassword);
         //prefetch all the users we need for hashing
         $users = [];
-        /** @var UserInterface $user */
         foreach ($this->userRepository->findBy(['id' => $userIdsForHashing]) as $user) {
             $users[$user->getId()] = $user;
         }
 
         $hashedPasswords = [];
         foreach ($arr as $obj) {
-            if (!empty($obj->password) && !empty($obj->user)) {
+            if (!empty($obj->password) && !empty($obj->user) && array_key_exists($obj->user, $users)) {
                 $user = $users[$obj->user];
-                if ($user) {
-                    $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
-                    $hashedPassword = $this->passwordHasher->hashPassword($sessionUser, $obj->password);
-                    $hashedPasswords[$user->getId()] = $hashedPassword;
-                }
+                $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
+                $hashedPassword = $this->passwordHasher->hashPassword($sessionUser, $obj->password);
+                $hashedPasswords[$user->getId()] = $hashedPassword;
             }
             //unset the password here in case it is NULL and didn't satisfy the above condition
             unset($obj->password);
@@ -370,7 +367,6 @@ class Authentications
         }
         $authObject = $requestParser->extractPutDataFromRequest($request, 'authentications');
         if (!empty($authObject->password) && !empty($authObject->user)) {
-            /** @var UserInterface $user */
             $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);
@@ -415,16 +411,13 @@ class Authentications
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
         }
 
-        /** @var Authentication $entity */
         $entity = $this->repository->findOneBy(['user' => $id]);
-
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("authentications/%s was not found.", $id));
         }
 
         $authObject = $requestParser->extractPutDataFromRequest($request, 'authentications');
         if (!empty($authObject->password) && !empty($authObject->user)) {
-            /** @var UserInterface $user */
             $user = $this->userRepository->findOneBy(['id' => $authObject->user]);
             if ($user) {
                 $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($user);

@@ -321,7 +321,7 @@ class Offerings extends AbstractApiController
         $this->repository->update($entity, true, false);
 
         $session = $entity->getSession();
-        if ($session && $session->isPublished()) {
+        if ($session->isPublished()) {
             if (Response::HTTP_CREATED === $code) {
                 $this->createAlertForNewOffering($entity);
             } else {
@@ -357,9 +357,7 @@ class Offerings extends AbstractApiController
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
         }
 
-        /** @var OfferingInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
-
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }

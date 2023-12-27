@@ -19,7 +19,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * Change a users's password
+ * Change a user's password
  */
 class ChangePasswordCommand extends Command
 {
@@ -51,7 +51,6 @@ class ChangePasswordCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $userId = $input->getArgument('userId');
-        /** @var UserInterface $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception(

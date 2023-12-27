@@ -7,6 +7,7 @@ namespace App\Service\GraphQL;
 use App\Attributes\Id;
 use App\Service\EntityMetadata;
 use Doctrine\Inflector\Inflector;
+use Exception;
 use GraphQL\Type\Definition\IDType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
@@ -104,6 +105,7 @@ class TypeRegistry
                     'float' => Type::float(),
                     'dateTime' => DateTimeType::getInstance(),
                     'array<dto>', 'array<string>', 'array' => Type::listOf(Type::string()),
+                    default => throw new Exception("Unhandled property type $type encountered."),
                 },
                 'resolve' => $this->fieldResolver,
             ];
@@ -122,10 +124,12 @@ class TypeRegistry
         $filters[$propertyName] = ['type' => match ($type) {
             'string' => IDType::string(),
             'integer' => IDType::int(),
+            default => throw new Exception("Unhandled property type $type encountered."),
         } ];
         $filters[$this->inflector->pluralize($propertyName)] = ['type' => Type::listOf(match ($type) {
             'string' => IDType::string(),
             'integer' => IDType::int(),
+            default => throw new Exception("Unhandled property type $type encountered."),
         }) ];
 
         $notIdProperties = array_diff($exposedProperties, $idProperties);
@@ -152,6 +156,7 @@ class TypeRegistry
             'array<integer>' => Type::listOf(Type::int()),
             'float' => Type::float(),
             'dateTime' => DateTimeType::getInstance(),
+            default => throw new Exception("Unhandled property type $type encountered."),
         };
     }
 

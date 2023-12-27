@@ -104,7 +104,7 @@ class ChangeAlertHandler
         if (empty($changeTypes)) {
             return;
         }
-        array_unique($changeTypes);
+        $changeTypes = array_unique($changeTypes);
 
         $alert = $this->alertRepository->findOneBy([
             'dispatched' => false,
@@ -114,9 +114,6 @@ class ChangeAlertHandler
 
         if (! $alert) {
             $recipient = $offering->getSchool();
-            if (! $recipient) {
-                return; // SOL.
-            }
             $alert = $this->alertRepository->create();
             $alert->addRecipient($recipient);
             $alert->setTableName('offering');

@@ -3,6 +3,9 @@ parameters:
         container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
         consoleApplicationLoader: tests/phpstan-console-application.php
     paths:
-        - src
-    level: 3
+        - bin/
+        - config/
+        - public/
+        - src/
+    level: 4
     reportUnmatchedIgnoredErrors: true

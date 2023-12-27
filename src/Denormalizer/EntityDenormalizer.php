@@ -60,7 +60,7 @@ class EntityDenormalizer implements DenormalizerInterface
                 unset($data[$name]);
                 try {
                     $propertyAccessor->setValue($entity, $name, $value);
-                } catch (TypeError $exception) {
+                } catch (TypeError $exception) { /** @phpstan-ignore-line */
                     $type = $this->entityMetadata->getTypeOfProperty($property);
                     if (null !== $value or 'entity' !== $type) {
                         throw $exception;

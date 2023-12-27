@@ -180,7 +180,6 @@ class SyncAllUsersCommand extends Command
                     $output->writeln(
                         '  <comment>[I] User had no authentication data, creating it now.</comment>'
                     );
-                    /** @var AuthenticationInterface $duplicate */
                     $duplicate = $this->authenticationRepository->findOneBy(['username' => $recordArray['username']]);
                     if ($duplicate) {
                         $duplicateAuthenticationExists = true;

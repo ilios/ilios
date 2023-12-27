@@ -6,6 +6,7 @@ namespace App\Traits;
 
 use App\Service\DTOCacheManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
@@ -165,6 +166,9 @@ trait ManagerRepository
         return $this->getEntityManager()->contains($entity);
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

@@ -60,7 +60,6 @@ class SetupAuthenticationCommand extends Command
         }
 
         foreach ($parameters as $name => $value) {
-            /** @var ApplicationConfig $config */
             $config = $this->applicationConfigRepository->findOneBy(['name' => $name]);
             if (!$config) {
                 $config = $this->applicationConfigRepository->create();

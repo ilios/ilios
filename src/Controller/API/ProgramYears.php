@@ -399,7 +399,6 @@ class ProgramYears extends AbstractApiController
         string $version,
         int $id
     ): Response {
-        /** @var ProgramYearDTO $dto */
         $dto = $this->repository->findDTOBy(['id' => $id]);
 
         if (! $dto) {

@@ -61,7 +61,6 @@ class EntityNormalizer implements NormalizerInterface
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'dateTime') {
-            /** @var DateTime $value */
             if ($value) {
                 return $value->format('c');
             }

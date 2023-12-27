@@ -10,6 +10,7 @@ use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
@@ -84,15 +85,16 @@ class ListConfigValuesCommandTest extends KernelTestCase
             '/\sDatabase URL\s|\smysql\s/',
             $output
         );
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
     public function testExecuteWithConnectionException()
     {
-        $connectionException = m::mock(ConnectionException::class);
+        $exception = m::mock(ConnectionException::class);
         $this->applicationConfigRepository->shouldReceive('findBy')
             ->with([], ['name' => 'asc'])
             ->once()
-            ->andThrow($connectionException);
+            ->andThrow($exception);
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME
@@ -114,5 +116,6 @@ class ListConfigValuesCommandTest extends KernelTestCase
             '/\sDatabase URL\s|\smysql\s/',
             $output
         );
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 }

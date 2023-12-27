@@ -424,7 +424,6 @@ class LearningMaterials
         SerializerInterface $serializer
     ): Response {
         $this->validateCurrentUserAsSessionUser();
-        /** @var LearningMaterialInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
@@ -483,7 +482,6 @@ class LearningMaterials
         if (!in_array("application/vnd.api+json", $type)) {
             throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
         }
-        /** @var LearningMaterialInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if (!$entity) {

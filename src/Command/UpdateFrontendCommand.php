@@ -31,7 +31,6 @@ use function is_dir;
  */
 class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {
-    private const ACTIVE_FRONTEND_VERSION_DIRECTORY = '/active/';
     private const UNPACKED_DIRECTORY = '/deploy-dist/';
     private const FRONTEND_FILES = '/var/frontend/';
 

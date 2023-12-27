@@ -47,7 +47,7 @@ class TemporaryFileSystem
     /**
      * Create a temporary file from a string
      */
-    public function createFile(string $contents): File
+    public function createFile(string $contents): File|bool
     {
         $hash = md5($contents);
         $path = $this->getPath($hash);

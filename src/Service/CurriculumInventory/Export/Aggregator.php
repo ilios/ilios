@@ -125,11 +125,7 @@ class Aggregator
         }
 
         $school  = $program->getSchool();
-        if (! $school) {
-            throw new Exception('No school found for program with id = ' . $program->getId() . '.');
-        }
 
-        /** @var CurriculumInventoryInstitutionInterface $institution */
         $institution = $this->institutionRepository->findOneBy(['school' => $school->getId()]);
         if (! $institution) {
             throw new Exception(

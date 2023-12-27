@@ -163,7 +163,7 @@ class ChangeAlertHandlerTest extends TestCase
         $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION]])
-            ->times(3)
+            ->once()
             ->andReturn($locationChangeType);
 
         $this->mockAlertChangeTypeRepository
@@ -261,25 +261,25 @@ class ChangeAlertHandlerTest extends TestCase
         $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION]])
-            ->times(3)
+            ->once()
             ->andReturn($locationChangeType);
 
         $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_TIME]])
-            ->times(2)
+            ->once()
             ->andReturn($timeChangeType);
 
         $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP ]])
-            ->times(2)
+            ->once()
             ->andReturn($learnerGroupChangeType);
 
         $this->mockAlertChangeTypeRepository
             ->shouldReceive('findOneBy')
             ->withArgs([['id' => AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR ]])
-            ->times(2)
+            ->once()
             ->andReturn($instructorChangeType);
 
         $this->changeAlertHandler->createOrUpdateAlertForUpdatedOffering(

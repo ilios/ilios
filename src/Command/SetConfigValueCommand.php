@@ -63,7 +63,6 @@ class SetConfigValueCommand extends Command
             throw new RuntimeException("'value' is required");
         }
 
-        /** @var ApplicationConfig $config */
         $config = $this->applicationConfigRepository->findOneBy(['name' => $name]);
 
         if ($isRemoving) {

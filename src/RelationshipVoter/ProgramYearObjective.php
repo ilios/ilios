@@ -44,14 +44,11 @@ class ProgramYearObjective extends AbstractVoter
         switch ($attribute) {
             case VoterPermissions::VIEW:
                 return true;
-                break;
             case VoterPermissions::CREATE:
             case VoterPermissions::EDIT:
             case VoterPermissions::DELETE:
-                /* @var ProgramYearInterface $programYear */
                 $programYear = $subject->getProgramYear();
                 return $this->permissionChecker->canUpdateProgramYear($user, $programYear);
-                break;
         }
 
         return false;
