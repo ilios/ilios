@@ -104,6 +104,18 @@ class ListConfigValuesCommandTest extends KernelTestCase
             '/^Unable to connect to database./',
             $output
         );
-        $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
+        $this->assertMatchesRegularExpression(
+            '/\sEnvironment\s|\sTESTING123\s/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/\sKernel Secret\s|\sSECRET\s/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/\sDatabase URL\s|\smysql\s/',
+            $output
+        );
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 }

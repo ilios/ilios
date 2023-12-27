@@ -52,7 +52,6 @@ class ListConfigValuesCommand extends Command
         } catch (ConnectionException $e) {
             $output->writeln('<error>Unable to connect to database.</error>');
             $output->writeln("<error>{$e->getMessage()}</error>");
-            return Command::FAILURE;
         }
         if (empty($configs)) {
             $output->writeln('<error>There are no configuration values in the database.</error>');
