@@ -20,26 +20,28 @@ class IngestionExceptionTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(m::mock(IngestionExceptionInterface::class), [VoterPermissions::VIEW]);
     }
 
 
-    public function testCanView()
+    public function testCanView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IngestionExceptionInterface::class);
-        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+        $user->shouldReceive('performsNonLearnerFunction')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanNotView()
+    public function testCanNotView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IngestionExceptionInterface::class);
-        $token->getUser()->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $user->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }

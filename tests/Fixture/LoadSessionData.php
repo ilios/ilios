@@ -10,30 +10,21 @@ use App\Entity\Session;
 use App\Entity\SessionType;
 use App\Entity\Term;
 use App\Entity\User;
+use App\Tests\DataLoader\SessionData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadSessionData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadSessionData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected SessionData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\SessionData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new Session();
             $entity->setId($arr['id']);
@@ -91,14 +82,14 @@ class LoadSessionData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadSessionTypeData',
-            'App\Tests\Fixture\LoadCourseData',
-            'App\Tests\Fixture\LoadMeshDescriptorData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadUserData',
+            LoadSessionTypeData::class,
+            LoadCourseData::class,
+            LoadMeshDescriptorData::class,
+            LoadTermData::class,
+            LoadUserData::class,
         ];
     }
 }

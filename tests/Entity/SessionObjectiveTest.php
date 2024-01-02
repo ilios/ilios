@@ -16,23 +16,24 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class SessionObjectiveTest extends EntityBase
 {
-    /**
-     * @var SessionObjective
-     */
-    protected $object;
+    protected SessionObjective $object;
 
-    /**
-     * Instantiate a SessionObjective object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new SessionObjective();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
      * @covers \App\Entity\SessionObjective::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEquals(0, $this->object->getPosition());
         $this->assertEquals(true, $this->object->isActive());
@@ -41,7 +42,7 @@ class SessionObjectiveTest extends EntityBase
         $this->assertEmpty($this->object->getDescendants());
     }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $this->object->setSession(new Session());
         $notBlank = [
@@ -53,7 +54,7 @@ class SessionObjectiveTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $this->object->setTitle('foo');
         $notNull = [
@@ -69,7 +70,7 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::setTitle
      * @covers \App\Entity\SessionObjective::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $title = 'foo';
         $this->object->setTitle($title);
@@ -80,7 +81,7 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::setSession
      * @covers \App\Entity\SessionObjective::getSession
      */
-    public function testSetSession()
+    public function testSetSession(): void
     {
         $this->entitySetTest('session', 'Session');
     }
@@ -89,7 +90,7 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::setPosition
      * @covers \App\Entity\SessionObjective::getPosition
      */
-    public function testSetPosition()
+    public function testSetPosition(): void
     {
         $position = 5;
         $this->object->setPosition(5);
@@ -98,7 +99,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
@@ -106,7 +107,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
@@ -115,7 +116,7 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::getTerms
      * @covers \App\Entity\SessionObjective::setTerms
      */
-    public function testSetTerms()
+    public function testSetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
@@ -123,7 +124,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::addMeshDescriptor
      */
-    public function testAddMeshDescriptor()
+    public function testAddMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
         $this->assertEmpty($this->object->getMeshDescriptors());
@@ -134,7 +135,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::removeMeshDescriptor
      */
-    public function testRemoveMeshDescriptor()
+    public function testRemoveMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
         $this->assertEmpty($this->object->getMeshDescriptors());
@@ -147,7 +148,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::getMeshDescriptors
      */
-    public function testGetMeshDescriptors()
+    public function testGetMeshDescriptors(): void
     {
         $meshDescriptors = [];
         for ($i = 0; $i < 10; $i++) {
@@ -163,7 +164,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::addCourseObjective
      */
-    public function testAddCourseObjective()
+    public function testAddCourseObjective(): void
     {
         $courseObjective = new CourseObjective();
         $this->assertEmpty($this->object->getCourseObjectives());
@@ -176,7 +177,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::removeCourseObjective
      */
-    public function testRemoveCourseObjective()
+    public function testRemoveCourseObjective(): void
     {
         $courseObjective = new CourseObjective();
         $this->assertEmpty($this->object->getCourseObjectives());
@@ -190,7 +191,7 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::getCourseObjectives
      * @covers \App\Entity\SessionObjective::setCourseObjectives
      */
-    public function testGetCourseObjectives()
+    public function testGetCourseObjectives(): void
     {
         $courseObjectives = [];
         for ($i = 0; $i < 10; $i++) {
@@ -207,7 +208,7 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::setAncestor
      * @covers \App\Entity\SessionObjective::getAncestor
      */
-    public function testSetAncestor()
+    public function testSetAncestor(): void
     {
         $ancestor = new SessionObjective();
         $this->object->setAncestor($ancestor);
@@ -217,7 +218,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::getAncestorOrSelf
      */
-    public function testGetAncestorOrSelfWithAncestor()
+    public function testGetAncestorOrSelfWithAncestor(): void
     {
         $ancestor = new SessionObjective();
         $this->object->setAncestor($ancestor);
@@ -227,7 +228,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::getAncestorOrSelf
      */
-    public function testGetAncestorOrSelfWithNoAncestor()
+    public function testGetAncestorOrSelfWithNoAncestor(): void
     {
         $this->assertSame($this->object, $this->object->getAncestorOrSelf());
     }
@@ -235,7 +236,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::addDescendant
      */
-    public function testAddDescendant()
+    public function testAddDescendant(): void
     {
         $descendant = new SessionObjective();
         $this->assertEmpty($this->object->getDescendants());
@@ -246,7 +247,7 @@ class SessionObjectiveTest extends EntityBase
     /**
      * @covers \App\Entity\SessionObjective::removeDescendant
      */
-    public function testRemoveDescendant()
+    public function testRemoveDescendant(): void
     {
         $descendant = new SessionObjective();
         $this->assertEmpty($this->object->getDescendants());
@@ -260,7 +261,7 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::getDescendants
      * @covers \App\Entity\SessionObjective::setDescendants
      */
-    public function testGetDescendants()
+    public function testGetDescendants(): void
     {
         $descendants = [];
         for ($i = 0; $i < 10; $i++) {
@@ -277,10 +278,15 @@ class SessionObjectiveTest extends EntityBase
      * @covers \App\Entity\SessionObjective::setActive
      * @covers \App\Entity\SessionObjective::isActive
      */
-    public function testSetActive()
+    public function testSetActive(): void
     {
         $this->assertTrue($this->object->isActive());
         $this->object->setActive(false);
         $this->assertFalse($this->object->isActive());
+    }
+
+    protected function getObject(): SessionObjective
+    {
+        return $this->object;
     }
 }

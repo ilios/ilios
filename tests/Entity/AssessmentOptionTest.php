@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AssessmentOption;
-use Mockery as m;
 
 /**
  * Tests for Entity AssessmentOption
@@ -13,21 +12,21 @@ use Mockery as m;
  */
 class AssessmentOptionTest extends EntityBase
 {
-    /**
-     * @var AssessmentOption
-     */
-    protected $object;
+    protected AssessmentOption $object;
 
-    /**
-     * Instantiate a AssessmentOption object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AssessmentOption();
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
 
-    public function testNotBlankValidation()
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name'
@@ -41,7 +40,7 @@ class AssessmentOptionTest extends EntityBase
     /**
      * @covers \App\Entity\AssessmentOption::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getSessionTypes());
     }
@@ -50,7 +49,7 @@ class AssessmentOptionTest extends EntityBase
      * @covers \App\Entity\AssessmentOption::setName
      * @covers \App\Entity\AssessmentOption::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -58,7 +57,7 @@ class AssessmentOptionTest extends EntityBase
     /**
      * @covers \App\Entity\AssessmentOption::addSessionType
      */
-    public function testAddSessionType()
+    public function testAddSessionType(): void
     {
         $this->entityCollectionAddTest('sessionType', 'SessionType');
     }
@@ -66,7 +65,7 @@ class AssessmentOptionTest extends EntityBase
     /**
      * @covers \App\Entity\AssessmentOption::removeSessionType
      */
-    public function testRemoveSessionType()
+    public function testRemoveSessionType(): void
     {
         $this->entityCollectionRemoveTest('sessionType', 'SessionType');
     }
@@ -74,8 +73,13 @@ class AssessmentOptionTest extends EntityBase
     /**
      * @covers \App\Entity\AssessmentOption::getSessionTypes
      */
-    public function testGetSessionTypes()
+    public function testGetSessionTypes(): void
     {
         $this->entityCollectionSetTest('sessionType', 'SessionType');
+    }
+
+    protected function getObject(): AssessmentOption
+    {
+        return $this->object;
     }
 }

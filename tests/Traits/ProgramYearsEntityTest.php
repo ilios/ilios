@@ -16,10 +16,7 @@ use App\Tests\TestCase;
 
 class ProgramYearsEntityTest extends TestCase
 {
-    /**
-     * @var ProgramYearsEntity
-     */
-    private $traitObject;
+    private object $traitObject;
     public function setUp(): void
     {
         parent::setUp();

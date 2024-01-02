@@ -16,10 +16,7 @@ use App\Tests\TestCase;
 
 class ConceptsEntityTest extends TestCase
 {
-    /**
-     * @var ConceptsEntity
-     */
-    private $traitObject;
+    private object $traitObject;
     public function setUp(): void
     {
         parent::setUp();

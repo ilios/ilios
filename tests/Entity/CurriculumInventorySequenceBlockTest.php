@@ -17,20 +17,21 @@ use Mockery as m;
  */
 class CurriculumInventorySequenceBlockTest extends EntityBase
 {
-    /**
-     * @var CurriculumInventorySequenceBlock
-     */
-    protected $object;
+    protected CurriculumInventorySequenceBlock $object;
 
-    /**
-     * Instantiate a CurriculumInventorySequenceBlock object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventorySequenceBlock();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title',
@@ -51,7 +52,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNulls = [
             'report'
@@ -73,7 +74,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getChildren());
         $this->assertEmpty($this->object->getSessions());
@@ -83,7 +84,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setRequired
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getRequired
      */
-    public function testSetRequired()
+    public function testSetRequired(): void
     {
         $this->basicSetTest('required', 'integer');
     }
@@ -92,7 +93,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setChildSequenceOrder
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getChildSequenceOrder
      */
-    public function testSetChildSequenceOrder()
+    public function testSetChildSequenceOrder(): void
     {
         $this->basicSetTest('childSequenceOrder', 'integer');
     }
@@ -101,7 +102,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setOrderInSequence
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getOrderInSequence
      */
-    public function testSetOrderInSequence()
+    public function testSetOrderInSequence(): void
     {
         $this->basicSetTest('orderInSequence', 'integer');
     }
@@ -110,7 +111,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setMinimum
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getMinimum
      */
-    public function testSetMinimum()
+    public function testSetMinimum(): void
     {
         $this->basicSetTest('minimum', 'integer');
     }
@@ -119,7 +120,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setMaximum
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getMaximum
      */
-    public function testSetMaximum()
+    public function testSetMaximum(): void
     {
         $this->basicSetTest('maximum', 'integer');
     }
@@ -128,7 +129,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setTrack
      * @covers \App\Entity\CurriculumInventorySequenceBlock::hasTrack
      */
-    public function testSetTrack()
+    public function testSetTrack(): void
     {
         $this->booleanSetTest('track', false);
     }
@@ -137,7 +138,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setDescription
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -146,7 +147,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setTitle
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -155,7 +156,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartDate
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartDate
      */
-    public function testSetStartDate()
+    public function testSetStartDate(): void
     {
         $this->basicSetTest('startDate', 'datetime');
     }
@@ -164,7 +165,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setEndDate
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getEndDate
      */
-    public function testSetEndDate()
+    public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
     }
@@ -173,7 +174,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setDuration
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getDuration
      */
-    public function testSetDuration()
+    public function testSetDuration(): void
     {
         $this->basicSetTest('duration', 'integer');
     }
@@ -182,7 +183,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartingAcademicLevel
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartingAcademicLevel
      */
-    public function testSetStartingAcademicLevel()
+    public function testSetStartingAcademicLevel(): void
     {
         $this->entitySetTest('startingAcademicLevel', 'CurriculumInventoryAcademicLevel');
     }
@@ -191,7 +192,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartingAcademicLevel
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartingAcademicLevel
      */
-    public function testSetEndingAcademicLevel()
+    public function testSetEndingAcademicLevel(): void
     {
         $this->entitySetTest('endingAcademicLevel', 'CurriculumInventoryAcademicLevel');
     }
@@ -200,7 +201,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setCourse
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getCourse
      */
-    public function testSetCourse()
+    public function testSetCourse(): void
     {
         $this->entitySetTest('course', 'Course');
     }
@@ -209,7 +210,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setParent
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getParent
      */
-    public function testSetParent()
+    public function testSetParent(): void
     {
         $this->entitySetTest('parent', 'CurriculumInventorySequenceBlock');
     }
@@ -218,7 +219,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setReport
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getReport
      */
-    public function testSetReport()
+    public function testSetReport(): void
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');
     }
@@ -235,7 +236,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
         $expected
-    ) {
+    ): void {
         $this->assertEquals(
             $expected,
             CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy($blockA, $blockB)
@@ -283,7 +284,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
         $expected
-    ) {
+    ): void {
         $this->assertEquals(
             $expected,
             CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy($blockA, $blockB)
@@ -368,7 +369,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::addChild
      */
-    public function testAddChild()
+    public function testAddChild(): void
     {
         $this->entityCollectionAddTest('child', 'CurriculumInventorySequenceBlock', 'getChildren');
     }
@@ -376,7 +377,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::removeChild
      */
-    public function testRemoveChild()
+    public function testRemoveChild(): void
     {
         $this->entityCollectionRemoveTest('child', 'CurriculumInventorySequenceBlock', 'getChildren');
     }
@@ -385,7 +386,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getChildren
      * @covers \App\Entity\CurriculumInventorySequenceBlock::setChildren
      */
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
         $this->entityCollectionSetTest('child', 'CurriculumInventorySequenceBlock', 'getChildren', 'setChildren');
     }
@@ -393,7 +394,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::addSession
      */
-    public function testAddSession()
+    public function testAddSession(): void
     {
         $this->entityCollectionAddTest('session', 'Session');
     }
@@ -401,7 +402,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::removeSession
      */
-    public function testRemoveSession()
+    public function testRemoveSession(): void
     {
         $this->entityCollectionRemoveTest('session', 'Session');
     }
@@ -409,7 +410,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getSessions
      */
-    public function testGetSessions()
+    public function testGetSessions(): void
     {
         $this->entityCollectionSetTest('session', 'Session');
     }
@@ -417,7 +418,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::addExcludedSession
      */
-    public function testAddExcludedSession()
+    public function testAddExcludedSession(): void
     {
         $this->entityCollectionAddTest('excludedSession', 'Session');
     }
@@ -425,7 +426,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::removeExcludedSession
      */
-    public function testRemoveExcludedSession()
+    public function testRemoveExcludedSession(): void
     {
         $this->entityCollectionRemoveTest('excludedSession', 'Session');
     }
@@ -433,8 +434,13 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventorySequenceBlock::getExcludedSessions
      */
-    public function testGetExcludedSessions()
+    public function testGetExcludedSessions(): void
     {
         $this->entityCollectionSetTest('excludedSession', 'Session');
+    }
+
+    protected function getObject(): CurriculumInventorySequenceBlock
+    {
+        return $this->object;
     }
 }

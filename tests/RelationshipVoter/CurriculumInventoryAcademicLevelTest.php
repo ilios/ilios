@@ -20,7 +20,7 @@ class CurriculumInventoryAcademicLevelTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(
             m::mock(CurriculumInventoryAcademicLevelInterface::class),
@@ -28,9 +28,10 @@ class CurriculumInventoryAcademicLevelTest extends AbstractBase
         );
     }
 
-    public function testCanView()
+    public function testCanView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CurriculumInventoryAcademicLevelInterface::class);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");

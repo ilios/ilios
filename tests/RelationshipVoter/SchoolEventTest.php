@@ -16,193 +16,183 @@ class SchoolEventTest extends AbstractBase
     public function setUp(): void
     {
         parent::setUp();
-        /* @var SessionUserPermissionChecker $permissionChecker */
         $this->permissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(m::mock(SchoolEvent::class), [VoterPermissions::VIEW]);
     }
 
-    public function testCanViewPublishedSchoolEventInCurrentUsersPrimarySchool()
+    public function testCanViewPublishedSchoolEventInCurrentUsersPrimarySchool(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->isPublished = true;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserIsSchoolAdministratorInEventowningSchool()
+    public function testCanViewUnpublishedEventsIfCurrentUserIsSchoolAdministratorInOwningSchool(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserIsSchoolDirectorInEventowningSchool()
+    public function testCanViewUnpublishedEventsIfCurrentUserIsSchoolDirectorInOwningSchool(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserisDirectingProgramLinkedToEventowningCoursel()
+    public function testCanViewUnpublishedEventsIfCurrentUserisDirectingProgramLinkedToOwningCourse(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserIsCourseAdministratorInEventowningCourse()
+    public function testCanViewUnpublishedEventsIfCurrentUserIsCourseAdministratorInOwningCourse(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->course = 2;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserIsCourseDirectorInEventowningCourse()
+    public function testCanViewUnpublishedEventsIfCurrentUserIsCourseDirectorInOwningCourse(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->course = 2;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserIsSessionAdministratorInEventowningSession()
+    public function testCanViewUnpublishedEventsIfCurrentUserIsSessionAdministratorInOwningSession(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->course = 2;
         $entity->session = 3;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserIsInstructorInEventowningOffering()
+    public function testCanViewUnpublishedEventsIfCurrentUserIsInstructorInOwningOffering(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->course = 2;
         $entity->session = 3;
         $entity->offering = 4;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewUnpublishedEventsIfCurrentUserIsInstructorInEventowningIlm()
+    public function testCanViewUnpublishedEventsIfCurrentUserIsInstructorInOwningIlm(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->course = 2;
@@ -211,15 +201,15 @@ class SchoolEventTest extends AbstractBase
         $entity->ilmSession = 5;
 
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
@@ -227,13 +217,12 @@ class SchoolEventTest extends AbstractBase
     }
 
 
-    public function testCanNotViewUnpublishedSchoolEventsIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent()
+    public function testCanNotViewUnpublishedSchoolEventsIfCurrentUserIsNotAdminDirectorOrInstructorToEvent(): void
     {
         $schoolId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
-        $sessionUser = $token->getUser();
 
         $entity->school = $schoolId;
         $entity->course = 1;
@@ -241,422 +230,422 @@ class SchoolEventTest extends AbstractBase
         $entity->offering = 1;
         $entity->ilmSession = 1;
         $entity->isPublished = false;
-        $sessionUser->shouldReceive('getSchoolId')->andReturn($entity->school);
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+        $user->shouldReceive('getSchoolId')->andReturn($entity->school);
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
 
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
-    public function testCanViewDraftDataIfCurrentUserIsSchoolAdministratorInEventowningSchool()
+    public function testCanViewDraftDataIfCurrentUserIsSchoolAdministratorInOwningSchool(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewDraftDataIfCurrentUserIsSchoolDirectorInEventowningSchool()
+    public function testCanViewDraftDataIfCurrentUserIsSchoolDirectorInOwningSchool(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewDraftDataIfCurrentUserisDirectingProgramLinkedToEventowningCoursel()
+    public function testCanViewDraftDataIfCurrentUserisDirectingProgramLinkedToOwningCoursel(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewDraftDataIfCurrentUserIsCourseAdministratorInEventowningCourse()
+    public function testCanViewDraftDataIfCurrentUserIsCourseAdministratorInOwningCourse(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
-        $entity = m::mock(SchoolEvent::class);
-        $entity->school = 2;
-        $entity->course = 3;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
-
-        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
-
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
-    }
-
-    public function testCanViewDraftDataIfCurrentUserIsCourseDirectorInEventowningCourse()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewDraftDataIfCurrentUserIsSessionAdministratorInEventowningSession()
+    public function testCanViewDraftDataIfCurrentUserIsCourseDirectorInOwningCourse(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
-        $entity->session = 4;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewDraftDataIfCurrentUserIsInstructorInEventowningOffering()
+    public function testCanViewDraftDataIfCurrentUserIsSessionAdministratorInOwningSession(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
-        $entity->offering = 5;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewDraftDataIfCurrentUserIsInstructorInEventowningIlm()
+    public function testCanViewDraftDataIfCurrentUserIsInstructorInOwningOffering(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
         $entity->offering = 5;
-        $entity->ilmSession = 6;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanNotViewDraftDataIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent()
+    public function testCanViewDraftDataIfCurrentUserIsInstructorInOwningIlm(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
         $entity->offering = 5;
         $entity->ilmSession = 6;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanNotViewDraftDataIfCurrentUserIsNotAdministratorDirectorOrInstructorToEvent(): void
+    {
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_DRAFT_CONTENTS]);
 
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "View denied");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsSchoolAdministratorInEventowningSchool()
+    public function testCanViewVirtualLinkIfCurrentUserIsSchoolAdministratorInOwningSchool(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsSchoolDirectorInEventowningSchool()
+    public function testCanViewVirtualLinkIfCurrentUserIsSchoolDirectorInOwningSchool(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserisDirectingProgramLinkedToEventowningCoursel()
+    public function testCanViewVirtualLinkIfCurrentUserisDirectingProgramLinkedToOwningCourse(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsCourseAdministratorInEventowningCourse()
+    public function testCanViewVirtualLinkIfCurrentUserIsCourseAdministratorInOwningCourse(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
-        $entity = m::mock(SchoolEvent::class);
-        $entity->school = 2;
-        $entity->course = 3;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
-
-        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
-
-        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
-    }
-
-    public function testCanViewVirtualLinkIfCurrentUserIsCourseDirectorInEventowningCourse()
-    {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsSessionAdministratorInEventowningSession()
+    public function testCanViewVirtualLinkIfCurrentUserIsCourseDirectorInOwningCourse(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
-        $entity->session = 4;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsInstructorInEventowningOffering()
+    public function testCanViewVirtualLinkIfCurrentUserIsSessionAdministratorInOwningSession(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
-        $entity->offering = 5;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsInstructorInEventowningIlm()
+    public function testCanViewVirtualLinkIfCurrentUserIsInstructorInOwningOffering(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
         $entity->offering = 5;
-        $entity->ilmSession = 6;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsIlmLearnerInEvent()
+    public function testCanViewVirtualLinkIfCurrentUserIsInstructorInOwningIlm(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
         $entity->offering = 5;
         $entity->ilmSession = 6;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
-        $sessionUser->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanViewVirtualLinkIfCurrentUserIsOfferingLearnerInEvent()
+    public function testCanViewVirtualLinkIfCurrentUserIsIlmLearnerInEvent(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
         $entity->offering = 5;
         $entity->ilmSession = 6;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
-        $sessionUser->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(false);
-        $sessionUser->shouldReceive('isLearnerInOffering')->with($entity->offering)->andReturn(true);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+        $user->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(true);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanNotViewVirtualLinkIfCurrentUserIsNotAssociatedWithEvent()
+    public function testCanViewVirtualLinkIfCurrentUserIsOfferingLearnerInEvent(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        /* @var SchoolEvent $entity */
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(SchoolEvent::class);
         $entity->school = 2;
         $entity->course = 3;
         $entity->session = 4;
         $entity->offering = 5;
         $entity->ilmSession = 6;
-        $sessionUser = $token->getUser();
-        $sessionUser->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
-        $sessionUser->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
-        $sessionUser->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
-        $sessionUser->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(false);
-        $sessionUser->shouldReceive('isLearnerInOffering')->with($entity->offering)->andReturn(false);
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+        $user->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(false);
+        $user->shouldReceive('isLearnerInOffering')->with($entity->offering)->andReturn(true);
+
+        $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
+
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
+    }
+
+    public function testCanNotViewVirtualLinkIfCurrentUserIsNotAssociatedWithEvent(): void
+    {
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
+        $entity = m::mock(SchoolEvent::class);
+        $entity->school = 2;
+        $entity->course = 3;
+        $entity->session = 4;
+        $entity->offering = 5;
+        $entity->ilmSession = 6;
+
+        $user->shouldReceive('isAdministeringSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingSchool')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isDirectingProgramLinkedToCourse')->with($entity->school)->andReturn(false);
+        $user->shouldReceive('isAdministeringCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isDirectingCourse')->with($entity->course)->andReturn(false);
+        $user->shouldReceive('isAdministeringSession')->with($entity->session)->andReturn(false);
+        $user->shouldReceive('isInstructingOffering')->with($entity->offering)->andReturn(false);
+        $user->shouldReceive('isInstructingIlm')->with($entity->ilmSession)->andReturn(false);
+        $user->shouldReceive('isLearnerInIlm')->with($entity->ilmSession)->andReturn(false);
+        $user->shouldReceive('isLearnerInOffering')->with($entity->offering)->andReturn(false);
 
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW_VIRTUAL_LINK]);
 

@@ -5,28 +5,20 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\AlertChangeType;
+use App\Tests\DataLoader\AlertChangeTypeData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadAlertChangeTypeData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface
+class LoadAlertChangeTypeData extends AbstractFixture implements ORMFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected AlertChangeTypeData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\AlertChangeTypeData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new AlertChangeType();
             $entity->setId($arr['id']);

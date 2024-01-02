@@ -15,20 +15,21 @@ use Mockery as m;
  */
 class SessionTypeTest extends EntityBase
 {
-    /**
-     * @var SessionType
-     */
-    protected $object;
+    protected SessionType $object;
 
-    /**
-     * Instantiate a SessionType object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new SessionType();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -41,7 +42,7 @@ class SessionTypeTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'school'
@@ -58,7 +59,7 @@ class SessionTypeTest extends EntityBase
     /**
      * @covers \App\Entity\SessionType::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getAamcMethods());
         $this->assertEmpty($this->object->getSessions());
@@ -68,7 +69,7 @@ class SessionTypeTest extends EntityBase
      * @covers \App\Entity\SessionType::setTitle
      * @covers \App\Entity\SessionType::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -77,7 +78,7 @@ class SessionTypeTest extends EntityBase
      * @covers \App\Entity\SessionType::setCalendarColor()
      * @covers \App\Entity\SessionType::getCalendarColor()
      */
-    public function testSetSessionTypeCalendarColor()
+    public function testSetSessionTypeCalendarColor(): void
     {
         $this->basicSetTest('calendarColor', 'hexcolor');
     }
@@ -86,7 +87,7 @@ class SessionTypeTest extends EntityBase
      * @covers \App\Entity\SessionType::setActive
      * @covers \App\Entity\SessionType::isActive
      */
-    public function testIsActive()
+    public function testIsActive(): void
     {
         $this->booleanSetTest('active');
     }
@@ -95,7 +96,7 @@ class SessionTypeTest extends EntityBase
      * @covers \App\Entity\SessionType::setAssessment
      * @covers \App\Entity\SessionType::isAssessment
      */
-    public function testIsAssessment()
+    public function testIsAssessment(): void
     {
         $this->booleanSetTest('assessment');
     }
@@ -104,7 +105,7 @@ class SessionTypeTest extends EntityBase
      * @covers \App\Entity\SessionType::setAssessmentOption
      * @covers \App\Entity\SessionType::getAssessmentOption
      */
-    public function testSetAssessmentOption()
+    public function testSetAssessmentOption(): void
     {
         $this->entitySetTest('assessmentOption', 'AssessmentOption');
     }
@@ -112,7 +113,7 @@ class SessionTypeTest extends EntityBase
     /**
      * @covers \App\Entity\SessionType::addAamcMethod
      */
-    public function testAddAamcMethod()
+    public function testAddAamcMethod(): void
     {
         $this->entityCollectionAddTest('aamcMethod', 'AamcMethod');
     }
@@ -120,7 +121,7 @@ class SessionTypeTest extends EntityBase
     /**
      * @covers \App\Entity\SessionType::removeAamcMethod
      */
-    public function testRemoveAamcMethod()
+    public function testRemoveAamcMethod(): void
     {
         $this->entityCollectionRemoveTest('aamcMethod', 'AamcMethod');
     }
@@ -129,7 +130,7 @@ class SessionTypeTest extends EntityBase
      * @covers \App\Entity\SessionType::setAamcMethods
      * @covers \App\Entity\SessionType::getAamcMethods
      */
-    public function testSetAamcMethods()
+    public function testSetAamcMethods(): void
     {
         $this->entityCollectionSetTest('aamcMethod', 'AamcMethod');
     }
@@ -137,7 +138,7 @@ class SessionTypeTest extends EntityBase
     /**
      * @covers \App\Entity\SessionType::addSession
      */
-    public function testAddSession()
+    public function testAddSession(): void
     {
         $this->entityCollectionAddTest('session', 'Session', false, false, 'setSessionType');
     }
@@ -145,7 +146,7 @@ class SessionTypeTest extends EntityBase
     /**
      * @covers \App\Entity\SessionType::removeSession
      */
-    public function testRemoveSession()
+    public function testRemoveSession(): void
     {
         $this->expectException(Exception::class);
         $this->entityCollectionRemoveTest('session', 'Session');
@@ -154,12 +155,12 @@ class SessionTypeTest extends EntityBase
     /**
      * @covers \App\Entity\SessionType::setSessions
      */
-    public function testSetSessions()
+    public function testSetSessions(): void
     {
         $this->entityCollectionSetTest('session', 'Session', false, false, 'setSessionType');
     }
 
-    public function testValidHexCodes()
+    public function testValidHexCodes(): void
     {
         $this->object->setTitle('test');
         $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
@@ -192,5 +193,10 @@ class SessionTypeTest extends EntityBase
 
         $this->object->setCalendarColor('#0');
         $this->validate(1);
+    }
+
+    protected function getObject(): SessionType
+    {
+        return $this->object;
     }
 }

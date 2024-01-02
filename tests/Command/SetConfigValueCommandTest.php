@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\SetConfigValueCommand;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -20,12 +21,12 @@ use Mockery as m;
  */
 class SetConfigValueCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:set-config-value';
 
-    protected $commandTester;
-    protected $applicationConfigRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $applicationConfigRepository;
 
     public function setUp(): void
     {
@@ -49,7 +50,7 @@ class SetConfigValueCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testSaveExistingConfig()
+    public function testSaveExistingConfig(): void
     {
         $mockConfig = m::mock(ApplicationConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
@@ -66,7 +67,7 @@ class SetConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testSaveNewConfig()
+    public function testSaveNewConfig(): void
     {
         $mockConfig = m::mock(ApplicationConfig::class);
         $mockConfig->shouldReceive('setValue')->with('bar')->once();
@@ -83,7 +84,7 @@ class SetConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testNameRequired()
+    public function testNameRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -92,7 +93,7 @@ class SetConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testValueRequiredIfNotRemoving()
+    public function testValueRequiredIfNotRemoving(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -101,7 +102,7 @@ class SetConfigValueCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testRemoveExistingConfig()
+    public function testRemoveExistingConfig(): void
     {
         $mockConfig = m::mock(ApplicationConfig::class);
         $this->applicationConfigRepository->shouldReceive('findOneBy')
@@ -120,7 +121,7 @@ class SetConfigValueCommandTest extends KernelTestCase
             ]
         );
     }
-    public function testRemoveNonExistentConfig()
+    public function testRemoveNonExistentConfig(): void
     {
         $this->applicationConfigRepository->shouldReceive('findOneBy')
             ->with(['name' => 'foo'])

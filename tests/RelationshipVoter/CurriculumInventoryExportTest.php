@@ -22,7 +22,7 @@ class CurriculumInventoryExportTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $report = m::mock(CurriculumInventoryReportInterface::class);
         $report->shouldReceive('getExport')->andReturn(null);
@@ -34,17 +34,19 @@ class CurriculumInventoryExportTest extends AbstractBase
         );
     }
 
-    public function testCanView()
+    public function testCanView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CurriculumInventoryExportInterface::class);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanCreate()
+    public function testCanCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CurriculumInventoryExportInterface::class);
         $report = m::mock(CurriculumInventoryReportInterface::class);
         $report->shouldReceive('getExport')->andReturn(null);
@@ -58,9 +60,10 @@ class CurriculumInventoryExportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
-    public function testCanNotCreate()
+    public function testCanNotCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CurriculumInventoryExportInterface::class);
         $report = m::mock(CurriculumInventoryReportInterface::class);
         $report->shouldReceive('getId')->andReturn(1);
@@ -74,9 +77,10 @@ class CurriculumInventoryExportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 
-    public function testRootCannotCreateExportOnFinalizedReport()
+    public function testRootCannotCreateExportOnFinalizedReport(): void
     {
-        $token = $this->createMockTokenWithRootSessionUser();
+        $user = $this->createMockRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $report = m::mock(CurriculumInventoryReportInterface::class);
         $report->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExportInterface::class));
         $entity = m::mock(CurriculumInventoryExportInterface::class);
@@ -85,9 +89,10 @@ class CurriculumInventoryExportTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create allowed");
     }
 
-    public function testCannotCreateExportOnFinalizedReport()
+    public function testCannotCreateExportOnFinalizedReport(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $report = m::mock(CurriculumInventoryReportInterface::class);
         $report->shouldReceive('getExport')->andReturn(m::mock(CurriculumInventoryExportInterface::class));
         $entity = m::mock(CurriculumInventoryExportInterface::class);

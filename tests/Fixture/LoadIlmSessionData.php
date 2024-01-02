@@ -9,32 +9,22 @@ use App\Entity\InstructorGroup;
 use App\Entity\LearnerGroup;
 use App\Entity\Session;
 use App\Entity\User;
+use App\Tests\DataLoader\IlmSessionData;
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use App\Tests\DataLoader\IlmSessionData;
 
-class LoadIlmSessionData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadIlmSessionData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected IlmSessionData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get(IlmSessionData::class)
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new IlmSession();
             $entity->setId($arr['id']);
@@ -59,13 +49,13 @@ class LoadIlmSessionData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadUserData',
-            'App\Tests\Fixture\LoadInstructorGroupData',
-            'App\Tests\Fixture\LoadLearnerGroupData',
-            'App\Tests\Fixture\LoadSessionData',
+            LoadUserData::class,
+            LoadInstructorGroupData::class,
+            LoadLearnerGroupData::class,
+            LoadSessionData::class,
         ];
     }
 }

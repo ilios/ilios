@@ -13,20 +13,21 @@ use DateTime;
  */
 class MeshConceptTest extends EntityBase
 {
-    /**
-     * @var MeshConcept
-     */
-    protected $object;
+    protected MeshConcept $object;
 
-    /**
-     * Instantiate a MeshConcept object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshConcept();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name',
@@ -47,7 +48,7 @@ class MeshConceptTest extends EntityBase
     /**
      * @covers \App\Entity\MeshConcept::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $now = new DateTime();
         $createdAt = $this->object->getCreatedAt();
@@ -60,7 +61,7 @@ class MeshConceptTest extends EntityBase
      * @covers \App\Entity\MeshConcept::setName
      * @covers \App\Entity\MeshConcept::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -69,7 +70,7 @@ class MeshConceptTest extends EntityBase
      * @covers \App\Entity\MeshConcept::setPreferred
      * @covers \App\Entity\MeshConcept::getPreferred
      */
-    public function testSetPreferred()
+    public function testSetPreferred(): void
     {
         $this->basicSetTest('preferred', 'boolean');
     }
@@ -78,7 +79,7 @@ class MeshConceptTest extends EntityBase
      * @covers \App\Entity\MeshConcept::setScopeNote
      * @covers \App\Entity\MeshConcept::getScopeNote
      */
-    public function testSetScopeNote()
+    public function testSetScopeNote(): void
     {
         $this->basicSetTest('scopeNote', 'string');
     }
@@ -86,7 +87,7 @@ class MeshConceptTest extends EntityBase
     /**
      * @covers \App\Entity\MeshConcept::setCasn1Name
      */
-    public function testSetCasn1Name()
+    public function testSetCasn1Name(): void
     {
         $this->basicSetTest('casn1Name', 'string');
     }
@@ -95,7 +96,7 @@ class MeshConceptTest extends EntityBase
      * @covers \App\Entity\MeshConcept::setRegistryNumber
      * @covers \App\Entity\MeshConcept::getRegistryNumber
      */
-    public function testSetRegistryNumber()
+    public function testSetRegistryNumber(): void
     {
         $this->basicSetTest('registryNumber', 'string');
     }
@@ -103,7 +104,7 @@ class MeshConceptTest extends EntityBase
     /**
      * @covers \App\Entity\MeshConcept::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'MeshTerm', false, false, 'addConcept');
     }
@@ -111,7 +112,7 @@ class MeshConceptTest extends EntityBase
     /**
      * @covers \App\Entity\MeshConcept::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'MeshTerm', false, false, false, 'removeConcept');
     }
@@ -120,7 +121,7 @@ class MeshConceptTest extends EntityBase
      * @covers \App\Entity\MeshConcept::setTerms
      * @covers \App\Entity\MeshConcept::getTerms
      */
-    public function testGetTerms()
+    public function testGetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'MeshTerm', false, false, 'addConcept');
     }
@@ -128,7 +129,7 @@ class MeshConceptTest extends EntityBase
     /**
      * @covers \App\Entity\MeshConcept::addDescriptor
      */
-    public function testAddDescriptor()
+    public function testAddDescriptor(): void
     {
         $this->entityCollectionAddTest('descriptor', 'MeshDescriptor');
     }
@@ -136,7 +137,7 @@ class MeshConceptTest extends EntityBase
     /**
      * @covers \App\Entity\MeshConcept::removeDescriptor
      */
-    public function testRemoveDescriptor()
+    public function testRemoveDescriptor(): void
     {
         $this->entityCollectionRemoveTest('descriptor', 'MeshDescriptor');
     }
@@ -145,8 +146,13 @@ class MeshConceptTest extends EntityBase
      * @covers \App\Entity\MeshConcept::setDescriptors
      * @covers \App\Entity\MeshConcept::getDescriptors
      */
-    public function testGetDescriptors()
+    public function testGetDescriptors(): void
     {
         $this->entityCollectionSetTest('descriptor', 'MeshDescriptor');
+    }
+
+    protected function getObject(): MeshConcept
+    {
+        return $this->object;
     }
 }

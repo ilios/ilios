@@ -12,26 +12,18 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadUserSessionMaterialStatusData extends AbstractFixture implements
     ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+    DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected UserSessionMaterialStatusData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get(UserSessionMaterialStatusData::class)
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new UserSessionMaterialStatus();
             $entity->setId($arr['id']);
@@ -51,7 +43,7 @@ class LoadUserSessionMaterialStatusData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             LoadUserData::class,

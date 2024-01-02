@@ -14,15 +14,8 @@ use Mockery as m;
 
 class MeshTest extends TestCase
 {
-    /**
-     * @var Client|m\MockInterface
-     */
-    private $client;
-
-    /**
-     * @var Config|m\MockInterface
-     */
-    private $config;
+    private m\MockInterface $client;
+    private m\MockInterface $config;
 
     public function setUp(): void
     {
@@ -40,7 +33,7 @@ class MeshTest extends TestCase
         unset($this->config);
     }
 
-    public function testSetup()
+    public function testSetup(): void
     {
         $obj1 = new Mesh($this->config, $this->client);
         $this->assertTrue($obj1 instanceof Mesh);
@@ -51,23 +44,23 @@ class MeshTest extends TestCase
         $this->assertFalse($obj2->isEnabled());
     }
 
-    public function testIndexMeshDescriptorsWorksWithoutSearch()
+    public function testIndexMeshDescriptorsWorksWithoutSearch(): void
     {
-        $desc1 = m::mock(Descriptor::class)
-            ->shouldReceive('getConcepts')->once()->andReturn([])
-            ->shouldReceive('getUi')->once()->andReturn('id')
-            ->shouldReceive('getName')->once()->andReturn('name')
-            ->shouldReceive('getAnnotation')->once()->andReturn('annt')
-            ->shouldReceive('getPreviousIndexing')->once()->andReturn(['pi'])
-            ->getMock();
+        $desc1 = m::mock(Descriptor::class);
+        $desc1->shouldReceive('getConcepts')->once()->andReturn([]);
+        $desc1->shouldReceive('getUi')->once()->andReturn('id');
+        $desc1->shouldReceive('getName')->once()->andReturn('name');
+        $desc1->shouldReceive('getAnnotation')->once()->andReturn('annt');
+        $desc1->shouldReceive('getPreviousIndexing')->once()->andReturn(['pi']);
+
         $obj = new Mesh($this->config, null);
-        $desc2 = m::mock(Descriptor::class)
-            ->shouldReceive('getConcepts')->once()->andReturn([])
-            ->shouldReceive('getUi')->once()->andReturn('id')
-            ->shouldReceive('getName')->once()->andReturn('name')
-            ->shouldReceive('getAnnotation')->once()->andReturn('annt')
-            ->shouldReceive('getPreviousIndexing')->once()->andReturn(['pi'])
-            ->getMock();
+        $desc2 = m::mock(Descriptor::class);
+        $desc2->shouldReceive('getConcepts')->once()->andReturn([]);
+        $desc2->shouldReceive('getUi')->once()->andReturn('id');
+        $desc2->shouldReceive('getName')->once()->andReturn('name');
+        $desc2->shouldReceive('getAnnotation')->once()->andReturn('annt');
+        $desc2->shouldReceive('getPreviousIndexing')->once()->andReturn(['pi']);
+
         $obj = new Mesh($this->config, null);
         $arr = [
             $desc1,
@@ -76,7 +69,7 @@ class MeshTest extends TestCase
         $this->assertTrue($obj->index($arr));
     }
 
-    public function testIdsQueryThrowsExceptionWhenNotConfigured()
+    public function testIdsQueryThrowsExceptionWhenNotConfigured(): void
     {
         $obj = new Mesh($this->config, null);
         $this->expectException(Exception::class);

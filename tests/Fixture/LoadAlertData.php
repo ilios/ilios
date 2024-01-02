@@ -8,30 +8,21 @@ use App\Entity\Alert;
 use App\Entity\AlertChangeType;
 use App\Entity\School;
 use App\Entity\User;
+use App\Tests\DataLoader\AlertData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadAlertData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadAlertData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected AlertData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\AlertData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new Alert();
             $entity->setId($arr['id']);
@@ -56,12 +47,12 @@ class LoadAlertData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadAlertChangeTypeData',
-            'App\Tests\Fixture\LoadSchoolData',
-            'App\Tests\Fixture\LoadUserData'
+            LoadAlertChangeTypeData::class,
+            LoadSchoolData::class,
+            LoadUserData::class,
         ];
     }
 }

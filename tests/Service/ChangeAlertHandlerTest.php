@@ -53,7 +53,7 @@ class ChangeAlertHandlerTest extends TestCase
     /**
      * @covers ::createAlertForNewOffering
      */
-    public function testCreateAlertForNewOffering()
+    public function testCreateAlertForNewOffering(): void
     {
         $school = new School();
         $course = new Course();
@@ -101,7 +101,7 @@ class ChangeAlertHandlerTest extends TestCase
     /**
      * @covers ::createOrUpdateAlertForUpdatedOffering
      */
-    public function testCreateOrUpdateAlertForUpdatedOfferingExistingAlert()
+    public function testCreateOrUpdateAlertForUpdatedOfferingExistingAlert(): void
     {
         $school = new School();
         $course = new Course();
@@ -197,7 +197,7 @@ class ChangeAlertHandlerTest extends TestCase
     /**
      * @covers ::createOrUpdateAlertForUpdatedOffering()
      */
-    public function testCreateOrUpdateAlertForUpdatedOfferingNewAlert()
+    public function testCreateOrUpdateAlertForUpdatedOfferingNewAlert(): void
     {
         $school = new School();
         $course = new Course();

@@ -8,35 +8,21 @@ use App\Command\ExportMeshUniverseCommand;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\CsvWriter;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class ExportMeshUniverseCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:export-mesh-universe';
 
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
-
-    /**
-     * @var MeshDescriptorRepository
-     */
-    protected $repository;
-
-    /**
-     * @var CsvWriter
-     */
-    protected $writer;
-
-    /**
-     * @var string
-     */
-    protected $path;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $repository;
+    protected m\MockInterface $writer;
+    protected string $path;
 
     public function setUp(): void
     {
@@ -66,7 +52,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\ExportMeshUniverseCommand::execute
      */
-    public function testExecute()
+    public function testExecute(): void
     {
         $meshConceptData = [
             [

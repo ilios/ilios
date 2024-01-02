@@ -5,28 +5,20 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\CourseClerkshipType;
+use App\Tests\DataLoader\CourseClerkshipTypeData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadCourseClerkshipTypeData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface
+class LoadCourseClerkshipTypeData extends AbstractFixture implements ORMFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CourseClerkshipTypeData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CourseClerkshipTypeData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new CourseClerkshipType();
             $entity->setId($arr['id']);

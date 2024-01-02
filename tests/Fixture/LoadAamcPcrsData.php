@@ -5,28 +5,20 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\AamcPcrs;
+use App\Tests\DataLoader\AamcPcrsData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadAamcPcrsData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface
+class LoadAamcPcrsData extends AbstractFixture implements ORMFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected AamcPcrsData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\AamcPcrsData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new AamcPcrs();
             $entity->setId($arr['id']);

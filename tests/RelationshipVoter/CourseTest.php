@@ -22,22 +22,24 @@ class CourseTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(m::mock(CourseInterface::class));
     }
 
-    public function testCanView()
+    public function testCanView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanEdit()
+    public function testCanEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(SchoolInterface::class);
@@ -48,9 +50,10 @@ class CourseTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
-    public function testCanNotEdit()
+    public function testCanNotEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(SchoolInterface::class);
@@ -61,9 +64,10 @@ class CourseTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
-    public function testCanDelete()
+    public function testCanDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(SchoolInterface::class);
@@ -74,9 +78,10 @@ class CourseTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
-    public function testCanNotDelete()
+    public function testCanNotDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $entity->shouldReceive('getId')->andReturn(1);
         $school = m::mock(SchoolInterface::class);
@@ -87,9 +92,10 @@ class CourseTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
-    public function testCanCreate()
+    public function testCanCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -99,9 +105,10 @@ class CourseTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
-    public function testCanNotCreate()
+    public function testCanNotCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getId')->andReturn(1);
@@ -111,18 +118,20 @@ class CourseTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Create denied");
     }
 
-    public function testCanUnlock()
+    public function testCanUnlock(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $this->permissionChecker->shouldReceive('canUnlockCourse')->andReturn(true);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::UNLOCK]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
-    public function testCanNotUnlock()
+    public function testCanNotUnlock(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(CourseInterface::class);
         $this->permissionChecker->shouldReceive('canUnlockCourse')->andReturn(false);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::UNLOCK]);

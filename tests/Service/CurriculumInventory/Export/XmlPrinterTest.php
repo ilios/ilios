@@ -35,6 +35,7 @@ class XmlPrinterTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
+        unset($this->printer);
     }
 
     public static function inventoryDataProvider(): array

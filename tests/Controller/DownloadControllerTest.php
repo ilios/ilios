@@ -14,7 +14,7 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\GetUrlTrait;
-use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
+use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -30,7 +30,7 @@ class DownloadControllerTest extends WebTestCase
     use TestableJsonController;
     use GetUrlTrait;
 
-    protected ProxyReferenceRepository $fixtures;
+    protected ReferenceRepository $fixtures;
     protected KernelBrowser $kernelBrowser;
     protected string $apiVersion = 'v3';
 

@@ -16,10 +16,7 @@ use App\Tests\TestCase;
 
 class UsersEntityTest extends TestCase
 {
-    /**
-     * @var UsersEntity
-     */
-    private $traitObject;
+    private object $traitObject;
     public function setUp(): void
     {
         parent::setUp();

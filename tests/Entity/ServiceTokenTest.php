@@ -13,12 +13,18 @@ use DateTime;
  */
 class ServiceTokenTest extends EntityBase
 {
-    /** @var ServiceToken */
-    protected $object;
+    protected ServiceToken $object;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new ServiceToken();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     public function testNotBlankValidation(): void
@@ -75,7 +81,7 @@ class ServiceTokenTest extends EntityBase
     /**
      * @covers ::addAuditLog
      */
-    public function testAddAuditLog()
+    public function testAddAuditLog(): void
     {
         $this->entityCollectionAddTest('auditLog', 'AuditLog');
     }
@@ -83,7 +89,7 @@ class ServiceTokenTest extends EntityBase
     /**
      * @covers ::removeAuditLog
      */
-    public function testRemoveAuditLog()
+    public function testRemoveAuditLog(): void
     {
         $this->entityCollectionRemoveTest('auditLog', 'AuditLog');
     }
@@ -92,8 +98,13 @@ class ServiceTokenTest extends EntityBase
      * @covers ::setAuditLogs
      * @covers ::getAuditLogs
      */
-    public function testSetAuditLogs()
+    public function testSetAuditLogs(): void
     {
         $this->entityCollectionSetTest('auditLog', 'AuditLog');
+    }
+
+    protected function getObject(): ServiceToken
+    {
+        return $this->object;
     }
 }

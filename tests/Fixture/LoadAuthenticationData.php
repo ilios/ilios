@@ -7,37 +7,25 @@ namespace App\Tests\Fixture;
 use App\Entity\Authentication;
 use App\Entity\User;
 use App\Service\SessionUserProvider;
+use App\Tests\DataLoader\AuthenticationData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class LoadAuthenticationData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadAuthenticationData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
     public function __construct(
         protected UserPasswordHasherInterface $passwordHasher,
-        protected SessionUserProvider $sessionUserProvider
+        protected SessionUserProvider $sessionUserProvider,
+        protected AuthenticationData $authenticationData,
     ) {
     }
 
-    public function setContainer(ContainerInterface $container = null): void
+    public function load(ObjectManager $manager): void
     {
-        $this->container = $container;
-    }
-
-    public function load(ObjectManager $manager)
-    {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\AuthenticationData')
-            ->getAll();
+        $data = $this->authenticationData->getAll();
         foreach ($data as $arr) {
             $user = $this->getReference('users' . $arr['user'], User::class);
             $entity = new Authentication();
@@ -55,10 +43,10 @@ class LoadAuthenticationData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadUserData'
+            LoadUserData::class,
         ];
     }
 }

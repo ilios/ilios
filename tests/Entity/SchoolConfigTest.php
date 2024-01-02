@@ -6,7 +6,6 @@ namespace App\Tests\Entity;
 
 use App\Entity\School;
 use App\Entity\SchoolConfig;
-use Mockery as m;
 
 /**
  * Tests for SchoolConfig entity.
@@ -14,20 +13,21 @@ use Mockery as m;
  */
 class SchoolConfigTest extends EntityBase
 {
-    /**
-     * @var SchoolConfig
-     */
-    protected $object;
+    protected SchoolConfig $object;
 
-    /**
-     * Instantiate a SchoolConfig object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new SchoolConfig();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name',
@@ -41,7 +41,7 @@ class SchoolConfigTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $this->object->setName('smallestDog');
         $this->object->setValue('Jayden');
@@ -58,7 +58,7 @@ class SchoolConfigTest extends EntityBase
      * @covers \App\Entity\SchoolConfig::setName
      * @covers \App\Entity\SchoolConfig::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -67,7 +67,7 @@ class SchoolConfigTest extends EntityBase
      * @covers \App\Entity\SchoolConfig::setValue
      * @covers \App\Entity\SchoolConfig::getValue
      */
-    public function testSetValue()
+    public function testSetValue(): void
     {
         $this->basicSetTest('value', 'string');
     }
@@ -76,8 +76,13 @@ class SchoolConfigTest extends EntityBase
      * @covers \App\Entity\SchoolConfig::setValue
      * @covers \App\Entity\SchoolConfig::getValue
      */
-    public function testSetSchool()
+    public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
+    }
+
+    protected function getObject(): SchoolConfig
+    {
+        return $this->object;
     }
 }

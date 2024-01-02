@@ -9,6 +9,7 @@ use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use App\Service\JsonWebTokenManager;
 use Exception;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -22,17 +23,13 @@ use Mockery as m;
  */
 class CreateUserTokenCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:create-user-token';
 
-    protected $userRepository;
-    protected $commandTester;
-
-    /**
-     * @var JsonWebTokenManager|m\LegacyMockInterface|m\MockInterface
-     */
-    protected $jwtManager;
+    protected m\MockInterface $userRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $jwtManager;
 
     public function setUp(): void
     {
@@ -59,7 +56,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         unset($this->jwtManager);
     }
 
-    public function testNewDefaultToken()
+    public function testNewDefaultToken(): void
     {
         $user = m::mock(UserInterface::class)->shouldReceive('getId')->andReturn(1)->getMock();
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -78,7 +75,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         );
     }
 
-    public function testNewTTLToken()
+    public function testNewTTLToken(): void
     {
         $user = m::mock(UserInterface::class)->shouldReceive('getId')->andReturn(1)->getMock();
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
@@ -97,7 +94,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         );
     }
 
-    public function testBadUserId()
+    public function testBadUserId(): void
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
@@ -107,7 +104,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testUserRequired()
+    public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);

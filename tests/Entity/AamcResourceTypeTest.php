@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AamcResourceType;
-use Mockery as m;
 
 /**
  * Tests for Entity AamcResourceType
@@ -13,20 +12,21 @@ use Mockery as m;
  */
 class AamcResourceTypeTest extends EntityBase
 {
-    /**
-     * @var AamcResourceType
-     */
-    protected $object;
+    protected AamcResourceType $object;
 
-    /**
-     * Instantiate a AamcResourceType object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AamcResourceType();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'id',
@@ -44,7 +44,7 @@ class AamcResourceTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AamcResourceType::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getTerms());
     }
@@ -53,7 +53,7 @@ class AamcResourceTypeTest extends EntityBase
      * @covers \App\Entity\AamcResourceType::setTitle
      * @covers \App\Entity\AamcResourceType::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -62,7 +62,7 @@ class AamcResourceTypeTest extends EntityBase
      * @covers \App\Entity\AamcResourceType::setDescription
      * @covers \App\Entity\AamcResourceType::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -70,7 +70,7 @@ class AamcResourceTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AamcResourceType::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term', false, false, 'addAamcResourceType');
     }
@@ -78,7 +78,7 @@ class AamcResourceTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AamcResourceType::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term', false, false, false, 'removeAamcResourceType');
     }
@@ -86,8 +86,13 @@ class AamcResourceTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AamcResourceType::getTerms
      */
-    public function testGetTerms()
+    public function testGetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term', false, false, 'addAamcResourceType');
+    }
+
+    protected function getObject(): AamcResourceType
+    {
+        return $this->object;
     }
 }

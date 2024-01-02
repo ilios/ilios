@@ -13,20 +13,21 @@ use DateTime;
  */
 class MeshQualifierTest extends EntityBase
 {
-    /**
-     * @var MeshQualifier
-     */
-    protected $object;
+    protected MeshQualifier $object;
 
-    /**
-     * Instantiate a MeshQualifier object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshQualifier();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name'
@@ -39,7 +40,7 @@ class MeshQualifierTest extends EntityBase
     /**
      * @covers \App\Entity\MeshQualifier::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $now = new DateTime();
         $createdAt = $this->object->getCreatedAt();
@@ -52,7 +53,7 @@ class MeshQualifierTest extends EntityBase
      * @covers \App\Entity\MeshQualifier::setName
      * @covers \App\Entity\MeshQualifier::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -60,7 +61,7 @@ class MeshQualifierTest extends EntityBase
     /**
      * @covers \App\Entity\MeshQualifier::addDescriptor
      */
-    public function testAddDescriptor()
+    public function testAddDescriptor(): void
     {
         $this->entityCollectionAddTest('descriptor', 'MeshDescriptor');
     }
@@ -68,7 +69,7 @@ class MeshQualifierTest extends EntityBase
     /**
      * @covers \App\Entity\MeshQualifier::removeDescriptor
      */
-    public function testRemoveDescriptor()
+    public function testRemoveDescriptor(): void
     {
         $this->entityCollectionRemoveTest('descriptor', 'MeshDescriptor');
     }
@@ -77,8 +78,13 @@ class MeshQualifierTest extends EntityBase
      * @covers \App\Entity\MeshQualifier::getDescriptors
      * @covers \App\Entity\MeshQualifier::setDescriptors
      */
-    public function getGetDescriptors()
+    public function testGetDescriptors(): void
     {
         $this->entityCollectionSetTest('descriptor', 'MeshDescriptor');
+    }
+
+    protected function getObject(): MeshQualifier
+    {
+        return $this->object;
     }
 }

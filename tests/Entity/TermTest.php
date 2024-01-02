@@ -16,23 +16,24 @@ use Mockery as m;
  */
 class TermTest extends EntityBase
 {
-    /**
-     * @var Term
-     */
-    protected $object;
+    protected Term $object;
 
-    /**
-     * Instantiate a Term object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Term();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
      * @covers \App\Entity\Term::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCourses());
         $this->assertEmpty($this->object->getProgramYears());
@@ -41,16 +42,20 @@ class TermTest extends EntityBase
         $this->assertEmpty($this->object->getAamcResourceTypes());
     }
 
-    public function testNotBlankValidation()
+    public function testNotNullValidation(): void
     {
-        $errors = $this->validate(2);
-        $this->assertEquals([
-            "title" => "NotBlank",
-            "vocabulary" => "NotNull",
-        ], $errors);
-
-        $this->object->setVocabulary(m::mock(VocabularyInterface::class));
         $this->object->setTitle('test');
+        $this->validateNotNulls(['vocabulary']);
+        $this->object->setVocabulary(m::mock(VocabularyInterface::class));
+        $this->validate(0);
+    }
+
+    public function testNotBlankValidation(): void
+    {
+        $this->object->setVocabulary(m::mock(VocabularyInterface::class));
+        $this->validateNotBlanks(['title']);
+        $this->object->setTitle('test');
+        $this->validate(0);
         $this->object->setDescription('');
         $this->validate(0);
         $this->object->setDescription('test');
@@ -61,7 +66,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setTitle
      * @covers \App\Entity\Term::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -70,7 +75,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setDescription
      * @covers \App\Entity\Term::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -79,7 +84,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setVocabulary
      * @covers \App\Entity\Term::getVocabulary
      */
-    public function testSetVocabulary()
+    public function testSetVocabulary(): void
     {
         $this->entitySetTest('vocabulary', 'Vocabulary');
     }
@@ -88,7 +93,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setParent
      * @covers \App\Entity\Term::getParent
      */
-    public function testSetParent()
+    public function testSetParent(): void
     {
         $this->entitySetTest('parent', 'Term');
     }
@@ -96,7 +101,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addCourse
      */
-    public function testAddCourse()
+    public function testAddCourse(): void
     {
         $this->entityCollectionAddTest('course', 'Course', false, false, 'addTerm');
     }
@@ -104,7 +109,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeCourse
      */
-    public function testRemoveCourse()
+    public function testRemoveCourse(): void
     {
         $this->entityCollectionRemoveTest('course', 'Course', false, false, false, 'removeTerm');
     }
@@ -112,7 +117,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::getCourses
      */
-    public function testGetCourses()
+    public function testGetCourses(): void
     {
         $this->entityCollectionSetTest('course', 'Course', false, false, 'addTerm');
     }
@@ -120,7 +125,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addProgramYear
      */
-    public function testAddProgramYear()
+    public function testAddProgramYear(): void
     {
         $this->entityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addTerm');
     }
@@ -128,7 +133,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeProgramYear
      */
-    public function testRemoveProgramYear()
+    public function testRemoveProgramYear(): void
     {
         $this->entityCollectionRemoveTest('programYear', 'ProgramYear', false, false, false, 'removeTerm');
     }
@@ -136,7 +141,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::getProgramYears
      */
-    public function testGetProgramYears()
+    public function testGetProgramYears(): void
     {
         $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addTerm');
     }
@@ -144,7 +149,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addSession
      */
-    public function testAddSession()
+    public function testAddSession(): void
     {
         $this->entityCollectionAddTest('session', 'Session', false, false, 'addTerm');
     }
@@ -152,7 +157,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeSession
      */
-    public function testRemoveSession()
+    public function testRemoveSession(): void
     {
         $this->entityCollectionRemoveTest('session', 'Session', false, false, false, 'removeTerm');
     }
@@ -160,7 +165,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::getSessions
      */
-    public function testGetSessions()
+    public function testGetSessions(): void
     {
         $this->entityCollectionSetTest('session', 'Session', false, false, 'addTerm');
     }
@@ -168,7 +173,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addAamcResourceType
      */
-    public function testAddAamcResourceTypes()
+    public function testAddAamcResourceTypes(): void
     {
         $this->entityCollectionAddTest('aamcResourceType', 'AamcResourceType');
     }
@@ -176,7 +181,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeAamcResourceType
      */
-    public function testRemoveAamcResourceTypes()
+    public function testRemoveAamcResourceTypes(): void
     {
         $this->entityCollectionRemoveTest('aamcResourceType', 'AamcResourceType');
     }
@@ -185,7 +190,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::getAamcResourceTypes
      * @covers \App\Entity\Term::setAamcResourceTypes
      */
-    public function testGetAamcResourceTypes()
+    public function testGetAamcResourceTypes(): void
     {
         $this->entityCollectionSetTest('aamcResourceType', 'AamcResourceType');
     }
@@ -193,7 +198,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addChild
      */
-    public function testAddChild()
+    public function testAddChild(): void
     {
         $this->entityCollectionAddTest('child', 'Term', 'getChildren');
     }
@@ -201,7 +206,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeChild
      */
-    public function testRemoveChild()
+    public function testRemoveChild(): void
     {
         $this->entityCollectionRemoveTest('child', 'Term', 'getChildren');
     }
@@ -209,7 +214,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::getChildren
      */
-    public function testGetChildren()
+    public function testGetChildren(): void
     {
         $this->entityCollectionSetTest('child', 'Term', 'getChildren', 'setChildren');
     }
@@ -218,7 +223,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setActive
      * @covers \App\Entity\Term::isActive
      */
-    public function testIsActive()
+    public function testIsActive(): void
     {
         $this->booleanSetTest('active');
     }
@@ -226,18 +231,17 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\LearningMaterial::getIndexableCourses
      */
-    public function testGetIndexableCourses()
+    public function testGetIndexableCourses(): void
     {
-        $course1 = m::mock(CourseInterface::class)
-            ->shouldReceive('addTerm')->once()->with($this->object)->getMock();
+        $course1 = m::mock(CourseInterface::class);
+        $course1->shouldReceive('addTerm')->once()->with($this->object);
         $this->object->addCourse($course1);
 
         $course2 = m::mock(CourseInterface::class);
-        $session = m::mock(SessionInterface::class)
-            ->shouldReceive('addTerm')->once()->with($this->object)
-            ->shouldReceive('getCourse')->once()
-            ->andReturn($course2);
-        $this->object->addSession($session->getMock());
+        $session = m::mock(SessionInterface::class);
+        $session->shouldReceive('addTerm')->once()->with($this->object);
+        $session->shouldReceive('getCourse')->once()->andReturn($course2);
+        $this->object->addSession($session);
 
         $rhett = $this->object->getIndexableCourses();
         $this->assertEquals($rhett, [$course1, $course2]);
@@ -246,7 +250,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addProgramYearObjective
      */
-    public function testAddProgramYearObjective()
+    public function testAddProgramYearObjective(): void
     {
         $this->entityCollectionAddTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -254,7 +258,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeProgramYearObjective
      */
-    public function testRemoveProgramYearObjective()
+    public function testRemoveProgramYearObjective(): void
     {
         $this->entityCollectionRemoveTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -263,7 +267,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setProgramYearObjectives
      * @covers \App\Entity\Term::getProgramYearObjectives
      */
-    public function testGetProgramYearObjectives()
+    public function testGetProgramYearObjectives(): void
     {
         $this->entityCollectionSetTest('programYearObjective', 'ProgramYearObjective');
     }
@@ -271,7 +275,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addCourseObjective
      */
-    public function testAddCourseObjective()
+    public function testAddCourseObjective(): void
     {
         $this->entityCollectionAddTest('courseObjective', 'CourseObjective');
     }
@@ -279,7 +283,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeCourseObjective
      */
-    public function testRemoveCourseObjective()
+    public function testRemoveCourseObjective(): void
     {
         $this->entityCollectionRemoveTest('courseObjective', 'CourseObjective');
     }
@@ -288,7 +292,7 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setCourseObjectives
      * @covers \App\Entity\Term::getCourseObjectives
      */
-    public function testGetCourseObjectives()
+    public function testGetCourseObjectives(): void
     {
         $this->entityCollectionSetTest('courseObjective', 'CourseObjective');
     }
@@ -296,7 +300,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::addSessionObjective
      */
-    public function testAddSessionObjective()
+    public function testAddSessionObjective(): void
     {
         $this->entityCollectionAddTest('sessionObjective', 'SessionObjective');
     }
@@ -304,7 +308,7 @@ class TermTest extends EntityBase
     /**
      * @covers \App\Entity\Term::removeSessionObjective
      */
-    public function testRemoveSessionObjective()
+    public function testRemoveSessionObjective(): void
     {
         $this->entityCollectionRemoveTest('sessionObjective', 'SessionObjective');
     }
@@ -313,8 +317,13 @@ class TermTest extends EntityBase
      * @covers \App\Entity\Term::setSessionObjectives
      * @covers \App\Entity\Term::getSessionObjectives
      */
-    public function testGetSessionObjectives()
+    public function testGetSessionObjectives(): void
     {
         $this->entityCollectionSetTest('sessionObjective', 'SessionObjective');
+    }
+
+    protected function getObject(): Term
+    {
+        return $this->object;
     }
 }

@@ -188,10 +188,8 @@ class DirectoryControllerTest extends TestCase
             ->once()
             ->andReturn($fakeDirectoryUser);
 
-        $userMock = m::mock(UserInterface::class)
-            ->shouldReceive('getCampusId')
-            ->andReturn('abc')
-            ->mock();
+        $userMock = m::mock(UserInterface::class);
+        $userMock->shouldReceive('getCampusId')->andReturn('abc');
 
         $this->mockUserRepository
             ->shouldReceive('findOneBy')

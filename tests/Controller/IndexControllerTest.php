@@ -6,6 +6,7 @@ namespace App\Tests\Controller;
 
 use App\Command\UpdateFrontendCommand;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -16,19 +17,12 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class IndexControllerTest extends WebTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
-    private const COMMAND_NAME = 'ilios:maintenance:update-frontend';
-    private const TEST_API_VERSION = '33.14-test';
+    use MockeryPHPUnitIntegration;
 
     protected string $jsonPath;
     protected Filesystem $fileSystem;
     protected KernelBrowser $kernelBrowser;
-
-    /**
-     * @var array
-     */
-    protected $testFiles = [];
+    protected array $testFiles = [];
 
     public function setUp(): void
     {

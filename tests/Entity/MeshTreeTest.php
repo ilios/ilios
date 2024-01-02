@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\MeshTree;
-use Mockery as m;
 
 /**
  * Tests for Entity MeshTree
@@ -13,20 +12,21 @@ use Mockery as m;
  */
 class MeshTreeTest extends EntityBase
 {
-    /**
-     * @var MeshTree
-     */
-    protected $object;
+    protected MeshTree $object;
 
-    /**
-     * Instantiate a MeshTree object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshTree();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'treeNumber'
@@ -41,7 +41,7 @@ class MeshTreeTest extends EntityBase
      * @covers \App\Entity\MeshTree::setTreeNumber
      * @covers \App\Entity\MeshTree::getTreeNumber
      */
-    public function testSetTreeNumber()
+    public function testSetTreeNumber(): void
     {
         $this->basicSetTest('treeNumber', 'string');
     }
@@ -50,8 +50,13 @@ class MeshTreeTest extends EntityBase
      * @covers \App\Entity\MeshTree::getDescriptor
      * @covers \App\Entity\MeshTree::setDescriptor
      */
-    public function testSetDescriptor()
+    public function testSetDescriptor(): void
     {
         $this->entitySetTest('descriptor', "MeshDescriptor");
+    }
+
+    protected function getObject(): MeshTree
+    {
+        return $this->object;
     }
 }

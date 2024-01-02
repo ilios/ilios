@@ -15,15 +15,8 @@ use Mockery as m;
 
 class CurriculumTest extends TestCase
 {
-    /**
-     * @var Client|m\MockInterface
-     */
-    private $client;
-
-    /**
-     * @var Config|m\MockInterface
-     */
-    private $config;
+    private m\MockInterface $client;
+    private m\MockInterface $config;
 
     public function setUp(): void
     {
@@ -41,7 +34,7 @@ class CurriculumTest extends TestCase
         unset($this->config);
     }
 
-    public function testSetup()
+    public function testSetup(): void
     {
         $obj1 = new Curriculum($this->config, $this->client);
         $this->assertTrue($obj1 instanceof Curriculum);
@@ -53,7 +46,7 @@ class CurriculumTest extends TestCase
     }
 
 
-    public function testIndexCoursesThrowsWhenNotIndexableCourse()
+    public function testIndexCoursesThrowsWhenNotIndexableCourse(): void
     {
         $obj = new Curriculum($this->config, null);
         $this->expectException(InvalidArgumentException::class);
@@ -65,7 +58,7 @@ class CurriculumTest extends TestCase
         $obj->index($courses);
     }
 
-    public function testIndexCoursesWorksWithoutSearch()
+    public function testIndexCoursesWorksWithoutSearch(): void
     {
         $obj = new Curriculum($this->config, null);
         $mockCourse = m::mock(IndexableCourse::class);
@@ -75,7 +68,7 @@ class CurriculumTest extends TestCase
         $this->assertTrue($obj->index([$mockCourse]));
     }
 
-    public function testIndexCourses()
+    public function testIndexCourses(): void
     {
         $obj = new Curriculum($this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
@@ -123,7 +116,7 @@ class CurriculumTest extends TestCase
         $obj->index([$course1, $course2]);
     }
 
-    public function testIndexCourseWithNoSessions()
+    public function testIndexCourseWithNoSessions(): void
     {
         $this->client = m::mock(Client::class);
         $obj = new Curriculum($this->config, $this->client);

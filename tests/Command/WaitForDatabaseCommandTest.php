@@ -8,6 +8,7 @@ use App\Command\WaitForDatabaseCommand;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
@@ -21,15 +22,14 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 class WaitForDatabaseCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     protected CommandTester $commandTester;
-    private EntityManagerInterface|m\MockInterface $entityManager;
+    private m\MockInterface $entityManager;
 
     public function setUp(): void
     {
         parent::setUp();
-
         $this->entityManager = m::mock(EntityManagerInterface::class);
         $command = new WaitForDatabaseCommand($this->entityManager);
         $kernel = self::bootKernel();
@@ -43,9 +43,10 @@ class WaitForDatabaseCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->entityManager);
+        unset($this->commandTester);
     }
 
-    public function testReturnsWhenDbIsWorking()
+    public function testReturnsWhenDbIsWorking(): void
     {
         $connection = m::mock(Connection::class);
         $connection->shouldReceive('executeQuery')->with('Select 1');
@@ -58,7 +59,7 @@ class WaitForDatabaseCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    public function testWaitsForConnection()
+    public function testWaitsForConnection(): void
     {
         $connection = m::mock(Connection::class);
         $connection->shouldReceive('executeQuery')->with('Select 1')

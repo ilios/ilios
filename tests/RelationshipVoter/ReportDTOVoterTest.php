@@ -29,11 +29,12 @@ class ReportDTOVoterTest extends AbstractBase
     /**
      * @covers ::voteOnAttribute()
      */
-    public function testCanViewDTO()
+    public function testCanViewDTO(): void
     {
         $userId = 1;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $token->getUser()->shouldReceive('getId')->andReturn($userId);
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
+        $user->shouldReceive('getId')->andReturn($userId);
         $dto = m::mock(ReportDTO::class);
         $dto->user = $userId;
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
@@ -43,9 +44,10 @@ class ReportDTOVoterTest extends AbstractBase
     /**
      * @covers ::voteOnAttribute()
      */
-    public function testRootCanViewDTO()
+    public function testRootCanViewDTO(): void
     {
-        $token = $this->createMockTokenWithRootSessionUser();
+        $user = $this->createMockRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock(ReportDTO::class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
@@ -54,12 +56,13 @@ class ReportDTOVoterTest extends AbstractBase
     /**
      * @covers ::voteOnAttribute()
      */
-    public function testCanNotViewDTO()
+    public function testCanNotViewDTO(): void
     {
         $userId = 1;
         $reportOwnerId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $token->getUser()->shouldReceive('getId')->andReturn($userId);
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
+        $user->shouldReceive('getId')->andReturn($userId);
         $dto = m::mock(ReportDTO::class);
         $dto->user = $reportOwnerId;
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);

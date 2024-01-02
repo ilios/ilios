@@ -15,10 +15,7 @@ use DateTime;
  */
 class LearningMaterialDTOTest extends TestCase
 {
-    /**
-     * @var LearningMaterialDTO $dto
-     */
-    protected $dto;
+    protected LearningMaterialDTO $dto;
 
     protected function setUp(): void
     {
@@ -47,17 +44,16 @@ class LearningMaterialDTOTest extends TestCase
         parent::tearDown();
     }
 
-
     /**
      * @covers \App\Entity\DTO\LearningMaterialDTO::clearMaterial
      */
-    public function testClearMaterial()
+    public function testClearMaterial(): void
     {
         $this->dto->absoluteFileUri = 'https://ilios.demo.edu/lm/1234567890';
         $this->dto->citation = 'Lorem Ipsum';
         $this->dto->copyrightPermission = true;
         $this->dto->copyrightRationale = 'this is mine.';
-        $this->dto->courseLearningMaterials = [1, 2, 3];
+        $this->dto->courseLearningMaterials = ['1', '2', '3'];
         $this->dto->description = 'LM Description';
         $this->dto->filesize = 1100000;
         $this->dto->filename = 'my.txt';
@@ -66,7 +62,7 @@ class LearningMaterialDTOTest extends TestCase
         $this->dto->mimetype = 'text/plain';
         $this->dto->originalAuthor = 'Joe Doe';
         $this->dto->owningUser = 1;
-        $this->dto->sessionLearningMaterials = [4,5,6];
+        $this->dto->sessionLearningMaterials = ['4', '5', '6'];
         $this->dto->status = 1;
         $this->dto->title = 'My Material';
         $this->dto->token = 'aaabbbcccdddeee';

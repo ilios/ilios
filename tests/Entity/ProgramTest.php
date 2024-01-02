@@ -14,20 +14,21 @@ use Mockery as m;
  */
 class ProgramTest extends EntityBase
 {
-    /**
-     * @var Program
-     */
-    protected $object;
+    protected Program $object;
 
-    /**
-     * Instantiate a Program object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Program();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title',
@@ -45,7 +46,7 @@ class ProgramTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'school'
@@ -63,7 +64,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getProgramYears());
         $this->assertEmpty($this->object->getCurriculumInventoryReports());
@@ -74,7 +75,7 @@ class ProgramTest extends EntityBase
      * @covers \App\Entity\Program::setTitle
      * @covers \App\Entity\Program::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -83,7 +84,7 @@ class ProgramTest extends EntityBase
      * @covers \App\Entity\Program::setShortTitle
      * @covers \App\Entity\Program::getShortTitle
      */
-    public function testSetShortTitle()
+    public function testSetShortTitle(): void
     {
         $this->basicSetTest('shortTitle', 'string');
     }
@@ -92,7 +93,7 @@ class ProgramTest extends EntityBase
      * @covers \App\Entity\Program::setDuration
      * @covers \App\Entity\Program::getDuration
      */
-    public function testSetDuration()
+    public function testSetDuration(): void
     {
         $this->basicSetTest('duration', 'integer');
     }
@@ -101,7 +102,7 @@ class ProgramTest extends EntityBase
      * @covers \App\Entity\Program::setSchool
      * @covers \App\Entity\Program::getSchool
      */
-    public function testSetSchool()
+    public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
@@ -109,7 +110,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::addProgramYear
      */
-    public function testAddProgramYear()
+    public function testAddProgramYear(): void
     {
         $this->entityCollectionAddTest('programYear', 'ProgramYear');
     }
@@ -117,7 +118,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::removeProgramYear
      */
-    public function testRemoveProgramYear()
+    public function testRemoveProgramYear(): void
     {
         $this->entityCollectionRemoveTest('programYear', 'ProgramYear');
     }
@@ -125,7 +126,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::getProgramYears
      */
-    public function testGetProgramYears()
+    public function testGetProgramYears(): void
     {
         $this->entityCollectionSetTest('programYear', 'ProgramYear');
     }
@@ -133,7 +134,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::addCurriculumInventoryReport
      */
-    public function testAddCurriculumInventoryReport()
+    public function testAddCurriculumInventoryReport(): void
     {
         $this->entityCollectionAddTest('curriculumInventoryReport', 'CurriculumInventoryReport');
     }
@@ -141,7 +142,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::removeCurriculumInventoryReport
      */
-    public function testRemoveCurriculumInventoryReport()
+    public function testRemoveCurriculumInventoryReport(): void
     {
         $this->entityCollectionRemoveTest('curriculumInventoryReport', 'CurriculumInventoryReport');
     }
@@ -150,7 +151,7 @@ class ProgramTest extends EntityBase
      * @covers \App\Entity\Program::getCurriculumInventoryReports
      * @covers \App\Entity\Program::setCurriculumInventoryReports
      */
-    public function testGetCurriculumInventoryReports()
+    public function testGetCurriculumInventoryReports(): void
     {
         $this->entityCollectionSetTest('curriculumInventoryReport', 'CurriculumInventoryReport');
     }
@@ -158,7 +159,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::addDirector
      */
-    public function testAddDirector()
+    public function testAddDirector(): void
     {
         $this->entityCollectionAddTest('director', 'User', false, false, 'addDirectedProgram');
     }
@@ -166,7 +167,7 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::removeDirector
      */
-    public function testRemoveDirector()
+    public function testRemoveDirector(): void
     {
         $this->entityCollectionRemoveTest('director', 'User', false, false, false, 'removeDirectedProgram');
     }
@@ -174,8 +175,13 @@ class ProgramTest extends EntityBase
     /**
      * @covers \App\Entity\Program::getDirectors
      */
-    public function testGetDirectors()
+    public function testGetDirectors(): void
     {
         $this->entityCollectionSetTest('director', 'User', false, false, 'addDirectedProgram');
+    }
+
+    protected function getObject(): Program
+    {
+        return $this->object;
     }
 }

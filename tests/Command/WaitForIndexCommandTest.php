@@ -6,6 +6,7 @@ namespace App\Tests\Command;
 
 use App\Command\WaitForIndexCommand;
 use App\Service\Index\Manager;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\NoNodesAvailableException;
 use OpenSearch\Namespaces\NodesNamespace;
@@ -22,16 +23,15 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 class WaitForIndexCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     protected CommandTester $commandTester;
-    protected Client|m\MockInterface $client;
-    protected Manager|m\MockInterface $indexManager;
+    protected m\MockInterface $client;
+    protected m\MockInterface $indexManager;
 
     public function setUp(): void
     {
         parent::setUp();
-
         $this->client = m::mock(Client::class);
         $this->indexManager = m::mock(Manager::class);
         $command = new WaitForIndexCommand($this->client, $this->indexManager);
@@ -47,9 +47,10 @@ class WaitForIndexCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->client);
         unset($this->indexManager);
+        unset($this->commandTester);
     }
 
-    public function testReturnsWhenIndexIsWorking()
+    public function testReturnsWhenIndexIsWorking(): void
     {
         $nodes = m::mock(NodesNamespace::class)->shouldReceive('info')->andReturn();
         $this->client->shouldReceive('nodes')->andReturn($nodes->getMock());
@@ -62,11 +63,11 @@ class WaitForIndexCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    public function testWaitsForConnection()
+    public function testWaitsForConnection(): void
     {
-        $nodes = m::mock(NodesNamespace::class)->shouldReceive('info')
-            ->times(2)->andThrow(NoNodesAvailableException::class);
-        $this->client->shouldReceive('nodes')->andReturn($nodes->getMock());
+        $nodes = m::mock(NodesNamespace::class);
+        $nodes->shouldReceive('info')->times(2)->andThrow(NoNodesAvailableException::class);
+        $this->client->shouldReceive('nodes')->andReturn($nodes);
         $this->indexManager->shouldReceive('hasBeenCreated')->andReturn(true);
         $nodes->shouldReceive('info')->once()->andReturn();
 
@@ -81,7 +82,7 @@ class WaitForIndexCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    public function testWaitsForIndexesToBeCreated()
+    public function testWaitsForIndexesToBeCreated(): void
     {
         $nodes = m::mock(NodesNamespace::class)->shouldReceive('info')->andReturn();
         $this->client->shouldReceive('nodes')->andReturn($nodes->getMock());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\SendTestEmailCommand;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -21,12 +22,11 @@ use Symfony\Component\Mime\Email;
  */
 class SendTestEmailCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:send-test-email';
 
     protected m\MockInterface $mailer;
-
     protected CommandTester $commandTester;
 
     public function setUp(): void
@@ -53,7 +53,7 @@ class SendTestEmailCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\SendChangeAlertsCommand::execute
      */
-    public function testExecute()
+    public function testExecute(): void
     {
         $this->mailer->shouldReceive('send')
             ->with(m::on(function (Email $message) {

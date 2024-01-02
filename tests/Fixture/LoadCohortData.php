@@ -6,30 +6,21 @@ namespace App\Tests\Fixture;
 
 use App\Entity\Cohort;
 use App\Entity\ProgramYear;
+use App\Tests\DataLoader\CohortData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadCohortData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadCohortData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CohortData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\CohortData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new Cohort();
             $entity->setId($arr['id']);
@@ -41,10 +32,10 @@ class LoadCohortData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadProgramYearData'
+            LoadProgramYearData::class,
         ];
     }
 }

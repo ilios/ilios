@@ -12,20 +12,21 @@ use App\Entity\CurriculumInventoryAcademicLevel;
  */
 class CurriculumInventoryAcademicLevelTest extends EntityBase
 {
-    /**
-     * @var CurriculumInventoryAcademicLevel
-     */
-    protected $object;
+    protected CurriculumInventoryAcademicLevel $object;
 
-    /**
-     * Instantiate a CurriculumInventoryAcademicLevel object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventoryAcademicLevel();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name',
@@ -44,7 +45,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getStartingSequenceBlocks());
         $this->assertEmpty($this->object->getEndingSequenceBlocks());
@@ -54,7 +55,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::setLevel
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::getLevel
      */
-    public function testSetLevel()
+    public function testSetLevel(): void
     {
         $this->basicSetTest('level', 'integer');
     }
@@ -63,7 +64,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::setName
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -72,7 +73,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::setDescription
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -81,7 +82,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::setReport
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::getReport
      */
-    public function testSetReport()
+    public function testSetReport(): void
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');
     }
@@ -89,7 +90,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::addStartingSequenceBlock
      */
-    public function testAddStartingSequenceBlock()
+    public function testAddStartingSequenceBlock(): void
     {
         $this->entityCollectionAddTest('startingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -97,7 +98,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::removeStartingSequenceBlock
      */
-    public function testRemoveStartingSequenceBlock()
+    public function testRemoveStartingSequenceBlock(): void
     {
         $this->entityCollectionRemoveTest('startingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -106,7 +107,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::getStartingSequenceBlocks
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::setStartingSequenceBlocks
      */
-    public function testGetStartingSequenceBlocks()
+    public function testGetStartingSequenceBlocks(): void
     {
         $this->entityCollectionSetTest('startingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -114,7 +115,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::addEndingSequenceBlock
      */
-    public function testAddEndingSequenceBlock()
+    public function testAddEndingSequenceBlock(): void
     {
         $this->entityCollectionAddTest('endingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -122,7 +123,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::removeEndingSequenceBlock
      */
-    public function testRemoveEndingSequenceBlock()
+    public function testRemoveEndingSequenceBlock(): void
     {
         $this->entityCollectionRemoveTest('endingSequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -131,8 +132,13 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::getEndingSequenceBlocks
      * @covers \App\Entity\CurriculumInventoryAcademicLevel::setEndingSequenceBlocks
      */
-    public function testGetEndingSequenceBlocks()
+    public function testGetEndingSequenceBlocks(): void
     {
         $this->entityCollectionSetTest('endingSequenceBlock', 'CurriculumInventorySequenceBlock');
+    }
+
+    protected function getObject(): CurriculumInventoryAcademicLevel
+    {
+        return $this->object;
     }
 }

@@ -9,26 +9,18 @@ use App\Tests\DataLoader\ServiceTokenData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadServiceTokenData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface
+class LoadServiceTokenData extends AbstractFixture implements ORMFixtureInterface
 {
     public const REFERENCE_KEY_PREFIX = 'serviceTokens';
-    protected ?ContainerInterface $container;
 
-    public function setContainer(?ContainerInterface $container): void
+    public function __construct(protected ServiceTokenData $data)
     {
-        $this->container = $container;
     }
 
     public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get(ServiceTokenData::class)
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new ServiceToken();
             $entity->setId($arr['id']);

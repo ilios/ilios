@@ -11,6 +11,7 @@ use App\Service\IliosFileSystem;
 use League\Flysystem\DirectoryListing;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -23,14 +24,14 @@ use Mockery as m;
  */
 class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:cleanup-s3-cache';
     private const CACHE_DIR = __DIR__ . '/test';
 
     protected CommandTester $commandTester;
-    protected FilesystemOperator|m\MockInterface $filesystem;
-    protected m\MockInterface|DiskSpace $diskSpace;
+    protected m\MockInterface $filesystem;
+    protected m\MockInterface $diskSpace;
 
     public function setUp(): void
     {
@@ -60,7 +61,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testPlentyOfFreeSpaceDoesNothing()
+    public function testPlentyOfFreeSpaceDoesNothing(): void
     {
         $this->diskSpace->shouldReceive('freeSpace')->once()->with(self::CACHE_DIR)->andReturn(80);
         $this->diskSpace->shouldReceive('totalSpace')->once()->with(self::CACHE_DIR)->andReturn(100);
@@ -77,45 +78,44 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         );
     }
 
-    public function testDoesCleanup()
+    public function testDoesCleanup(): void
     {
         $this->diskSpace->shouldReceive('freeSpace')->twice()->with(self::CACHE_DIR)->andReturn(10);
         $this->diskSpace->shouldReceive('totalSpace')->twice()->with(self::CACHE_DIR)->andReturn(100);
 
+        $attr1 = m::mock(StorageAttributes::class);
+        $attr1->shouldReceive('type')->andReturn(StorageAttributes::TYPE_DIRECTORY);
+        $attr1->shouldNotReceive('path');
+        $attr1->shouldReceive('lastModified')->andReturn(time());
+
+        $attr2 = m::mock(StorageAttributes::class);
+        $attr2->shouldReceive('type')->andReturn(StorageAttributes::TYPE_DIRECTORY);
+        $attr2->shouldNotReceive('path');
+        $attr2->shouldReceive('lastModified')->andReturn(strtotime('1 year ago'));
+
+        $attr3 = m::mock(StorageAttributes::class);
+        $attr3->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE);
+        $attr3->shouldNotReceive('path');
+        $attr3->shouldReceive('lastModified')->andReturn(time());
+
+        $attr4 = m::mock(StorageAttributes::class);
+        $attr4->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE);
+        $attr4->shouldReceive('path')->andReturn('file1');
+        $attr4->shouldReceive('lastModified')->andReturn(strtotime('3 days ago'));
+
+        $attr5 = m::mock(StorageAttributes::class);
+        $attr5->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE);
+        $attr5->shouldNotReceive('path');
+        $attr5->shouldReceive('lastModified')->andReturn(strtotime('1 days ago'));
+
+        $attr6 = m::mock(StorageAttributes::class);
+        $attr6->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE);
+        $attr6->shouldReceive('path')->andReturn('file3');
+        $attr6->shouldReceive('lastModified')->andReturn(strtotime('1 week ago'));
+
         $this->filesystem->shouldReceive('listContents')
             ->with(IliosFileSystem::HASHED_LM_DIRECTORY, true)
-            ->andReturn(new DirectoryListing([
-                m::mock(StorageAttributes::class)
-                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_DIRECTORY)
-                    ->shouldNotReceive('path')
-                    ->shouldReceive('lastModified')->andReturn(time())
-                    ->mock(),
-                m::mock(StorageAttributes::class)
-                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_DIRECTORY)
-                    ->shouldNotReceive('path')
-                    ->shouldReceive('lastModified')->andReturn(strtotime('1 year ago'))
-                    ->mock(),
-                m::mock(StorageAttributes::class)
-                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
-                    ->shouldNotReceive('path')
-                    ->shouldReceive('lastModified')->andReturn(time())
-                    ->mock(),
-                m::mock(StorageAttributes::class)
-                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
-                    ->shouldReceive('path')->andReturn('file1')
-                    ->shouldReceive('lastModified')->andReturn(strtotime('3 days ago'))
-                    ->mock(),
-                m::mock(StorageAttributes::class)
-                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
-                    ->shouldNotReceive('path')
-                    ->shouldReceive('lastModified')->andReturn(strtotime('1 days ago'))
-                    ->mock(),
-                m::mock(StorageAttributes::class)
-                    ->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE)
-                    ->shouldReceive('path')->andReturn('file3')
-                    ->shouldReceive('lastModified')->andReturn(strtotime('1 week ago'))
-                    ->mock(),
-            ]));
+            ->andReturn(new DirectoryListing([$attr1, $attr2, $attr3, $attr4, $attr5, $attr6]));
         $this->filesystem->shouldReceive('delete')->with('file1');
         $this->filesystem->shouldReceive('delete')->with('file3');
 

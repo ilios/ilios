@@ -14,9 +14,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 abstract class AbstractBase extends TestCase
 {
-    /** @var  m\MockInterface */
-    protected $permissionChecker;
-
+    protected m\MockInterface $permissionChecker;
     protected Voter $voter;
 
     /**
@@ -30,56 +28,57 @@ abstract class AbstractBase extends TestCase
     }
 
     /**
-     * Creates a mock token that has the given user.
-     * @param ?SessionUserInterface $sessionUser A (mock) user entity.
+     * Creates a mock token that has the given (mock) session-user.
+     * @param ?m\MockInterface $mockSessionUser A mock session user.
+     * @return m\MockInterface a mock service token object
      */
-    protected function createMockTokenWithSessionUser(?SessionUserInterface $sessionUser): TokenInterface
+    protected function createMockTokenWithMockSessionUser(?m\MockInterface $mockSessionUser): m\MockInterface
     {
         $mock = m::mock(TokenInterface::class);
-        $mock->shouldReceive('getUser')->andReturn($sessionUser);
+        $mock->shouldReceive('getUser')->andReturn($mockSessionUser);
         return $mock;
     }
 
     /**
-     * Creates a mock token with a non-root user
+     * Creates a mock session user that doesn't have root level privileges.
      */
-    protected function createMockTokenWithNonRootSessionUser(): TokenInterface
+    protected function createMockNonRootSessionUser(): m\MockInterface
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
-        return $this->createMockTokenWithSessionUser($sessionUser);
+        return $sessionUser;
     }
 
     /**
-     * Creates a mock token with a user that's performs non-learner functions.
+     * Creates a mock session user that performs non-learner functions.
      */
-    protected function createMockTokenWithSessionUserPerformingNonLearnerFunction(): TokenInterface
+    protected function createMockSessionUserPerformingNonLearnerFunction(): m\MockInterface
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(true);
-        return $this->createMockTokenWithSessionUser($sessionUser);
+        return $sessionUser;
     }
 
     /**
-     * Creates a mock token with a user that's doesn't perform non-learner functions.
+     * Creates a mock session user that doesn't perform non-learner functions.
      */
-    protected function createMockTokenWithSessionUserPerformingOnlyLearnerFunction(): TokenInterface
+    protected function createMockSessionUserPerformingOnlyLearnerFunction(): m\MockInterface
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
-        return $this->createMockTokenWithSessionUser($sessionUser);
+        return $sessionUser;
     }
 
     /**
-     * Creates a mock token with a root user
+     * Creates a mock session user with root-level privileges.
      */
-    protected function createMockTokenWithRootSessionUser(): TokenInterface
+    protected function createMockRootSessionUser(): m\MockInterface
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(true);
-        return $this->createMockTokenWithSessionUser($sessionUser);
+        return $sessionUser;
     }
 
     /**
@@ -88,17 +87,17 @@ abstract class AbstractBase extends TestCase
      * @param array $entityAttrs
      */
     protected function checkRootEntityAccess(
-        $mockEntity,
+        m\MockInterface $mockEntity,
         array $entityAttrs = [
             VoterPermissions::VIEW,
             VoterPermissions::DELETE,
             VoterPermissions::CREATE,
             VoterPermissions::EDIT,
             ]
-    ) {
+    ): void {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         foreach ($entityAttrs as $attr) {
             $response = $this->voter->vote($token, $mockEntity, [$attr]);
             $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "{$attr} allowed");
@@ -109,11 +108,11 @@ abstract class AbstractBase extends TestCase
      * Check that "root" users are granted access in all votes on the given DTO.
      * @param string $dtoClass
      */
-    protected function checkRootDTOAccess(string $dtoClass)
+    protected function checkRootDTOAccess(string $dtoClass): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $response = $this->voter->vote($token, m::mock($dtoClass), [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }

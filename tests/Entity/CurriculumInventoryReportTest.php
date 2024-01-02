@@ -8,7 +8,6 @@ use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Entity\School;
 use DateTime;
-use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventoryReport
@@ -16,20 +15,21 @@ use Mockery as m;
  */
 class CurriculumInventoryReportTest extends EntityBase
 {
-    /**
-     * @var CurriculumInventoryReport
-     */
-    protected $object;
+    protected CurriculumInventoryReport $object;
 
-    /**
-     * Instantiate a CurriculumInventoryReport object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CurriculumInventoryReport();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'year',
@@ -55,7 +55,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getAcademicLevels());
         $this->assertEmpty($this->object->getSequenceBlocks());
@@ -65,7 +65,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setYear
      * @covers \App\Entity\CurriculumInventoryReport::getYear
      */
-    public function testSetYear()
+    public function testSetYear(): void
     {
         $this->basicSetTest('year', 'integer');
     }
@@ -74,7 +74,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setName
      * @covers \App\Entity\CurriculumInventoryReport::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -83,7 +83,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setDescription
      * @covers \App\Entity\CurriculumInventoryReport::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -92,7 +92,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setStartDate
      * @covers \App\Entity\CurriculumInventoryReport::getStartDate
      */
-    public function testSetStartDate()
+    public function testSetStartDate(): void
     {
         $this->basicSetTest('startDate', 'datetime');
     }
@@ -101,7 +101,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setEndDate
      * @covers \App\Entity\CurriculumInventoryReport::getEndDate
      */
-    public function testSetEndDate()
+    public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
     }
@@ -110,7 +110,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setExport
      * @covers \App\Entity\CurriculumInventoryReport::getExport
      */
-    public function testSetExport()
+    public function testSetExport(): void
     {
         $this->entitySetTest('export', 'CurriculumInventoryExport');
     }
@@ -119,7 +119,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setSequence
      * @covers \App\Entity\CurriculumInventoryReport::getSequence
      */
-    public function testSetSequence()
+    public function testSetSequence(): void
     {
         $this->entitySetTest('sequence', 'CurriculumInventorySequence');
     }
@@ -128,7 +128,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::setProgram
      * @covers \App\Entity\CurriculumInventoryReport::getProgram
      */
-    public function testSetProgram()
+    public function testSetProgram(): void
     {
         $this->entitySetTest('program', 'Program');
     }
@@ -136,7 +136,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::getSchool
      */
-    public function testGetSchool()
+    public function testGetSchool(): void
     {
         $school = new School();
         $program = new Program();
@@ -152,7 +152,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::addSequenceBlock
      */
-    public function testAddSequenceBlock()
+    public function testAddSequenceBlock(): void
     {
         $this->entityCollectionAddTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -160,7 +160,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::removeSequenceBlock
      */
-    public function testRemoveSequenceBlock()
+    public function testRemoveSequenceBlock(): void
     {
         $this->entityCollectionRemoveTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -168,7 +168,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::getSequenceBlocks
      */
-    public function testGetSequenceBlocks()
+    public function testGetSequenceBlocks(): void
     {
         $this->entityCollectionSetTest('sequenceBlock', 'CurriculumInventorySequenceBlock');
     }
@@ -176,7 +176,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::addAcademicLevel
      */
-    public function testAddAcademicLevel()
+    public function testAddAcademicLevel(): void
     {
         $this->entityCollectionAddTest('academicLevel', 'CurriculumInventoryAcademicLevel');
     }
@@ -184,7 +184,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::removeAcademicLevel
      */
-    public function testRemoveAcademicLevel()
+    public function testRemoveAcademicLevel(): void
     {
         $this->entityCollectionRemoveTest('academicLevel', 'CurriculumInventoryAcademicLevel');
     }
@@ -193,7 +193,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::getAcademicLevels
      * @covers \App\Entity\CurriculumInventoryReport::setAcademicLevels
      */
-    public function testGetAcademicLevels()
+    public function testGetAcademicLevels(): void
     {
         $this->entityCollectionSetTest('academicLevel', 'CurriculumInventoryAcademicLevel');
     }
@@ -201,7 +201,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::addAdministrator
      */
-    public function testAddAdministrator()
+    public function testAddAdministrator(): void
     {
         $this->entityCollectionAddTest(
             'administrator',
@@ -215,7 +215,7 @@ class CurriculumInventoryReportTest extends EntityBase
     /**
      * @covers \App\Entity\CurriculumInventoryReport::removeAdministrator
      */
-    public function testRemoveAdministrator()
+    public function testRemoveAdministrator(): void
     {
         $this->entityCollectionRemoveTest(
             'administrator',
@@ -231,7 +231,7 @@ class CurriculumInventoryReportTest extends EntityBase
      * @covers \App\Entity\CurriculumInventoryReport::getAdministrators
      * @covers \App\Entity\CurriculumInventoryReport::setAdministrators
      */
-    public function testSetAdministrators()
+    public function testSetAdministrators(): void
     {
         $this->entityCollectionSetTest(
             'administrator',
@@ -240,5 +240,10 @@ class CurriculumInventoryReportTest extends EntityBase
             false,
             'addAdministeredCurriculumInventoryReport'
         );
+    }
+
+    protected function getObject(): CurriculumInventoryReport
+    {
+        return $this->object;
     }
 }

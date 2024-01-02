@@ -9,25 +9,16 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\ApplicationConfig;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadApplicationConfigData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface
+class LoadApplicationConfigData extends AbstractFixture implements ORMFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected ApplicationConfigData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get(ApplicationConfigData::class)
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new ApplicationConfig();
             $entity->setId($arr['id']);

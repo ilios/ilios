@@ -13,20 +13,21 @@ use DateTime;
  */
 class MeshTermTest extends EntityBase
 {
-    /**
-     * @var MeshTerm
-     */
-    protected $object;
+    protected MeshTerm $object;
 
-    /**
-     * Instantiate a MeshTerm object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new MeshTerm();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'name',
@@ -46,7 +47,7 @@ class MeshTermTest extends EntityBase
     /**
      * @covers \App\Entity\MeshTerm::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $now = new DateTime();
         $createdAt = $this->object->getCreatedAt();
@@ -59,7 +60,7 @@ class MeshTermTest extends EntityBase
      * @covers \App\Entity\MeshTerm::setName
      * @covers \App\Entity\MeshTerm::getName
      */
-    public function testSetName()
+    public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
@@ -68,7 +69,7 @@ class MeshTermTest extends EntityBase
      * @covers \App\Entity\MeshTerm::setLexicalTag
      * @covers \App\Entity\MeshTerm::getLexicalTag
      */
-    public function testSetLexicalTag()
+    public function testSetLexicalTag(): void
     {
         $this->basicSetTest('lexicalTag', 'string');
     }
@@ -77,7 +78,7 @@ class MeshTermTest extends EntityBase
      * @covers \App\Entity\MeshTerm::setConceptPreferred
      * @covers \App\Entity\MeshTerm::isConceptPreferred
      */
-    public function testSetConceptPreferred()
+    public function testSetConceptPreferred(): void
     {
         $this->booleanSetTest('conceptPreferred');
     }
@@ -86,7 +87,7 @@ class MeshTermTest extends EntityBase
      * @covers \App\Entity\MeshTerm::setRecordPreferred
      * @covers \App\Entity\MeshTerm::isRecordPreferred
      */
-    public function testSetRecordPreferred()
+    public function testSetRecordPreferred(): void
     {
         $this->booleanSetTest('recordPreferred');
     }
@@ -95,7 +96,7 @@ class MeshTermTest extends EntityBase
      * @covers \App\Entity\MeshTerm::setPermuted
      * @covers \App\Entity\MeshTerm::isPermuted
      */
-    public function testSetPermuted()
+    public function testSetPermuted(): void
     {
         $this->booleanSetTest('permuted');
     }
@@ -103,7 +104,7 @@ class MeshTermTest extends EntityBase
     /**
      * @covers \App\Entity\MeshTerm::addConcept
      */
-    public function testAddConcept()
+    public function testAddConcept(): void
     {
         $this->entityCollectionAddTest('concept', 'MeshConcept');
     }
@@ -111,7 +112,7 @@ class MeshTermTest extends EntityBase
     /**
      * @covers \App\Entity\MeshTerm::removeConcept
      */
-    public function testRemoveConcept()
+    public function testRemoveConcept(): void
     {
         $this->entityCollectionRemoveTest('concept', 'MeshConcept');
     }
@@ -119,8 +120,13 @@ class MeshTermTest extends EntityBase
     /**
      * @covers \App\Entity\MeshTerm::getConcepts
      */
-    public function getGetConcepts()
+    public function testGetConcepts(): void
     {
         $this->entityCollectionSetTest('concept', 'MeshConcept');
+    }
+
+    protected function getObject(): MeshTerm
+    {
+        return $this->object;
     }
 }

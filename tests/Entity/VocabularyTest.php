@@ -14,37 +14,41 @@ use Mockery as m;
  */
 class VocabularyTest extends EntityBase
 {
-    /**
-     * @var Vocabulary
-     */
-    protected $object;
+    protected Vocabulary $object;
 
-    /**
-     * Instantiate a Vocabulary object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Vocabulary();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
      * @covers \App\Entity\Vocabulary::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getTerms());
     }
 
-    public function testNotEmptyValidation()
+    public function testNotBlankValidation(): void
     {
-        $errors = $this->validate(2);
-        $this->assertEquals([
-            "title" => "NotBlank",
-            "school" => "NotNull",
-        ], $errors);
-
         $this->object->setSchool(m::mock(SchoolInterface::class));
+        $this->validateNotBlanks(['title']);
         $this->object->setTitle('Jackson is the best dog!');
+        $this->validate(0);
+    }
+
+    public function testNotNullValidation(): void
+    {
+        $this->object->setTitle('Jackson is the best dog!');
+        $this->validateNotNulls(['school']);
+        $this->object->setSchool(m::mock(SchoolInterface::class));
         $this->validate(0);
     }
 
@@ -52,7 +56,7 @@ class VocabularyTest extends EntityBase
      * @covers \App\Entity\Vocabulary::setTitle
      * @covers \App\Entity\Vocabulary::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -61,7 +65,7 @@ class VocabularyTest extends EntityBase
      * @covers \App\Entity\Vocabulary::setSchool
      * @covers \App\Entity\Vocabulary::getSchool
      */
-    public function testSetSchool()
+    public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
@@ -69,7 +73,7 @@ class VocabularyTest extends EntityBase
     /**
      * @covers \App\Entity\Vocabulary::addTerm
      */
-    public function testAddTerm()
+    public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
@@ -77,7 +81,7 @@ class VocabularyTest extends EntityBase
     /**
      * @covers \App\Entity\Vocabulary::removeTerm
      */
-    public function testRemoveTerm()
+    public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
@@ -85,7 +89,7 @@ class VocabularyTest extends EntityBase
     /**
      * @covers \App\Entity\Vocabulary::getTerms
      */
-    public function testGetTerm()
+    public function testGetTerm(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
@@ -94,8 +98,13 @@ class VocabularyTest extends EntityBase
      * @covers \App\Entity\Vocabulary::setActive
      * @covers \App\Entity\Vocabulary::isActive
      */
-    public function testIsActive()
+    public function testIsActive(): void
     {
         $this->booleanSetTest('active');
+    }
+
+    protected function getObject(): Vocabulary
+    {
+        return $this->object;
     }
 }

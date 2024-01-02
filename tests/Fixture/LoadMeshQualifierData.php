@@ -6,30 +6,21 @@ namespace App\Tests\Fixture;
 
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshQualifier;
+use App\Tests\DataLoader\MeshQualifierData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadMeshQualifierData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface,
-    DependentFixtureInterface
+class LoadMeshQualifierData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected MeshQualifierData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\MeshQualifierData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new MeshQualifier();
             $entity->setId($arr['id']);
@@ -43,10 +34,10 @@ class LoadMeshQualifierData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadMeshDescriptorData',
+            LoadMeshDescriptorData::class,
         ];
     }
 }

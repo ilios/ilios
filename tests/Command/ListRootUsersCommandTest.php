@@ -7,6 +7,7 @@ namespace App\Tests\Command;
 use App\Command\ListRootUsersCommand;
 use App\Entity\DTO\UserDTO;
 use App\Repository\UserRepository;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -20,17 +21,10 @@ use Mockery as m;
  */
 class ListRootUsersCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $userRepository;
-
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $userRepository;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -55,7 +49,7 @@ class ListRootUsersCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\ListRootUsersCommand::execute
      */
-    public function testListRootUsers()
+    public function testListRootUsers(): void
     {
         $users = [];
         $users[] = new UserDTO(
@@ -109,7 +103,7 @@ class ListRootUsersCommandTest extends KernelTestCase
             $output
         );
         $this->assertMatchesRegularExpression(
-            '/\| 2\s+\| Ilse\s+\| Bilse\s+\|| ilse@test.com\s+\| 222-222-2222\s+\ No\s+\|/',
+            '/\| 2\s+\| Ilse\s+\| Bilse\s+\|| ilse@test.com\s+\| 222-222-2222\s+ No\s+\|/',
             $output
         );
     }
@@ -117,7 +111,7 @@ class ListRootUsersCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\ListRootUsersCommand::execute
      */
-    public function testListUsersNoResults()
+    public function testListUsersNoResults(): void
     {
         $this->userRepository
             ->shouldReceive('findDTOsBy')

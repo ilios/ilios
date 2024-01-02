@@ -22,12 +22,12 @@ class SessionLearningMaterialDTOVoterTest extends AbstractBase
         $this->voter = new SessionLearningMaterialDTOVoter($this->permissionChecker);
     }
 
-    public function testCanViewDTOAsNonLearner()
+    public function testCanViewDTOAsNonLearner(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(true);
         $dto = m::mock(SessionLearningMaterialDTO::class);
@@ -37,22 +37,22 @@ class SessionLearningMaterialDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    public function testRootCanViewDTO()
+    public function testRootCanViewDTO(): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isRoot')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $token = $this->createMockTokenWithMockSessionUser($sessionUser);
         $dto = m::mock(SessionLearningMaterialDTO::class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    public function testCanNotViewDTO()
+    public function testCanNotViewDTO(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $user->shouldReceive('isLearnerInSession')->with(13)->andReturn(false);
@@ -64,12 +64,12 @@ class SessionLearningMaterialDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    public function testCanViewDTOIfInSession()
+    public function testCanViewDTOIfInSession(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $user->shouldReceive('isLearnerInSession')->with(13)->andReturn(true);
@@ -81,12 +81,12 @@ class SessionLearningMaterialDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    public function testCanNotViewDTOBeforeItIsAvailable()
+    public function testCanNotViewDTOBeforeItIsAvailable(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $dto = m::mock(SessionLearningMaterialDTO::class);
@@ -97,12 +97,12 @@ class SessionLearningMaterialDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    public function testCanNotViewDTOAfterItIsAvailable()
+    public function testCanNotViewDTOAfterItIsAvailable(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $dto = m::mock(SessionLearningMaterialDTO::class);
@@ -113,12 +113,12 @@ class SessionLearningMaterialDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    public function testCanViewDTOBetweenStartAndEndDates()
+    public function testCanViewDTOBetweenStartAndEndDates(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $user->shouldReceive('isLearnerInSession')->with(13)->andReturn(true);

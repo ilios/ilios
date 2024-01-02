@@ -8,6 +8,7 @@ use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use App\Service\TemporaryFileSystem;
 use App\Tests\TestCase;
+use Symfony\Component\HttpFoundation\File\File;
 
 class TemporaryFileSystemTest extends TestCase
 {
@@ -47,12 +48,12 @@ class TemporaryFileSystemTest extends TestCase
         $fs->remove($this->fakeTestFileDir);
     }
 
-    public function testStoreFile()
+    public function testStoreFile(): void
     {
         $path = __FILE__;
         $hash = md5_file($path);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->twice()->andReturn($path)->getMock();
+        $file = m::mock(File::class);
+        $file->shouldReceive('getPathname')->twice()->andReturn($path);
         $this->mockFileSystem->shouldReceive('exists')
             ->with($this->uploadDirectory . '/' . $hash);
         $this->mockFileSystem->shouldReceive('rename')
@@ -60,26 +61,26 @@ class TemporaryFileSystemTest extends TestCase
         $this->tempFileSystem->storeFile($file);
     }
 
-    public function testRemoveFile()
+    public function testRemoveFile(): void
     {
         $file = 'foojunk';
         $this->mockFileSystem->shouldReceive('remove')->once()->with($this->uploadDirectory . '/' . $file);
         $this->tempFileSystem->removeFile($file);
     }
 
-    public function testGetFile()
+    public function testGetFile(): void
     {
         $fs = new SymfonyFileSystem();
         $someJunk = 'whatever dude';
         $hash = md5($someJunk);
         $testFilePath = $this->uploadDirectory . '/' . $hash;
         file_put_contents($testFilePath, $someJunk);
-        $file = m::mock('Symfony\Component\HttpFoundation\File\File')
-            ->shouldReceive('getPathname')->andReturn($testFilePath)->getMock();
+        $file = m::mock(File::class);
+        $file->shouldReceive('getPathname')->andReturn($testFilePath);
         $this->mockFileSystem->shouldReceive('exists')
             ->with($testFilePath)->andReturn(true);
         $this->mockFileSystem->shouldReceive('move');
-        $newHash = $this->tempFileSystem->storeFile($file, false);
+        $newHash = $this->tempFileSystem->storeFile($file);
 
         $newFile = $this->tempFileSystem->getFile($newHash);
         $this->assertSame($hash, $newHash);

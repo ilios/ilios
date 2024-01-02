@@ -9,30 +9,21 @@ use App\Entity\MeshDescriptor;
 use App\Entity\ProgramYear;
 use App\Entity\ProgramYearObjective;
 use App\Entity\Term;
+use App\Tests\DataLoader\ProgramYearObjectiveData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadProgramYearObjectiveData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface,
-    DependentFixtureInterface
+class LoadProgramYearObjectiveData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected ProgramYearObjectiveData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\ProgramYearObjectiveData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYearObjective();
             $entity->setId($arr['id']);
@@ -64,13 +55,13 @@ class LoadProgramYearObjectiveData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadCompetencyData',
-            'App\Tests\Fixture\LoadMeshDescriptorData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadProgramYearData',
+            LoadCompetencyData::class,
+            LoadMeshDescriptorData::class,
+            LoadTermData::class,
+            LoadProgramYearData::class,
         ];
     }
 }

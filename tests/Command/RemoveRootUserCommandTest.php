@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\RemoveRootUserCommand;
+use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use Exception;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -21,17 +23,10 @@ use Mockery as m;
  */
 class RemoveRootUserCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $userRepository;
-
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $userRepository;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -56,10 +51,10 @@ class RemoveRootUserCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\RemoveRootUserCommand::execute
      */
-    public function testRemoveRootUser()
+    public function testRemoveRootUser(): void
     {
         $userId = 1;
-        $user = m::mock('App\Entity\User');
+        $user = m::mock(UserInterface::class);
 
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
         $this->userRepository->shouldReceive('update');
@@ -81,7 +76,7 @@ class RemoveRootUserCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\RemoveRootUserCommand::execute
      */
-    public function testMissingInput()
+    public function testMissingInput(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -92,7 +87,7 @@ class RemoveRootUserCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\RemoveRootUserCommand::execute
      */
-    public function testUserNotFound()
+    public function testUserNotFound(): void
     {
         $userId = 0;
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn(null);

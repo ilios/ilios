@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\AddDirectoryUserCommand;
+use App\Entity\AuthenticationInterface;
+use App\Entity\SchoolInterface;
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Service\Directory;
 use Exception;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -22,16 +26,15 @@ use Mockery as m;
  */
 class AddDirectoryUserCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:add-directory-user';
 
-    protected $userRepository;
-    protected $authenticationRepository;
-    protected $schoolRepository;
-    protected $commandTester;
-    protected $questionHelper;
-    protected $directory;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $authenticationRepository;
+    protected m\MockInterface $schoolRepository;
+    protected CommandTester $commandTester;
+    protected m\MockInterface $directory;
 
     public function setUp(): void
     {
@@ -52,7 +55,6 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
-        $this->questionHelper = $command->getHelper('question');
     }
 
     /**
@@ -66,29 +68,28 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         unset($this->schoolRepository);
         unset($this->directory);
         unset($this->commandTester);
-        unset($this->questionHelper);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
-        $school = m::mock('App\Entity\SchoolInterface');
-        $authentication = m::mock('App\Entity\AuthenticationInterface')
-            ->shouldReceive('setUsername')->with('abc123')
-            ->mock();
-        $user = m::mock('App\Entity\UserInterface')
-            ->shouldReceive('setFirstName')->with('first')
-            ->shouldReceive('setLastName')->with('last')
-            ->shouldReceive('setEmail')->with('email')
-            ->shouldReceive('setPhone')->with('phone')
-            ->shouldReceive('setCampusId')->with('abc')
-            ->shouldReceive('setAddedViaIlios')->with(true)
-            ->shouldReceive('setEnabled')->with(true)
-            ->shouldReceive('setUserSyncIgnore')->with(false)
-            ->shouldReceive('setSchool')->with($school)
-            ->shouldReceive('getId')->andReturn(1)
-            ->shouldReceive('getAuthentication')->andReturn($authentication)
-            ->shouldReceive('getFirstAndLastName')->andReturn('Test Person')
-            ->mock();
+        $school = m::mock(SchoolInterface::class);
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('setUsername')->with('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('setFirstName')->with('first');
+        $user->shouldReceive('setLastName')->with('last');
+        $user->shouldReceive('setEmail')->with('email');
+        $user->shouldReceive('setPhone')->with('phone');
+        $user->shouldReceive('setCampusId')->with('abc');
+        $user->shouldReceive('setAddedViaIlios')->with(true);
+        $user->shouldReceive('setEnabled')->with(true);
+        $user->shouldReceive('setUserSyncIgnore')->with(false);
+        $user->shouldReceive('setSchool')->with($school);
+        $user->shouldReceive('getId')->andReturn(1);
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('Test Person');
+
         $authentication->shouldReceive('setUser')->with($user);
 
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
@@ -126,12 +127,11 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         );
     }
 
-
-    public function testBadCampusId()
+    public function testBadCampusId(): void
     {
-        $user = m::mock('App\Entity\UserInterface')
-            ->shouldReceive('getId')->andReturn(1)
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(1);
+
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn($user);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
@@ -141,7 +141,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testBadSchoolId()
+    public function testBadSchoolId(): void
     {
         $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 1])->andReturn(null);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
@@ -153,7 +153,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testUserRequired()
+    public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
@@ -162,7 +162,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         ]);
     }
 
-    public function testSchoolRequired()
+    public function testSchoolRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([

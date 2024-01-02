@@ -15,7 +15,7 @@ use App\Tests\TestCase;
  */
 class ConfigTest extends TestCase
 {
-    public function testPullsFromENVFirst()
+    public function testPullsFromENVFirst(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -28,7 +28,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testPullsFromDBIfNoEnv()
+    public function testPullsFromDBIfNoEnv(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -39,7 +39,7 @@ class ConfigTest extends TestCase
         $this->assertEquals($value, $result);
     }
 
-    public function testConvertsStringFalseToBooleanFalse()
+    public function testConvertsStringFalseToBooleanFalse(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -52,7 +52,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsStringTrueToBooleanTrue()
+    public function testConvertsStringTrueToBooleanTrue(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -65,7 +65,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsStringNullToNullNull()
+    public function testConvertsStringNullToNullNull(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -77,7 +77,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsUppercaseStringFalseToBooleanFalse()
+    public function testConvertsUppercaseStringFalseToBooleanFalse(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -90,7 +90,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsUppercaseStringTrueToBooleanTrue()
+    public function testConvertsUppercaseStringTrueToBooleanTrue(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -103,7 +103,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsUppercaseStringNullToNullNull()
+    public function testConvertsUppercaseStringNullToNullNull(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -115,7 +115,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testDoesNotOverwriteEnvWithServer()
+    public function testDoesNotOverwriteEnvWithServer(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -130,7 +130,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testLooksInServerIfEnvIsNull()
+    public function testLooksInServerIfEnvIsNull(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -145,7 +145,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testLooksInServerIfEnvIsNotSet()
+    public function testLooksInServerIfEnvIsNotSet(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -158,7 +158,7 @@ class ConfigTest extends TestCase
         unset($_SERVER[$envKey]);
     }
 
-    public function testConvertsCASString3ToInt3()
+    public function testConvertsCASString3ToInt3(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -170,7 +170,7 @@ class ConfigTest extends TestCase
         unset($_ENV[$envKey]);
     }
 
-    public function testConvertsCASString3ToInt3DB()
+    public function testConvertsCASString3ToInt3DB(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);
@@ -181,7 +181,7 @@ class ConfigTest extends TestCase
         $this->assertEquals(3, $result);
     }
 
-    public function testCASAuthEmptyNull()
+    public function testCASAuthEmptyNull(): void
     {
         $repository = m::mock(ApplicationConfigRepository::class);
         $config = new Config($repository);

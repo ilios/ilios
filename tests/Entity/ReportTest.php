@@ -14,37 +14,33 @@ use Mockery as m;
  */
 class ReportTest extends EntityBase
 {
-    /**
-     * @var Report
-     */
-    protected $object;
+    protected Report $object;
 
-    /**
-     * Instantiate a Report object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Report();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
     }
 
     /**
      * @covers \App\Entity\Session::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertNotEmpty($this->object->getCreatedAt());
     }
 
-    public function testNotBlankValidation()
+    public function testNotNullValidation(): void
     {
-        $errors = $this->validate(2);
-        $this->assertEquals([
-            "subject" => "NotBlank",
-            "user" => "NotNull",
-        ], $errors);
-
-        $this->object->setUser(m::mock(UserInterface::class));
         $this->object->setSubject('test');
+        $this->validateNotNulls(['user']);
+        $this->object->setUser(m::mock(UserInterface::class));
         $this->object->setTitle('');
         $this->object->setPrepositionalObject('');
         $this->object->setPrepositionalObjectTableRowId('');
@@ -55,11 +51,19 @@ class ReportTest extends EntityBase
         $this->validate(0);
     }
 
+    public function testNotBlankValidation(): void
+    {
+        $this->object->setUser(m::mock(UserInterface::class));
+        $this->validateNotBlanks(['subject']);
+        $this->object->setSubject('test');
+        $this->validate(0);
+    }
+
     /**
      * @covers \App\Entity\Report::setSubject
      * @covers \App\Entity\Report::getSubject
      */
-    public function testSetSubject()
+    public function testSetSubject(): void
     {
         $this->basicSetTest('subject', 'string');
     }
@@ -68,7 +72,7 @@ class ReportTest extends EntityBase
      * @covers \App\Entity\Report::setPrepositionalObject
      * @covers \App\Entity\Report::getPrepositionalObject
      */
-    public function testSetPrepositionalObject()
+    public function testSetPrepositionalObject(): void
     {
         $this->basicSetTest('prepositionalObject', 'string');
     }
@@ -77,7 +81,7 @@ class ReportTest extends EntityBase
      * @covers \App\Entity\Report::setPrepositionalObjectTableRowId
      * @covers \App\Entity\Report::getPrepositionalObjectTableRowId
      */
-    public function testSetPrepositionalObjectTableRowId()
+    public function testSetPrepositionalObjectTableRowId(): void
     {
         $this->basicSetTest('prepositionalObjectTableRowId', 'string');
     }
@@ -86,7 +90,7 @@ class ReportTest extends EntityBase
      * @covers \App\Entity\Report::setTitle
      * @covers \App\Entity\Report::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -95,7 +99,7 @@ class ReportTest extends EntityBase
      * @covers \App\Entity\Report::setUser
      * @covers \App\Entity\Report::getUser
      */
-    public function testSetUser()
+    public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
     }
@@ -104,7 +108,7 @@ class ReportTest extends EntityBase
      * @covers \App\Entity\Report::setSchool
      * @covers \App\Entity\Report::getSchool
      */
-    public function testSetSchool()
+    public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
@@ -113,9 +117,14 @@ class ReportTest extends EntityBase
      * @covers \App\Entity\Report::setSchool
      * @covers \App\Entity\Report::getSchool
      */
-    public function testSetSchoolToNull()
+    public function testSetSchoolToNull(): void
     {
         $this->object->setSchool(null);
         $this->assertNull($this->object->getSchool());
+    }
+
+    protected function getObject(): Report
+    {
+        return $this->object;
     }
 }

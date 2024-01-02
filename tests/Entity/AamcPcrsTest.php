@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AamcPcrs;
-use Mockery as m;
 
 /**
  * Tests for Entity AamcPcrs
@@ -13,20 +12,21 @@ use Mockery as m;
  */
 class AamcPcrsTest extends EntityBase
 {
-    /**
-     * @var AamcPcrs
-     */
-    protected $object;
+    protected AamcPcrs $object;
 
-    /**
-     * Instantiate a AamcPcrs object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AamcPcrs();
     }
 
-    public function testNotBlankValidation()
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'id',
@@ -42,7 +42,7 @@ class AamcPcrsTest extends EntityBase
     /**
      * @covers \App\Entity\AamcPcrs::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCompetencies());
     }
@@ -52,7 +52,7 @@ class AamcPcrsTest extends EntityBase
      * @covers \App\Entity\AamcPcrs::getDescription
      * @covers \App\Entity\AamcPcrs::getDescription
      */
-    public function testSetDescription()
+    public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
@@ -60,7 +60,7 @@ class AamcPcrsTest extends EntityBase
     /**
      * @covers \App\Entity\AamcPcrs::addCompetency
      */
-    public function testAddCompetency()
+    public function testAddCompetency(): void
     {
         $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'addCompetency', 'addAamcPcrs');
     }
@@ -68,7 +68,7 @@ class AamcPcrsTest extends EntityBase
     /**
      * @covers \App\Entity\AamcPcrs::getCompetencies
      */
-    public function testGetCompetencies()
+    public function testGetCompetencies(): void
     {
         $this->entityCollectionSetTest(
             'competencies',
@@ -82,7 +82,7 @@ class AamcPcrsTest extends EntityBase
     /**
      * @covers \App\Entity\AamcPcrs::removeCompetency
      */
-    public function testRemoveCompetency()
+    public function testRemoveCompetency(): void
     {
         $this->entityCollectionRemoveTest(
             'competencies',
@@ -92,5 +92,10 @@ class AamcPcrsTest extends EntityBase
             'removeCompetency',
             'removeAamcPcrs'
         );
+    }
+
+    protected function getObject(): AamcPcrs
+    {
+        return $this->object;
     }
 }

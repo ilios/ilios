@@ -23,22 +23,24 @@ class IlmSessionTest extends AbstractBase
         $this->voter = new Voter($this->permissionChecker);
     }
 
-    public function testAllowsRootFullAccess()
+    public function testAllowsRootFullAccess(): void
     {
         $this->checkRootEntityAccess(m::mock(IlmSessionInterface::class));
     }
 
-    public function testCanView()
+    public function testCanView(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IlmSessionInterface::class);
         $response = $this->voter->vote($token, $entity, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "View allowed");
     }
 
-    public function testCanEdit()
+    public function testCanEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IlmSessionInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -54,9 +56,10 @@ class IlmSessionTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Edit allowed");
     }
 
-    public function testCanNotEdit()
+    public function testCanNotEdit(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IlmSessionInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -72,9 +75,10 @@ class IlmSessionTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Edit denied");
     }
 
-    public function testCanDelete()
+    public function testCanDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IlmSessionInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -90,9 +94,10 @@ class IlmSessionTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Delete allowed");
     }
 
-    public function testCanNotDelete()
+    public function testCanNotDelete(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IlmSessionInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -108,9 +113,10 @@ class IlmSessionTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "Delete denied");
     }
 
-    public function testCanCreate()
+    public function testCanCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IlmSessionInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);
@@ -126,9 +132,10 @@ class IlmSessionTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "Create allowed");
     }
 
-    public function testCanNotCreate()
+    public function testCanNotCreate(): void
     {
-        $token = $this->createMockTokenWithNonRootSessionUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $entity = m::mock(IlmSessionInterface::class);
         $session = m::mock(SessionInterface::class);
         $session->shouldReceive('getId')->andReturn(1);

@@ -6,30 +6,21 @@ namespace App\Tests\Fixture;
 
 use App\Entity\MeshConcept;
 use App\Entity\MeshTerm;
+use App\Tests\DataLoader\MeshTermData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadMeshTermData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface,
-    DependentFixtureInterface
+class LoadMeshTermData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected MeshTermData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\MeshTermData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new MeshTerm();
             $entity->setId($arr['id']);
@@ -48,10 +39,10 @@ class LoadMeshTermData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadMeshConceptData',
+            LoadMeshConceptData::class,
         ];
     }
 }

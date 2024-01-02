@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\ValidateLearningMaterialPathsCommand;
+use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
 use App\Service\IliosFileSystem;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -19,13 +21,13 @@ use Mockery as m;
  */
 class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:validate-learning-materials';
 
-    protected $iliosFileSystem;
-    protected $learningMaterialRepository;
-    protected $commandTester;
+    protected m\MockInterface $iliosFileSystem;
+    protected m\MockInterface $learningMaterialRepository;
+    protected CommandTester $commandTester;
 
     public function setUp(): void
     {
@@ -52,24 +54,25 @@ class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->iliosFileSystem);
         unset($this->learningMaterialRepository);
+        unset($this->commandTester);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
-        $goodLm = m::mock('App\Entity\LearningMaterial');
-        $badLm = m::mock('App\Entity\LearningMaterial')
-            ->shouldReceive('getId')->andReturn('42')
-            ->shouldReceive('getRelativePath')->andReturn('path/path')
-            ->mock();
+        $goodLm = m::mock(LearningMaterialInterface::class);
+        $badLm = m::mock(LearningMaterialInterface::class);
+        $badLm->shouldReceive('getId')->andReturn('42');
+        $badLm->shouldReceive('getRelativePath')->andReturn('path/path');
+
         $this->learningMaterialRepository
-            ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once()
-            ->shouldReceive('findFileLearningMaterials')->andReturn([$goodLm, $badLm])->once()
-        ;
+            ->shouldReceive('getTotalFileLearningMaterialCount')->andReturn(1)->once();
+        $this->learningMaterialRepository
+            ->shouldReceive('findFileLearningMaterials')->andReturn([$goodLm, $badLm])->once();
 
         $this->iliosFileSystem
-            ->shouldReceive('checkLearningMaterialFilePath')->with($goodLm)->andReturn(true)->once()
-            ->shouldReceive('checkLearningMaterialFilePath')->with($badLm)->andReturn(false)->once()
-        ;
+            ->shouldReceive('checkLearningMaterialFilePath')->with($goodLm)->andReturn(true)->once();
+        $this->iliosFileSystem
+            ->shouldReceive('checkLearningMaterialFilePath')->with($badLm)->andReturn(false)->once();
 
         $this->commandTester->execute([
             'command'      => self::COMMAND_NAME

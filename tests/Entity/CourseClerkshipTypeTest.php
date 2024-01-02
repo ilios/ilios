@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\CourseClerkshipType;
-use Mockery as m;
 
 /**
  * Tests for Entity CourseClerkshipType
@@ -13,20 +12,21 @@ use Mockery as m;
  */
 class CourseClerkshipTypeTest extends EntityBase
 {
-    /**
-     * @var CourseClerkshipType
-     */
-    protected $object;
+    protected CourseClerkshipType $object;
 
-    /**
-     * Instantiate a CourseClerkshipType object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CourseClerkshipType();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -40,7 +40,7 @@ class CourseClerkshipTypeTest extends EntityBase
     /**
      * @covers \App\Entity\CourseClerkshipType::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getCourses());
     }
@@ -49,7 +49,7 @@ class CourseClerkshipTypeTest extends EntityBase
      * @covers \App\Entity\CourseClerkshipType::setTitle
      * @covers \App\Entity\CourseClerkshipType::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -57,7 +57,7 @@ class CourseClerkshipTypeTest extends EntityBase
     /**
      * @covers \App\Entity\CourseClerkshipType::addCourse
      */
-    public function testAddCourse()
+    public function testAddCourse(): void
     {
         $this->entityCollectionAddTest('course', 'Course', false, false, 'setClerkshipType');
     }
@@ -65,7 +65,7 @@ class CourseClerkshipTypeTest extends EntityBase
     /**
      * @covers \App\Entity\CourseClerkshipType::removeCourse
      */
-    public function testRemoveCourse()
+    public function testRemoveCourse(): void
     {
         $this->entityCollectionRemoveTest('course', 'Course');
     }
@@ -73,8 +73,13 @@ class CourseClerkshipTypeTest extends EntityBase
     /**
      * @covers \App\Entity\CourseClerkshipType::getCourses
      */
-    public function testGetCourses()
+    public function testGetCourses(): void
     {
         $this->entityCollectionSetTest('course', 'Course', false, false, 'setClerkshipType');
+    }
+
+    protected function getObject(): CourseClerkshipType
+    {
+        return $this->object;
     }
 }

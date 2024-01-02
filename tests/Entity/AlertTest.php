@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Alert;
-use Mockery as m;
 
 /**
  * Tests for Entity Alert
@@ -13,20 +12,21 @@ use Mockery as m;
  */
 class AlertTest extends EntityBase
 {
-    /**
-     * @var Alert
-     */
-    protected $object;
+    protected Alert $object;
 
-    /**
-     * Instantiate a Alert object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new Alert();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'tableRowId',
@@ -47,7 +47,7 @@ class AlertTest extends EntityBase
     /**
      * @covers \App\Entity\Alert::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getChangeTypes());
         $this->assertEmpty($this->object->getInstigators());
@@ -58,7 +58,7 @@ class AlertTest extends EntityBase
      * @covers \App\Entity\Alert::setTableName
      * @covers \App\Entity\Alert::getTableName
      */
-    public function testSetTableName()
+    public function testSetTableName(): void
     {
         $this->basicSetTest('tableName', 'string');
     }
@@ -67,7 +67,7 @@ class AlertTest extends EntityBase
      * @covers \App\Entity\Alert::setAdditionalText
      * @covers \App\Entity\Alert::getAdditionalText
      */
-    public function testSetAdditionalText()
+    public function testSetAdditionalText(): void
     {
         $this->basicSetTest('additionalText', 'string');
     }
@@ -76,7 +76,7 @@ class AlertTest extends EntityBase
      * @covers \App\Entity\Alert::setDispatched
      * @covers \App\Entity\Alert::isDispatched
      */
-    public function testSetDispatched()
+    public function testSetDispatched(): void
     {
         $this->booleanSetTest('dispatched');
     }
@@ -84,7 +84,7 @@ class AlertTest extends EntityBase
     /**
      * @covers \App\Entity\Alert::addChangeType
      */
-    public function testAddChangeType()
+    public function testAddChangeType(): void
     {
         $this->entityCollectionAddTest('changeType', 'AlertChangeType');
     }
@@ -92,7 +92,7 @@ class AlertTest extends EntityBase
     /**
      * @covers \App\Entity\Alert::removeChangeType
      */
-    public function testRemoveChangeType()
+    public function testRemoveChangeType(): void
     {
         $this->entityCollectionRemoveTest('changeType', 'AlertChangeType');
     }
@@ -101,7 +101,7 @@ class AlertTest extends EntityBase
      * @covers \App\Entity\Alert::getChangeTypes
      * @covers \App\Entity\Alert::setChangeTypes
      */
-    public function testGetChangeTypes()
+    public function testGetChangeTypes(): void
     {
         $this->entityCollectionSetTest('changeType', 'AlertChangeType');
     }
@@ -109,7 +109,7 @@ class AlertTest extends EntityBase
     /**
      * @covers \App\Entity\Alert::addInstigator
      */
-    public function testAddInstigator()
+    public function testAddInstigator(): void
     {
         $this->entityCollectionAddTest('instigator', 'User');
     }
@@ -117,7 +117,7 @@ class AlertTest extends EntityBase
     /**
      * @covers \App\Entity\Alert::removeInstigator
      */
-    public function testRemoveInstigator()
+    public function testRemoveInstigator(): void
     {
         $this->entityCollectionRemoveTest('instigator', 'User');
     }
@@ -126,7 +126,7 @@ class AlertTest extends EntityBase
      * @covers \App\Entity\Alert::getInstigators
      * @covers \App\Entity\Alert::setInstigators
      */
-    public function testGetInstigators()
+    public function testGetInstigators(): void
     {
         $this->entityCollectionSetTest('instigator', 'User');
     }
@@ -134,7 +134,7 @@ class AlertTest extends EntityBase
     /**
      * @covers \App\Entity\Alert::addRecipient
      */
-    public function testAddRecipient()
+    public function testAddRecipient(): void
     {
         $this->entityCollectionAddTest('recipient', 'School');
     }
@@ -142,7 +142,7 @@ class AlertTest extends EntityBase
     /**
      * @covers \App\Entity\Alert::removeRecipient
      */
-    public function testRemoveRecipient()
+    public function testRemoveRecipient(): void
     {
         $this->entityCollectionRemoveTest('recipient', 'School');
     }
@@ -151,8 +151,13 @@ class AlertTest extends EntityBase
      * @covers \App\Entity\Alert::getRecipients
      * @covers \App\Entity\Alert::setRecipients
      */
-    public function testGetRecipients()
+    public function testGetRecipients(): void
     {
         $this->entityCollectionSetTest('recipient', 'School');
+    }
+
+    protected function getObject(): Alert
+    {
+        return $this->object;
     }
 }

@@ -10,24 +10,23 @@ use App\Entity\UserRoleInterface;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
 use App\Service\Directory;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
 class SyncStudentStatusCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     private const COMMAND_NAME = 'ilios:sync-students';
 
-    protected UserRepository|m\MockInterface $userRepository;
-    protected UserRoleRepository|m\MockInterface $userRoleRepository;
+    protected m\MockInterface $userRepository;
+    protected m\MockInterface $userRoleRepository;
     protected CommandTester $commandTester;
-    protected QuestionHelper $questionHelper;
-    protected Directory|m\MockInterface $directory;
+    protected m\MockInterface $directory;
 
     public function setUp(): void
     {
@@ -42,7 +41,6 @@ class SyncStudentStatusCommandTest extends KernelTestCase
         $application->add($command);
         $commandInApp = $application->find(self::COMMAND_NAME);
         $this->commandTester = new CommandTester($commandInApp);
-        $this->questionHelper = $command->getHelper('question');
     }
 
     public function tearDown(): void
@@ -54,7 +52,7 @@ class SyncStudentStatusCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $fakeDirectoryUser1 = [
             'firstName' => 'first',
@@ -71,16 +69,16 @@ class SyncStudentStatusCommandTest extends KernelTestCase
             'campusId' => 'abc2',
         ];
         $role = m::mock(UserRoleInterface::class);
-        $user = m::mock(UserInterface::class)
-            ->shouldReceive('getId')->andReturn(42)
-            ->shouldReceive('getFirstName')->andReturn('first')
-            ->shouldReceive('getLastName')->andReturn('last')
-            ->shouldReceive('getEmail')->andReturn('email')
-            ->shouldReceive('getCampusId')->andReturn('abc')
-            ->shouldReceive('isUserSyncIgnore')->andReturn(false)
-            ->shouldReceive('isEnabled')->andReturn(true)
-            ->shouldReceive('addRole')->with($role)->once()
-            ->mock();
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('isUserSyncIgnore')->andReturn(false);
+        $user->shouldReceive('isEnabled')->andReturn(true);
+        $user->shouldReceive('addRole')->with($role)->once();
+
         $this->directory->shouldReceive('findByLdapFilter')
             ->with('FILTER')
             ->andReturn([$fakeDirectoryUser1, $fakeDirectoryUser2]);
@@ -125,7 +123,7 @@ class SyncStudentStatusCommandTest extends KernelTestCase
         );
     }
 
-    public function testFilterRequired()
+    public function testFilterRequired(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute(['command' => self::COMMAND_NAME]);

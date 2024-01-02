@@ -10,6 +10,7 @@ use App\Service\Index\Mesh;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Parser;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -23,28 +24,12 @@ use Mockery as m;
  */
 class ImportMeshUniverseCommandTest extends KernelTestCase
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
-    /**
-     * @var m\MockInterface
-     */
-
-    protected $meshParser;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $descriptorRepository;
-
-    /**
-     * @var Mesh|m\MockInterface
-     */
-    protected $meshIndex;
-
-    /**
-     * @var CommandTester
-     */
-    protected $commandTester;
+    protected m\MockInterface $meshParser;
+    protected m\MockInterface $descriptorRepository;
+    protected m\MockInterface $meshIndex;
+    protected CommandTester $commandTester;
 
     /**
      * @var string
@@ -78,7 +63,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testNoArgs()
+    public function testNoArgs(): void
     {
         $this->mockHappyPath();
         $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml';
@@ -100,7 +85,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testGivenFilePath()
+    public function testGivenFilePath(): void
     {
         $this->mockHappyPath();
 
@@ -122,7 +107,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testGivenUrl()
+    public function testGivenUrl(): void
     {
         $this->mockHappyPath();
 
@@ -144,7 +129,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testYear2023()
+    public function testYear2023(): void
     {
         $this->mockHappyPath();
 
@@ -167,7 +152,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testYear2022()
+    public function testYear2022(): void
     {
         $this->mockHappyPath();
 
@@ -190,7 +175,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testInvalidGivenYear()
+    public function testInvalidGivenYear(): void
     {
         $year = '1906';
         $this->expectExceptionMessage('Given year must be one of: 2022, 2023');
@@ -210,7 +195,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     /**
      * @covers ::execute
      */
-    public function testIndexesResults()
+    public function testIndexesResults(): void
     {
         $this->descriptorRepository->shouldReceive('clearExistingData')->once();
         $this->descriptorRepository->shouldReceive('findDTOsBy')->once()->andReturn([]);
@@ -220,10 +205,8 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
 
         $descriptor = m::mock(Descriptor::class);
         $descriptorSet = m::mock(DescriptorSet::class);
-
-        $descriptorSet
-            ->shouldReceive('getDescriptors')->once()->andReturn([$descriptor])
-            ->shouldReceive('getDescriptorUis')->andReturn(['id']);
+        $descriptorSet->shouldReceive('getDescriptors')->once()->andReturn([$descriptor]);
+        $descriptorSet->shouldReceive('getDescriptorUis')->andReturn(['id']);
         $this->meshIndex
             ->shouldReceive('index')->with([$descriptor])
             ->once()->andReturn(true);
@@ -245,7 +228,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertMatchesRegularExpression("/Finished MeSH universe import in \d+ seconds./", $output);
     }
 
-    protected function mockHappyPath()
+    protected function mockHappyPath(): void
     {
         $this->descriptorRepository->shouldReceive('clearExistingData')->once();
         $this->descriptorRepository->shouldReceive('findDTOsBy')->once()->andReturn([]);

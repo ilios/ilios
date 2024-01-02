@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Classes;
 
 use App\Classes\SessionUser;
+use App\Classes\SessionUserInterface;
 use App\Classes\UserRoles;
 use App\Entity\School;
 use App\Entity\SchoolInterface;
@@ -21,30 +22,15 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  */
 class SessionUserTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    protected $iliosUser;
+    protected m\MockInterface $iliosUser;
 
-    /**
-     * @var m\MockInterface
-     */
-    protected $userRepository;
+    protected m\MockInterface $userRepository;
 
-    /**
-     * @var SessionUser
-     */
-    protected $sessionUser;
+    protected SessionUserInterface $sessionUser;
 
-    /**
-     * @var int
-     */
-    protected $userId;
+    protected int $userId;
 
-    /**
-     * @var SchoolInterface
-     */
-    protected $school;
+    protected m\MockInterface $school;
 
     public function setUp(): void
     {
@@ -1468,7 +1454,7 @@ class SessionUserTest extends TestCase
         bool $isRoot = false,
         bool $enabled = true,
         AuthenticationInterface $authentication = null
-    ): UserInterface {
+    ): m\MockInterface {
         $iliosUser = m::mock(UserInterface::class);
         $iliosUser->shouldReceive('getId')->andReturn($userId);
         $iliosUser->shouldReceive('getSchool')->andReturn($school);

@@ -12,20 +12,21 @@ use App\Entity\IngestionException;
  */
 class IngestionExceptionTest extends EntityBase
 {
-    /**
-     * @var IngestionException
-     */
-    protected $object;
+    protected IngestionException $object;
 
-    /**
-     * Instantiate a IngestionException object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new IngestionException();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'uid',
@@ -42,7 +43,7 @@ class IngestionExceptionTest extends EntityBase
      * @covers \App\Entity\IngestionException::setUser
      * @covers \App\Entity\IngestionException::getUser
      */
-    public function testSetUser()
+    public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
     }
@@ -51,8 +52,13 @@ class IngestionExceptionTest extends EntityBase
      * @covers \App\Entity\IngestionException::setUid
      * @covers \App\Entity\IngestionException::getUid
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('uid', 'string');
+    }
+
+    protected function getObject(): IngestionException
+    {
+        return $this->object;
     }
 }

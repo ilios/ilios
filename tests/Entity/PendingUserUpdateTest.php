@@ -6,7 +6,6 @@ namespace App\Tests\Entity;
 
 use App\Entity\PendingUserUpdate;
 use App\Entity\User;
-use Mockery as m;
 
 /**
  * Tests for Entity PendingUserUpdate
@@ -14,20 +13,21 @@ use Mockery as m;
  */
 class PendingUserUpdateTest extends EntityBase
 {
-    /**
-     * @var PendingUserUpdate
-     */
-    protected $object;
+    protected PendingUserUpdate $object;
 
-    /**
-     * Instantiate a PendingUserUpdate object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new PendingUserUpdate();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'type',
@@ -43,7 +43,7 @@ class PendingUserUpdateTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testNotNullValidation()
+    public function testNotNullValidation(): void
     {
         $notNull = [
             'user',
@@ -62,7 +62,7 @@ class PendingUserUpdateTest extends EntityBase
      * @covers \App\Entity\PendingUserUpdate::setType
      * @covers \App\Entity\PendingUserUpdate::getType
      */
-    public function testSetType()
+    public function testSetType(): void
     {
         $this->basicSetTest('type', 'string');
     }
@@ -71,7 +71,7 @@ class PendingUserUpdateTest extends EntityBase
      * @covers \App\Entity\PendingUserUpdate::setProperty
      * @covers \App\Entity\PendingUserUpdate::getProperty
      */
-    public function testSetProperty()
+    public function testSetProperty(): void
     {
         $this->basicSetTest('property', 'string');
     }
@@ -80,7 +80,7 @@ class PendingUserUpdateTest extends EntityBase
      * @covers \App\Entity\PendingUserUpdate::setValue
      * @covers \App\Entity\PendingUserUpdate::getValue
      */
-    public function testSetValue()
+    public function testSetValue(): void
     {
         $this->basicSetTest('value', 'string');
     }
@@ -89,8 +89,13 @@ class PendingUserUpdateTest extends EntityBase
      * @covers \App\Entity\PendingUserUpdate::setUser
      * @covers \App\Entity\PendingUserUpdate::getUser
      */
-    public function testSetUser()
+    public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
+    }
+
+    protected function getObject(): PendingUserUpdate
+    {
+        return $this->object;
     }
 }

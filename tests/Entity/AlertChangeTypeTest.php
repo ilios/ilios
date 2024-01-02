@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\AlertChangeType;
-use Mockery as m;
 
 /**
  * Tests for Entity AlertChangeType
@@ -13,20 +12,21 @@ use Mockery as m;
  */
 class AlertChangeTypeTest extends EntityBase
 {
-    /**
-     * @var AlertChangeType
-     */
-    protected $object;
+    protected AlertChangeType $object;
 
-    /**
-     * Instantiate a AlertChangeType object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new AlertChangeType();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notBlank = [
             'title'
@@ -39,7 +39,7 @@ class AlertChangeTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AlertChangeType::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getAlerts());
     }
@@ -48,7 +48,7 @@ class AlertChangeTypeTest extends EntityBase
      * @covers \App\Entity\AlertChangeType::setTitle
      * @covers \App\Entity\AlertChangeType::getTitle
      */
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
@@ -56,7 +56,7 @@ class AlertChangeTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AlertChangeType::addAlert
      */
-    public function testAddAlert()
+    public function testAddAlert(): void
     {
         $this->entityCollectionAddTest('alert', 'Alert', false, false, 'addChangeType');
     }
@@ -64,7 +64,7 @@ class AlertChangeTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AlertChangeType::removeAlert
      */
-    public function testRemoveAlert()
+    public function testRemoveAlert(): void
     {
         $this->entityCollectionRemoveTest('alert', 'Alert', false, false, false, 'removeChangeType');
     }
@@ -72,8 +72,13 @@ class AlertChangeTypeTest extends EntityBase
     /**
      * @covers \App\Entity\AlertChangeType::getAlerts
      */
-    public function testGetAlerts()
+    public function testGetAlerts(): void
     {
         $this->entityCollectionSetTest('alert', 'Alert', false, false, 'addChangeType');
+    }
+
+    protected function getObject(): AlertChangeType
+    {
+        return $this->object;
     }
 }

@@ -5,28 +5,20 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\LearningMaterialStatus;
+use App\Tests\DataLoader\LearningMaterialStatusData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadLearningMaterialStatusData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface
+class LoadLearningMaterialStatusData extends AbstractFixture implements ORMFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected LearningMaterialStatusData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\LearningMaterialStatusData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new LearningMaterialStatus();
             $entity->setId($arr['id']);

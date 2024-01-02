@@ -8,30 +8,21 @@ use App\Entity\Competency;
 use App\Entity\Program;
 use App\Entity\ProgramYear;
 use App\Entity\Term;
+use App\Tests\DataLoader\ProgramYearData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadProgramYearData extends AbstractFixture implements
-    ORMFixtureInterface,
-    DependentFixtureInterface,
-    ContainerAwareInterface
+class LoadProgramYearData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected ProgramYearData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\ProgramYearData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new ProgramYear();
             $entity->setId($arr['id']);
@@ -51,12 +42,12 @@ class LoadProgramYearData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadProgramData',
-            'App\Tests\Fixture\LoadTermData',
-            'App\Tests\Fixture\LoadCompetencyData',
+            LoadProgramData::class,
+            LoadTermData::class,
+            LoadCompetencyData::class,
         ];
     }
 }

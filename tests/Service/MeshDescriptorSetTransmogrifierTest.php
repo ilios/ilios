@@ -20,10 +20,7 @@ use Ilios\MeSH\Model\Term;
  */
 class MeshDescriptorSetTransmogrifierTest extends TestCase
 {
-    /**
-     * @var MeshDescriptorSetTransmogrifier $transmogrifier
-     */
-    protected $transmogrifier;
+    protected MeshDescriptorSetTransmogrifier $transmogrifier;
 
     public function setUp(): void
     {
@@ -40,7 +37,7 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
     /**
      * @covers ::transmogrify
      */
-    public function testTransmogrify()
+    public function testTransmogrify(): void
     {
         $descriptor1 = new Descriptor();
         $descriptor1->setUi('D01');
@@ -163,7 +160,7 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
     /**
      * @covers ::hashTerm
      */
-    public function testHashTerm()
+    public function testHashTerm(): void
     {
         $term1 = new Term();
         // relevant props

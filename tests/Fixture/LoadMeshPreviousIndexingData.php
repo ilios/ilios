@@ -6,30 +6,21 @@ namespace App\Tests\Fixture;
 
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshPreviousIndexing;
+use App\Tests\DataLoader\MeshPreviousIndexingData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadMeshPreviousIndexingData extends AbstractFixture implements
-    ORMFixtureInterface,
-    ContainerAwareInterface,
-    DependentFixtureInterface
+class LoadMeshPreviousIndexingData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected MeshPreviousIndexingData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get('App\Tests\DataLoader\MeshPreviousIndexingData')
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new MeshPreviousIndexing();
             $entity->setId($arr['id']);
@@ -41,10 +32,10 @@ class LoadMeshPreviousIndexingData extends AbstractFixture implements
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
-            'App\Tests\Fixture\LoadMeshDescriptorData',
+            LoadMeshDescriptorData::class,
         ];
     }
 }

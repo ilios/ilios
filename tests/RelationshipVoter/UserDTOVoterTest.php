@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class UserDTOVoterTest extends AbstractBase
 {
-    protected $dto;
+    protected UserDTOVoter $dto;
 
     public function setUp(): void
     {
@@ -30,12 +30,12 @@ class UserDTOVoterTest extends AbstractBase
     /**
      * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
-    public function testCanViewDTOAsNonLearner()
+    public function testCanViewDTOAsNonLearner(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(true);
         $dto = m::mock(UserDTO::class);
@@ -48,11 +48,11 @@ class UserDTOVoterTest extends AbstractBase
     /**
      * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
-    public function testCanViewDTOifYourself()
+    public function testCanViewDTOifYourself(): void
     {
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldNotReceive('performsNonLearnerFunction');
         $dto = m::mock(UserDTO::class);
@@ -65,11 +65,10 @@ class UserDTOVoterTest extends AbstractBase
     /**
      * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
-    public function testRootCanViewDTO()
+    public function testRootCanViewDTO(): void
     {
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('isRoot')->andReturn(true);
-        $token = $this->createMockTokenWithSessionUser($sessionUser);
+        $user = $this->createMockRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $dto = m::mock(UserDTO::class);
         $response = $this->voter->vote($token, $dto, [VoterPermissions::VIEW]);
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
@@ -78,12 +77,12 @@ class UserDTOVoterTest extends AbstractBase
     /**
      * @covers \App\RelationshipVoter\UserDTOVoter::voteOnAttribute
      */
-    public function testCanNotViewDTO()
+    public function testCanNotViewDTO(): void
     {
         $dtoId = 1;
         $userId = 2;
-        $token = $this->createMockTokenWithNonRootSessionUser();
-        $user = $token->getUser();
+        $user = $this->createMockNonRootSessionUser();
+        $token = $this->createMockTokenWithMockSessionUser($user);
         $user->shouldReceive('getId')->andReturn($userId);
         $user->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $dto = m::mock(UserDTO::class);

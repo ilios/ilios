@@ -15,26 +15,18 @@ use App\Entity\CurriculumInventorySequenceBlock;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implements
     ORMFixtureInterface,
-    ContainerAwareInterface,
     DependentFixtureInterface
 {
-    private ContainerInterface $container;
-
-    public function setContainer(ContainerInterface $container = null): void
+    public function __construct(protected CurriculumInventorySequenceBlockData $data)
     {
-        $this->container = $container;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $data = $this->container
-            ->get(CurriculumInventorySequenceBlockData::class)
-            ->getAll();
+        $data = $this->data->getAll();
         foreach ($data as $arr) {
             $entity = new CurriculumInventorySequenceBlock();
             $entity->setId($arr['id']);
@@ -99,7 +91,7 @@ class LoadCurriculumInventorySequenceBlockData extends AbstractFixture implement
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             LoadCurriculumInventoryReportData::class,

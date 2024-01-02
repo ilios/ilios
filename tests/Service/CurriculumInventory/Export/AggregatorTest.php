@@ -19,25 +19,10 @@ use Mockery as m;
  */
 class AggregatorTest extends TestCase
 {
-    /**
-     * @var m\MockInterface
-     */
-    protected $manager;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $institutionRepository;
-
-    /**
-     * @var m\MockInterface
-     */
-    protected $config;
-
-    /**
-     * @var Aggregator
-     */
-    protected $aggregator;
+    protected m\MockInterface $manager;
+    protected m\MockInterface $institutionRepository;
+    protected m\MockInterface $config;
+    protected Aggregator $aggregator;
 
     protected function setUp(): void
     {
@@ -60,7 +45,7 @@ class AggregatorTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Export\Aggregator::addKeywordsToEvents
      */
-    public function testAddKeywordsToEvents()
+    public function testAddKeywordsToEvents(): void
     {
         $event1 = [];
         $event2 = [];
@@ -83,7 +68,7 @@ class AggregatorTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Export\Aggregator::addResourceTypesToEvents
      */
-    public function testAddResourceTypesToEvents()
+    public function testAddResourceTypesToEvents(): void
     {
         $resourceType1 = ['event_id' => 10];
         $resourceType2 = ['event_id' => 10];
@@ -104,7 +89,7 @@ class AggregatorTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Export\Aggregator::addCompetencyObjectReferencesToEvents
      */
-    public function testAddCompetencyObjectReferencesToEvents()
+    public function testAddCompetencyObjectReferencesToEvents(): void
     {
         $events = [
             10 => [],
@@ -131,7 +116,7 @@ class AggregatorTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Export\Aggregator::getConsolidatedObjectivesMap
      */
-    public function testGetConsolidatedObjectivesMap()
+    public function testGetConsolidatedObjectivesMap(): void
     {
         $objectives = [
             ['id' => 1, 'ancestor_id' => null],
@@ -158,7 +143,7 @@ class AggregatorTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Export\Aggregator::getData
      */
-    public function testGetFailsIfReportHasNoProgram()
+    public function testGetFailsIfReportHasNoProgram(): void
     {
         $this->expectExceptionMessage('No program found for report with id = 1.');
         $report = m::mock(CurriculumInventoryReport::class);
@@ -173,7 +158,7 @@ class AggregatorTest extends TestCase
      * @covers \App\Service\CurriculumInventory\Export\Aggregator::getData
      * @todo Implement this monster of a test. [ST 2018/07/18]
      */
-    public function testGetData()
+    public function testGetData(): void
     {
         $this->markTestIncomplete('to be implemented.');
     }

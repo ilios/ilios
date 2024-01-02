@@ -16,10 +16,7 @@ use App\Tests\TestCase;
 
 class IlmSessionsEntityTest extends TestCase
 {
-    /**
-     * @var IlmSessionsEntity
-     */
-    private $traitObject;
+    private object $traitObject;
     public function setUp(): void
     {
         parent::setUp();

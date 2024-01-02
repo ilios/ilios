@@ -15,20 +15,21 @@ use Mockery as m;
  */
 class CourseLearningMaterialTest extends EntityBase
 {
-    /**
-     * @var CourseLearningMaterial
-     */
-    protected $object;
+    protected CourseLearningMaterial $object;
 
-    /**
-     * Instantiate a CourseLearningMaterial object
-     */
     protected function setUp(): void
     {
+        parent::setUp();
         $this->object = new CourseLearningMaterial();
     }
 
-    public function testNotBlankValidation()
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->object);
+    }
+
+    public function testNotBlankValidation(): void
     {
         $notNull = [
             'course',
@@ -46,7 +47,7 @@ class CourseLearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\CourseLearningMaterial::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getMeshDescriptors());
         $this->assertFalse($this->object->hasPublicNotes());
@@ -56,7 +57,7 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setNotes
      * @covers \App\Entity\CourseLearningMaterial::getNotes
      */
-    public function testSetNotes()
+    public function testSetNotes(): void
     {
         $this->basicSetTest('notes', 'string');
     }
@@ -65,7 +66,7 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setRequired
      * @covers \App\Entity\CourseLearningMaterial::isRequired
      */
-    public function testSetRequired()
+    public function testSetRequired(): void
     {
         $this->booleanSetTest('required');
     }
@@ -74,7 +75,7 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setPublicNotes
      * @covers \App\Entity\CourseLearningMaterial::hasPublicNotes
      */
-    public function testSetPublicNotes()
+    public function testSetPublicNotes(): void
     {
         $this->booleanSetTest('publicNotes', false);
     }
@@ -83,7 +84,7 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setCourse
      * @covers \App\Entity\CourseLearningMaterial::getCourse
      */
-    public function testSetCourse()
+    public function testSetCourse(): void
     {
         $this->entitySetTest('course', 'Course');
     }
@@ -92,7 +93,7 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setLearningMaterial
      * @covers \App\Entity\CourseLearningMaterial::getLearningMaterial
      */
-    public function testSetLearningMaterial()
+    public function testSetLearningMaterial(): void
     {
         $this->entitySetTest('learningMaterial', 'LearningMaterial');
     }
@@ -100,7 +101,7 @@ class CourseLearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\CourseLearningMaterial::addMeshDescriptor
      */
-    public function testAddMeshDescriptor()
+    public function testAddMeshDescriptor(): void
     {
         $this->entityCollectionAddTest('meshDescriptor', 'MeshDescriptor');
     }
@@ -108,7 +109,7 @@ class CourseLearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\CourseLearningMaterial::removeMeshDescriptor
      */
-    public function testRemoveMeshDescriptor()
+    public function testRemoveMeshDescriptor(): void
     {
         $this->entityCollectionRemoveTest('meshDescriptor', 'MeshDescriptor');
     }
@@ -116,7 +117,7 @@ class CourseLearningMaterialTest extends EntityBase
     /**
      * @covers \App\Entity\CourseLearningMaterial::getMeshDescriptors
      */
-    public function testGetMeshDescriptors()
+    public function testGetMeshDescriptors(): void
     {
         $this->entityCollectionSetTest('meshDescriptor', 'MeshDescriptor');
     }
@@ -125,7 +126,7 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setPosition
      * @covers \App\Entity\CourseLearningMaterial::getPosition
      */
-    public function testSetPosition()
+    public function testSetPosition(): void
     {
         $this->basicSetTest('position', 'integer');
     }
@@ -134,7 +135,7 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setStartDate
      * @covers \App\Entity\CourseLearningMaterial::getStartDate
      */
-    public function testSetStartDate()
+    public function testSetStartDate(): void
     {
         $this->basicSetTest('startDate', 'datetime');
     }
@@ -143,8 +144,13 @@ class CourseLearningMaterialTest extends EntityBase
      * @covers \App\Entity\CourseLearningMaterial::setEndDate
      * @covers \App\Entity\CourseLearningMaterial::getEndDate
      */
-    public function testSetEndDate()
+    public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
+    }
+
+    protected function getObject(): CourseLearningMaterial
+    {
+        return $this->object;
     }
 }
