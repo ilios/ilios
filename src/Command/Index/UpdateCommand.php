@@ -12,6 +12,7 @@ use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
 use App\Repository\MeshDescriptorRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,10 +21,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 /**
  * Queues the updating of all indexed items
  */
+#[AsCommand(
+    name: 'ilios:index:update',
+    description: 'Queue everything to be updated in the index.'
+)]
 class UpdateCommand extends Command
 {
-    public const COMMAND_NAME = 'ilios:index:update';
-
     public function __construct(
         protected UserRepository $userRepository,
         protected CourseRepository $courseRepository,
@@ -34,13 +37,6 @@ class UpdateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->setName(self::COMMAND_NAME)
-            ->setDescription('Queue everything to be updated in the index.');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->queueUsers($output);
@@ -49,10 +45,10 @@ class UpdateCommand extends Command
         $this->queueCourses($output);
         $this->queueMesh($output);
 
-        return 0;
+        return Command::SUCCESS;
     }
 
-    protected function queueUsers(OutputInterface $output)
+    protected function queueUsers(OutputInterface $output): void
     {
         $allIds = $this->userRepository->getIds();
         $count = count($allIds);
@@ -63,7 +59,7 @@ class UpdateCommand extends Command
         $output->writeln("<info>{$count} users have been queued for indexing.</info>");
     }
 
-    protected function queueCourses(OutputInterface $output)
+    protected function queueCourses(OutputInterface $output): void
     {
         $allIds = $this->courseRepository->getIds();
         $count = count($allIds);
@@ -74,7 +70,7 @@ class UpdateCommand extends Command
         $output->writeln("<info>{$count} courses have been queued for indexing.</info>");
     }
 
-    protected function queueLearningMaterials(OutputInterface $output)
+    protected function queueLearningMaterials(OutputInterface $output): void
     {
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
         $count = count($allIds);
@@ -84,7 +80,7 @@ class UpdateCommand extends Command
         $output->writeln("<info>{$count} learning materials have been queued for indexing.</info>");
     }
 
-    protected function queueMesh(OutputInterface $output)
+    protected function queueMesh(OutputInterface $output): void
     {
         $allIds = $this->descriptorRepository->getIds();
         $count = count($allIds);

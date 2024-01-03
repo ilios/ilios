@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command\Index;
 
 use App\Service\Index\Manager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -13,10 +14,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Drop Search Index
  */
+#[AsCommand(
+    name: 'ilios:index:drop',
+    description: 'Drop the search index removing all documents and settings'
+)]
 class DropCommand extends Command
 {
-    public const COMMAND_NAME = 'ilios:index:drop';
-
     public function __construct(
         protected Manager $indexManager
     ) {
@@ -26,8 +29,6 @@ class DropCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName(self::COMMAND_NAME)
-            ->setDescription('Drop the search index removing all documents and settings')
             ->addOption(
                 'force',
                 null,
@@ -46,12 +47,12 @@ class DropCommand extends Command
             $output->writeln('');
             $output->writeln('Please run the operation with --force to execute');
             $output->writeln('<error>All data will be lost!</error>');
-            return 2;
+            return Command::INVALID;
         }
         $output->writeln("<info>Dropping the index.</info>");
         $this->indexManager->drop();
         $output->writeln("<info>Ok.</info>");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

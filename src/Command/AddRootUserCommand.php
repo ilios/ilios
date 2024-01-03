@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,13 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Class AddRootUserCommand
  */
+#[AsCommand(
+    name: 'ilios:add-root-user',
+    description: 'Grants root-level privileges to a given user.',
+    aliases: ['ilios:maintenance:add-root-user']
+)]
 class AddRootUserCommand extends Command
 {
-    /**
-     * @var string
-     */
-    public const COMMAND_NAME = 'ilios:add-root-user';
-
     public function __construct(protected UserRepository $userRepository)
     {
         parent::__construct();
@@ -31,15 +32,7 @@ class AddRootUserCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName(self::COMMAND_NAME)
-            ->setAliases(['ilios:maintenance:add-root-user'])
-            ->setDescription('Grants root-level privileges to a given user.')
-            ->addArgument(
-                'userId',
-                InputArgument::REQUIRED,
-                "The user's id."
-            );
+        $this->addArgument('userId', InputArgument::REQUIRED, "The user's id.");
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -54,6 +47,6 @@ class AddRootUserCommand extends Command
         $this->userRepository->update($user, true, true);
         $output->writeln("User with id #{$userId} has been granted root-level privileges.");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

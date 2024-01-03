@@ -27,8 +27,6 @@ class SyncAllUsersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:sync-users';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
     protected m\MockInterface $pendingUserUpdateRepository;
@@ -55,7 +53,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
         $this->pendingUserUpdateRepository->shouldReceive('removeAllPendingUserUpdates')->once();
         $this->userRepository->shouldReceive('resetExaminedFlagForAllUsers')->once();
@@ -122,10 +120,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('update')->with($user, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -187,10 +182,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -252,10 +244,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -317,10 +306,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -389,10 +375,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -454,10 +437,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -519,10 +499,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -584,9 +561,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -648,9 +623,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -713,10 +686,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -784,10 +754,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -861,10 +828,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -917,9 +881,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -972,10 +934,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -1028,10 +987,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -1084,10 +1040,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -1129,9 +1082,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->pendingUserUpdateRepository->shouldReceive('update')->with($update, false)->once();
 
         $this->em->shouldReceive('flush')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -1199,9 +1150,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -1271,10 +1220,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
 
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->once();
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
-
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(

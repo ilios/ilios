@@ -39,8 +39,6 @@ class CleanupStringsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:cleanup-strings';
-
     protected HTMLPurifier $purifier;
     protected m\MockInterface $em;
     protected m\MockInterface $sessionObjectiveRepository;
@@ -82,7 +80,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -147,7 +145,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->times(3);
         $this->em->shouldReceive('clear')->times(3);
         $this->commandTester->execute([
-            'command'           => self::COMMAND_NAME,
             '--objective-title' => true
         ]);
 
@@ -200,7 +197,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->times(3);
         $this->em->shouldReceive('clear')->times(3);
         $this->commandTester->execute([
-            'command'           => self::COMMAND_NAME,
             '--objective-title-blankspace' => true
         ]);
 
@@ -230,7 +226,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
-            'command'           => self::COMMAND_NAME,
             '--learningmaterial-description' => true
         ]);
 
@@ -274,7 +269,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->twice();
         $this->commandTester->execute([
-            'command'           => self::COMMAND_NAME,
             '--learningmaterial-note' => true
         ]);
 
@@ -310,7 +304,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
-            'command'           => self::COMMAND_NAME,
             '--session-description' => true
         ]);
 
@@ -341,7 +334,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
-            'command'           => self::COMMAND_NAME,
             '--session-description' => true
         ]);
 
@@ -379,7 +371,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
 
-        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+        $this->commandTester->execute(['--learningmaterial-links' => true]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
@@ -417,7 +409,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
 
-        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+        $this->commandTester->execute(['--learningmaterial-links' => true]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
@@ -453,7 +445,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
 
-        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+        $this->commandTester->execute(['--learningmaterial-links' => true]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("0 learning material links updated, 0 failures.", $output);
@@ -496,7 +488,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->times(3);
         $this->em->shouldReceive('clear')->times(3);
 
-        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+        $this->commandTester->execute(['--learningmaterial-links' => true]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("{$total} learning material links updated, 0 failures.", $output);
@@ -523,7 +515,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
 
-        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+        $this->commandTester->execute(['--learningmaterial-links' => true]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("0 learning material links updated, 1 failures.", $output);
@@ -550,7 +542,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
 
-        $this->commandTester->execute([ 'command' => self::COMMAND_NAME, '--learningmaterial-links' => true ]);
+        $this->commandTester->execute(['--learningmaterial-links' => true]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
@@ -581,7 +573,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('clear')->once();
 
         $this->commandTester->execute(
-            [ 'command' => self::COMMAND_NAME,'--learningmaterial-links' => true ],
+            [ '--learningmaterial-links' => true],
             [ 'verbosity' => OutputInterface::VERBOSITY_VERBOSE],
         );
 

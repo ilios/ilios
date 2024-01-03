@@ -8,6 +8,7 @@ use App\Service\Index\Manager;
 use Exception;
 use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\NoNodesAvailableException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,22 +19,17 @@ use function sleep;
  * Wait for the search index to become available
  * Useful for running before another command like consume messages
  */
+#[AsCommand(
+    name: 'ilios:wait-for-index',
+    description: 'Wait for a connection to index.',
+)]
 class WaitForIndexCommand extends Command
 {
-    public const COMMAND_NAME = 'ilios:wait-for-index';
-
     public function __construct(
         protected ?Client $client,
         protected Manager $indexManager,
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName(self::COMMAND_NAME)
-            ->setDescription('Wait for a connection to index.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

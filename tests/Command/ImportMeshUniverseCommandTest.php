@@ -31,11 +31,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     protected m\MockInterface $meshIndex;
     protected CommandTester $commandTester;
 
-    /**
-     * @var string
-     */
-    private const COMMAND_NAME = 'ilios:import-mesh-universe';
-
     public function setUp(): void
     {
         parent::setUp();
@@ -47,7 +42,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 

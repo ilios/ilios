@@ -10,6 +10,7 @@ use App\Entity\UserInterface;
 use App\Repository\OfferingRepository;
 use App\Repository\SchoolRepository;
 use App\Service\Config;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +27,11 @@ use Twig\Environment;
  *
  * Class SendTeachingRemindersCommand
  */
+#[AsCommand(
+    name: 'ilios:send-teaching-reminders',
+    description: 'Sends teaching reminders to educators.',
+    aliases: ['ilios:messaging:send-teaching-reminders'],
+)]
 class SendTeachingRemindersCommand extends Command
 {
     public const DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
@@ -47,9 +53,6 @@ class SendTeachingRemindersCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:send-teaching-reminders')
-            ->setAliases(['ilios:messaging:send-teaching-reminders'])
-            ->setDescription('Sends teaching reminders to educators.')
             ->addArgument(
                 'sender',
                 InputArgument::REQUIRED,
@@ -102,7 +105,7 @@ class SendTeachingRemindersCommand extends Command
             foreach ($errors as $error) {
                 $output->writeln("<error>{$error}</error>");
             }
-            return 1;
+            return Command::FAILURE;
         }
 
         $daysInAdvance = (int) $input->getOption('days');
@@ -127,7 +130,7 @@ class SendTeachingRemindersCommand extends Command
 
         if ($offerings === []) {
             $output->writeln('<info>No offerings with pending teaching reminders found.</info>');
-            return 0;
+            return Command::SUCCESS;
         }
 
         // mail out a reminder per instructor per offering.
@@ -176,7 +179,7 @@ class SendTeachingRemindersCommand extends Command
 
         $output->writeln("<info>Sent {$i} teaching reminders.</info>");
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

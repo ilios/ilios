@@ -8,6 +8,7 @@ use App\Entity\SchoolConfigInterface;
 use App\Entity\SchoolInterface;
 use App\Repository\SchoolConfigRepository;
 use App\Repository\SchoolRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,6 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Get a school configuration value from the DB
  */
+#[AsCommand(
+    name: 'ilios:list-school-config-values',
+    description: 'Read school configuration values from the DB',
+    aliases: ['ilios:maintenance:list-school-config-values']
+)]
 class ListSchoolConfigValuesCommand extends Command
 {
     public function __construct(
@@ -28,16 +34,7 @@ class ListSchoolConfigValuesCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:list-school-config-values')
-            ->setAliases(['ilios:maintenance:list-school-config-values'])
-            ->setDescription('Read school configuration values from the DB')
-            //required arguments
-            ->addArgument(
-                'school',
-                InputArgument::REQUIRED,
-                'ID of the school.'
-            );
+        $this->addArgument('school', InputArgument::REQUIRED, 'ID of the school.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -46,7 +43,7 @@ class ListSchoolConfigValuesCommand extends Command
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id {$schoolId}.</error>");
-            return 1;
+            return Command::FAILURE;
         }
         /** @var SchoolConfigInterface[] $configs */
         $configs = $this->schoolConfigRepository->findBy(['school' => $schoolId], ['name' => 'asc']);
@@ -60,6 +57,6 @@ class ListSchoolConfigValuesCommand extends Command
             $table->render();
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -23,8 +23,6 @@ class EnableServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:service-token:enable';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $serviceTokenRepository;
 
@@ -36,7 +34,7 @@ class EnableServiceTokenCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -57,7 +55,6 @@ class EnableServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('update')->with($serviceTokenMock);
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             EnableServiceTokenCommand::ID_KEY => (string) $tokenId,
         ]);
 
@@ -77,7 +74,6 @@ class EnableServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('findOneById')->with($tokenId)->andReturn($serviceTokenMock);
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             EnableServiceTokenCommand::ID_KEY => (string) $tokenId,
         ]);
 
@@ -95,7 +91,6 @@ class EnableServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('findOneById')->with($tokenId)->andReturn(null);
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             EnableServiceTokenCommand::ID_KEY => (string) $tokenId,
         ]);
 

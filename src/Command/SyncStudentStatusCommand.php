@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\UserRoleInterface;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,6 +19,10 @@ use App\Service\Directory;
 /**
  * Syncs students from the directory.
  */
+#[AsCommand(
+    name: 'ilios:sync-students',
+    description: 'Sync students from the directory.'
+)]
 class SyncStudentStatusCommand extends Command
 {
     public function __construct(
@@ -32,8 +36,6 @@ class SyncStudentStatusCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:sync-students')
-            ->setDescription('Sync students from the directory.')
             ->addArgument(
                 'filter',
                 InputArgument::REQUIRED,
@@ -50,7 +52,7 @@ class SyncStudentStatusCommand extends Command
 
         if (!$students) {
             $output->writeln("<error>{$filter} returned no results.</error>");
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln('<info>Found ' . count($students) . ' students in the directory.</info>');
 
@@ -63,7 +65,7 @@ class SyncStudentStatusCommand extends Command
         );
         if ($usersToUpdate === []) {
             $output->writeln("<info>There are no students to update.</info>");
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln(
             '<info>There are ' .
@@ -97,11 +99,11 @@ class SyncStudentStatusCommand extends Command
 
             $output->writeln('<info>Students updated successfully!</info>');
 
-            return 0;
+            return Command::SUCCESS;
         } else {
             $output->writeln('<comment>Update canceled,</comment>');
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 }

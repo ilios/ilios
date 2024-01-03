@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class ListConfigValuesCommand
  * @package App\Command
  */
+#[AsCommand(
+    name: 'ilios:list-config-values',
+    description: 'Read configuration values from the DB',
+    aliases: ['ilios:maintenance:list-config-values']
+)]
 class ListConfigValuesCommand extends Command
 {
     /**
@@ -29,19 +35,11 @@ class ListConfigValuesCommand extends Command
      */
     public function __construct(
         protected ApplicationConfigRepository $applicationConfigRepository,
-        protected $environment,
-        protected $kernelSecret,
-        protected $databaseUrl
+        protected string $environment,
+        protected string $kernelSecret,
+        protected string $databaseUrl
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:list-config-values')
-            ->setAliases(['ilios:maintenance:list-config-values'])
-            ->setDescription('Read configuration values from the DB');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

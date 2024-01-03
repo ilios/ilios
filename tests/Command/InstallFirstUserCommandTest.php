@@ -30,8 +30,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:setup-first-user';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
     protected m\MockInterface $schoolRepository;
@@ -58,7 +56,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -77,7 +75,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
     {
         $this->getReadyForInput();
         $this->commandTester->execute([
-            'command'  => self::COMMAND_NAME,
             '--school' => '1',
             '--email' => 'email@example.com',
         ]);
@@ -91,7 +88,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             '--school' => '1'
         ]);
     }
@@ -102,7 +98,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->schoolRepository->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([]);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             '--school' => '1'
         ]);
     }
@@ -112,7 +107,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->getReadyForInput();
         $this->commandTester->setInputs(['0', 'Yes']);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             '--email' => 'email@example.com',
         ]);
         $this->checkOuput();
@@ -123,7 +117,6 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->getReadyForInput();
         $this->commandTester->setInputs(['email@example.com', 'Yes']);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             '--school' => '1',
         ]);
         $this->checkOuput();

@@ -25,8 +25,6 @@ class ListServiceTokensCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:service-token:list';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $serviceTokenRepository;
 
@@ -38,7 +36,7 @@ class ListServiceTokensCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -70,9 +68,7 @@ class ListServiceTokensCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('findBy')->andReturn([
             $serviceToken1, $serviceToken2
         ]);
-        $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
         $output = trim($this->commandTester->getDisplay());
         $this->assertStringStartsWith('Service Tokens', $output);
@@ -93,9 +89,7 @@ class ListServiceTokensCommandTest extends KernelTestCase
     public function testNoTokensFound(): void
     {
         $this->serviceTokenRepository->shouldReceive('findBy')->andReturn([]);
-        $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
         $output = trim($this->commandTester->getDisplay());
         $this->assertEquals("Service Tokens\n\nNo tokens found.", $output);
@@ -105,7 +99,6 @@ class ListServiceTokensCommandTest extends KernelTestCase
     {
         $this->serviceTokenRepository->shouldReceive('findBy')->withArgs([['enabled' => true]])->andReturn([]);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             '--' . ListServiceTokensCommand::EXCLUDE_DISABLED_KEY => true,
         ]);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
@@ -134,7 +127,6 @@ class ListServiceTokensCommandTest extends KernelTestCase
             ->shouldReceive('findBy')
             ->andReturn([$serviceToken1, $serviceToken2]);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             '--' . ListServiceTokensCommand::EXCLUDE_EXPIRED_KEY => true,
         ]);
         $output = trim($this->commandTester->getDisplay());
@@ -169,7 +161,6 @@ class ListServiceTokensCommandTest extends KernelTestCase
             ->shouldReceive('findBy')
             ->andReturn([$serviceToken1, $serviceToken2]);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             '--' . ListServiceTokensCommand::EXPIRES_WITHIN_KEY => $expiresWithin,
         ]);
         $output = trim($this->commandTester->getDisplay());

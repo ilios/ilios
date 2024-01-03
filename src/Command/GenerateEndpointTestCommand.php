@@ -10,6 +10,7 @@ use Doctrine\Inflector\Inflector;
 use Exception;
 use ReflectionClass;
 use ReflectionProperty;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,6 +22,11 @@ use Twig\Environment;
  *
  * Class GenerateEndpointTestCommand
  */
+#[AsCommand(
+    name: 'ilios:generate:endpoint-test',
+    description: 'Creates basic test for an endpoint.',
+    hidden: true
+)]
 class GenerateEndpointTestCommand extends Command
 {
     public function __construct(
@@ -34,15 +40,7 @@ class GenerateEndpointTestCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:generate:endpoint-test')
-            ->setHidden(true)
-            ->setDescription('Creates basic test for an endpoint.')
-            ->addArgument(
-                'entityShortcut',
-                InputArgument::REQUIRED,
-                'The name of an entity e.g. App\Entity\Session.'
-            );
+        $this->addArgument('entityShortcut', InputArgument::REQUIRED, 'The name of an entity e.g. App\Entity\Session.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -89,6 +87,6 @@ class GenerateEndpointTestCommand extends Command
 
         print $content;
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

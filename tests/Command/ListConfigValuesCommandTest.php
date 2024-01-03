@@ -24,8 +24,6 @@ class ListConfigValuesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:list-config-values';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $applicationConfigRepository;
 
@@ -42,7 +40,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -66,9 +64,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
             ->once()
             ->andReturn([$mockConfig]);
 
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
             '/\sthe-name\s|\sthe-value\s/',
@@ -97,9 +93,7 @@ class ListConfigValuesCommandTest extends KernelTestCase
             ->once()
             ->andThrow($exception);
 
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME
-        ]);
+        $this->commandTester->execute([]);
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
             '/^Unable to connect to database./',

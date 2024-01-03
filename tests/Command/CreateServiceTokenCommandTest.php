@@ -29,8 +29,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:service-token:create';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $jwtManager;
     protected m\MockInterface $tokenProvider;
@@ -50,7 +48,7 @@ class CreateServiceTokenCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -92,7 +90,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
             })->andReturn('abcde');
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
         ]);
@@ -146,7 +143,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
             })->andReturn('abcde');
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
             '--' . CreateServiceTokenCommand::WRITEABLE_SCHOOLS_KEY => $schoolIdsInput,
@@ -181,7 +177,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
             })->andReturn('abcde');
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             CreateServiceTokenCommand::TTL_KEY => $ttl,
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
         ]);
@@ -192,7 +187,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
     {
         $this->expectExceptionMessage('Not enough arguments (missing: "description").');
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
@@ -202,7 +196,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
     {
         $this->expectExceptionMessage('Not enough arguments (missing: "ttl").');
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
@@ -211,7 +204,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
     public function testTtlExceedsAllowedMaximum(): void
     {
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             CreateServiceTokenCommand::TTL_KEY => 'P1000D', // one.thousand.days.
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
         ]);
@@ -225,7 +217,6 @@ class CreateServiceTokenCommandTest extends KernelTestCase
     public function testInvalidTtl(): void
     {
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             CreateServiceTokenCommand::TTL_KEY => 'nyet',
             CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
         ]);

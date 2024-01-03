@@ -38,7 +38,7 @@ class WaitForIndexCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(WaitForIndexCommand::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -56,9 +56,7 @@ class WaitForIndexCommandTest extends KernelTestCase
         $this->client->shouldReceive('nodes')->andReturn($nodes->getMock());
         $this->indexManager->shouldReceive('hasBeenCreated')->andReturn(true);
 
-        $this->commandTester->execute([
-            'command' => WaitForIndexCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
 
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
@@ -73,9 +71,7 @@ class WaitForIndexCommandTest extends KernelTestCase
 
         $stopwatch = new Stopwatch();
         $stopwatch->start('test');
-        $this->commandTester->execute([
-            'command' => WaitForIndexCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
         $duration = $stopwatch->stop('test')->getDuration();
         $this->assertGreaterThan(2000, $duration);
 
@@ -91,9 +87,7 @@ class WaitForIndexCommandTest extends KernelTestCase
 
         $stopwatch = new Stopwatch();
         $stopwatch->start('test');
-        $this->commandTester->execute([
-            'command' => WaitForIndexCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
         $duration = $stopwatch->stop('test')->getDuration();
         $this->assertGreaterThan(2000, $duration);
 

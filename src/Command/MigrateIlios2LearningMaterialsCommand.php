@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Repository\LearningMaterialRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,6 +22,12 @@ use Symfony\Component\HttpFoundation\File\File;
  *
  * Class MigrateIlios2LearningMaterialsCommand
  */
+#[AsCommand(
+    name: 'ilios:migrate-learning-materials',
+    description: 'Migrate Ilios2 Learning Materials to Ilios3 Structure',
+    aliases: ['ilios:setup:migrate-learning-materials'],
+    hidden: true
+)]
 class MigrateIlios2LearningMaterialsCommand extends Command
 {
     public function __construct(
@@ -33,16 +40,7 @@ class MigrateIlios2LearningMaterialsCommand extends Command
 
     protected function configure(): void
     {
-        $this
-            ->setName('ilios:migrate-learning-materials')
-            ->setAliases(['ilios:setup:migrate-learning-materials'])
-            ->setHidden(true)
-            ->setDescription('Migrate Ilios2 Learning Materials to Ilios3 Structure')
-            ->addArgument(
-                'pathToIlios2',
-                InputArgument::REQUIRED,
-                'The path to your Ilios2 installation.'
-            );
+        $this->addArgument('pathToIlios2', InputArgument::REQUIRED, 'The path to your Ilios2 installation.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -107,6 +105,6 @@ class MigrateIlios2LearningMaterialsCommand extends Command
             $output->writeln('<comment>Migration canceled.</comment>');
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

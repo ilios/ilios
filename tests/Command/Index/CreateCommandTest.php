@@ -31,7 +31,7 @@ class CreateCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(CreateCommand::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -42,7 +42,6 @@ class CreateCommandTest extends KernelTestCase
     {
         parent::tearDown();
         unset($this->indexManager);
-        unset($this->commandTester);
     }
 
     public function testCreateWithIndexDisabled(): void
@@ -50,9 +49,7 @@ class CreateCommandTest extends KernelTestCase
         $this->indexManager->shouldReceive('isEnabled')->once()->andReturn(false);
         $this->indexManager->shouldNotReceive('create');
 
-        $this->commandTester->execute([
-            'command' => CreateCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -65,9 +62,7 @@ class CreateCommandTest extends KernelTestCase
         $this->indexManager->shouldReceive('isEnabled')->once()->andReturn(true);
         $this->indexManager->shouldReceive('create')->once();
 
-        $this->commandTester->execute([
-            'command' => CreateCommand::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(

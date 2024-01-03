@@ -29,8 +29,6 @@ class ChangePasswordCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:change-password';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
@@ -54,7 +52,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
 
         // Override the question helper to fix testing issue with hidden password input
         $helper = new TestQuestionHelper();
@@ -92,7 +90,7 @@ class ChangePasswordCommandTest extends KernelTestCase
 
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
-        $this->commandTester->execute(['command' => self::COMMAND_NAME, 'userId' => '1']);
+        $this->commandTester->execute(['userId' => '1']);
 
 
         $output = $this->commandTester->getDisplay();
@@ -122,8 +120,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
 
 
@@ -139,14 +136,13 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
     }
 
     public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

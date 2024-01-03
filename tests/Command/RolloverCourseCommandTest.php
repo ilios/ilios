@@ -22,8 +22,6 @@ class RolloverCourseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:rollover-course';
-
     protected m\MockInterface $service;
     protected CommandTester $commandTester;
 
@@ -36,7 +34,7 @@ class RolloverCourseCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -50,9 +48,7 @@ class RolloverCourseCommandTest extends KernelTestCase
     public function testCommandFailsWithoutArguments(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
     }
 
     public function testCommandPassesArgumentsAndDefaultOptions(): void
@@ -66,7 +62,6 @@ class RolloverCourseCommandTest extends KernelTestCase
             return $course;
         });
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             'courseId' => $courseId,
             'newAcademicYear' => $newAcademicYear,
         ]);
@@ -122,7 +117,6 @@ class RolloverCourseCommandTest extends KernelTestCase
             return $course;
         });
         $commandOptions = [
-            'command' => self::COMMAND_NAME,
             'courseId' => $courseId,
             'newAcademicYear' => $newAcademicYear,
         ];
@@ -150,7 +144,6 @@ class RolloverCourseCommandTest extends KernelTestCase
             return $course;
         });
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             'courseId' => $courseId,
             'newAcademicYear' => $newAcademicYear,
         ]);

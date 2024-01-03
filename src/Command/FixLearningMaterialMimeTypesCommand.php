@@ -8,6 +8,7 @@ use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
 use App\Service\TemporaryFileSystem;
 use ErrorException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,6 +19,11 @@ use App\Service\IliosFileSystem;
 /**
  * Cleanup incorrectly stored mime types for learning materials.
  */
+#[AsCommand(
+    name: 'ilios:fix-mime-types',
+    description: 'Cleanup incorrectly stored mime types for learning materials.',
+    aliases: ['ilios:maintenance:fix-mime-types']
+)]
 class FixLearningMaterialMimeTypesCommand extends Command
 {
     public function __construct(
@@ -26,14 +32,6 @@ class FixLearningMaterialMimeTypesCommand extends Command
         protected LearningMaterialRepository $learningMaterialRepository
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:fix-mime-types')
-            ->setAliases(['ilios:maintenance:fix-mime-types'])
-            ->setDescription('Cleanup incorrectly stored mime types for learning materials.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -125,15 +123,15 @@ class FixLearningMaterialMimeTypesCommand extends Command
                 }
             }
 
-            return 0;
+            return Command::SUCCESS;
         } else {
             $output->writeln('<comment>Update canceled.</comment>');
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 
-    protected function getMimetypeForFileName($name)
+    protected function getMimetypeForFileName(?string $name): string
     {
         //taken from https://stackoverflow.com/questions/35299457/getting-mime-type-from-file-name-in-php
         $typesByExtension = [

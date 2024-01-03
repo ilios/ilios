@@ -27,8 +27,6 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:migrate-learning-materials';
-
     protected m\MockInterface $symfonyFileSystem;
     protected m\MockInterface $iliosFileSystem;
     protected m\MockInterface $learningMaterialRepository;
@@ -49,7 +47,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -90,8 +88,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'pathToIlios2'         => __DIR__ . '/'
+            'pathToIlios2' => __DIR__ . '/'
         ]);
 
 
@@ -120,8 +117,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'pathToIlios2'         => 'path'
+            'pathToIlios2' => 'path'
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -140,14 +136,13 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'pathToIlios2'         => 'badpath'
+            'pathToIlios2' => 'badpath'
         ]);
     }
 
     public function testIlios2PathRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

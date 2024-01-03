@@ -29,8 +29,6 @@ class SyncUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:sync-user';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
     protected m\MockInterface $pendingUserUpdateRepository;
@@ -54,7 +52,7 @@ class SyncUserCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -112,10 +110,8 @@ class SyncUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
-
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -174,10 +170,8 @@ class SyncUserCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'userId'         => '1'
+            'userId' => '1'
         ]);
-
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -202,7 +196,6 @@ class SyncUserCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             'userId' => '1'
         ]);
     }
@@ -210,6 +203,6 @@ class SyncUserCommandTest extends KernelTestCase
     public function testUserRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute(['command' => self::COMMAND_NAME]);
+        $this->commandTester->execute([]);
     }
 }

@@ -9,6 +9,7 @@ use App\Service\Config;
 use App\Service\Fetch;
 use DateTime;
 use SimpleXMLElement;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,22 +30,23 @@ use function is_dir;
  * Class UpdateFrontendCommand
  * @package App\Command
  */
+#[AsCommand(
+    name: 'ilios:update-frontend',
+    description: 'Updates the frontend to the latest version.',
+    aliases: ['ilios:maintenance:update-frontend'],
+)]
 class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {
     private const UNPACKED_DIRECTORY = '/deploy-dist/';
     private const FRONTEND_FILES = '/var/frontend/';
-
     private const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
     private const STAGING_ASSET_LIST = 'https://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
     private const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
     private const PRODUCTION_ASSET_LIST = 'https://frontend-archive-production.s3.us-west-2.amazonaws.com/';
-
     private const STAGING = 'stage';
     private const PRODUCTION = 'prod';
-
     protected string $productionTemporaryFileStore;
     protected string $stagingTemporaryFileStore;
-    protected string $publicDirectory;
     protected string $frontendAssetDirectory;
     protected ?OutputInterface $output;
 
@@ -72,9 +74,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     protected function configure(): void
     {
         $this
-            ->setName('ilios:update-frontend')
-            ->setAliases(['ilios:maintenance:update-frontend'])
-            ->setDescription('Updates the frontend to the latest version.')
             ->addOption(
                 'staging-build',
                 null,
@@ -125,11 +124,11 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             }
             $output->writeln("<info>Frontend updated successfully{$message}!</info>");
 
-            return 0;
+            return Command::SUCCESS;
         } catch (Exception) {
             $output->writeln("<error>No matching frontend found{$message}!</error>");
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 

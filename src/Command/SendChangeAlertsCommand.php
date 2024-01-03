@@ -11,6 +11,7 @@ use App\Repository\AlertRepository;
 use App\Repository\AuditLogRepository;
 use App\Repository\OfferingRepository;
 use App\Service\Config;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,6 +26,11 @@ use Twig\Environment;
  *
  * Class SendChangeAlertsCommand
  */
+#[AsCommand(
+    name: 'ilios:send-change-alerts',
+    description: 'Sends out change alert message to configured email recipients.',
+    aliases: ['ilios:messaging:send-change-alerts'],
+)]
 class SendChangeAlertsCommand extends Command
 {
     private const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
@@ -45,9 +51,6 @@ class SendChangeAlertsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:send-change-alerts')
-            ->setAliases(['ilios:messaging:send-change-alerts'])
-            ->setDescription('Sends out change alert message to configured email recipients.')
             ->addOption(
                 'dry-run',
                 null,
@@ -63,7 +66,7 @@ class SendChangeAlertsCommand extends Command
         $alerts = $this->alertRepository->findBy(['dispatched' => false, 'tableName' => 'offering']);
         if ($alerts === []) {
             $output->writeln("<info>No undispatched offering alerts found.</info>");
-            return 0;
+            return Command::SUCCESS;
         }
 
         $templateCache = [];
@@ -165,7 +168,7 @@ class SendChangeAlertsCommand extends Command
             $output->writeln("<info>Marked {$dispatched} offering change alerts as dispatched.</info>");
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

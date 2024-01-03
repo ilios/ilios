@@ -31,8 +31,6 @@ class AddUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:add-user';
-
     protected m\MockInterface $userRepository;
     protected m\MockInterface $authenticationRepository;
     protected m\MockInterface $schoolRepository;
@@ -57,11 +55,10 @@ class AddUserCommandTest extends KernelTestCase
             $this->hasher,
             $this->sessionUserProvider
         );
-
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
 
         // Override the question helper to fix testing issue with hidden password input
         $helper = new TestQuestionHelper();
@@ -91,7 +88,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--lastName' => 'last',
@@ -115,7 +111,6 @@ class AddUserCommandTest extends KernelTestCase
         $this->expectException(Exception::class);
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
             ]
         );
@@ -129,7 +124,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--lastName' => 'last',
                 '--email' => 'email@example.com',
@@ -152,7 +146,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--email' => 'email@example.com',
@@ -175,7 +168,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--lastName' => 'last',
@@ -198,7 +190,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--email' => 'email@example.com',
@@ -221,7 +212,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--lastName' => 'last',
@@ -244,7 +234,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--lastName' => 'last',
@@ -267,7 +256,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--lastName' => 'last',
@@ -290,7 +278,6 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command' => self::COMMAND_NAME,
                 '--schoolId' => '1',
                 '--firstName' => 'first',
                 '--lastName' => 'last',

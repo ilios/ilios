@@ -22,12 +22,18 @@ use App\Repository\UserRoleRepository;
 use App\Repository\VocabularyRepository;
 use App\Service\DefaultDataImporter;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'ilios:import-default-data',
+    description: 'Imports default application data into Ilios. Only works with an empty database schema.',
+    aliases: ['ilios:setup:import-default-data']
+)]
 class ImportDefaultDataCommand extends Command
 {
     use LockableTrait;
@@ -54,14 +60,6 @@ class ImportDefaultDataCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:import-default-data')
-            ->setAliases(['ilios:setup:import-default-data'])
-            ->setDescription('Imports default application data into Ilios. Only works with an empty database schema.');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -82,7 +80,7 @@ class ImportDefaultDataCommand extends Command
         $referenceMap = [];
         try {
             // ACHTUNG!
-            // we MUST clear the the aamc_method and application_configs table as part of the import process,
+            // we MUST clear the aamc_method and application_configs table as part of the import process,
             // since it gets pre-populated with data in the previous step of the installation
             // process (when migrations are running).
             // So let's just clear all records out here first, in order to avoid data duplication issues.

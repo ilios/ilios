@@ -9,6 +9,7 @@ use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,6 +23,11 @@ use App\Service\Directory;
  *
  * Class AddNewStudentsToSchoolCommand
  */
+#[AsCommand(
+    name: 'ilios:add-students',
+    description: 'Add students found by a directory filter into a school.',
+    aliases: ['ilios:directory:add-students']
+)]
 class AddNewStudentsToSchoolCommand extends Command
 {
     public function __construct(
@@ -37,9 +43,6 @@ class AddNewStudentsToSchoolCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:add-students')
-            ->setAliases(['ilios:directory:add-students'])
-            ->setDescription('Add students found by a directory filter into a school.')
             ->addArgument(
                 'schoolId',
                 InputArgument::REQUIRED,
@@ -68,7 +71,7 @@ class AddNewStudentsToSchoolCommand extends Command
 
         if (!$students) {
             $output->writeln("<error>{$filter} returned no results.</error>");
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln('<info>Found ' . count($students) . ' students in the directory.</info>');
 
@@ -78,7 +81,7 @@ class AddNewStudentsToSchoolCommand extends Command
 
         if ($newStudents === []) {
             $output->writeln("<info>There are no new students to add.</info>");
-            return 0;
+            return Command::SUCCESS;
         }
         $output->writeln(
             '<info>There are ' .
@@ -159,11 +162,11 @@ class AddNewStudentsToSchoolCommand extends Command
                 );
             }
 
-            return 0;
+            return Command::SUCCESS;
         } else {
             $output->writeln('<comment>Update canceled.</comment>');
 
-            return 1;
+            return Command::FAILURE;
         }
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Service\CourseRollover;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,11 +17,13 @@ use Symfony\Component\Console\Input\InputArgument;
  *
  * Class RolloverCourseCommand
  */
+#[AsCommand(
+    name: 'ilios:rollover-course',
+    description: 'Roll over a course to a new year using its course_id',
+    aliases: ['ilios:maintenance:rollover-course'],
+)]
 class RolloverCourseCommand extends Command
 {
-    /**
-     * RolloverCourseCommand constructor.
-     */
     public function __construct(protected CourseRollover $service)
     {
         parent::__construct();
@@ -29,9 +32,6 @@ class RolloverCourseCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:rollover-course')
-            ->setAliases(['ilios:maintenance:rollover-course'])
-            ->setDescription('Roll over a course to a new year using its course_id')
             //required arguments
             ->addArgument(
                 'courseId',
@@ -157,6 +157,6 @@ class RolloverCourseCommand extends Command
         //output message with the new courseId on success
         $output->writeln("This course has been rolled over. The new course id is {$newCourse->getId()}.");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

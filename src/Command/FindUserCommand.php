@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,6 +17,11 @@ use App\Service\Directory;
  *
  * Class FindUserCommand
  */
+#[AsCommand(
+    name: 'ilios:find-user',
+    description: 'Find a user in the directory.',
+    aliases: ['ilios:directory:find-user']
+)]
 class FindUserCommand extends Command
 {
     public function __construct(
@@ -27,9 +33,6 @@ class FindUserCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:find-user')
-            ->setAliases(['ilios:directory:find-user'])
-            ->setDescription('Find a user in the directory.')
             ->addArgument(
                 'searchTerms',
                 InputArgument::IS_ARRAY | InputArgument::REQUIRED,
@@ -43,7 +46,7 @@ class FindUserCommand extends Command
         $userRecords = $this->directory->find($searchTerms);
         if (!$userRecords) {
             $output->writeln('<error>Unable to find anyone matching those terms in the directory.</error>');
-            return 0;
+            return Command::SUCCESS;
         }
 
         $rows = array_map(fn($arr) => [
@@ -60,6 +63,6 @@ class FindUserCommand extends Command
         ;
         $table->render();
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

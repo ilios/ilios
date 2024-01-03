@@ -23,8 +23,6 @@ class SetConfigValueCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:set-config-value';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $applicationConfigRepository;
 
@@ -36,7 +34,7 @@ class SetConfigValueCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -61,9 +59,8 @@ class SetConfigValueCommandTest extends KernelTestCase
         $this->applicationConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'name'         => 'foo',
-            'value'        => 'bar',
+            'name' => 'foo',
+            'value' => 'bar',
         ]);
     }
 
@@ -78,9 +75,8 @@ class SetConfigValueCommandTest extends KernelTestCase
         $this->applicationConfigRepository->shouldReceive('update')->with($mockConfig, true)->once();
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'name'         => 'foo',
-            'value'        => 'bar',
+            'name' => 'foo',
+            'value' => 'bar',
         ]);
     }
 
@@ -88,8 +84,7 @@ class SetConfigValueCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'value'        => 'bar',
+            'value' => 'bar',
         ]);
     }
 
@@ -97,8 +92,7 @@ class SetConfigValueCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'name'         => 'foo',
+            'name' => 'foo',
         ]);
     }
 
@@ -115,9 +109,8 @@ class SetConfigValueCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command'      => self::COMMAND_NAME,
-                'name'         => 'foo',
-                '--remove'       => true,
+                'name' => 'foo',
+                '--remove' => true,
             ]
         );
     }
@@ -130,9 +123,8 @@ class SetConfigValueCommandTest extends KernelTestCase
 
         $this->commandTester->execute(
             [
-                'command'      => self::COMMAND_NAME,
-                'name'         => 'foo',
-                '--remove'       => true,
+                'name' => 'foo',
+                '--remove' => true,
             ]
         );
     }

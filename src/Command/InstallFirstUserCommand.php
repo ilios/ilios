@@ -13,6 +13,7 @@ use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
 use Exception;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,26 +27,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  *
  * Class InstallFirstUserCommand
  */
+#[AsCommand(
+    name: 'ilios:setup-first-user',
+    description: 'Creates a first user account with root privileges.',
+    aliases: ['ilios:setup:first-user']
+)]
 class InstallFirstUserCommand extends Command
 {
-    /**
-     * @var string
-     */
     private const USERNAME = 'first_user';
-
-    /**
-     * @var string
-     */
     private const PASSWORD = 'Ch4nge_m3';
-
-    /**
-     * @var string
-     */
     private const FIRST_NAME = 'First';
-
-    /**
-     * @var string
-     */
     private const LAST_NAME = 'User';
 
     /**
@@ -64,9 +55,6 @@ class InstallFirstUserCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:setup-first-user')
-            ->setAliases(['ilios:setup:first-user'])
-            ->setDescription('Creates a first user account with root privileges.')
             ->addOption(
                 'school',
                 null,
@@ -173,6 +161,6 @@ class InstallFirstUserCommand extends Command
         $output->writeln(sprintf("You may now log in as '%s' with the password '%s'.", self::USERNAME, self::PASSWORD));
         $output->writeln('Please change this password as soon as possible.');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

@@ -15,6 +15,7 @@ use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use HTMLPurifier;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
@@ -29,6 +30,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  *
  * Class CleanupStringsCommand
  */
+#[AsCommand(
+    name: 'ilios:cleanup-strings',
+    description: 'Cleans up selected text fields in the database.',
+    aliases: ['ilios:maintenance:cleanup-strings']
+)]
 class CleanupStringsCommand extends Command
 {
     /**
@@ -58,9 +64,6 @@ class CleanupStringsCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('ilios:cleanup-strings')
-            ->setAliases(['ilios:maintenance:cleanup-strings'])
-            ->setDescription('Cleans up selected text fields in the database.')
             ->addOption(
                 'objective-title',
                 null,
@@ -122,14 +125,14 @@ class CleanupStringsCommand extends Command
             $this->removeObjectiveTitleBlankSpace($output);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
      * Purify objective titles
      * @throws Exception
      */
-    protected function purifyObjectiveTitle(OutputInterface $output)
+    protected function purifyObjectiveTitle(OutputInterface $output): void
     {
         $this->cleanupObjectiveTitle($output, self::CLEANUP_MODE_OBJECTIVE_TITLE_PURIFY_MARKUP);
     }
@@ -194,7 +197,7 @@ class CleanupStringsCommand extends Command
     /**
      * Purify learning material description
      */
-    protected function purifyLearningMaterialDescription(OutputInterface $output)
+    protected function purifyLearningMaterialDescription(OutputInterface $output): void
     {
         $cleaned = 0;
         $offset = 0;
@@ -230,7 +233,7 @@ class CleanupStringsCommand extends Command
     /**
      * Purify course learning material note
      */
-    protected function purifyCourseLearningMaterialNote(OutputInterface $output)
+    protected function purifyCourseLearningMaterialNote(OutputInterface $output): void
     {
         $cleaned = 0;
         $offset = 0;
@@ -265,7 +268,7 @@ class CleanupStringsCommand extends Command
     /**
      * Purify session learning material note
      */
-    protected function purifySessionLearningMaterialNote(OutputInterface $output)
+    protected function purifySessionLearningMaterialNote(OutputInterface $output): void
     {
         $cleaned = 0;
         $offset = 0;
@@ -300,7 +303,7 @@ class CleanupStringsCommand extends Command
     /**
      * Purify session description
      */
-    protected function purifySessionDescription(OutputInterface $output)
+    protected function purifySessionDescription(OutputInterface $output): void
     {
         $cleaned = 0;
         $offset = 0;

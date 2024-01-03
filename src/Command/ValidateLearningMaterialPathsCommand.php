@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Repository\LearningMaterialRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,6 +18,11 @@ use App\Service\IliosFileSystem;
  *
  * Class SyncUserCommand
  */
+#[AsCommand(
+    name: 'ilios:validate-learning-materials',
+    description: 'Validate file paths for learning materials',
+    aliases: ['ilios:maintenance:validate-learning-materials'],
+)]
 class ValidateLearningMaterialPathsCommand extends Command
 {
     public function __construct(
@@ -24,14 +30,6 @@ class ValidateLearningMaterialPathsCommand extends Command
         protected LearningMaterialRepository $learningMaterialRepository
     ) {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setName('ilios:validate-learning-materials')
-            ->setAliases(['ilios:maintenance:validate-learning-materials'])
-            ->setDescription('Validate file paths for learning materials');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -82,9 +80,9 @@ class ValidateLearningMaterialPathsCommand extends Command
             ;
             $table->render();
 
-            return 1;
+            return Command::FAILURE;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

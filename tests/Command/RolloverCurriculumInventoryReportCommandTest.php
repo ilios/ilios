@@ -24,8 +24,6 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:rollover-ci-report';
-
     protected m\MockInterface $service;
     protected m\MockInterface $reportRepository;
     protected CommandTester $commandTester;
@@ -39,7 +37,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -54,9 +52,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
     public function testCommandFailsWithoutArguments(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
     }
 
     public function testCommandPassesArgumentsAndDefaultOptions(): void
@@ -77,7 +73,6 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturn($report);
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             'reportId' => $reportId,
         ]);
 
@@ -112,7 +107,6 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => $reportId])->andReturn($report);
 
         $commandOptions = [
-            'command' => self::COMMAND_NAME,
             'reportId' => $reportId,
         ];
 
@@ -150,7 +144,6 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
             });
 
         $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
             'reportId' => $reportId,
         ]);
 

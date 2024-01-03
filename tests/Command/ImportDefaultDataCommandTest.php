@@ -59,8 +59,6 @@ class ImportDefaultDataCommandTest extends KernelTestCase
     protected m\MockInterface $userRoleRepository;
     protected m\MockInterface $vocabularyRepository;
 
-    private const COMMAND_NAME = 'ilios:import-default-data';
-
     public function setUp(): void
     {
         $this->defaultDataImporter = m::mock(DefaultDataImporter::class);
@@ -103,7 +101,7 @@ class ImportDefaultDataCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 

@@ -25,8 +25,6 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:list-school-config-values';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $schoolRepository;
     protected m\MockInterface $schoolConfigRepository;
@@ -40,7 +38,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -68,8 +66,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
             ->andReturn([$mockConfig]);
 
         $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-            'school'         => '1'
+            'school' => '1'
         ]);
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -81,8 +78,6 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
     public function testSchoolRequired(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->commandTester->execute([
-            'command'      => self::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
     }
 }

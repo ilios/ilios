@@ -17,8 +17,6 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:export-mesh-universe';
-
     protected CommandTester $commandTester;
     protected m\MockInterface $repository;
     protected m\MockInterface $writer;
@@ -36,7 +34,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 

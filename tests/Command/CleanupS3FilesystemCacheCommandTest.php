@@ -26,7 +26,6 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const COMMAND_NAME = 'ilios:cleanup-s3-cache';
     private const CACHE_DIR = __DIR__ . '/test';
 
     protected CommandTester $commandTester;
@@ -41,12 +40,11 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         $this->diskSpace = m::mock(DiskSpace::class);
         $factory->shouldReceive('getS3LocalFilesystemCache')->once()->andReturn($this->filesystem);
         $factory->shouldReceive('getLocalS3CacheDirectory')->once()->andReturn(self::CACHE_DIR);
-
         $command = new CleanupS3FilesystemCacheCommand($factory, $this->diskSpace);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
-        $commandInApp = $application->find(self::COMMAND_NAME);
+        $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
 
@@ -67,9 +65,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         $this->diskSpace->shouldReceive('totalSpace')->once()->with(self::CACHE_DIR)->andReturn(100);
 
 
-        $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
@@ -119,9 +115,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         $this->filesystem->shouldReceive('delete')->with('file1');
         $this->filesystem->shouldReceive('delete')->with('file3');
 
-        $this->commandTester->execute([
-            'command' => self::COMMAND_NAME,
-        ]);
+        $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
 
