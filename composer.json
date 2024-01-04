@@ -37,7 +37,7 @@
     "phpdocumentor/reflection-docblock": "^5.2",
     "psr/log": "^3.0.0",
     "sentry/sentry-symfony": "^4.2",
-    "shivas/versioning-bundle": "^4.0",
+    "shivas/versioning-bundle": "master",
     "swagger-api/swagger-ui": "^5.1",
     "symfony/amazon-mailer": "@stable",
     "symfony/apache-pack": "@stable",
@@ -104,7 +104,7 @@
       "php-http/discovery": false
     }
   },
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
       "App\\": "src/"
@@ -147,8 +147,14 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "6.4.*",
+      "require": "7.0.*",
       "docker": false
+    }
+  },
+  "repositories": {
+    "source": {
+      "url": "https://github.com/sorrx/versioning-bundle",
+      "type": "git"
     }
   }
 }
