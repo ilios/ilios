@@ -34,22 +34,22 @@ class EndpointResponseNamerTest extends KernelTestCase
     /**
      * @dataProvider getSingularNameProvider
      */
-    public function testGetSingularName(string $object, string $expected): void
+    public function testGetSingularName(string $endpointKey, string $expected): void
     {
         $this->assertEquals(
             $expected,
-            $this->service->getSingularName($object),
+            $this->service->getSingularName($endpointKey),
         );
     }
 
     /**
      * @dataProvider getPluralNameProvider
      */
-    public function testGetPluralName(string $object, string $expected): void
+    public function testGetPluralName(string $endpointKey, string $expected): void
     {
         $this->assertEquals(
             $expected,
-            $this->service->getPluralName($object),
+            $this->service->getPluralName($endpointKey),
         );
     }
 

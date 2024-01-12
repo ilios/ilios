@@ -23,7 +23,7 @@ class EndpointResponseNamer
     /**
      * @var string pointing to all of our entity classes
      */
-    protected $pathToEntities;
+    protected string $pathToEntities;
 
     private const LIST_CACHE_KEY = 'endpoint-response-namer-entity-list';
 
@@ -42,25 +42,27 @@ class EndpointResponseNamer
     /**
      * Get the pluralized name of an endpoint
      *
-     * @param string $object
+     * @param string $endpointKey
+     * @return string
      */
-    public function getPluralName($object): mixed
+    public function getPluralName(string $endpointKey): string
     {
         $list = $this->getEntityList();
 
-        return $list[$object]['plural'];
+        return $list[$endpointKey]['plural'];
     }
 
     /**
      * Get the singular name for an endpoint
      *
-     * @param string $object
+     * @param string $endpointKey
+     * @return string
      */
-    public function getSingularName($object): mixed
+    public function getSingularName(string $endpointKey): string
     {
         $list = $this->getEntityList();
 
-        return $list[strtolower($object)]['singular'];
+        return $list[strtolower($endpointKey)]['singular'];
     }
 
     /**
