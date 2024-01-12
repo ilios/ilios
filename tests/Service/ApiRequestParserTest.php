@@ -8,7 +8,11 @@ use App\Entity\AamcMethod;
 use App\Entity\AamcMethodInterface;
 use App\Entity\SessionType;
 use App\Service\ApiRequestParser;
+use App\Tests\Fixture\LoadAamcMethodData;
+use App\Tests\Fixture\LoadSchoolData;
+use App\Tests\Fixture\LoadSessionTypeData;
 use Closure;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -27,6 +31,12 @@ class ApiRequestParserTest extends KernelTestCase
     {
         parent::setUp();
         self::bootKernel();
+        $databaseToolCollection = self::getContainer()->get(DatabaseToolCollection::class);
+        $databaseTool = $databaseToolCollection->get();
+        $databaseTool->loadFixtures([
+            LoadAamcMethodData::class,
+            LoadSessionTypeData::class,
+        ]);
         $this->service = static::getContainer()->get(ApiRequestParser::class);
     }
 
