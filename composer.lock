@@ -4705,16 +4705,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.17.1",
+            "version": "v4.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "e1405ef4ab46425b35438a73b60b1e180427a5c8"
+                "reference": "2360674a7bd8bbf5fb834b08e89662b6ad851618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/e1405ef4ab46425b35438a73b60b1e180427a5c8",
-                "reference": "e1405ef4ab46425b35438a73b60b1e180427a5c8",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/2360674a7bd8bbf5fb834b08e89662b6ad851618",
+                "reference": "2360674a7bd8bbf5fb834b08e89662b6ad851618",
                 "shasum": ""
             },
             "require": {
@@ -4811,9 +4811,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.17.1"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.18.1"
             },
-            "time": "2024-01-11T22:11:40+00:00"
+            "time": "2024-01-15T16:16:29+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -16447,6 +16447,7 @@
         "symfony/yaml": 0,
         "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
+        "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
