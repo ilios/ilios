@@ -19,7 +19,7 @@ use Mockery as m;
 /**
  * Class PermissionCheckerTest
  * @package App\Tests\Service
- * @coversDefaultClass \App\Service\SessionUserPermissionChecker
+ * @covers \App\Service\SessionUserPermissionChecker
  */
 class SessionUserPermissionCheckerTest extends TestCase
 {
@@ -40,9 +40,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         unset($this->permissionMatrix);
     }
 
-    /**
-     * @covers ::canUpdateCourse()
-     */
     public function testCanUpdateAllCourses(): void
     {
         $rolesInSchool = ['foo'];
@@ -71,9 +68,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUpdateCourse()
-     */
     public function testCanUpdateTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -113,9 +107,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUpdateCourse()
-     */
     public function testCanNotUpdateCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -155,9 +146,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUpdateCourse()
-     */
     public function testCanNotUpdateLockedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -169,9 +157,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUpdateCourse()
-     */
     public function testCanNotUpdateArchivedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -183,9 +168,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canDeleteCourse()
-     */
     public function testCanDeleteAllCourses(): void
     {
         $rolesInSchool = ['foo'];
@@ -215,9 +197,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canDeleteCourse()
-     */
     public function testCanDeleteTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -257,9 +236,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canDeleteCourse()
-     */
     public function testCanNotDeleteCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -299,9 +275,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canDeleteCourse()
-     */
     public function testCanNotDeleteLockedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -313,9 +286,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canDeleteCourse()
-     */
     public function testCanNotDeleteArchivedCourses(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -327,9 +297,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canCreateCourse()
-     */
     public function testCanCreateCourse(): void
     {
         $schoolId = 10;
@@ -352,9 +319,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateCourse($sessionUser, $school));
     }
 
-    /**
-     * @covers ::canCreateCourse()
-     */
     public function testCanNotCreateCourse(): void
     {
         $schoolId = 10;
@@ -377,9 +341,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateCourse($sessionUser, $school));
     }
 
-    /**
-     * @covers ::canUnlockCourse()
-     */
     public function testCanUnlockAllCourses(): void
     {
         $rolesInSchool = ['foo'];
@@ -407,9 +368,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUnlockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUnlockCourse()
-     */
     public function testCanUnlockTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -447,9 +405,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUnlockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUnlockCourse()
-     */
     public function testCanNotUnlockCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -488,9 +443,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUnlockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUnlockCourse()
-     */
     public function testCanNotUnlockCourseIfCourseIsArchived(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -501,9 +453,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUnlockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canLockCourse()
-     */
     public function testCanLockAllCourses(): void
     {
         $rolesInSchool = ['foo'];
@@ -531,9 +480,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canLockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canLockCourse()
-     */
     public function testCanLockTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -571,9 +517,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canLockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canLockCourse()
-     */
     public function testCanNotLockCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -612,9 +555,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canLockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUnlockCourse()
-     */
     public function testCanNotLockCourseIfCourseIsArchived(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -625,9 +565,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canLockCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canArchiveCourse()
-     */
     public function testCanArchiveAllCourses(): void
     {
         $rolesInSchool = ['foo'];
@@ -654,9 +591,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canArchiveCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canArchiveCourse()
-     */
     public function testCanArchiveTheirCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -693,9 +627,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canArchiveCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canArchiveCourse()
-     */
     public function testCanNotArchiveCourses(): void
     {
         $rolesInSchool  = ['foo'];
@@ -733,9 +664,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canArchiveCourse($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUpdateSession()
-     */
     public function testCanUpdateAllSessions(): void
     {
         $rolesInSchool = ['foo'];
@@ -768,9 +696,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canUpdateSession()
-     */
     public function testCanUpdateTheirSessions(): void
     {
         $rolesInSchool  = ['foo'];
@@ -813,9 +738,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canUpdateSession()
-     */
     public function testCanUpdateSessionsIfUserCanUpdateCourse(): void
     {
         $rolesInSchool  = ['foo'];
@@ -871,9 +793,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canUpdateSession()
-     */
     public function testCanNotUpdateSessions(): void
     {
         $rolesInSchool  = ['foo'];
@@ -937,9 +856,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canUpdateSession()
-     */
     public function testCanNotUpdateSessionsInLockedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
@@ -953,9 +869,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canUpdateSession()
-     */
     public function testCanNotUpdateSessionsInArchivedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
@@ -969,9 +882,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canDeleteSession()
-     */
     public function testCanDeleteAllSessions(): void
     {
         $rolesInSchool = ['foo'];
@@ -1004,9 +914,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canDeleteSession()
-     */
     public function testCanDeleteTheirSessions(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1050,9 +957,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canDeleteSession()
-     */
     public function testCanDeleteSessionsIfUserCanUpdateCourse(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1106,9 +1010,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canDeleteSession()
-     */
     public function testCanNotDeleteSessions(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1172,9 +1073,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canDeleteSession()
-     */
     public function testCanNotDeleteSessionsInLockedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
@@ -1188,9 +1086,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canDeleteSession()
-     */
     public function testCanNotDeleteSessionsInArchivedCourse(): void
     {
         $session = m::mock(SessionInterface::class);
@@ -1204,9 +1099,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteSession($sessionUser, $session));
     }
 
-    /**
-     * @covers ::canCreateSession()
-     */
     public function testCanCreateSession(): void
     {
         $rolesInSchool = ['foo'];
@@ -1234,9 +1126,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateSession($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canCreateSession()
-     */
     public function testCanCreateSessionIfUserCanUpdateCourse(): void
     {
         $rolesInSchool = ['foo'];
@@ -1272,9 +1161,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateSession($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canCreateSession()
-     */
     public function testCanNotCreateSession(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1322,9 +1208,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateSession($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canCreateSession()
-     */
     public function testCanNotCreateSessionInLockedCourse(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -1336,9 +1219,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateSession($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canCreateSession()
-     */
     public function testCanNotCreateSessionInArchivedCourse(): void
     {
         $course = m::mock(CourseInterface::class);
@@ -1350,9 +1230,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateSession($sessionUser, $course));
     }
 
-    /**
-     * @covers ::canUpdateSessionType()
-     */
     public function testCanUpdateSessionType(): void
     {
         $schoolId = 10;
@@ -1373,9 +1250,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateSessionType($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateSessionType()
-     */
     public function testCanNotUpdateSessionType(): void
     {
         $schoolId = 10;
@@ -1396,9 +1270,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateSessionType($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteSessionType()
-     */
     public function testCanDeleteSessionType(): void
     {
         $schoolId = 10;
@@ -1419,9 +1290,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteSessionType($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteSessionType()
-     */
     public function testCanNotDeleteSessionType(): void
     {
         $schoolId = 10;
@@ -1442,9 +1310,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteSessionType($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateSessionType()
-     */
     public function testCanCreateSessionType(): void
     {
         $schoolId = 10;
@@ -1465,9 +1330,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateSessionType($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateSessionType()
-     */
     public function testCanNotCreateSessionType(): void
     {
         $schoolId = 10;
@@ -1488,9 +1350,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateSessionType($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateProgram()
-     */
     public function testCanUpdateAllPrograms(): void
     {
         $rolesInSchool = ['foo'];
@@ -1512,9 +1371,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateProgram($sessionUser, $programId, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateProgram()
-     */
     public function testCanUpdateTheirPrograms(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1548,9 +1404,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateProgram($sessionUser, $programId, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateProgram()
-     */
     public function testCanNotUpdatePrograms(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1584,9 +1437,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateProgram($sessionUser, $programId, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteProgram()
-     */
     public function testCanDeleteAllPrograms(): void
     {
         $rolesInSchool = ['foo'];
@@ -1608,9 +1458,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteProgram($sessionUser, $programId, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteProgram()
-     */
     public function testCanDeleteTheirPrograms(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1644,9 +1491,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteProgram($sessionUser, $programId, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteProgram()
-     */
     public function testCanNotDeletePrograms(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1680,9 +1524,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteProgram($sessionUser, $programId, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateProgram()
-     */
     public function testCanCreateProgram(): void
     {
         $schoolId = 10;
@@ -1703,9 +1544,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateProgram($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateProgram()
-     */
     public function testCanNotCreateProgram(): void
     {
         $schoolId = 10;
@@ -1726,9 +1564,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateProgram($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateProgramYear()
-     */
     public function testCanUpdateAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -1758,9 +1593,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUpdateProgramYear()
-     */
     public function testCanUpdateTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1800,9 +1632,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUpdateProgramYear()
-     */
     public function testCanUpdateProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1854,9 +1683,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUpdateProgramYear()
-     */
     public function testCanNotUpdateProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
@@ -1918,9 +1744,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUpdateProgramYear()
-     */
     public function testCanNotUpdateLockedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
@@ -1932,9 +1755,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUpdateProgramYear()
-     */
     public function testCanNotUpdateArchivedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
@@ -1946,9 +1766,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canDeleteProgramYear()
-     */
     public function testCanDeleteAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -1978,9 +1795,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canDeleteProgramYear()
-     */
     public function testCanDeleteTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2020,9 +1834,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canDeleteProgramYear()
-     */
     public function testCanDeleteProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2075,9 +1886,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canDeleteProgramYear()
-     */
     public function testCanNotDeleteProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2139,9 +1947,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canDeleteProgramYear()
-     */
     public function testCanNotDeleteLockedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
@@ -2153,9 +1958,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canDeleteProgramYear()
-     */
     public function testCanNotDeleteArchivedProgramYears(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
@@ -2167,9 +1969,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canCreateProgramYear()
-     */
     public function testCanCreateProgramYear(): void
     {
         $programId = 20;
@@ -2197,9 +1996,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateProgramYear($sessionUser, $program));
     }
 
-    /**
-     * @covers ::canCreateProgramYear()
-     */
     public function testCanCreateProgramYearIfUserCanUpdateProgram(): void
     {
         $programId = 20;
@@ -2235,9 +2031,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateProgramYear($sessionUser, $program));
     }
 
-    /**
-     * @covers ::canCreateProgramYear()
-     */
     public function testCanNotCreateProgramYear(): void
     {
         $programId = 20;
@@ -2284,9 +2077,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateProgramYear($sessionUser, $program));
     }
 
-    /**
-     * @covers ::canLockProgramYear()
-     */
     public function testCanLockAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -2315,9 +2105,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canLockProgramYear()
-     */
     public function testCanLockTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2356,9 +2143,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canLockProgramYear()
-     */
     public function testCanLockProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2409,9 +2193,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canLockProgramYear()
-     */
     public function testCanNotLockProgramYearIfProgramYearIsArchived(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
@@ -2422,9 +2203,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUnlockProgramYear()
-     */
     public function testCanUnlockAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -2453,9 +2231,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUnlockProgramYear()
-     */
     public function testCanUnlockTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2494,9 +2269,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUnlockProgramYear()
-     */
     public function testCanUnlockProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2547,9 +2319,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUnlockProgramYear()
-     */
     public function testCanNotUnlockProgramYearIfProgramYearIsArchived(): void
     {
         $programYear = m::mock(ProgramYearInterface::class);
@@ -2560,9 +2329,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canArchiveProgramYear()
-     */
     public function testCanArchiveAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -2590,9 +2356,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canArchiveProgramYear()
-     */
     public function testCanArchiveTheirProgramYears(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2630,9 +2393,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canArchiveProgramYear()
-     */
     public function testCanArchiveProgramYearsIfUserCanUpdateProgram(): void
     {
         $rolesInSchool  = ['foo'];
@@ -2682,9 +2442,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
     }
 
-    /**
-     * @covers ::canUpdateSchoolConfig()
-     */
     public function testCanUpdateSchoolConfig(): void
     {
         $schoolId = 10;
@@ -2705,9 +2462,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateSchoolConfig($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateSchoolConfig()
-     */
     public function testCanNotUpdateSchoolConfig(): void
     {
         $schoolId = 10;
@@ -2728,9 +2482,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateSchoolConfig($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteSchoolConfig()
-     */
     public function testCanDeleteSchoolConfig(): void
     {
         $schoolId = 10;
@@ -2751,9 +2502,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteSchoolConfig($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteSchoolConfig()
-     */
     public function testCanNotDeleteSchoolConfig(): void
     {
         $schoolId = 10;
@@ -2774,9 +2522,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteSchoolConfig($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateSchoolConfig()
-     */
     public function testCanCreateSchoolConfig(): void
     {
         $schoolId = 10;
@@ -2797,9 +2542,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateSchoolConfig($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateSchoolConfig()
-     */
     public function testCanNotCreateSchoolConfig(): void
     {
         $schoolId = 10;
@@ -2820,9 +2562,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateSchoolConfig($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateSchool()
-     */
     public function testCanUpdateSchool(): void
     {
         $schoolId = 10;
@@ -2843,9 +2582,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateSchool($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateSchool()
-     */
     public function testCanNotUpdateSchool(): void
     {
         $schoolId = 10;
@@ -2866,9 +2602,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateSchool($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateCompetency()
-     */
     public function testCanUpdateCompetency(): void
     {
         $schoolId = 10;
@@ -2889,9 +2622,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateCompetency($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateCompetency()
-     */
     public function testCanNotUpdateCompetency(): void
     {
         $schoolId = 10;
@@ -2912,9 +2642,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateCompetency($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteCompetency()
-     */
     public function testCanDeleteCompetency(): void
     {
         $schoolId = 10;
@@ -2935,9 +2662,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteCompetency($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteCompetency()
-     */
     public function testCanNotDeleteCompetency(): void
     {
         $schoolId = 10;
@@ -2958,9 +2682,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteCompetency($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateCompetency()
-     */
     public function testCanCreateCompetency(): void
     {
         $schoolId = 10;
@@ -2981,9 +2702,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateCompetency($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateCompetency()
-     */
     public function testCanNotCreateCompetency(): void
     {
         $schoolId = 10;
@@ -3004,9 +2722,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateCompetency($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateVocabulary()
-     */
     public function testCanUpdateVocabulary(): void
     {
         $schoolId = 10;
@@ -3027,9 +2742,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateVocabulary($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateVocabulary()
-     */
     public function testCanNotUpdateVocabulary(): void
     {
         $schoolId = 10;
@@ -3050,9 +2762,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateVocabulary($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteVocabulary()
-     */
     public function testCanDeleteVocabulary(): void
     {
         $schoolId = 10;
@@ -3073,9 +2782,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteVocabulary($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteVocabulary()
-     */
     public function testCanNotDeleteVocabulary(): void
     {
         $schoolId = 10;
@@ -3096,9 +2802,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteVocabulary($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateVocabulary()
-     */
     public function testCanCreateVocabulary(): void
     {
         $schoolId = 10;
@@ -3119,9 +2822,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateVocabulary($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateVocabulary()
-     */
     public function testCanNotCreateVocabulary(): void
     {
         $schoolId = 10;
@@ -3142,9 +2842,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateVocabulary($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateTerm()
-     */
     public function testCanUpdateTerm(): void
     {
         $schoolId = 10;
@@ -3165,9 +2862,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateTerm($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateTerm()
-     */
     public function testCanNotUpdateTerm(): void
     {
         $schoolId = 10;
@@ -3188,9 +2882,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateTerm($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteTerm()
-     */
     public function testCanDeleteTerm(): void
     {
         $schoolId = 10;
@@ -3211,9 +2902,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteTerm($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteTerm()
-     */
     public function testCanNotDeleteTerm(): void
     {
         $schoolId = 10;
@@ -3234,9 +2922,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteTerm($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateTerm()
-     */
     public function testCanCreateTerm(): void
     {
         $schoolId = 10;
@@ -3257,9 +2942,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateTerm($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateTerm()
-     */
     public function testCanNotCreateTerm(): void
     {
         $schoolId = 10;
@@ -3280,9 +2962,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateTerm($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateInstructorGroup()
-     */
     public function testCanUpdateInstructorGroup(): void
     {
         $schoolId = 10;
@@ -3303,9 +2982,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateInstructorGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateInstructorGroup()
-     */
     public function testCanNotUpdateInstructorGroup(): void
     {
         $schoolId = 10;
@@ -3326,9 +3002,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateInstructorGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteInstructorGroup()
-     */
     public function testCanDeleteInstructorGroup(): void
     {
         $schoolId = 10;
@@ -3349,9 +3022,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteInstructorGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteInstructorGroup()
-     */
     public function testCanNotDeleteInstructorGroup(): void
     {
         $schoolId = 10;
@@ -3372,9 +3042,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteInstructorGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateInstructorGroup()
-     */
     public function testCanCreateInstructorGroup(): void
     {
         $schoolId = 10;
@@ -3395,9 +3062,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateInstructorGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateInstructorGroup()
-     */
     public function testCanNotCreateInstructorGroup(): void
     {
         $schoolId = 10;
@@ -3418,9 +3082,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateInstructorGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateCurriculumInventoryReport()
-     */
     public function testCanUpdateAllCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
@@ -3444,9 +3105,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::canUpdateCurriculumInventoryReport()
-     */
     public function testCanUpdateTheirCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
@@ -3481,9 +3139,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::canUpdateCurriculumInventoryReport()
-     */
     public function testCanNotUpdateCurriculumInventoryReport(): void
     {
         $rolesInSchool = ['foo'];
@@ -3518,9 +3173,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::canDeleteCurriculumInventoryReport()
-     */
     public function testCanDeleteAllCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
@@ -3544,9 +3196,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::canDeleteCurriculumInventoryReport()
-     */
     public function testCanDeleteTheirCurriculumInventoryReports(): void
     {
         $rolesInSchool = ['foo'];
@@ -3581,9 +3230,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::canDeleteCurriculumInventoryReport()
-     */
     public function testCanNotDeleteCurriculumInventoryReport(): void
     {
         $rolesInSchool = ['foo'];
@@ -3618,9 +3264,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::canCreateCurriculumInventoryReport()
-     */
     public function testCanCreateCurriculumInventoryReport(): void
     {
         $schoolId = 10;
@@ -3641,9 +3284,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateCurriculumInventoryReport($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateCurriculumInventoryReport()
-     */
     public function testCanNotCreateCurriculumInventoryReport(): void
     {
         $schoolId = 10;
@@ -3664,9 +3304,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateCurriculumInventoryReport($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateCurriculumInventoryInstitution()
-     */
     public function testCanUpdateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
@@ -3687,9 +3324,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateCurriculumInventoryInstitution()
-     */
     public function testCanNotUpdateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
@@ -3710,9 +3344,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteCurriculumInventoryInstitution()
-     */
     public function testCanDeleteCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
@@ -3733,9 +3364,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteCurriculumInventoryInstitution()
-     */
     public function testCanNotDeleteCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
@@ -3756,9 +3384,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateCurriculumInventoryInstitution()
-     */
     public function testCanCreateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
@@ -3779,9 +3404,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateCurriculumInventoryInstitution()
-     */
     public function testCanNotCreateCurriculumInventoryInstitution(): void
     {
         $schoolId = 10;
@@ -3802,9 +3424,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateCurriculumInventoryInstitution($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateLearnerGroup()
-     */
     public function testCanUpdateLearnerGroup(): void
     {
         $schoolId = 10;
@@ -3825,9 +3444,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateLearnerGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateLearnerGroup()
-     */
     public function testCanNotUpdateLearnerGroup(): void
     {
         $schoolId = 10;
@@ -3848,9 +3464,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateLearnerGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteLearnerGroup()
-     */
     public function testCanDeleteLearnerGroup(): void
     {
         $schoolId = 10;
@@ -3871,9 +3484,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteLearnerGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteLearnerGroup()
-     */
     public function testCanNotDeleteLearnerGroup(): void
     {
         $schoolId = 10;
@@ -3894,9 +3504,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteLearnerGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateLearnerGroup()
-     */
     public function testCanCreateLearnerGroup(): void
     {
         $schoolId = 10;
@@ -3917,9 +3524,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateLearnerGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateLearnerGroup()
-     */
     public function testCanNotCreateLearnerGroup(): void
     {
         $schoolId = 10;
@@ -3940,9 +3544,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateLearnerGroup($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateUser()
-     */
     public function testCanUpdateUser(): void
     {
         $schoolId = 10;
@@ -3963,9 +3564,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canUpdateUser($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canUpdateUser()
-     */
     public function testCanNotUpdateUser(): void
     {
         $schoolId = 10;
@@ -3986,9 +3584,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateUser($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteUser()
-     */
     public function testCanDeleteUser(): void
     {
         $schoolId = 10;
@@ -4009,9 +3604,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canDeleteUser($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canDeleteUser()
-     */
     public function testCanNotDeleteUser(): void
     {
         $schoolId = 10;
@@ -4032,9 +3624,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canDeleteUser($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateUser()
-     */
     public function testCanCreateUser(): void
     {
         $schoolId = 10;
@@ -4055,9 +3644,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canCreateUser($sessionUser, $schoolId));
     }
 
-    /**
-     * @covers ::canCreateUser()
-     */
     public function testCanNotCreateUser(): void
     {
         $schoolId = 10;
@@ -4078,10 +3664,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canCreateUser($sessionUser, $schoolId));
     }
 
-
-    /**
-     * @covers ::canViewLearnerGroup()
-     */
     public function testCanViewLearnerGroupIfUseIsInLearnerGroup(): void
     {
         $learnerGroupId = 10;
@@ -4095,10 +3677,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canViewLearnerGroup($sessionUser, $learnerGroupId));
     }
 
-
-    /**
-     * @covers ::canViewLearnerGroup()
-     */
     public function testCanViewLearnerGroupIfUserPerformsNonLearnerFunction(): void
     {
         $learnerGroupId = 10;
@@ -4115,9 +3693,6 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canViewLearnerGroup($sessionUser, $learnerGroupId));
     }
 
-    /**
-     * @covers ::canViewLearnerGroup()
-     */
     public function testCanNotViewLearnerGroup(): void
     {
         $learnerGroupId = 10;
@@ -4134,25 +3709,16 @@ class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canViewLearnerGroup($sessionUser, $learnerGroupId));
     }
 
-    /**
-     * @covers ::canCreateUsersInAnySchool()
-     */
     public function testCanCreateUsersInAnySchool(): void
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
-    /**
-     * @covers ::canCreateOrUpdateUsersInAnySchool()
-     */
     public function testCanCreateOrUpdateUsersInAnySchool(): void
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
-    /**
-     * @covers ::canCreateCurriculumInventoryReportInAnySchool()
-     */
     public function testCanCreateCurriculumInventoryReportUserInAnySchool(): void
     {
         $this->markTestIncomplete('This test has not been implemented yet.');

@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @coversDefaultClass \App\Controller\IndexController
+ * @covers \App\Controller\IndexController
  * @group controller
  */
 class IndexControllerTest extends WebTestCase

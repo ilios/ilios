@@ -16,7 +16,7 @@ use Ilios\MeSH\Model\Term;
 
 /**
  * Class MeshDescriptorSetTransmogrifierTest
- * @coversDefaultClass \App\Service\MeshDescriptorSetTransmogrifier
+ * @covers \App\Service\MeshDescriptorSetTransmogrifier
  */
 class MeshDescriptorSetTransmogrifierTest extends TestCase
 {
@@ -34,9 +34,6 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
         unset($this->transmogrifier);
     }
 
-    /**
-     * @covers ::transmogrify
-     */
     public function testTransmogrify(): void
     {
         $descriptor1 = new Descriptor();
@@ -157,9 +154,6 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
         $this->assertEquals(['3.1'], $data['insert']['mesh_tree']['D03']);
     }
 
-    /**
-     * @covers ::hashTerm
-     */
     public function testHashTerm(): void
     {
         $term1 = new Term();

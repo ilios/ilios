@@ -34,7 +34,7 @@ use Mockery as m;
  * Class ImportDefaultDataCommandTest
  * @package App\Tests\Command
  * @group cli
- * @coversDefaultClass \App\Command\ImportDefaultDataCommand
+ * @covers \App\Command\ImportDefaultDataCommand
  */
 class ImportDefaultDataCommandTest extends KernelTestCase
 {
@@ -128,9 +128,6 @@ class ImportDefaultDataCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testExecute(): void
     {
         $this->schoolRepository->shouldReceive('findDTOBy')->withAnyArgs()->andReturn(null);
@@ -211,9 +208,6 @@ class ImportDefaultDataCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testExecuteFailsIfDatabaseIsNotEmpty(): void
     {
         $this->schoolRepository->shouldReceive('findDTOBy')->withAnyArgs()->andReturn(

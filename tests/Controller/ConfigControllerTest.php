@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @coversDefaultClass \App\Controller\ConfigController
+ * @covers \App\Controller\ConfigController
  * @group controller
  */
 class ConfigControllerTest extends WebTestCase
@@ -38,7 +38,7 @@ class ConfigControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testIndex(): void
+    public function testGetConfig(): void
     {
         $this->kernelBrowser->request('GET', '/application/config');
         $response = $this->kernelBrowser->getResponse();

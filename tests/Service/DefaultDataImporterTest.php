@@ -12,7 +12,7 @@ use Mockery as m;
 
 /**
  * @package App\Tests\Service
- * @coversDefaultClass \App\Service\DefaultDataImporter
+ * @covers \App\Service\DefaultDataImporter
  */
 class DefaultDataImporterTest extends TestCase
 {
@@ -42,9 +42,6 @@ class DefaultDataImporterTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportAamcMethod(): void
     {
         $input = [
@@ -69,9 +66,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportAamcPcrs(): void
     {
         $input = [
@@ -93,9 +87,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportAamcResourceType(): void
     {
         $input = [
@@ -117,9 +108,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportAlertChangeType(): void
     {
         $input = [
@@ -144,9 +132,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportApplicationConfig(): void
     {
         $input = [
@@ -171,9 +156,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportAssessmentOption(): void
     {
         $input = [
@@ -198,9 +180,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportCompetency(): void
     {
         $input = [
@@ -225,9 +204,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportCourseClerkshipType(): void
     {
         $input = [
@@ -252,9 +228,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportCurriculumInventoryInstitution(): void
     {
         $input = [
@@ -280,9 +253,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportLearningMaterialStatus(): void
     {
         $input = [
@@ -309,9 +279,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportLearningMaterialUserRole(): void
     {
         $input = [
@@ -338,9 +305,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportSchool(): void
     {
         $input = [
@@ -365,9 +329,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportSessionType(): void
     {
         $input = [
@@ -392,9 +353,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportTerm(): void
     {
         $input = [
@@ -419,9 +377,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportUserRole(): void
     {
         $input = [
@@ -446,9 +401,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportVocabulary(): void
     {
         $input = [
@@ -473,9 +425,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportCompetencyToAamcPcrsMapping(): void
     {
         $input = [
@@ -498,9 +447,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportSessionTypeToAamcMethodMapping(): void
     {
         $input = [
@@ -524,9 +470,6 @@ class DefaultDataImporterTest extends TestCase
         }
     }
 
-    /**
-     * @covers ::import
-     */
     public function testImportTermToAamcResourceTypeMapping(): void
     {
         $input = [

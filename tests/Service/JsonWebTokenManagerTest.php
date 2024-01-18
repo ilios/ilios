@@ -17,7 +17,7 @@ use Mockery as m;
 use App\Service\JsonWebTokenManager;
 
 /**
- * @coversDefaultClass \App\Service\JsonWebTokenManager
+ * @covers \App\Service\JsonWebTokenManager
  */
 class JsonWebTokenManagerTest extends TestCase
 {
@@ -164,9 +164,6 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(false, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
     }
 
-    /**
-     * @covers ::createJwtFromServiceTokenUser
-     */
     public function testCreateJwtFromServiceTokenUser(): void
     {
         $schoolIds = [1, 3];
@@ -199,7 +196,6 @@ class JsonWebTokenManagerTest extends TestCase
     }
 
     /**
-     * @covers ::getWriteableSchoolIdsFromToken
      * @dataProvider getWriteableSchoolIdsFromTokenProvider
      */
     public function testGetWriteableSchoolIdsFromToken(string $jwt, array $schoolIds): void
@@ -217,7 +213,6 @@ class JsonWebTokenManagerTest extends TestCase
     }
 
     /**
-     * @covers ::isUserToken
      * @dataProvider isUserTokenProvider
      */
     public function testIsUserToken(string $jwt, bool $expected): void
@@ -235,7 +230,6 @@ class JsonWebTokenManagerTest extends TestCase
     }
 
     /**
-     * @covers ::isServiceToken
      * @dataProvider isServiceTokenProvider
      */
     public function testIsServiceToken(string $jwt, bool $expected): void

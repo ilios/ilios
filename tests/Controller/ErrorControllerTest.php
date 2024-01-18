@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
 /**
- * @coversDefaultClass \App\Controller\ErrorController
+ * @covers \App\Controller\ErrorController
  * @group controller
  */
 class ErrorControllerTest extends WebTestCase
@@ -39,7 +39,7 @@ class ErrorControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testIndex(): void
+    public function testPostError(): void
     {
         $data = [
             'mainMessage' => 'dev/null',

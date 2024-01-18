@@ -27,7 +27,7 @@ use function count;
 
 /**
  * Class ReportRolloverTest
- * @coversDefaultClass \App\Service\CurriculumInventory\ReportRollover
+ * @covers \App\Service\CurriculumInventory\ReportRollover
  */
 class ReportRolloverTest extends TestCase
 {
@@ -156,7 +156,6 @@ class ReportRolloverTest extends TestCase
         return [[ $report ]];
     }
     /**
-     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReport $report
      */
@@ -207,7 +206,6 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReportInterface $report
      */
@@ -218,7 +216,6 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReportInterface $report
      */
@@ -229,7 +226,6 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReportInterface $report
      */
@@ -249,7 +245,7 @@ class ReportRolloverTest extends TestCase
     protected function assertSequenceBlockEquals(
         CurriculumInventorySequenceBlockInterface $sequenceBlock,
         CurriculumInventorySequenceBlockInterface $newSequenceBlock
-    ) {
+    ): void {
         $this->assertEquals(empty($sequenceBlock->getParent()), empty($newSequenceBlock->getParent()));
         if (! empty($sequenceBlock->getParent())) {
             $this->assertEquals($sequenceBlock->getParent()->getTitle(), $newSequenceBlock->getParent()->getTitle());
@@ -287,7 +283,6 @@ class ReportRolloverTest extends TestCase
     }
 
     /**
-     * @covers ::rollover
      * @dataProvider reportProvider
      * @param CurriculumInventoryReportInterface $report
      */

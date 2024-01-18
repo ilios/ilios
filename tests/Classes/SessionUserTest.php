@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**
  * Class SessionUserTest
- * @coversDefaultClass \App\Classes\SessionUser
+ * @covers \App\Classes\SessionUser
  */
 class SessionUserTest extends TestCase
 {
@@ -56,9 +56,6 @@ class SessionUserTest extends TestCase
         unset($this->userId);
     }
 
-    /**
-     * @covers ::isDirectingCourse
-     */
     public function testIsDirectingCourse()
     {
         $directedCourseAndSchoolIds = ['courseIds' => [1, 2, 3]];
@@ -68,9 +65,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isDirectingCourse(1));
     }
 
-    /**
-     * @covers ::isDirectingCourse
-     */
     public function testIsNotDirectingCourse()
     {
         $directedCourseAndSchoolIds = ['courseIds' => [2, 3]];
@@ -79,9 +73,7 @@ class SessionUserTest extends TestCase
             ->andReturn($directedCourseAndSchoolIds);
         $this->assertFalse($this->sessionUser->isDirectingCourse(1));
     }
-    /**
-     * @covers ::isDirectingProgramLinkedToCourse
-     */
+
     public function testIsDirectingProgramLinkedToCourse()
     {
         $linkedCourseIds = ['courseIds' => [1, 2, 3]];
@@ -91,9 +83,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isDirectingProgramLinkedToCourse(1));
     }
 
-    /**
-     * @covers ::isDirectingProgramLinkedToCourse
-     */
     public function testIsNotDirectingProgramLinkedToCourse()
     {
         $linkedCourseIds = ['courseIds' => [2, 3]];
@@ -103,9 +92,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isDirectingProgramLinkedToCourse(1));
     }
 
-    /**
-     * @covers ::isAdministeringCourse
-     */
     public function testIsAdministeringCourse()
     {
         $administeredCourseAndIds = ['courseIds' => [1, 2, 3]];
@@ -115,9 +101,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringCourse(1));
     }
 
-    /**
-     * @covers ::isAdministeringCourse
-     */
     public function testIsNotAdministeringCourse()
     {
         $administeredCourseAndIds = ['courseIds' => [2, 3]];
@@ -127,9 +110,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringCourse(1));
     }
 
-    /**
-     * @covers ::isDirectingSchool
-     */
     public function testIsDirectingSchool()
     {
         $directedSchoolIds = [1, 2, 3];
@@ -137,9 +117,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isDirectingSchool(1));
     }
 
-    /**
-     * @covers ::isDirectingSchool
-     */
     public function testIsNotDirectingSchool()
     {
         $directedSchoolIds = [2, 3];
@@ -147,9 +124,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isDirectingSchool(1));
     }
 
-    /**
-     * @covers ::isAdministeringSchool
-     */
     public function testIsAdministeringSchool()
     {
         $administeredSchoolIds = [1, 2, 3];
@@ -157,9 +131,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringSchool(1));
     }
 
-    /**
-     * @covers ::isAdministeringSchool
-     */
     public function testIsNotAdministeringSchool()
     {
         $administeredSchoolIds = [2, 3];
@@ -167,9 +138,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringSchool(1));
     }
 
-    /**
-     * @covers ::isDirectingCourseInSchool
-     */
     public function testIsDirectingCourseInSchool()
     {
         $directedCourseAndSchoolIds = ['schoolIds' => [1, 2, 3]];
@@ -179,9 +147,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isDirectingCourseInSchool(1));
     }
 
-    /**
-     * @covers ::isDirectingCourseInSchool
-     */
     public function testIsNotDirectingCourseInSchool()
     {
         $directedCourseAndSchoolIds = ['schoolIds' => [2, 3]];
@@ -191,9 +156,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isDirectingCourseInSchool(1));
     }
 
-    /**
-     * @covers ::isAdministeringCourseInSchool
-     */
     public function testIsAdministeringCourseInSchool()
     {
         $administeredCourseAndSchoolIds = ['schoolIds' => [1, 2, 3]];
@@ -203,9 +165,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringCourseInSchool(1));
     }
 
-    /**
-     * @covers ::isAdministeringCourseInSchool
-     */
     public function testIsNotAdministeringCourseInSchool()
     {
         $administeredCourseAndSchoolIds = ['schoolIds' => [2, 3]];
@@ -215,9 +174,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringCourseInSchool(1));
     }
 
-    /**
-     * @covers ::isAdministeringSessionInSchool
-     */
     public function testIsAdministeringSessionInSchool()
     {
         $administeredSessionCourseAndSchoolIds = ['schoolIds' => [1, 2, 3]];
@@ -227,9 +183,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringSessionInSchool(1));
     }
 
-    /**
-     * @covers ::isAdministeringSessionInSchool
-     */
     public function testIsNotAdministeringSessionInSchool()
     {
         $administeredSessionCourseAndSchoolIds = ['schoolIds' => [2, 3]];
@@ -239,9 +192,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringSessionInSchool(1));
     }
 
-    /**
-     * @covers ::isTeachingCourseInSchool
-     */
     public function testIsTeachingCourseInSchool()
     {
         $taughtSchoolIds = ['schoolIds' => [1, 2, 3]];
@@ -251,9 +201,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isTeachingCourseInSchool(1));
     }
 
-    /**
-     * @covers ::isTeachingCourseInSchool
-     */
     public function testIsNotTeachingCourseInSchool()
     {
         $taughtSchoolIds = ['schoolIds' => [2, 3]];
@@ -263,9 +210,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isTeachingCourseInSchool(1));
     }
 
-    /**
-     * @covers ::isTeachingCourse
-     */
     public function testIsTeachingCourse()
     {
         $taughtCourseIds = ['courseIds' => [1, 2, 3]];
@@ -275,9 +219,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isTeachingCourse(1));
     }
 
-    /**
-     * @covers ::isTeachingCourse
-     */
     public function testIsNotTeachingCourse()
     {
         $taughtCourseIds = ['courseIds' => [2, 3]];
@@ -287,9 +228,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isTeachingCourse(1));
     }
 
-    /**
-     * @covers ::isAdministeringSessionInCourse
-     */
     public function testIsAdministeringSessionInCourse()
     {
         $administeredCourseIds = ['courseIds' => [1, 2, 3]];
@@ -299,9 +237,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringSessionInCourse(1));
     }
 
-    /**
-     * @covers ::isAdministeringSessionInCourse
-     */
     public function testIsNotAdministeringSessionInCourse()
     {
         $administeredCourseIds = ['courseIds' => [2, 3]];
@@ -311,9 +246,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringSessionInCourse(1));
     }
 
-    /**
-     * @covers ::isAdministeringSession
-     */
     public function testIsAdministeringSession()
     {
         $administeredSessionIds = ['sessionIds' => [1, 2, 3]];
@@ -323,9 +255,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringSession(1));
     }
 
-    /**
-     * @covers ::isAdministeringSession
-     */
     public function testIsNotAdministeringSession()
     {
         $administeredSessionIds = ['sessionIds' => [2, 3]];
@@ -335,9 +264,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringSession(1));
     }
 
-    /**
-     * @covers ::isTeachingSession
-     */
     public function testIsTeachingSession()
     {
         $taughtSessionIds = ['sessionIds' => [1, 2, 3]];
@@ -347,9 +273,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isTeachingSession(1));
     }
 
-    /**
-     * @covers ::isTeachingSession
-     */
     public function testIsNotTeachingSession()
     {
         $taughtSessionIds = ['sessionIds' => [2, 3]];
@@ -359,9 +282,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isTeachingSession(1));
     }
 
-    /**
-     * @covers ::isInstructingOffering
-     */
     public function testIsInstructingOffering()
     {
         $taughtSessionIds = ['offeringIds' => [1, 2, 3]];
@@ -371,9 +291,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isInstructingOffering(1));
     }
 
-    /**
-     * @covers ::isInstructingOffering
-     */
     public function testIsNotInstructingOffering()
     {
         $taughtSessionIds = ['offeringIds' => [2, 3]];
@@ -383,9 +300,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isInstructingOffering(1));
     }
 
-    /**
-     * @covers ::isInstructingIlm
-     */
     public function testIsInstructingIlm()
     {
         $taughtSessionIds = ['ilmIds' => [1, 2, 3]];
@@ -395,9 +309,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isInstructingIlm(1));
     }
 
-    /**
-     * @covers ::isInstructingIlm
-     */
     public function testIsNotInstructingIlm()
     {
         $taughtSessionIds = ['ilmIds' => [2, 3]];
@@ -407,9 +318,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isInstructingIlm(1));
     }
 
-    /**
-     * @covers ::isDirectingProgram
-     */
     public function testIsDirectingProgram()
     {
         $directedProgramIds = ['programIds' => [1, 2, 3]];
@@ -419,9 +327,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isDirectingProgram(1));
     }
 
-    /**
-     * @covers ::isDirectingProgram
-     */
     public function testIsNotDirectingProgram()
     {
         $directedProgramIds = ['programIds' => [2, 3]];
@@ -431,9 +336,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isDirectingProgram(1));
     }
 
-    /**
-     * @covers ::isDirectingProgramYear
-     */
     public function testIsDirectingProgramYear()
     {
         $directedProgramYearIds = ['programYearIds' => [1, 2, 3]];
@@ -443,9 +345,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isDirectingProgramYear(1));
     }
 
-    /**
-     * @covers ::isDirectingProgramYear
-     */
     public function testIsNotDirectingProgramYear()
     {
         $directedProgramYearIds = ['programYearIds' => [2, 3]];
@@ -455,9 +354,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isDirectingProgramYear(1));
     }
 
-    /**
-     * @covers ::isDirectingProgramYearInProgram
-     */
     public function testIsDirectingProgramYearInProgram()
     {
         $directedProgramIds = ['programIds' => [1, 2, 3]];
@@ -467,9 +363,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isDirectingProgramYearInProgram(1));
     }
 
-    /**
-     * @covers ::isDirectingProgramYearInProgram
-     */
     public function testIsNotDirectingProgramYearInProgram()
     {
         $directedProgramIds = ['programIds' => [2, 3]];
@@ -479,9 +372,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isDirectingProgramYearInProgram(1));
     }
 
-    /**
-     * @covers ::isAdministeringCurriculumInventoryReport
-     */
     public function testIsAdministeringCurriculumInventoryReport()
     {
         $administeredReportIds = ['reportIds' => [1, 2, 3]];
@@ -491,9 +381,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringCurriculumInventoryReport(1));
     }
 
-    /**
-     * @covers ::isAdministeringCurriculumInventoryReport
-     */
     public function testIsNotAdministeringCurriculumInventoryReport()
     {
         $administeredReportIds = ['reportIds' => [2, 3]];
@@ -503,9 +390,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringCurriculumInventoryReport(1));
     }
 
-    /**
-     * @covers ::isAdministeringCurriculumInventoryReportInSchool
-     */
     public function testIsAdministeringCurriculumInventoryReportInSchool()
     {
         $administeredSchoolIds = ['schoolIds' => [1, 2, 3]];
@@ -515,9 +399,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isAdministeringCurriculumInventoryReportInSchool(1));
     }
 
-    /**
-     * @covers ::isAdministeringCurriculumInventoryReportInSchool
-     */
     public function testIsNotAdministeringCurriculumInventoryReportInSchool()
     {
         $administeredSchoolIds = ['schoolIds' => [2, 3]];
@@ -527,9 +408,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isAdministeringCurriculumInventoryReportInSchool(1));
     }
 
-    /**
-     * @covers ::isInLearnerGroup()
-     */
     public function testIsInLearnerGroup()
     {
         $learnerGroupIds = [1, 2, 3];
@@ -539,9 +417,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->isInLearnerGroup(1));
     }
 
-    /**
-     * @covers ::isInLearnerGroup()
-     */
     public function testIsNotInLearnerGroup()
     {
         $learnerGroupIds = [2, 3];
@@ -551,10 +426,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->isInLearnerGroup(1));
     }
 
-
-    /**
-     * @covers ::rolesInSchool
-     */
     public function testRolesInSchool()
     {
         $schoolId = 2;
@@ -603,9 +474,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($roles, $this->sessionUser->rolesInSchool($schoolId));
     }
 
-    /**
-     * @covers ::rolesInCourse
-     */
     public function testRolesInCourse()
     {
         $courseId = 2;
@@ -634,7 +502,6 @@ class SessionUserTest extends TestCase
     }
 
     /**
-     * @covers ::rolesInSession
      * @dataProvider rolesInSessionProvider
      */
     public function testRolesInSession(
@@ -655,9 +522,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($expectedRoles, $this->sessionUser->rolesInSession($sessionId));
     }
 
-    /**
-     * @covers ::rolesInProgram
-     */
     public function testRolesInProgram()
     {
         $programId = 2;
@@ -673,9 +537,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($roles, $this->sessionUser->rolesInProgram($programId));
     }
 
-    /**
-     * @covers ::rolesInProgramYear
-     */
     public function testRolesInProgramYear()
     {
         $programYearId = 2;
@@ -687,9 +548,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($roles, $this->sessionUser->rolesInProgramYear($programYearId));
     }
 
-    /**
-     * @covers ::rolesInCurriculumInventoryReport
-     */
     public function testRolesInCurriculumInventoryReport()
     {
         $reportId = 2;
@@ -701,9 +559,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($roles, $this->sessionUser->rolesInCurriculumInventoryReport($reportId));
     }
 
-    /**
-     * @covers ::rolesInCurriculumInventoryReport
-     */
     public function testRolesInCurriculumInventoryReportNoMatchingReport()
     {
         $reportId = 2;
@@ -715,9 +570,6 @@ class SessionUserTest extends TestCase
         $this->assertEmpty($this->sessionUser->rolesInCurriculumInventoryReport($reportId));
     }
 
-    /**
-     * @covers ::rolesInCurriculumInventoryReport
-     */
     public function testRolesInCurriculumInventoryReportNoMatchingRoles()
     {
         $reportId = 2;
@@ -727,9 +579,6 @@ class SessionUserTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsRoot()
     {
         $this->iliosUser = $this->createMockUser($this->userId, $this->school, true);
@@ -737,9 +586,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsCourseDirector()
     {
         $courseIds = [2, 3];
@@ -750,9 +596,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsCourseAdministrator()
     {
         $courseIds = [2, 3];
@@ -767,9 +610,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsSchoolDirector()
     {
         $schoolIds = [2, 3];
@@ -788,9 +628,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsSchoolAdministrator()
     {
         $schoolIds = [2, 3];
@@ -813,9 +650,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsInInstructorGroups()
     {
         $instructorGroupIds = [2, 3];
@@ -842,9 +676,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsTeachingInCourses()
     {
         $courseIds = [2, 3];
@@ -875,9 +706,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsSessionAdministrator()
     {
         $sessionIds = [2, 3];
@@ -912,9 +740,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsInstructingInSessions()
     {
         $sessionIds = [2, 3];
@@ -949,9 +774,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsProgramDirector()
     {
         $programIds = [2, 3];
@@ -990,9 +812,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsProgramYearDirector()
     {
         $programYearIds = [2, 3];
@@ -1035,9 +854,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testPerformsNonLearnerFunctionIfUserIsCurriculumInventoryReportAdministrator()
     {
         $reportIds = [2, 3];
@@ -1084,9 +900,6 @@ class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::performsNonLearnerFunction()
-     */
     public function testDoesNotPerformNonLearnerFunction()
     {
         $reportIds = [2, 3];
@@ -1133,9 +946,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($this->sessionUser->performsNonLearnerFunction());
     }
 
-    /**
-     * @covers ::getDirectedCourseIds
-     */
     public function testGetDirectedCourseIds()
     {
         $courseIds = [2, 3];
@@ -1146,9 +956,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($courseIds, $this->sessionUser->getDirectedCourseIds());
     }
 
-    /**
-     * @covers ::getAdministeredCourseIds
-     */
     public function testGetAdministeredCourseIds()
     {
         $courseIds = [2, 3];
@@ -1159,9 +966,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($courseIds, $this->sessionUser->getAdministeredCourseIds());
     }
 
-    /**
-     * @covers ::getCourseIdsLinkedToProgramsDirectedByUser
-     */
     public function getCourseIdsLinkedToProgramsDirectedByUser()
     {
         $courseIds = [2, 3];
@@ -1172,9 +976,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($courseIds, $this->sessionUser->getCourseIdsLinkedToProgramsDirectedByUser());
     }
 
-    /**
-     * @covers ::getDirectedSchoolIds
-     */
     public function testGetDirectedSchoolIds()
     {
         $schoolIds = [2, 3];
@@ -1185,9 +986,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getDirectedSchoolIds());
     }
 
-    /**
-     * @covers ::getAdministeredSchoolIds
-     */
     public function testGetAdministeredSchoolIds()
     {
         $schoolIds = [2, 3];
@@ -1198,9 +996,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredSchoolIds());
     }
 
-    /**
-     * @covers ::getDirectedCourseSchoolIds
-     */
     public function testGetDirectedCourseSchoolIds()
     {
         $schoolIds = [2, 3];
@@ -1211,9 +1006,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getDirectedCourseSchoolIds());
     }
 
-    /**
-     * @covers ::getAdministeredCourseSchoolIds
-     */
     public function testGetAdministeredCourseSchoolIds()
     {
         $schoolIds = [2, 3];
@@ -1224,9 +1016,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredCourseSchoolIds());
     }
 
-    /**
-     * @covers ::getAdministeredSessionSchoolIds
-     */
     public function testGetAdministeredSessionSchoolIds()
     {
         $schoolIds = [2, 3];
@@ -1237,9 +1026,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredSessionSchoolIds());
     }
 
-    /**
-     * @covers ::getAdministeredSessionCourseIds
-     */
     public function testGetAdministeredSessionCourseIds()
     {
         $courseIds = [2, 3];
@@ -1250,9 +1036,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($courseIds, $this->sessionUser->getAdministeredSessionCourseIds());
     }
 
-    /**
-     * @covers ::getTaughtCourseIds
-     */
     public function testGetTaughtCourseIds()
     {
         $courseIds = [2, 3];
@@ -1263,9 +1046,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($courseIds, $this->sessionUser->getTaughtCourseIds());
     }
 
-    /**
-     * @covers ::getAdministeredSessionIds
-     */
     public function testGetAdministeredSessionIds()
     {
         $sessionIds = [2, 3];
@@ -1276,9 +1056,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($sessionIds, $this->sessionUser->getAdministeredSessionIds());
     }
 
-    /**
-     * @covers ::getInstructedSessionIds
-     */
     public function testGetInstructedSessionIds()
     {
         $sessionIds = [2, 3];
@@ -1289,9 +1066,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($sessionIds, $this->sessionUser->getInstructedSessionIds());
     }
 
-    /**
-     * @covers ::getInstructedOfferingIds
-     */
     public function testGetInstructedOfferingIds()
     {
         $userId = 1;
@@ -1303,9 +1077,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($offeringIds, $this->sessionUser->getInstructedOfferingIds());
     }
 
-    /**
-     * @covers ::getInstructedIlmIds
-     */
     public function testGetInstructedIlmIds()
     {
         $userId = 1;
@@ -1317,9 +1088,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($ilmIds, $this->sessionUser->getInstructedIlmIds());
     }
 
-    /**
-     * @covers ::getTaughtCourseSchoolIds
-     */
     public function testGetTaughtCourseSchoolIds()
     {
         $schoolIds = [2, 3];
@@ -1330,9 +1098,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getTaughtCourseSchoolIds());
     }
 
-    /**
-     * @covers ::getDirectedProgramIds
-     */
     public function testGetDirectedProgramIds()
     {
         $programIds = [2, 3];
@@ -1343,9 +1108,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($programIds, $this->sessionUser->getDirectedProgramIds());
     }
 
-    /**
-     * @covers ::getDirectedProgramYearIds
-     */
     public function testGetDirectedProgramYearIds()
     {
         $programYearIds = [2, 3];
@@ -1356,9 +1118,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($programYearIds, $this->sessionUser->getDirectedProgramYearIds());
     }
 
-    /**
-     * @covers ::getDirectedProgramYearProgramIds
-     */
     public function testGetDirectedProgramYearProgramIds()
     {
         $programIds = [2, 3];
@@ -1369,9 +1128,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($programIds, $this->sessionUser->getDirectedProgramYearProgramIds());
     }
 
-    /**
-     * @covers ::getAdministeredCurriculumInventoryReportIds
-     */
     public function testGetAdministeredCurriculumInventoryReportIds()
     {
         $reportIds = [2, 3];
@@ -1382,9 +1138,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($reportIds, $this->sessionUser->getAdministeredCurriculumInventoryReportIds());
     }
 
-    /**
-     * @covers ::getAdministeredCurriculumInventoryReportSchoolIds
-     */
     public function testGetAdministeredCurriculumInventoryReportSchoolIds()
     {
         $schoolIds = [2, 3];
@@ -1395,9 +1148,6 @@ class SessionUserTest extends TestCase
         $this->assertEquals($schoolIds, $this->sessionUser->getAdministeredCurriculumInventoryReportSchoolIds());
     }
 
-    /**
-     * @covers ::isEqualTo
-     */
     public function testIsEqualTo(): void
     {
         $user1 = new SessionUser($this->createMockUser(1, $this->school), $this->userRepository);
@@ -1410,9 +1160,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($user1->isEqualTo($notAnIliosSessionUser));
     }
 
-    /**
-     * @covers ::isTheUser
-     */
     public function testIsTheUser(): void
     {
         $iliosUser1 = $this->createMockUser(1, $this->school);
@@ -1425,9 +1172,6 @@ class SessionUserTest extends TestCase
         $this->assertFalse($sessionUser->isTheUser($iliosUser2));
     }
 
-    /**
-     * @covers ::isThePrimarySchool
-     */
     public function testIsThePrimarySchool(): void
     {
         $otherSchool = new School();

@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\CohortsEntity
+ * @covers \App\Traits\CohortsEntity
  */
 
 class CohortsEntityTest extends TestCase
@@ -30,10 +30,7 @@ class CohortsEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setCohorts
-     */
-    public function testSetCohorts()
+    public function testSetCohorts(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(Cohort::class));
@@ -44,10 +41,7 @@ class CohortsEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getCohorts());
     }
 
-    /**
-     * @covers ::removeCohort
-     */
-    public function testRemoveCohort()
+    public function testRemoveCohort(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(Cohort::class);
@@ -60,5 +54,26 @@ class CohortsEntityTest extends TestCase
         $cohorts = $this->traitObject->getCohorts();
         $this->assertEquals(1, $cohorts->count());
         $this->assertEquals($two, $cohorts->first());
+    }
+
+    public function testAddCohort(): void
+    {
+        $this->traitObject->setCohorts(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getCohorts());
+
+        $one = m::mock(Cohort::class);
+        $this->traitObject->addCohort($one);
+        $this->assertCount(1, $this->traitObject->getCohorts());
+        $this->assertEquals($one, $this->traitObject->getCohorts()->first());
+        // duplicate prevention check
+        $this->traitObject->addCohort($one);
+        $this->assertCount(1, $this->traitObject->getCohorts());
+        $this->assertEquals($one, $this->traitObject->getCohorts()->first());
+
+        $two = m::mock(Cohort::class);
+        $this->traitObject->addCohort($two);
+        $this->assertCount(2, $this->traitObject->getCohorts());
+        $this->assertEquals($one, $this->traitObject->getCohorts()->first());
+        $this->assertEquals($two, $this->traitObject->getCohorts()->last());
     }
 }

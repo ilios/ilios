@@ -6,6 +6,7 @@ namespace App\Tests\Service;
 
 use App\Classes\ServiceTokenUser;
 use App\Classes\SessionUser;
+use App\Entity\ServiceToken;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
 use App\Service\ServiceTokenUserProvider;
@@ -14,7 +15,7 @@ use Mockery as m;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 /**
- * @coversDefaultClass \App\Service\ServiceTokenUserProvider
+ * @covers \App\Service\ServiceTokenUserProvider
  */
 class ServiceTokenUserProviderTest extends TestCase
 {
@@ -44,7 +45,6 @@ class ServiceTokenUserProviderTest extends TestCase
     }
 
     /**
-     * @covers ::supportsClass
      * @dataProvider supportsClassProvider
      */
     public function testSupportsClass(string $className, bool $expected): void
@@ -52,9 +52,6 @@ class ServiceTokenUserProviderTest extends TestCase
         $this->assertEquals($expected, $this->provider->supportsClass($className));
     }
 
-    /**
-     * @covers ::loadUserByIdentifier
-     */
     public function testLoadByIdentifier(): void
     {
         $id = 10;
@@ -67,9 +64,6 @@ class ServiceTokenUserProviderTest extends TestCase
         $this->assertTrue($token->isEnabled());
     }
 
-    /**
-     * @covers ::loadUserByIdentifier
-     */
     public function testLoadByIdentifierFailsOnTokenNotFound(): void
     {
         $id = 10;
@@ -78,9 +72,6 @@ class ServiceTokenUserProviderTest extends TestCase
         $this->provider->loadUserByIdentifier((string) $id);
     }
 
-    /**
-     * @covers ::refreshUser
-     */
     public function testRefreshUser(): void
     {
         $id = 10;
@@ -95,9 +86,6 @@ class ServiceTokenUserProviderTest extends TestCase
         $this->assertEquals((string) $id, $newServiceTokenUser->getUserIdentifier());
     }
 
-    /**
-     * @covers ::refreshUser
-     */
     public function testRefreshUserFailsOnNoTokenFound(): void
     {
         $id = 10;
@@ -108,13 +96,21 @@ class ServiceTokenUserProviderTest extends TestCase
         $this->provider->refreshUser($serviceTokenUserMock);
     }
 
-    /**
-     * @covers ::refreshUser
-     */
     public function testRefreshUserFailsOnWrongClass(): void
     {
         $serviceTokenUserMock = m::mock(SessionUser::class);
         $this->expectException(UnsupportedUserException::class);
         $this->provider->refreshUser($serviceTokenUserMock);
+    }
+
+    public function testCreateServiceTokenUserFromTokenId(): void
+    {
+        $tokenId = 10;
+        $entity = new ServiceToken();
+        $entity->setId($tokenId);
+        $this->repositoryMock->shouldReceive('findOneBy', ['id' => $tokenId])->andReturn($entity);
+        $tokenUser = $this->provider->createServiceTokenUserFromTokenId($tokenId);
+        $this->assertInstanceOf(ServiceTokenUser::class, $tokenUser);
+        $this->assertEquals($tokenId, $tokenUser->getId());
     }
 }

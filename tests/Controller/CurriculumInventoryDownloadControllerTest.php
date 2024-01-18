@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
 /**
- * @coversDefaultClass \App\Controller\CurriculumInventoryDownloadController
+ * @covers \App\Controller\CurriculumInventoryDownloadController
  * @group controller
  */
 class CurriculumInventoryDownloadControllerTest extends WebTestCase
@@ -57,7 +57,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
         unset($this->kernelBrowser);
     }
 
-    public function testGetCurriculumInventoryDownload(): void
+    public function testGetAction(): void
     {
         $jwts = [
             $this->createJwtFromUserId($this->kernelBrowser, 1),

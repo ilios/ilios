@@ -23,7 +23,7 @@ use Mockery\MockInterface;
 /**
  * Class VerificationPreviewBuilderTest
  * @package App\Tests\Service\CurriculumInventory
- * @coversDefaultClass \App\Service\CurriculumInventory\VerificationPreviewBuilder
+ * @covers \App\Service\CurriculumInventory\VerificationPreviewBuilder
  */
 class VerificationPreviewBuilderTest extends TestCase
 {
@@ -357,9 +357,6 @@ class VerificationPreviewBuilderTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @covers ::getAllEventsWithAssessmentsTaggedAsFormativeOrSummative
-     */
     public function testGetAllEventsWithAssessmentsTaggedAsFormativeOrSummative(): void
     {
         $data['events'] = [
@@ -394,9 +391,6 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[2]);
     }
 
-    /**
-     * @covers ::getAllResourceTypes
-     */
     public function testGetAllResourceTypes(): void
     {
         $data['events'] = [
@@ -424,9 +418,6 @@ class VerificationPreviewBuilderTest extends TestCase
         $this->assertEquals(['id' => 3, 'title' => 'Baz', 'count' => 3], $rows[2]);
     }
 
-    /**
-     * @covers ::getClerkshipSequenceBlockAssessmentMethods
-     */
     public function testGetClerkshipSequenceBlockAssessmentMethods(): void
     {
         $data = [];
@@ -571,9 +562,6 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[2]);
     }
 
-    /**
-     * @covers ::getClerkshipSequenceBlockInstructionalTime
-     */
     public function testGetClerkshipSequenceBlockInstructionalTime(): void
     {
         $data = [];
@@ -704,9 +692,6 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[2]);
     }
 
-    /**
-     * @covers ::getInstructionalMethodCounts
-     */
     public function testGetInstructionalMethodCounts(): void
     {
         $data['events'] = [
@@ -745,9 +730,6 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[3]);
     }
 
-    /**
-     * @covers ::getNonClerkshipSequenceBlockAssessmentMethods
-     */
     public function testGetNonClerkshipSequenceBlockAssessmentMethods(): void
     {
         $data = [];
@@ -897,9 +879,6 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[2]);
     }
 
-    /**
-     * @covers ::getNonClerkshipSequenceBlockInstructionalTime
-     */
     public function testGetNonClerkshipSequenceBlockInstructionalTime(): void
     {
         $data = [];
@@ -1027,9 +1006,6 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[2]);
     }
 
-    /**
-     * @covers ::getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock
-     */
     public function testGetPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(): void
     {
         $level1 = new CurriculumInventoryAcademicLevel();
@@ -1155,9 +1131,6 @@ class VerificationPreviewBuilderTest extends TestCase
         ], $rows[2]);
     }
 
-    /**
-     * @covers ::getProgramExpectationsMappedToPcrs
-     */
     public function testGetProgramExpectationsMappedToPcrs(): void
     {
         $data['expectations'] = [
@@ -1213,9 +1186,6 @@ class VerificationPreviewBuilderTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::build
-     */
     public function testBuild(): void
     {
         $report = new CurriculumInventoryReport();

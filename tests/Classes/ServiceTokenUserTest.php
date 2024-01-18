@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Tests\Classes;
 
 use App\Classes\ServiceTokenUser;
+use App\Classes\ServiceTokenUserInterface;
+use App\Classes\SessionUserInterface;
 use App\Entity\ServiceTokenInterface;
 use App\Tests\TestCase;
 use DateTime;
 use Mockery as m;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @coversDefaultClass \App\Classes\ServiceTokenUser
+ * @covers \App\Classes\ServiceTokenUser
  */
 class ServiceTokenUserTest extends TestCase
 {
@@ -32,27 +35,18 @@ class ServiceTokenUserTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @covers ::getId
-     */
     public function testGetId(): void
     {
         $this->mockServiceToken->shouldReceive('getId')->andReturn(1);
         $this->assertEquals(1, $this->serviceTokenUser->getId());
     }
 
-    /**
-     * @covers ::getUserIdentifier
-     */
     public function testGetUserIdentifier(): void
     {
         $this->mockServiceToken->shouldReceive('getId')->andReturn(1);
         $this->assertEquals('1', $this->serviceTokenUser->getUserIdentifier());
     }
 
-    /**
-     * @covers ::getExpiresAt
-     */
     public function testGetExpiredAt(): void
     {
         $date = new DateTime();
@@ -60,9 +54,6 @@ class ServiceTokenUserTest extends TestCase
         $this->assertEquals($date, $this->serviceTokenUser->getExpiresAt());
     }
 
-    /**
-     * @covers ::getCreatedAt
-     */
     public function testGetCreatedAt(): void
     {
         $date = new DateTime();
@@ -70,12 +61,35 @@ class ServiceTokenUserTest extends TestCase
         $this->assertEquals($date, $this->serviceTokenUser->getCreatedAt());
     }
 
-    /**
-     * @covers ::isEnabled
-     */
     public function testIsEnabled(): void
     {
         $this->mockServiceToken->shouldReceive('isEnabled')->andReturn(false);
         $this->assertFalse($this->serviceTokenUser->isEnabled());
+    }
+
+    /**
+     * @dataProvider isEqualToProvider
+     */
+    public function testIsEqualTo(UserInterface $user, bool $expected): void
+    {
+        $this->mockServiceToken->shouldReceive('getId')->andReturn(1);
+        $this->assertEquals($expected, $this->serviceTokenUser->isEqualTo($user));
+    }
+
+    public static function isEqualToProvider(): array
+    {
+        $sameTokenUser = m::mock(ServiceTokenUserInterface::class);
+        $sameTokenUser->shouldReceive('getUserIdentifier')->andReturn(1);
+
+        $otherTokenUser = m::mock(ServiceTokenUserInterface::class);
+        $otherTokenUser->shouldReceive('getUserIdentifier')->andReturn(2);
+
+        $sessionUser = m::mock(SessionUserInterface::class);
+
+        return [
+            [ $sameTokenUser, true ],
+            [ $otherTokenUser, false ],
+            [ $sessionUser, false ],
+        ];
     }
 }

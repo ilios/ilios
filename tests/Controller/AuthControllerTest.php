@@ -22,7 +22,7 @@ use function json_decode;
 use function var_export;
 
 /**
- * @coversDefaultClass \App\Controller\AuthController
+ * @covers \App\Controller\AuthController
  * @group controller
  */
 class AuthControllerTest extends WebTestCase

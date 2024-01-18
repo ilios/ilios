@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\ProgramsEntity
+ * @covers \App\Traits\ProgramsEntity
  */
 
 class ProgramsEntityTest extends TestCase
@@ -30,10 +30,7 @@ class ProgramsEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setPrograms
-     */
-    public function testSetPrograms()
+    public function testSetPrograms(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(Program::class));
@@ -44,10 +41,7 @@ class ProgramsEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getPrograms());
     }
 
-    /**
-     * @covers ::removeProgram
-     */
-    public function testRemoveProgram()
+    public function testRemoveProgram(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(Program::class);
@@ -60,5 +54,26 @@ class ProgramsEntityTest extends TestCase
         $programs = $this->traitObject->getPrograms();
         $this->assertEquals(1, $programs->count());
         $this->assertEquals($two, $programs->first());
+    }
+
+    public function testAddProgram(): void
+    {
+        $this->traitObject->setPrograms(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getPrograms());
+
+        $one = m::mock(Program::class);
+        $this->traitObject->addProgram($one);
+        $this->assertCount(1, $this->traitObject->getPrograms());
+        $this->assertEquals($one, $this->traitObject->getPrograms()->first());
+        // duplicate prevention check
+        $this->traitObject->addProgram($one);
+        $this->assertCount(1, $this->traitObject->getPrograms());
+        $this->assertEquals($one, $this->traitObject->getPrograms()->first());
+
+        $two = m::mock(Program::class);
+        $this->traitObject->addProgram($two);
+        $this->assertCount(2, $this->traitObject->getPrograms());
+        $this->assertEquals($one, $this->traitObject->getPrograms()->first());
+        $this->assertEquals($two, $this->traitObject->getPrograms()->last());
     }
 }

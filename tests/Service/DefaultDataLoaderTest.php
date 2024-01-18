@@ -12,7 +12,7 @@ use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 
 /**
  * @package App\Tests\Service
- * @coversDefaultClass \App\Service\DefaultDataLoader
+ * @covers \App\Service\DefaultDataLoader
  */
 class DefaultDataLoaderTest extends KernelTestCase
 {
@@ -31,23 +31,17 @@ class DefaultDataLoaderTest extends KernelTestCase
         unset($this->projectRootDir);
     }
 
-    /**
-     * @covers ::load
-     */
-    public function testImport(): void
+    public function testLoad(): void
     {
         $defaultDataLoader = new DefaultDataLoader(new DataimportFileLocator($this->projectRootDir));
         $assessmentOptions = $defaultDataLoader->load(DefaultDataImporter::ASSESSMENT_OPTION);
         $this->assertCount(2, $assessmentOptions);
     }
 
-    /**
-     * @covers ::load
-     */
-    public function testImportFailsIfFileNotFound(): void
+    public function testLoadFailsIfFileNotFound(): void
     {
         $this->expectException(FileLocatorFileNotFoundException::class);
         $defaultDataLoader = new DefaultDataLoader(new DataimportFileLocator($this->projectRootDir));
-        $defaultDataLoader->load('gefkarknik');
+        $defaultDataLoader->load('geflarknik');
     }
 }

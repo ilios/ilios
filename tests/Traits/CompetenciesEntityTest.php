@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\CompetenciesEntity
+ * @covers \App\Traits\CompetenciesEntity
  */
 
 class CompetenciesEntityTest extends TestCase
@@ -30,10 +30,7 @@ class CompetenciesEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setCompetencies
-     */
-    public function testSetCompetencies()
+    public function testSetCompetencies(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(Competency::class));
@@ -44,10 +41,7 @@ class CompetenciesEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getCompetencies());
     }
 
-    /**
-     * @covers ::removeCompetency
-     */
-    public function testRemoveCompetency()
+    public function testRemoveCompetency(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(Competency::class);
@@ -60,5 +54,26 @@ class CompetenciesEntityTest extends TestCase
         $competencies = $this->traitObject->getCompetencies();
         $this->assertEquals(1, $competencies->count());
         $this->assertEquals($two, $competencies->first());
+    }
+
+    public function testAddCompetency(): void
+    {
+        $this->traitObject->setCompetencies(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getCompetencies());
+
+        $one = m::mock(Competency::class);
+        $this->traitObject->addCompetency($one);
+        $this->assertCount(1, $this->traitObject->getCompetencies());
+        $this->assertEquals($one, $this->traitObject->getCompetencies()->first());
+        // duplicate prevention check
+        $this->traitObject->addCompetency($one);
+        $this->assertCount(1, $this->traitObject->getCompetencies());
+        $this->assertEquals($one, $this->traitObject->getCompetencies()->first());
+
+        $two = m::mock(Competency::class);
+        $this->traitObject->addCompetency($two);
+        $this->assertCount(2, $this->traitObject->getCompetencies());
+        $this->assertEquals($one, $this->traitObject->getCompetencies()->first());
+        $this->assertEquals($two, $this->traitObject->getCompetencies()->last());
     }
 }

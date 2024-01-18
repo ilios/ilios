@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * @coversDefaultClass \App\Controller\Search
+ * @covers \App\Controller\Search
  * @group controller
  */
 class SearchControllerTest extends TestCase
