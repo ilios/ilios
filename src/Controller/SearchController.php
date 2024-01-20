@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  *
  * Search Ilios
  */
-class Search extends AbstractController
+class SearchController extends AbstractController
 {
     public function __construct(
         protected Curriculum $curriculumIndex,
