@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\ProgramYearsEntity
+ * @covers \App\Traits\ProgramYearsEntity
  */
 
 class ProgramYearsEntityTest extends TestCase
@@ -30,10 +30,7 @@ class ProgramYearsEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setProgramYears
-     */
-    public function testSetProgramYears()
+    public function testSetProgramYears(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(ProgramYear::class));
@@ -44,10 +41,7 @@ class ProgramYearsEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getProgramYears());
     }
 
-    /**
-     * @covers ::removeProgramYear
-     */
-    public function testRemoveProgramYear()
+    public function testRemoveProgramYear(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(ProgramYear::class);
@@ -60,5 +54,26 @@ class ProgramYearsEntityTest extends TestCase
         $programYears = $this->traitObject->getProgramYears();
         $this->assertEquals(1, $programYears->count());
         $this->assertEquals($two, $programYears->first());
+    }
+
+    public function testAddProgramYear(): void
+    {
+        $this->traitObject->setProgramYears(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getProgramYears());
+
+        $one = m::mock(ProgramYear::class);
+        $this->traitObject->addProgramYear($one);
+        $this->assertCount(1, $this->traitObject->getProgramYears());
+        $this->assertEquals($one, $this->traitObject->getProgramYears()->first());
+        // duplicate prevention check
+        $this->traitObject->addProgramYear($one);
+        $this->assertCount(1, $this->traitObject->getProgramYears());
+        $this->assertEquals($one, $this->traitObject->getProgramYears()->first());
+
+        $two = m::mock(ProgramYear::class);
+        $this->traitObject->addProgramYear($two);
+        $this->assertCount(2, $this->traitObject->getProgramYears());
+        $this->assertEquals($one, $this->traitObject->getProgramYears()->first());
+        $this->assertEquals($two, $this->traitObject->getProgramYears()->last());
     }
 }

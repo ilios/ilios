@@ -6,7 +6,7 @@ namespace App\Tests\Controller;
 
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
-use App\Controller\Search;
+use App\Controller\SearchController;
 use App\Service\Index\Curriculum;
 use App\Service\Index\Users;
 use App\Service\SessionUserPermissionChecker;
@@ -19,12 +19,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * @coversDefaultClass \App\Controller\Search
+ * @covers \App\Controller\SearchController
  * @group controller
  */
 class SearchControllerTest extends TestCase
 {
-    protected Search $controller;
+    protected SearchController $controller;
     protected m\MockInterface $mockCurriculumSearch;
     protected m\MockInterface $mockUsersSearch;
     protected m\MockInterface $mockTokenStorage;
@@ -38,7 +38,7 @@ class SearchControllerTest extends TestCase
         $this->mockTokenStorage = m::mock(TokenStorageInterface::class);
         $this->mockPermissionChecker = m::mock(SessionUserPermissionChecker::class);
 
-        $this->controller = new Search(
+        $this->controller = new SearchController(
             $this->mockCurriculumSearch,
             $this->mockUsersSearch,
             $this->mockTokenStorage,

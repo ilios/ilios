@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * Class LearnerGroupDTOVoterTest
  * @package App\Tests\RelationshipVoter
- * @coversDefaultClass \App\RelationshipVoter\LearnerGroupDTOVoter
+ * @covers \App\RelationshipVoter\LearnerGroupDTOVoter
  */
 class LearnerGroupDTOVoterTest extends AbstractBase
 {
@@ -25,9 +25,6 @@ class LearnerGroupDTOVoterTest extends AbstractBase
         $this->voter = new LearnerGroupDTOVoter($this->permissionChecker);
     }
 
-    /**
-     * @covers ::voteOnAttribute()
-     */
     public function testRootCanViewDTO(): void
     {
         $user = $this->createMockRootSessionUser();
@@ -37,9 +34,6 @@ class LearnerGroupDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    /**
-     * @covers ::voteOnAttribute()
-     */
     public function testUserCanViewDTO(): void
     {
         $user = $this->createMockNonRootSessionUser();
@@ -51,9 +45,6 @@ class LearnerGroupDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    /**
-     * @covers ::voteOnAttribute()
-     */
     public function testCanNotViewDTO(): void
     {
         $user = $this->createMockNonRootSessionUser();

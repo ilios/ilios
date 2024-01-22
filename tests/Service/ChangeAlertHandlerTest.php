@@ -23,7 +23,7 @@ use App\Tests\TestCase;
 /**
  * Class ChangeAlertHandlerTest
  * @package App\Tests\Service
- * @coversDefaultClass \App\Service\ChangeAlertHandler
+ * @covers \App\Service\ChangeAlertHandler
  */
 class ChangeAlertHandlerTest extends TestCase
 {
@@ -50,9 +50,6 @@ class ChangeAlertHandlerTest extends TestCase
         unset($this->mockAlertChangeTypeRepository);
     }
 
-    /**
-     * @covers ::createAlertForNewOffering
-     */
     public function testCreateAlertForNewOffering(): void
     {
         $school = new School();
@@ -98,9 +95,6 @@ class ChangeAlertHandlerTest extends TestCase
         $this->assertEquals($alert->getChangeTypes()[0], $alertChangeType);
     }
 
-    /**
-     * @covers ::createOrUpdateAlertForUpdatedOffering
-     */
     public function testCreateOrUpdateAlertForUpdatedOfferingExistingAlert(): void
     {
         $school = new School();
@@ -194,9 +188,6 @@ class ChangeAlertHandlerTest extends TestCase
         $this->assertTrue($changeTypes->contains($locationChangeType));
     }
 
-    /**
-     * @covers ::createOrUpdateAlertForUpdatedOffering()
-     */
     public function testCreateOrUpdateAlertForUpdatedOfferingNewAlert(): void
     {
         $school = new School();

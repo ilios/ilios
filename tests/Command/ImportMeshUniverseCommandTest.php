@@ -20,7 +20,7 @@ use Mockery as m;
  * Class ImportMeshUniverseCommandTest
  * @package App\Tests\Command
  * @group cli
- * @coversDefaultClass \App\Command\ImportMeshUniverseCommand
+ * @covers \App\Command\ImportMeshUniverseCommand
  */
 class ImportMeshUniverseCommandTest extends KernelTestCase
 {
@@ -55,9 +55,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testNoArgs(): void
     {
         $this->mockHappyPath();
@@ -77,9 +74,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertMatchesRegularExpression("/Finished MeSH universe import in \d+ seconds./", $output);
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testGivenFilePath(): void
     {
         $this->mockHappyPath();
@@ -99,9 +93,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$path}.", $output);
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testGivenUrl(): void
     {
         $this->mockHappyPath();
@@ -121,9 +112,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testYear2023(): void
     {
         $this->mockHappyPath();
@@ -144,9 +132,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testYear2022(): void
     {
         $this->mockHappyPath();
@@ -167,9 +152,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testInvalidGivenYear(): void
     {
         $year = '1906';
@@ -187,9 +169,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->descriptorRepository->shouldNotHaveReceived('flagDescriptorsAsDeleted');
     }
 
-    /**
-     * @covers ::execute
-     */
     public function testIndexesResults(): void
     {
         $this->descriptorRepository->shouldReceive('clearExistingData')->once();

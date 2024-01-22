@@ -14,14 +14,11 @@ use DateTime;
 /**
  * Class SchoolEventTest
  * @package App\Tests\Classes
- * @coversDefaultClass \App\Classes\SchoolEvent
+ * @covers \App\Classes\SchoolEvent
  */
 class SchoolEventTest extends TestCase
 {
-    /**
-     * @var SchoolEvent
-     */
-    protected $schoolEvent;
+    protected SchoolEvent $schoolEvent;
 
     protected function setUp(): void
     {
@@ -32,10 +29,8 @@ class SchoolEventTest extends TestCase
     {
         unset($this->schoolEvent);
     }
-    /**
-     * @covers ::createFromCalendarEvent
-     */
-    public function testCreateFromCalendarEvent()
+
+    public function testCreateFromCalendarEvent(): void
     {
         $schoolId = 100;
         $calendarEvent = new CalendarEvent();
@@ -67,10 +62,7 @@ class SchoolEventTest extends TestCase
         $this->assertSame($calendarEvent->sessionDescription, $schoolEvent->sessionDescription);
     }
 
-    /**
-     * @covers ::clearDataForUnprivilegedUsers
-     */
-    public function testClearDataForUnprivilegedUsers()
+    public function testClearDataForUnprivilegedUsers(): void
     {
         $userMaterial = m::mock(UserMaterial::class);
         $userMaterial->shouldReceive('clearMaterial');
@@ -78,6 +70,18 @@ class SchoolEventTest extends TestCase
         $this->schoolEvent->learningMaterials = [ $userMaterial ];
         $this->schoolEvent->clearDataForUnprivilegedUsers();
         $userMaterial->shouldHaveReceived('clearMaterial')->once();
+        $this->assertEquals($this->schoolEvent->learningMaterials[0], $userMaterial);
+    }
+
+    public function testClearDataForStudentAssociatedWithEvent(): void
+    {
+        $date = new DateTime();
+        $userMaterial = m::mock(UserMaterial::class);
+        $userMaterial->shouldReceive('clearTimedMaterial');
+        $this->schoolEvent->isPublished = true;
+        $this->schoolEvent->learningMaterials = [ $userMaterial ];
+        $this->schoolEvent->clearDataForStudentAssociatedWithEvent($date);
+        $userMaterial->shouldHaveReceived('clearTimedMaterial', [$date])->once();
         $this->assertEquals($this->schoolEvent->learningMaterials[0], $userMaterial);
     }
 }

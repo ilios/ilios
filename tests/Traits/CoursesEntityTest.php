@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\CoursesEntity
+ * @covers \App\Traits\CoursesEntity
  */
 
 class CoursesEntityTest extends TestCase
@@ -30,10 +30,7 @@ class CoursesEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setCourses
-     */
-    public function testSetCourses()
+    public function testSetCourses(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(Course::class));
@@ -44,10 +41,7 @@ class CoursesEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getCourses());
     }
 
-    /**
-     * @covers ::removeCourse
-     */
-    public function testRemoveCourse()
+    public function testRemoveCourse(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(Course::class);
@@ -60,5 +54,26 @@ class CoursesEntityTest extends TestCase
         $courses = $this->traitObject->getCourses();
         $this->assertEquals(1, $courses->count());
         $this->assertEquals($two, $courses->first());
+    }
+
+    public function testAddCourse(): void
+    {
+        $this->traitObject->setCourses(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getCourses());
+
+        $one = m::mock(Course::class);
+        $this->traitObject->addCourse($one);
+        $this->assertCount(1, $this->traitObject->getCourses());
+        $this->assertEquals($one, $this->traitObject->getCourses()->first());
+        // duplicate prevention check
+        $this->traitObject->addCourse($one);
+        $this->assertCount(1, $this->traitObject->getCourses());
+        $this->assertEquals($one, $this->traitObject->getCourses()->first());
+
+        $two = m::mock(Course::class);
+        $this->traitObject->addCourse($two);
+        $this->assertCount(2, $this->traitObject->getCourses());
+        $this->assertEquals($one, $this->traitObject->getCourses()->first());
+        $this->assertEquals($two, $this->traitObject->getCourses()->last());
     }
 }

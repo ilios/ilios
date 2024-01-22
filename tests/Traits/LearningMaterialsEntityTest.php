@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\LearningMaterialsEntity
+ * @covers \App\Traits\LearningMaterialsEntity
  */
 
 class LearningMaterialsEntityTest extends TestCase
@@ -30,10 +30,7 @@ class LearningMaterialsEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setLearningMaterials
-     */
-    public function testSetLearningMaterials()
+    public function testSetLearningMaterials(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(LearningMaterial::class));
@@ -44,10 +41,7 @@ class LearningMaterialsEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getLearningMaterials());
     }
 
-    /**
-     * @covers ::removeLearningMaterial
-     */
-    public function testRemoveLearningMaterial()
+    public function testRemoveLearningMaterial(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(LearningMaterial::class);
@@ -60,5 +54,26 @@ class LearningMaterialsEntityTest extends TestCase
         $learningMaterials = $this->traitObject->getLearningMaterials();
         $this->assertEquals(1, $learningMaterials->count());
         $this->assertEquals($two, $learningMaterials->first());
+    }
+
+    public function testAddLearningMaterial(): void
+    {
+        $this->traitObject->setLearningMaterials(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getLearningMaterials());
+
+        $one = m::mock(LearningMaterial::class);
+        $this->traitObject->addLearningMaterial($one);
+        $this->assertCount(1, $this->traitObject->getLearningMaterials());
+        $this->assertEquals($one, $this->traitObject->getLearningMaterials()->first());
+        // duplicate prevention check
+        $this->traitObject->addLearningMaterial($one);
+        $this->assertCount(1, $this->traitObject->getLearningMaterials());
+        $this->assertEquals($one, $this->traitObject->getLearningMaterials()->first());
+
+        $two = m::mock(LearningMaterial::class);
+        $this->traitObject->addLearningMaterial($two);
+        $this->assertCount(2, $this->traitObject->getLearningMaterials());
+        $this->assertEquals($one, $this->traitObject->getLearningMaterials()->first());
+        $this->assertEquals($two, $this->traitObject->getLearningMaterials()->last());
     }
 }

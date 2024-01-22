@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
 /**
- * @coversDefaultClass \App\Controller\UploadController
+ * @covers \App\Controller\UploadController
  * @group controller
  */
 class UploadControllerTest extends WebTestCase

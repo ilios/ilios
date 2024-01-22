@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\UsersEntity
+ * @covers \App\Traits\UsersEntity
  */
 
 class UsersEntityTest extends TestCase
@@ -30,10 +30,7 @@ class UsersEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setUsers
-     */
-    public function testSetUsers()
+    public function testSetUsers(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(User::class));
@@ -44,10 +41,7 @@ class UsersEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getUsers());
     }
 
-    /**
-     * @covers ::removeUser
-     */
-    public function testRemoveUser()
+    public function testRemoveUser(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(User::class);
@@ -60,5 +54,26 @@ class UsersEntityTest extends TestCase
         $users = $this->traitObject->getUsers();
         $this->assertEquals(1, $users->count());
         $this->assertEquals($two, $users->first());
+    }
+
+    public function testAddUser(): void
+    {
+        $this->traitObject->setUsers(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getUsers());
+
+        $one = m::mock(User::class);
+        $this->traitObject->addUser($one);
+        $this->assertCount(1, $this->traitObject->getUsers());
+        $this->assertEquals($one, $this->traitObject->getUsers()->first());
+        // duplicate prevention check
+        $this->traitObject->addUser($one);
+        $this->assertCount(1, $this->traitObject->getUsers());
+        $this->assertEquals($one, $this->traitObject->getUsers()->first());
+
+        $two = m::mock(User::class);
+        $this->traitObject->addUser($two);
+        $this->assertCount(2, $this->traitObject->getUsers());
+        $this->assertEquals($one, $this->traitObject->getUsers()->first());
+        $this->assertEquals($two, $this->traitObject->getUsers()->last());
     }
 }

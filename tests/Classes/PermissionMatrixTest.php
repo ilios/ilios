@@ -9,14 +9,11 @@ use App\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest
- * @coversDefaultClass \App\Classes\PermissionMatrix
+ * @covers \App\Classes\PermissionMatrix
  */
 class PermissionMatrixTest extends TestCase
 {
-    /**
-     * @var PermissionMatrix
-     */
-    protected $permissionMatrix;
+    protected PermissionMatrix $permissionMatrix;
 
     public function setUp(): void
     {
@@ -30,12 +27,7 @@ class PermissionMatrixTest extends TestCase
         unset($this->permissionMatrix);
     }
 
-    /**
-     * @covers ::setPermission
-     * @covers ::hasPermission
-     * @covers ::getPermittedRoles
-     */
-    public function testHasPermission()
+    public function testHasPermission(): void
     {
         $schoolId = 1;
         $capability = 'foo';
@@ -58,10 +50,7 @@ class PermissionMatrixTest extends TestCase
         $this->assertFalse($this->permissionMatrix->hasPermission($schoolId, $capability, [$role3]));
     }
 
-    /**
-     * @covers ::getPermittedRoles
-     */
-    public function testGetPermittedRoles()
+    public function testGetPermittedRoles(): void
     {
         $schoolId = 1;
         $capability = 'foo';

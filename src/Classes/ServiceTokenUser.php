@@ -28,6 +28,9 @@ class ServiceTokenUser implements ServiceTokenUserInterface
         return [];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function eraseCredentials(): void
     {
         // not implemented.

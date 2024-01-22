@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\ConceptsEntity
+ * @covers \App\Traits\ConceptsEntity
  */
 
 class ConceptsEntityTest extends TestCase
@@ -30,10 +30,7 @@ class ConceptsEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setConcepts
-     */
-    public function testSetConcepts()
+    public function testSetConcepts(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(MeshConcept::class));
@@ -44,10 +41,7 @@ class ConceptsEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getConcepts());
     }
 
-    /**
-     * @covers ::removeConcept
-     */
-    public function testRemoveConcept()
+    public function testRemoveConcept(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(MeshConcept::class);
@@ -60,5 +54,26 @@ class ConceptsEntityTest extends TestCase
         $concepts = $this->traitObject->getConcepts();
         $this->assertEquals(1, $concepts->count());
         $this->assertEquals($two, $concepts->first());
+    }
+
+    public function testAddConcept(): void
+    {
+        $this->traitObject->setConcepts(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getConcepts());
+
+        $one = m::mock(MeshConcept::class);
+        $this->traitObject->addConcept($one);
+        $this->assertCount(1, $this->traitObject->getConcepts());
+        $this->assertEquals($one, $this->traitObject->getConcepts()->first());
+        // duplicate prevention check
+        $this->traitObject->addConcept($one);
+        $this->assertCount(1, $this->traitObject->getConcepts());
+        $this->assertEquals($one, $this->traitObject->getConcepts()->first());
+
+        $two = m::mock(MeshConcept::class);
+        $this->traitObject->addConcept($two);
+        $this->assertCount(2, $this->traitObject->getConcepts());
+        $this->assertEquals($one, $this->traitObject->getConcepts()->first());
+        $this->assertEquals($two, $this->traitObject->getConcepts()->last());
     }
 }

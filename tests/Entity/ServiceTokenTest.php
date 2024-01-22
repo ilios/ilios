@@ -9,7 +9,7 @@ use DateTime;
 
 /**
  * @group model
- * @coversDefaultClass \App\Entity\ServiceToken
+ * @covers \App\Entity\ServiceToken
  */
 class ServiceTokenTest extends EntityBase
 {
@@ -42,62 +42,37 @@ class ServiceTokenTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers ::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertEmpty($this->object->getAuditLogs()->toArray());
         $this->assertTrue($this->object->isEnabled());
     }
 
-    /**
-     * @covers ::setDescription
-     * @covers ::getDescription
-     */
     public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
 
-    /**
-     * @covers ::setCreatedAt
-     * @covers ::getCreatedAt
-     */
     public function testSetCreatedAt(): void
     {
         $this->basicSetTest('createdAt', 'datetime');
     }
 
-    /**
-     * @covers ::setExpiresAt
-     * @covers ::getExpiresAt
-     */
     public function testSetExpiresAt(): void
     {
         $this->basicSetTest('expiresAt', 'datetime');
     }
 
-    /**
-     * @covers ::addAuditLog
-     */
     public function testAddAuditLog(): void
     {
         $this->entityCollectionAddTest('auditLog', 'AuditLog');
     }
 
-    /**
-     * @covers ::removeAuditLog
-     */
     public function testRemoveAuditLog(): void
     {
         $this->entityCollectionRemoveTest('auditLog', 'AuditLog');
     }
 
-    /**
-     * @covers ::setAuditLogs
-     * @covers ::getAuditLogs
-     */
     public function testSetAuditLogs(): void
     {
         $this->entityCollectionSetTest('auditLog', 'AuditLog');

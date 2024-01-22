@@ -11,7 +11,7 @@ use Mockery as m;
 use App\Tests\TestCase;
 
 /**
- * @coversDefaultClass \App\Traits\IlmSessionsEntity
+ * @covers \App\Traits\IlmSessionsEntity
  */
 
 class IlmSessionsEntityTest extends TestCase
@@ -30,10 +30,7 @@ class IlmSessionsEntityTest extends TestCase
         unset($this->object);
     }
 
-    /**
-     * @covers ::setIlmSessions
-     */
-    public function testSetIlmSessions()
+    public function testSetIlmSessions(): void
     {
         $collection = new ArrayCollection();
         $collection->add(m::mock(IlmSession::class));
@@ -44,10 +41,7 @@ class IlmSessionsEntityTest extends TestCase
         $this->assertEquals($collection, $this->traitObject->getIlmSessions());
     }
 
-    /**
-     * @covers ::addIlmSession
-     */
-    public function testAddIlmSessions()
+    public function testAddIlmSessions(): void
     {
         $one = m::mock(IlmSession::class);
         $two = m::mock(IlmSession::class);
@@ -60,10 +54,7 @@ class IlmSessionsEntityTest extends TestCase
         $this->assertEquals($two, $this->traitObject->getIlmSessions()->last());
     }
 
-    /**
-     * @covers ::removeIlmSession
-     */
-    public function testRemoveIlmSession()
+    public function testRemoveIlmSession(): void
     {
         $collection = new ArrayCollection();
         $one = m::mock(IlmSession::class);
@@ -76,5 +67,26 @@ class IlmSessionsEntityTest extends TestCase
         $ilmSessions = $this->traitObject->getIlmSessions();
         $this->assertEquals(1, $ilmSessions->count());
         $this->assertEquals($two, $ilmSessions->first());
+    }
+
+    public function testAddIlmSession(): void
+    {
+        $this->traitObject->setIlmSessions(new ArrayCollection());
+        $this->assertCount(0, $this->traitObject->getIlmSessions());
+
+        $one = m::mock(IlmSession::class);
+        $this->traitObject->addIlmSession($one);
+        $this->assertCount(1, $this->traitObject->getIlmSessions());
+        $this->assertEquals($one, $this->traitObject->getIlmSessions()->first());
+        // duplicate prevention check
+        $this->traitObject->addIlmSession($one);
+        $this->assertCount(1, $this->traitObject->getIlmSessions());
+        $this->assertEquals($one, $this->traitObject->getIlmSessions()->first());
+
+        $two = m::mock(IlmSession::class);
+        $this->traitObject->addIlmSession($two);
+        $this->assertCount(2, $this->traitObject->getIlmSessions());
+        $this->assertEquals($one, $this->traitObject->getIlmSessions()->first());
+        $this->assertEquals($two, $this->traitObject->getIlmSessions()->last());
     }
 }

@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use UnexpectedValueException;
 
 /**
- * @coversDefaultClass \App\Security\JsonWebTokenAuthenticator
+ * @covers \App\Security\JsonWebTokenAuthenticator
  */
 class JsonWebTokenAuthenticatorTest extends TestCase
 {
@@ -52,9 +52,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @covers ::supports
-     */
     public function testSupports(): void
     {
         $request = new Request();
@@ -62,18 +59,12 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertTrue($this->authenticator->supports($request));
     }
 
-    /**
-     * @covers ::supports
-     */
     public function testSupportsFailsWithoutXHeader(): void
     {
         $request = new Request();
         $this->assertFalse($this->authenticator->supports($request));
     }
 
-    /**
-     * @covers ::supports
-     */
     public function testSupportsFailsWithInvalidTokenInHeader(): void
     {
         $request = new Request();
@@ -81,9 +72,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertFalse($this->authenticator->supports($request));
     }
 
-    /**
-     * @covers ::onAuthenticationFailure
-     */
     public function testOnAuthenticationFailure(): void
     {
         $exception = new AuthenticationException('lorem ipsum');
@@ -95,9 +83,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertEquals('Authentication Failed. lorem ipsum', $response->getContent());
     }
 
-    /**
-     * @covers ::onAuthenticationSuccess
-     */
     public function testOnAuthenticationSuccess(): void
     {
         $response = $this->authenticator->onAuthenticationSuccess(
@@ -108,9 +93,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertNull($response);
     }
 
-    /**
-     * @covers ::authenticate
-     */
     public function testAuthenticateWithUserToken(): void
     {
         $jwt = 'abcde';
@@ -123,9 +105,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertNull($passport->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY));
     }
 
-    /**
-     * @covers ::authenticate
-     */
     public function testAuthenticateWithServiceToken(): void
     {
         $jwt = 'abcde';
@@ -144,9 +123,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertEquals($schoolIds, $passport->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY));
     }
 
-    /**
-     * @covers ::authenticate
-     */
     public function testAuthenticateFailsWithoutIdentity(): void
     {
         $jwt = 'abcde';
@@ -159,9 +135,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->authenticator->authenticate($request);
     }
 
-    /**
-     * @covers ::authenticate
-     */
     public function testAuthenticateFailsWithCorruptedJwt(): void
     {
         $jwt = 'abcde';
@@ -176,9 +149,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->authenticator->authenticate($request);
     }
 
-    /**
-     * @covers ::createToken
-     */
     public function testCreateTokenForUser(): void
     {
         $jwt = 'abcde';
@@ -195,9 +165,6 @@ class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertEquals($userMock, $token->getUser());
     }
 
-    /**
-     * @covers ::createToken
-     */
     public function testCreateTokenForServiceToken(): void
     {
         $jwt = 'abcde';

@@ -21,7 +21,7 @@ use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\TestableJsonController;
 
 /**
- * @coversDefaultClass \App\Controller\IcsController
+ * @covers \App\Controller\IcsController
  * @group controller
  */
 class IcsControllerTest extends WebTestCase
