@@ -13420,16 +13420,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "2.7.1",
+            "version": "2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "a5bf949da253a3709c16e752363a0a2e79fbb700"
+                "reference": "f2827703a8e67cf407079d62cb394acdfdd5b1d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/a5bf949da253a3709c16e752363a0a2e79fbb700",
-                "reference": "a5bf949da253a3709c16e752363a0a2e79fbb700",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/f2827703a8e67cf407079d62cb394acdfdd5b1d5",
+                "reference": "f2827703a8e67cf407079d62cb394acdfdd5b1d5",
                 "shasum": ""
             },
             "require": {
@@ -13503,9 +13503,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.7.1"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.7.2"
             },
-            "time": "2024-01-15T16:44:42+00:00"
+            "time": "2024-01-20T13:27:16+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -16444,7 +16444,6 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
-        "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
         "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
