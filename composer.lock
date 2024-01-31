@@ -4705,16 +4705,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.19.0",
+            "version": "v4.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "b96c2630dda123d41ca96f154a6be33b8e0cf835"
+                "reference": "5a5049dd00ce69b7b04c1485f3f41ec58ff7ec3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/b96c2630dda123d41ca96f154a6be33b8e0cf835",
-                "reference": "b96c2630dda123d41ca96f154a6be33b8e0cf835",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/5a5049dd00ce69b7b04c1485f3f41ec58ff7ec3b",
+                "reference": "5a5049dd00ce69b7b04c1485f3f41ec58ff7ec3b",
                 "shasum": ""
             },
             "require": {
@@ -4796,10 +4796,6 @@
             ],
             "authors": [
                 {
-                    "name": "Nelmio",
-                    "homepage": "http://nelm.io"
-                },
-                {
                     "name": "Symfony Community",
                     "homepage": "https://github.com/nelmio/NelmioApiDocBundle/contributors"
                 }
@@ -4813,9 +4809,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.19.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.19.2"
             },
-            "time": "2024-01-26T12:06:15+00:00"
+            "time": "2024-01-30T09:05:50+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
