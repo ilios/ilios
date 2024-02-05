@@ -14,9 +14,6 @@
     "beberlei/assert": {
         "version": "v3.3.1"
     },
-    "clue/stream-filter": {
-        "version": "v1.5.0"
-    },
     "composer/ca-bundle": {
         "version": "1.2.10"
     },
@@ -183,9 +180,6 @@
     "hamcrest/hamcrest-php": {
         "version": "v2.0.1"
     },
-    "http-interop/http-factory-guzzle": {
-        "version": "1.0.0"
-    },
     "ilios/mesh-parser": {
         "version": "v2.0.1"
     },
@@ -203,9 +197,6 @@
     },
     "jaybizzle/crawler-detect": {
         "version": "v1.2.103"
-    },
-    "jean85/pretty-package-versions": {
-        "version": "1.5.1"
     },
     "justinrainbow/json-schema": {
         "version": "5.2.11"
@@ -306,33 +297,6 @@
     },
     "phar-io/version": {
         "version": "3.1.0"
-    },
-    "php-http/client-common": {
-        "version": "2.3.0"
-    },
-    "php-http/discovery": {
-        "version": "1.19",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.18",
-            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
-        },
-        "files": [
-            "config/packages/http_discovery.yaml"
-        ]
-    },
-    "php-http/httplug": {
-        "version": "2.2.0"
-    },
-    "php-http/message": {
-        "version": "1.10.0"
-    },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
-    },
-    "php-http/promise": {
-        "version": "1.1.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -482,24 +446,6 @@
     },
     "seld/phar-utils": {
         "version": "1.1.1"
-    },
-    "sentry/sdk": {
-        "version": "3.1.0"
-    },
-    "sentry/sentry": {
-        "version": "3.1.1"
-    },
-    "sentry/sentry-symfony": {
-        "version": "4.9",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "4.6",
-            "ref": "f7b4706a3e8a6f096b7392f3146f4f7f65ff594c"
-        },
-        "files": [
-            "config/packages/sentry.yaml"
-        ]
     },
     "shivas/versioning-bundle": {
         "version": "4.0.0"
@@ -801,9 +747,6 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.2.2"
-    },
-    "symfony/psr-http-message-bridge": {
-        "version": "v2.1.1"
     },
     "symfony/requirements-checker": {
         "version": "2.0",
