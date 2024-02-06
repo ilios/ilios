@@ -20,6 +20,11 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 
 	setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
 	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
+
+	if [ "$ILIOS_FILE_SYSTEM_STORAGE_PATH" ]; then
+		setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX $ILIOS_FILE_SYSTEM_STORAGE_PATH
+		setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX $ILIOS_FILE_SYSTEM_STORAGE_PATH
+	fi
 fi
 
 exec docker-php-entrypoint "$@"
