@@ -1,4 +1,8 @@
 version: '3.8'
+volumes:
+  shared-storage:
+  public:
+  var:
 services:
   db:
     build:
@@ -10,11 +14,14 @@ services:
     build:
       context: .
       target: nginx
+    environment:
+      - FPM_CONTAINERS=php:9000
     ports:
       - "8000:80"
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:rw,cached
+      - ./:/srv/app:ro,cached
+      - public:/srv/app/public:ro
     depends_on:
       - php
   php:
@@ -31,13 +38,11 @@ services:
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:rw,cached
-      # Remove the var/ directory from the bind-mount for better performance
-      - /srv/app/var
-      # Share the frontend files
-      - ./var/frontend:/srv/app/var/frontend:rw,cached
-      # Share storage between containers and make writes to the container authoritative with "delegated"
-      - shared-storage:/ilios-storage:delegated
+      - ./:/srv/app:ro,cached
+      # Share storage between containers
+      - var:/srv/app/var:rw
+      - public:/srv/app/public:rw
+      - shared-storage:/ilios-storage:rw
     depends_on:
       - db
       - redis
@@ -57,11 +62,11 @@ services:
         - redis
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:rw,cached
-      # Remove the var/ directory from the bind-mount for better performance
-      - /srv/app/var
-      # Share storage between containers and make writes to the container authoritative with "delegated"
-      - shared-storage:/ilios-storage:delegated
+      - ./:/srv/app:ro,cached
+      # Share storage between containers
+      - var:/srv/app/var:rw
+      - public:/srv/app/public:rw
+      - shared-storage:/ilios-storage:rw
   opensearch:
     build:
       context: .
@@ -77,6 +82,3 @@ services:
       target: redis
     ports:
       - "6379:6379"
-
-volumes:
-  shared-storage:
