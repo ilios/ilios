@@ -4703,16 +4703,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.19.2",
+            "version": "v4.19.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "5a5049dd00ce69b7b04c1485f3f41ec58ff7ec3b"
+                "reference": "daadb0b567c637d737f58fd25da0b4db2321560d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/5a5049dd00ce69b7b04c1485f3f41ec58ff7ec3b",
-                "reference": "5a5049dd00ce69b7b04c1485f3f41ec58ff7ec3b",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/daadb0b567c637d737f58fd25da0b4db2321560d",
+                "reference": "daadb0b567c637d737f58fd25da0b4db2321560d",
                 "shasum": ""
             },
             "require": {
@@ -4807,9 +4807,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.19.2"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.19.3"
             },
-            "time": "2024-01-30T09:05:50+00:00"
+            "time": "2024-02-07T13:21:48+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -16413,7 +16413,8 @@
         "symfony/css-selector": 0,
         "symfony/debug-bundle": 0,
         "symfony/phpunit-bridge": 0,
-        "symfony/stopwatch": 0
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
