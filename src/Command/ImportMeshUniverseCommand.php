@@ -30,13 +30,9 @@ class ImportMeshUniverseCommand extends Command
 {
     use LockableTrait;
 
-    /**
-     * @var array
-     */
     private const YEARS = [
         '2023' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/2023/xmlmesh/desc2023.xml',
         '2024' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml',
-
     ];
 
     public function __construct(
@@ -135,17 +131,19 @@ class ImportMeshUniverseCommand extends Command
 
         $supportedYears = array_keys(self::YEARS);
 
-        if ('' !== $year) {
-            if (!in_array($year, $supportedYears)) {
-                $this->release();
-                throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
-            }
+        // if no year is given as input, then grab the most recent year on file and return its URL.
+        if (!$year) {
+            rsort($supportedYears);
+            return self::YEARS[$supportedYears[0]];
+        }
 
+        // if a year was given as input, then return its URL on file.
+        if (array_key_exists($year, self::YEARS)) {
             return self::YEARS[$year];
         }
 
-        rsort($supportedYears);
-
-        return self::YEARS[$supportedYears[0]];
+        // SOL
+        $this->release();
+        throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
     }
 }
