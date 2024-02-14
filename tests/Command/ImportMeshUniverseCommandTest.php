@@ -155,7 +155,6 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     public function testInvalidGivenYear(): void
     {
         $year = '1906';
-        $this->expectExceptionMessage('Given year must be one of: 2023, 2024');
         $this->meshIndex->shouldReceive('isEnabled');
 
         $this->commandTester->execute(
@@ -163,6 +162,10 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
                 '--year' => $year,
             ]
         );
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString('Given year must be one of: 2023, 2024.', $output);
+
         $this->descriptorRepository->shouldNotHaveReceived('clearExistingData');
         $this->descriptorRepository->shouldNotHaveReceived('findDTOsBy');
         $this->descriptorRepository->shouldNotHaveReceived('upsertMeshUniverse');

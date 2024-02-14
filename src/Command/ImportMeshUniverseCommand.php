@@ -76,7 +76,13 @@ class ImportMeshUniverseCommand extends Command
         $steps = $this->meshIndex->isEnabled() ? 5 : 4;
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
-        $uri = $this->getUri($input);
+        try {
+            $uri = $this->getUri($input);
+        } catch (RuntimeException $e) {
+            $output->writeln("<error>{$e->getMessage()}</error>");
+            $this->release();
+            return Command::FAILURE;
+        }
         $output->writeln("1/{$steps}: Parsing MeSH XML retrieved from {$uri}.");
         $descriptorSet = $this->parser->parse($uri);
         $descriptorIds = $descriptorSet->getDescriptorUis();
@@ -143,7 +149,6 @@ class ImportMeshUniverseCommand extends Command
         }
 
         // SOL
-        $this->release();
-        throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
+        throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears) . '.');
     }
 }
