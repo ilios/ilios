@@ -34,8 +34,9 @@ class ImportMeshUniverseCommand extends Command
      * @var array
      */
     private const YEARS = [
-        2022 => 'https://nlmpubs.nlm.nih.gov/projects/mesh/2022/xmlmesh/desc2022.xml',
-        2023 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml',
+        '2023' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/2023/xmlmesh/desc2023.xml',
+        '2024' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml',
+
     ];
 
     public function __construct(
@@ -135,7 +136,6 @@ class ImportMeshUniverseCommand extends Command
         $supportedYears = array_keys(self::YEARS);
 
         if ('' !== $year) {
-            $year = (int)$year;
             if (!in_array($year, $supportedYears)) {
                 $this->release();
                 throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));

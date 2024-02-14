@@ -58,7 +58,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     public function testNoArgs(): void
     {
         $this->mockHappyPath();
-        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml';
+        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -117,7 +117,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->mockHappyPath();
 
         $year = '2023';
-        $url = "ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml";
+        $url = "https://nlmpubs.nlm.nih.gov/projects/mesh/2023/xmlmesh/desc2023.xml";
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -132,12 +132,12 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
-    public function testYear2022(): void
+    public function testYear2024(): void
     {
         $this->mockHappyPath();
 
-        $year = '2022';
-        $url = "https://nlmpubs.nlm.nih.gov/projects/mesh/2022/xmlmesh/desc2022.xml";
+        $year = '2024';
+        $url = "https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml";
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -155,7 +155,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     public function testInvalidGivenYear(): void
     {
         $year = '1906';
-        $this->expectExceptionMessage('Given year must be one of: 2022, 2023');
+        $this->expectExceptionMessage('Given year must be one of: 2023, 2024');
         $this->meshIndex->shouldReceive('isEnabled');
 
         $this->commandTester->execute(
@@ -185,7 +185,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ->shouldReceive('index')->with([$descriptor])
             ->once()->andReturn(true);
 
-        $url = 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml';
+        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
