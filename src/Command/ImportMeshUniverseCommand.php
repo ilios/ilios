@@ -30,12 +30,9 @@ class ImportMeshUniverseCommand extends Command
 {
     use LockableTrait;
 
-    /**
-     * @var array
-     */
     private const YEARS = [
-        2022 => 'https://nlmpubs.nlm.nih.gov/projects/mesh/2022/xmlmesh/desc2022.xml',
-        2023 => 'ftp://nlmpubs.nlm.nih.gov/online/mesh/MESH_FILES/xmlmesh/desc2023.xml',
+        '2023' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/2023/xmlmesh/desc2023.xml',
+        '2024' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml',
     ];
 
     public function __construct(
@@ -79,7 +76,13 @@ class ImportMeshUniverseCommand extends Command
         $steps = $this->meshIndex->isEnabled() ? 5 : 4;
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
-        $uri = $this->getUri($input);
+        try {
+            $uri = $this->getUri($input);
+        } catch (RuntimeException $e) {
+            $output->writeln("<error>{$e->getMessage()}</error>");
+            $this->release();
+            return Command::FAILURE;
+        }
         $output->writeln("1/{$steps}: Parsing MeSH XML retrieved from {$uri}.");
         $descriptorSet = $this->parser->parse($uri);
         $descriptorIds = $descriptorSet->getDescriptorUis();
@@ -134,18 +137,18 @@ class ImportMeshUniverseCommand extends Command
 
         $supportedYears = array_keys(self::YEARS);
 
-        if ('' !== $year) {
-            $year = (int)$year;
-            if (!in_array($year, $supportedYears)) {
-                $this->release();
-                throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears));
-            }
+        // if no year is given as input, then grab the most recent year on file and return its URL.
+        if (!$year) {
+            rsort($supportedYears);
+            return self::YEARS[$supportedYears[0]];
+        }
 
+        // if a year was given as input, then return its URL on file.
+        if (array_key_exists($year, self::YEARS)) {
             return self::YEARS[$year];
         }
 
-        rsort($supportedYears);
-
-        return self::YEARS[$supportedYears[0]];
+        // SOL
+        throw new RuntimeException('Given year must be one of: ' . implode(', ', $supportedYears) . '.');
     }
 }

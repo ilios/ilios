@@ -83,12 +83,35 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
 
         $term1 = new Term();
         $term1->setUi('T01');
+        $term1->setName('Term 1');
+        $term1->setLexicalTag('ABB');
+        $term1->setConceptPreferred(true);
+        $term1->setRecordPreferred(false);
+        $term1->setPermuted(false);
+
         $term2 = new Term();
         $term2->setUi('T02');
+        $term2->setName('Term 2');
+        $term2->setLexicalTag('ABX');
+        $term2->setConceptPreferred(false);
+        $term2->setRecordPreferred(true);
+        $term2->setPermuted(true);
+
         $term3 = new Term();
         $term3->setUi('T03');
+        $term3->setName('Term 3');
+        $term3->setLexicalTag('ACR');
+        $term3->setConceptPreferred(false);
+        $term3->setRecordPreferred(true);
+        $term3->setPermuted(true);
+
         $term4 = new Term();
         $term4->setUi('T04');
+        $term4->setName('Term 4');
+        $term4->setLexicalTag('NAM');
+        $term4->setConceptPreferred(false);
+        $term4->setRecordPreferred(true);
+        $term4->setPermuted(true);
 
         $concept1->addTerm($term1);
         $concept2->addTerm($term2);
@@ -134,16 +157,16 @@ class MeshDescriptorSetTransmogrifierTest extends TestCase
         $this->assertEquals(['D02', 'M03'], $data['insert']['mesh_descriptor_x_concept'][2]);
 
         $this->assertEquals(4, count($data['insert']['mesh_term']));
-        $this->assertEquals($term1, $data['insert']['mesh_term']['d4df230358e7ddc53cc73a03ebb2bc0d']);
-        $this->assertEquals($term2, $data['insert']['mesh_term']['9806b2bc48e2b405f0fc7229d4c90d6c']);
-        $this->assertEquals($term3, $data['insert']['mesh_term']['7fe11936da217dd700133a92afc30479']);
-        $this->assertEquals($term4, $data['insert']['mesh_term']['08bdb77fb1283be4c8856fb919d5a1c3']);
+        $this->assertEquals($term1, $data['insert']['mesh_term']['f2f897155cc34c82854374c95aa7265c']);
+        $this->assertEquals($term2, $data['insert']['mesh_term']['5edc2ddc166bdb35f40a5d5588bec92b']);
+        $this->assertEquals($term3, $data['insert']['mesh_term']['02184148ab7c834193206aef1689eea7']);
+        $this->assertEquals($term4, $data['insert']['mesh_term']['ea9ae8ecee1f8a46784000abdcd0228a']);
 
         $this->assertEquals(4, count($data['insert']['mesh_concept_x_term']));
-        $this->assertEquals(['M01', 'd4df230358e7ddc53cc73a03ebb2bc0d'], $data['insert']['mesh_concept_x_term'][0]);
-        $this->assertEquals(['M02', '9806b2bc48e2b405f0fc7229d4c90d6c'], $data['insert']['mesh_concept_x_term'][1]);
-        $this->assertEquals(['M03', '7fe11936da217dd700133a92afc30479'], $data['insert']['mesh_concept_x_term'][2]);
-        $this->assertEquals(['M03', '08bdb77fb1283be4c8856fb919d5a1c3'], $data['insert']['mesh_concept_x_term'][3]);
+        $this->assertEquals(['M01', 'f2f897155cc34c82854374c95aa7265c'], $data['insert']['mesh_concept_x_term'][0]);
+        $this->assertEquals(['M02', '5edc2ddc166bdb35f40a5d5588bec92b'], $data['insert']['mesh_concept_x_term'][1]);
+        $this->assertEquals(['M03', '02184148ab7c834193206aef1689eea7'], $data['insert']['mesh_concept_x_term'][2]);
+        $this->assertEquals(['M03', 'ea9ae8ecee1f8a46784000abdcd0228a'], $data['insert']['mesh_concept_x_term'][3]);
 
         $this->assertEquals(2, count($data['insert']['mesh_previous_indexing']));
         $this->assertEquals('Bar', $data['insert']['mesh_previous_indexing']['D01']);

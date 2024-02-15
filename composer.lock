@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7005ca95bae5e03c81b4d9352b986ac",
+    "content-hash": "b8aa4ed6d468b5b439734d4510b16a3a",
     "packages": [
         {
             "name": "async-aws/core",
@@ -3705,24 +3705,27 @@
         },
         {
             "name": "ilios/mesh-parser",
-            "version": "v2.0.2",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ilios/mesh-parser.git",
-                "reference": "b72149c11b050a7d77d5f62f8ffd90cac76cdc88"
+                "reference": "051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/b72149c11b050a7d77d5f62f8ffd90cac76cdc88",
-                "reference": "b72149c11b050a7d77d5f62f8ffd90cac76cdc88",
+                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c",
+                "reference": "051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.3"
+                "ext-dom": "*",
+                "ext-xmlreader": "*",
+                "php": ">=8.2"
             },
             "require-dev": {
                 "fakerphp/faker": "@stable",
                 "mockery/mockery": "@stable",
+                "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "@stable",
                 "squizlabs/php_codesniffer": "@stable"
             },
@@ -3744,16 +3747,16 @@
                 }
             ],
             "description": "PHP library for extracting MeSH descriptors from XML.",
-            "homepage": "http://iliosproject.org/",
+            "homepage": "https://iliosproject.org/",
             "keywords": [
                 "Ilios",
                 "mesh"
             ],
             "support": {
                 "issues": "https://github.com/ilios/mesh-parser/issues",
-                "source": "https://github.com/ilios/mesh-parser/tree/v2.0.2"
+                "source": "https://github.com/ilios/mesh-parser/tree/v3.0.0"
             },
-            "time": "2021-02-25T19:33:04+00:00"
+            "time": "2024-02-14T00:04:40+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
