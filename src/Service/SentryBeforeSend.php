@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use PackageVersions\Versions;
 use Sentry\Event;
 
 class SentryBeforeSend
@@ -22,8 +23,7 @@ class SentryBeforeSend
             return null;
         }
 
-        // @todo read Ilios version from package file and set it here [ST 2025/02/23]
-        // $event->setRelease($this->versionManager->getVersion()->toString());
+        $event->setRelease(Versions::getVersion(Versions::getVersion(Versions::rootPackageName())));
 
         return $event;
     }

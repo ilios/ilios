@@ -73,6 +73,7 @@
     "infection/infection": "^0.27.0",
     "liip/test-fixtures-bundle": "@stable",
     "mockery/mockery": "@stable",
+    "ocramius/package-versions": "^2.8",
     "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan": "@stable",
     "phpstan/phpstan-mockery": "^1.1",

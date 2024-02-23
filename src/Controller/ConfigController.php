@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Service\AuthenticationInterface;
 use App\Service\Config;
 use App\Service\Index\Curriculum;
+use PackageVersions\Versions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,9 +37,7 @@ class ConfigController extends AbstractController
         }
         $configuration['maxUploadSize'] = UploadedFile::getMaxFilesize();
         $configuration['apiVersion'] = $this->getParameter('ilios_api_version');
-        // @todo read Ilios version from package file and set it here [ST 2025/02/23]
-        // $configuration['appVersion'] = $versionManager->getVersion();
-        $configuration['appVersion'] = '';
+        $configuration['appVersion'] = Versions::getVersion(Versions::rootPackageName());
         $configuration['trackingEnabled'] = false; //feature removed, but still provided for frontend compatibility
         $configuration['searchEnabled'] = $curriculumSearch->isEnabled();
 
