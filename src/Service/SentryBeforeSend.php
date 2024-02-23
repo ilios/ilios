@@ -23,7 +23,7 @@ class SentryBeforeSend
             return null;
         }
 
-        $event->setRelease(Versions::getVersion(Versions::getVersion(Versions::rootPackageName())));
+        $event->setRelease(Versions::getVersion(Versions::rootPackageName()));
 
         return $event;
     }
