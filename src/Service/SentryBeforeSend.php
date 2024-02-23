@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Sentry\Event;
-use Shivas\VersioningBundle\Service\VersionManagerInterface;
 
 class SentryBeforeSend
 {
     protected bool $errorCaptureEnabled;
 
     public function __construct(
-        protected VersionManagerInterface $versionManager,
         Config $config,
     ) {
         $this->errorCaptureEnabled = (bool) $config->get('errorCaptureEnabled');
@@ -23,7 +21,9 @@ class SentryBeforeSend
         if (!$this->errorCaptureEnabled) {
             return null;
         }
-        $event->setRelease($this->versionManager->getVersion()->toString());
+
+        // @todo read Ilios version from package file and set it here [ST 2025/02/23]
+        // $event->setRelease($this->versionManager->getVersion()->toString());
 
         return $event;
     }
