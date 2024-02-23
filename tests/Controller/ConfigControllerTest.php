@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Tests\Fixture\LoadApplicationConfigData;
-use App\Tests\TestVersionProvider;
 use App\Tests\Traits\TestableJsonController;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use PackageVersions\Versions;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,7 +58,7 @@ class ConfigControllerTest extends WebTestCase
                 'locale' => 'en',
                 'userSearchType' => 'local',
                 'apiVersion' => $container->getParameter('ilios_api_version'),
-                'appVersion' => TestVersionProvider::VERSION,
+                'appVersion' => Versions::getVersion(Versions::rootPackageName()),
                 'trackingEnabled' => false,
                 'searchEnabled' => false,
                 'academicYearCrossesCalendarYearBoundaries' => false,
@@ -92,7 +92,7 @@ class ConfigControllerTest extends WebTestCase
                 'locale' => 'en',
                 'userSearchType' => 'local',
                 'apiVersion' => $container->getParameter('ilios_api_version'),
-                'appVersion' => TestVersionProvider::VERSION,
+                'appVersion' => Versions::getVersion(Versions::rootPackageName()),
                 'trackingEnabled' => false,
                 'searchEnabled' => false,
                 'academicYearCrossesCalendarYearBoundaries' => true,
