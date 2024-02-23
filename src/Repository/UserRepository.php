@@ -885,6 +885,31 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->setParameter(':sessions', $ids);
         }
 
+        if (array_key_exists('instructedAcademicYears', $criteria)) {
+            $ids = is_array($criteria['instructedAcademicYears'])
+                ? $criteria['instructedAcademicYears'] : [$criteria['instructedAcademicYears']];
+            $qb->leftJoin('x.instructedOfferings', 'y_offering');
+            $qb->leftJoin('x.instructorIlmSessions', 'y_ilm');
+            $qb->leftJoin('x.instructorGroups', 'y_iGroup');
+            $qb->leftJoin('y_iGroup.offerings', 'y_offering2');
+            $qb->leftJoin('y_iGroup.ilmSessions', 'y_ilm2');
+            $qb->leftJoin('y_offering.session', 'y_session');
+            $qb->leftJoin('y_ilm.session', 'y_session2');
+            $qb->leftJoin('y_offering2.session', 'y_session3');
+            $qb->leftJoin('y_ilm2.session', 'y_session4');
+            $qb->leftJoin('y_session.course', 'y_course');
+            $qb->leftJoin('y_session2.course', 'y_course2');
+            $qb->leftJoin('y_session3.course', 'y_course3');
+            $qb->leftJoin('y_session4.course', 'y_course4');
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->in('y_course.year', ':years'),
+                $qb->expr()->in('y_course2.year', ':years'),
+                $qb->expr()->in('y_course3.year', ':years'),
+                $qb->expr()->in('y_course4.year', ':years')
+            ));
+            $qb->setParameter(':years', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['cohorts']);
         unset($criteria['roles']);
@@ -896,6 +921,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         unset($criteria['instructedSessionTypes']);
         unset($criteria['instructorGroups']);
         unset($criteria['learnerSessions']);
+        unset($criteria['instructedAcademicYears']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

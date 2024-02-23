@@ -104,6 +104,8 @@ class CourseTest extends AbstractReadWriteEndpoint
             'title' => [[0], ['title' => 'firstCourse']],
             'level' => [[3, 4], ['level' => 3]],
             'year' => [[1, 2], ['year' => 2012]],
+            'academicYears' => [[1, 2, 3, 4], ['academicYears' => [2012, 2013]]],
+            'academicYear' => [[1, 2], ['academicYears' => 2012]],
             // 'startDate' => [[1], ['startDate' => '2013-09-01T00:00:00+00:00']], // skipped
             // 'endDate' => [[2], ['endDate' => '2013-12-14T00:00:00+00:00']], // skipped
             'externalId' => [[2], ['externalId' => 'course3']],

@@ -225,6 +225,14 @@ class SessionTypeRepository extends ServiceEntityRepository implements
             $qb->setParameter(':terms', $ids);
         }
 
+        if (array_key_exists('academicYears', $criteria)) {
+            $ids = is_array($criteria['academicYears']) ? $criteria['academicYears'] : [$criteria['academicYears']];
+            $qb->join('x.sessions', 'y_session');
+            $qb->join('y_session.course', 'y_course');
+            $qb->andWhere($qb->expr()->in('y_course.year', ':academicYears'));
+            $qb->setParameter(':academicYears', $ids);
+        }
+
         unset($criteria['schools']);
         unset($criteria['programs']);
         unset($criteria['sessions']);
@@ -235,6 +243,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         unset($criteria['meshDescriptors']);
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
+        unset($criteria['academicYears']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

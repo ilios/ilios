@@ -175,12 +175,31 @@ class CompetencyRepository extends ServiceEntityRepository implements
             $qb->setParameter(':schools', $ids);
         }
 
+        if (array_key_exists('academicYears', $criteria)) {
+            $ids = is_array($criteria['academicYears']) ? $criteria['academicYears'] : [$criteria['academicYears']];
+            $qb->leftJoin('x.children', 'y_subcompetency');
+            $qb->leftJoin('x.programYearObjectives', 'y_py_objective');
+            $qb->leftJoin('y_py_objective.courseObjectives', 'y_course_objective');
+            $qb->leftJoin('y_course_objective.course', 'y_course');
+            $qb->leftJoin('y_subcompetency.programYearObjectives', 'y_py_objective2');
+            $qb->leftJoin('y_py_objective2.courseObjectives', 'y_course_objective2');
+            $qb->leftJoin('y_course_objective2.course', 'y_course2');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('y_course.year', ':academicYears'),
+                    $qb->expr()->in('y_course2.year', ':academicYears')
+                )
+            );
+            $qb->setParameter(':academicYears', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
         unset($criteria['sessionTypes']);
         unset($criteria['terms']);
+        unset($criteria['academicYears']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

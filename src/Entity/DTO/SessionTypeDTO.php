@@ -70,6 +70,7 @@ use OpenApi\Attributes as OA;
 #[IA\FilterableBy('terms', 'array<integer>')]
 #[IA\FilterableBy('schools', 'array<integer>')]
 #[IA\FilterableBy('meshDescriptors', 'array<string>')]
+#[IA\FilterableBy('academicYears', 'array<integer>')]
 class SessionTypeDTO
 {
     #[IA\Id]

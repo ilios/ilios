@@ -160,6 +160,8 @@ class UserTest extends AbstractReadWriteEndpoint
             'isRoot' => [[1], ['root' => true]],
             'isNotRoot' => [[0, 2, 3, 4], ['root' => false]],
             'instructedCourses' => [[1, 3], ['instructedCourses' => [1]]],
+            'instructedAcademicYear' => [[1, 3], ['instructedAcademicYears' => 2016]],
+            'instructedAcademicYears' => [[1, 3], ['instructedAcademicYears' => [2016]]],
             'instructedSessions' => [[1, 3], ['instructedSessions' => [2]]],
             'instructedSessionTypes' => [[0, 1, 3], ['instructedSessionTypes' => [2]]],
             'instructedLearningMaterials' => [[0, 1], ['instructedLearningMaterials' => [1, 2, 3]]],
