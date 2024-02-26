@@ -78,7 +78,7 @@
     "phpstan/phpstan": "@stable",
     "phpstan/phpstan-mockery": "^1.1",
     "phpstan/phpstan-symfony": "@stable",
-    "phpunit/phpunit": "^9.6",
+    "phpunit/phpunit": "^10.5",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/browser-kit": "^6.4.3",
     "symfony/css-selector": "^6.4.3",
