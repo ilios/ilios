@@ -20,8 +20,6 @@ use Exception;
  */
 trait ManagerRepository
 {
-    abstract protected function getEntityName();
-    abstract protected function getEntityManager();
     abstract public function find($id);
     abstract protected function hydrateDTOsFromIds(array $ids): array;
 
