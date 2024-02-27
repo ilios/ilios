@@ -225,7 +225,7 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_USER ilios
 ENV MYSQL_PASSWORD ilios
 ENV MYSQL_DATABASE ilios
-ENV DEMO_DATABASE_LOCATION https://s3-us-west-2.amazonaws.com/ilios-demo-db.iliosproject.org/latest_db/ilios3_demosite_db.sql.gz
+ENV DEMO_DATABASE_LOCATION https://ilios-demo-db.iliosproject.org/
 RUN set -eux; \
     microdnf install -y wget; \
     microdnf clean all;
