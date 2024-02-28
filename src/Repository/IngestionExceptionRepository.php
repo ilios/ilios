@@ -30,7 +30,7 @@ class IngestionExceptionRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(IngestionException::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -43,7 +43,7 @@ class IngestionExceptionRepository extends ServiceEntityRepository implements
             );
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, user.id AS userId'
             )

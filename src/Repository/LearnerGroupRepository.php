@@ -29,7 +29,7 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(LearnerGroup::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(LearnerGroup::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -43,7 +43,7 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
                 $arr['needsAccommodation']
             );
         }
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('l.id as learnerGroupId, plg.id as parentId, c.id as cohortId, alg.id as ancestorId')
             ->from(LearnerGroup::class, 'l')
             ->join('l.cohort', 'c')

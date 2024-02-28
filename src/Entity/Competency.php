@@ -19,7 +19,7 @@ use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
 
 #[ORM\Table(name: 'competency')]
-#[ORM\Index(columns: ['parent_competency_id'], name: 'parent_competency_id_k')]
+#[ORM\Index(name: 'parent_competency_id_k', columns: ['parent_competency_id'])]
 #[ORM\Entity(repositoryClass: CompetencyRepository::class)]
 #[IA\Entity]
 class Competency implements CompetencyInterface
@@ -61,7 +61,7 @@ class Competency implements CompetencyInterface
     #[IA\Type('entity')]
     protected ?CompetencyInterface $parent = null;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Competency')]
+    #[ORM\OneToMany(targetEntity: 'Competency', mappedBy: 'parent')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -89,7 +89,7 @@ class Competency implements CompetencyInterface
     #[Assert\Type(type: 'bool')]
     protected bool $active;
 
-    #[ORM\OneToMany(mappedBy: 'competency', targetEntity: 'ProgramYearObjective')]
+    #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

@@ -31,7 +31,7 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(SessionLearningMaterial::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -49,7 +49,7 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
         }
         $sessionLearningMaterialIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, learningMaterial.id AS learningMaterialId, session.id AS sessionId, ' .
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
@@ -121,7 +121,8 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
 
     public function getTotalSessionLearningMaterialCount(): int
     {
-        return (int) $this->_em->createQuery('SELECT COUNT(l.id) FROM App\Entity\SessionLearningMaterial l')
+        return (int) $this->getEntityManager()
+            ->createQuery('SELECT COUNT(l.id) FROM App\Entity\SessionLearningMaterial l')
             ->getSingleScalarResult();
     }
 }

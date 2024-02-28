@@ -36,7 +36,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
     public function findOneByUsername($username): ?AuthenticationInterface
     {
         $username = strtolower($username);
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a')->from(Authentication::class, 'a');
         $qb->where($qb->expr()->eq(
             $qb->expr()->lower('a.username'),
@@ -65,7 +65,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
         if ($keys === ['user'] && is_null($orderBy) && is_null($limit) && is_null($offset)) {
             return is_array($criteria['user']) ? $criteria['user'] : [$criteria['user']];
         }
-        $qb = $this->_em
+        $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select("x")
             ->from(Authentication::class, 'x');
@@ -81,7 +81,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
      */
     public function getUsernames(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('a.username')->from(Authentication::class, 'a');
 
         return array_map(fn(array $arr) => $arr['username'], $qb->getQuery()->getScalarResult());
@@ -89,7 +89,11 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Authentication::class, 'x');
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('x')
+            ->distinct()
+            ->from(Authentication::class, 'x');
         $qb->where($qb->expr()->in('x.user', ':ids'));
         $qb->setParameter(':ids', $ids);
 

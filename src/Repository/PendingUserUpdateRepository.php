@@ -28,7 +28,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(PendingUserUpdate::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -43,7 +43,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
             );
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, user.id AS userId'
             )
@@ -93,7 +93,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
      */
     public function removeAllPendingUserUpdates()
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->delete('App\Entity\PendingUserUpdate', 'p');
         $qb->getQuery()->execute();
     }

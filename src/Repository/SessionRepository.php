@@ -41,7 +41,7 @@ class SessionRepository extends ServiceEntityRepository implements
         int $limit = null,
         int $offset = null,
     ) {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x')->from(Session::class, 'x');
         $qb->leftJoin('x.course', 'course');
 
@@ -114,7 +114,7 @@ class SessionRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -126,7 +126,7 @@ class SessionRepository extends ServiceEntityRepository implements
         if ($dtos === []) {
             return $dtos;
         }
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS sessionId, c.id AS courseId, st.id AS sessionTypeId, ilm.id AS ilmId, ' .
                 'school.id as schoolId, postrequisite.id as postrequisiteId'
@@ -313,7 +313,7 @@ class SessionRepository extends ServiceEntityRepository implements
      */
     public function getTotalSessionCount(): int
     {
-        return (int) $this->_em->createQuery('SELECT COUNT(s.id) FROM App\Entity\Session s')
+        return (int) $this->getEntityManager()->createQuery('SELECT COUNT(s.id) FROM App\Entity\Session s')
             ->getSingleScalarResult();
     }
 }

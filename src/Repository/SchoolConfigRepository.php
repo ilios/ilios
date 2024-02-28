@@ -30,7 +30,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(SchoolConfig::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(SchoolConfig::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $dtos = [];
@@ -43,7 +43,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
         }
         $schoolConfigIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x.id as xId, school.id AS schoolId')
             ->from('App\Entity\SchoolConfig', 'x')
             ->join('x.school', 'school')
@@ -62,7 +62,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
      */
     public function getValue($name): mixed
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('x.value')->from('App\Entity\SchoolConfig', 'x')
             ->where($qb->expr()->eq('x.name', ':name'))
             ->setParameter('name', $name);

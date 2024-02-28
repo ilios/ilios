@@ -749,7 +749,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('update')->with($user, false)->once();
 
         $this->authenticationRepository->shouldReceive('findOneBy')
-            ->with(['username' => 'abc123'])->once()->andReturn(false);
+            ->with(['username' => 'abc123'])->once()->andReturn(null);
         $this->authenticationRepository->shouldReceive('create')->andReturn($authentication)->once();
         $this->authenticationRepository->shouldReceive('update')->with($authentication, false)->once();
         $this->em->shouldReceive('flush')->twice();

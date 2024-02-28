@@ -88,7 +88,7 @@ class School implements SchoolInterface
     #[IA\Type('entityCollection')]
     protected Collection $alerts;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Competency')]
+    #[ORM\OneToMany(targetEntity: 'Competency', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -100,30 +100,30 @@ class School implements SchoolInterface
     #[IA\Type('entityCollection')]
     protected Collection $courses;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Program')]
+    #[ORM\OneToMany(targetEntity: 'Program', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $programs;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Vocabulary')]
+    #[ORM\OneToMany(targetEntity: 'Vocabulary', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $vocabularies;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'InstructorGroup')]
+    #[ORM\OneToMany(targetEntity: 'InstructorGroup', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $instructorGroups;
 
-    #[ORM\OneToOne(mappedBy: 'school', targetEntity: 'CurriculumInventoryInstitution')]
+    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryInstitution', mappedBy: 'school')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution = null;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SessionType')]
+    #[ORM\OneToMany(targetEntity: 'SessionType', mappedBy: 'school')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

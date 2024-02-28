@@ -18,7 +18,7 @@ use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryReportRepository;
 
 #[ORM\Table(name: 'curriculum_inventory_report')]
-#[ORM\Index(columns: ['program_id'], name: 'IDX_6E31899E3EB8070A')]
+#[ORM\Index(name: 'IDX_6E31899E3EB8070A', columns: ['program_id'])]
 #[ORM\UniqueConstraint(name: 'idx_ci_report_token_unique', columns: ['token'])]
 #[ORM\Entity(repositoryClass: CurriculumInventoryReportRepository::class)]
 #[IA\Entity]
@@ -72,17 +72,17 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[Assert\NotBlank]
     protected DateTime $endDate;
 
-    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventoryExport')]
+    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryExport', mappedBy: 'report')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CurriculumInventoryExportInterface $export = null;
 
-    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventorySequence')]
+    #[ORM\OneToOne(targetEntity: 'CurriculumInventorySequence', mappedBy: 'report')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CurriculumInventorySequenceInterface $sequence = null;
 
-    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -94,7 +94,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[IA\Type('entity')]
     protected ?ProgramInterface $program = null;
 
-    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
+    #[ORM\OneToMany(targetEntity: 'CurriculumInventoryAcademicLevel', mappedBy: 'report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

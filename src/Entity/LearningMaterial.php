@@ -106,13 +106,13 @@ class LearningMaterial implements LearningMaterialInterface
     #[Assert\NotNull]
     protected UserInterface $owningUser;
 
-    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'SessionLearningMaterial')]
+    #[ORM\OneToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'learningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $sessionLearningMaterials;
 
-    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'CourseLearningMaterial')]
+    #[ORM\OneToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'learningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

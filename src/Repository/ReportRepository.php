@@ -28,7 +28,7 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(Report::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -45,7 +45,7 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
             );
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, school.id AS schoolId, user.id AS userId'
             )

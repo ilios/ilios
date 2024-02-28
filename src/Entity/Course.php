@@ -28,9 +28,9 @@ use App\Traits\SchoolEntity;
 use App\Repository\CourseRepository;
 
 #[ORM\Table(name: 'course')]
-#[ORM\Index(columns: ['course_id', 'title'], name: 'title_course_k')]
-#[ORM\Index(columns: ['external_id'], name: 'external_id')]
-#[ORM\Index(columns: ['clerkship_type_id'], name: 'clerkship_type_id')]
+#[ORM\Index(name: 'title_course_k', columns: ['course_id', 'title'])]
+#[ORM\Index(name: 'external_id', columns: ['external_id'])]
+#[ORM\Index(name: 'clerkship_type_id', columns: ['clerkship_type_id'])]
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
 #[IA\Entity]
 class Course implements CourseInterface
@@ -68,7 +68,7 @@ class Course implements CourseInterface
     #[Assert\Length(min: 1, max: 200)]
     protected ?string $title = null;
 
-    #[ORM\Column(type: 'smallint', name: 'course_level')]
+    #[ORM\Column(name: 'course_level', type: 'smallint')]
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotBlank]
@@ -188,7 +188,7 @@ class Course implements CourseInterface
     #[IA\Type('entityCollection')]
     protected Collection $terms;
 
-    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CourseObjective')]
+    #[ORM\OneToMany(targetEntity: 'CourseObjective', mappedBy: 'course')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -207,19 +207,19 @@ class Course implements CourseInterface
     #[IA\Type('entityCollection')]
     protected Collection $meshDescriptors;
 
-    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CourseLearningMaterial')]
+    #[ORM\OneToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $learningMaterials;
 
-    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'Session')]
+    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $sessions;
 
-    #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Type('entityCollection')]
     protected Collection $sequenceBlocks;
@@ -230,7 +230,7 @@ class Course implements CourseInterface
     #[IA\Type('entity')]
     protected ?CourseInterface $ancestor = null;
 
-    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'Course')]
+    #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

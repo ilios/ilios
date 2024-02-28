@@ -30,7 +30,7 @@ class CurriculumInventoryExportRepository extends ServiceEntityRepository implem
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(CurriculumInventoryExport::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -44,7 +44,7 @@ class CurriculumInventoryExportRepository extends ServiceEntityRepository implem
             );
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, user.id AS userId, report.id as reportId'
             )

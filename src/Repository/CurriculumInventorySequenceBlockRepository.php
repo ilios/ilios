@@ -31,7 +31,7 @@ class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(CurriculumInventorySequenceBlock::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -55,7 +55,7 @@ class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository
         }
         $curriculumInventorySequenceBlockIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, report.id AS reportId, school.id AS schoolId, ' .
                 'startingAcademicLevel.id AS startingAcademicLevelId, ' .

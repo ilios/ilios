@@ -21,8 +21,8 @@ use App\Traits\TimestampableEntity;
 use App\Repository\OfferingRepository;
 
 #[ORM\Table(name: 'offering')]
-#[ORM\Index(columns: ['session_id'], name: 'session_id_k')]
-#[ORM\Index(columns: ['offering_id', 'session_id', 'start_date', 'end_date'], name: 'offering_dates_session_k')]
+#[ORM\Index(name: 'session_id_k', columns: ['session_id'])]
+#[ORM\Index(name: 'offering_dates_session_k', columns: ['offering_id', 'session_id', 'start_date', 'end_date'])]
 #[ORM\Entity(repositoryClass: OfferingRepository::class)]
 #[IA\Entity]
 class Offering implements OfferingInterface

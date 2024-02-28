@@ -33,7 +33,7 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(ProgramYearObjective::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -48,7 +48,7 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
         }
         $programYearObjectiveIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id AS xId, ' .
                 'programYear.id AS programYearId, programYear.locked AS programYearIsLocked, ' .
@@ -65,7 +65,7 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
             $dtos[$arr['xId']]->programYear = (int) $arr['programYearId'];
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x.id as id, c.id as competencyId, a.id as ancestorId')
             ->from(ProgramYearObjective::class, 'x')
             ->leftJoin('x.competency', 'c')
@@ -120,7 +120,7 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
      */
     public function getTotalObjectiveCount(): int
     {
-        return (int) $this->_em->createQuery('SELECT COUNT(o.id) FROM App\Entity\ProgramYearObjective o')
+        return (int) $this->getEntityManager()->createQuery('SELECT COUNT(o.id) FROM App\Entity\ProgramYearObjective o')
             ->getSingleScalarResult();
     }
 }

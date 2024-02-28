@@ -36,7 +36,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Competency::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Competency::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $dtos = [];
@@ -48,7 +48,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
             );
         }
         $competencyIds = array_keys($dtos);
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x.id as competencyId, s.id as schoolId, p.id as parentId')
             ->from(Competency::class, 'x')
             ->join('x.school', 's')

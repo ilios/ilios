@@ -17,7 +17,9 @@ use App\Service\Index\LearningMaterials;
 use App\Service\Index\Mesh;
 use App\Service\Index\Users;
 use App\Traits\IndexableCoursesEntityInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
 use Exception;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -39,7 +41,7 @@ class IndexEntityChanges
     ) {
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
 
@@ -59,7 +61,7 @@ class IndexEntityChanges
             $this->indexCourses($entity->getIndexableCourses());
         }
     }
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
 
@@ -84,7 +86,7 @@ class IndexEntityChanges
      * We have to do this work in preRemove because in postRemove we no longer
      * have access to the entity ID
      */
-    public function preRemove(LifecycleEventArgs $args)
+    public function preRemove(PreRemoveEventArgs $args): void
     {
         $entity = $args->getObject();
 
@@ -114,7 +116,7 @@ class IndexEntityChanges
         }
     }
 
-    protected function indexUser(UserInterface $user)
+    protected function indexUser(UserInterface $user): void
     {
         if ($this->usersIndex->isEnabled()) {
             $this->bus->dispatch(new UserIndexRequest([$user->getId()]));

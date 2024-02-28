@@ -23,7 +23,7 @@ final class Version20170313230000 extends MysqlMigration
     public function up(Schema $schema) : void
     {
         $sql = 'SELECT school_id FROM school WHERE school_id NOT IN (SELECT school_id from school_config)';
-        $rows = $this->connection->executeQuery($sql)->fetchAll();
+        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
         if (count($rows)) {
             $insertSql = 'INSERT INTO school_config (school_id, name, value) VALUES ';
             $inserts = [];

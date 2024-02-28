@@ -29,7 +29,7 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Cohort::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Cohort::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -42,7 +42,7 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
         }
         $cohortIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('c.id as cohortId, py.id as programYearId, p.id as programId, s.id as schoolId')
             ->from(Cohort::class, 'c')
             ->join('c.programYear', 'py')

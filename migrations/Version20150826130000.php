@@ -19,7 +19,7 @@ final class Version20150826130000 extends MysqlMigration
         $sql = 'SELECT x.mesh_concept_uid, t.mesh_term_id ' .
             'FROM mesh_concept_x_term x JOIN mesh_term t ON ' .
             't.mesh_term_uid = x.mesh_term_uid';
-        $rows = $this->connection->executeQuery($sql)->fetchAll();
+        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
         if (count($rows)) {
             $insertSql = 'INSERT INTO mesh_concept_x_term (mesh_term_id, mesh_concept_uid) VALUES ';
             $values = array_map(function ($arr) {
@@ -58,7 +58,7 @@ final class Version20150826130000 extends MysqlMigration
         $sql = 'SELECT x.mesh_concept_uid, t.mesh_term_uid ' .
             'FROM mesh_concept_x_term x JOIN mesh_term t ON ' .
             't.mesh_term_id = x.mesh_term_id';
-        $rows = $this->connection->executeQuery($sql)->fetchAll();
+        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
         if (count($rows)) {
             $insertSql = 'INSERT INTO mesh_concept_x_term (mesh_term_uid, mesh_concept_uid) VALUES ';
             $values = array_map(function ($arr) {

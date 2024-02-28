@@ -31,7 +31,7 @@ class ProgramYearRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(ProgramYear::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(ProgramYear::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -55,7 +55,7 @@ class ProgramYearRepository extends ServiceEntityRepository implements
         }
         $programYearIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('py.id as programYearId, p.id as programId, c.id as cohortId, s.id as schoolId')
             ->from(ProgramYear::class, 'py')
             ->join('py.program', 'p')
@@ -144,7 +144,7 @@ class ProgramYearRepository extends ServiceEntityRepository implements
      */
     public function getProgramYearObjectiveToCourseObjectivesMapping($programYearId): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             "p.title AS program_title, py.startYear AS matriculation_year, pyo.title AS program_year_objective," .
                 "cmp.title AS competency, c.title AS course_title, c.externalId AS course_shortname," .

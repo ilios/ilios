@@ -73,7 +73,11 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(MeshDescriptor::class, 'x');
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('x')
+            ->distinct()
+            ->from(MeshDescriptor::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -97,7 +101,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
             );
         }
         $descriptorIds = array_keys($dtos);
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('p.id AS prevId, m.id AS descriptorId')
             ->from('App\Entity\MeshPreviousIndexing', 'p')
             ->join('p.descriptor', 'm')
@@ -134,7 +138,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     }
     protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset): Query
     {
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('DISTINCT d')
             ->from(MeshDescriptor::class, 'd')
             ->leftJoin('d.previousIndexing', 'pi')
@@ -399,7 +403,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
      */
     public function clearExistingData()
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $conn->beginTransaction();
         try {
             $conn->executeQuery('DELETE FROM mesh_concept_x_term');
@@ -439,7 +443,7 @@ EOL;
     {
         $data = $this->transmogrifier->transmogrify($descriptorSet, $existingDescriptorIds);
         $now = new DateTime();
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
 
         $termMap = []; // maps term hashes to record ids.
         $conn->beginTransaction();
@@ -586,7 +590,7 @@ EOL;
      */
     public function flagDescriptorsAsDeleted(array $ids)
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->update(MeshDescriptor::class, 'm');
         $qb->set('m.deleted', ':deleted');
         $qb->where($qb->expr()->in('m.id', ':ids'));
@@ -601,7 +605,7 @@ EOL;
      */
     public function getIds(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x.id')->from(MeshDescriptor::class, 'x');
 
         return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
@@ -614,7 +618,7 @@ EOL;
      */
     public function getIliosMeshDescriptorsById(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('d.id, d.name, d.annotation, pi.previousIndexing')
             ->from(MeshDescriptor::class, 'd')
             ->leftJoin('d.previousIndexing', 'pi')
@@ -624,7 +628,7 @@ EOL;
         $descriptors = $qb->getQuery()->getArrayResult();
         $unDeletedIds = array_map(fn(array $arr) => $arr['id'], $descriptors);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('d.id as descriptorId, c.id, c.name, c.scopeNote, c.casn1Name')
             ->from(MeshConcept::class, 'c')
             ->join('c.descriptors', 'd')
@@ -633,7 +637,7 @@ EOL;
         $concepts = $qb->getQuery()->getArrayResult();
         $conceptIds = array_map(fn(array $arr) => $arr['id'], $concepts);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('c.id as conceptId, t.id, t.name')
             ->from(MeshTerm::class, 't')
             ->join('t.concepts', 'c')
@@ -684,7 +688,7 @@ EOL;
 
     public function exportMeshDescriptors(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('d.id, d.name, d.annotation, d.deleted')
             ->from(MeshDescriptor::class, 'd')
             ->orderBy('d.id');
@@ -693,7 +697,7 @@ EOL;
 
     public function exportMeshTrees(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.treeNumber, d.id AS descriptor_id, t.id')
             ->from(MeshTree::class, 't')
             ->join('t.descriptor', 'd')
@@ -703,7 +707,7 @@ EOL;
 
     public function exportMeshConcepts(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('c.id, c.name, c.preferred, c.scopeNote, c.casn1Name, c.registryNumber')
             ->from(MeshConcept::class, 'c')
             ->orderBy('c.id');
@@ -712,7 +716,7 @@ EOL;
 
     public function exportMeshTerms(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.meshTermUid, t.name, t.lexicalTag, t.conceptPreferred, t.recordPreferred, t.permuted, t.id')
             ->from(MeshTerm::class, 't')
             ->orderBy('t.id');
@@ -721,7 +725,7 @@ EOL;
 
     public function exportMeshQualifiers(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('q.id, q.name')
             ->from(MeshQualifier::class, 'q')
             ->orderBy('q.id')
@@ -731,7 +735,7 @@ EOL;
 
     public function exportMeshPreviousIndexings(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('d.id AS descriptor_id, p.previousIndexing, p.id')
             ->from(MeshPreviousIndexing::class, 'p')
             ->join('p.descriptor', 'd')
@@ -741,7 +745,7 @@ EOL;
 
     public function exportMeshConceptTerms(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('c.id AS concept_id, t.id AS term_id')
             ->from(MeshConcept::class, 'c')
             ->join('c.terms', 't')
@@ -752,7 +756,7 @@ EOL;
 
     public function exportMeshDescriptorQualifiers(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('d.id AS descriptor_id, q.id AS qualifier_id')
             ->from(MeshDescriptor::class, 'd')
             ->join('d.qualifiers', 'q')
@@ -763,7 +767,7 @@ EOL;
 
     public function exportMeshDescriptorConcepts(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('c.id AS concept_id, d.id AS descriptor_id')
             ->from(MeshDescriptor::class, 'd')
             ->join('d.concepts', 'c')

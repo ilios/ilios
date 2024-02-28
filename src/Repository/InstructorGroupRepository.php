@@ -29,7 +29,7 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(InstructorGroup::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -42,7 +42,7 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
             );
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, school.id AS schoolId'
             )

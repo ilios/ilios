@@ -29,7 +29,7 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(IlmSession::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -42,7 +42,7 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
                 $arr['dueDate']
             );
         }
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, session.id AS sessionId, course.id AS courseId, school.id AS schoolId'
             )

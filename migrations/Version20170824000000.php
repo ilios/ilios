@@ -19,7 +19,7 @@ final class Version20170824000000 extends MysqlMigration
     public function up(Schema $schema) : void
     {
         $sql = 'SELECT name from application_config';
-        $rows = $this->connection->executeQuery($sql)->fetchAll();
+        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
 
         if (count($rows)) {
             $names = array_map(function (array $arr) {

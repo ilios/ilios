@@ -33,7 +33,7 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x')->distinct()
             ->from(CourseClerkshipType::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));

@@ -31,7 +31,7 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(SessionObjective::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -46,7 +46,7 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
         }
         $sessionObjectiveIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id AS xId, session.id AS sessionId, ' .
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
@@ -67,7 +67,7 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
             $dtos[$arr['xId']]->school = (int) $arr['schoolId'];
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x.id as id, a.id as ancestorId')
             ->from(SessionObjective::class, 'x')
             ->leftJoin('x.ancestor', 'a')
@@ -152,7 +152,7 @@ class SessionObjectiveRepository extends ServiceEntityRepository implements DTOR
      */
     public function getTotalObjectiveCount(): int
     {
-        return (int) $this->_em->createQuery('SELECT COUNT(o.id) FROM App\Entity\SessionObjective o')
+        return (int) $this->getEntityManager()->createQuery('SELECT COUNT(o.id) FROM App\Entity\SessionObjective o')
             ->getSingleScalarResult();
     }
 }

@@ -103,7 +103,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Type('entityCollection')]
     protected Collection $qualifiers;
 
-    #[ORM\OneToMany(mappedBy: 'descriptor', targetEntity: 'MeshTree')]
+    #[ORM\OneToMany(targetEntity: 'MeshTree', mappedBy: 'descriptor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

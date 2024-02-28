@@ -148,7 +148,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $user->shouldReceive('setAuthentication')->with($authentication);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($school);
         $this->schoolRepository->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([$school]);
-        $this->userRepository->shouldReceive('findOneBy')->with([])->andReturn([]);
+        $this->userRepository->shouldReceive('findOneBy')->with([])->andReturn(null);
         $this->userRepository->shouldReceive('create')->andReturn($user);
         $this->userRepository->shouldReceive('update')->with($user);
         $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
