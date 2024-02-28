@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use PackageVersions\Versions;
+use Composer\InstalledVersions;
 use Sentry\Event;
 
 class SentryBeforeSend
@@ -23,7 +23,7 @@ class SentryBeforeSend
             return null;
         }
 
-        $event->setRelease(Versions::getVersion(Versions::rootPackageName()));
+        $event->setRelease(InstalledVersions::getPrettyVersion(InstalledVersions::getRootPackage()['name']));
 
         return $event;
     }
