@@ -25,8 +25,6 @@ ENV FPM_CONTAINERS=fpm:9000
 # Docker builtin nameserver
 ENV NGINX_NAMESERVERS=127.0.0.11
 
-ARG ILIOS_VERSION="v0.1.0"
-RUN echo ${ILIOS_VERSION} > /srv/app/VERSION
 HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 localhost 80
 
 ###############################################################################
@@ -96,9 +94,6 @@ RUN set -eux; \
     bin/console cache:warmup; \
     sync
 VOLUME /srv/app/var
-
-ARG ILIOS_VERSION="v0.1.0"
-RUN echo ${ILIOS_VERSION} > VERSION
 
 COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
@@ -312,9 +307,6 @@ RUN /usr/bin/composer install \
     #creates an empty env.php file, real ENV values will control the app
     && /usr/bin/composer dump-env prod \
     && composer run-script --no-dev post-install-cmd
-
-ARG ILIOS_VERSION="v0.1.0"
-RUN echo ${ILIOS_VERSION} > VERSION
 
 USER root
 ENTRYPOINT ["php-apache-entrypoint"]

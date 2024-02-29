@@ -33,7 +33,11 @@ jobs:
       run: |
         git config user.name Zorgbort
         git config user.email info@iliosproject.org
-    - name: Increment Version
+    - name: Increment version
+      run: |
+        composer config version ${{ steps.newTag.outputs.tag }}
+        git commit -m "Bump Ilios version to ${{ steps.newTag.outputs.tag }}"
+    - name: Tag Version
       run: git tag ${{ steps.newTag.outputs.tag }} -m "Tagging the ${{ steps.newTag.outputs.tag }} ${{ github.event.inputs.releaseType }} release"
     - name: Push Changes
-      run: git push --tags
+      run: git push --tags master

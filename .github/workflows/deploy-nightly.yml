@@ -75,7 +75,6 @@ jobs:
       with:
         context: .
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
-        build-args: ILIOS_VERSION=${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
         push: true
         provenance: false #https://github.com/gabrieldemarmiesse/python-on-whales/issues/407

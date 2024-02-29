@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Composer\InstalledVersions;
 use Sentry\Event;
-use Shivas\VersioningBundle\Service\VersionManagerInterface;
 
 class SentryBeforeSend
 {
     protected bool $errorCaptureEnabled;
 
     public function __construct(
-        protected VersionManagerInterface $versionManager,
         Config $config,
     ) {
         $this->errorCaptureEnabled = (bool) $config->get('errorCaptureEnabled');
@@ -23,7 +22,8 @@ class SentryBeforeSend
         if (!$this->errorCaptureEnabled) {
             return null;
         }
-        $event->setRelease($this->versionManager->getVersion()->toString());
+
+        $event->setRelease(InstalledVersions::getPrettyVersion(InstalledVersions::getRootPackage()['name']));
 
         return $event;
     }

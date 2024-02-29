@@ -148,7 +148,6 @@ jobs:
     - name: Build ${{ matrix.image }}
       uses: docker/build-push-action@v5
       with:
-        build-args: ILIOS_VERSION=test
         target: ${{ matrix.image }}
         push: false
         outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar
@@ -189,7 +188,6 @@ jobs:
      - name: Build ${{ matrix.image }}
        uses: docker/build-push-action@v5
        with:
-         build-args: ILIOS_VERSION=test
          target: ${{ matrix.image }}
          push: false
 

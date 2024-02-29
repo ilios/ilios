@@ -40,7 +40,6 @@ jobs:
       with:
         tags: |
             ilios/${{ matrix.image }}:latest
-        build-args: ILIOS_VERSION=3.0.0-dev
         target: ${{ matrix.image }}
         push: true
         provenance: false #https://github.com/gabrieldemarmiesse/python-on-whales/issues/407

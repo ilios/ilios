@@ -3,6 +3,7 @@
   "license": "MIT",
   "type": "project",
   "description": "The \"Ilios Standard Edition\" distribution",
+  "version": "3.110.2",
   "require": {
     "php": ">= 8.2",
     "ext-apcu": "*",
@@ -37,7 +38,6 @@
     "phpdocumentor/reflection-docblock": "^5.2",
     "psr/log": "^3.0.0",
     "sentry/sentry-symfony": "^4.2",
-    "shivas/versioning-bundle": "^4.0",
     "swagger-api/swagger-ui": "^5.1",
     "symfony/amazon-mailer": "^6.4.3",
     "symfony/apache-pack": "@stable",
