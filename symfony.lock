@@ -165,9 +165,6 @@
             "config/packages/flagception.yaml"
         ]
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.1"
-    },
     "guzzlehttp/guzzle": {
         "version": "7.2.0"
     },
@@ -206,9 +203,6 @@
     },
     "justinrainbow/json-schema": {
         "version": "5.2.11"
-    },
-    "laminas/laminas-code": {
-        "version": "3.5.1"
     },
     "laminas/laminas-diagnostics": {
         "version": "1.6.0"
@@ -789,9 +783,6 @@
     },
     "symfony/property-info": {
         "version": "v5.2.0"
-    },
-    "symfony/proxy-manager-bridge": {
-        "version": "v5.2.2"
     },
     "symfony/psr-http-message-bridge": {
         "version": "v2.1.1"
