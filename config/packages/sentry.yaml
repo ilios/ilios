@@ -9,6 +9,9 @@ when@prod:
             traces_sampler: 'sentry.callback.traces_sampler'
             integrations:
                 - 'Sentry\Integration\IgnoreErrorsIntegration'
+        # this hooks into critical paths of the framework (and vendors) to perform
+        # automatic instrumentation (there might be some performance penalty)
+        # https://docs.sentry.io/platforms/php/guides/symfony/performance/instrumentation/automatic-instrumentation/
         tracing:
             enabled: true
 
@@ -32,3 +35,9 @@ when@prod:
 #                type: sentry
 #                level: !php/const Monolog\Logger::ERROR
 #                hub_id: Sentry\State\HubInterface
+
+#    Uncomment these lines to register a log message processor that resolves PSR-3 placeholders
+#    https://docs.sentry.io/platforms/php/guides/symfony/#monolog-integration
+#    services:
+#        Monolog\Processor\PsrLogMessageProcessor:
+#            tags: { name: monolog.processor, handler: sentry }
