@@ -19,7 +19,7 @@ use App\Repository\CohortRepository;
 
 #[ORM\Entity(repositoryClass: CohortRepository::class)]
 #[ORM\Table(name: 'cohort')]
-#[ORM\Index(columns: ['program_year_id', 'cohort_id', 'title'], name: 'whole_k')]
+#[ORM\Index(name: 'whole_k', columns: ['program_year_id', 'cohort_id', 'title'])]
 #[IA\Entity]
 class Cohort implements CohortInterface
 {
@@ -64,7 +64,7 @@ class Cohort implements CohortInterface
     #[IA\Type('entityCollection')]
     protected Collection $courses;
 
-    #[ORM\OneToMany(mappedBy: 'cohort', targetEntity: 'LearnerGroup')]
+    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'cohort')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

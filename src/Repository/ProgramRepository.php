@@ -31,7 +31,7 @@ class ProgramRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Program::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Program::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $programDTOs = [];
@@ -100,7 +100,7 @@ class ProgramRepository extends ServiceEntityRepository implements
         if ($dtos === []) {
             return $dtos;
         }
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('p.id as programId, s.id as schoolId')
             ->from(Program::class, 'p')
             ->join('p.school', 's')

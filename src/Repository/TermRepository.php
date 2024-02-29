@@ -37,7 +37,7 @@ class TermRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Term::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Term::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -61,7 +61,7 @@ class TermRepository extends ServiceEntityRepository implements
         }
         $termIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('t.id AS termId, v.id AS vocabularyId, p.id AS parentId, s.id AS schoolId')
             ->from(Term::class, 't')
             ->join('t.vocabulary', 'v')

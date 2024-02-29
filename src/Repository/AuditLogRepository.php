@@ -34,7 +34,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
      */
     public function findInRange(DateTime $from, DateTime $to): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a as log', 'u.id as userId')
             ->from('App\Entity\AuditLog', 'a')
             ->leftJoin('a.user', 'u')
@@ -69,7 +69,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
      */
     public function deleteInRange(DateTime $from, DateTime $to)
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb
             ->delete('App\Entity\AuditLog', 'a')
             ->add(
@@ -100,7 +100,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
      */
     public function writeLogs(array $entries)
     {
-        $conn = $this->_em->getConnection();
+        $conn = $this->getEntityManager()->getConnection();
         $now = new DateTime();
         $timestamp = $now->format('Y-m-d H:i:s');
         $logs = array_map(function (array $entry) use ($timestamp) {

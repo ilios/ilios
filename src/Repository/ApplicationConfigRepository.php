@@ -32,7 +32,11 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(ApplicationConfig::class, 'x');
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('x')
+            ->distinct()
+            ->from(ApplicationConfig::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $applicationConfigDTOs = [];
@@ -53,7 +57,7 @@ class ApplicationConfigRepository extends ServiceEntityRepository implements
         if (! $this->cacheEnabled || ! isset($cache)) {
             $cache = [];
 
-            $qb = $this->_em->createQueryBuilder();
+            $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->select('x.value, x.name')->from(ApplicationConfig::class, 'x');
 
             $configs = $qb->getQuery()->getArrayResult();

@@ -31,7 +31,7 @@ class LearningMaterialUserRoleRepository extends ServiceEntityRepository impleme
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(LearningMaterialUserRole::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);

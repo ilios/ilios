@@ -33,7 +33,11 @@ class AlertChangeTypeRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(AlertChangeType::class, 'x');
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('x')
+            ->distinct()
+            ->from(AlertChangeType::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $dtos = [];

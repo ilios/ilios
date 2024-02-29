@@ -979,7 +979,7 @@ class CourseRolloverTest extends TestCase
         $futureDate = new DateTime();
         $futureDate->add(DateInterval::createFromDateString('+2 year'));
         $year = (int) $futureDate->format('Y');
-        $this->courseRepository->shouldReceive('findOneBy')->withArgs([['id' => $courseId]])->andReturn(false);
+        $this->courseRepository->shouldReceive('findOneBy')->withArgs([['id' => $courseId]])->andReturn(null);
 
         $this->expectException(Exception::class);
 

@@ -43,7 +43,7 @@ class SchoolRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(School::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(School::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -65,7 +65,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      */
     public function findSessionEventsForSchool(int $schoolId, int $sessionId): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $dates = $qb->select('o.startDate, o.endDate')
             ->from(Session::class, 's')
             ->leftJoin('s.offerings', 'o')
@@ -142,7 +142,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         DateTime $from,
         DateTime $to
     ) {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.url, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
@@ -185,7 +185,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         DateTime $to
     ) {
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
 
         $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'ilm.id, ilm.dueDate, ' .
@@ -221,7 +221,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      */
     public function addInstructorsToEvents(array $events): array
     {
-        return $this->attachInstructorsToEvents($events, $this->_em);
+        return $this->attachInstructorsToEvents($events, $this->getEntityManager());
     }
 
     /**
@@ -231,7 +231,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      */
     public function addMaterialsToEvents(array $events): array
     {
-        return $this->attachMaterialsToEvents($events, $this->userMaterialFactory, $this->_em);
+        return $this->attachMaterialsToEvents($events, $this->userMaterialFactory, $this->getEntityManager());
     }
 
     /**
@@ -241,7 +241,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      */
     public function addSessionDataToEvents(array $events): array
     {
-        return $this->attachSessionDataToEvents($events, $this->_em);
+        return $this->attachSessionDataToEvents($events, $this->getEntityManager());
     }
 
     /**
@@ -260,7 +260,7 @@ class SchoolRepository extends ServiceEntityRepository implements
      */
     public function getIds(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x.id')->from(School::class, 'x');
         $results = $qb->getQuery()->getScalarResult();
         return array_map('intval', array_column($results, 'id'));
@@ -297,7 +297,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect($what)->from('App\Entity\School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -344,7 +344,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect($what)->from('App\Entity\School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -415,7 +415,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect($what)->from('App\Entity\School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -462,7 +462,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect($what)->from('App\Entity\School', 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -521,7 +521,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         }
         $schoolIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s.id as schoolId, c.id as curriculumInventoryInstitutionId')
             ->from(School::class, 's')
             ->leftJoin('s.curriculumInventoryInstitution', 'c')

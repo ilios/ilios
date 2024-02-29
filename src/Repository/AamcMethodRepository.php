@@ -33,7 +33,7 @@ class AamcMethodRepository extends ServiceEntityRepository implements
 
     protected function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(AamcMethod::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(AamcMethod::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $qb->where($qb->expr()->in('x.id', ':ids'));

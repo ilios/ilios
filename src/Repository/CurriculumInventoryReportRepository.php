@@ -37,7 +37,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(CurriculumInventoryReport::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -56,7 +56,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         }
         $curriculumInventoryReportIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, ' .
                 'export.id AS exportId, sequence.id AS sequenceId, program.id AS programId, ' .
@@ -126,7 +126,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return [];
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s.id AS event_id, art.id AS resource_type_id, art.title AS resource_type_title')
             ->distinct()
             ->from(Session::class, 's')
@@ -154,7 +154,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return $rhett;
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select("s.id AS event_id, md.id, 'MeSH' AS source, md.name")
             ->from(Session::class, 's')
             ->join('s.course', 'c')
@@ -167,7 +167,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             ->setParameter('eventIds', $eventIds);
 
         $queries[] = $qb->getQuery();
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select("s.id AS event_id, t.id, v.title AS source, t.title AS name")
             ->from(Session::class, 's')
             ->join('s.course', 'c')
@@ -199,7 +199,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return [];
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('sb.id, s.id AS event_id, s.supplemental AS optional')
             ->from(Session::class, 's')
             ->join('s.course', 'c')
@@ -215,7 +215,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
     public function getProgramObjectives(CurriculumInventoryReportInterface $report): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.id, o.title, a.id AS ancestor_id')
             ->distinct()
             ->from(CurriculumInventoryReport::class, 'r')
@@ -243,7 +243,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
     public function getCourseObjectives(CurriculumInventoryReportInterface $report): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.id, o.title')
             ->distinct()
             ->from(CurriculumInventoryReport::class, 'r')
@@ -273,7 +273,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return $rhett;
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.id, o.title')
             ->distinct()
             ->from(CurriculumInventoryReport::class, 'r')
@@ -303,7 +303,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return [];
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS event_id, so.id AS session_objective_id, co.id AS course_objective_id,'
             . 'po.id AS program_objective_id'
@@ -327,7 +327,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
     public function getCompetencyObjectReferencesForSequenceBlocks(CurriculumInventoryReportInterface $report): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('sb.id, co.id AS course_objective_id, po.id AS program_objective_id')
             ->distinct()
             ->from(CurriculumInventoryReport::class, 'r')
@@ -349,7 +349,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return [];
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.id as objective_id, am.id AS pcrs_id')
             ->distinct()
             ->from(ProgramYearObjective::class, 'o')
@@ -370,7 +370,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return [];
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.id AS objective_id, p.id AS program_objective_id')
             ->distinct()
             ->from(CourseObjective::class, 'o')
@@ -391,7 +391,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             return [];
         }
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('o.id AS objective_id, c.id AS course_objective_id')
             ->distinct()
             ->from(SessionObjective::class, 'o')
@@ -407,7 +407,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getPcrs(CurriculumInventoryReportInterface $report): array
     {
         $rhett = [];
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('am.id AS pcrs_id, am.description')
             ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
@@ -426,7 +426,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
             ->setParameter(':id', $report->getId());
         $queries[] = $qb->getQuery();
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('am.id AS pcrs_id, am.description')
             ->from(CurriculumInventoryReport::class, 'r')
             ->join('r.program', 'p')
@@ -458,7 +458,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         CurriculumInventoryReportInterface $report,
         array $excludedSessionIds = []
     ) {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS event_id, s.title, s.description, am.id AS method_id,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, sf.hours'
@@ -494,7 +494,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         CurriculumInventoryReportInterface $report,
         array $excludedSessionIds = []
     ) {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS event_id, s.title, s.description, am.id AS method_id,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
@@ -525,7 +525,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         CurriculumInventoryReportInterface $report,
         array $excludedSessionIds = []
     ) {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS event_id, s.title, s.description, am.id AS method_id, sf.hours as ilm_hours,'
             . 'st.assessment AS is_assessment_method, ao.name AS assessment_option_name, o.startDate, o.endDate'
@@ -556,7 +556,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
      */
     public function getCountForOneOfferingSessionIds(CurriculumInventoryReportInterface $report): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s.id')
             ->distinct()
             ->from(CurriculumInventoryReport::class, 'r')
@@ -574,7 +574,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
      */
     public function getExcludedSessionIds(CurriculumInventoryReportInterface $report): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s.id')
             ->distinct()
             ->from(CurriculumInventoryReport::class, 'r')

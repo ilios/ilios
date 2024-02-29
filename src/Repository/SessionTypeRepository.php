@@ -36,7 +36,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x')
             ->distinct()
             ->from(SessionType::class, 'x');
@@ -55,7 +55,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         }
         $sessionTypeIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('st.id as sessionTypeId, s.id as schoolId, a.id as assessmentOptionId')
             ->from(SessionType::class, 'st')
             ->join('st.school', 's')

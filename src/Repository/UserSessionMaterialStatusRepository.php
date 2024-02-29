@@ -32,7 +32,7 @@ class UserSessionMaterialStatusRepository extends ServiceEntityRepository implem
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x')->distinct()
             ->from(UserSessionMaterialStatus::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
@@ -55,7 +55,7 @@ class UserSessionMaterialStatusRepository extends ServiceEntityRepository implem
         if ($dtos === []) {
             return $dtos;
         }
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('x.id AS xId, u.id AS userId, m.id AS materialId')
             ->from(UserSessionMaterialStatus::class, 'x')
             ->join('x.user', 'u')

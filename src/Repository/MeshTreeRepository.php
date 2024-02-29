@@ -28,7 +28,7 @@ class MeshTreeRepository extends ServiceEntityRepository implements DTORepositor
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
             ->distinct()->from(MeshTree::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
@@ -41,7 +41,7 @@ class MeshTreeRepository extends ServiceEntityRepository implements DTORepositor
             );
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id as xId, descriptor.id AS descriptorId'
             )

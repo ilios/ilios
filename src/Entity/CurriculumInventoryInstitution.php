@@ -88,7 +88,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     #[Assert\Length(min: 1, max: 2)]
     protected string $addressCountryCode;
 
-    #[ORM\OneToOne(inversedBy: 'curriculumInventoryInstitution', targetEntity: 'School')]
+    #[ORM\OneToOne(targetEntity: 'School', inversedBy: 'curriculumInventoryInstitution')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', unique: true, nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]

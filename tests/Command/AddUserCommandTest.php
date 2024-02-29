@@ -321,8 +321,8 @@ class AddUserCommandTest extends KernelTestCase
 
         $this->hasher->shouldReceive('hashPassword')->with($sessionUser, 'abc123pass')->andReturn('hashBlurb');
 
-        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
-        $this->userRepository->shouldReceive('findOneBy')->with(['email' => 'email@example.com'])->andReturn(false);
+        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(null);
+        $this->userRepository->shouldReceive('findOneBy')->with(['email' => 'email@example.com'])->andReturn(null);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
         $this->userRepository->shouldReceive('create')->andReturn($user);
         $this->userRepository->shouldReceive('update')->with($user);

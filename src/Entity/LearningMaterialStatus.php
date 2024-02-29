@@ -42,7 +42,7 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
     #[Assert\Length(min: 1, max: 60)]
     protected string $title;
 
-    #[ORM\OneToMany(mappedBy: 'status', targetEntity: 'LearningMaterial')]
+    #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'status')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $learningMaterials;
 

@@ -56,7 +56,7 @@ class CourseRepository extends ServiceEntityRepository implements
         int $limit = null,
         int $offset = null,
     ): array {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x')->from(Course::class, 'x');
 
         $terms = explode(' ', $q);
@@ -97,7 +97,7 @@ class CourseRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Course::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Course::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
 
@@ -143,7 +143,7 @@ class CourseRepository extends ServiceEntityRepository implements
      */
     public function getIds(): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x.id')->from(Course::class, 'x');
 
         return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
@@ -196,7 +196,7 @@ class CourseRepository extends ServiceEntityRepository implements
         ?int $limit = null,
         ?int $offset = null
     ): array {
-        $meta = $this->_em->getClassMetadata(Course::class);
+        $meta = $this->getEntityManager()->getClassMetadata(Course::class);
 
         if (empty($orderBy)) {
             $orderBy = ['id' => 'ASC'];
@@ -346,7 +346,7 @@ EOL;
         if (isset($offset)) {
             $stmt->bindValue(":offset", (int) $offset);
         }
-        $result = $stmt->execute();
+        $result = $stmt->executeQuery();
         $rows = $result->fetchAllAssociative();
         $result->free();
         return $rows;
@@ -359,7 +359,7 @@ EOL;
         }
         $courseIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s.id as schoolId, cl.id as clerkshipTypeId, a.id as ancestorId, c.id as courseId')
             ->from(Course::class, 'c')
             ->join('c.school', 's')
@@ -559,7 +559,7 @@ EOL;
      */
     public function getCourseIndexesFor(array $courseIds): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             'c.id AS id, c.title AS title, c.level AS level, c.year AS year, ' .
             'c.startDate AS startDate, c.endDate AS endDate, c.externalId AS externalId, ' .
@@ -649,7 +649,7 @@ EOL;
             }
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select("c.id AS courseId, l.id as learningMaterialId, l.relativePath, " .
                 "l.title, l.description, l.citation")
             ->from(Course::class, 'c')
@@ -695,7 +695,7 @@ EOL;
      */
     protected function joinResults(string $from, string $rel, string $select, array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select("f.id AS fromId, {$select}")->from($from, 'f')
             ->join("f.{$rel}", 'r')
             ->where($qb->expr()->in('f.id', ':ids'))
@@ -713,7 +713,7 @@ EOL;
      */
     protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select("f.id AS fromId, {$select}")->from($from, 'f')
             ->join("f.{$rel}", 'o')
             ->where($qb->expr()->in('f.id', ':ids'))
@@ -729,7 +729,7 @@ EOL;
 
     protected function sessionDataForIndex(array $sessionIds): array
     {
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS sessionId, s.title AS title, s.description AS description, c.id as courseId, ' .
             'st.title AS sessionType'
@@ -797,7 +797,7 @@ EOL;
             }
         }
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select("s.id AS sessionId, l.id as learningMaterialId, l.relativePath, " .
                 "l.title, l.description, l.citation")
             ->from(Session::class, 's')

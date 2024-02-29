@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Traits;
 
 use App\Service\DTOCacheManager;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManager;
@@ -223,14 +223,13 @@ trait ManagerRepository
     protected function attachManySetsToDtos(array $dtos, array $sets): array
     {
         $ids = array_keys($dtos);
-        /** @var Connection $conn */
         $conn = $this->getEntityManager()->getConnection();
         foreach ($sets as $arr) {
             $qb = $conn->createQueryBuilder();
             $qb->select($arr['relatedIdColumn'], $arr['dtoIdColumn'])
                 ->from($arr['tableName'])
                 ->where("{$arr['dtoIdColumn']} IN(:ids)")
-                ->setParameter('ids', $ids, Connection::PARAM_STR_ARRAY);
+                ->setParameter('ids', $ids, ArrayParameterType::STRING);
             $result = $qb->executeQuery()->fetchAllAssociative();
             foreach ($result as $row) {
                 $dtos[$row[$arr['dtoIdColumn']]]->{$arr['fieldName']}[] = $row[$arr['relatedIdColumn']];
@@ -254,7 +253,6 @@ trait ManagerRepository
 
     protected function extractSetsFromInverseSideMetadata(array $arr): array
     {
-        /** @var EntityManager $em */
         $em = $this->getEntityManager();
         return array_map(function ($rel) use ($em) {
             $metadata = $em->getClassMetadata($rel['targetEntity']);

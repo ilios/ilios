@@ -19,9 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SessionLearningMaterialRepository;
 
 #[ORM\Table(name: 'session_learning_material')]
-#[ORM\Index(columns: ['session_id', 'learning_material_id'], name: 'session_lm_k')]
-#[ORM\Index(columns: ['learning_material_id'], name: 'learning_material_id_k')]
-#[ORM\Index(columns: ['session_id'], name: 'IDX_9BE2AF8D613FECDF')]
+#[ORM\Index(name: 'session_lm_k', columns: ['session_id', 'learning_material_id'])]
+#[ORM\Index(name: 'learning_material_id_k', columns: ['learning_material_id'])]
+#[ORM\Index(name: 'IDX_9BE2AF8D613FECDF', columns: ['session_id'])]
 #[ORM\Entity(repositoryClass: SessionLearningMaterialRepository::class)]
 #[IA\Entity]
 class SessionLearningMaterial implements SessionLearningMaterialInterface

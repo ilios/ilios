@@ -90,7 +90,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
 
         $authentication->shouldReceive('setUser')->with($user);
 
-        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(false);
+        $this->userRepository->shouldReceive('findOneBy')->with(['campusId' => 'abc'])->andReturn(null);
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($school);
         $this->userRepository->shouldReceive('create')->andReturn($user);
         $this->userRepository->shouldReceive('update')->with($user);

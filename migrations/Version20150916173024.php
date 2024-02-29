@@ -19,7 +19,7 @@ final class Version20150916173024 extends MysqlMigration
         $this->addSql('ALTER TABLE `user` ADD ics_feed_key VARCHAR(64) NOT NULL');
 
         $sql = 'SELECT user_id FROM `user`';
-        $rows = $this->connection->executeQuery($sql)->fetchAll();
+        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
         if (count($rows)) {
             $updates = array_map(function ($arr) {
                 $random = random_bytes(128);

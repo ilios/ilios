@@ -91,13 +91,13 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Type('entity')]
     protected ?LearnerGroupInterface $ancestor = null;
 
-    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
+    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'ancestor')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $descendants;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'LearnerGroup')]
+    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'parent')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

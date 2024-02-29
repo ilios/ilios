@@ -17,7 +17,7 @@ final class Version20160615223611 extends MysqlMigration
         $this->addSql('CREATE UNIQUE INDEX idx_ci_report_token_unique ON curriculum_inventory_report (token)');
 
         $sql = 'SELECT report_id FROM `curriculum_inventory_report`';
-        $rows = $this->connection->executeQuery($sql)->fetchAll();
+        $rows = $this->connection->executeQuery($sql)->fetchAllAssociative();
         if (count($rows)) {
             $updates = array_map(
                 function ($row) {

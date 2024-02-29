@@ -74,7 +74,7 @@ class Report implements ReportInterface
     protected ?string $prepositionalObjectTableRowId = null;
 
     #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'reports')]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'cascade', nullable: false)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', nullable: false, onDelete: 'cascade')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]

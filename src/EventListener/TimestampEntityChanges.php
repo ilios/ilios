@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use DateTime;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\Service\Timestamper;
 use App\Traits\TimestampableEntityInterface;
 use App\Traits\OfferingsEntityInterface;
 use App\Entity\SessionStampableInterface;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Exception;
 
 /**
@@ -30,7 +32,7 @@ class TimestampEntityChanges
     /**
      * @throws Exception
      */
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
         $this->stamp($args->getObject());
     }
@@ -38,7 +40,7 @@ class TimestampEntityChanges
     /**
      * @throws Exception
      */
-    public function postRemove(LifecycleEventArgs $args)
+    public function postRemove(PostRemoveEventArgs $args): void
     {
         $this->stamp($args->getObject());
     }
@@ -46,7 +48,7 @@ class TimestampEntityChanges
     /**
      * @throws Exception
      */
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(PostPersistEventArgs $args): void
     {
         $this->stamp($args->getObject());
     }
@@ -54,7 +56,7 @@ class TimestampEntityChanges
     /**
      * @throws Exception
      */
-    protected function stamp(object $entity)
+    protected function stamp(object $entity): void
     {
         $now = DateTime::createFromFormat('U', (string) time());
 

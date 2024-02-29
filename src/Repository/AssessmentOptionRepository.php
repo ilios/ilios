@@ -33,7 +33,11 @@ class AssessmentOptionRepository extends ServiceEntityRepository implements
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(AssessmentOption::class, 'x');
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('x')
+            ->distinct()
+            ->from(AssessmentOption::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $dtos = [];

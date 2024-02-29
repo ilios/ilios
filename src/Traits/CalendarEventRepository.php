@@ -9,6 +9,7 @@ use App\Entity\Session;
 use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use App\Classes\CalendarEvent;
 use App\Classes\UserMaterial;
@@ -99,7 +100,7 @@ trait CalendarEventRepository
     /**
      * Retrieves a list of instructors associated with given offerings.
      */
-    protected function getInstructorsForOfferings(array $ids, EntityManager $em): array
+    protected function getInstructorsForOfferings(array $ids, EntityManagerInterface $em): array
     {
         if (empty($ids)) {
             return [];
@@ -152,7 +153,7 @@ trait CalendarEventRepository
      *
      * @param array $ids A list of ILM session ids.
      */
-    protected function getInstructorsForIlmSessions(array $ids, EntityManager $em): array
+    protected function getInstructorsForIlmSessions(array $ids, EntityManagerInterface $em): array
     {
         if (empty($ids)) {
             return [];
@@ -195,7 +196,7 @@ trait CalendarEventRepository
     /**
      * Adds instructors to a given list of events.
      */
-    public function attachInstructorsToEvents(array $events, EntityManager $em): array
+    public function attachInstructorsToEvents(array $events, EntityManagerInterface $em): array
     {
         $offeringIds = array_map(fn($event) => $event->offering, array_filter($events, fn($event) => $event->offering));
 
@@ -226,7 +227,7 @@ trait CalendarEventRepository
      * Adds course and session data to a given list of events.
      * @param array $events A list of events
      */
-    public function attachSessionDataToEvents(array $events, EntityManager $em): array
+    public function attachSessionDataToEvents(array $events, EntityManagerInterface $em): array
     {
         $sessionIds = array_unique(array_column($events, 'session'));
         $courseIds = array_unique(array_column($events, 'course'));
@@ -404,8 +405,11 @@ trait CalendarEventRepository
     /**
      * Finds and adds learning materials to a given list of calendar events.
      */
-    public function attachMaterialsToEvents(array $events, UserMaterialFactory $factory, EntityManager $em): array
-    {
+    public function attachMaterialsToEvents(
+        array $events,
+        UserMaterialFactory $factory,
+        EntityManagerInterface $em
+    ): array {
         $sessionIds = array_map(fn(CalendarEvent $event) => $event->session, $events);
 
         $sessionIds = array_values(array_unique($sessionIds));
@@ -464,7 +468,7 @@ trait CalendarEventRepository
      */
     protected function getSessionLearningMaterialsForPublishedSessions(
         array $sessionIds,
-        EntityManager $em
+        EntityManagerInterface $em
     ) {
         $qb = $this->sessionLmQuery($sessionIds, $em);
         $qb->andWhere($qb->expr()->eq('s.published', 1));
@@ -480,7 +484,7 @@ trait CalendarEventRepository
      */
     protected function getSessionLearningMaterials(
         array $sessionIds,
-        EntityManager $em
+        EntityManagerInterface $em
     ) {
         $qb = $this->sessionLmQuery($sessionIds, $em);
         return $qb->getQuery()->getArrayResult();
@@ -488,7 +492,7 @@ trait CalendarEventRepository
 
     protected function sessionLmQuery(
         array $sessionIds,
-        EntityManager $em
+        EntityManagerInterface $em
     ) {
 
         $qb = $em->createQueryBuilder();
@@ -516,7 +520,7 @@ trait CalendarEventRepository
      */
     protected function getCourseLearningMaterials(
         array $sessionIds,
-        EntityManager $em
+        EntityManagerInterface $em
     ) {
         $qb = $this->courseLmQuery($sessionIds, $em);
 
@@ -528,7 +532,7 @@ trait CalendarEventRepository
      */
     protected function getCourseLearningMaterialsForPublishedSessions(
         array $sessionIds,
-        EntityManager $em
+        EntityManagerInterface $em
     ) {
         $qb = $this->courseLmQuery($sessionIds, $em);
         $qb->andWhere($qb->expr()->eq('c.published', 1));
@@ -539,7 +543,7 @@ trait CalendarEventRepository
 
     protected function courseLmQuery(
         array $sessionIds,
-        EntityManager $em
+        EntityManagerInterface $em
     ) {
         $qb = $em->createQueryBuilder();
         $what = 'c.title as courseTitle, c.year as courseYear, c.externalId as courseExternalId, ' .
@@ -561,7 +565,7 @@ trait CalendarEventRepository
         return $qb;
     }
 
-    protected function getCohortsForCourses(array $courseIds, EntityManager $em): array
+    protected function getCohortsForCourses(array $courseIds, EntityManagerInterface $em): array
     {
         $qb = $em->createQueryBuilder();
         $qb->select('c.id AS courseId, co.id, co.title')
@@ -593,7 +597,7 @@ trait CalendarEventRepository
         return $courseCohorts;
     }
 
-    protected function getTermsForCourses(array $courseIds, EntityManager $em): array
+    protected function getTermsForCourses(array $courseIds, EntityManagerInterface $em): array
     {
         $qb = $em->createQueryBuilder();
         $qb->select('c.id, t.id as termId, t.title as termTitle, v.id as vocabularyId, v.title as vocabularyTitle')
@@ -609,7 +613,7 @@ trait CalendarEventRepository
         return $this->parseTermResults($results);
     }
 
-    protected function getTermsForSessions(array $sessionIds, EntityManager $em): array
+    protected function getTermsForSessions(array $sessionIds, EntityManagerInterface $em): array
     {
         $qb = $em->createQueryBuilder();
         $qb->select('s.id, t.id as termId, t.title as termTitle, v.id as vocabularyId, v.title as vocabularyTitle')

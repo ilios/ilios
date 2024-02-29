@@ -49,7 +49,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
 
     public function hydrateDTOsFromIds(array $ids): array
     {
-        $qb = $this->_em->createQueryBuilder()->select('x')->distinct()->from(Offering::class, 'x');
+        $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Offering::class, 'x');
         $qb->where($qb->expr()->in('x.id', ':ids'));
         $qb->setParameter(':ids', $ids);
         $dtos = [];
@@ -66,7 +66,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
         }
         $offeringIds = array_keys($dtos);
 
-        $qb = $this->_em->createQueryBuilder()
+        $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x.id as offeringId, school.id as schoolId, course.id as courseId, session.id as sessionId')
             ->from('App\Entity\Offering', 'x')
             ->join('x.session', 'session')
@@ -108,7 +108,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
         $endDate->setTimestamp($now);
         $endDate->modify("midnight +{$daysInAdvance} days");
 
-        $qb = $this->_em->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $exp = $qb->expr();
 
         $qb->select('DISTINCT offering')->from(Offering::class, 'offering')
