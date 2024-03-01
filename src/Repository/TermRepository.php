@@ -304,6 +304,20 @@ class TermRepository extends ServiceEntityRepository implements
             $qb->setParameter(':courseObjectives', $ids);
         }
 
+        if (array_key_exists('academicYears', $criteria)) {
+            $ids = is_array($criteria['academicYears']) ? $criteria['academicYears'] : [$criteria['academicYears']];
+            $qb->leftJoin('x.courses', 'y_course');
+            $qb->leftJoin('x.sessions', 'y_session');
+            $qb->leftJoin('y_session.course', 'y_course2');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('y_course.year', ':academicYears'),
+                    $qb->expr()->in('y_course2.year', ':academicYears')
+                )
+            );
+            $qb->setParameter(':academicYears', $ids);
+        }
+
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
@@ -319,6 +333,7 @@ class TermRepository extends ServiceEntityRepository implements
         unset($criteria['programYearObjectives']);
         unset($criteria['sessionObjectives']);
         unset($criteria['courseObjectives']);
+        unset($criteria['academicYears']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

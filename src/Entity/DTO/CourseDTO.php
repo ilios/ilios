@@ -155,6 +155,7 @@ use OpenApi\Attributes as OA;
 #[IA\FilterableBy('instructorGroups', 'array<integer>')]
 #[IA\FilterableBy('programYears', 'array<integer>')]
 #[IA\FilterableBy('competencies', 'array<integer>')]
+#[IA\FilterableBy('academicYears', 'array<integer>')]
 class CourseDTO
 {
     #[IA\Id]

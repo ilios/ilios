@@ -60,6 +60,7 @@ use OpenApi\Attributes as OA;
 #[IA\FilterableBy('learningMaterials', 'array<integer>')]
 #[IA\FilterableBy('instructors', 'array<integer>')]
 #[IA\FilterableBy('terms', 'array<integer>')]
+#[IA\FilterableBy('academicYears', 'array<integer>')]
 class InstructorGroupDTO
 {
     #[IA\Id]

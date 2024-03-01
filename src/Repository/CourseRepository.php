@@ -537,6 +537,12 @@ EOL;
             $qb->setParameter(':ancestors', $ids);
         }
 
+        if (array_key_exists('academicYears', $criteria)) {
+            $ids = is_array($criteria['academicYears']) ? $criteria['academicYears'] : [$criteria['academicYears']];
+            $qb->andWhere($qb->expr()->in('x.year', ':academicYears'));
+            $qb->setParameter(':academicYears', $ids);
+        }
+
         //cleanup all the possible relationship filters
         unset($criteria['schools']);
         unset($criteria['sessions']);
@@ -549,6 +555,7 @@ EOL;
         unset($criteria['competencies']);
         unset($criteria['meshDescriptors']);
         unset($criteria['ancestors']);
+        unset($criteria['academicYears']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

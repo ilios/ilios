@@ -120,6 +120,8 @@ class SessionTest extends AbstractReadWriteEndpoint
             'multipleSessionTypes' => [[1, 2, 3], ['sessionType' => [2]]],
             'supplementalAndSessionType' => [[1, 2], ['supplemental' => true, 'sessionType' => 2]],
             'course' => [[3], ['course' => 4]],
+            'academicYear' => [[0,1], ['academicYears' => 2016]],
+            'academicYears' => [[0,1], ['academicYears' => [2016]]],
             'multipleCourse' => [[0, 1, 3], ['course' => [1, 4]]],
             // 'ilmSession' => [[0], ['ilmSessions' => [1]]], // skipped
             'terms' => [[1], ['terms' => 1]],

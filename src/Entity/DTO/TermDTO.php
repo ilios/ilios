@@ -101,6 +101,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[IA\FilterableBy('meshDescriptors', 'array<string>')]
 #[IA\FilterableBy('programs', 'array<integer>')]
 #[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('academicYears', 'array<integer>')]
 class TermDTO
 {
     #[IA\Id]

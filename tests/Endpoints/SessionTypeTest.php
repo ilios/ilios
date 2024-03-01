@@ -103,6 +103,8 @@ class SessionTypeTest extends AbstractReadWriteEndpoint
             'notAssessment' => [[0], ['assessment' => false]],
             'active' => [[1], ['active' => true]],
             'notActive' => [[0], ['active' => false]],
+            'academicYear' => [[0, 1], ['academicYears' => 2012]],
+            'academicYears' => [[0, 1], ['academicYears' => [2012]]],
         ];
     }
 

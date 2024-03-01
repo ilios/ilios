@@ -68,6 +68,7 @@ use OpenApi\Attributes as OA;
 #[IA\FilterableBy('terms', 'array<integer>')]
 #[IA\FilterableBy('sessions', 'array<integer>')]
 #[IA\FilterableBy('sessionTypes', 'array<integer>')]
+#[IA\FilterableBy('academicYears', 'array<integer>')]
 class CompetencyDTO
 {
     #[IA\Id]

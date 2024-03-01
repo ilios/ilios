@@ -194,6 +194,23 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
             $qb->setParameter(':schools', $ids);
         }
 
+        if (array_key_exists('academicYears', $criteria)) {
+            $ids = is_array($criteria['academicYears']) ? $criteria['academicYears'] : [$criteria['academicYears']];
+            $qb->leftJoin('x.ilmSessions', 'y_ilm');
+            $qb->leftJoin('x.offerings', 'y_offering');
+            $qb->leftJoin('y_ilm.session', 'y_session');
+            $qb->leftJoin('y_offering.session', 'y_session2');
+            $qb->leftJoin('y_session.course', 'y_course');
+            $qb->leftJoin('y_session2.course', 'y_course2');
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->in('y_course.year', ':academicYears'),
+                    $qb->expr()->in('y_course2.year', ':academicYears')
+                )
+            );
+            $qb->setParameter(':academicYears', $ids);
+        }
+
         unset($criteria['schools']);
         unset($criteria['courses']);
         unset($criteria['sessions']);
@@ -201,6 +218,7 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
         unset($criteria['instructors']);
         unset($criteria['learningMaterials']);
         unset($criteria['terms']);
+        unset($criteria['academicYears']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }

@@ -74,6 +74,8 @@ class InstructorGroupTest extends AbstractReadWriteEndpoint
             'learningMaterials' => [[0], ['learningMaterials' => [1]]],
             'instructors' => [[0, 1, 2], ['instructors' => [2]]],
             'terms' => [[0, 1], ['terms' => [1, 2, 3]]],
+            'academicYear' => [[0, 1], ['academicYears' => 2016]],
+            'academicYears' => [[0, 1], ['academicYears' => [2016]]],
         ];
     }
 

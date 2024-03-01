@@ -79,6 +79,8 @@ class CompetencyTest extends AbstractReadWriteEndpoint
             'sessions' => [[0], ['sessions' => [1]]],
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
             'courses' => [[0], ['courses' => [1]]],
+            'academicYear' => [[0], ['academicYears' => 2016]],
+            'academicYears' => [[0], ['academicYears' => [2016]]],
         ];
     }
 

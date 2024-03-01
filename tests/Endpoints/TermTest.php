@@ -102,7 +102,8 @@ class TermTest extends AbstractReadWriteEndpoint
             'courseObjectives' => [[0, 3], ['courseObjectives' => [1]]],
             'sessionObjectives' => [[2, 3], ['sessionObjectives' => [1]]],
             'programYearObjectives' => [[1, 3], ['programYearObjectives' => [1]]],
-
+            'academicYear' => [[0, 2, 3, 5], ['academicYears' => 2012]],
+            'academicYears' => [[0, 1, 3, 4], ['academicYears' => [2016]]],
         ];
     }
 

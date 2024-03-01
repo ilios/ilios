@@ -147,6 +147,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[IA\FilterableBy('schools', 'array<integer>')]
 #[IA\FilterableBy('courses', 'array<integer>')]
 #[IA\FilterableBy('sessionTypes', 'array<integer>')]
+#[IA\FilterableBy('academicYears', 'array<integer>')]
 class SessionDTO
 {
     #[IA\Id]
