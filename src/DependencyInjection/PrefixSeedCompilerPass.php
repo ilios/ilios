@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DependencyInjection;
 
+use Composer\InstalledVersions;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -17,10 +18,9 @@ class PrefixSeedCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $seed = $container->getParameterBag()->resolveValue($container->getParameter('cache.prefix.seed'));
-        $pathToVersionFile = __DIR__ . '/../../VERSION';
-        if (is_readable($pathToVersionFile)) {
-            $seed .= file_get_contents($pathToVersionFile);
-        }
-        $container->setParameter('cache.prefix.seed', $seed);
+        $container->setParameter(
+            'cache.prefix.seed',
+            $seed . InstalledVersions::getPrettyVersion(InstalledVersions::getRootPackage()['name'])
+        );
     }
 }
