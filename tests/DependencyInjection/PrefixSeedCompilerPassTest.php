@@ -37,7 +37,7 @@ class PrefixSeedCompilerPassTest extends TestCase
         $container = new ContainerBuilder();
         $seed = 'seed123456';
         $iliosVersion = InstalledVersions::getPrettyVersion(InstalledVersions::getRootPackage()['name']);
-        $container->setParameter('cache.prefix.seed', 'seed123456');
+        $container->setParameter('cache.prefix.seed', $seed);
         $this->pass->process($container);
         $this->assertEquals(
             $seed . $iliosVersion,
