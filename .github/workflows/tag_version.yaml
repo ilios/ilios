@@ -22,22 +22,22 @@ jobs:
       run: |
         CURRENT_TAG=$(git describe --tags --abbrev=0)
         echo ${CURRENT_TAG}
-        echo ::set-output name=tag::${CURRENT_TAG}
+        echo "current_tag=${CURRENT_TAG}" >> $GITHUB_ENV
     - name: Get New Tag
       id: newTag
       run: |
-        NEW_TAG=$(npx semver --increment ${{ github.event.inputs.releaseType }} ${{ steps.currentTag.outputs.tag }}) 
+        NEW_TAG=$(npx semver --increment ${{ github.event.inputs.releaseType }} ${{env.current_tag}})
         echo ${NEW_TAG}
-        echo ::set-output name=tag::v${NEW_TAG}
+        echo "new_tag=${NEW_TAG}" >> $GITHUB_ENV
     - name: Setup Git
       run: |
         git config user.name Zorgbort
         git config user.email info@iliosproject.org
     - name: Increment version
       run: |
-        composer config version ${{ steps.newTag.outputs.tag }}
-        git commit -m "Bump Ilios version to ${{ steps.newTag.outputs.tag }}"
+        composer config version ${{ env.new_tag }}
+        git commit -a -m "Bump Ilios version to ${{ env.new_tag }}"
     - name: Tag Version
-      run: git tag ${{ steps.newTag.outputs.tag }} -m "Tagging the ${{ steps.newTag.outputs.tag }} ${{ github.event.inputs.releaseType }} release"
+      run: git tag ${{ env.new_tag }} -m "Tagging the ${{ env.new_tag }} ${{ github.event.inputs.releaseType }} release"
     - name: Push Changes
-      run: git push --tags master
+      run: git push --follow-tags
