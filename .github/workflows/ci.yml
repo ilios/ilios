@@ -73,7 +73,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: coverage-output
-        path: build/coverage.xml
+        path: build/coverage-${{ matrix.php-version }}.xml
         retention-days: 1
 
   test_migrations_against_mysql:
@@ -333,11 +333,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-output
-      - run: ls -lh coverage.xml
+      - run: ls -lh coverage-8.3.xml
       - name: Upload to CodeClimate
         uses: paambaati/codeclimate-action@v5.0.0
         with:
           coverageLocations:
-            coverage.xml:clover
+            coverage-8.3.xml:clover
         env:
           CC_TEST_REPORTER_ID: c2e072c72320901c23741e4c25bfd28e149441b5a19ba9abb8cf80ca0363ff9a
