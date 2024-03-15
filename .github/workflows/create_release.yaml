@@ -1,6 +1,6 @@
-name: Release Notes
+name: Create Release
 
-on: 
+on:
   push:
     tags:
     - '*'
@@ -25,16 +25,8 @@ jobs:
         echo ${NEW_TAG}
         echo ::set-output name=tag::${NEW_TAG}
     - uses: actions/setup-node@v4
-    - name: Generate Release Notes
-      id: notes
-      run: |
-        NOTES=$(npx generate-github-release-notes ilios ilios ${{ steps.previousTag.outputs.tag }} ${{steps.nextTag.outputs.tag}})
-        echo ${NOTES}
-        # remove line breaks from notes so they can be passed around
-        NOTES="${NOTES//$'\n'/'%0A'}"
-        echo "::set-output name=releaseNotes::$NOTES"
     - uses: ncipollo/release-action@v1
       with:
         name: Ilios ${{steps.nextTag.outputs.tag}}
-        body: ${{steps.notes.outputs.releaseNotes}}
         token: ${{ secrets.ZORGBORT_TOKEN }}
+        generateReleaseNotes: true
