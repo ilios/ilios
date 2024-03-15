@@ -1,0 +1,11 @@
+# Code Owners are automatically tagged for review of pull requests and a review from them is required
+# before anything can be merged.
+#
+# We can filter by extension, directory, and other features too if needed
+# Syntax and example: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#example-of-a-codeowners-file
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# they will be requested for
+# review when someone opens a pull request.
+* @jrjohnson @stopfstedt
