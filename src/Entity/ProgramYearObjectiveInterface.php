@@ -25,7 +25,7 @@ interface ProgramYearObjectiveInterface extends
     public function setProgramYear(ProgramYearInterface $programYear): void;
     public function getProgramYear(): ProgramYearInterface;
 
-    public function setCompetency(CompetencyInterface $competency): void;
+    public function setCompetency(?CompetencyInterface $competency = null): void;
     public function getCompetency(): ?CompetencyInterface;
 
     public function setCourseObjectives(Collection $courseObjectives): void;
@@ -33,7 +33,7 @@ interface ProgramYearObjectiveInterface extends
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void;
     public function getCourseObjectives(): Collection;
 
-    public function setAncestor(ProgramYearObjectiveInterface $ancestor): void;
+    public function setAncestor(?ProgramYearObjectiveInterface $ancestor = null): void;
     public function getAncestor(): ?ProgramYearObjectiveInterface;
 
     public function getAncestorOrSelf(): ProgramYearObjectiveInterface;

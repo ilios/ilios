@@ -46,10 +46,10 @@ interface CourseInterface extends
     public function setYear(int $year): void;
     public function getYear(): int;
 
-    public function setStartDate(DateTime $startDate): void;
+    public function setStartDate(?DateTime $startDate = null): void;
     public function getStartDate(): DateTime;
 
-    public function setEndDate(DateTime $endDate): void;
+    public function setEndDate(?DateTime $endDate = null): void;
     public function getEndDate(): DateTime;
 
     public function setExternalId(?string $externalId): void;
@@ -63,7 +63,7 @@ interface CourseInterface extends
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial): void;
     public function getLearningMaterials(): Collection;
 
-    public function setAncestor(CourseInterface $ancestor): void;
+    public function setAncestor(?CourseInterface $ancestor = null): void;
     public function getAncestor(): ?CourseInterface;
     public function getAncestorOrSelf(): CourseInterface;
 

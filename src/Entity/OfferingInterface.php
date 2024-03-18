@@ -32,10 +32,10 @@ interface OfferingInterface extends
     public function setUrl(?string $url): void;
     public function getUrl(): ?string;
 
-    public function setStartDate(DateTime $startDate): void;
+    public function setStartDate(?DateTime $startDate = null): void;
     public function getStartDate(): DateTime;
 
-    public function setEndDate(DateTime $endDate): void;
+    public function setEndDate(?DateTime $endDate = null): void;
     public function getEndDate(): DateTime;
 
     public function setSession(SessionInterface $session): void;

@@ -53,7 +53,7 @@ interface MeshDescriptorInterface extends
     public function removeTree(MeshTreeInterface $tree): void;
     public function getTrees(): Collection;
 
-    public function setPreviousIndexing(MeshPreviousIndexingInterface $previousIndexing): void;
+    public function setPreviousIndexing(?MeshPreviousIndexingInterface $previousIndexing = null): void;
     public function getPreviousIndexing(): MeshPreviousIndexingInterface;
 
     public function isDeleted(): bool;

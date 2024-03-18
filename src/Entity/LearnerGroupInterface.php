@@ -32,7 +32,7 @@ interface LearnerGroupInterface extends
     public function setParent(?LearnerGroupInterface $parent = null): void;
     public function getParent(): ?LearnerGroupInterface;
 
-    public function setChildren(Collection $children): void;
+    public function setChildren(?Collection $children = null): void;
     public function addChild(LearnerGroupInterface $child): void;
     public function removeChild(LearnerGroupInterface $child): void;
     public function getChildren(): Collection;
@@ -52,7 +52,7 @@ interface LearnerGroupInterface extends
      */
     public function getProgramYear(): ?ProgramYearInterface;
 
-    public function setAncestor(LearnerGroupInterface $ancestor): void;
+    public function setAncestor(?LearnerGroupInterface $ancestor = null): void;
     public function getAncestor(): ?LearnerGroupInterface;
 
     public function getAncestorOrSelf(): LearnerGroupInterface;

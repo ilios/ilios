@@ -77,7 +77,7 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function removeExcludedSession(SessionInterface $session): void;
     public function getExcludedSessions(): Collection;
 
-    public function setStartingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
+    public function setStartingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void;
     public function setEndingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
     public function getStartingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
     public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;

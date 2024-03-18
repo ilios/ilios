@@ -21,7 +21,7 @@ interface CompetencyInterface extends
     ActivatableEntityInterface,
     ProgramYearObjectivesEntityInterface
 {
-    public function setParent(CompetencyInterface $parent): void;
+    public function setParent(?CompetencyInterface $parent = null): void;
     public function getParent(): ?CompetencyInterface;
 
     public function setChildren(Collection $children): void;

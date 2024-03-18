@@ -71,7 +71,7 @@ interface SessionInterface extends
     public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void;
     public function getExcludedSequenceBlocks(): Collection;
 
-    public function setPostrequisite(SessionInterface $postrequisite): void;
+    public function setPostrequisite(?SessionInterface $postrequisite = null): void;
     public function getPostrequisite(): ?SessionInterface;
 
     public function setPrerequisites(Collection $prerequisites): void;

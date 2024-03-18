@@ -37,7 +37,7 @@ interface CourseObjectiveInterface extends
     public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void;
     public function getSessionObjectives(): Collection;
 
-    public function setAncestor(CourseObjectiveInterface $ancestor): void;
+    public function setAncestor(?CourseObjectiveInterface $ancestor = null): void;
     public function getAncestor(): ?CourseObjectiveInterface;
     public function getAncestorOrSelf(): CourseObjectiveInterface;
 
