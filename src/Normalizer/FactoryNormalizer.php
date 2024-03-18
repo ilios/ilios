@@ -31,11 +31,11 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
     }
 
     public function normalize(
-        $o,
+        mixed $object,
         ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
-        $class = $o::class;
+        $class = $object::class;
         $o = match ($class) {
             LearningMaterial::class, LearningMaterialDTO::class => $this->learningMaterialDecoratorFactory->create($o),
             CurriculumInventoryReportDTO::class => $this->curriculumInventoryReportDecoratorFactory->create($o),

@@ -18,7 +18,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
     }
 
     public function normalize(
-        $object,
+        mixed $object,
         ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
@@ -78,7 +78,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
         return $object->{$property->name};
     }
 
-    public function supportsNormalization($data, ?string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $format === 'json-api' && $this->entityMetadata->isAnIliosDto($data);
     }
