@@ -47,10 +47,7 @@ interface LearningMaterialInterface extends
     public function setRelativePath(?string $path): void;
     public function getRelativePath(): ?string;
 
-    /**
-     * @param ?bool $copyrightPermission
-     */
-    public function setCopyrightPermission($copyrightPermission): void;
+    public function setCopyrightPermission(?bool $copyrightPermission): void;
 
     public function hasCopyrightPermission(): ?bool;
 

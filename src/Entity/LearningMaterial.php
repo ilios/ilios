@@ -265,7 +265,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->relativePath;
     }
 
-    public function setCopyrightPermission($copyrightPermission): void
+    public function setCopyrightPermission(?bool $copyrightPermission): void
     {
         $this->copyrightPermission = $copyrightPermission;
     }
