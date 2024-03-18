@@ -78,6 +78,7 @@
     "phpstan/phpstan-mockery": "^1.1",
     "phpstan/phpstan-symfony": "@stable",
     "phpunit/phpunit": "^9.6",
+    "slevomat/coding-standard": "~8.0",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/browser-kit": "@stable",
     "symfony/css-selector": "@stable",
@@ -100,7 +101,8 @@
       "phpstan/extension-installer": true,
       "symfony/runtime": true,
       "infection/extension-installer": true,
-      "php-http/discovery": false
+      "php-http/discovery": false,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
   "minimum-stability": "stable",
