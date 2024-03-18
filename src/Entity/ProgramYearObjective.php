@@ -233,11 +233,6 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->title = $title;
     }
 
-    public function setPosition($position): void
-    {
-        $this->position = $position;
-    }
-
     public function setActive($active): void
     {
         $this->active = $active;
