@@ -67,9 +67,9 @@ interface CourseInterface extends
     public function getAncestor(): ?CourseInterface;
     public function getAncestorOrSelf(): CourseInterface;
 
-    public function setDescendants(Collection $children);
-    public function addDescendant(CourseInterface $child);
-    public function removeDescendant(CourseInterface $child);
+    public function setDescendants(Collection $descendants);
+    public function addDescendant(CourseInterface $descendant);
+    public function removeDescendant(CourseInterface $descendant);
     public function getDescendants(): Collection;
 
     public function setSequenceBlocks(Collection $sequenceBlocks);
