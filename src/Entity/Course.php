@@ -360,7 +360,7 @@ class Course implements CourseInterface
     {
         $ancestor = $this->getAncestor();
 
-        return $ancestor ? $ancestor : $this;
+        return $ancestor ?: $this;
     }
 
     public function setDescendants(Collection $descendants): void

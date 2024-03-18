@@ -244,7 +244,7 @@ class Term implements TermInterface
 
     public function hasChildren(): bool
     {
-        return (!$this->children->isEmpty()) ? true : false;
+        return !$this->children->isEmpty();
     }
 
     public function setAamcResourceTypes(Collection $aamcResourceTypes): void
