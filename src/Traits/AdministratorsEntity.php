@@ -15,7 +15,7 @@ trait AdministratorsEntity
 {
     protected Collection $administrators;
 
-    public function setAdministrators(Collection $administrators)
+    public function setAdministrators(Collection $administrators): void
     {
         $this->administrators = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait AdministratorsEntity
         }
     }
 
-    public function addAdministrator(UserInterface $administrator)
+    public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
             $this->administrators->add($administrator);
         }
     }
 
-    public function removeAdministrator(UserInterface $administrator)
+    public function removeAdministrator(UserInterface $administrator): void
     {
         $this->administrators->removeElement($administrator);
     }

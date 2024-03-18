@@ -8,7 +8,7 @@ trait DescribableNullableEntity
 {
     protected ?string $description = null;
 
-    public function setDescription(?string $description)
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }

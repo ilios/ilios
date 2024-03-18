@@ -9,31 +9,31 @@ use Doctrine\Common\Collections\Collection;
 
 interface AlertInterface extends IdentifiableEntityInterface, LoggableEntityInterface
 {
-    public function setTableRowId(int $tableRowId);
+    public function setTableRowId(int $tableRowId): void;
     public function getTableRowId(): int;
 
-    public function setTableName(string $tableName);
+    public function setTableName(string $tableName): void;
     public function getTableName(): string;
 
-    public function setAdditionalText(?string $additionalText);
+    public function setAdditionalText(?string $additionalText): void;
     public function getAdditionalText(): ?string;
 
-    public function setDispatched(bool $dispatched);
+    public function setDispatched(bool $dispatched): void;
     public function isDispatched(): bool;
 
-    public function setChangeTypes(Collection $changeTypes);
-    public function addChangeType(AlertChangeTypeInterface $changeType);
-    public function removeChangeType(AlertChangeTypeInterface $changeType);
+    public function setChangeTypes(Collection $changeTypes): void;
+    public function addChangeType(AlertChangeTypeInterface $changeType): void;
+    public function removeChangeType(AlertChangeTypeInterface $changeType): void;
     public function getChangeTypes(): Collection;
 
-    public function setInstigators(Collection $instigators);
-    public function addInstigator(UserInterface $instigator);
-    public function removeInstigator(UserInterface $instigator);
+    public function setInstigators(Collection $instigators): void;
+    public function addInstigator(UserInterface $instigator): void;
+    public function removeInstigator(UserInterface $instigator): void;
     public function getInstigators(): Collection;
 
-    public function setRecipients(Collection $recipients);
-    public function addRecipient(SchoolInterface $recipient);
-    public function removeRecipient(SchoolInterface $recipient);
+    public function setRecipients(Collection $recipients): void;
+    public function addRecipient(SchoolInterface $recipient): void;
+    public function removeRecipient(SchoolInterface $recipient): void;
     public function getRecipients(): Collection;
 
     public function setServiceTokenInstigators(Collection $instigators): void;

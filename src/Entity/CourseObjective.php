@@ -150,7 +150,7 @@ class CourseObjective implements CourseObjectiveInterface
         return [$this->getCourse()];
     }
 
-    public function setProgramYearObjectives(Collection $programYearObjectives)
+    public function setProgramYearObjectives(Collection $programYearObjectives): void
     {
         $this->programYearObjectives = new ArrayCollection();
 
@@ -159,14 +159,14 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
-    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective)
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
     {
         if (!$this->programYearObjectives->contains($programYearObjective)) {
             $this->programYearObjectives->add($programYearObjective);
         }
     }
 
-    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective)
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
     {
         $this->programYearObjectives->removeElement($programYearObjective);
     }
@@ -176,7 +176,7 @@ class CourseObjective implements CourseObjectiveInterface
         return $this->programYearObjectives;
     }
 
-    public function setSessionObjectives(Collection $sessionObjectives)
+    public function setSessionObjectives(Collection $sessionObjectives): void
     {
         $this->sessionObjectives = new ArrayCollection();
 
@@ -185,7 +185,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
-    public function addSessionObjective(SessionObjectiveInterface $sessionObjective)
+    public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void
     {
         if (!$this->sessionObjectives->contains($sessionObjective)) {
             $this->sessionObjectives->add($sessionObjective);
@@ -193,7 +193,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
-    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective)
+    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void
     {
         if ($this->sessionObjectives->contains($sessionObjective)) {
             $this->sessionObjectives->removeElement($sessionObjective);
@@ -206,7 +206,7 @@ class CourseObjective implements CourseObjectiveInterface
         return $this->sessionObjectives;
     }
 
-    public function setAncestor(?CourseObjectiveInterface $ancestor = null)
+    public function setAncestor(?CourseObjectiveInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
@@ -223,7 +223,7 @@ class CourseObjective implements CourseObjectiveInterface
         return $ancestor ? $ancestor : $this;
     }
 
-    public function setDescendants(Collection $descendants)
+    public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
 
@@ -232,14 +232,14 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
-    public function addDescendant(CourseObjectiveInterface $descendant)
+    public function addDescendant(CourseObjectiveInterface $descendant): void
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
         }
     }
 
-    public function removeDescendant(CourseObjectiveInterface $descendant)
+    public function removeDescendant(CourseObjectiveInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
@@ -249,22 +249,22 @@ class CourseObjective implements CourseObjectiveInterface
         return $this->descendants;
     }
 
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
 
-    public function setPosition($position)
+    public function setPosition($position): void
     {
         $this->position = $position;
     }
 
-    public function setActive($active)
+    public function setActive($active): void
     {
         $this->active = $active;
     }
 
-    public function setMeshDescriptors(Collection $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors): void
     {
         $this->meshDescriptors = new ArrayCollection();
 
@@ -273,14 +273,14 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
             $this->meshDescriptors->add($meshDescriptor);
         }
     }
 
-    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
     }

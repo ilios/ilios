@@ -11,14 +11,14 @@ use App\Entity\UserInterface;
  */
 interface BlameableEntityInterface
 {
-    public function setCreatedBy(UserInterface $createdBy);
+    public function setCreatedBy(UserInterface $createdBy): void;
 
     /**
      * Returns createdBy.
      */
     public function getCreatedBy(): UserInterface;
 
-    public function setUpdatedBy(UserInterface $updatedBy);
+    public function setUpdatedBy(UserInterface $updatedBy): void;
 
     public function getUpdatedBy(): UserInterface;
 }

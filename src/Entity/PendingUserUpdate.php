@@ -59,7 +59,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[Assert\NotNull]
     protected UserInterface $user;
 
-    public function setType(string $type)
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
@@ -69,7 +69,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
         return $this->type;
     }
 
-    public function setProperty(?string $property)
+    public function setProperty(?string $property): void
     {
         $this->property = $property;
     }
@@ -79,7 +79,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
         return $this->property;
     }
 
-    public function setValue(?string $value)
+    public function setValue(?string $value): void
     {
         $this->value = $value;
     }
@@ -89,7 +89,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
         return $this->value;
     }
 
-    public function setUser(UserInterface $user)
+    public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }

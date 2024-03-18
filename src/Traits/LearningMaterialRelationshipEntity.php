@@ -20,7 +20,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @param string|null $notes
      */
-    public function setNotes(?string $notes)
+    public function setNotes(?string $notes): void
     {
         $this->notes = $notes;
     }
@@ -33,7 +33,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @param bool $required
      */
-    public function setRequired(bool $required)
+    public function setRequired(bool $required): void
     {
         $this->required = $required;
     }
@@ -46,7 +46,7 @@ trait LearningMaterialRelationshipEntity
     /**
      * @param bool $publicNotes
      */
-    public function setPublicNotes(bool $publicNotes)
+    public function setPublicNotes(bool $publicNotes): void
     {
         $this->publicNotes = $publicNotes;
     }
@@ -56,7 +56,7 @@ trait LearningMaterialRelationshipEntity
         return $this->publicNotes;
     }
 
-    public function setLearningMaterial(LearningMaterialInterface $learningMaterial)
+    public function setLearningMaterial(LearningMaterialInterface $learningMaterial): void
     {
         $this->learningMaterial = $learningMaterial;
     }
@@ -66,7 +66,7 @@ trait LearningMaterialRelationshipEntity
         return $this->learningMaterial;
     }
 
-    public function setStartDate(?DateTime $startDate = null)
+    public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
@@ -76,7 +76,7 @@ trait LearningMaterialRelationshipEntity
         return $this->startDate;
     }
 
-    public function setEndDate(?DateTime $endDate = null)
+    public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }

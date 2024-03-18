@@ -104,7 +104,7 @@ class Alert implements AlertInterface
         $this->dispatched = false;
     }
 
-    public function setTableRowId(int $tableRowId)
+    public function setTableRowId(int $tableRowId): void
     {
         $this->tableRowId = $tableRowId;
     }
@@ -114,7 +114,7 @@ class Alert implements AlertInterface
         return $this->tableRowId;
     }
 
-    public function setTableName(string $tableName)
+    public function setTableName(string $tableName): void
     {
         $this->tableName = $tableName;
     }
@@ -124,7 +124,7 @@ class Alert implements AlertInterface
         return $this->tableName;
     }
 
-    public function setAdditionalText(?string $additionalText)
+    public function setAdditionalText(?string $additionalText): void
     {
         $this->additionalText = $additionalText;
     }
@@ -134,7 +134,7 @@ class Alert implements AlertInterface
         return $this->additionalText;
     }
 
-    public function setDispatched(bool $dispatched)
+    public function setDispatched(bool $dispatched): void
     {
         $this->dispatched = $dispatched;
     }
@@ -144,7 +144,7 @@ class Alert implements AlertInterface
         return $this->dispatched;
     }
 
-    public function setChangeTypes(Collection $changeTypes)
+    public function setChangeTypes(Collection $changeTypes): void
     {
         $this->changeTypes = new ArrayCollection();
 
@@ -153,14 +153,14 @@ class Alert implements AlertInterface
         }
     }
 
-    public function addChangeType(AlertChangeTypeInterface $changeType)
+    public function addChangeType(AlertChangeTypeInterface $changeType): void
     {
         if (!$this->changeTypes->contains($changeType)) {
             $this->changeTypes->add($changeType);
         }
     }
 
-    public function removeChangeType(AlertChangeTypeInterface $changeType)
+    public function removeChangeType(AlertChangeTypeInterface $changeType): void
     {
         $this->changeTypes->removeElement($changeType);
     }
@@ -170,7 +170,7 @@ class Alert implements AlertInterface
         return $this->changeTypes;
     }
 
-    public function setInstigators(Collection $instigators)
+    public function setInstigators(Collection $instigators): void
     {
         $this->instigators = new ArrayCollection();
 
@@ -179,14 +179,14 @@ class Alert implements AlertInterface
         }
     }
 
-    public function addInstigator(UserInterface $instigator)
+    public function addInstigator(UserInterface $instigator): void
     {
         if (!$this->instigators->contains($instigator)) {
             $this->instigators->add($instigator);
         }
     }
 
-    public function removeInstigator(UserInterface $instigator)
+    public function removeInstigator(UserInterface $instigator): void
     {
         $this->instigators->removeElement($instigator);
     }
@@ -196,7 +196,7 @@ class Alert implements AlertInterface
         return $this->instigators;
     }
 
-    public function setRecipients(Collection $recipients)
+    public function setRecipients(Collection $recipients): void
     {
         $this->recipients = new ArrayCollection();
 
@@ -205,14 +205,14 @@ class Alert implements AlertInterface
         }
     }
 
-    public function addRecipient(SchoolInterface $recipient)
+    public function addRecipient(SchoolInterface $recipient): void
     {
         if (!$this->recipients->contains($recipient)) {
             $this->recipients->add($recipient);
         }
     }
 
-    public function removeRecipient(SchoolInterface $recipient)
+    public function removeRecipient(SchoolInterface $recipient): void
     {
         $this->recipients->removeElement($recipient);
     }

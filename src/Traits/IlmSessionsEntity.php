@@ -15,7 +15,7 @@ trait IlmSessionsEntity
 {
     protected Collection $ilmSessions;
 
-    public function setIlmSessions(Collection $ilmSessions)
+    public function setIlmSessions(Collection $ilmSessions): void
     {
         $this->ilmSessions = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait IlmSessionsEntity
         }
     }
 
-    public function addIlmSession(IlmSessionInterface $ilmSession)
+    public function addIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
             $this->ilmSessions->add($ilmSession);
         }
     }
 
-    public function removeIlmSession(IlmSessionInterface $ilmSession)
+    public function removeIlmSession(IlmSessionInterface $ilmSession): void
     {
         $this->ilmSessions->removeElement($ilmSession);
     }

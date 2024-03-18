@@ -23,22 +23,22 @@ interface OfferingInterface extends
     InstructorsEntityInterface,
     LearnersEntityInterface
 {
-    public function setRoom(?string $room);
+    public function setRoom(?string $room): void;
     public function getRoom(): ?string;
 
-    public function setSite(?string $site);
+    public function setSite(?string $site): void;
     public function getSite(): ?string;
 
-    public function setUrl(?string $url);
+    public function setUrl(?string $url): void;
     public function getUrl(): ?string;
 
-    public function setStartDate(DateTime $startDate);
+    public function setStartDate(DateTime $startDate): void;
     public function getStartDate(): DateTime;
 
-    public function setEndDate(DateTime $endDate);
+    public function setEndDate(DateTime $endDate): void;
     public function getEndDate(): DateTime;
 
-    public function setSession(SessionInterface $session);
+    public function setSession(SessionInterface $session): void;
     public function getSession(): SessionInterface;
 
     /**

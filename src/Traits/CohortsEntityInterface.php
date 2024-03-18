@@ -12,11 +12,11 @@ use App\Entity\CohortInterface;
  */
 interface CohortsEntityInterface
 {
-    public function setCohorts(Collection $cohorts);
+    public function setCohorts(Collection $cohorts): void;
 
-    public function addCohort(CohortInterface $cohort);
+    public function addCohort(CohortInterface $cohort): void;
 
-    public function removeCohort(CohortInterface $cohort);
+    public function removeCohort(CohortInterface $cohort): void;
 
     public function getCohorts(): Collection;
 }

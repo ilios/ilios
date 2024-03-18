@@ -43,7 +43,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected string $previousIndexing;
 
-    public function setDescriptor(MeshDescriptorInterface $descriptor)
+    public function setDescriptor(MeshDescriptorInterface $descriptor): void
     {
         $this->descriptor = $descriptor;
     }
@@ -53,7 +53,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
         return $this->descriptor;
     }
 
-    public function setPreviousIndexing(string $previousIndexing)
+    public function setPreviousIndexing(string $previousIndexing): void
     {
         $this->previousIndexing = $previousIndexing;
     }

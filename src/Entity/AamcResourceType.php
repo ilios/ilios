@@ -60,7 +60,7 @@ class AamcResourceType implements AamcResourceTypeInterface
         $this->terms = new ArrayCollection();
     }
 
-    public function addTerm(TermInterface $term)
+    public function addTerm(TermInterface $term): void
     {
         if (!$this->terms->contains($term)) {
             $this->terms->add($term);
@@ -68,7 +68,7 @@ class AamcResourceType implements AamcResourceTypeInterface
         }
     }
 
-    public function removeTerm(TermInterface $term)
+    public function removeTerm(TermInterface $term): void
     {
         if ($this->terms->contains($term)) {
             $this->terms->removeElement($term);
@@ -76,7 +76,7 @@ class AamcResourceType implements AamcResourceTypeInterface
         }
     }
 
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }

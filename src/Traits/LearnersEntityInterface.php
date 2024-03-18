@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\UserInterface;
 
@@ -13,11 +12,11 @@ use App\Entity\UserInterface;
  */
 interface LearnersEntityInterface
 {
-    public function setLearners(Collection $learners);
+    public function setLearners(Collection $learners): void;
 
-    public function addLearner(UserInterface $learner);
+    public function addLearner(UserInterface $learner): void;
 
-    public function removeLearner(UserInterface $learner);
+    public function removeLearner(UserInterface $learner): void;
 
     public function getLearners(): Collection;
 }

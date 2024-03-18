@@ -6,7 +6,6 @@ namespace App\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\SessionInterface;
 
 /**
  * Class SessionsEntity

@@ -19,7 +19,7 @@ trait ArchivableEntity
     /**
      * @param bool $archived
      */
-    public function setArchived($archived)
+    public function setArchived($archived): void
     {
         $this->archived = $archived;
     }

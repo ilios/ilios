@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\OfferingInterface;
 
@@ -14,11 +12,11 @@ use App\Entity\OfferingInterface;
  */
 interface OfferingsEntityInterface
 {
-    public function setOfferings(Collection $offerings);
+    public function setOfferings(Collection $offerings): void;
 
-    public function addOffering(OfferingInterface $offering);
+    public function addOffering(OfferingInterface $offering): void;
 
-    public function removeOffering(OfferingInterface $offering);
+    public function removeOffering(OfferingInterface $offering): void;
 
     public function getOfferings(): Collection;
 }

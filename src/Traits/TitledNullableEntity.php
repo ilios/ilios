@@ -8,7 +8,7 @@ trait TitledNullableEntity
 {
     protected ?string $title = null;
 
-    public function setTitle(?string $title)
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }

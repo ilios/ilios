@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\LearningMaterialInterface;
 
@@ -13,11 +12,11 @@ use App\Entity\LearningMaterialInterface;
  */
 interface LearningMaterialsEntityInterface
 {
-    public function setLearningMaterials(Collection $learningMaterials);
+    public function setLearningMaterials(Collection $learningMaterials): void;
 
-    public function addLearningMaterial(LearningMaterialInterface $learningMaterial);
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial): void;
 
-    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial);
+    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial): void;
 
     public function getLearningMaterials(): Collection;
 }

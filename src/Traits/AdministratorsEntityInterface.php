@@ -13,11 +13,11 @@ use App\Entity\UserInterface;
  */
 interface AdministratorsEntityInterface
 {
-    public function setAdministrators(Collection $administrators);
+    public function setAdministrators(Collection $administrators): void;
 
-    public function addAdministrator(UserInterface $administrator);
+    public function addAdministrator(UserInterface $administrator): void;
 
-    public function removeAdministrator(UserInterface $administrator);
+    public function removeAdministrator(UserInterface $administrator): void;
 
     public function getAdministrators(): Collection;
 }

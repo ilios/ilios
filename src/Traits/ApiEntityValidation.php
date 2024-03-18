@@ -18,7 +18,7 @@ trait ApiEntityValidation
         string $permission,
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker
-    ) {
+    ): void {
         foreach ($entities as $entity) {
             $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
         }
@@ -29,7 +29,7 @@ trait ApiEntityValidation
         string $permission,
         ValidatorInterface $validator,
         AuthorizationCheckerInterface $authorizationChecker
-    ) {
+    ): void {
         $this->validateEntity($entity, $validator);
         if (! $authorizationChecker->isGranted($permission, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
@@ -39,7 +39,7 @@ trait ApiEntityValidation
     public function validateEntity(
         object $entity,
         ValidatorInterface $validator
-    ) {
+    ): void {
         $errors = [];
         /** @var ConstraintViolationInterface $violation */
         foreach ($validator->validate($entity) as $violation) {

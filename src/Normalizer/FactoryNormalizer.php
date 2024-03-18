@@ -36,14 +36,15 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
         $class = $object::class;
-        $o = match ($class) {
-            LearningMaterial::class, LearningMaterialDTO::class => $this->learningMaterialDecoratorFactory->create($o),
-            CurriculumInventoryReportDTO::class => $this->curriculumInventoryReportDecoratorFactory->create($o),
+        $object = match ($class) {
+            LearningMaterial::class, LearningMaterialDTO::class =>
+            $this->learningMaterialDecoratorFactory->create($object),
+            CurriculumInventoryReportDTO::class => $this->curriculumInventoryReportDecoratorFactory->create($object),
             default => throw new Exception("{$class} fell through match statement, should it have been decorated?"),
         };
 
         $context[self::ALREADY_CALLED] = true;
-        return $this->normalizer->normalize($o, $format, $context);
+        return $this->normalizer->normalize($object, $format, $context);
     }
 
     /*

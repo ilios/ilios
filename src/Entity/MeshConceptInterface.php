@@ -16,25 +16,25 @@ interface MeshConceptInterface extends
     TimestampableEntityInterface,
     CreatedAtEntityInterface
 {
-    public function setPreferred(bool $preferred);
+    public function setPreferred(bool $preferred): void;
     public function getPreferred(): bool;
 
-    public function setScopeNote(?string $scopeNote);
+    public function setScopeNote(?string $scopeNote): void;
     public function getScopeNote(): ?string;
 
-    public function setCasn1Name(?string $casn1Name);
+    public function setCasn1Name(?string $casn1Name): void;
     public function getCasn1Name(): ?string;
 
-    public function setRegistryNumber(?string $registryNumber);
+    public function setRegistryNumber(?string $registryNumber): void;
     public function getRegistryNumber(): ?string;
 
-    public function setTerms(Collection $terms);
-    public function addTerm(MeshTermInterface $term);
-    public function removeTerm(MeshTermInterface $term);
+    public function setTerms(Collection $terms): void;
+    public function addTerm(MeshTermInterface $term): void;
+    public function removeTerm(MeshTermInterface $term): void;
     public function getTerms(): Collection;
 
-    public function setDescriptors(Collection $descriptors);
-    public function addDescriptor(MeshDescriptorInterface $descriptor);
-    public function removeDescriptor(MeshDescriptorInterface $descriptor);
+    public function setDescriptors(Collection $descriptors): void;
+    public function addDescriptor(MeshDescriptorInterface $descriptor): void;
+    public function removeDescriptor(MeshDescriptorInterface $descriptor): void;
     public function getDescriptors(): Collection;
 }

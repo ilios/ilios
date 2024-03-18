@@ -16,5 +16,5 @@ interface SchoolConfigInterface extends
     Stringable
 {
     public function getValue(): string;
-    public function setValue(string $value);
+    public function setValue(string $value): void;
 }

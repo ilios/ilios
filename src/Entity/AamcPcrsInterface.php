@@ -12,6 +12,6 @@ interface AamcPcrsInterface extends
     LoggableEntityInterface,
     CompetenciesEntityInterface
 {
-    public function setDescription(string $description);
+    public function setDescription(string $description): void;
     public function getDescription(): string;
 }

@@ -21,10 +21,10 @@ interface IlmSessionInterface extends
     InstructorsEntityInterface,
     LearnersEntityInterface
 {
-    public function setHours(float $hours);
+    public function setHours(float $hours): void;
     public function getHours(): float;
 
-    public function setDueDate(?DateTime $dueDate = null);
+    public function setDueDate(?DateTime $dueDate = null): void;
     public function getDueDate(): DateTime;
 
     /**
@@ -32,7 +32,7 @@ interface IlmSessionInterface extends
      */
     public function getAllInstructors(): Collection;
 
-    public function setSession(SessionInterface $session);
+    public function setSession(SessionInterface $session): void;
     public function getSession(): SessionInterface;
 
     /**

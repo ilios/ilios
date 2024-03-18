@@ -242,7 +242,7 @@ class Session implements SessionInterface
         $this->updatedAt = new DateTime();
     }
 
-    public function setAttireRequired(?bool $attireRequired)
+    public function setAttireRequired(?bool $attireRequired): void
     {
         $this->attireRequired = $attireRequired;
     }
@@ -252,7 +252,7 @@ class Session implements SessionInterface
         return $this->attireRequired;
     }
 
-    public function setEquipmentRequired(?bool $equipmentRequired)
+    public function setEquipmentRequired(?bool $equipmentRequired): void
     {
         $this->equipmentRequired = $equipmentRequired;
     }
@@ -262,7 +262,7 @@ class Session implements SessionInterface
         return $this->equipmentRequired;
     }
 
-    public function setSupplemental(?bool $supplemental)
+    public function setSupplemental(?bool $supplemental): void
     {
         $this->supplemental = $supplemental;
     }
@@ -272,7 +272,7 @@ class Session implements SessionInterface
         return $this->supplemental;
     }
 
-    public function setAttendanceRequired(?bool $attendanceRequired)
+    public function setAttendanceRequired(?bool $attendanceRequired): void
     {
         $this->attendanceRequired = $attendanceRequired;
     }
@@ -292,7 +292,7 @@ class Session implements SessionInterface
         $this->instructionalNotes = $instructionalNotes;
     }
 
-    public function setSessionType(SessionTypeInterface $sessionType)
+    public function setSessionType(SessionTypeInterface $sessionType): void
     {
         $this->sessionType = $sessionType;
     }
@@ -302,7 +302,7 @@ class Session implements SessionInterface
         return $this->sessionType;
     }
 
-    public function setCourse(CourseInterface $course)
+    public function setCourse(CourseInterface $course): void
     {
         $this->course = $course;
     }
@@ -312,7 +312,7 @@ class Session implements SessionInterface
         return $this->course;
     }
 
-    public function setIlmSession(?IlmSessionInterface $ilmSession = null)
+    public function setIlmSession(?IlmSessionInterface $ilmSession = null): void
     {
         $this->ilmSession = $ilmSession;
         if ($ilmSession) {
@@ -325,7 +325,7 @@ class Session implements SessionInterface
         return $this->ilmSession;
     }
 
-    public function setLearningMaterials(?Collection $learningMaterials = null)
+    public function setLearningMaterials(?Collection $learningMaterials = null): void
     {
         $this->learningMaterials = new ArrayCollection();
         if (is_null($learningMaterials)) {
@@ -337,14 +337,14 @@ class Session implements SessionInterface
         }
     }
 
-    public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial)
+    public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial): void
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
             $this->learningMaterials->add($learningMaterial);
         }
     }
 
-    public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial)
+    public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial): void
     {
         $this->learningMaterials->removeElement($learningMaterial);
     }
@@ -359,7 +359,7 @@ class Session implements SessionInterface
         return $this->course->getSchool();
     }
 
-    public function addAdministrator(UserInterface $administrator)
+    public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
             $this->administrators->add($administrator);
@@ -367,21 +367,21 @@ class Session implements SessionInterface
         }
     }
 
-    public function removeAdministrator(UserInterface $administrator)
+    public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredSession($this);
         }
     }
-    public function addStudentAdvisor(UserInterface $studentAdvisor)
+    public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if (!$this->studentAdvisors->contains($studentAdvisor)) {
             $this->studentAdvisors->add($studentAdvisor);
             $studentAdvisor->addStudentAdvisedSession($this);
         }
     }
-    public function removeStudentAdvisor(UserInterface $studentAdvisor)
+    public function removeStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if ($this->studentAdvisors->contains($studentAdvisor)) {
             $this->studentAdvisors->removeElement($studentAdvisor);
@@ -389,7 +389,7 @@ class Session implements SessionInterface
         }
     }
 
-    public function setExcludedSequenceBlocks(Collection $sequenceBlocks)
+    public function setExcludedSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->sequenceBlocks = new ArrayCollection();
 
@@ -398,14 +398,14 @@ class Session implements SessionInterface
         }
     }
 
-    public function addExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    public function addExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         if (!$this->excludedSequenceBlocks->contains($sequenceBlock)) {
             $this->excludedSequenceBlocks->add($sequenceBlock);
         }
     }
 
-    public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         $this->excludedSequenceBlocks->removeElement($sequenceBlock);
     }
@@ -415,7 +415,7 @@ class Session implements SessionInterface
         return $this->excludedSequenceBlocks;
     }
 
-    public function setPostrequisite(?SessionInterface $postrequisite = null)
+    public function setPostrequisite(?SessionInterface $postrequisite = null): void
     {
         $this->postrequisite = $postrequisite;
     }
@@ -425,7 +425,7 @@ class Session implements SessionInterface
         return $this->postrequisite;
     }
 
-    public function setPrerequisites(Collection $prerequisites)
+    public function setPrerequisites(Collection $prerequisites): void
     {
         $this->prerequisites = new ArrayCollection();
 
@@ -434,7 +434,7 @@ class Session implements SessionInterface
         }
     }
 
-    public function addPrerequisite(SessionInterface $prerequisite)
+    public function addPrerequisite(SessionInterface $prerequisite): void
     {
         if (!$this->prerequisites->contains($prerequisite)) {
             $this->prerequisites->add($prerequisite);
@@ -442,7 +442,7 @@ class Session implements SessionInterface
         }
     }
 
-    public function removePrerequisite(SessionInterface $prerequisite)
+    public function removePrerequisite(SessionInterface $prerequisite): void
     {
         $this->prerequisites->removeElement($prerequisite);
     }

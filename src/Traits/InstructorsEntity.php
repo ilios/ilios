@@ -15,7 +15,7 @@ trait InstructorsEntity
 {
     protected Collection $instructors;
 
-    public function setInstructors(Collection $instructors)
+    public function setInstructors(Collection $instructors): void
     {
         $this->instructors = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait InstructorsEntity
         }
     }
 
-    public function addInstructor(UserInterface $instructor)
+    public function addInstructor(UserInterface $instructor): void
     {
         if (!$this->instructors->contains($instructor)) {
             $this->instructors->add($instructor);
         }
     }
 
-    public function removeInstructor(UserInterface $instructor)
+    public function removeInstructor(UserInterface $instructor): void
     {
         $this->instructors->removeElement($instructor);
     }

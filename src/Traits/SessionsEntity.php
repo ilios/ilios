@@ -16,7 +16,7 @@ trait SessionsEntity
 {
     protected Collection $sessions;
 
-    public function setSessions(Collection $sessions)
+    public function setSessions(Collection $sessions): void
     {
         $this->sessions = new ArrayCollection();
 
@@ -25,14 +25,14 @@ trait SessionsEntity
         }
     }
 
-    public function addSession(SessionInterface $session)
+    public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
         }
     }
 
-    public function removeSession(SessionInterface $session)
+    public function removeSession(SessionInterface $session): void
     {
         $this->sessions->removeElement($session);
     }

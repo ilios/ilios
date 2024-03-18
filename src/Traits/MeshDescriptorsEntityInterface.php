@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\MeshDescriptorInterface;
 
@@ -13,11 +12,11 @@ use App\Entity\MeshDescriptorInterface;
  */
 interface MeshDescriptorsEntityInterface
 {
-    public function setMeshDescriptors(Collection $meshDescriptors);
+    public function setMeshDescriptors(Collection $meshDescriptors): void;
 
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void;
 
-    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor);
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void;
 
     public function getMeshDescriptors(): Collection;
 }

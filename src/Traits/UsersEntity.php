@@ -15,7 +15,7 @@ trait UsersEntity
 {
     protected Collection $users;
 
-    public function setUsers(Collection $users)
+    public function setUsers(Collection $users): void
     {
         $this->users = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait UsersEntity
         }
     }
 
-    public function addUser(UserInterface $user)
+    public function addUser(UserInterface $user): void
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
         }
     }
 
-    public function removeUser(UserInterface $user)
+    public function removeUser(UserInterface $user): void
     {
         $this->users->removeElement($user);
     }

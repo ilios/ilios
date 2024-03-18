@@ -6,7 +6,7 @@ namespace App\Traits;
 
 interface IdentifiableStringEntityInterface
 {
-    public function setId(string $id);
+    public function setId(string $id): void;
 
     public function getId(): string;
 }

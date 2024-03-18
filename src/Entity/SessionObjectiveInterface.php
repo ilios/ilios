@@ -28,18 +28,18 @@ interface SessionObjectiveInterface extends
     public function setSession(SessionInterface $session): void;
     public function getSession(): SessionInterface;
 
-    public function setCourseObjectives(Collection $courseObjectives);
-    public function addCourseObjective(CourseObjectiveInterface $courseObjective);
-    public function removeCourseObjective(CourseObjectiveInterface $courseObjective);
+    public function setCourseObjectives(Collection $courseObjectives): void;
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective): void;
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void;
     public function getCourseObjectives(): Collection;
 
-    public function setAncestor(SessionObjectiveInterface $ancestor);
+    public function setAncestor(SessionObjectiveInterface $ancestor): void;
     public function getAncestor(): ?SessionObjectiveInterface;
 
     public function getAncestorOrSelf(): SessionObjectiveInterface;
 
-    public function setDescendants(Collection $children);
-    public function addDescendant(SessionObjectiveInterface $child);
-    public function removeDescendant(SessionObjectiveInterface $child);
+    public function setDescendants(Collection $descendants): void;
+    public function addDescendant(SessionObjectiveInterface $descendant): void;
+    public function removeDescendant(SessionObjectiveInterface $descendant): void;
     public function getDescendants(): Collection;
 }

@@ -6,6 +6,6 @@ namespace App\Traits;
 
 interface IdentifiableEntityInterface
 {
-    public function setId(int $id);
+    public function setId(int $id): void;
     public function getId(): int;
 }

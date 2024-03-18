@@ -145,7 +145,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $this->programYear;
     }
 
-    public function setCompetency(?CompetencyInterface $competency = null)
+    public function setCompetency(?CompetencyInterface $competency = null): void
     {
         $this->competency = $competency;
     }
@@ -155,7 +155,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $this->competency;
     }
 
-    public function setCourseObjectives(Collection $courseObjectives)
+    public function setCourseObjectives(Collection $courseObjectives): void
     {
         $this->courseObjectives = new ArrayCollection();
 
@@ -164,7 +164,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    public function addCourseObjective(CourseObjectiveInterface $courseObjective)
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if (!$this->courseObjectives->contains($courseObjective)) {
             $this->courseObjectives->add($courseObjective);
@@ -172,7 +172,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    public function removeCourseObjective(CourseObjectiveInterface $courseObjective)
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if ($this->courseObjectives->contains($courseObjective)) {
             $this->courseObjectives->removeElement($courseObjective);
@@ -185,7 +185,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $this->courseObjectives;
     }
 
-    public function setAncestor(?ProgramYearObjectiveInterface $ancestor = null)
+    public function setAncestor(?ProgramYearObjectiveInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
@@ -202,7 +202,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $ancestor ? $ancestor : $this;
     }
 
-    public function setDescendants(Collection $descendants)
+    public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
 
@@ -211,14 +211,14 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    public function addDescendant(ProgramYearObjectiveInterface $descendant)
+    public function addDescendant(ProgramYearObjectiveInterface $descendant): void
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
         }
     }
 
-    public function removeDescendant(ProgramYearObjectiveInterface $descendant)
+    public function removeDescendant(ProgramYearObjectiveInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
@@ -228,22 +228,22 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $this->descendants;
     }
 
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
 
-    public function setPosition($position)
+    public function setPosition($position): void
     {
         $this->position = $position;
     }
 
-    public function setActive($active)
+    public function setActive($active): void
     {
         $this->active = $active;
     }
 
-    public function setMeshDescriptors(Collection $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors): void
     {
         $this->meshDescriptors = new ArrayCollection();
 
@@ -252,14 +252,14 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
             $this->meshDescriptors->add($meshDescriptor);
         }
     }
 
-    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
     }

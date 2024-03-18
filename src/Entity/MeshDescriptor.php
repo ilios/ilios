@@ -161,7 +161,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->deleted = false;
     }
 
-    public function setAnnotation(?string $annotation)
+    public function setAnnotation(?string $annotation): void
     {
         $this->annotation = $annotation;
     }
@@ -171,7 +171,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->annotation;
     }
 
-    public function setSessionLearningMaterials(Collection $sessionLearningMaterials)
+    public function setSessionLearningMaterials(Collection $sessionLearningMaterials): void
     {
         $this->sessionLearningMaterials = new ArrayCollection();
 
@@ -180,7 +180,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
             $this->sessionLearningMaterials->add($sessionLearningMaterial);
@@ -188,7 +188,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         if ($this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
             $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
@@ -201,7 +201,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->sessionLearningMaterials;
     }
 
-    public function setCourseLearningMaterials(Collection $courseLearningMaterials)
+    public function setCourseLearningMaterials(Collection $courseLearningMaterials): void
     {
         $this->courseLearningMaterials = new ArrayCollection();
 
@@ -210,7 +210,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
             $this->courseLearningMaterials->add($courseLearningMaterial);
@@ -218,7 +218,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         if ($this->courseLearningMaterials->contains($courseLearningMaterial)) {
             $this->courseLearningMaterials->removeElement($courseLearningMaterial);
@@ -231,7 +231,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->courseLearningMaterials;
     }
 
-    public function setQualifiers(Collection $qualifiers)
+    public function setQualifiers(Collection $qualifiers): void
     {
         $this->qualifiers = new ArrayCollection();
 
@@ -240,7 +240,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function addQualifier(MeshQualifierInterface $qualifier)
+    public function addQualifier(MeshQualifierInterface $qualifier): void
     {
         if (!$this->qualifiers->contains($qualifier)) {
             $this->qualifiers->add($qualifier);
@@ -248,7 +248,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function removeQualifier(MeshQualifierInterface $qualifier)
+    public function removeQualifier(MeshQualifierInterface $qualifier): void
     {
         if ($this->qualifiers->contains($qualifier)) {
             $this->qualifiers->removeElement($qualifier);
@@ -261,7 +261,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->qualifiers;
     }
 
-    public function setTrees(Collection $trees)
+    public function setTrees(Collection $trees): void
     {
         $this->trees = new ArrayCollection();
 
@@ -270,14 +270,14 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function addTree(MeshTreeInterface $tree)
+    public function addTree(MeshTreeInterface $tree): void
     {
         if (!$this->trees->contains($tree)) {
             $this->trees->add($tree);
         }
     }
 
-    public function removeTree(MeshTreeInterface $tree)
+    public function removeTree(MeshTreeInterface $tree): void
     {
         if ($this->trees->contains($tree)) {
             $this->trees->removeElement($tree);
@@ -289,7 +289,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->trees;
     }
 
-    public function setPreviousIndexing(?MeshPreviousIndexingInterface $previousIndexing = null)
+    public function setPreviousIndexing(?MeshPreviousIndexingInterface $previousIndexing = null): void
     {
         $this->previousIndexing = $previousIndexing;
     }
@@ -299,7 +299,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->previousIndexing;
     }
 
-    public function addCourse(CourseInterface $course)
+    public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
@@ -307,7 +307,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function removeCourse(CourseInterface $course)
+    public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {
             $this->courses->removeElement($course);
@@ -315,7 +315,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function addSession(SessionInterface $session)
+    public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
@@ -323,7 +323,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function removeSession(SessionInterface $session)
+    public function removeSession(SessionInterface $session): void
     {
         if ($this->sessions->contains($session)) {
             $this->sessions->removeElement($session);
@@ -331,7 +331,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function addConcept(MeshConceptInterface $concept)
+    public function addConcept(MeshConceptInterface $concept): void
     {
         if (!$this->concepts->contains($concept)) {
             $this->concepts->add($concept);
@@ -339,7 +339,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
-    public function removeConcept(MeshConceptInterface $concept)
+    public function removeConcept(MeshConceptInterface $concept): void
     {
         if ($this->concepts->contains($concept)) {
             $this->concepts->removeElement($concept);
@@ -352,7 +352,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->deleted;
     }
 
-    public function setDeleted(bool $deleted)
+    public function setDeleted(bool $deleted): void
     {
         $this->deleted = $deleted;
     }

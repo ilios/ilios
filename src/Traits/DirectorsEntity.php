@@ -15,7 +15,7 @@ trait DirectorsEntity
 {
     protected Collection $directors;
 
-    public function setDirectors(Collection $directors)
+    public function setDirectors(Collection $directors): void
     {
         $this->directors = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait DirectorsEntity
         }
     }
 
-    public function addDirector(UserInterface $director)
+    public function addDirector(UserInterface $director): void
     {
         if (!$this->directors->contains($director)) {
             $this->directors->add($director);
         }
     }
 
-    public function removeDirector(UserInterface $director)
+    public function removeDirector(UserInterface $director): void
     {
         $this->directors->removeElement($director);
     }

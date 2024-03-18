@@ -50,7 +50,7 @@ class AamcPcrs implements AamcPcrsInterface
         $this->competencies = new ArrayCollection();
     }
 
-    public function addCompetency(CompetencyInterface $competency)
+    public function addCompetency(CompetencyInterface $competency): void
     {
         if (!$this->competencies->contains($competency)) {
             $this->competencies->add($competency);
@@ -58,7 +58,7 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
-    public function removeCompetency(CompetencyInterface $competency)
+    public function removeCompetency(CompetencyInterface $competency): void
     {
         if ($this->competencies->contains($competency)) {
             $this->competencies->removeElement($competency);
@@ -66,7 +66,7 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }

@@ -15,10 +15,10 @@ interface CurriculumInventoryAcademicLevelInterface extends
     DescribableNullableEntityInterface,
     LoggableEntityInterface
 {
-    public function setLevel(int $level);
+    public function setLevel(int $level): void;
     public function getLevel(): int;
 
-    public function setReport(CurriculumInventoryReportInterface $report);
+    public function setReport(CurriculumInventoryReportInterface $report): void;
     public function getReport(): CurriculumInventoryReportInterface;
 
     public function setStartingSequenceBlocks(Collection $sequenceBlocks): void;

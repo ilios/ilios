@@ -109,7 +109,7 @@ class MeshTerm implements MeshTermInterface
         $this->concepts = new ArrayCollection();
     }
 
-    public function setMeshTermUid(string $meshTermUid)
+    public function setMeshTermUid(string $meshTermUid): void
     {
         $this->meshTermUid = $meshTermUid;
     }
@@ -119,7 +119,7 @@ class MeshTerm implements MeshTermInterface
         return $this->meshTermUid;
     }
 
-    public function setLexicalTag(?string $lexicalTag)
+    public function setLexicalTag(?string $lexicalTag): void
     {
         $this->lexicalTag = $lexicalTag;
     }
@@ -129,7 +129,7 @@ class MeshTerm implements MeshTermInterface
         return $this->lexicalTag;
     }
 
-    public function setConceptPreferred(?bool $conceptPreferred)
+    public function setConceptPreferred(?bool $conceptPreferred): void
     {
         $this->conceptPreferred = $conceptPreferred;
     }
@@ -139,7 +139,7 @@ class MeshTerm implements MeshTermInterface
         return $this->conceptPreferred;
     }
 
-    public function setRecordPreferred(?bool $recordPreferred)
+    public function setRecordPreferred(?bool $recordPreferred): void
     {
         $this->recordPreferred = $recordPreferred;
     }
@@ -149,7 +149,7 @@ class MeshTerm implements MeshTermInterface
         return $this->recordPreferred;
     }
 
-    public function setPermuted(?bool $permuted)
+    public function setPermuted(?bool $permuted): void
     {
         $this->permuted = $permuted;
     }

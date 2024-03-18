@@ -148,7 +148,7 @@ class Term implements TermInterface
         $this->active = true;
     }
 
-    public function addCourse(CourseInterface $course)
+    public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
@@ -156,7 +156,7 @@ class Term implements TermInterface
         }
     }
 
-    public function removeCourse(CourseInterface $course)
+    public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {
             $this->courses->removeElement($course);
@@ -164,7 +164,7 @@ class Term implements TermInterface
         }
     }
 
-    public function addProgramYear(ProgramYearInterface $programYear)
+    public function addProgramYear(ProgramYearInterface $programYear): void
     {
         if (!$this->programYears->contains($programYear)) {
             $this->programYears->add($programYear);
@@ -172,7 +172,7 @@ class Term implements TermInterface
         }
     }
 
-    public function removeProgramYear(ProgramYearInterface $programYear)
+    public function removeProgramYear(ProgramYearInterface $programYear): void
     {
         if ($this->programYears->contains($programYear)) {
             $this->programYears->removeElement($programYear);
@@ -180,7 +180,7 @@ class Term implements TermInterface
         }
     }
 
-    public function addSession(SessionInterface $session)
+    public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
@@ -188,7 +188,7 @@ class Term implements TermInterface
         }
     }
 
-    public function removeSession(SessionInterface $session)
+    public function removeSession(SessionInterface $session): void
     {
         if ($this->sessions->contains($session)) {
             $this->sessions->removeElement($session);
@@ -201,7 +201,7 @@ class Term implements TermInterface
         return $this->vocabulary;
     }
 
-    public function setVocabulary(VocabularyInterface $vocabulary)
+    public function setVocabulary(VocabularyInterface $vocabulary): void
     {
         $this->vocabulary = $vocabulary;
     }
@@ -211,7 +211,7 @@ class Term implements TermInterface
         return $this->parent;
     }
 
-    public function setParent(?TermInterface $parent = null)
+    public function setParent(?TermInterface $parent = null): void
     {
         $this->parent = $parent;
     }
@@ -221,7 +221,7 @@ class Term implements TermInterface
         return $this->children;
     }
 
-    public function setChildren(Collection $children)
+    public function setChildren(Collection $children): void
     {
         $this->children = new ArrayCollection();
 
@@ -230,14 +230,14 @@ class Term implements TermInterface
         }
     }
 
-    public function addChild(TermInterface $child)
+    public function addChild(TermInterface $child): void
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
         }
     }
 
-    public function removeChild(TermInterface $child)
+    public function removeChild(TermInterface $child): void
     {
         $this->children->removeElement($child);
     }
@@ -247,7 +247,7 @@ class Term implements TermInterface
         return (!$this->children->isEmpty()) ? true : false;
     }
 
-    public function setAamcResourceTypes(Collection $aamcResourceTypes)
+    public function setAamcResourceTypes(Collection $aamcResourceTypes): void
     {
         $this->aamcResourceTypes = new ArrayCollection();
 
@@ -256,14 +256,14 @@ class Term implements TermInterface
         }
     }
 
-    public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType)
+    public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType): void
     {
         if (!$this->aamcResourceTypes->contains($aamcResourceType)) {
             $this->aamcResourceTypes->add($aamcResourceType);
         }
     }
 
-    public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType)
+    public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType): void
     {
         $this->aamcResourceTypes->removeElement($aamcResourceType);
     }

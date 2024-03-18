@@ -16,8 +16,8 @@ interface MeshQualifierInterface extends
     NameableEntityInterface,
     CreatedAtEntityInterface
 {
-    public function setDescriptors(Collection $descriptors);
-    public function addDescriptor(MeshDescriptorInterface $descriptor);
-    public function removeDescriptor(MeshDescriptorInterface $descriptor);
+    public function setDescriptors(Collection $descriptors): void;
+    public function addDescriptor(MeshDescriptorInterface $descriptor): void;
+    public function removeDescriptor(MeshDescriptorInterface $descriptor): void;
     public function getDescriptors(): Collection;
 }

@@ -72,7 +72,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     /**
      * Cast ID to a string to meet doctrine bigint requirements
      */
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = (string) $id;
     }
@@ -85,7 +85,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
         return (int) $this->id;
     }
 
-    public function setUser(UserInterface $user)
+    public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
@@ -95,7 +95,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
         return $this->user;
     }
 
-    public function setMaterial(SessionLearningMaterialInterface $material)
+    public function setMaterial(SessionLearningMaterialInterface $material): void
     {
         $this->material = $material;
     }
@@ -105,7 +105,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
         return $this->material;
     }
 
-    public function setStatus(int $status)
+    public function setStatus(int $status): void
     {
         $this->status = $status;
     }

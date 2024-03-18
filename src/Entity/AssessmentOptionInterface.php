@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Traits\IdentifiableEntityInterface;
 use App\Traits\NameableEntityInterface;
 use App\Traits\SessionTypesEntityInterface;

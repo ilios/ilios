@@ -15,7 +15,7 @@ trait MeshDescriptorsEntity
 {
     protected Collection $meshDescriptors;
 
-    public function setMeshDescriptors(Collection $meshDescriptors)
+    public function setMeshDescriptors(Collection $meshDescriptors): void
     {
         $this->meshDescriptors = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait MeshDescriptorsEntity
         }
     }
 
-    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
             $this->meshDescriptors->add($meshDescriptor);
         }
     }
 
-    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor)
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
     }

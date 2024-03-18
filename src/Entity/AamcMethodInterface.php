@@ -16,6 +16,6 @@ interface AamcMethodInterface extends
     ActivatableEntityInterface,
     Stringable
 {
-    public function setDescription(string $description);
+    public function setDescription(string $description): void;
     public function getDescription(): string;
 }

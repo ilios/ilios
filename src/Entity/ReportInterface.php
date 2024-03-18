@@ -15,16 +15,16 @@ interface ReportInterface extends
 {
     public function getCreatedAt(): DateTime;
 
-    public function setSubject(string $subject);
+    public function setSubject(string $subject): void;
     public function getSubject(): string;
 
-    public function setPrepositionalObject(?string $prepositionalObject);
+    public function setPrepositionalObject(?string $prepositionalObject): void;
     public function getPrepositionalObject(): ?string;
 
-    public function setPrepositionalObjectTableRowId(?string $prepositionalObjectTableRowId);
+    public function setPrepositionalObjectTableRowId(?string $prepositionalObjectTableRowId): void;
     public function getPrepositionalObjectTableRowId(): ?string;
 
-    public function setUser(UserInterface $user);
+    public function setUser(UserInterface $user): void;
     public function getUser(): UserInterface;
 
     public function getSchool(): ?SchoolInterface;

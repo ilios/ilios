@@ -8,11 +8,9 @@ use App\Service\DTOCacheManager;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
-use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * Trait ManagerRepository

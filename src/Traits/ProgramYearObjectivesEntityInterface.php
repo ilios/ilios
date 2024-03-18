@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection;
 interface ProgramYearObjectivesEntityInterface
 {
     /**
-     * @param Collection|ProgramYearObjectiveInterface[] $programYearObjectives
+     * @param Collection|null $programYearObjectives
      */
     public function setProgramYearObjectives(?Collection $programYearObjectives = null): void;
 

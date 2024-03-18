@@ -19,14 +19,14 @@ interface ProgramInterface extends
     LoggableEntityInterface,
     DirectorsEntityInterface
 {
-    public function setShortTitle(?string $shortTitle);
+    public function setShortTitle(?string $shortTitle): void;
     public function getShortTitle(): ?string;
 
-    public function setDuration(int $duration);
+    public function setDuration(int $duration): void;
     public function getDuration(): int;
 
-    public function setCurriculumInventoryReports(Collection $reports);
-    public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
-    public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
+    public function setCurriculumInventoryReports(Collection $reports): void;
+    public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void;
+    public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void;
     public function getCurriculumInventoryReports(): Collection;
 }

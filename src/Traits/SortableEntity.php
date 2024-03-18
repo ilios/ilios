@@ -14,7 +14,7 @@ trait SortableEntity
     /**
      * @param int $position
      */
-    public function setPosition($position)
+    public function setPosition($position): void
     {
         $this->position = $position;
     }

@@ -60,7 +60,7 @@ class AamcMethod implements AamcMethodInterface
         $this->active = true;
     }
 
-    public function addSessionType(SessionTypeInterface $sessionType)
+    public function addSessionType(SessionTypeInterface $sessionType): void
     {
         if (!$this->sessionTypes->contains($sessionType)) {
             $this->sessionTypes->add($sessionType);
@@ -68,13 +68,13 @@ class AamcMethod implements AamcMethodInterface
         }
     }
 
-    public function removeSessionType(SessionTypeInterface $sessionType)
+    public function removeSessionType(SessionTypeInterface $sessionType): void
     {
         $this->sessionTypes->removeElement($sessionType);
         $sessionType->removeAamcMethod($this);
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }

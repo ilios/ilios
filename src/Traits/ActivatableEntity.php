@@ -13,7 +13,7 @@ trait ActivatableEntity
         return $this->active;
     }
 
-    public function setActive(bool $active)
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }

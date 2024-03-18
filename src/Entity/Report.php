@@ -93,7 +93,7 @@ class Report implements ReportInterface
         return $this->createdAt;
     }
 
-    public function setSubject(string $subject)
+    public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
@@ -103,7 +103,7 @@ class Report implements ReportInterface
         return $this->subject;
     }
 
-    public function setPrepositionalObject(?string $prepositionalObject)
+    public function setPrepositionalObject(?string $prepositionalObject): void
     {
         $this->prepositionalObject = $prepositionalObject;
     }
@@ -113,7 +113,7 @@ class Report implements ReportInterface
         return $this->prepositionalObject;
     }
 
-    public function setPrepositionalObjectTableRowId(?string $prepositionalObjectTableRowId)
+    public function setPrepositionalObjectTableRowId(?string $prepositionalObjectTableRowId): void
     {
         $this->prepositionalObjectTableRowId = $prepositionalObjectTableRowId;
     }
@@ -123,7 +123,7 @@ class Report implements ReportInterface
         return $this->prepositionalObjectTableRowId;
     }
 
-    public function setUser(UserInterface $user)
+    public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }

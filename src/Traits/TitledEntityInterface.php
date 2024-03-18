@@ -6,6 +6,6 @@ namespace App\Traits;
 
 interface TitledEntityInterface
 {
-    public function setTitle(string $title);
+    public function setTitle(string $title): void;
     public function getTitle(): string;
 }

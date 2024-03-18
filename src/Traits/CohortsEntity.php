@@ -15,7 +15,7 @@ trait CohortsEntity
 {
     protected Collection $cohorts;
 
-    public function setCohorts(Collection $cohorts)
+    public function setCohorts(Collection $cohorts): void
     {
         $this->cohorts = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait CohortsEntity
         }
     }
 
-    public function addCohort(CohortInterface $cohort)
+    public function addCohort(CohortInterface $cohort): void
     {
         if (!$this->cohorts->contains($cohort)) {
             $this->cohorts->add($cohort);
         }
     }
 
-    public function removeCohort(CohortInterface $cohort)
+    public function removeCohort(CohortInterface $cohort): void
     {
         $this->cohorts->removeElement($cohort);
     }
