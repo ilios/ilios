@@ -60,7 +60,7 @@ trait ManagerRepository
      *
      * Return the results sorted by the original criteria
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $ids = $this->findIdsBy($criteria, $orderBy, $limit, $offset);
         $cacheManager = $this->getCacheManager();
@@ -97,7 +97,7 @@ trait ManagerRepository
      * This is overridden in repositories when the criteria need to be changed
      * (for example into a DateTime)
      */
-    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
     }
@@ -105,7 +105,7 @@ trait ManagerRepository
     /**
      * Look in the database for IDs matching this criteria
      */
-    protected function doFindIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function doFindIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $idField = $this->getIdField();
         $keys = array_keys($criteria);
@@ -169,7 +169,7 @@ trait ManagerRepository
     /**
      * @throws ConnectionException
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('DISTINCT x')->from($this->getEntityName(), 'x');

@@ -49,7 +49,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      */
     public function findDTOsByQ(
         $q,
-        array $orderBy = null,
+        ?array $orderBy = null,
         $limit = null,
         $offset = null,
         array $criteria = []

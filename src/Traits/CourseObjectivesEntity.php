@@ -15,7 +15,7 @@ trait CourseObjectivesEntity
 {
     protected Collection $courseObjectives;
 
-    public function setCourseObjectives(Collection $courseObjectives = null): void
+    public function setCourseObjectives(?Collection $courseObjectives = null): void
     {
         $this->courseObjectives = new ArrayCollection();
         if (is_null($courseObjectives)) {

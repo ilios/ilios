@@ -29,7 +29,7 @@ interface UserInterface extends
     InstructorGroupsEntityInterface,
     LearningMaterialsEntityInterface
 {
-    public function setAuthentication(AuthenticationInterface $authentication = null);
+    public function setAuthentication(?AuthenticationInterface $authentication = null);
     public function getAuthentication(): ?AuthenticationInterface;
 
     public function setLastName(string $lastName);
@@ -163,7 +163,7 @@ interface UserInterface extends
     public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
     public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report);
 
-    public function setPrimaryCohort(CohortInterface $primaryCohort = null);
+    public function setPrimaryCohort(?CohortInterface $primaryCohort = null);
     public function getPrimaryCohort(): ?CohortInterface;
 
     public function setSessionMaterialStatuses(Collection $sessionMaterialStatuses);

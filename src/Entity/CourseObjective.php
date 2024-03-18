@@ -206,7 +206,7 @@ class CourseObjective implements CourseObjectiveInterface
         return $this->sessionObjectives;
     }
 
-    public function setAncestor(CourseObjectiveInterface $ancestor = null)
+    public function setAncestor(?CourseObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
     }

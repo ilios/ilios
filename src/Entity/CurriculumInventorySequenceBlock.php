@@ -256,7 +256,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->track;
     }
 
-    public function setStartDate(DateTime $startDate = null)
+    public function setStartDate(?DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
@@ -266,7 +266,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->startDate;
     }
 
-    public function setEndDate(DateTime $endDate = null)
+    public function setEndDate(?DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
@@ -286,7 +286,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->duration;
     }
 
-    public function setCourse(CourseInterface $course = null)
+    public function setCourse(?CourseInterface $course = null)
     {
         $this->course = $course;
     }
@@ -296,7 +296,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->course;
     }
 
-    public function setParent(CurriculumInventorySequenceBlockInterface $parent = null)
+    public function setParent(?CurriculumInventorySequenceBlockInterface $parent = null)
     {
         $this->parent = $parent;
     }
@@ -454,12 +454,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->excludedSessions;
     }
 
-    public function setStartingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level = null): void
+    public function setStartingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->startingAcademicLevel = $level;
     }
 
-    public function setEndingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level = null): void
+    public function setEndingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->endingAcademicLevel = $level;
     }

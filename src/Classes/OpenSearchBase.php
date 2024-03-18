@@ -24,7 +24,7 @@ class OpenSearchBase
      */
     public function __construct(
         Config $config,
-        Client $client = null
+        ?Client $client = null
     ) {
         if ($client) {
             $this->enabled = true;

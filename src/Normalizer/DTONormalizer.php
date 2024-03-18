@@ -22,7 +22,7 @@ class DTONormalizer implements NormalizerInterface
 
     public function normalize(
         $object,
-        string $format = null,
+        ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
         $reflection = new ReflectionClass($object);
@@ -81,7 +81,7 @@ class DTONormalizer implements NormalizerInterface
      * Check to see if we can normalize the object or class
      * {@inheritdoc}
      */
-    public function supportsNormalization($classNameOrObject, string $format = null, array $context = []): bool
+    public function supportsNormalization($classNameOrObject, ?string $format = null, array $context = []): bool
     {
         return $format === 'json' && $this->entityMetadata->isAnIliosDto($classNameOrObject);
     }

@@ -104,7 +104,7 @@ class Competency implements CompetencyInterface
         $this->active = true;
     }
 
-    public function setParent(CompetencyInterface $parent = null)
+    public function setParent(?CompetencyInterface $parent = null)
     {
         $this->parent = $parent;
     }

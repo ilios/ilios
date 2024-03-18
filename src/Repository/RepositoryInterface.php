@@ -42,7 +42,7 @@ interface RepositoryInterface
      */
     public function findBy(
         array $criteria,
-        array $orderBy = null,
+        ?array $orderBy = null,
         $limit = null,
         $offset = null
     );
@@ -52,7 +52,7 @@ interface RepositoryInterface
      * @param int $limit
      * @param int $offset
      */
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array;
 
     /**
      * @param object $entity

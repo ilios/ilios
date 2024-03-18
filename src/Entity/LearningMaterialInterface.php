@@ -69,12 +69,12 @@ interface LearningMaterialInterface extends
     public function setFilename(?string $filename);
     public function getFilename(): ?string;
 
-    public function setCourseLearningMaterials(Collection $courseLearningMaterials = null);
+    public function setCourseLearningMaterials(?Collection $courseLearningMaterials = null);
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial);
     public function getCourseLearningMaterials(): Collection;
 
-    public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null);
+    public function setSessionLearningMaterials(?Collection $sessionLearningMaterials = null);
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial);
     public function getSessionLearningMaterials(): Collection;

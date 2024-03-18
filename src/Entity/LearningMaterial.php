@@ -328,7 +328,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->link;
     }
 
-    public function setCourseLearningMaterials(Collection $courseLearningMaterials = null)
+    public function setCourseLearningMaterials(?Collection $courseLearningMaterials = null)
     {
         $this->courseLearningMaterials = new ArrayCollection();
         if (is_null($courseLearningMaterials)) {
@@ -357,7 +357,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->courseLearningMaterials;
     }
 
-    public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null)
+    public function setSessionLearningMaterials(?Collection $sessionLearningMaterials = null)
     {
         $this->sessionLearningMaterials = new ArrayCollection();
         if (is_null($sessionLearningMaterials)) {

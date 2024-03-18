@@ -160,7 +160,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->endDate;
     }
 
-    public function setExport(CurriculumInventoryExportInterface $export = null)
+    public function setExport(?CurriculumInventoryExportInterface $export = null)
     {
         $this->export = $export;
     }
@@ -170,7 +170,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->export;
     }
 
-    public function setSequence(CurriculumInventorySequenceInterface $sequence = null)
+    public function setSequence(?CurriculumInventorySequenceInterface $sequence = null)
     {
         $this->sequence = $sequence;
     }
@@ -180,7 +180,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->sequence;
     }
 
-    public function setProgram(ProgramInterface $program = null)
+    public function setProgram(?ProgramInterface $program = null)
     {
         $this->program = $program;
     }
@@ -190,7 +190,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->program;
     }
 
-    public function setAcademicLevels(Collection $academicLevels = null)
+    public function setAcademicLevels(?Collection $academicLevels = null)
     {
         $this->academicLevels = new ArrayCollection();
         if (is_null($academicLevels)) {

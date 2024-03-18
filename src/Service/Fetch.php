@@ -32,7 +32,7 @@ class Fetch
      * @param SplFileObject|null $file
      * @throws Exception
      */
-    public function get(string $url, SplFileObject $file = null): string
+    public function get(string $url, ?SplFileObject $file = null): string
     {
         $headers = [];
         if ($file) {

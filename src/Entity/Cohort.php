@@ -83,7 +83,7 @@ class Cohort implements CohortInterface
         $this->users = new ArrayCollection();
     }
 
-    public function setProgramYear(ProgramYearInterface $programYear = null)
+    public function setProgramYear(?ProgramYearInterface $programYear = null)
     {
         $this->programYear = $programYear;
     }

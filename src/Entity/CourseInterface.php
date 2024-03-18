@@ -58,7 +58,7 @@ interface CourseInterface extends
     public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType);
     public function getClerkshipType(): ?CourseClerkshipTypeInterface;
 
-    public function setLearningMaterials(Collection $learningMaterials = null);
+    public function setLearningMaterials(?Collection $learningMaterials = null);
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial);
     public function getLearningMaterials(): Collection;

@@ -44,16 +44,16 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function setTrack(bool $track);
     public function hasTrack(): bool;
 
-    public function setStartDate(DateTime $startDate = null);
+    public function setStartDate(?DateTime $startDate = null);
     public function getStartDate(): ?DateTime;
 
-    public function setEndDate(DateTime $endDate = null);
+    public function setEndDate(?DateTime $endDate = null);
     public function getEndDate(): ?DateTime;
 
     public function setDuration(int $duration);
     public function getDuration(): int;
 
-    public function setCourse(CourseInterface $course = null);
+    public function setCourse(?CourseInterface $course = null);
     public function getCourse(): ?CourseInterface;
 
     public function setChildren(Collection $children);
@@ -64,7 +64,7 @@ interface CurriculumInventorySequenceBlockInterface extends
     public function setReport(CurriculumInventoryReportInterface $report);
     public function getReport(): CurriculumInventoryReportInterface;
 
-    public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
+    public function setParent(?CurriculumInventorySequenceBlockInterface $parent = null);
     public function getParent(): ?CurriculumInventorySequenceBlockInterface;
 
     /**

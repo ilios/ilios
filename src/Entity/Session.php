@@ -287,7 +287,7 @@ class Session implements SessionInterface
         return $this->instructionalNotes;
     }
 
-    public function setInstructionalNotes(string $instructionalNotes = null): void
+    public function setInstructionalNotes(?string $instructionalNotes = null): void
     {
         $this->instructionalNotes = $instructionalNotes;
     }
@@ -312,7 +312,7 @@ class Session implements SessionInterface
         return $this->course;
     }
 
-    public function setIlmSession(IlmSessionInterface $ilmSession = null)
+    public function setIlmSession(?IlmSessionInterface $ilmSession = null)
     {
         $this->ilmSession = $ilmSession;
         if ($ilmSession) {
@@ -325,7 +325,7 @@ class Session implements SessionInterface
         return $this->ilmSession;
     }
 
-    public function setLearningMaterials(Collection $learningMaterials = null)
+    public function setLearningMaterials(?Collection $learningMaterials = null)
     {
         $this->learningMaterials = new ArrayCollection();
         if (is_null($learningMaterials)) {
@@ -415,7 +415,7 @@ class Session implements SessionInterface
         return $this->excludedSequenceBlocks;
     }
 
-    public function setPostrequisite(SessionInterface $postrequisite = null)
+    public function setPostrequisite(?SessionInterface $postrequisite = null)
     {
         $this->postrequisite = $postrequisite;
     }

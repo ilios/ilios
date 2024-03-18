@@ -28,5 +28,5 @@ interface ReportInterface extends
     public function getUser(): UserInterface;
 
     public function getSchool(): ?SchoolInterface;
-    public function setSchool(SchoolInterface $school = null): void;
+    public function setSchool(?SchoolInterface $school = null): void;
 }

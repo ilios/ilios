@@ -211,7 +211,7 @@ class Term implements TermInterface
         return $this->parent;
     }
 
-    public function setParent(TermInterface $parent = null)
+    public function setParent(?TermInterface $parent = null)
     {
         $this->parent = $parent;
     }

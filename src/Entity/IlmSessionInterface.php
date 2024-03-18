@@ -24,7 +24,7 @@ interface IlmSessionInterface extends
     public function setHours(float $hours);
     public function getHours(): float;
 
-    public function setDueDate(DateTime $dueDate = null);
+    public function setDueDate(?DateTime $dueDate = null);
     public function getDueDate(): DateTime;
 
     /**

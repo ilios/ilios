@@ -138,7 +138,7 @@ class Report implements ReportInterface
         return $this->school;
     }
 
-    public function setSchool(SchoolInterface $school = null): void
+    public function setSchool(?SchoolInterface $school = null): void
     {
         $this->school = $school;
     }

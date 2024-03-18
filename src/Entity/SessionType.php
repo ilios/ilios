@@ -127,7 +127,7 @@ class SessionType implements SessionTypeInterface
         return $this->assessment;
     }
 
-    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null)
+    public function setAssessmentOption(?AssessmentOptionInterface $assessmentOption = null)
     {
         $this->assessmentOption = $assessmentOption;
     }

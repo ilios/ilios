@@ -195,7 +195,7 @@ trait TestableJsonController
         string $jwt,
         string $method,
         string $url,
-        string $data = null
+        ?string $data = null
     ): void {
         $this->makeJsonRequest(
             $browser,
@@ -222,7 +222,7 @@ trait TestableJsonController
         string $jwt,
         string $method,
         string $url,
-        string $data = null
+        ?string $data = null
     ): void {
         $this->makeJsonApiRequest(
             $browser,

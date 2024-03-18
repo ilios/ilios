@@ -22,7 +22,7 @@ class LearningMaterials extends OpenSearchBase
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
         Config $config,
-        Client $client = null
+        ?Client $client = null
     ) {
         parent::__construct($config, $client);
     }

@@ -13,7 +13,7 @@ trait CategorizableEntity
 {
     protected Collection $terms;
 
-    public function setTerms(Collection $terms = null)
+    public function setTerms(?Collection $terms = null)
     {
         $this->terms = new ArrayCollection();
         if (is_null($terms)) {

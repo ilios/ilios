@@ -32,7 +32,7 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
 
     public function normalize(
         $o,
-        string $format = null,
+        ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
         $class = $o::class;
@@ -50,7 +50,7 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
      * Since we call upon the normalizer chain here we have to avoid recursion by examining
      * the context to avoid calling ourselves again.
      */
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if (isset($context[self::ALREADY_CALLED])) {
             return false;

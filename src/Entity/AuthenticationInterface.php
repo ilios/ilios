@@ -20,6 +20,6 @@ interface AuthenticationInterface extends LoggableEntityInterface
     public function getUser(): UserInterface;
 
 
-    public function setInvalidateTokenIssuedBefore(DateTime $invalidateTokenIssuedBefore = null);
+    public function setInvalidateTokenIssuedBefore(?DateTime $invalidateTokenIssuedBefore = null);
     public function getInvalidateTokenIssuedBefore(): ?DateTime;
 }

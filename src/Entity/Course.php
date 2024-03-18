@@ -275,7 +275,7 @@ class Course implements CourseInterface
         return $this->year;
     }
 
-    public function setStartDate(DateTime $startDate = null)
+    public function setStartDate(?DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
@@ -285,7 +285,7 @@ class Course implements CourseInterface
         return $this->startDate;
     }
 
-    public function setEndDate(DateTime $endDate = null)
+    public function setEndDate(?DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }
@@ -315,7 +315,7 @@ class Course implements CourseInterface
         return $this->clerkshipType;
     }
 
-    public function setLearningMaterials(Collection $learningMaterials = null)
+    public function setLearningMaterials(?Collection $learningMaterials = null)
     {
         $this->learningMaterials = new ArrayCollection();
         if (is_null($learningMaterials)) {
@@ -346,7 +346,7 @@ class Course implements CourseInterface
         return $this->learningMaterials;
     }
 
-    public function setAncestor(CourseInterface $ancestor = null)
+    public function setAncestor(?CourseInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
     }

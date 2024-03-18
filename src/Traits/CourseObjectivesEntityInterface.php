@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
  */
 interface CourseObjectivesEntityInterface
 {
-    public function setCourseObjectives(Collection $courseObjectives = null): void;
+    public function setCourseObjectives(?Collection $courseObjectives = null): void;
 
     public function addCourseObjective(CourseObjectiveInterface $courseObjective): void;
 

@@ -48,7 +48,7 @@ interface SessionInterface extends
     public function isAttendanceRequired(): ?bool;
 
     public function getInstructionalNotes(): ?string;
-    public function setInstructionalNotes(string $instructionalNotes = null): void;
+    public function setInstructionalNotes(?string $instructionalNotes = null): void;
 
     public function setSessionType(SessionTypeInterface $sessionType);
     public function getSessionType(): SessionTypeInterface;
@@ -56,10 +56,10 @@ interface SessionInterface extends
     public function setCourse(CourseInterface $course);
     public function getCourse(): CourseInterface;
 
-    public function setIlmSession(IlmSessionInterface $ilmSession = null);
+    public function setIlmSession(?IlmSessionInterface $ilmSession = null);
     public function getIlmSession(): ?IlmSessionInterface;
 
-    public function setLearningMaterials(Collection $learningMaterials = null);
+    public function setLearningMaterials(?Collection $learningMaterials = null);
     public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
     public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial);
     public function getLearningMaterials(): Collection;

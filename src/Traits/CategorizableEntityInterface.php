@@ -10,7 +10,7 @@ use App\Entity\TermInterface;
 
 interface CategorizableEntityInterface
 {
-    public function setTerms(Collection $terms = null);
+    public function setTerms(?Collection $terms = null);
     public function addTerm(TermInterface $term);
     public function removeTerm(TermInterface $term);
     public function getTerms(): Collection;

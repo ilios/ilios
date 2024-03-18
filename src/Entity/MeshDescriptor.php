@@ -289,7 +289,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         return $this->trees;
     }
 
-    public function setPreviousIndexing(MeshPreviousIndexingInterface $previousIndexing = null)
+    public function setPreviousIndexing(?MeshPreviousIndexingInterface $previousIndexing = null)
     {
         $this->previousIndexing = $previousIndexing;
     }

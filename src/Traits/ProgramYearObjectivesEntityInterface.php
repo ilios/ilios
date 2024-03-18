@@ -15,7 +15,7 @@ interface ProgramYearObjectivesEntityInterface
     /**
      * @param Collection|ProgramYearObjectiveInterface[] $programYearObjectives
      */
-    public function setProgramYearObjectives(Collection $programYearObjectives = null): void;
+    public function setProgramYearObjectives(?Collection $programYearObjectives = null): void;
 
     public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void;
 

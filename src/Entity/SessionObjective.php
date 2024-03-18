@@ -171,7 +171,7 @@ class SessionObjective implements SessionObjectiveInterface
         return $this->courseObjectives;
     }
 
-    public function setAncestor(SessionObjectiveInterface $ancestor = null)
+    public function setAncestor(?SessionObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
     }

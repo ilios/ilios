@@ -882,7 +882,7 @@ class User implements UserInterface
         }
     }
 
-    public function setPrimaryCohort(CohortInterface $primaryCohort = null)
+    public function setPrimaryCohort(?CohortInterface $primaryCohort = null)
     {
         if ($primaryCohort && !$this->getCohorts()->contains($primaryCohort)) {
             $this->addCohort($primaryCohort);
@@ -923,7 +923,7 @@ class User implements UserInterface
         return $this->instructedOfferings;
     }
 
-    public function setAuthentication(AuthenticationInterface $authentication = null)
+    public function setAuthentication(?AuthenticationInterface $authentication = null)
     {
         $this->authentication = $authentication;
 

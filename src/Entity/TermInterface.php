@@ -34,7 +34,7 @@ interface TermInterface extends
     public function setVocabulary(VocabularyInterface $vocabulary);
     public function getVocabulary(): VocabularyInterface;
 
-    public function setParent(TermInterface $parent = null);
+    public function setParent(?TermInterface $parent = null);
     public function getParent(): ?TermInterface;
 
     public function setChildren(Collection $children);

@@ -194,7 +194,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    public function setParent(LearnerGroupInterface $parent = null)
+    public function setParent(?LearnerGroupInterface $parent = null)
     {
         $this->parent = $parent;
     }
@@ -204,7 +204,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->parent;
     }
 
-    public function setAncestor(LearnerGroupInterface $ancestor = null)
+    public function setAncestor(?LearnerGroupInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
     }
@@ -251,7 +251,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->descendants;
     }
 
-    public function setChildren(Collection $children = null)
+    public function setChildren(?Collection $children = null)
     {
         $this->children = new ArrayCollection();
         if (is_null($children)) {

@@ -127,7 +127,7 @@ class IlmSession implements IlmSessionInterface
         return (float) $this->hours;
     }
 
-    public function setDueDate(DateTime $dueDate = null)
+    public function setDueDate(?DateTime $dueDate = null)
     {
         $this->dueDate = $dueDate;
     }

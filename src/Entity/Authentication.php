@@ -78,7 +78,7 @@ class Authentication implements AuthenticationInterface
         return $this->user;
     }
 
-    public function setInvalidateTokenIssuedBefore(DateTime $invalidateTokenIssuedBefore = null)
+    public function setInvalidateTokenIssuedBefore(?DateTime $invalidateTokenIssuedBefore = null)
     {
         $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
     }

@@ -28,8 +28,8 @@ interface LearningMaterialRelationshipInterface extends
     public function getLearningMaterial(): LearningMaterialInterface;
 
     public function getStartDate(): ?DateTime;
-    public function setStartDate(DateTime $startDate = null);
+    public function setStartDate(?DateTime $startDate = null);
 
     public function getEndDate(): ?DateTime;
-    public function setEndDate(DateTime $endDate = null);
+    public function setEndDate(?DateTime $endDate = null);
 }

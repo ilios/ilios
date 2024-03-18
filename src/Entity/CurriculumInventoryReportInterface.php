@@ -30,16 +30,16 @@ interface CurriculumInventoryReportInterface extends
     public function setEndDate(DateTime $endDate);
     public function getEndDate(): DateTime;
 
-    public function setExport(CurriculumInventoryExportInterface $export = null);
+    public function setExport(?CurriculumInventoryExportInterface $export = null);
     public function getExport(): ?CurriculumInventoryExportInterface;
 
-    public function setSequence(CurriculumInventorySequenceInterface $sequence = null);
+    public function setSequence(?CurriculumInventorySequenceInterface $sequence = null);
     public function getSequence(): ?CurriculumInventorySequenceInterface;
 
-    public function setProgram(ProgramInterface $program = null);
+    public function setProgram(?ProgramInterface $program = null);
     public function getProgram(): ?ProgramInterface;
 
-    public function setAcademicLevels(Collection $academicLevels = null);
+    public function setAcademicLevels(?Collection $academicLevels = null);
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
     public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel);
     public function getAcademicLevels(): Collection;

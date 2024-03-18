@@ -168,7 +168,7 @@ class Offering implements OfferingInterface
         return $this->url;
     }
 
-    public function setStartDate(DateTime $startDate = null)
+    public function setStartDate(?DateTime $startDate = null)
     {
         $this->startDate = $startDate;
     }
@@ -178,7 +178,7 @@ class Offering implements OfferingInterface
         return $this->startDate;
     }
 
-    public function setEndDate(DateTime $endDate = null)
+    public function setEndDate(?DateTime $endDate = null)
     {
         $this->endDate = $endDate;
     }

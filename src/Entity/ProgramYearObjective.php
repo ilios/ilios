@@ -145,7 +145,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $this->programYear;
     }
 
-    public function setCompetency(CompetencyInterface $competency = null)
+    public function setCompetency(?CompetencyInterface $competency = null)
     {
         $this->competency = $competency;
     }
@@ -185,7 +185,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $this->courseObjectives;
     }
 
-    public function setAncestor(ProgramYearObjectiveInterface $ancestor = null)
+    public function setAncestor(?ProgramYearObjectiveInterface $ancestor = null)
     {
         $this->ancestor = $ancestor;
     }
