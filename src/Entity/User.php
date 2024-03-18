@@ -927,9 +927,7 @@ class User implements UserInterface
     {
         $this->authentication = $authentication;
 
-        if ($authentication) {
-            $authentication->setUser($this);
-        }
+        $authentication?->setUser($this);
     }
 
     public function getAuthentication(): ?AuthenticationInterface
