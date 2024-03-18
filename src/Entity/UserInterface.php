@@ -170,4 +170,14 @@ interface UserInterface extends
     public function addSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus): void;
     public function removeSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus): void;
     public function getSessionMaterialStatuses(): Collection;
+
+    public function setInstructorIlmSessions(Collection $sessions): void;
+    public function addInstructorIlmSession(IlmSessionInterface $session): void;
+    public function removeInstructorIlmSession(IlmSessionInterface $session): void;
+    public function getInstructorIlmSessions(): Collection;
+
+    public function setInstructedOfferings(Collection $instructedOfferings): void;
+    public function addInstructedOffering(Offering $instructedOffering): void;
+    public function removeInstructedOffering(Offering $instructedOffering): void;
+    public function getInstructedOfferings(): Collection;
 }
