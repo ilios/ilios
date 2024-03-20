@@ -95,7 +95,7 @@ class Program implements ProgramInterface
         $this->directors = new ArrayCollection();
     }
 
-    public function setShortTitle(?string $shortTitle)
+    public function setShortTitle(?string $shortTitle): void
     {
         $this->shortTitle = $shortTitle;
     }
@@ -105,7 +105,7 @@ class Program implements ProgramInterface
         return $this->shortTitle;
     }
 
-    public function setDuration(int $duration)
+    public function setDuration(int $duration): void
     {
         $this->duration = $duration;
     }
@@ -115,7 +115,7 @@ class Program implements ProgramInterface
         return $this->duration;
     }
 
-    public function setCurriculumInventoryReports(Collection $reports)
+    public function setCurriculumInventoryReports(Collection $reports): void
     {
         $this->curriculumInventoryReports = new ArrayCollection();
 
@@ -124,14 +124,14 @@ class Program implements ProgramInterface
         }
     }
 
-    public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         if (!$this->curriculumInventoryReports->contains($report)) {
             $this->curriculumInventoryReports->add($report);
         }
     }
 
-    public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         if ($this->curriculumInventoryReports->contains($report)) {
             $this->curriculumInventoryReports->removeElement($report);
@@ -143,7 +143,7 @@ class Program implements ProgramInterface
         return $this->curriculumInventoryReports;
     }
 
-    public function addDirector(UserInterface $director)
+    public function addDirector(UserInterface $director): void
     {
         if (!$this->directors->contains($director)) {
             $this->directors->add($director);
@@ -151,7 +151,7 @@ class Program implements ProgramInterface
         }
     }
 
-    public function removeDirector(UserInterface $director)
+    public function removeDirector(UserInterface $director): void
     {
         if ($this->directors->contains($director)) {
             $this->directors->removeElement($director);

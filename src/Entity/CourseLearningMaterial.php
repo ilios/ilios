@@ -115,7 +115,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         $this->position = 0;
     }
 
-    public function setCourse(CourseInterface $course)
+    public function setCourse(CourseInterface $course): void
     {
         $this->course = $course;
     }

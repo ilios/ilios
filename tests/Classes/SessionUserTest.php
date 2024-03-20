@@ -1197,7 +1197,7 @@ class SessionUserTest extends TestCase
         SchoolInterface $school,
         bool $isRoot = false,
         bool $enabled = true,
-        AuthenticationInterface $authentication = null
+        ?AuthenticationInterface $authentication = null
     ): m\MockInterface {
         $iliosUser = m::mock(UserInterface::class);
         $iliosUser->shouldReceive('getId')->andReturn($userId);

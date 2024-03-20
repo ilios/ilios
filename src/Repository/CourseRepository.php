@@ -35,7 +35,7 @@ class CourseRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Course::class);
     }
 
-    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('startDate', $criteria)) {
             $criteria['startDate'] = new DateTime($criteria['startDate']);
@@ -52,9 +52,9 @@ class CourseRepository extends ServiceEntityRepository implements
      */
     public function findDTOsByQ(
         string $q,
-        array $orderBy = null,
-        int $limit = null,
-        int $offset = null,
+        ?array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null,
     ): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x')->from(Course::class, 'x');
@@ -163,7 +163,7 @@ class CourseRepository extends ServiceEntityRepository implements
     public function findByUserId(
         $userId,
         array $criteria,
-        array $orderBy = null,
+        ?array $orderBy = null,
         $limit = null,
         $offset = null
     ) {
@@ -192,7 +192,7 @@ class CourseRepository extends ServiceEntityRepository implements
     protected function findMyCourses(
         int $userId,
         array $criteria,
-        array $orderBy = null,
+        ?array $orderBy = null,
         ?int $limit = null,
         ?int $offset = null
     ): array {

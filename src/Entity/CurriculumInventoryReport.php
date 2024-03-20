@@ -121,7 +121,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->administrators = new ArrayCollection();
     }
 
-    public function setName(?string $name)
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -130,7 +130,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->name;
     }
 
-    public function setYear(int $year)
+    public function setYear(int $year): void
     {
         $this->year = $year;
     }
@@ -140,7 +140,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->year;
     }
 
-    public function setStartDate(DateTime $startDate)
+    public function setStartDate(DateTime $startDate): void
     {
         $this->startDate = $startDate;
     }
@@ -150,7 +150,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->startDate;
     }
 
-    public function setEndDate(DateTime $endDate)
+    public function setEndDate(DateTime $endDate): void
     {
         $this->endDate = $endDate;
     }
@@ -160,7 +160,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->endDate;
     }
 
-    public function setExport(CurriculumInventoryExportInterface $export = null)
+    public function setExport(?CurriculumInventoryExportInterface $export = null): void
     {
         $this->export = $export;
     }
@@ -170,7 +170,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->export;
     }
 
-    public function setSequence(CurriculumInventorySequenceInterface $sequence = null)
+    public function setSequence(?CurriculumInventorySequenceInterface $sequence = null): void
     {
         $this->sequence = $sequence;
     }
@@ -180,7 +180,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->sequence;
     }
 
-    public function setProgram(ProgramInterface $program = null)
+    public function setProgram(?ProgramInterface $program = null): void
     {
         $this->program = $program;
     }
@@ -190,7 +190,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->program;
     }
 
-    public function setAcademicLevels(Collection $academicLevels = null)
+    public function setAcademicLevels(?Collection $academicLevels = null): void
     {
         $this->academicLevels = new ArrayCollection();
         if (is_null($academicLevels)) {
@@ -201,14 +201,14 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
+    public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel): void
     {
         if (!$this->academicLevels->contains($academicLevel)) {
             $this->academicLevels->add($academicLevel);
         }
     }
 
-    public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel)
+    public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel): void
     {
         $this->academicLevels->removeElement($academicLevel);
     }
@@ -231,7 +231,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return $this->token;
     }
 
-    public function generateToken()
+    public function generateToken(): void
     {
         $random = random_bytes(128);
 
@@ -243,7 +243,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->token = hash('sha256', $key);
     }
 
-    public function addAdministrator(UserInterface $administrator)
+    public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
             $this->administrators->add($administrator);
@@ -251,7 +251,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    public function removeAdministrator(UserInterface $administrator)
+    public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);

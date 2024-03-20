@@ -83,7 +83,7 @@ class Cohort implements CohortInterface
         $this->users = new ArrayCollection();
     }
 
-    public function setProgramYear(ProgramYearInterface $programYear = null)
+    public function setProgramYear(?ProgramYearInterface $programYear = null): void
     {
         $this->programYear = $programYear;
     }
@@ -93,7 +93,7 @@ class Cohort implements CohortInterface
         return $this->programYear;
     }
 
-    public function addCourse(CourseInterface $course)
+    public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
@@ -101,7 +101,7 @@ class Cohort implements CohortInterface
         }
     }
 
-    public function removeCourse(CourseInterface $course)
+    public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {
             $this->courses->removeElement($course);
@@ -109,7 +109,7 @@ class Cohort implements CohortInterface
         }
     }
 
-    public function addUser(UserInterface $user)
+    public function addUser(UserInterface $user): void
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -117,7 +117,7 @@ class Cohort implements CohortInterface
         }
     }
 
-    public function removeUser(UserInterface $user)
+    public function removeUser(UserInterface $user): void
     {
         $this->users->removeElement($user);
         $user->removeCohort($this);

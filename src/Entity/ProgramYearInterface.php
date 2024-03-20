@@ -22,10 +22,10 @@ interface ProgramYearInterface extends
     DirectorsEntityInterface,
     CompetenciesEntityInterface
 {
-    public function setStartYear(int $startYear);
+    public function setStartYear(int $startYear): void;
     public function getStartYear(): int;
 
-    public function setProgram(ProgramInterface $program);
+    public function setProgram(ProgramInterface $program): void;
     public function getProgram(): ProgramInterface;
 
     /**
@@ -33,6 +33,6 @@ interface ProgramYearInterface extends
      */
     public function getSchool(): SchoolInterface;
 
-    public function setCohort(CohortInterface $cohort);
+    public function setCohort(CohortInterface $cohort): void;
     public function getCohort(): CohortInterface;
 }

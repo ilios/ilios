@@ -11,16 +11,16 @@ interface PendingUserUpdateInterface extends
     IdentifiableEntityInterface,
     Stringable
 {
-    public function setType(string $type);
+    public function setType(string $type): void;
     public function getType(): string;
 
-    public function setProperty(?string $property);
+    public function setProperty(?string $property): void;
     public function getProperty(): ?string;
 
-    public function setValue(?string $value);
+    public function setValue(?string $value): void;
     public function getValue(): ?string;
 
-    public function setUser(UserInterface $user);
+    public function setUser(UserInterface $user): void;
 
     public function getUser(): UserInterface;
 }

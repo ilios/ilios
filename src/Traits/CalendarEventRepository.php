@@ -8,7 +8,6 @@ use App\Entity\Course;
 use App\Entity\Session;
 use App\Entity\User;
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use App\Classes\CalendarEvent;
@@ -469,7 +468,7 @@ trait CalendarEventRepository
     protected function getSessionLearningMaterialsForPublishedSessions(
         array $sessionIds,
         EntityManagerInterface $em
-    ) {
+    ): array {
         $qb = $this->sessionLmQuery($sessionIds, $em);
         $qb->andWhere($qb->expr()->eq('s.published', 1));
         $qb->andWhere($qb->expr()->eq('s.publishedAsTbd', 0));
@@ -485,7 +484,7 @@ trait CalendarEventRepository
     protected function getSessionLearningMaterials(
         array $sessionIds,
         EntityManagerInterface $em
-    ) {
+    ): array {
         $qb = $this->sessionLmQuery($sessionIds, $em);
         return $qb->getQuery()->getArrayResult();
     }
@@ -493,7 +492,7 @@ trait CalendarEventRepository
     protected function sessionLmQuery(
         array $sessionIds,
         EntityManagerInterface $em
-    ) {
+    ): QueryBuilder {
 
         $qb = $em->createQueryBuilder();
         $what = 's.title as sessionTitle, s.id as sessionId, ' .
@@ -521,7 +520,7 @@ trait CalendarEventRepository
     protected function getCourseLearningMaterials(
         array $sessionIds,
         EntityManagerInterface $em
-    ) {
+    ): array {
         $qb = $this->courseLmQuery($sessionIds, $em);
 
         return $qb->getQuery()->getArrayResult();
@@ -533,7 +532,7 @@ trait CalendarEventRepository
     protected function getCourseLearningMaterialsForPublishedSessions(
         array $sessionIds,
         EntityManagerInterface $em
-    ) {
+    ): array {
         $qb = $this->courseLmQuery($sessionIds, $em);
         $qb->andWhere($qb->expr()->eq('c.published', 1));
         $qb->andWhere($qb->expr()->eq('c.publishedAsTbd', 0));
@@ -544,7 +543,7 @@ trait CalendarEventRepository
     protected function courseLmQuery(
         array $sessionIds,
         EntityManagerInterface $em
-    ) {
+    ): QueryBuilder {
         $qb = $em->createQueryBuilder();
         $what = 'c.title as courseTitle, c.year as courseYear, c.externalId as courseExternalId, ' .
             'c.id as courseId, c.startDate as firstOfferingDate, ' .

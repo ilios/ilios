@@ -13,11 +13,11 @@ use App\Entity\MeshConceptInterface;
  */
 interface ConceptsEntityInterface
 {
-    public function setConcepts(Collection $concepts);
+    public function setConcepts(Collection $concepts): void;
 
-    public function addConcept(MeshConceptInterface $concept);
+    public function addConcept(MeshConceptInterface $concept): void;
 
-    public function removeConcept(MeshConceptInterface $concept);
+    public function removeConcept(MeshConceptInterface $concept): void;
 
     public function getConcepts(): Collection;
 }

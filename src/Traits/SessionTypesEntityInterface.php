@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\SessionTypeInterface;
 
@@ -14,11 +12,11 @@ use App\Entity\SessionTypeInterface;
  */
 interface SessionTypesEntityInterface
 {
-    public function setSessionTypes(Collection $sessionTypes);
+    public function setSessionTypes(Collection $sessionTypes): void;
 
-    public function addSessionType(SessionTypeInterface $sessionType);
+    public function addSessionType(SessionTypeInterface $sessionType): void;
 
-    public function removeSessionType(SessionTypeInterface $sessionType);
+    public function removeSessionType(SessionTypeInterface $sessionType): void;
 
     public function getSessionTypes(): Collection;
 }

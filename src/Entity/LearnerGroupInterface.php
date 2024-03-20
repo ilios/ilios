@@ -23,18 +23,18 @@ interface LearnerGroupInterface extends
     InstructorsEntityInterface,
     IlmSessionsEntityInterface
 {
-    public function setLocation(?string $location);
+    public function setLocation(?string $location): void;
     public function getLocation(): ?string;
 
-    public function setCohort(CohortInterface $cohort);
+    public function setCohort(CohortInterface $cohort): void;
     public function getCohort(): CohortInterface;
 
-    public function setParent(LearnerGroupInterface $parent = null);
+    public function setParent(?LearnerGroupInterface $parent = null): void;
     public function getParent(): ?LearnerGroupInterface;
 
-    public function setChildren(Collection $children);
-    public function addChild(LearnerGroupInterface $child);
-    public function removeChild(LearnerGroupInterface $child);
+    public function setChildren(?Collection $children = null): void;
+    public function addChild(LearnerGroupInterface $child): void;
+    public function removeChild(LearnerGroupInterface $child): void;
     public function getChildren(): Collection;
 
     /**
@@ -52,14 +52,14 @@ interface LearnerGroupInterface extends
      */
     public function getProgramYear(): ?ProgramYearInterface;
 
-    public function setAncestor(LearnerGroupInterface $ancestor);
+    public function setAncestor(?LearnerGroupInterface $ancestor = null): void;
     public function getAncestor(): ?LearnerGroupInterface;
 
     public function getAncestorOrSelf(): LearnerGroupInterface;
 
-    public function setDescendants(Collection $children);
-    public function addDescendant(LearnerGroupInterface $child);
-    public function removeDescendant(LearnerGroupInterface $child);
+    public function setDescendants(Collection $descendants): void;
+    public function addDescendant(LearnerGroupInterface $descendant): void;
+    public function removeDescendant(LearnerGroupInterface $descendant): void;
     public function getDescendants(): Collection;
 
     public function setNeedsAccommodation(bool $needsAccommodation): void;

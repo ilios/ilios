@@ -15,7 +15,7 @@ trait InstructorGroupsEntity
 {
     protected Collection $instructorGroups;
 
-    public function setInstructorGroups(Collection $instructorGroups)
+    public function setInstructorGroups(Collection $instructorGroups): void
     {
         $this->instructorGroups = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait InstructorGroupsEntity
         }
     }
 
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup): void
     {
         if (!$this->instructorGroups->contains($instructorGroup)) {
             $this->instructorGroups->add($instructorGroup);
         }
     }
 
-    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup)
+    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup): void
     {
         $this->instructorGroups->removeElement($instructorGroup);
     }

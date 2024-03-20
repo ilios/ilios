@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 trait AuthenticationService
 {
-    protected function createSuccessResponseFromJWT($jwt)
+    protected function createSuccessResponseFromJWT($jwt): JsonResponse
     {
         $response =  new JsonResponse([
             'status' => 'success',

@@ -118,7 +118,7 @@ class ProgramYear implements ProgramYearInterface
         $this->programYearObjectives = new ArrayCollection();
     }
 
-    public function setStartYear(int $startYear)
+    public function setStartYear(int $startYear): void
     {
         $this->startYear = $startYear;
     }
@@ -128,7 +128,7 @@ class ProgramYear implements ProgramYearInterface
         return $this->startYear;
     }
 
-    public function setProgram(ProgramInterface $program)
+    public function setProgram(ProgramInterface $program): void
     {
         $this->program = $program;
     }
@@ -138,7 +138,7 @@ class ProgramYear implements ProgramYearInterface
         return $this->program;
     }
 
-    public function setCohort(CohortInterface $cohort)
+    public function setCohort(CohortInterface $cohort): void
     {
         $this->cohort = $cohort;
     }

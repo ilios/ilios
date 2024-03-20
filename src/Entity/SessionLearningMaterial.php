@@ -119,7 +119,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         $this->position = 0;
     }
 
-    public function setSession(SessionInterface $session)
+    public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }

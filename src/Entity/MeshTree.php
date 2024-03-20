@@ -42,7 +42,7 @@ class MeshTree implements MeshTreeInterface
     #[IA\Type('entity')]
     protected MeshDescriptorInterface $descriptor;
 
-    public function setTreeNumber(string $treeNumber)
+    public function setTreeNumber(string $treeNumber): void
     {
         $this->treeNumber = $treeNumber;
     }

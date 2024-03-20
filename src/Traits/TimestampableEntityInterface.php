@@ -11,7 +11,7 @@ interface TimestampableEntityInterface extends Stringable
 {
     public function getUpdatedAt(): DateTime;
 
-    public function setUpdatedAt(DateTime $updatedAt);
+    public function setUpdatedAt(DateTime $updatedAt): void;
 
     public function getClassName(): string;
 }

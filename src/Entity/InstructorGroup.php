@@ -92,7 +92,7 @@ class InstructorGroup implements InstructorGroupInterface
         $this->offerings = new ArrayCollection();
     }
 
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if (!$this->learnerGroups->contains($learnerGroup)) {
             $this->learnerGroups->add($learnerGroup);
@@ -100,7 +100,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
-    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup)
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if ($this->learnerGroups->contains($learnerGroup)) {
             $this->learnerGroups->removeElement($learnerGroup);
@@ -108,7 +108,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
-    public function addIlmSession(IlmSessionInterface $ilmSession)
+    public function addIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
             $this->ilmSessions->add($ilmSession);
@@ -116,7 +116,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
-    public function removeIlmSession(IlmSessionInterface $ilmSession)
+    public function removeIlmSession(IlmSessionInterface $ilmSession): void
     {
         if ($this->ilmSessions->contains($ilmSession)) {
             $this->ilmSessions->removeElement($ilmSession);

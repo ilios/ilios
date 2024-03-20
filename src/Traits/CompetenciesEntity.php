@@ -12,7 +12,7 @@ trait CompetenciesEntity
 {
     protected Collection $competencies;
 
-    public function setCompetencies(Collection $competencies)
+    public function setCompetencies(Collection $competencies): void
     {
         $this->competencies = new ArrayCollection();
 
@@ -21,14 +21,14 @@ trait CompetenciesEntity
         }
     }
 
-    public function addCompetency(CompetencyInterface $competency)
+    public function addCompetency(CompetencyInterface $competency): void
     {
         if (!$this->competencies->contains($competency)) {
             $this->competencies->add($competency);
         }
     }
 
-    public function removeCompetency(CompetencyInterface $competency)
+    public function removeCompetency(CompetencyInterface $competency): void
     {
         if ($this->competencies->contains($competency)) {
             $this->competencies->removeElement($competency);

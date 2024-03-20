@@ -9,7 +9,7 @@ trait PublishableEntity
     protected bool $published;
     protected bool $publishedAsTbd;
 
-    public function setPublished(bool $published)
+    public function setPublished(bool $published): void
     {
         $this->published = $published;
     }
@@ -19,9 +19,9 @@ trait PublishableEntity
         return $this->published;
     }
 
-    public function setPublishedAsTbd(bool $publishedAsTbd)
+    public function setPublishedAsTbd(bool $publishedAsTbd): void
     {
-        $this->publishedAsTbd = (bool) $publishedAsTbd;
+        $this->publishedAsTbd = $publishedAsTbd;
     }
 
     public function isPublishedAsTbd(): bool

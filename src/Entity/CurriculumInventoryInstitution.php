@@ -95,7 +95,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    public function setAamcCode(string $aamcCode)
+    public function setAamcCode(string $aamcCode): void
     {
         $this->aamcCode = $aamcCode;
     }
@@ -105,7 +105,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->aamcCode;
     }
 
-    public function setAddressStreet(string $addressStreet)
+    public function setAddressStreet(string $addressStreet): void
     {
         $this->addressStreet = $addressStreet;
     }
@@ -115,7 +115,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressStreet;
     }
 
-    public function setAddressCity(string $addressCity)
+    public function setAddressCity(string $addressCity): void
     {
         $this->addressCity = $addressCity;
     }
@@ -125,7 +125,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressCity;
     }
 
-    public function setAddressStateOrProvince(string $addressStateOrProvince)
+    public function setAddressStateOrProvince(string $addressStateOrProvince): void
     {
         $this->addressStateOrProvince = $addressStateOrProvince;
     }
@@ -135,7 +135,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressStateOrProvince;
     }
 
-    public function setAddressZipCode(string $addressZipcode)
+    public function setAddressZipCode(string $addressZipcode): void
     {
         $this->addressZipCode = $addressZipcode;
     }
@@ -145,7 +145,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
         return $this->addressZipCode;
     }
 
-    public function setAddressCountryCode(string $addressCountryCode)
+    public function setAddressCountryCode(string $addressCountryCode): void
     {
         $this->addressCountryCode = $addressCountryCode;
     }

@@ -11,6 +11,6 @@ interface SessionLearningMaterialInterface extends
     SessionStampableInterface,
     IndexableCoursesEntityInterface
 {
-    public function setSession(SessionInterface $session);
+    public function setSession(SessionInterface $session): void;
     public function getSession(): SessionInterface;
 }

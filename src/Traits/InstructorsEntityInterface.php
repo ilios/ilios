@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\UserInterface;
 
@@ -13,11 +12,11 @@ use App\Entity\UserInterface;
  */
 interface InstructorsEntityInterface
 {
-    public function setInstructors(Collection $instructors);
+    public function setInstructors(Collection $instructors): void;
 
-    public function addInstructor(UserInterface $instructor);
+    public function addInstructor(UserInterface $instructor): void;
 
-    public function removeInstructor(UserInterface $instructor);
+    public function removeInstructor(UserInterface $instructor): void;
 
     public function getInstructors(): Collection;
 }

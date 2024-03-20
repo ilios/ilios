@@ -57,7 +57,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
     /**
      * Special case for Authentication since the ID is the user
      */
-    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $keys = array_keys($criteria);
 

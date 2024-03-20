@@ -13,11 +13,11 @@ use App\Entity\CompetencyInterface;
  */
 interface CompetenciesEntityInterface
 {
-    public function setCompetencies(Collection $competencies);
+    public function setCompetencies(Collection $competencies): void;
 
-    public function addCompetency(CompetencyInterface $competency);
+    public function addCompetency(CompetencyInterface $competency): void;
 
-    public function removeCompetency(CompetencyInterface $competency);
+    public function removeCompetency(CompetencyInterface $competency): void;
 
     public function getCompetencies(): Collection;
 }

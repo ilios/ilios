@@ -9,9 +9,9 @@ use Stringable;
 
 interface IngestionExceptionInterface extends IdentifiableEntityInterface, Stringable
 {
-    public function setUser(UserInterface $user);
+    public function setUser(UserInterface $user): void;
     public function getUser(): UserInterface;
 
-    public function setUid(string $uid);
+    public function setUid(string $uid): void;
     public function getUid(): string;
 }

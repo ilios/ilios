@@ -13,9 +13,9 @@ use Doctrine\Common\Collections\Collection;
 interface SessionObjectivesEntityInterface
 {
     /**
-     * @param Collection|SessionObjectiveInterface[] $sessionObjectives
+     * @param Collection|null $sessionObjectives
      */
-    public function setSessionObjectives(Collection $sessionObjectives = null): void;
+    public function setSessionObjectives(?Collection $sessionObjectives = null): void;
 
     public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void;
 

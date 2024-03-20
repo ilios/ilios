@@ -70,7 +70,7 @@ class MeshQualifier implements MeshQualifierInterface
         $this->descriptors = new ArrayCollection();
     }
 
-    public function setDescriptors(Collection $descriptors)
+    public function setDescriptors(Collection $descriptors): void
     {
         $this->descriptors = new ArrayCollection();
 
@@ -79,14 +79,14 @@ class MeshQualifier implements MeshQualifierInterface
         }
     }
 
-    public function addDescriptor(MeshDescriptorInterface $descriptor)
+    public function addDescriptor(MeshDescriptorInterface $descriptor): void
     {
         if (!$this->descriptors->contains($descriptor)) {
             $this->descriptors->add($descriptor);
         }
     }
 
-    public function removeDescriptor(MeshDescriptorInterface $descriptor)
+    public function removeDescriptor(MeshDescriptorInterface $descriptor): void
     {
         $this->descriptors->removeElement($descriptor);
     }

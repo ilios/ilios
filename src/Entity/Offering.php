@@ -138,7 +138,7 @@ class Offering implements OfferingInterface
         $this->instructors = new ArrayCollection();
     }
 
-    public function setRoom(?string $room)
+    public function setRoom(?string $room): void
     {
         $this->room = $room;
     }
@@ -148,7 +148,7 @@ class Offering implements OfferingInterface
         return $this->room;
     }
 
-    public function setSite(?string $site)
+    public function setSite(?string $site): void
     {
         $this->site = $site;
     }
@@ -158,7 +158,7 @@ class Offering implements OfferingInterface
         return $this->site;
     }
 
-    public function setUrl(?string $url)
+    public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
@@ -168,7 +168,7 @@ class Offering implements OfferingInterface
         return $this->url;
     }
 
-    public function setStartDate(DateTime $startDate = null)
+    public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
@@ -178,7 +178,7 @@ class Offering implements OfferingInterface
         return $this->startDate;
     }
 
-    public function setEndDate(DateTime $endDate = null)
+    public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
@@ -188,7 +188,7 @@ class Offering implements OfferingInterface
         return $this->endDate;
     }
 
-    public function setSession(SessionInterface $session)
+    public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }

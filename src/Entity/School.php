@@ -167,7 +167,7 @@ class School implements SchoolInterface
         $this->configurations = new ArrayCollection();
     }
 
-    public function setTemplatePrefix(?string $templatePrefix)
+    public function setTemplatePrefix(?string $templatePrefix): void
     {
         $this->templatePrefix = $templatePrefix;
     }
@@ -177,7 +177,7 @@ class School implements SchoolInterface
         return $this->templatePrefix;
     }
 
-    public function setIliosAdministratorEmail(string $iliosAdministratorEmail)
+    public function setIliosAdministratorEmail(string $iliosAdministratorEmail): void
     {
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
     }
@@ -187,7 +187,7 @@ class School implements SchoolInterface
         return $this->iliosAdministratorEmail;
     }
 
-    public function setChangeAlertRecipients(?string $changeAlertRecipients)
+    public function setChangeAlertRecipients(?string $changeAlertRecipients): void
     {
         $this->changeAlertRecipients = $changeAlertRecipients;
     }
@@ -199,7 +199,7 @@ class School implements SchoolInterface
 
     public function setCurriculumInventoryInstitution(
         ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
-    ) {
+    ): void {
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
 
@@ -224,7 +224,7 @@ class School implements SchoolInterface
         }
     }
 
-    public function setVocabularies(Collection $vocabularies)
+    public function setVocabularies(Collection $vocabularies): void
     {
         $this->vocabularies = new ArrayCollection();
 
@@ -233,14 +233,14 @@ class School implements SchoolInterface
         }
     }
 
-    public function addVocabulary(VocabularyInterface $vocabulary)
+    public function addVocabulary(VocabularyInterface $vocabulary): void
     {
         if (!$this->vocabularies->contains($vocabulary)) {
             $this->vocabularies->add($vocabulary);
         }
     }
 
-    public function removeVocabulary(VocabularyInterface $vocabulary)
+    public function removeVocabulary(VocabularyInterface $vocabulary): void
     {
         $this->vocabularies->removeElement($vocabulary);
     }
@@ -250,7 +250,7 @@ class School implements SchoolInterface
         return $this->vocabularies;
     }
 
-    public function addDirector(UserInterface $director)
+    public function addDirector(UserInterface $director): void
     {
         if (!$this->directors->contains($director)) {
             $this->directors->add($director);
@@ -258,7 +258,7 @@ class School implements SchoolInterface
         }
     }
 
-    public function removeDirector(UserInterface $director)
+    public function removeDirector(UserInterface $director): void
     {
         if ($this->directors->contains($director)) {
             $this->directors->removeElement($director);
@@ -266,7 +266,7 @@ class School implements SchoolInterface
         }
     }
 
-    public function addAdministrator(UserInterface $administrator)
+    public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
             $this->administrators->add($administrator);
@@ -274,7 +274,7 @@ class School implements SchoolInterface
         }
     }
 
-    public function removeAdministrator(UserInterface $administrator)
+    public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);
@@ -282,19 +282,19 @@ class School implements SchoolInterface
         }
     }
 
-    public function addConfiguration(SchoolConfigInterface $config)
+    public function addConfiguration(SchoolConfigInterface $config): void
     {
         if (!$this->configurations->contains($config)) {
             $this->configurations->add($config);
         }
     }
 
-    public function removeConfiguration(SchoolConfigInterface $config)
+    public function removeConfiguration(SchoolConfigInterface $config): void
     {
         $this->configurations->removeElement($config);
     }
 
-    public function setConfigurations(Collection $configs)
+    public function setConfigurations(Collection $configs): void
     {
         $this->configurations = new ArrayCollection();
 

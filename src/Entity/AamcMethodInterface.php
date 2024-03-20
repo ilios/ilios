@@ -13,9 +13,8 @@ interface AamcMethodInterface extends
     IdentifiableStringEntityInterface,
     LoggableEntityInterface,
     SessionTypesEntityInterface,
-    ActivatableEntityInterface,
-    Stringable
+    ActivatableEntityInterface
 {
-    public function setDescription(string $description);
+    public function setDescription(string $description): void;
     public function getDescription(): string;
 }

@@ -12,11 +12,11 @@ use App\Entity\CourseInterface;
  */
 interface CoursesEntityInterface
 {
-    public function setCourses(Collection $courses);
+    public function setCourses(Collection $courses): void;
 
-    public function addCourse(CourseInterface $course);
+    public function addCourse(CourseInterface $course): void;
 
-    public function removeCourse(CourseInterface $course);
+    public function removeCourse(CourseInterface $course): void;
 
     public function getCourses(): Collection;
 }

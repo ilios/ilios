@@ -16,10 +16,10 @@ interface UserSessionMaterialStatusInterface extends
     public const STARTED = 1;
     public const COMPLETE = 2;
 
-    public function setUser(UserInterface $user);
+    public function setUser(UserInterface $user): void;
     public function getUser(): UserInterface;
-    public function setMaterial(SessionLearningMaterialInterface $material);
+    public function setMaterial(SessionLearningMaterialInterface $material): void;
     public function getMaterial(): SessionLearningMaterialInterface;
-    public function setStatus(int $status);
+    public function setStatus(int $status): void;
     public function getStatus(): int;
 }

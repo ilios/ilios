@@ -106,7 +106,7 @@ class MeshConcept implements MeshConceptInterface
         $this->descriptors = new ArrayCollection();
     }
 
-    public function setPreferred(bool $preferred)
+    public function setPreferred(bool $preferred): void
     {
         $this->preferred = $preferred;
     }
@@ -116,7 +116,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->preferred;
     }
 
-    public function setScopeNote(?string $scopeNote)
+    public function setScopeNote(?string $scopeNote): void
     {
         $this->scopeNote = $scopeNote;
     }
@@ -126,7 +126,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->scopeNote;
     }
 
-    public function setCasn1Name(?string $casn1Name)
+    public function setCasn1Name(?string $casn1Name): void
     {
         $this->casn1Name = $casn1Name;
     }
@@ -136,7 +136,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->casn1Name;
     }
 
-    public function setRegistryNumber(?string $registryNumber)
+    public function setRegistryNumber(?string $registryNumber): void
     {
         $this->registryNumber = $registryNumber;
     }
@@ -146,7 +146,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->registryNumber;
     }
 
-    public function setTerms(Collection $terms)
+    public function setTerms(Collection $terms): void
     {
         $this->terms = new ArrayCollection();
 
@@ -155,7 +155,7 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    public function addTerm(MeshTermInterface $term)
+    public function addTerm(MeshTermInterface $term): void
     {
         if (!$this->terms->contains($term)) {
             $this->terms->add($term);
@@ -163,7 +163,7 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    public function removeTerm(MeshTermInterface $term)
+    public function removeTerm(MeshTermInterface $term): void
     {
         if ($this->terms->contains($term)) {
             $this->terms->removeElement($term);
@@ -176,7 +176,7 @@ class MeshConcept implements MeshConceptInterface
         return $this->terms;
     }
 
-    public function setDescriptors(Collection $descriptors)
+    public function setDescriptors(Collection $descriptors): void
     {
         $this->descriptors = new ArrayCollection();
 
@@ -185,14 +185,14 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    public function addDescriptor(MeshDescriptorInterface $descriptor)
+    public function addDescriptor(MeshDescriptorInterface $descriptor): void
     {
         if (!$this->descriptors->contains($descriptor)) {
             $this->descriptors->add($descriptor);
         }
     }
 
-    public function removeDescriptor(MeshDescriptorInterface $descriptor)
+    public function removeDescriptor(MeshDescriptorInterface $descriptor): void
     {
         $this->descriptors->removeElement($descriptor);
     }

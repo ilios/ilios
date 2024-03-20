@@ -24,7 +24,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
         parent::__construct($registry, AuditLog::class);
     }
 
-    public function findDTOsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         throw new Exception('DTOs for AuditLogs are not implemented yet');
     }

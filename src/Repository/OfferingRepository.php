@@ -32,7 +32,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
         parent::__construct($registry, Offering::class);
     }
 
-    protected function findIdsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    protected function findIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         if (array_key_exists('startDate', $criteria)) {
             $criteria['startDate'] = new DateTime($criteria['startDate']);

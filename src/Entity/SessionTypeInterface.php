@@ -19,17 +19,17 @@ interface SessionTypeInterface extends
     ActivatableEntityInterface,
     LoggableEntityInterface
 {
-    public function setCalendarColor(string $color);
+    public function setCalendarColor(string $color): void;
     public function getCalendarColor(): string;
 
-    public function setAssessment(bool $assessment);
+    public function setAssessment(bool $assessment): void;
     public function isAssessment(): bool;
 
-    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null);
+    public function setAssessmentOption(?AssessmentOptionInterface $assessmentOption = null): void;
     public function getAssessmentOption(): ?AssessmentOptionInterface;
 
-    public function setAamcMethods(Collection $aamcMethods);
-    public function addAamcMethod(AamcMethodInterface $aamcMethod);
-    public function removeAamcMethod(AamcMethodInterface $aamcMethod);
+    public function setAamcMethods(Collection $aamcMethods): void;
+    public function addAamcMethod(AamcMethodInterface $aamcMethod): void;
+    public function removeAamcMethod(AamcMethodInterface $aamcMethod): void;
     public function getAamcMethods(): Collection;
 }

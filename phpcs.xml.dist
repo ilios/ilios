@@ -11,6 +11,7 @@
     <rule ref="PSR12"/>
     <rule ref="Generic.PHP.RequireStrictTypes"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue" />
 
     <file>bin/</file>
     <file>config/</file>

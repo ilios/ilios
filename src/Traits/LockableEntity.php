@@ -14,7 +14,7 @@ trait LockableEntity
     /**
      * @param bool $locked
      */
-    public function setLocked($locked)
+    public function setLocked(bool $locked): void
     {
         $this->locked = $locked;
     }

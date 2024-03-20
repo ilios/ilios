@@ -8,5 +8,5 @@ interface ActivatableEntityInterface
 {
     public function isActive(): bool;
 
-    public function setActive(bool $active);
+    public function setActive(bool $active): void;
 }

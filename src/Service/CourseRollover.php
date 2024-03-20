@@ -330,7 +330,7 @@ class CourseRollover
         DateTime $origCourseStartDate,
         int $origAcademicYear,
         int $newAcademicYear,
-        DateTime $newCourseStartDate = null
+        ?DateTime $newCourseStartDate = null
     ): int {
         if (!$newCourseStartDate) {
             $isoWeekOrdinal = (int) $origCourseStartDate->format('W');

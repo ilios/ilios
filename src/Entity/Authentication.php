@@ -41,9 +41,9 @@ class Authentication implements AuthenticationInterface
     #[IA\OnlyReadable]
     #[IA\Type('dateTime')]
     #[Assert\Type(DateTimeInterface::class)]
-    protected ?\DateTime $invalidateTokenIssuedBefore = null;
+    protected ?DateTime $invalidateTokenIssuedBefore = null;
 
-    public function setUsername(string $username)
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
@@ -53,7 +53,7 @@ class Authentication implements AuthenticationInterface
         return $this->username;
     }
 
-    public function setPasswordHash(string $passwordHash)
+    public function setPasswordHash(string $passwordHash): void
     {
         $this->passwordHash = $passwordHash;
     }
@@ -68,7 +68,7 @@ class Authentication implements AuthenticationInterface
         return $this->getPasswordHash();
     }
 
-    public function setUser(UserInterface $user)
+    public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
@@ -78,7 +78,7 @@ class Authentication implements AuthenticationInterface
         return $this->user;
     }
 
-    public function setInvalidateTokenIssuedBefore(DateTime $invalidateTokenIssuedBefore = null)
+    public function setInvalidateTokenIssuedBefore(?DateTime $invalidateTokenIssuedBefore = null): void
     {
         $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
     }

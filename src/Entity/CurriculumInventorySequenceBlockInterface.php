@@ -26,45 +26,45 @@ interface CurriculumInventorySequenceBlockInterface extends
     public const UNORDERED = 2;
     public const PARALLEL = 3;
 
-    public function setRequired(int $required);
+    public function setRequired(int $required): void;
     public function getRequired(): int;
 
-    public function setChildSequenceOrder(int $childSequenceOrder);
+    public function setChildSequenceOrder(int $childSequenceOrder): void;
     public function getChildSequenceOrder(): int;
 
-    public function setOrderInSequence(int $orderInSequence);
+    public function setOrderInSequence(int $orderInSequence): void;
     public function getOrderInSequence(): int;
 
-    public function setMinimum(int $minimum);
+    public function setMinimum(int $minimum): void;
     public function getMinimum(): int;
 
-    public function setMaximum(int $maximum);
+    public function setMaximum(int $maximum): void;
     public function getMaximum(): int;
 
-    public function setTrack(bool $track);
+    public function setTrack(bool $track): void;
     public function hasTrack(): bool;
 
-    public function setStartDate(DateTime $startDate = null);
+    public function setStartDate(?DateTime $startDate = null): void;
     public function getStartDate(): ?DateTime;
 
-    public function setEndDate(DateTime $endDate = null);
+    public function setEndDate(?DateTime $endDate = null): void;
     public function getEndDate(): ?DateTime;
 
-    public function setDuration(int $duration);
+    public function setDuration(int $duration): void;
     public function getDuration(): int;
 
-    public function setCourse(CourseInterface $course = null);
+    public function setCourse(?CourseInterface $course = null): void;
     public function getCourse(): ?CourseInterface;
 
-    public function setChildren(Collection $children);
-    public function addChild(CurriculumInventorySequenceBlockInterface $child);
-    public function removeChild(CurriculumInventorySequenceBlockInterface $child);
+    public function setChildren(Collection $children): void;
+    public function addChild(CurriculumInventorySequenceBlockInterface $child): void;
+    public function removeChild(CurriculumInventorySequenceBlockInterface $child): void;
     public function getChildren(): Collection;
 
-    public function setReport(CurriculumInventoryReportInterface $report);
+    public function setReport(CurriculumInventoryReportInterface $report): void;
     public function getReport(): CurriculumInventoryReportInterface;
 
-    public function setParent(CurriculumInventorySequenceBlockInterface $parent = null);
+    public function setParent(?CurriculumInventorySequenceBlockInterface $parent = null): void;
     public function getParent(): ?CurriculumInventorySequenceBlockInterface;
 
     /**
@@ -72,12 +72,12 @@ interface CurriculumInventorySequenceBlockInterface extends
      */
     public function getChildrenAsSortedList(): array;
 
-    public function setExcludedSessions(Collection $sessions);
-    public function addExcludedSession(SessionInterface $session);
-    public function removeExcludedSession(SessionInterface $session);
+    public function setExcludedSessions(Collection $sessions): void;
+    public function addExcludedSession(SessionInterface $session): void;
+    public function removeExcludedSession(SessionInterface $session): void;
     public function getExcludedSessions(): Collection;
 
-    public function setStartingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
+    public function setStartingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void;
     public function setEndingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level): void;
     public function getStartingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;
     public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface;

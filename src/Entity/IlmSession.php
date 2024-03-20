@@ -116,7 +116,7 @@ class IlmSession implements IlmSessionInterface
         $this->learners = new ArrayCollection();
     }
 
-    public function setHours(float $hours)
+    public function setHours(float $hours): void
     {
         $this->hours = $hours;
     }
@@ -127,7 +127,7 @@ class IlmSession implements IlmSessionInterface
         return (float) $this->hours;
     }
 
-    public function setDueDate(DateTime $dueDate = null)
+    public function setDueDate(?DateTime $dueDate = null): void
     {
         $this->dueDate = $dueDate;
     }
@@ -147,7 +147,7 @@ class IlmSession implements IlmSessionInterface
         return new ArrayCollection($instructors);
     }
 
-    public function setSession(SessionInterface $session)
+    public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }

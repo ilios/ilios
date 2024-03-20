@@ -158,7 +158,7 @@ class LearnerGroup implements LearnerGroupInterface
         $this->needsAccommodation = false;
     }
 
-    public function setLocation(?string $location)
+    public function setLocation(?string $location): void
     {
         $this->location = $location;
     }
@@ -168,7 +168,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->location;
     }
 
-    public function setCohort(CohortInterface $cohort)
+    public function setCohort(CohortInterface $cohort): void
     {
         $this->cohort = $cohort;
     }
@@ -178,7 +178,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->cohort;
     }
 
-    public function addIlmSession(IlmSessionInterface $ilmSession)
+    public function addIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
             $this->ilmSessions->add($ilmSession);
@@ -186,7 +186,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    public function removeIlmSession(IlmSessionInterface $ilmSession)
+    public function removeIlmSession(IlmSessionInterface $ilmSession): void
     {
         if ($this->ilmSessions->contains($ilmSession)) {
             $this->ilmSessions->removeElement($ilmSession);
@@ -194,7 +194,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    public function setParent(LearnerGroupInterface $parent = null)
+    public function setParent(?LearnerGroupInterface $parent = null): void
     {
         $this->parent = $parent;
     }
@@ -204,7 +204,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->parent;
     }
 
-    public function setAncestor(LearnerGroupInterface $ancestor = null)
+    public function setAncestor(?LearnerGroupInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
@@ -221,10 +221,10 @@ class LearnerGroup implements LearnerGroupInterface
     {
         $ancestor = $this->getAncestor();
 
-        return $ancestor ? $ancestor : $this;
+        return $ancestor ?: $this;
     }
 
-    public function setDescendants(Collection $descendants)
+    public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
 
@@ -233,7 +233,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    public function addDescendant(LearnerGroupInterface $descendant)
+    public function addDescendant(LearnerGroupInterface $descendant): void
     {
         if (!$this->descendants->contains($descendant)) {
             $this->descendants->add($descendant);
@@ -241,7 +241,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    public function removeDescendant(LearnerGroupInterface $descendant)
+    public function removeDescendant(LearnerGroupInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
@@ -251,7 +251,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->descendants;
     }
 
-    public function setChildren(Collection $children = null)
+    public function setChildren(?Collection $children = null): void
     {
         $this->children = new ArrayCollection();
         if (is_null($children)) {
@@ -263,14 +263,14 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    public function addChild(LearnerGroupInterface $child)
+    public function addChild(LearnerGroupInterface $child): void
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
         }
     }
 
-    public function removeChild(LearnerGroupInterface $child)
+    public function removeChild(LearnerGroupInterface $child): void
     {
         $this->children->removeElement($child);
     }
@@ -280,7 +280,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $this->children;
     }
 
-    public function addOffering(OfferingInterface $offering)
+    public function addOffering(OfferingInterface $offering): void
     {
         if (!$this->offerings->contains($offering)) {
             $this->offerings->add($offering);
@@ -288,7 +288,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    public function removeOffering(OfferingInterface $offering)
+    public function removeOffering(OfferingInterface $offering): void
     {
         if ($this->offerings->contains($offering)) {
             $this->offerings->removeElement($offering);

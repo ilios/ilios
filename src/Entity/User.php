@@ -373,7 +373,7 @@ class User implements UserInterface
         $this->generateIcsFeedKey();
     }
 
-    public function setLastName(string $lastName)
+    public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
     }
@@ -383,7 +383,7 @@ class User implements UserInterface
         return $this->lastName;
     }
 
-    public function setFirstName(string $firstName)
+    public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
     }
@@ -393,7 +393,7 @@ class User implements UserInterface
         return $this->firstName;
     }
 
-    public function setMiddleName(?string $middleName)
+    public function setMiddleName(?string $middleName): void
     {
         $this->middleName = $middleName;
     }
@@ -408,7 +408,7 @@ class User implements UserInterface
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
-    public function setDisplayName(?string $displayName)
+    public function setDisplayName(?string $displayName): void
     {
         $this->displayName = $displayName;
     }
@@ -418,7 +418,7 @@ class User implements UserInterface
         return $this->displayName;
     }
 
-    public function setPhone(?string $phone)
+    public function setPhone(?string $phone): void
     {
         $this->phone = $phone;
     }
@@ -428,7 +428,7 @@ class User implements UserInterface
         return $this->phone;
     }
 
-    public function setEmail(string $email)
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
@@ -438,7 +438,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setPreferredEmail(?string $email)
+    public function setPreferredEmail(?string $email): void
     {
         $this->preferredEmail = $email;
     }
@@ -448,7 +448,7 @@ class User implements UserInterface
         return $this->preferredEmail;
     }
 
-    public function setPronouns(?string $pronouns)
+    public function setPronouns(?string $pronouns): void
     {
         $this->pronouns = $pronouns;
     }
@@ -458,7 +458,7 @@ class User implements UserInterface
         return $this->pronouns;
     }
 
-    public function setAddedViaIlios(bool $addedViaIlios)
+    public function setAddedViaIlios(bool $addedViaIlios): void
     {
         $this->addedViaIlios = $addedViaIlios;
     }
@@ -468,7 +468,7 @@ class User implements UserInterface
         return $this->addedViaIlios;
     }
 
-    public function setCampusId(?string $campusId)
+    public function setCampusId(?string $campusId): void
     {
         $this->campusId = $campusId;
     }
@@ -478,7 +478,7 @@ class User implements UserInterface
         return $this->campusId;
     }
 
-    public function setOtherId(?string $otherId)
+    public function setOtherId(?string $otherId): void
     {
         $this->otherId = $otherId;
     }
@@ -488,7 +488,7 @@ class User implements UserInterface
         return $this->otherId;
     }
 
-    public function setExamined(bool $examined)
+    public function setExamined(bool $examined): void
     {
         $this->examined = $examined;
     }
@@ -498,7 +498,7 @@ class User implements UserInterface
         return $this->examined;
     }
 
-    public function setUserSyncIgnore(bool $userSyncIgnore)
+    public function setUserSyncIgnore(bool $userSyncIgnore): void
     {
         $this->userSyncIgnore = $userSyncIgnore;
     }
@@ -508,7 +508,7 @@ class User implements UserInterface
         return $this->userSyncIgnore;
     }
 
-    public function generateIcsFeedKey()
+    public function generateIcsFeedKey(): void
     {
         $random = random_bytes(128);
 
@@ -519,7 +519,7 @@ class User implements UserInterface
         $this->icsFeedKey = hash('sha256', $key);
     }
 
-    public function setIcsFeedKey(string $icsFeedKey)
+    public function setIcsFeedKey(string $icsFeedKey): void
     {
         $this->icsFeedKey = $icsFeedKey;
     }
@@ -529,7 +529,7 @@ class User implements UserInterface
         return $this->icsFeedKey;
     }
 
-    public function setDirectedCourses(Collection $courses)
+    public function setDirectedCourses(Collection $courses): void
     {
         $this->directedCourses = new ArrayCollection();
 
@@ -538,7 +538,7 @@ class User implements UserInterface
         }
     }
 
-    public function addDirectedCourse(CourseInterface $course)
+    public function addDirectedCourse(CourseInterface $course): void
     {
         if (!$this->directedCourses->contains($course)) {
             $this->directedCourses->add($course);
@@ -546,7 +546,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeDirectedCourse(CourseInterface $course)
+    public function removeDirectedCourse(CourseInterface $course): void
     {
         $this->directedCourses->removeElement($course);
         $course->removeDirector($this);
@@ -557,7 +557,7 @@ class User implements UserInterface
         return $this->directedCourses;
     }
 
-    public function setAdministeredCourses(Collection $courses)
+    public function setAdministeredCourses(Collection $courses): void
     {
         $this->administeredCourses = new ArrayCollection();
 
@@ -566,7 +566,7 @@ class User implements UserInterface
         }
     }
 
-    public function addAdministeredCourse(CourseInterface $course)
+    public function addAdministeredCourse(CourseInterface $course): void
     {
         if (!$this->administeredCourses->contains($course)) {
             $this->administeredCourses->add($course);
@@ -574,7 +574,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeAdministeredCourse(CourseInterface $course)
+    public function removeAdministeredCourse(CourseInterface $course): void
     {
         $this->administeredCourses->removeElement($course);
         $course->removeAdministrator($this);
@@ -585,7 +585,7 @@ class User implements UserInterface
         return $this->administeredCourses;
     }
 
-    public function setStudentAdvisedCourses(Collection $courses)
+    public function setStudentAdvisedCourses(Collection $courses): void
     {
         $this->studentAdvisedCourses = new ArrayCollection();
 
@@ -594,7 +594,7 @@ class User implements UserInterface
         }
     }
 
-    public function addStudentAdvisedCourse(CourseInterface $course)
+    public function addStudentAdvisedCourse(CourseInterface $course): void
     {
         if (!$this->studentAdvisedCourses->contains($course)) {
             $this->studentAdvisedCourses->add($course);
@@ -602,7 +602,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeStudentAdvisedCourse(CourseInterface $course)
+    public function removeStudentAdvisedCourse(CourseInterface $course): void
     {
         $this->studentAdvisedCourses->removeElement($course);
         $course->removeStudentAdvisor($this);
@@ -613,7 +613,7 @@ class User implements UserInterface
         return $this->studentAdvisedCourses;
     }
 
-    public function setAdministeredSessions(Collection $sessions)
+    public function setAdministeredSessions(Collection $sessions): void
     {
         $this->administeredSessions = new ArrayCollection();
 
@@ -622,7 +622,7 @@ class User implements UserInterface
         }
     }
 
-    public function addAdministeredSession(SessionInterface $session)
+    public function addAdministeredSession(SessionInterface $session): void
     {
         if (!$this->administeredSessions->contains($session)) {
             $this->administeredSessions->add($session);
@@ -630,7 +630,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeAdministeredSession(SessionInterface $session)
+    public function removeAdministeredSession(SessionInterface $session): void
     {
         $this->administeredSessions->removeElement($session);
         $session->removeAdministrator($this);
@@ -641,7 +641,7 @@ class User implements UserInterface
         return $this->administeredSessions;
     }
 
-    public function setStudentAdvisedSessions(Collection $sessions)
+    public function setStudentAdvisedSessions(Collection $sessions): void
     {
         $this->studentAdvisedSessions = new ArrayCollection();
 
@@ -650,7 +650,7 @@ class User implements UserInterface
         }
     }
 
-    public function addStudentAdvisedSession(SessionInterface $session)
+    public function addStudentAdvisedSession(SessionInterface $session): void
     {
         if (!$this->studentAdvisedSessions->contains($session)) {
             $this->studentAdvisedSessions->add($session);
@@ -658,7 +658,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeStudentAdvisedSession(SessionInterface $session)
+    public function removeStudentAdvisedSession(SessionInterface $session): void
     {
         $this->studentAdvisedSessions->removeElement($session);
         $session->removeStudentAdvisor($this);
@@ -674,7 +674,7 @@ class User implements UserInterface
         return $this->directedCourses->map(fn(CourseInterface $course) => $course->getId())->contains($courseId);
     }
 
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if (!$this->learnerGroups->contains($learnerGroup)) {
             $this->learnerGroups->add($learnerGroup);
@@ -682,7 +682,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup)
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if ($this->learnerGroups->contains($learnerGroup)) {
             $this->learnerGroups->removeElement($learnerGroup);
@@ -690,27 +690,27 @@ class User implements UserInterface
         }
     }
 
-    public function setInstructedLearnerGroups(Collection $instructedLearnerGroups)
+    public function setInstructedLearnerGroups(Collection $learnerGroups): void
     {
         $this->instructedLearnerGroups = new ArrayCollection();
 
-        foreach ($instructedLearnerGroups as $instructedLearnerGroup) {
-            $this->addInstructedLearnerGroup($instructedLearnerGroup);
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addInstructedLearnerGroup($learnerGroup);
         }
     }
 
-    public function addInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup)
+    public function addInstructedLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
-        if (!$this->instructedLearnerGroups->contains($instructedLearnerGroup)) {
-            $this->instructedLearnerGroups->add($instructedLearnerGroup);
-            $instructedLearnerGroup->addInstructor($this);
+        if (!$this->instructedLearnerGroups->contains($learnerGroup)) {
+            $this->instructedLearnerGroups->add($learnerGroup);
+            $learnerGroup->addInstructor($this);
         }
     }
 
-    public function removeInstructedLearnerGroup(LearnerGroupInterface $instructedLearnerGroup)
+    public function removeInstructedLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
-        $this->instructedLearnerGroups->removeElement($instructedLearnerGroup);
-        $instructedLearnerGroup->removeInstructor($this);
+        $this->instructedLearnerGroups->removeElement($learnerGroup);
+        $learnerGroup->removeInstructor($this);
     }
 
     public function getInstructedLearnerGroups(): Collection
@@ -718,7 +718,7 @@ class User implements UserInterface
         return $this->instructedLearnerGroups;
     }
 
-    public function addInstructorGroup(InstructorGroupInterface $instructorGroup)
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup): void
     {
         if (!$this->instructorGroups->contains($instructorGroup)) {
             $this->instructorGroups->add($instructorGroup);
@@ -726,13 +726,13 @@ class User implements UserInterface
         }
     }
 
-    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup)
+    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup): void
     {
         $this->instructorGroups->removeElement($instructorGroup);
         $instructorGroup->removeUser($this);
     }
 
-    public function setInstructorIlmSessions(Collection $sessions)
+    public function setInstructorIlmSessions(Collection $sessions): void
     {
         $this->instructorIlmSessions = new ArrayCollection();
 
@@ -741,7 +741,7 @@ class User implements UserInterface
         }
     }
 
-    public function addInstructorIlmSession(IlmSessionInterface $session)
+    public function addInstructorIlmSession(IlmSessionInterface $session): void
     {
         if (!$this->instructorIlmSessions->contains($session)) {
             $this->instructorIlmSessions->add($session);
@@ -749,39 +749,39 @@ class User implements UserInterface
         }
     }
 
-    public function removeInstructorIlmSession(IlmSessionInterface $session)
+    public function removeInstructorIlmSession(IlmSessionInterface $session): void
     {
         $this->instructorIlmSessions->removeElement($session);
         $session->removeInstructor($this);
     }
 
-    public function getInstructorIlmSessions()
+    public function getInstructorIlmSessions(): Collection
     {
         return $this->instructorIlmSessions;
     }
 
-    public function setLearnerIlmSessions(Collection $sessions)
+    public function setLearnerIlmSessions(Collection $ilmSessions): void
     {
         $this->learnerIlmSessions = new ArrayCollection();
 
-        foreach ($sessions as $session) {
-            $this->addLearnerIlmSession($session);
+        foreach ($ilmSessions as $ilmSession) {
+            $this->addLearnerIlmSession($ilmSession);
         }
     }
 
-    public function addLearnerIlmSession(IlmSessionInterface $session)
+    public function addLearnerIlmSession(IlmSessionInterface $ilmSession): void
     {
-        if (!$this->learnerIlmSessions->contains($session)) {
-            $this->learnerIlmSessions->add($session);
-            $session->addLearner($this);
+        if (!$this->learnerIlmSessions->contains($ilmSession)) {
+            $this->learnerIlmSessions->add($ilmSession);
+            $ilmSession->addLearner($this);
         }
     }
 
-    public function removeLearnerIlmSession(IlmSessionInterface $session)
+    public function removeLearnerIlmSession(IlmSessionInterface $ilmSession): void
     {
-        if ($this->learnerIlmSessions->contains($session)) {
-            $this->learnerIlmSessions->removeElement($session);
-            $session->removeLearner($this);
+        if ($this->learnerIlmSessions->contains($ilmSession)) {
+            $this->learnerIlmSessions->removeElement($ilmSession);
+            $ilmSession->removeLearner($this);
         }
     }
 
@@ -804,7 +804,7 @@ class User implements UserInterface
         $alert->removeInstigator($this);
     }
 
-    public function setRoles(Collection $roles)
+    public function setRoles(Collection $roles): void
     {
         $this->roles = new ArrayCollection();
 
@@ -813,14 +813,14 @@ class User implements UserInterface
         }
     }
 
-    public function addRole(UserRoleInterface $role)
+    public function addRole(UserRoleInterface $role): void
     {
         if (!$this->roles->contains($role)) {
             $this->roles->add($role);
         }
     }
 
-    public function removeRole(UserRoleInterface $role)
+    public function removeRole(UserRoleInterface $role): void
     {
         $this->roles->removeElement($role);
     }
@@ -830,7 +830,7 @@ class User implements UserInterface
         return $this->roles;
     }
 
-    public function setReports(Collection $reports)
+    public function setReports(Collection $reports): void
     {
         $this->reports = new ArrayCollection();
 
@@ -839,14 +839,14 @@ class User implements UserInterface
         }
     }
 
-    public function addReport(ReportInterface $report)
+    public function addReport(ReportInterface $report): void
     {
         if (!$this->reports->contains($report)) {
             $this->reports->add($report);
         }
     }
 
-    public function removeReport(ReportInterface $report)
+    public function removeReport(ReportInterface $report): void
     {
         $this->reports->removeElement($report);
     }
@@ -859,7 +859,7 @@ class User implements UserInterface
     /**
      * Remove Primary cohort if it is no longer a cohorts
      */
-    public function setCohorts(Collection $cohorts)
+    public function setCohorts(Collection $cohorts): void
     {
         $this->cohorts = new ArrayCollection();
         foreach ($cohorts as $cohort) {
@@ -873,7 +873,7 @@ class User implements UserInterface
     /**
      * Remove Primary cohort if it is no longer a cohorts
      */
-    public function removeCohort(CohortInterface $cohort)
+    public function removeCohort(CohortInterface $cohort): void
     {
         $this->cohorts->removeElement($cohort);
         $primaryCohort = $this->getPrimaryCohort();
@@ -882,7 +882,7 @@ class User implements UserInterface
         }
     }
 
-    public function setPrimaryCohort(CohortInterface $primaryCohort = null)
+    public function setPrimaryCohort(?CohortInterface $primaryCohort = null): void
     {
         if ($primaryCohort && !$this->getCohorts()->contains($primaryCohort)) {
             $this->addCohort($primaryCohort);
@@ -895,7 +895,7 @@ class User implements UserInterface
         return $this->primaryCohort;
     }
 
-    public function setInstructedOfferings(Collection $instructedOfferings)
+    public function setInstructedOfferings(Collection $instructedOfferings): void
     {
         $this->instructedOfferings = new ArrayCollection();
 
@@ -904,7 +904,7 @@ class User implements UserInterface
         }
     }
 
-    public function addInstructedOffering(Offering $instructedOffering)
+    public function addInstructedOffering(Offering $instructedOffering): void
     {
         if (!$this->instructedOfferings->contains($instructedOffering)) {
             $this->instructedOfferings->add($instructedOffering);
@@ -912,24 +912,22 @@ class User implements UserInterface
         }
     }
 
-    public function removeInstructedOffering(Offering $instructedOffering)
+    public function removeInstructedOffering(Offering $instructedOffering): void
     {
         $this->instructedOfferings->removeElement($instructedOffering);
         $instructedOffering->removeInstructor($this);
     }
 
-    public function getInstructedOfferings()
+    public function getInstructedOfferings(): Collection
     {
         return $this->instructedOfferings;
     }
 
-    public function setAuthentication(AuthenticationInterface $authentication = null)
+    public function setAuthentication(?AuthenticationInterface $authentication = null): void
     {
         $this->authentication = $authentication;
 
-        if ($authentication) {
-            $authentication->setUser($this);
-        }
+        $authentication?->setUser($this);
     }
 
     public function getAuthentication(): ?AuthenticationInterface
@@ -937,7 +935,7 @@ class User implements UserInterface
         return $this->authentication;
     }
 
-    public function setAuditLogs(Collection $auditLogs)
+    public function setAuditLogs(Collection $auditLogs): void
     {
         $this->auditLogs = new ArrayCollection();
 
@@ -946,14 +944,14 @@ class User implements UserInterface
         }
     }
 
-    public function addAuditLog(AuditLogInterface $auditLog)
+    public function addAuditLog(AuditLogInterface $auditLog): void
     {
         if (!$this->auditLogs->contains($auditLog)) {
             $this->auditLogs->add($auditLog);
         }
     }
 
-    public function removeAuditLog(AuditLogInterface $auditLog)
+    public function removeAuditLog(AuditLogInterface $auditLog): void
     {
         $this->auditLogs->removeElement($auditLog);
     }
@@ -963,7 +961,7 @@ class User implements UserInterface
         return $this->auditLogs;
     }
 
-    public function setPendingUserUpdates(Collection $pendingUserUpdates)
+    public function setPendingUserUpdates(Collection $pendingUserUpdates): void
     {
         $this->pendingUserUpdates = new ArrayCollection();
 
@@ -972,14 +970,14 @@ class User implements UserInterface
         }
     }
 
-    public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate)
+    public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate): void
     {
         if (!$this->pendingUserUpdates->contains($pendingUserUpdate)) {
             $this->pendingUserUpdates->add($pendingUserUpdate);
         }
     }
 
-    public function removePendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate)
+    public function removePendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate): void
     {
         $this->pendingUserUpdates->removeElement($pendingUserUpdate);
     }
@@ -989,7 +987,7 @@ class User implements UserInterface
         return $this->pendingUserUpdates;
     }
 
-    public function addProgramYear(ProgramYearInterface $programYear)
+    public function addProgramYear(ProgramYearInterface $programYear): void
     {
         if (!$this->programYears->contains($programYear)) {
             $this->programYears->add($programYear);
@@ -997,7 +995,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeProgramYear(ProgramYearInterface $programYear)
+    public function removeProgramYear(ProgramYearInterface $programYear): void
     {
         if ($this->programYears->contains($programYear)) {
             $this->programYears->removeElement($programYear);
@@ -1005,7 +1003,7 @@ class User implements UserInterface
         }
     }
 
-    public function addOffering(OfferingInterface $offering)
+    public function addOffering(OfferingInterface $offering): void
     {
         if (!$this->offerings->contains($offering)) {
             $this->offerings->add($offering);
@@ -1013,7 +1011,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeOffering(OfferingInterface $offering)
+    public function removeOffering(OfferingInterface $offering): void
     {
         if ($this->offerings->contains($offering)) {
             $this->offerings->removeElement($offering);
@@ -1021,7 +1019,7 @@ class User implements UserInterface
         }
     }
 
-    public function setDirectedSchools(Collection $schools)
+    public function setDirectedSchools(Collection $schools): void
     {
         $this->directedSchools = new ArrayCollection();
 
@@ -1030,7 +1028,7 @@ class User implements UserInterface
         }
     }
 
-    public function addDirectedSchool(SchoolInterface $school)
+    public function addDirectedSchool(SchoolInterface $school): void
     {
         if (!$this->directedSchools->contains($school)) {
             $this->directedSchools->add($school);
@@ -1038,7 +1036,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeDirectedSchool(SchoolInterface $school)
+    public function removeDirectedSchool(SchoolInterface $school): void
     {
         $this->directedSchools->removeElement($school);
         $school->removeDirector($this);
@@ -1049,7 +1047,7 @@ class User implements UserInterface
         return $this->directedSchools;
     }
 
-    public function setAdministeredSchools(Collection $schools)
+    public function setAdministeredSchools(Collection $schools): void
     {
         $this->administeredSchools = new ArrayCollection();
 
@@ -1058,7 +1056,7 @@ class User implements UserInterface
         }
     }
 
-    public function addAdministeredSchool(SchoolInterface $school)
+    public function addAdministeredSchool(SchoolInterface $school): void
     {
         if (!$this->administeredSchools->contains($school)) {
             $this->administeredSchools->add($school);
@@ -1066,7 +1064,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeAdministeredSchool(SchoolInterface $school)
+    public function removeAdministeredSchool(SchoolInterface $school): void
     {
         $this->administeredSchools->removeElement($school);
         $school->removeAdministrator($this);
@@ -1077,7 +1075,7 @@ class User implements UserInterface
         return $this->administeredSchools;
     }
 
-    public function setDirectedPrograms(Collection $programs)
+    public function setDirectedPrograms(Collection $programs): void
     {
         $this->directedPrograms = new ArrayCollection();
 
@@ -1086,7 +1084,7 @@ class User implements UserInterface
         }
     }
 
-    public function addDirectedProgram(ProgramInterface $program)
+    public function addDirectedProgram(ProgramInterface $program): void
     {
         if (!$this->directedPrograms->contains($program)) {
             $this->directedPrograms->add($program);
@@ -1094,7 +1092,7 @@ class User implements UserInterface
         }
     }
 
-    public function removeDirectedProgram(ProgramInterface $program)
+    public function removeDirectedProgram(ProgramInterface $program): void
     {
         $this->directedPrograms->removeElement($program);
         $program->removeDirector($this);
@@ -1145,7 +1143,7 @@ class User implements UserInterface
         return $this->root;
     }
 
-    public function setRoot(bool $root)
+    public function setRoot(bool $root): void
     {
         $this->root = $root;
     }
@@ -1155,7 +1153,7 @@ class User implements UserInterface
         return $this->administeredCurriculumInventoryReports;
     }
 
-    public function setAdministeredCurriculumInventoryReports(Collection $reports)
+    public function setAdministeredCurriculumInventoryReports(Collection $reports): void
     {
         $this->administeredCurriculumInventoryReports = new ArrayCollection();
 
@@ -1164,7 +1162,7 @@ class User implements UserInterface
         }
     }
 
-    public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         if (!$this->administeredCurriculumInventoryReports->contains($report)) {
             $this->administeredCurriculumInventoryReports->add($report);
@@ -1172,13 +1170,13 @@ class User implements UserInterface
         }
     }
 
-    public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report)
+    public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         $this->administeredCurriculumInventoryReports->removeElement($report);
         $report->removeAdministrator($this);
     }
 
-    public function setSessionMaterialStatuses(Collection $sessionMaterialStatuses)
+    public function setSessionMaterialStatuses(Collection $sessionMaterialStatuses): void
     {
         $this->sessionMaterialStatuses = new ArrayCollection();
 
@@ -1187,14 +1185,14 @@ class User implements UserInterface
         }
     }
 
-    public function addSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus)
+    public function addSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus): void
     {
         if (!$this->sessionMaterialStatuses->contains($sessionMaterialStatus)) {
             $this->sessionMaterialStatuses->add($sessionMaterialStatus);
         }
     }
 
-    public function removeSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus)
+    public function removeSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus): void
     {
         $this->sessionMaterialStatuses->removeElement($sessionMaterialStatus);
     }

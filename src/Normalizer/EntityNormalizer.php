@@ -31,8 +31,8 @@ class EntityNormalizer implements NormalizerInterface
     }
 
     public function normalize(
-        $object,
-        string $format = null,
+        mixed $object,
+        ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
         $reflection = new ReflectionClass($object);
@@ -85,7 +85,7 @@ class EntityNormalizer implements NormalizerInterface
         return $value;
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $format === 'json' && $this->entityMetadata->isAnIliosEntity($data);
     }

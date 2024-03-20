@@ -132,7 +132,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
     }
 
-    public function warmUp($cacheDir, string $buildDir = null): array
+    public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         try {
             $currentVersion = $this->downloadAndExtractAllArchives(self::PRODUCTION);

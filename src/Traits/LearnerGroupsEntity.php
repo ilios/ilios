@@ -15,7 +15,7 @@ trait LearnerGroupsEntity
 {
     protected Collection $learnerGroups;
 
-    public function setLearnerGroups(Collection $learnerGroups)
+    public function setLearnerGroups(Collection $learnerGroups): void
     {
         $this->learnerGroups = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait LearnerGroupsEntity
         }
     }
 
-    public function addLearnerGroup(LearnerGroupInterface $learnerGroup)
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if (!$this->learnerGroups->contains($learnerGroup)) {
             $this->learnerGroups->add($learnerGroup);
         }
     }
 
-    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup)
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         $this->learnerGroups->removeElement($learnerGroup);
     }

@@ -31,27 +31,27 @@ interface SchoolInterface extends
     DirectorsEntityInterface,
     AdministratorsEntityInterface
 {
-    public function setTemplatePrefix(?string $templatePrefix);
+    public function setTemplatePrefix(?string $templatePrefix): void;
     public function getTemplatePrefix(): ?string;
 
-    public function setIliosAdministratorEmail(string $iliosAdministratorEmail);
+    public function setIliosAdministratorEmail(string $iliosAdministratorEmail): void;
     public function getIliosAdministratorEmail(): string;
 
-    public function setChangeAlertRecipients(?string $changeAlertRecipients);
+    public function setChangeAlertRecipients(?string $changeAlertRecipients): void;
     public function getChangeAlertRecipients(): ?string;
 
     public function setCurriculumInventoryInstitution(
         ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
-    );
+    ): void;
     public function getCurriculumInventoryInstitution(): ?CurriculumInventoryInstitutionInterface;
 
-    public function setVocabularies(Collection $vocabularies);
-    public function addVocabulary(VocabularyInterface $vocabulary);
-    public function removeVocabulary(VocabularyInterface $vocabulary);
+    public function setVocabularies(Collection $vocabularies): void;
+    public function addVocabulary(VocabularyInterface $vocabulary): void;
+    public function removeVocabulary(VocabularyInterface $vocabulary): void;
     public function getVocabularies(): Collection;
 
-    public function addConfiguration(SchoolConfigInterface $config);
-    public function removeConfiguration(SchoolConfigInterface $config);
-    public function setConfigurations(Collection $configs);
+    public function addConfiguration(SchoolConfigInterface $config): void;
+    public function removeConfiguration(SchoolConfigInterface $config): void;
+    public function setConfigurations(Collection $configs): void;
     public function getConfigurations(): Collection;
 }

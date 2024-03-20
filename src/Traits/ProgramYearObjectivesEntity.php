@@ -15,7 +15,7 @@ trait ProgramYearObjectivesEntity
 {
     protected Collection $programYearObjectives;
 
-    public function setProgramYearObjectives(Collection $programYearObjectives = null): void
+    public function setProgramYearObjectives(?Collection $programYearObjectives = null): void
     {
         $this->programYearObjectives = new ArrayCollection();
         if (is_null($programYearObjectives)) {

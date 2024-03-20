@@ -15,7 +15,7 @@ trait SequenceBlocksEntity
 {
     protected Collection $sequenceBlocks;
 
-    public function setSequenceBlocks(Collection $sequenceBlocks)
+    public function setSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->sequenceBlocks = new ArrayCollection();
 
@@ -26,7 +26,7 @@ trait SequenceBlocksEntity
 
     public function addSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
-    ) {
+    ): void {
         if (!$this->sequenceBlocks->contains($sequenceBlock)) {
             $this->sequenceBlocks->add($sequenceBlock);
         }
@@ -34,7 +34,7 @@ trait SequenceBlocksEntity
 
     public function removeSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
-    ) {
+    ): void {
         $this->sequenceBlocks->removeElement($sequenceBlock);
     }
 

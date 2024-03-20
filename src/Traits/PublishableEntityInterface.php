@@ -7,8 +7,8 @@ namespace App\Traits;
 interface PublishableEntityInterface
 {
     public function isPublished(): bool;
-    public function setPublished(bool $published);
+    public function setPublished(bool $published): void;
 
-    public function setPublishedAsTbd(bool $publishedAsTbd);
+    public function setPublishedAsTbd(bool $publishedAsTbd): void;
     public function isPublishedAsTbd(): bool;
 }

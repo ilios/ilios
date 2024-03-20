@@ -53,7 +53,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
         $this->courses = new ArrayCollection();
     }
 
-    public function addCourse(CourseInterface $course)
+    public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
@@ -61,7 +61,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
         }
     }
 
-    public function removeCourse(CourseInterface $course)
+    public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {
             $this->courses->removeElement($course);

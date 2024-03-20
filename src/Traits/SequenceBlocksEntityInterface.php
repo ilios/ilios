@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 
@@ -13,15 +12,15 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
  */
 interface SequenceBlocksEntityInterface
 {
-    public function setSequenceBlocks(Collection $sequenceBlocks);
+    public function setSequenceBlocks(Collection $sequenceBlocks): void;
 
     public function addSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
-    );
+    ): void;
 
     public function removeSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
-    );
+    ): void;
 
     public function getSequenceBlocks(): Collection;
 }

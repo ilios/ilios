@@ -11,9 +11,9 @@ interface MeshPreviousIndexingInterface extends
     IdentifiableEntityInterface,
     Stringable
 {
-    public function setDescriptor(MeshDescriptorInterface $descriptor);
+    public function setDescriptor(MeshDescriptorInterface $descriptor): void;
     public function getDescriptor(): MeshDescriptorInterface;
 
-    public function setPreviousIndexing(string $previousIndexing);
+    public function setPreviousIndexing(string $previousIndexing): void;
     public function getPreviousIndexing(): string;
 }

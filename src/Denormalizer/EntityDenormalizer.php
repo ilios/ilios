@@ -34,7 +34,7 @@ class EntityDenormalizer implements DenormalizerInterface
     ) {
     }
 
-    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
+    public function denormalize($data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (array_key_exists('object_to_populate', $context)) {
             $entity = $context['object_to_populate'];
@@ -174,7 +174,7 @@ class EntityDenormalizer implements DenormalizerInterface
         return $value;
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
+    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
         return $this->entityMetadata->isAnIliosEntity($type);
     }

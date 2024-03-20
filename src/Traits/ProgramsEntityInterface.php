@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\ProgramInterface;
 
@@ -14,7 +12,7 @@ use App\Entity\ProgramInterface;
  */
 interface ProgramsEntityInterface
 {
-    public function setPrograms(Collection $programs);
+    public function setPrograms(Collection $programs): void;
 
     public function addProgram(ProgramInterface $program);
 

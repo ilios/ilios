@@ -82,7 +82,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         $this->endingSequenceBlocks = new ArrayCollection();
     }
 
-    public function setLevel(int $level)
+    public function setLevel(int $level): void
     {
         $this->level = $level;
     }
@@ -92,7 +92,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         return $this->level;
     }
 
-    public function setReport(CurriculumInventoryReportInterface $report)
+    public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }

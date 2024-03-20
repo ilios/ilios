@@ -104,7 +104,7 @@ class Competency implements CompetencyInterface
         $this->active = true;
     }
 
-    public function setParent(CompetencyInterface $parent = null)
+    public function setParent(?CompetencyInterface $parent = null): void
     {
         $this->parent = $parent;
     }
@@ -114,7 +114,7 @@ class Competency implements CompetencyInterface
         return $this->parent;
     }
 
-    public function setChildren(Collection $children)
+    public function setChildren(Collection $children): void
     {
         $this->children = new ArrayCollection();
 
@@ -123,14 +123,14 @@ class Competency implements CompetencyInterface
         }
     }
 
-    public function addChild(CompetencyInterface $child)
+    public function addChild(CompetencyInterface $child): void
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
         }
     }
 
-    public function removeChild(CompetencyInterface $child)
+    public function removeChild(CompetencyInterface $child): void
     {
         $this->children->removeElement($child);
         $child->setParent(null);
@@ -143,10 +143,10 @@ class Competency implements CompetencyInterface
 
     public function hasChildren(): bool
     {
-        return (!$this->children->isEmpty()) ? true : false;
+        return !$this->children->isEmpty();
     }
 
-    public function setAamcPcrses(Collection $aamcPcrses)
+    public function setAamcPcrses(Collection $aamcPcrses): void
     {
         $this->aamcPcrses = new ArrayCollection();
 
@@ -155,7 +155,7 @@ class Competency implements CompetencyInterface
         }
     }
 
-    public function addAamcPcrs(AamcPcrsInterface $aamcPcrs)
+    public function addAamcPcrs(AamcPcrsInterface $aamcPcrs): void
     {
         if (!$this->aamcPcrses->contains($aamcPcrs)) {
             $this->aamcPcrses->add($aamcPcrs);
@@ -163,7 +163,7 @@ class Competency implements CompetencyInterface
         }
     }
 
-    public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs)
+    public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs): void
     {
         if ($this->aamcPcrses->contains($aamcPcrs)) {
             $this->aamcPcrses->removeElement($aamcPcrs);
@@ -176,7 +176,7 @@ class Competency implements CompetencyInterface
         return $this->aamcPcrses;
     }
 
-    public function addProgramYear(ProgramYearInterface $programYear)
+    public function addProgramYear(ProgramYearInterface $programYear): void
     {
         if (!$this->programYears->contains($programYear)) {
             $this->programYears->add($programYear);
@@ -184,7 +184,7 @@ class Competency implements CompetencyInterface
         }
     }
 
-    public function removeProgramYear(ProgramYearInterface $programYear)
+    public function removeProgramYear(ProgramYearInterface $programYear): void
     {
         if ($this->programYears->contains($programYear)) {
             $this->programYears->removeElement($programYear);

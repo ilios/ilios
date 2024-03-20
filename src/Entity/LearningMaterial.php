@@ -180,7 +180,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->courseLearningMaterials = new ArrayCollection();
     }
 
-    public function setOriginalAuthor(?string $originalAuthor)
+    public function setOriginalAuthor(?string $originalAuthor): void
     {
         $this->originalAuthor = $originalAuthor;
     }
@@ -195,7 +195,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->token;
     }
 
-    public function generateToken()
+    public function generateToken(): void
     {
         $random = random_bytes(128);
 
@@ -207,7 +207,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->token = hash('sha256', $key);
     }
 
-    public function setStatus(LearningMaterialStatusInterface $status)
+    public function setStatus(LearningMaterialStatusInterface $status): void
     {
         $this->status = $status;
     }
@@ -217,7 +217,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->status;
     }
 
-    public function setOwningUser(UserInterface $user)
+    public function setOwningUser(UserInterface $user): void
     {
         $this->owningUser = $user;
     }
@@ -227,7 +227,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->owningUser;
     }
 
-    public function setUserRole(LearningMaterialUserRoleInterface $userRole)
+    public function setUserRole(LearningMaterialUserRoleInterface $userRole): void
     {
         $this->userRole = $userRole;
     }
@@ -242,7 +242,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->uploadDate;
     }
 
-    public function setCitation(?string $citation)
+    public function setCitation(?string $citation): void
     {
         if (!is_null($citation)) {
             $this->mimetype = 'citation';
@@ -255,7 +255,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->citation;
     }
 
-    public function setRelativePath(?string $path)
+    public function setRelativePath(?string $path): void
     {
         $this->relativePath = $path;
     }
@@ -265,7 +265,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->relativePath;
     }
 
-    public function setCopyrightPermission($copyrightPermission)
+    public function setCopyrightPermission(?bool $copyrightPermission): void
     {
         $this->copyrightPermission = $copyrightPermission;
     }
@@ -275,7 +275,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->copyrightPermission;
     }
 
-    public function setCopyrightRationale(?string $copyrightRationale)
+    public function setCopyrightRationale(?string $copyrightRationale): void
     {
         $this->copyrightRationale = $copyrightRationale;
     }
@@ -285,7 +285,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->copyrightRationale;
     }
 
-    public function setFilename(?string $filename)
+    public function setFilename(?string $filename): void
     {
         $this->filename = $filename;
     }
@@ -295,7 +295,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->filename;
     }
 
-    public function setFilesize(?int $filesize)
+    public function setFilesize(?int $filesize): void
     {
         $this->filesize = $filesize;
     }
@@ -305,7 +305,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->filesize;
     }
 
-    public function setMimetype(?string $mimetype)
+    public function setMimetype(?string $mimetype): void
     {
         $this->mimetype = $mimetype;
     }
@@ -315,7 +315,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->mimetype;
     }
 
-    public function setLink(?string $link)
+    public function setLink(?string $link): void
     {
         if (!is_null($link)) {
             $this->mimetype = 'link';
@@ -328,7 +328,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->link;
     }
 
-    public function setCourseLearningMaterials(Collection $courseLearningMaterials = null)
+    public function setCourseLearningMaterials(?Collection $courseLearningMaterials = null): void
     {
         $this->courseLearningMaterials = new ArrayCollection();
         if (is_null($courseLearningMaterials)) {
@@ -340,14 +340,14 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
             $this->courseLearningMaterials->add($courseLearningMaterial);
         }
     }
 
-    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial)
+    public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         $this->courseLearningMaterials->removeElement($courseLearningMaterial);
     }
@@ -357,7 +357,7 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->courseLearningMaterials;
     }
 
-    public function setSessionLearningMaterials(Collection $sessionLearningMaterials = null)
+    public function setSessionLearningMaterials(?Collection $sessionLearningMaterials = null): void
     {
         $this->sessionLearningMaterials = new ArrayCollection();
         if (is_null($sessionLearningMaterials)) {
@@ -369,14 +369,14 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
             $this->sessionLearningMaterials->add($sessionLearningMaterial);
         }
     }
 
-    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial)
+    public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
     }

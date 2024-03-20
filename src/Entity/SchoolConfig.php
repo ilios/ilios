@@ -61,7 +61,7 @@ class SchoolConfig implements SchoolConfigInterface
         return $this->value;
     }
 
-    public function setValue(string $value)
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }

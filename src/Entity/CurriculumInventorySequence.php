@@ -50,7 +50,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[Assert\Length(max: 65000)]
     protected ?string $description = null;
 
-    public function setReport(CurriculumInventoryReportInterface $report)
+    public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }

@@ -17,18 +17,18 @@ interface MeshTermInterface extends
     ConceptsEntityInterface,
     CreatedAtEntityInterface
 {
-    public function setMeshTermUid(string $meshTermUid);
+    public function setMeshTermUid(string $meshTermUid): void;
     public function getMeshTermUid(): string;
 
-    public function setLexicalTag(?string $lexicalTag);
+    public function setLexicalTag(?string $lexicalTag): void;
     public function getLexicalTag(): ?string;
 
-    public function setConceptPreferred(?bool $conceptPreferred);
+    public function setConceptPreferred(?bool $conceptPreferred): void;
     public function isConceptPreferred(): ?bool;
 
-    public function setRecordPreferred(?bool $recordPreferred);
+    public function setRecordPreferred(?bool $recordPreferred): void;
     public function isRecordPreferred(): ?bool;
 
-    public function setPermuted(?bool $permuted);
+    public function setPermuted(?bool $permuted): void;
     public function isPermuted(): ?bool;
 }

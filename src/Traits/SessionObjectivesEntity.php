@@ -12,7 +12,7 @@ trait SessionObjectivesEntity
 {
     protected Collection $sessionObjectives;
 
-    public function setSessionObjectives(Collection $sessionObjectives = null): void
+    public function setSessionObjectives(?Collection $sessionObjectives = null): void
     {
         $this->sessionObjectives = new ArrayCollection();
         if (is_null($sessionObjectives)) {

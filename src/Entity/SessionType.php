@@ -107,7 +107,7 @@ class SessionType implements SessionTypeInterface
         $this->active = true;
     }
 
-    public function setCalendarColor(string $color)
+    public function setCalendarColor(string $color): void
     {
         $this->calendarColor = $color;
     }
@@ -117,7 +117,7 @@ class SessionType implements SessionTypeInterface
         return $this->calendarColor;
     }
 
-    public function setAssessment(bool $assessment)
+    public function setAssessment(bool $assessment): void
     {
         $this->assessment = $assessment;
     }
@@ -127,7 +127,7 @@ class SessionType implements SessionTypeInterface
         return $this->assessment;
     }
 
-    public function setAssessmentOption(AssessmentOptionInterface $assessmentOption = null)
+    public function setAssessmentOption(?AssessmentOptionInterface $assessmentOption = null): void
     {
         $this->assessmentOption = $assessmentOption;
     }
@@ -137,7 +137,7 @@ class SessionType implements SessionTypeInterface
         return $this->assessmentOption;
     }
 
-    public function setAamcMethods(Collection $aamcMethods)
+    public function setAamcMethods(Collection $aamcMethods): void
     {
         $this->aamcMethods = new ArrayCollection();
 
@@ -146,14 +146,14 @@ class SessionType implements SessionTypeInterface
         }
     }
 
-    public function addAamcMethod(AamcMethodInterface $aamcMethod)
+    public function addAamcMethod(AamcMethodInterface $aamcMethod): void
     {
         if (!$this->aamcMethods->contains($aamcMethod)) {
             $this->aamcMethods->add($aamcMethod);
         }
     }
 
-    public function removeAamcMethod(AamcMethodInterface $aamcMethod)
+    public function removeAamcMethod(AamcMethodInterface $aamcMethod): void
     {
         $this->aamcMethods->removeElement($aamcMethod);
     }
@@ -163,7 +163,7 @@ class SessionType implements SessionTypeInterface
         return $this->aamcMethods;
     }
 
-    public function addSession(SessionInterface $session)
+    public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
@@ -171,7 +171,7 @@ class SessionType implements SessionTypeInterface
         }
     }
 
-    public function removeSession(SessionInterface $session)
+    public function removeSession(SessionInterface $session): void
     {
         $sessionId = $session->getId();
         throw new Exception(

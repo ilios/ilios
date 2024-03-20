@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\ProgramInterface;
@@ -16,7 +15,7 @@ trait ProgramsEntity
 {
     protected Collection $programs;
 
-    public function setPrograms(Collection $programs)
+    public function setPrograms(Collection $programs): void
     {
         $this->programs = new ArrayCollection();
 
@@ -25,14 +24,14 @@ trait ProgramsEntity
         }
     }
 
-    public function addProgram(ProgramInterface $program)
+    public function addProgram(ProgramInterface $program): void
     {
         if (!$this->programs->contains($program)) {
             $this->programs->add($program);
         }
     }
 
-    public function removeProgram(ProgramInterface $program)
+    public function removeProgram(ProgramInterface $program): void
     {
         $this->programs->removeElement($program);
     }

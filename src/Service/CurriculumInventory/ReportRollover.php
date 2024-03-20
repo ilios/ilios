@@ -63,7 +63,7 @@ class ReportRollover
         ProgramInterface $program,
         $newName = null,
         $newDescription = null,
-        int $newYear = null
+        ?int $newYear = null
     ) {
         /* @var CurriculumInventoryReportInterface $newReport */
         $newReport = $this->reportRepository->create();
@@ -143,7 +143,7 @@ class ReportRollover
         CurriculumInventorySequenceBlockInterface $block,
         CurriculumInventoryReportInterface $newReport,
         array $newLevels,
-        CurriculumInventorySequenceBlockInterface $newParent = null
+        ?CurriculumInventorySequenceBlockInterface $newParent = null
     ) {
         /* @var CurriculumInventorySequenceBlockInterface $newBlock */
         $newBlock = $this->sequenceBlockRepository->create();

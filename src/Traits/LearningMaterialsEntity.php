@@ -15,7 +15,7 @@ trait LearningMaterialsEntity
 {
     protected Collection $learningMaterials;
 
-    public function setLearningMaterials(Collection $learningMaterials)
+    public function setLearningMaterials(Collection $learningMaterials): void
     {
         $this->learningMaterials = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait LearningMaterialsEntity
         }
     }
 
-    public function addLearningMaterial(LearningMaterialInterface $learningMaterial)
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial): void
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
             $this->learningMaterials->add($learningMaterial);
         }
     }
 
-    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial)
+    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial): void
     {
         $this->learningMaterials->removeElement($learningMaterial);
     }

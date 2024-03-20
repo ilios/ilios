@@ -15,7 +15,7 @@ trait ConceptsEntity
 {
     protected Collection $concepts;
 
-    public function setConcepts(Collection $concepts)
+    public function setConcepts(Collection $concepts): void
     {
         $this->concepts = new ArrayCollection();
 
@@ -24,14 +24,14 @@ trait ConceptsEntity
         }
     }
 
-    public function addConcept(MeshConceptInterface $concept)
+    public function addConcept(MeshConceptInterface $concept): void
     {
         if (!$this->concepts->contains($concept)) {
             $this->concepts->add($concept);
         }
     }
 
-    public function removeConcept(MeshConceptInterface $concept)
+    public function removeConcept(MeshConceptInterface $concept): void
     {
         $this->concepts->removeElement($concept);
     }

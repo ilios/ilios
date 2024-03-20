@@ -196,7 +196,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->duration = 0;
     }
 
-    public function setRequired(int $required)
+    public function setRequired(int $required): void
     {
         $this->required = $required;
     }
@@ -206,7 +206,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->required;
     }
 
-    public function setChildSequenceOrder(int $childSequenceOrder)
+    public function setChildSequenceOrder(int $childSequenceOrder): void
     {
         $this->childSequenceOrder = $childSequenceOrder;
     }
@@ -216,7 +216,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->childSequenceOrder;
     }
 
-    public function setOrderInSequence(int $orderInSequence)
+    public function setOrderInSequence(int $orderInSequence): void
     {
         $this->orderInSequence = $orderInSequence;
     }
@@ -226,7 +226,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->orderInSequence;
     }
 
-    public function setMinimum(int $minimum)
+    public function setMinimum(int $minimum): void
     {
         $this->minimum = $minimum;
     }
@@ -236,7 +236,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->minimum;
     }
 
-    public function setMaximum(int $maximum)
+    public function setMaximum(int $maximum): void
     {
         $this->maximum = $maximum;
     }
@@ -246,7 +246,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->maximum;
     }
 
-    public function setTrack(bool $track)
+    public function setTrack(bool $track): void
     {
         $this->track = $track;
     }
@@ -256,7 +256,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->track;
     }
 
-    public function setStartDate(DateTime $startDate = null)
+    public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
@@ -266,7 +266,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->startDate;
     }
 
-    public function setEndDate(DateTime $endDate = null)
+    public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
@@ -276,7 +276,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->endDate;
     }
 
-    public function setDuration(int $duration)
+    public function setDuration(int $duration): void
     {
         $this->duration = $duration;
     }
@@ -286,7 +286,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->duration;
     }
 
-    public function setCourse(CourseInterface $course = null)
+    public function setCourse(?CourseInterface $course = null): void
     {
         $this->course = $course;
     }
@@ -296,7 +296,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->course;
     }
 
-    public function setParent(CurriculumInventorySequenceBlockInterface $parent = null)
+    public function setParent(?CurriculumInventorySequenceBlockInterface $parent = null): void
     {
         $this->parent = $parent;
     }
@@ -306,7 +306,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->parent;
     }
 
-    public function setChildren(Collection $children)
+    public function setChildren(Collection $children): void
     {
         $this->children = new ArrayCollection();
 
@@ -315,14 +315,14 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    public function addChild(CurriculumInventorySequenceBlockInterface $child)
+    public function addChild(CurriculumInventorySequenceBlockInterface $child): void
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
         }
     }
 
-    public function removeChild(CurriculumInventorySequenceBlockInterface $child)
+    public function removeChild(CurriculumInventorySequenceBlockInterface $child): void
     {
         $this->children->removeElement($child);
     }
@@ -332,7 +332,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->children;
     }
 
-    public function setReport(CurriculumInventoryReportInterface $report)
+    public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
@@ -361,7 +361,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 
     /**
      * Callback function for comparing sequence blocks.
-     * The applied criterion for comparison is the </pre>"orderInSequence</pre> property.
+     * The applied criterion for comparison is the <pre>orderInSequence</pre> property.
      */
     public static function compareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $a,
@@ -428,7 +428,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return 0;
     }
 
-    public function setExcludedSessions(Collection $sessions)
+    public function setExcludedSessions(Collection $sessions): void
     {
         $this->excludedSessions = new ArrayCollection();
 
@@ -437,14 +437,14 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    public function addExcludedSession(SessionInterface $session)
+    public function addExcludedSession(SessionInterface $session): void
     {
         if (!$this->excludedSessions->contains($session)) {
             $this->excludedSessions->add($session);
         }
     }
 
-    public function removeExcludedSession(SessionInterface $session)
+    public function removeExcludedSession(SessionInterface $session): void
     {
         $this->excludedSessions->removeElement($session);
     }
@@ -454,12 +454,12 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return $this->excludedSessions;
     }
 
-    public function setStartingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level = null): void
+    public function setStartingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->startingAcademicLevel = $level;
     }
 
-    public function setEndingAcademicLevel(CurriculumInventoryAcademicLevelInterface $level = null): void
+    public function setEndingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->endingAcademicLevel = $level;
     }

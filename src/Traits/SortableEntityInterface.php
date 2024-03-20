@@ -9,10 +9,7 @@ namespace App\Traits;
  */
 interface SortableEntityInterface
 {
-    /**
-     * @param int $position
-     */
-    public function setPosition($position);
+    public function setPosition(int $position): void;
 
     public function getPosition(): int;
 }

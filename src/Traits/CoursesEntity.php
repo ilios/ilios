@@ -16,7 +16,7 @@ trait CoursesEntity
 {
     protected Collection $courses;
 
-    public function setCourses(Collection $courses)
+    public function setCourses(Collection $courses): void
     {
         $this->courses = new ArrayCollection();
 
@@ -25,14 +25,14 @@ trait CoursesEntity
         }
     }
 
-    public function addCourse(CourseInterface $course)
+    public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
             $this->courses->add($course);
         }
     }
 
-    public function removeCourse(CourseInterface $course)
+    public function removeCourse(CourseInterface $course): void
     {
         $this->courses->removeElement($course);
     }

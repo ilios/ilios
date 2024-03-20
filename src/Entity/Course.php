@@ -255,7 +255,7 @@ class Course implements CourseInterface
         $this->locked = false;
     }
 
-    public function setLevel(int $level)
+    public function setLevel(int $level): void
     {
         $this->level = $level;
     }
@@ -265,7 +265,7 @@ class Course implements CourseInterface
         return $this->level;
     }
 
-    public function setYear(int $year)
+    public function setYear(int $year): void
     {
         $this->year = $year;
     }
@@ -275,7 +275,7 @@ class Course implements CourseInterface
         return $this->year;
     }
 
-    public function setStartDate(DateTime $startDate = null)
+    public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
@@ -285,7 +285,7 @@ class Course implements CourseInterface
         return $this->startDate;
     }
 
-    public function setEndDate(DateTime $endDate = null)
+    public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
@@ -295,7 +295,7 @@ class Course implements CourseInterface
         return $this->endDate;
     }
 
-    public function setExternalId(?string $externalId)
+    public function setExternalId(?string $externalId): void
     {
         $this->externalId = $externalId;
     }
@@ -305,7 +305,7 @@ class Course implements CourseInterface
         return $this->externalId;
     }
 
-    public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType = null)
+    public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType = null): void
     {
         $this->clerkshipType = $clerkshipType;
     }
@@ -315,7 +315,7 @@ class Course implements CourseInterface
         return $this->clerkshipType;
     }
 
-    public function setLearningMaterials(Collection $learningMaterials = null)
+    public function setLearningMaterials(?Collection $learningMaterials = null): void
     {
         $this->learningMaterials = new ArrayCollection();
         if (is_null($learningMaterials)) {
@@ -327,14 +327,14 @@ class Course implements CourseInterface
         }
     }
 
-    public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
+    public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial): void
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
             $this->learningMaterials->add($learningMaterial);
         }
     }
 
-    public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial)
+    public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial): void
     {
         if ($this->learningMaterials->contains($learningMaterial)) {
             $this->learningMaterials->removeElement($learningMaterial);
@@ -346,7 +346,7 @@ class Course implements CourseInterface
         return $this->learningMaterials;
     }
 
-    public function setAncestor(CourseInterface $ancestor = null)
+    public function setAncestor(?CourseInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
@@ -360,10 +360,10 @@ class Course implements CourseInterface
     {
         $ancestor = $this->getAncestor();
 
-        return $ancestor ? $ancestor : $this;
+        return $ancestor ?: $this;
     }
 
-    public function setDescendants(Collection $descendants)
+    public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
 
@@ -372,12 +372,12 @@ class Course implements CourseInterface
         }
     }
 
-    public function addDescendant(CourseInterface $descendant)
+    public function addDescendant(CourseInterface $descendant): void
     {
         $this->descendants->add($descendant);
     }
 
-    public function removeDescendant(CourseInterface $descendant)
+    public function removeDescendant(CourseInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
@@ -387,7 +387,7 @@ class Course implements CourseInterface
         return $this->descendants;
     }
 
-    public function addDirector(UserInterface $director)
+    public function addDirector(UserInterface $director): void
     {
         if (!$this->directors->contains($director)) {
             $this->directors->add($director);
@@ -395,7 +395,7 @@ class Course implements CourseInterface
         }
     }
 
-    public function removeDirector(UserInterface $director)
+    public function removeDirector(UserInterface $director): void
     {
         if ($this->directors->contains($director)) {
             $this->directors->removeElement($director);
@@ -403,7 +403,7 @@ class Course implements CourseInterface
         }
     }
 
-    public function addCohort(CohortInterface $cohort)
+    public function addCohort(CohortInterface $cohort): void
     {
         if (!$this->cohorts->contains($cohort)) {
             $this->cohorts->add($cohort);
@@ -411,7 +411,7 @@ class Course implements CourseInterface
         }
     }
 
-    public function removeCohort(CohortInterface $cohort)
+    public function removeCohort(CohortInterface $cohort): void
     {
         if ($this->cohorts->contains($cohort)) {
             $this->cohorts->removeElement($cohort);
@@ -419,7 +419,7 @@ class Course implements CourseInterface
         }
     }
 
-    public function addTerm(TermInterface $term)
+    public function addTerm(TermInterface $term): void
     {
         if (!$this->terms->contains($term)) {
             $this->terms->add($term);
@@ -427,7 +427,7 @@ class Course implements CourseInterface
         }
     }
 
-    public function removeTerm(TermInterface $term)
+    public function removeTerm(TermInterface $term): void
     {
         if ($this->terms->contains($term)) {
             $this->terms->removeElement($term);
@@ -435,7 +435,7 @@ class Course implements CourseInterface
         }
     }
 
-    public function addAdministrator(UserInterface $administrator)
+    public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
             $this->administrators->add($administrator);
@@ -443,21 +443,21 @@ class Course implements CourseInterface
         }
     }
 
-    public function removeAdministrator(UserInterface $administrator)
+    public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredCourse($this);
         }
     }
-    public function addStudentAdvisor(UserInterface $studentAdvisor)
+    public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if (!$this->studentAdvisors->contains($studentAdvisor)) {
             $this->studentAdvisors->add($studentAdvisor);
             $studentAdvisor->addStudentAdvisedCourse($this);
         }
     }
-    public function removeStudentAdvisor(UserInterface $studentAdvisor)
+    public function removeStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if ($this->studentAdvisors->contains($studentAdvisor)) {
             $this->studentAdvisors->removeElement($studentAdvisor);
@@ -483,7 +483,7 @@ class Course implements CourseInterface
         }
     }
 
-    public function setSequenceBlocks(Collection $sequenceBlocks)
+    public function setSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->sequenceBlocks = new ArrayCollection();
 
@@ -492,14 +492,14 @@ class Course implements CourseInterface
         }
     }
 
-    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         if (!$this->sequenceBlocks->contains($sequenceBlock)) {
             $this->sequenceBlocks->add($sequenceBlock);
         }
     }
 
-    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock)
+    public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         $this->sequenceBlocks->removeElement($sequenceBlock);
     }

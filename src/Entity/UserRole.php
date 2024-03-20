@@ -54,7 +54,7 @@ class UserRole implements UserRoleInterface
         $this->users = new ArrayCollection();
     }
 
-    public function addUser(UserInterface $user)
+    public function addUser(UserInterface $user): void
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -62,7 +62,7 @@ class UserRole implements UserRoleInterface
         }
     }
 
-    public function removeUser(UserInterface $user)
+    public function removeUser(UserInterface $user): void
     {
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);

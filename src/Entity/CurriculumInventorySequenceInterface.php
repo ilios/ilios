@@ -10,6 +10,6 @@ interface CurriculumInventorySequenceInterface extends
     DescribableNullableEntityInterface,
     LoggableEntityInterface
 {
-    public function setReport(CurriculumInventoryReportInterface $report);
+    public function setReport(CurriculumInventoryReportInterface $report): void;
     public function getReport(): CurriculumInventoryReportInterface;
 }

@@ -10,5 +10,5 @@ interface SchoolEntityInterface
 {
     public function getSchool(): SchoolInterface;
 
-    public function setSchool(SchoolInterface $school);
+    public function setSchool(SchoolInterface $school): void;
 }
