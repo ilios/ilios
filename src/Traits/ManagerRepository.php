@@ -20,8 +20,6 @@ use Exception;
  */
 trait ManagerRepository
 {
-    abstract protected function getEntityName();
-    abstract protected function getEntityManager();
     abstract public function find($id);
     abstract protected function hydrateDTOsFromIds(array $ids): array;
 
@@ -185,8 +183,17 @@ trait ManagerRepository
             return $dtos;
         }
         $ids = array_keys($dtos);
+        // KLUDGE!
+        // Doctrine 3.x changes the internal data structure from nested assoc arrays to an all-object representation.
+        // Here, we convert the mapping objects into arrays,
+        // so we don't have to rewrite this entire process at this point.
+        // @todo Refactor this to use the objects that Doctrine gives us now [ST 2024/02/27]
+        $maps = array_map(
+            fn (object $obj) => $obj->toArray(),
+            $this->getClassMetadata()->associationMappings
+        );
         $relatedMetadata = array_filter(
-            $this->getClassMetadata()->associationMappings,
+            $maps,
             fn (array $arr) => array_key_exists('joinTable', $arr) && in_array($arr['fieldName'], $related)
         );
         $owningSideSets = $this->extractSetsFromOwningSideMetadata(
