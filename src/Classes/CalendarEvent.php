@@ -156,6 +156,11 @@ class CalendarEvent
     #[IA\Expose]
     #[IA\Type('array')]
     public array $courseTerms = [];
+
+    #[IA\Expose]
+    #[IA\Type('array<string>')]
+    public array $userContexts = [];
+
     /**
      * Clean out all the data for draft or scheduled events
      *

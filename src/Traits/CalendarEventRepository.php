@@ -24,12 +24,12 @@ trait CalendarEventRepository
     /**
      * Convert offerings into CalendarEvent() objects
      */
-    protected function createEventObjectsForOfferings(array $results): array
+    protected function createEventObjectsForOfferings(array $results, array $userContexts = []): array
     {
-        return array_map(fn($arr) => $this->createEventObjectForOffering($arr), $results);
+        return array_map(fn($arr) => $this->createEventObjectForOffering($arr, $userContexts), $results);
     }
 
-    protected function createEventObjectForOffering(array $arr): CalendarEvent
+    protected function createEventObjectForOffering(array $arr, array $userContexts = []): CalendarEvent
     {
         $event = new CalendarEvent();
         $event->name = $arr['title'];
@@ -56,18 +56,19 @@ trait CalendarEventRepository
         $event->supplemental = $arr['supplemental'];
         $event->attendanceRequired = $arr['attendanceRequired'];
         $event->school = $arr['schoolId'];
+        $event->userContexts = $userContexts;
         return $event;
     }
 
     /**
      * Convert IlmSessions into CalendarEvent() objects
      */
-    protected function createEventObjectsForIlmSessions(array $results): array
+    protected function createEventObjectsForIlmSessions(array $results, array $userContexts = []): array
     {
-        return array_map(fn($arr) => $this->createEventObjectForIlmSession($arr), $results);
+        return array_map(fn($arr) => $this->createEventObjectForIlmSession($arr, $userContexts), $results);
     }
 
-    protected function createEventObjectForIlmSession(array $arr): CalendarEvent
+    protected function createEventObjectForIlmSession(array $arr, array $userContexts = []): CalendarEvent
     {
         $event = new CalendarEvent();
         $event->name = $arr['title'];
@@ -93,6 +94,7 @@ trait CalendarEventRepository
         $event->supplemental = $arr['supplemental'];
         $event->attendanceRequired = $arr['attendanceRequired'];
         $event->school = $arr['schoolId'];
+        $event->userContexts = $userContexts;
         return $event;
     }
 
