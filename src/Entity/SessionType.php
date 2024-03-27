@@ -19,8 +19,8 @@ use App\Traits\SchoolEntity;
 use App\Repository\SessionTypeRepository;
 
 #[ORM\Table(name: 'session_type')]
-#[ORM\Index(name: 'school_id', columns: ['school_id'])]
-#[ORM\Index(name: 'assessment_option_fkey', columns: ['assessment_option_id'])]
+#[ORM\Index(columns: ['school_id'], name: 'school_id')]
+#[ORM\Index(columns: ['assessment_option_id'], name: 'assessment_option_fkey')]
 #[ORM\Entity(repositoryClass: SessionTypeRepository::class)]
 #[IA\Entity]
 class SessionType implements SessionTypeInterface
@@ -93,7 +93,7 @@ class SessionType implements SessionTypeInterface
     #[IA\Type('entityCollection')]
     protected Collection $aamcMethods;
 
-    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'sessionType')]
+    #[ORM\OneToMany(mappedBy: 'sessionType', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

@@ -14,7 +14,7 @@ use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryExportRepository;
 
 #[ORM\Table(name: 'curriculum_inventory_export')]
-#[ORM\Index(name: 'fkey_curriculum_inventory_export_user_id', columns: ['created_by'])]
+#[ORM\Index(columns: ['created_by'], name: 'fkey_curriculum_inventory_export_user_id')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryExportRepository::class)]
 #[IA\Entity]
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
@@ -32,7 +32,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'export')]
+    #[ORM\OneToOne(inversedBy: 'export', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', unique: true, nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]

@@ -26,9 +26,9 @@ use App\Traits\IdentifiableEntity;
 use App\Repository\SessionRepository;
 
 #[ORM\Table(name: 'session')]
-#[ORM\Index(name: 'session_type_id_k', columns: ['session_type_id'])]
-#[ORM\Index(name: 'course_id_k', columns: ['course_id'])]
-#[ORM\Index(name: 'session_course_type_title_k', columns: ['session_id', 'course_id', 'session_type_id', 'title'])]
+#[ORM\Index(columns: ['session_type_id'], name: 'session_type_id_k')]
+#[ORM\Index(columns: ['course_id'], name: 'course_id_k')]
+#[ORM\Index(columns: ['session_id', 'course_id', 'session_type_id', 'title'], name: 'session_course_type_title_k')]
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 #[IA\Entity]
 class Session implements SessionInterface
@@ -138,7 +138,7 @@ class Session implements SessionInterface
     #[Assert\NotNull]
     protected CourseInterface $course;
 
-    #[ORM\OneToOne(targetEntity: 'IlmSession', mappedBy: 'session')]
+    #[ORM\OneToOne(mappedBy: 'session', targetEntity: 'IlmSession')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?IlmSessionInterface $ilmSession = null;
@@ -152,7 +152,7 @@ class Session implements SessionInterface
     #[IA\Type('entityCollection')]
     protected Collection $terms;
 
-    #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'session')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionObjective')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -171,13 +171,13 @@ class Session implements SessionInterface
     #[IA\Type('entityCollection')]
     protected Collection $meshDescriptors;
 
-    #[ORM\OneToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'session')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $learningMaterials;
 
-    #[ORM\OneToMany(targetEntity: 'Offering', mappedBy: 'session')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'Offering')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -215,7 +215,7 @@ class Session implements SessionInterface
     #[IA\Type('entity')]
     protected ?SessionInterface $postrequisite = null;
 
-    #[ORM\OneToMany(targetEntity: 'Session', mappedBy: 'postrequisite')]
+    #[ORM\OneToMany(mappedBy: 'postrequisite', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

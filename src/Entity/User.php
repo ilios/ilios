@@ -23,7 +23,7 @@ use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
 
 #[ORM\Table(name: 'user')]
-#[ORM\Index(name: "fkey_user_school", columns: ["school_id"])]
+#[ORM\Index(columns: ["school_id"], name: "fkey_user_school")]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[IA\Entity]
 class User implements UserInterface
@@ -156,24 +156,24 @@ class User implements UserInterface
     #[Assert\Length(min: 64, max: 64)]
     protected string $icsFeedKey;
 
-    #[ORM\OneToOne(targetEntity: 'Authentication', mappedBy: 'user')]
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: 'Authentication')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?AuthenticationInterface $authentication = null;
 
-    #[ORM\OneToMany(targetEntity: 'AuditLog', mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'AuditLog')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $auditLogs;
 
     /**
      * Don't put learningMaterials in the user API it takes forever to load them all
      */
-    #[ORM\OneToMany(targetEntity: 'LearningMaterial', mappedBy: 'owningUser')]
+    #[ORM\OneToMany(mappedBy: 'owningUser', targetEntity: 'LearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Type('entityCollection')]
     protected Collection $learningMaterials;
 
-    #[ORM\OneToMany(targetEntity: 'Report', mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -295,7 +295,7 @@ class User implements UserInterface
     #[IA\Type('entity')]
     protected ?CohortInterface $primaryCohort = null;
 
-    #[ORM\OneToMany(targetEntity: 'PendingUserUpdate', mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'PendingUserUpdate')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -332,7 +332,7 @@ class User implements UserInterface
     #[IA\Type('entityCollection')]
     protected Collection $administeredCurriculumInventoryReports;
 
-    #[ORM\OneToMany(targetEntity: UserSessionMaterialStatus::class, mappedBy: 'user')]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSessionMaterialStatus::class)]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $sessionMaterialStatuses;

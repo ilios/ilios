@@ -150,7 +150,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('entity')]
     protected ?CurriculumInventorySequenceBlockInterface $parent = null;
 
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'parent')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Authentication implements AuthenticationInterface
 {
     #[ORM\Id]
-    #[ORM\OneToOne(targetEntity: 'User', inversedBy: 'authentication')]
+    #[ORM\OneToOne(inversedBy: 'authentication', targetEntity: 'User')]
     #[ORM\JoinColumn(name: 'person_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[IA\Type('entity')]
     #[IA\Expose]

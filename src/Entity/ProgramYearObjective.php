@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProgramYearObjectiveRepository;
 
 #[ORM\Table(name: 'program_year_x_objective')]
-#[ORM\Index(name: 'IDX_7A16FDD6CB2B0673', columns: ['program_year_id'])]
+#[ORM\Index(columns: ['program_year_id'], name: 'IDX_7A16FDD6CB2B0673')]
 #[ORM\Entity(repositoryClass: ProgramYearObjectiveRepository::class)]
 #[IA\Entity]
 class ProgramYearObjective implements ProgramYearObjectiveInterface
@@ -112,7 +112,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[IA\Type('entity')]
     protected ?ProgramYearObjectiveInterface $ancestor = null;
 
-    #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'ancestor')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'ProgramYearObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

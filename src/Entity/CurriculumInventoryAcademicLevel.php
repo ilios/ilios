@@ -17,7 +17,7 @@ use App\Repository\CurriculumInventoryAcademicLevelRepository;
 
 #[ORM\Table(name: 'curriculum_inventory_academic_level')]
 #[ORM\UniqueConstraint(name: 'report_id_level', columns: ['report_id', 'level'])]
-#[ORM\Index(name: 'IDX_B4D3296D4BD2A4C0', columns: ['report_id'])]
+#[ORM\Index(columns: ['report_id'], name: 'IDX_B4D3296D4BD2A4C0')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryAcademicLevelRepository::class)]
 #[IA\Entity]
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
@@ -64,13 +64,13 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[IA\Type('entity')]
     protected CurriculumInventoryReportInterface $report;
 
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'startingAcademicLevel')]
+    #[ORM\OneToMany(mappedBy: 'startingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $startingSequenceBlocks;
 
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'endingAcademicLevel')]
+    #[ORM\OneToMany(mappedBy: 'endingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

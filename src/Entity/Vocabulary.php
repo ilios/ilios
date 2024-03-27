@@ -54,7 +54,7 @@ class Vocabulary implements VocabularyInterface
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[ORM\OneToMany(targetEntity: 'Term', mappedBy: 'vocabulary')]
+    #[ORM\OneToMany(mappedBy: 'vocabulary', targetEntity: 'Term')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

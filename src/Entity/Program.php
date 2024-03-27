@@ -67,13 +67,13 @@ class Program implements ProgramInterface
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[ORM\OneToMany(targetEntity: 'ProgramYear', mappedBy: 'program')]
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: 'ProgramYear')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $programYears;
 
-    #[ORM\OneToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'program')]
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

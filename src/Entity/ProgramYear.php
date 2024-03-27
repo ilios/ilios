@@ -70,7 +70,7 @@ class ProgramYear implements ProgramYearInterface
     #[Assert\NotNull]
     protected ProgramInterface $program;
 
-    #[ORM\OneToOne(targetEntity: 'Cohort', mappedBy: 'programYear')]
+    #[ORM\OneToOne(mappedBy: 'programYear', targetEntity: 'Cohort')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected CohortInterface $cohort;
@@ -102,7 +102,7 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Type('entityCollection')]
     protected Collection $terms;
 
-    #[ORM\OneToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'programYear')]
+    #[ORM\OneToMany(mappedBy: 'programYear', targetEntity: 'ProgramYearObjective')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
