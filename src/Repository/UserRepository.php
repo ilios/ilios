@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Classes\CalendarEventUserContext;
 use App\Entity\Session;
 use App\Entity\UserRole;
 use App\Entity\UserRoleInterface;
@@ -136,12 +137,18 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     public function findEventsForUser($id, DateTime $from, DateTime $to): array
     {
         //These joins are DQL representations to go from a user to an offerings
-        $joins = $this->getUserToOfferingJoins();
+        $joinsAndUserContexts = $this->getUserToOfferingJoinsAndUserContexts();
 
         $offeringEvents = [];
         //using each of the joins above create a query to get events
-        foreach ($joins as $join) {
-            $groupEvents = $this->getOfferingEventsFor($id, $from, $to, $join);
+        foreach ($joinsAndUserContexts as $joinsAndUserContext) {
+            $groupEvents = $this->getOfferingEventsFor(
+                $id,
+                $from,
+                $to,
+                $joinsAndUserContext[0],
+                $joinsAndUserContext[1],
+            );
             $offeringEvents = array_merge($offeringEvents, $groupEvents);
         }
 
@@ -150,16 +157,29 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         foreach ($offeringEvents as $userEvent) {
             if (!array_key_exists($userEvent->offering, $events)) {
                 $events[$userEvent->offering] = $userEvent;
+            } else {
+                $events[$userEvent->offering]->userContexts = array_unique(
+                    array_merge(
+                        $events[$userEvent->offering]->userContexts,
+                        $userEvent->userContexts
+                    )
+                );
             }
         }
 
         //These joins are DQL representations to go from a user to an ILMSession
-        $joins = $this->getUserToIlmJoins();
+        $joinsAndUserContexts = $this->getUserToIlmJoinsAndUserContexts();
 
         $ilmEvents = [];
         //using each of the joins above create a query to get events
-        foreach ($joins as $join) {
-            $groupEvents = $this->getIlmSessionEventsFor($id, $from, $to, $join);
+        foreach ($joinsAndUserContexts as $joinsAndUserContext) {
+            $groupEvents = $this->getIlmSessionEventsFor(
+                $id,
+                $from,
+                $to,
+                $joinsAndUserContext[0],
+                $joinsAndUserContext[1]
+            );
             $ilmEvents = array_merge($ilmEvents, $groupEvents);
         }
 
@@ -168,6 +188,13 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         foreach ($ilmEvents as $userEvent) {
             if (!array_key_exists($userEvent->ilmSession, $uniqueIlmEvents)) {
                 $uniqueIlmEvents[$userEvent->ilmSession] = $userEvent;
+            } else {
+                $uniqueIlmEvents[$userEvent->ilmSession]->userContexts = array_unique(
+                    array_merge(
+                        $uniqueIlmEvents[$userEvent->ilmSession]->userContexts,
+                        $userEvent->userContexts
+                    )
+                );
             }
         }
 
@@ -335,7 +362,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $id,
         DateTime $from,
         DateTime $to,
-        array $joins
+        array $joins,
+        string $userContext,
     ) {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -370,15 +398,20 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $qb->setParameter('date_to', $to, DoctrineType::DATETIME_MUTABLE);
 
         $results = $qb->getQuery()->getArrayResult();
-        return $this->createEventObjectsForOfferings($results);
+        return $this->createEventObjectsForOfferings($results, [$userContext]);
     }
 
     /**
      * Use the query builder and the $joins to get a set of
      * ILMSession based user events
      */
-    protected function getIlmSessionEventsFor(int $id, DateTime $from, DateTime $to, array $joins): array
-    {
+    protected function getIlmSessionEventsFor(
+        int $id,
+        DateTime $from,
+        DateTime $to,
+        array $joins,
+        ?string $userContext = null
+    ): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, ilm.id, ilm.dueDate, ' .
             's.updatedAt, s.title, st.calendarColor, ' .
@@ -410,7 +443,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         return array_map(fn(CalendarEvent $event) => UserEvent::createFromCalendarEvent(
             $id,
             $event
-        ), $this->createEventObjectsForIlmSessions($results));
+        ), $this->createEventObjectsForIlmSessions($results, [$userContext]));
     }
 
     /**
@@ -456,7 +489,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         // get pre-requisites from offerings that a the user is associated with (as learner, instructor, etc.)
         $results = [];
-        $joins = $this->getUserToOfferingJoins();
+        $joinsAndUserContexts = $this->getUserToOfferingJoinsAndUserContexts();
         $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.url, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
@@ -465,10 +498,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
-        foreach ($joins as $join) {
+        foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
-            foreach ($join as $key => $statement) {
+            foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
             $qb->leftJoin('o.session', 's');
@@ -482,14 +515,26 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->setParameter('user_id', $id);
             $qb->setParameter('sessions', $sessionIds);
 
-            $results = array_merge($results, $qb->getQuery()->getArrayResult());
+            $result = $qb->getQuery()->getArrayResult();
+            if (!empty($result)) {
+                $result = array_map(function ($event) use ($joinsAndUserContext) {
+                    $event['userContexts'] = [$joinsAndUserContext[1]];
+                    return $event;
+                }, $result);
+                $results = array_merge($results, $result);
+            }
         }
 
         // dedupe results by offering id
         $dedupedResults = [];
         foreach ($results as $result) {
             if (array_key_exists($result['id'], $dedupedResults)) {
-                continue;
+                $dedupedResults[$result['id']]['userContexts'] = array_unique(
+                    array_merge(
+                        $dedupedResults[$result['id']]['userContexts'],
+                        $result['userContexts']
+                    )
+                );
             }
             $dedupedResults[$result['id']] = $result;
         }
@@ -497,7 +542,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         // create pre-requisites events and attach them to their proper events
         foreach ($dedupedResults as $result) {
-            $prerequisite = UserEvent::createFromCalendarEvent($id, $this->createEventObjectForOffering($result));
+            $prerequisite = UserEvent::createFromCalendarEvent(
+                $id,
+                $this->createEventObjectForOffering($result, $result['userContexts'])
+            );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
                 /** @var CalendarEvent $event */
@@ -509,7 +557,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         // get pre-requisites from ILMs that a the user is associated with (as learner, instructor, etc.)
         $results = [];
-        $joins = $this->getUserToIlmJoins();
+        $joinsAndUserContexts = $this->getUserToIlmJoinsAndUserContexts();
         $what = 'ps.id AS preRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'ilm.id, ilm.dueDate, s.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -517,10 +565,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
-        foreach ($joins as $join) {
+        foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
-            foreach ($join as $key => $statement) {
+            foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
             $qb->leftJoin('ilm.session', 's');
@@ -534,14 +582,26 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->setParameter('user_id', $id);
             $qb->setParameter('sessions', $sessionIds);
 
-            $results = array_merge($results, $qb->getQuery()->getArrayResult());
+            $result = $qb->getQuery()->getArrayResult();
+            if (!empty($result)) {
+                $result = array_map(function ($event) use ($joinsAndUserContext) {
+                    $event['userContexts'] = [$joinsAndUserContext[1]];
+                    return $event;
+                }, $result);
+                $results = array_merge($results, $result);
+            }
         }
 
         // dedupe results by ILM id
         $dedupedResults = [];
         foreach ($results as $result) {
             if (array_key_exists($result['id'], $dedupedResults)) {
-                continue;
+                $dedupedResults[$result['id']]['userContexts'] = array_unique(
+                    array_merge(
+                        $dedupedResults[$result['id']]['userContexts'],
+                        $result['userContexts']
+                    )
+                );
             }
             $dedupedResults[$result['id']] = $result;
         }
@@ -551,7 +611,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         foreach ($dedupedResults as $result) {
             $prerequisite = UserEvent::createFromCalendarEvent(
                 $id,
-                $this->createEventObjectForIlmSession($result)
+                $this->createEventObjectForIlmSession($result, $result['userContexts'])
             );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
@@ -588,7 +648,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         // get post-requisites from offerings that a the user is associated with (as learner, instructor, etc.)
         $results = [];
-        $joins = $this->getUserToOfferingJoins();
+        $joinsAndUserContexts = $this->getUserToOfferingJoinsAndUserContexts();
         $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'o.id, o.startDate, o.endDate, o.room, o.url, o.updatedAt, o.updatedAt AS offeringUpdatedAt, ' .
             's.updatedAt AS sessionUpdatedAt, s.title, st.calendarColor, st.title as sessionTypeTitle, ' .
@@ -597,10 +657,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle, ' .
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
-        foreach ($joins as $join) {
+        foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
-            foreach ($join as $key => $statement) {
+            foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
             $qb->leftJoin('o.session', 's');
@@ -614,16 +674,29 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->setParameter('user_id', $id);
             $qb->setParameter('sessions', $sessionIds);
 
-            $results = array_merge($results, $qb->getQuery()->getArrayResult());
+            $result = $qb->getQuery()->getArrayResult();
+            if (!empty($result)) {
+                $result = array_map(function ($event) use ($joinsAndUserContext) {
+                    $event['userContexts'] = [$joinsAndUserContext[1]];
+                    return $event;
+                }, $result);
+                $results = array_merge($results, $result);
+            }
         }
 
         // dedupe results by offering id
         $dedupedResults = [];
         foreach ($results as $result) {
             if (array_key_exists($result['postRequisiteSessionId'], $dedupedResults)) {
-                continue;
+                $dedupedResults[$result['postRequisiteSessionId']]['userContexts'] = array_unique(
+                    array_merge(
+                        $dedupedResults[$result['postRequisiteSessionId']]['userContexts'],
+                        $result['userContexts']
+                    )
+                );
+            } else {
+                $dedupedResults[$result['postRequisiteSessionId']] = $result;
             }
-            $dedupedResults[$result['postRequisiteSessionId']] = $result;
         }
         $dedupedResults = array_values($dedupedResults);
 
@@ -641,7 +714,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
         // get post-requisites from ILMs that a the user is associated with (as learner, instructor, etc.)
         $results = [];
-        $joins = $this->getUserToIlmJoins();
+        $joinsAndUserContexts = $this->getUserToIlmJoinsAndUserContexts();
         $what = 'ps.id AS postRequisiteSessionId, c.id as courseId, s.id AS sessionId, school.id AS schoolId, ' .
             'ilm.id, ilm.dueDate, s.updatedAt, s.title, st.calendarColor, ' .
             's.publishedAsTbd as sessionPublishedAsTbd, s.published as sessionPublished, ' .
@@ -649,10 +722,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.publishedAsTbd as coursePublishedAsTbd, c.published as coursePublished, c.title as courseTitle,' .
             'c.level as courseLevel, st.id as sessionTypeId, st.title AS sessionTypeTitle, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
-        foreach ($joins as $join) {
+        foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->addSelect($what)->from('App\Entity\User', 'u');
-            foreach ($join as $key => $statement) {
+            foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
             $qb->leftJoin('ilm.session', 's');
@@ -666,16 +739,29 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $qb->setParameter('user_id', $id);
             $qb->setParameter('sessions', $sessionIds);
 
-            $results = array_merge($results, $qb->getQuery()->getArrayResult());
+            $result = $qb->getQuery()->getArrayResult();
+            if (!empty($result)) {
+                $result = array_map(function ($event) use ($joinsAndUserContext) {
+                    $event['userContexts'] = [$joinsAndUserContext[1]];
+                    return $event;
+                }, $result);
+                $results = array_merge($results, $result);
+            }
         }
 
         // dedupe results by ILM id
         $dedupedResults = [];
         foreach ($results as $result) {
             if (array_key_exists($result['postRequisiteSessionId'], $dedupedResults)) {
-                continue;
+                $dedupedResults[$result['postRequisiteSessionId']]['userContexts'] = array_unique(
+                    array_merge(
+                        $dedupedResults[$result['postRequisiteSessionId']]['userContexts'],
+                        $result['userContexts']
+                    )
+                );
+            } else {
+                $dedupedResults[$result['postRequisiteSessionId']] = $result;
             }
-            $dedupedResults[$result['postRequisiteSessionId']] = $result;
         }
         $dedupedResults = array_values($dedupedResults);
 
@@ -1642,29 +1728,47 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         return $rhett;
     }
 
-    protected function getUserToIlmJoins(): array
+    protected function getUserToIlmJoinsAndUserContexts(): array
     {
         return [
-            ['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'],
-            ['g' => 'u.instructorGroups', 'ilm' => 'g.ilmSessions'],
-            ['ilm' => 'u.learnerIlmSessions'],
-            ['ilm' => 'u.instructorIlmSessions'],
-            ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession'],
-            ['ac' => 'u.administeredCourses', 'sess' => 'ac.sessions', 'ilm' => 'sess.ilmSession'],
-            ['sess' => 'u.administeredSessions', 'ilm' => 'sess.ilmSession'],
+            [['g' => 'u.learnerGroups', 'ilm' => 'g.ilmSessions'], CalendarEventUserContext::LEARNER],
+            [['g' => 'u.instructorGroups', 'ilm' => 'g.ilmSessions'], CalendarEventUserContext::INSTRUCTOR],
+            [['ilm' => 'u.learnerIlmSessions'], CalendarEventUserContext::LEARNER],
+            [['ilm' => 'u.instructorIlmSessions'], CalendarEventUserContext::INSTRUCTOR],
+            [
+                ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession'],
+                CalendarEventUserContext::COURSE_DIRECTOR
+            ],
+            [
+                ['ac' => 'u.administeredCourses', 'sess' => 'ac.sessions', 'ilm' => 'sess.ilmSession'],
+                CalendarEventUserContext::COURSE_ADMINISTRATOR
+            ],
+            [
+                ['sess' => 'u.administeredSessions', 'ilm' => 'sess.ilmSession'],
+                CalendarEventUserContext::SESSION_ADMINISTRATOR
+            ],
         ];
     }
 
-    protected function getUserToOfferingJoins(): array
+    protected function getUserToOfferingJoinsAndUserContexts(): array
     {
         return [
-            ['g' => 'u.learnerGroups', 'o' => 'g.offerings'],
-            ['g' => 'u.instructorGroups', 'o' => 'g.offerings'],
-            ['o' => 'u.offerings'],
-            ['o' => 'u.instructedOfferings'],
-            ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
-            ['ac' => 'u.administeredCourses', 'acs' => 'ac.sessions', 'o' => 'acs.offerings'],
-            ['sess' => 'u.administeredSessions', 'o' => 'sess.offerings'],
+            [['g' => 'u.learnerGroups', 'o' => 'g.offerings'], CalendarEventUserContext::LEARNER],
+            [['g' => 'u.instructorGroups', 'o' => 'g.offerings'], CalendarEventUserContext::INSTRUCTOR],
+            [['o' => 'u.offerings'], CalendarEventUserContext::LEARNER],
+            [['o' => 'u.instructedOfferings'], CalendarEventUserContext::INSTRUCTOR],
+            [
+                ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
+                CalendarEventUserContext::COURSE_DIRECTOR
+            ],
+            [
+                ['ac' => 'u.administeredCourses', 'acs' => 'ac.sessions', 'o' => 'acs.offerings'],
+                CalendarEventUserContext::COURSE_ADMINISTRATOR
+            ],
+            [
+                ['sess' => 'u.administeredSessions', 'o' => 'sess.offerings'],
+                CalendarEventUserContext::SESSION_ADMINISTRATOR
+            ],
 
         ];
     }
