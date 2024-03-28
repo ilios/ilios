@@ -88,42 +88,42 @@ class School implements SchoolInterface
     #[IA\Type('entityCollection')]
     protected Collection $alerts;
 
-    #[ORM\OneToMany(targetEntity: 'Competency', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $competencies;
 
-    #[ORM\OneToMany(targetEntity: 'Course', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $courses;
 
-    #[ORM\OneToMany(targetEntity: 'Program', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $programs;
 
-    #[ORM\OneToMany(targetEntity: 'Vocabulary', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Vocabulary')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $vocabularies;
 
-    #[ORM\OneToMany(targetEntity: 'InstructorGroup', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'InstructorGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
     protected Collection $instructorGroups;
 
-    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryInstitution', mappedBy: 'school')]
+    #[ORM\OneToOne(mappedBy: 'school', targetEntity: 'CurriculumInventoryInstitution')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution = null;
 
-    #[ORM\OneToMany(targetEntity: 'SessionType', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -147,7 +147,7 @@ class School implements SchoolInterface
     #[IA\Type('entityCollection')]
     protected Collection $administrators;
 
-    #[ORM\OneToMany(targetEntity: 'SchoolConfig', mappedBy: 'school')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SchoolConfig')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

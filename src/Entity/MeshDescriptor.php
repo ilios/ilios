@@ -103,7 +103,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Type('entityCollection')]
     protected Collection $qualifiers;
 
-    #[ORM\OneToMany(targetEntity: 'MeshTree', mappedBy: 'descriptor')]
+    #[ORM\OneToMany(mappedBy: 'descriptor', targetEntity: 'MeshTree')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
@@ -121,7 +121,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Type('entityCollection')]
     protected Collection $courseLearningMaterials;
 
-    #[ORM\OneToOne(targetEntity: 'MeshPreviousIndexing', mappedBy: 'descriptor')]
+    #[ORM\OneToOne(mappedBy: 'descriptor', targetEntity: 'MeshPreviousIndexing')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected MeshPreviousIndexingInterface $previousIndexing;

@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CourseObjectiveRepository;
 
 #[ORM\Table(name: 'course_x_objective')]
-#[ORM\Index(name: 'IDX_3B37B1AD591CC992', columns: ['course_id'])]
+#[ORM\Index(columns: ['course_id'], name: 'IDX_3B37B1AD591CC992')]
 #[ORM\Entity(repositoryClass: CourseObjectiveRepository::class)]
 #[IA\Entity]
 class CourseObjective implements CourseObjectiveInterface
@@ -111,7 +111,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[IA\Type('entity')]
     protected ?CourseObjectiveInterface $ancestor = null;
 
-    #[ORM\OneToMany(targetEntity: 'CourseObjective', mappedBy: 'ancestor')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'CourseObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

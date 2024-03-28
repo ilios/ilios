@@ -19,7 +19,7 @@ use App\Repository\CohortRepository;
 
 #[ORM\Entity(repositoryClass: CohortRepository::class)]
 #[ORM\Table(name: 'cohort')]
-#[ORM\Index(name: 'whole_k', columns: ['program_year_id', 'cohort_id', 'title'])]
+#[ORM\Index(columns: ['program_year_id', 'cohort_id', 'title'], name: 'whole_k')]
 #[IA\Entity]
 class Cohort implements CohortInterface
 {
@@ -47,7 +47,7 @@ class Cohort implements CohortInterface
     #[Assert\Length(min: 1, max: 60)]
     protected string $title;
 
-    #[ORM\OneToOne(targetEntity: 'ProgramYear', inversedBy: 'cohort')]
+    #[ORM\OneToOne(inversedBy: 'cohort', targetEntity: 'ProgramYear')]
     #[ORM\JoinColumn(
         name: 'program_year_id',
         referencedColumnName: 'program_year_id',

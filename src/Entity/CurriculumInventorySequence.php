@@ -30,7 +30,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\OneToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequence')]
+    #[ORM\OneToOne(inversedBy: 'sequence', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\JoinColumn(
         name: 'report_id',
         referencedColumnName: 'report_id',

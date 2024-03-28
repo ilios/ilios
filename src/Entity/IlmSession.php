@@ -41,7 +41,7 @@ class IlmSession implements IlmSessionInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\OneToOne(targetEntity: 'Session', inversedBy: 'ilmSession')]
+    #[ORM\OneToOne(inversedBy: 'ilmSession', targetEntity: 'Session')]
     #[ORM\JoinColumn(
         name: 'session_id',
         referencedColumnName: 'session_id',

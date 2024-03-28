@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SessionObjectiveRepository;
 
 #[ORM\Table(name: 'session_x_objective')]
-#[ORM\Index(name: 'IDX_FA74B40B613FECDF', columns: ['session_id'])]
+#[ORM\Index(columns: ['session_id'], name: 'IDX_FA74B40B613FECDF')]
 #[ORM\Entity(repositoryClass: SessionObjectiveRepository::class)]
 #[IA\Entity]
 class SessionObjective implements SessionObjectiveInterface
@@ -107,7 +107,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[IA\Type('entity')]
     protected ?SessionObjectiveInterface $ancestor = null;
 
-    #[ORM\OneToMany(targetEntity: 'SessionObjective', mappedBy: 'ancestor')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'SessionObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]

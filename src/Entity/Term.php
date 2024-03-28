@@ -68,7 +68,7 @@ class Term implements TermInterface
     #[IA\Type('entity')]
     protected ?TermInterface $parent = null;
 
-    #[ORM\OneToMany(targetEntity: 'Term', mappedBy: 'parent')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Term')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type('entityCollection')]
