@@ -8,25 +8,12 @@ on:
 jobs:
   notes:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Get Previous Tag
-      id: previousTag
-      run: |
-        PREVIOUS_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
-        echo ${PREVIOUS_TAG}
-        echo ::set-output name=tag::${PREVIOUS_TAG}
-    - name: Get New Tag
-      id: nextTag
-      run: |
-        NEW_TAG=${GITHUB_REF#refs/tags/}
-        echo ${NEW_TAG}
-        echo ::set-output name=tag::${NEW_TAG}
-    - uses: actions/setup-node@v4
     - uses: ncipollo/release-action@v1
       with:
-        name: Ilios ${{steps.nextTag.outputs.tag}}
+        name: Ilios ${{github.ref_name}}
         token: ${{ secrets.ZORGBORT_TOKEN }}
         generateReleaseNotes: true
