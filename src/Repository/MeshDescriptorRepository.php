@@ -667,7 +667,9 @@ EOL;
             $descriptor->setUi($arr['id']);
             $descriptor->setName($arr['name']);
             $descriptor->setAnnotation($arr['annotation']);
-            $descriptor->addPreviousIndexing($arr['previousIndexing']);
+            if (!is_null($arr['previousIndexing'])) {
+                $descriptor->addPreviousIndexing($arr['previousIndexing']);
+            }
             foreach ($arr['concepts'] as $arr) {
                 $concept = new Concept();
                 $concept->setUi($arr['id']);
