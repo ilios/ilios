@@ -5,7 +5,7 @@
   "description": "The \"Ilios Standard Edition\" distribution",
   "version": "3.112.0",
   "require": {
-    "php": ">= 8.2",
+    "php": ">= 8.3",
     "ext-apcu": "*",
     "ext-ctype": "*",
     "ext-dom": "*",
@@ -89,7 +89,7 @@
   },
   "config": {
     "platform": {
-      "php": "8.2"
+      "php": "8.3"
     },
     "preferred-install": {
       "*": "dist"
