@@ -6004,16 +6004,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.15.1",
+            "version": "v5.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "1fb274ae8527967ae375c25dd8223494782f0775"
+                "reference": "fb075df9e6653d66be3bfa74f55d10c6e323362f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/1fb274ae8527967ae375c25dd8223494782f0775",
-                "reference": "1fb274ae8527967ae375c25dd8223494782f0775",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/fb075df9e6653d66be3bfa74f55d10c6e323362f",
+                "reference": "fb075df9e6653d66be3bfa74f55d10c6e323362f",
                 "shasum": ""
             },
             "type": "library",
@@ -6059,9 +6059,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.15.1"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.15.2"
             },
-            "time": "2024-04-11T07:22:32+00:00"
+            "time": "2024-04-15T08:15:48+00:00"
         },
         {
             "name": "symfony/amazon-mailer",
@@ -15569,6 +15569,7 @@
         "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
         "phpstan/phpstan": 0,
+        "phpstan/phpstan-symfony": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
         "symfony/css-selector": 0,
