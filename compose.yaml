@@ -49,13 +49,15 @@ services:
   messages:
     build:
       context: .
-      target: consume-messages-dev
+      target: consume-messages
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_SEARCH_HOSTS=opensearch:9200
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
+    restart: always
+    command: [ "--time-limit", "3600", "-vv"]
     depends_on:
         - db
         - opensearch

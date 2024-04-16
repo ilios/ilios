@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+/srv/app/bin/console ilios:wait-for-database
+/srv/app/bin/console ilios:wait-for-index
+
+# use exec so the process is the container's PID 1 which will allow
+# signals (Kill, Quit, Term) to be passed to the process.
+# Also pass all arguments into it
+exec /srv/app/bin/console messenger:consume async "$@"
