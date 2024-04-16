@@ -186,22 +186,20 @@ CMD ["ilios:update-frontend"]
 
 ###############################################################################
 # Single purpose container that starts a message consumer
-# Should be setup to run and restart itself when it shuts down which it will
-# do every hour
+# Should be setup to run and restart itself when it shuts down
 ###############################################################################
 FROM php-base as consume-messages
-ENTRYPOINT bin/console ilios:wait-for-database; \
-           bin/console ilios:wait-for-index; \
-           bin/console messenger:consume async
+# add the pcntl extension which allows PHP to consume process controll messages
+# and shutdown the message consumer gracefully
+RUN set -eux; \
+    docker-php-ext-configure pcntl; \
+    docker-php-ext-install pcntl;
 
-###############################################################################
-# Single purpose container that starts a message consumer
-# configured for development and verbose output
-###############################################################################
-FROM fpm-dev as consume-messages-dev
-ENTRYPOINT bin/console ilios:wait-for-database; \
-           bin/console ilios:wait-for-index; \
-           bin/console messenger:consume async -vv
+COPY docker/messages-entrypoint /entrypoint
+ENTRYPOINT ["/entrypoint"]
+
+#disable the FPM healthcheck from php-base
+HEALTHCHECK NONE
 
 ###############################################################################
 # MySQL configured as needed for Ilios
