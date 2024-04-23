@@ -22,6 +22,7 @@ class Config
         'learningMaterialsDisabled',
         'academic_year_crosses_calendar_year_boundaries',
         'material_status_enabled',
+        'showLegalName',
     ];
 
     private const INT_NAMES = [
