@@ -63,7 +63,7 @@ class ConfigControllerTest extends WebTestCase
                 'searchEnabled' => false,
                 'academicYearCrossesCalendarYearBoundaries' => false,
                 'materialStatusEnabled' => false,
-                'showLegalName' => false,
+                'showCampusNameOfRecord' => false,
             ],
             $data
         );
@@ -99,7 +99,7 @@ class ConfigControllerTest extends WebTestCase
                 'searchEnabled' => false,
                 'academicYearCrossesCalendarYearBoundaries' => true,
                 'materialStatusEnabled' => true,
-                'showLegalName' => true,
+                'showCampusNameOfRecord' => true,
             ],
             $data
         );

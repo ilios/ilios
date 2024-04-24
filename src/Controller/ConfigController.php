@@ -49,8 +49,8 @@ class ConfigController extends AbstractController
             'material_status_enabled'
         ) ?? false;
 
-        $configuration['showLegalName'] = $config->get(
-            'showLegalName'
+        $configuration['showCampusNameOfRecord'] = $config->get(
+            'showCampusNameOfRecord'
         ) ?? false;
 
         return new JsonResponse(['config' => $configuration]);
