@@ -4547,16 +4547,16 @@
         },
         {
             "name": "opensearch-project/opensearch-php",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opensearch-project/opensearch-php.git",
-                "reference": "8b6cdbce1c5c2436fa2458fc1c9f698d0fc760c7"
+                "reference": "b9dacd11f14460656aaceb3bae00287a23beef91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opensearch-project/opensearch-php/zipball/8b6cdbce1c5c2436fa2458fc1c9f698d0fc760c7",
-                "reference": "8b6cdbce1c5c2436fa2458fc1c9f698d0fc760c7",
+                "url": "https://api.github.com/repos/opensearch-project/opensearch-php/zipball/b9dacd11f14460656aaceb3bae00287a23beef91",
+                "reference": "b9dacd11f14460656aaceb3bae00287a23beef91",
                 "shasum": ""
             },
             "require": {
@@ -4608,9 +4608,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opensearch-project/opensearch-php/issues",
-                "source": "https://github.com/opensearch-project/opensearch-php/tree/2.2.0"
+                "source": "https://github.com/opensearch-project/opensearch-php/tree/2.3.0"
             },
-            "time": "2023-05-20T16:57:42+00:00"
+            "time": "2024-04-24T07:21:51+00:00"
         },
         {
             "name": "pear/archive_tar",
@@ -15580,6 +15580,7 @@
         "mockery/mockery": 0,
         "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
+        "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
         "symfony/css-selector": 0,
         "symfony/debug-bundle": 0,
