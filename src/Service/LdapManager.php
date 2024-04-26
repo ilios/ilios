@@ -7,9 +7,15 @@ namespace App\Service;
 use Exception;
 use Symfony\Component\Ldap\Ldap;
 
+/**
+ * Manages the LDAP connection. Because the Symfony ldap class is marked as final,
+ * we need to wrap it here so that we can mock it in tests. This class is the lowest
+ * level in the test tree, it can't be tested itself because of the issue with mocking
+ * the final class.
+ */
 class LdapManager
 {
-    protected ?Ldap $ldap = null;
+    protected Ldap $ldap;
 
     /**
      * Constructor
@@ -28,6 +34,8 @@ class LdapManager
         $ldapUsernameProperty = $this->config->get('ldap_directory_username_property');
         $ldapDisplayNameProperty = $this->config->get('ldap_directory_display_name_property');
         $ldapPronounsProperty = $this->config->get('ldap_directory_pronouns_property');
+        $ldapFirstNameProperty = $this->config->get('ldap_directory_first_name_property') ?? 'givenName';
+        $ldapLastNameProperty = $this->config->get('ldap_directory_last_name_property') ?? 'sn';
 
         $rhett = [];
         try {
@@ -36,8 +44,8 @@ class LdapManager
             $results = $query->execute();
             $attributes = [
                 'mail' => 'email',
-                'sn' => 'lastName',
-                'givenName' => 'firstName',
+                $ldapLastNameProperty => 'lastName',
+                $ldapFirstNameProperty => 'firstName',
                 'telephoneNumber' => 'telephoneNumber',
                 $ldapCampusIdProperty => 'campusId',
                 $ldapUsernameProperty => 'username',
@@ -73,7 +81,7 @@ class LdapManager
 
     protected function getConnection(): Ldap
     {
-        if (! $this->ldap) {
+        if (!isset($this->ldap)) {
             $ldapUrl = $this->config->get('ldap_directory_url');
             $ldapBindUser = $this->config->get('ldap_directory_user');
             $ldapBindPassword = $this->config->get('ldap_directory_password');
