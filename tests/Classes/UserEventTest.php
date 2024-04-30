@@ -86,5 +86,6 @@ class UserEventTest extends TestCase
         $this->assertSame($calendarEvent->instructionalNotes, $userEvent->instructionalNotes);
         $this->assertSame($calendarEvent->startDate, $userEvent->startDate);
         $this->assertSame($calendarEvent->sessionDescription, $userEvent->sessionDescription);
+        $this->assertSame($calendarEvent->userContexts, $userEvent->userContexts);
     }
 }

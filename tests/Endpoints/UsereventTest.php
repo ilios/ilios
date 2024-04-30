@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Classes\CalendarEventUserContext;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Tests\DataLoader\CourseData;
@@ -226,6 +227,8 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame(6, $events[0]['postrequisites'][0]['offering']);
         $this->assertSame(3, $events[0]['postrequisites'][0]['session']);
         $this->assertEmpty($events[0]['prerequisites']);
+        $this->assertCount(1, $events[0]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::INSTRUCTOR, $events[0]['userContexts'][0]);
 
         $this->assertSame($events[1]['offering'], 4, 'offering is correct for event 1');
         $this->assertSame(
@@ -307,6 +310,8 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame(6, $events[1]['postrequisites'][0]['offering']);
         $this->assertSame(3, $events[1]['postrequisites'][0]['session']);
         $this->assertEmpty($events[1]['prerequisites']);
+        $this->assertCount(1, $events[1]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::LEARNER, $events[1]['userContexts'][0]);
 
         $this->assertSame($events[2]['offering'], 5, 'offering is correct for event 2');
         $this->assertSame(
@@ -392,6 +397,8 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame(6, $events[2]['postrequisites'][0]['offering']);
         $this->assertSame(3, $events[2]['postrequisites'][0]['session']);
         $this->assertEmpty($events[2]['prerequisites']);
+        $this->assertCount(1, $events[2]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::INSTRUCTOR, $events[2]['userContexts'][0]);
 
         $this->assertSame($events[3]['offering'], 6, 'offering is correct for event 3');
         $this->assertSame($events[3]['startDate'], $offerings[5]['startDate'], 'startDate is correct for event 3');
@@ -467,6 +474,8 @@ class UsereventTest extends AbstractEndpoint
         $sessionIds = array_unique(array_column($events[3]['prerequisites'], 'session'));
         sort($sessionIds);
         $this->assertSame([2], $sessionIds);
+        $this->assertCount(1, $events[3]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::COURSE_DIRECTOR, $events[3]['userContexts'][0]);
 
         $this->assertSame($events[4]['offering'], 7, 'offering is correct for event 4');
         $this->assertSame($events[4]['startDate'], $offerings[6]['startDate'], 'startDate is correct for event 4');
@@ -542,6 +551,8 @@ class UsereventTest extends AbstractEndpoint
         $sessionIds = array_unique(array_column($events[4]['prerequisites'], 'session'));
         sort($sessionIds);
         $this->assertSame([2], $sessionIds);
+        $this->assertCount(1, $events[4]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::COURSE_DIRECTOR, $events[4]['userContexts'][0]);
 
         $this->assertSame($events[5]['ilmSession'], 1, 'ilmSession is correct for 5');
         $this->assertSame($events[5]['startDate'], $ilmSessions[0]['dueDate'], 'dueDate is correct for 5');
@@ -604,6 +615,10 @@ class UsereventTest extends AbstractEndpoint
         );
         $this->assertEmpty($events[5]['postrequisites']);
         $this->assertEmpty($events[5]['prerequisites']);
+        $this->assertCount(3, $events[5]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::LEARNER, $events[5]['userContexts'][0]);
+        $this->assertEquals(CalendarEventUserContext::INSTRUCTOR, $events[5]['userContexts'][1]);
+        $this->assertEquals(CalendarEventUserContext::COURSE_DIRECTOR, $events[5]['userContexts'][2]);
 
         $this->assertSame($events[6]['ilmSession'], 2, 'ilmSession is correct for event 6');
         $this->assertSame($events[6]['startDate'], $ilmSessions[1]['dueDate'], 'dueDate is correct for event 6');
@@ -665,6 +680,9 @@ class UsereventTest extends AbstractEndpoint
         );
         $this->assertEmpty($events[6]['postrequisites']);
         $this->assertEmpty($events[6]['prerequisites']);
+        $this->assertCount(2, $events[6]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::INSTRUCTOR, $events[6]['userContexts'][0]);
+        $this->assertEquals(CalendarEventUserContext::COURSE_DIRECTOR, $events[6]['userContexts'][1]);
 
         $this->assertSame($events[7]['ilmSession'], 3, 'ilmSession is correct for event 7');
         $this->assertSame($events[7]['startDate'], $ilmSessions[2]['dueDate'], 'dueDate is correct for event 7');
@@ -726,6 +744,9 @@ class UsereventTest extends AbstractEndpoint
         );
         $this->assertEmpty($events[7]['postrequisites']);
         $this->assertEmpty($events[7]['prerequisites']);
+        $this->assertCount(2, $events[7]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::INSTRUCTOR, $events[7]['userContexts'][0]);
+        $this->assertEquals(CalendarEventUserContext::COURSE_DIRECTOR, $events[7]['userContexts'][1]);
 
         $this->assertSame($events[8]['ilmSession'], 4, 'ilmSession is correct for event 8');
         $this->assertSame($events[8]['startDate'], $ilmSessions[3]['dueDate'], 'dueDate is correct for event 8');
@@ -787,6 +808,9 @@ class UsereventTest extends AbstractEndpoint
         );
         $this->assertEmpty($events[8]['postrequisites']);
         $this->assertEmpty($events[8]['prerequisites']);
+        $this->assertCount(2, $events[8]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::LEARNER, $events[8]['userContexts'][0]);
+        $this->assertEquals(CalendarEventUserContext::COURSE_DIRECTOR, $events[8]['userContexts'][1]);
 
         $this->assertSame(
             $events[9]['url'],
@@ -870,6 +894,9 @@ class UsereventTest extends AbstractEndpoint
         );
         $this->assertSame(0, count($events[9]['postrequisites']));
         $this->assertEmpty($events[9]['prerequisites']);
+        $this->assertCount(2, $events[9]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::LEARNER, $events[9]['userContexts'][0]);
+        $this->assertEquals(CalendarEventUserContext::INSTRUCTOR, $events[9]['userContexts'][1]);
 
         /** @var OfferingInterface $offering */
         $offering = $this->fixtures->getReference('offerings8', Offering::class);
@@ -925,6 +952,9 @@ class UsereventTest extends AbstractEndpoint
         $this->assertEmpty($events[10]['postrequisites']);
         $this->assertSame(3, count($events[10]['prerequisites']));
         $sessionIds = array_unique(array_column($events[10]['prerequisites'], 'session'));
+        $this->assertCount(1, $events[10]['userContexts']);
+        $this->assertEquals(CalendarEventUserContext::COURSE_DIRECTOR, $events[10]['userContexts'][0]);
+
         sort($sessionIds);
         $this->assertSame([2], $sessionIds);
         foreach ($events as $event) {
@@ -998,6 +1028,9 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame($sessionId, $events[1]['session']);
         $this->assertSame(8, $events[2]['offering']);
         $this->assertSame($sessionId, $events[2]['session']);
+        foreach ($events as $event) {
+            $this->assertContains(CalendarEventUserContext::COURSE_DIRECTOR, $event['userContexts']);
+        }
     }
 
     public function testGetEventsBySessionForLearner(): void
@@ -1020,6 +1053,9 @@ class UsereventTest extends AbstractEndpoint
         $this->assertSame($sessionId, $events[0]['session']);
         $this->assertSame(2, $events[1]['offering']);
         $this->assertSame($sessionId, $events[1]['session']);
+        foreach ($events as $event) {
+            $this->assertContains(CalendarEventUserContext::LEARNER, $event['userContexts']);
+        }
     }
 
     public function testAttachedInstructorsUseDisplayNameAndPronouns(): void
