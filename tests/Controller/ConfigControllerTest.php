@@ -73,7 +73,7 @@ class ConfigControllerTest extends WebTestCase
     {
         $_SERVER['ILIOS_ACADEMIC_YEAR_CROSSES_CALENDAR_YEAR_BOUNDARIES'] = true;
         $_SERVER['ILIOS_MATERIAL_STATUS_ENABLED'] = true;
-        $_SERVER['ILIOS_SHOW_LEGAL_NAME'] = true;
+        $_SERVER['ILIOS_SHOW_CAMPUS_NAME_OF_RECORD'] = true;
 
         $this->kernelBrowser->request('GET', '/application/config');
 
@@ -106,5 +106,6 @@ class ConfigControllerTest extends WebTestCase
 
         unset($_SERVER['ILIOS_ACADEMIC_YEAR_CROSSES_CALENDAR_YEAR_BOUNDARIES']);
         unset($_SERVER['ILIOS_MATERIAL_STATUS_ENABLED']);
+        unset($_SERVER['ILIOS_SHOW_CAMPUS_NAME_OF_RECORD']);
     }
 }
