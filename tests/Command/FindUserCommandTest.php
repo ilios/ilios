@@ -59,7 +59,7 @@ class FindUserCommandTest extends KernelTestCase
         $this->directory->shouldReceive('find')->with(['a', 'b'])->andReturn([$fakeDirectoryUser]);
 
         $this->commandTester->execute([
-            'searchTerms' => ['a', 'b']
+            'searchTerms' => ['a', 'b'],
         ]);
 
 

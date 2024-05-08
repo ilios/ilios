@@ -83,7 +83,7 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
             'learners',
             'learnerGroups',
             'instructors',
-            'instructorGroups'
+            'instructorGroups',
         ];
         foreach ($related as $rel) {
             if (array_key_exists($rel, $criteria)) {

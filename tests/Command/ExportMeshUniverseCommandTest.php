@@ -60,7 +60,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
                 'An ionophorous, polyether antibiotic from Streptomyces chartreusensis.',
                 '4-Benzoxazolecarboxylic acid, ...',
                 '37H9VM9WZL',
-            ]
+            ],
         ];
         $meshConceptHeader = [
             'mesh_concept_uid',
@@ -138,7 +138,7 @@ class ExportMeshUniverseCommandTest extends KernelTestCase
             );
 
         $meshTermData = [
-            ['T000002', 'Calcimycin', 'NON', true, true, false, 1]
+            ['T000002', 'Calcimycin', 'NON', true, true, false, 1],
         ];
         $meshTermHeader = [
             'mesh_term_uid',

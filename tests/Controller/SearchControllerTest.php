@@ -74,11 +74,11 @@ class SearchControllerTest extends TestCase
                         [
                             'id' => 11,
                             'title' => 'This Session',
-                            'matchedIn' => []
-                        ]
-                    ]
-                ]
-            ]
+                            'matchedIn' => [],
+                        ],
+                    ],
+                ],
+            ],
         ];
         $this->mockTokenStorage
             ->shouldReceive('getToken')
@@ -116,8 +116,8 @@ class SearchControllerTest extends TestCase
             ],
             'courses' => [
                 [
-                ]
-            ]
+                ],
+            ],
         ];
         $this->mockTokenStorage
             ->shouldReceive('getToken')
@@ -151,7 +151,7 @@ class SearchControllerTest extends TestCase
               'one',
               'two',
             ],
-            'courses' => []
+            'courses' => [],
         ];
 
         $this->mockTokenStorage
@@ -206,8 +206,8 @@ class SearchControllerTest extends TestCase
             'users' => [
                 [
                     'id' => 1,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->mockTokenStorage
@@ -247,8 +247,8 @@ class SearchControllerTest extends TestCase
             'users' => [
                 [
                     'id' => 1,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->mockTokenStorage
@@ -283,7 +283,7 @@ class SearchControllerTest extends TestCase
                 'one',
                 'two',
             ],
-            'courses' => []
+            'courses' => [],
         ];
 
         $this->mockTokenStorage
@@ -319,7 +319,7 @@ class SearchControllerTest extends TestCase
         $searchTerm = 'jasper & jackson';
         $result = [
             'autocomplete' => [],
-            'courses' => []
+            'courses' => [],
         ];
 
         $this->mockTokenStorage

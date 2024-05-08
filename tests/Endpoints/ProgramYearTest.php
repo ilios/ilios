@@ -214,8 +214,8 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
                 'first competency',
                 'firstCourse',
                 'first',
-                'course objective 1'
-            ]
+                'course objective 1',
+            ],
         ];
 
         $actual = array_map('str_getcsv', explode(PHP_EOL, trim($response->getContent())));

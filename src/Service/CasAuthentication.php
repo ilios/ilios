@@ -130,7 +130,7 @@ class CasAuthentication implements AuthenticationInterface
         $logoutUrl = $this->casManager->getLogoutUrl();
         $response =  new JsonResponse([
             'status' => 'redirect',
-            'logoutUrl' => $logoutUrl
+            'logoutUrl' => $logoutUrl,
         ], JsonResponse::HTTP_OK);
         $response->headers->clearCookie(self::JWT_COOKIE);
 

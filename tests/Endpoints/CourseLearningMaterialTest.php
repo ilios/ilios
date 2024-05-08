@@ -127,7 +127,7 @@ class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
             json_encode([
                 'query' =>
                     "query { courseLearningMaterials(id: {$data['id']}) " .
-                    "{ id, course { id, title }, learningMaterial { id } }}"
+                    "{ id, course { id, title }, learningMaterial { id } }}",
             ]),
             $this->createJwtForRootUser($this->kernelBrowser)
         );

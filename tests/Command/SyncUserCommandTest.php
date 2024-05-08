@@ -104,13 +104,13 @@ class SyncUserCommandTest extends KernelTestCase
             'pronouns' => 'pronouns',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
-            'username' => 'username'
+            'username' => 'username',
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -168,13 +168,13 @@ class SyncUserCommandTest extends KernelTestCase
             'pronouns' => 'pronouns',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
-            'username' => 'username'
+            'username' => 'username',
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -235,13 +235,13 @@ class SyncUserCommandTest extends KernelTestCase
             'pronouns' => null,
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
-            'username' => 'username'
+            'username' => 'username',
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -267,7 +267,7 @@ class SyncUserCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 

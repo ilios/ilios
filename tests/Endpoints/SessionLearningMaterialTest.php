@@ -148,7 +148,7 @@ class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
             json_encode([
                 'query' =>
                     "query { sessionLearningMaterials(id: {$data['id']}) " .
-                    "{ id, session { id, title, course { id } }, learningMaterial { id } }}"
+                    "{ id, session { id, title, course { id } }, learningMaterial { id } }}",
             ]),
             $this->createJwtForRootUser($this->kernelBrowser)
         );

@@ -102,7 +102,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
             'email' => 'email',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
-            'username' => 'abc123'
+            'username' => 'abc123',
         ];
         $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
         $this->commandTester->setInputs(['Yes']);
@@ -133,7 +133,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $this->expectException(Exception::class);
         $this->commandTester->execute([
             'campusId' => '1',
-            'schoolId' => '1'
+            'schoolId' => '1',
         ]);
     }
 
@@ -144,7 +144,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
         $this->expectException(Exception::class);
         $this->commandTester->execute([
             'campusId' => '1',
-            'schoolId' => '1'
+            'schoolId' => '1',
         ]);
     }
 
@@ -152,7 +152,7 @@ class AddDirectoryUserCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'schoolId' => '1'
+            'schoolId' => '1',
         ]);
     }
 

@@ -20,7 +20,7 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
     {
         return [
             LoadCurriculumInventorySequenceData::class,
-            LoadCurriculumInventoryReportData::class
+            LoadCurriculumInventoryReportData::class,
         ];
     }
 

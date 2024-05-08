@@ -27,7 +27,7 @@ class ApiRequestParser
             'offset' => $request->query->has('offset') ? (int) $request->query->all()['offset'] : null,
             'limit' => $request->query->has('limit') ? (int) $request->query->all()['limit'] : null,
             'orderBy' => $request->query->has('order_by') ? $request->query->all()['order_by'] : null,
-            'criteria' => []
+            'criteria' => [],
         ];
 
 

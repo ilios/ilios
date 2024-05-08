@@ -39,7 +39,7 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         'owningUser',
         'sessionLearningMaterials',
         'courseLearningMaterials',
-        'copyrightPermission'
+        'copyrightPermission',
     ];
     protected string $testName =  'learningMaterials';
 

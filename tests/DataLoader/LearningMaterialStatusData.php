@@ -15,15 +15,15 @@ class LearningMaterialStatusData extends AbstractDataLoader
 
         $arr[] = [
             'id' => LearningMaterialStatusInterface::IN_DRAFT,
-            'title' => 'Draft'
+            'title' => 'Draft',
         ];
         $arr[] = [
             'id' => LearningMaterialStatusInterface::FINALIZED,
-            'title' => 'Final'
+            'title' => 'Final',
         ];
         $arr[] = [
             'id' => LearningMaterialStatusInterface::REVISED,
-            'title' => 'Revised'
+            'title' => 'Revised',
         ];
 
         return $arr;
@@ -33,7 +33,7 @@ class LearningMaterialStatusData extends AbstractDataLoader
     {
         return [
             'id' => 4,
-            'title' => 'new status'
+            'title' => 'new status',
         ];
     }
 

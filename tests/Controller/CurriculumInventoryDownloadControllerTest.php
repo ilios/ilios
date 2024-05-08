@@ -77,7 +77,7 @@ class CurriculumInventoryDownloadControllerTest extends WebTestCase
                     'app_api_curriculuminventoryreports_getone',
                     [
                         'version' => $this->apiVersion,
-                        'id' => $curriculumInventoryExport['report']
+                        'id' => $curriculumInventoryExport['report'],
                     ]
                 ),
                 null,

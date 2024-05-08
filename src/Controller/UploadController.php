@@ -32,7 +32,7 @@ class UploadController extends AbstractController
         if (is_null($uploadedFile)) {
             return new JsonResponse([
                 'errors' => 'Unable to find file in the request. ' .
-                            'The uploaded file may have exceeded the maximum allowed size'
+                            'The uploaded file may have exceeded the maximum allowed size',
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
         if (!$uploadedFile->isValid()) {
@@ -41,7 +41,7 @@ class UploadController extends AbstractController
         $hash = $iliosFileSystem->storeUploadedTemporaryFile($uploadedFile);
         $response = [
             'filename' => $uploadedFile->getClientOriginalName(),
-            'fileHash' => $hash
+            'fileHash' => $hash,
         ];
         return new JsonResponse($response, JsonResponse::HTTP_OK);
     }

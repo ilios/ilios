@@ -34,7 +34,7 @@ class AlertChangeTypes extends AbstractApiController
         summary: 'Fetch a single alert change type.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -48,12 +48,12 @@ class AlertChangeTypes extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: AlertChangeTypeDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -109,7 +109,7 @@ class AlertChangeTypes extends AbstractApiController
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -123,11 +123,11 @@ class AlertChangeTypes extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: AlertChangeTypeDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -153,7 +153,7 @@ class AlertChangeTypes extends AbstractApiController
                         items: new OA\Items(
                             ref: new Model(type: AlertChangeTypeDTO::class)
                         )
-                    )
+                    ),
                 ],
                 type: 'object',
             )
@@ -173,13 +173,13 @@ class AlertChangeTypes extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: AlertChangeTypeDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function post(
@@ -208,14 +208,14 @@ class AlertChangeTypes extends AbstractApiController
                         'alertChangeType',
                         ref: new Model(type: AlertChangeTypeDTO::class),
                         type: 'object'
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -226,7 +226,7 @@ class AlertChangeTypes extends AbstractApiController
                         new OA\Property(
                             'alertChangeType',
                             ref: new Model(type: AlertChangeTypeDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
@@ -239,14 +239,14 @@ class AlertChangeTypes extends AbstractApiController
                         new OA\Property(
                             'alertChangeType',
                             ref: new Model(type: AlertChangeTypeDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function put(
@@ -286,7 +286,7 @@ class AlertChangeTypes extends AbstractApiController
         summary: 'Delete an alert change type.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(response: '204', description: 'Deleted.'),
@@ -295,7 +295,7 @@ class AlertChangeTypes extends AbstractApiController
             new OA\Response(
                 response: '500',
                 description: 'Deletion failed (usually caused by non-cascading relationships).'
-            )
+            ),
         ]
     )]
     public function delete(

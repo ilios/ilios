@@ -87,8 +87,8 @@ class AddDirectoryUserCommand extends Command
                     $userRecord['lastName'],
                     $userRecord['email'],
                     $userRecord['username'],
-                    $userRecord['telephoneNumber']
-                ]
+                    $userRecord['telephoneNumber'],
+                ],
             ])
         ;
         $table->render();

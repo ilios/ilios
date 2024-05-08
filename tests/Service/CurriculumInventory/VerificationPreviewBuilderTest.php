@@ -375,19 +375,19 @@ class VerificationPreviewBuilderTest extends TestCase
             'id' => 'AM002',
             'title' => 'Clinical Performance Rating/Checklist',
             'num_summative_assessments' => 0,
-            'num_formative_assessments' => 3
+            'num_formative_assessments' => 3,
         ], $rows[0]);
         $this->assertEquals([
             'id' => 'AM003',
             'title' => 'Exam - Institutionally Developed, Clinical Performance',
             'num_summative_assessments' => 1,
-            'num_formative_assessments' => 1
+            'num_formative_assessments' => 1,
         ], $rows[1]);
         $this->assertEquals([
             'id' => 'AM007',
             'title' => 'Exam - Licensure, Written/Computer-based',
             'num_summative_assessments' => 2,
-            'num_formative_assessments' => 0
+            'num_formative_assessments' => 0,
         ], $rows[2]);
     }
 
@@ -397,11 +397,11 @@ class VerificationPreviewBuilderTest extends TestCase
             [],
             ['resource_types' => [
                 ['resource_type_id' => 1, 'resource_type_title' => 'Foo'],
-                ['resource_type_id' => 2, 'resource_type_title' => 'Bar']
+                ['resource_type_id' => 2, 'resource_type_title' => 'Bar'],
             ]],
             ['resource_types' => [
                 ['resource_type_id' => 3, 'resource_type_title' => 'Baz'],
-                ['resource_type_id' => 2, 'resource_type_title' => 'Bar']
+                ['resource_type_id' => 2, 'resource_type_title' => 'Bar'],
             ]],
             ['resource_types' => [
                 ['resource_type_id' => 3, 'resource_type_title' => 'Baz'],
@@ -465,7 +465,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $report = new CurriculumInventoryReport();
         $report->setSequenceBlocks(
             new ArrayCollection([
-                $sequenceBlock1, $sequenceBlock2, $sequenceBlock3, $sequenceBlock4
+                $sequenceBlock1, $sequenceBlock2, $sequenceBlock3, $sequenceBlock4,
             ])
         );
 
@@ -494,7 +494,7 @@ class VerificationPreviewBuilderTest extends TestCase
                 ['id' => 3, 'event_id' => 6],
                 ['id' => 3, 'event_id' => 7],
                 ['id' => 3, 'event_id' => 8],
-            ]
+            ],
         ];
 
         $rhett = $this->builder->getClerkshipSequenceBlockAssessmentMethods($data);
@@ -664,7 +664,7 @@ class VerificationPreviewBuilderTest extends TestCase
                 ['id' => 3, 'event_id' => 6],
                 ['id' => 3, 'event_id' => 7],
                 ['id' => 3, 'event_id' => 8],
-            ]
+            ],
         ];
 
         $rows = $this->builder->getClerkshipSequenceBlockInstructionalTime($data);
@@ -708,25 +708,25 @@ class VerificationPreviewBuilderTest extends TestCase
             'id' => 'IM001',
             'title' => 'Case-Based Instruction/Learning',
             'num_events_primary_method' => 1,
-            'num_events_non_primary_method' => 0
+            'num_events_non_primary_method' => 0,
         ], $rows[0]);
         $this->assertEquals([
             'id' => 'IM002',
             'title' => 'Clinical Experience - Ambulatory',
             'num_events_primary_method' => 2,
-            'num_events_non_primary_method' => 0
+            'num_events_non_primary_method' => 0,
         ], $rows[1]);
         $this->assertEquals([
             'id' => 'IM007',
             'title' => 'Discussion, Large Group (>12)',
             'num_events_primary_method' => 1,
-            'num_events_non_primary_method' => 0
+            'num_events_non_primary_method' => 0,
         ], $rows[2]);
         $this->assertEquals([
             'id' => 'IM008',
             'title' => 'Discussion, Small Group (?12)',
             'num_events_primary_method' => 1,
-            'num_events_non_primary_method' => 0
+            'num_events_non_primary_method' => 0,
         ], $rows[3]);
     }
 
@@ -777,7 +777,7 @@ class VerificationPreviewBuilderTest extends TestCase
         $report = new CurriculumInventoryReport();
         $report->setSequenceBlocks(
             new ArrayCollection([
-                $sequenceBlock1, $sequenceBlock2, $sequenceBlock3, $sequenceBlock4
+                $sequenceBlock1, $sequenceBlock2, $sequenceBlock3, $sequenceBlock4,
             ])
         );
 
@@ -806,7 +806,7 @@ class VerificationPreviewBuilderTest extends TestCase
                 ['id' => 3, 'event_id' => 6],
                 ['id' => 3, 'event_id' => 7],
                 ['id' => 3, 'event_id' => 8],
-            ]
+            ],
         ];
 
         $rhett = $this->builder->getNonClerkshipSequenceBlockAssessmentMethods($data);
@@ -978,7 +978,7 @@ class VerificationPreviewBuilderTest extends TestCase
                 ['id' => 3, 'event_id' => 6],
                 ['id' => 3, 'event_id' => 7],
                 ['id' => 3, 'event_id' => 8],
-            ]
+            ],
         ];
 
         $rows = $this->builder->getNonClerkshipSequenceBlockInstructionalTime($data);
@@ -1063,7 +1063,7 @@ class VerificationPreviewBuilderTest extends TestCase
                 $sequenceBlock2,
                 $sequenceBlock3,
                 $sequenceBlock4,
-                $sequenceBlock5
+                $sequenceBlock5,
             ])
         );
 
@@ -1090,9 +1090,9 @@ class VerificationPreviewBuilderTest extends TestCase
                     3 => [
                         ['event_id' => 5],
                         ['event_id' => 6],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
         $rhett = $this->builder->getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock($data);
         $methods = $rhett['methods'];
@@ -1125,7 +1125,7 @@ class VerificationPreviewBuilderTest extends TestCase
             'ending_level' => 3,
             'instructional_methods' => [
                 'Other' => 60,
-                'Patient Contact' => 120
+                'Patient Contact' => 120,
             ],
             'total' => 180,
         ], $rows[2]);
@@ -1149,7 +1149,7 @@ class VerificationPreviewBuilderTest extends TestCase
                         ['rel1' => 3, 'rel2' => 'aamc-pcrs-comp-c0104'],
                         ['rel1' => 3, 'rel2' => 'aamc-pcrs-comp-c0105'],
                     ],
-                ]
+                ],
             ],
         ];
 
@@ -1193,14 +1193,14 @@ class VerificationPreviewBuilderTest extends TestCase
             'report' => $report,
             'events' => [],
             'sequence_block_references' => [
-                'events' => []
+                'events' => [],
             ],
             'expectations' => [
                 'program_objectives' => [],
                 'framework' => [
                     'relations' => [
                         'program_objectives_to_pcrs' => [],
-                    ]
+                    ],
                 ],
             ],
         ]);

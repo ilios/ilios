@@ -20,7 +20,7 @@ class UserRoleTest extends AbstractReadEndpoint
     {
         return [
             LoadUserRoleData::class,
-            LoadUserData::class
+            LoadUserData::class,
         ];
     }
 

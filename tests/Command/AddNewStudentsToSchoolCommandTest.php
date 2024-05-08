@@ -178,7 +178,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $this->expectException(Exception::class);
         $this->commandTester->execute([
             'filter' => 'FILTER',
-            'schoolId' => '1'
+            'schoolId' => '1',
         ]);
     }
 
@@ -186,7 +186,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'schoolId' => '1'
+            'schoolId' => '1',
         ]);
     }
 

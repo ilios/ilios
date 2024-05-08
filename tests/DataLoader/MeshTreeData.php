@@ -14,12 +14,12 @@ class MeshTreeData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'treeNumber' => 'tree1',
-            'descriptor' => 'abc1'
+            'descriptor' => 'abc1',
         ];
         $arr[] = [
             'id' => 2,
             'treeNumber' => 'tree2',
-            'descriptor' => 'abc1'
+            'descriptor' => 'abc1',
         ];
 
         return $arr;
@@ -30,14 +30,14 @@ class MeshTreeData extends AbstractDataLoader
         return [
             'id' => 3,
             'treeNumber' => 'tree3',
-            'descriptor' => 'abc2'
+            'descriptor' => 'abc2',
         ];
     }
 
     public function createInvalid(): array
     {
         return [
-            'id' => 'bad'
+            'id' => 'bad',
         ];
     }
 

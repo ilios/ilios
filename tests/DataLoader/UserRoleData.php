@@ -37,7 +37,7 @@ class UserRoleData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 4,
-            'title' => 'user role 4'
+            'title' => 'user role 4',
         ];
 
         return $arr[0];

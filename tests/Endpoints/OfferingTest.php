@@ -56,7 +56,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
             LoadLearnerGroupData::class,
             LoadInstructorGroupData::class,
             LoadIlmSessionData::class,
-            LoadAlertChangeTypeData::class
+            LoadAlertChangeTypeData::class,
         ];
     }
 

@@ -72,7 +72,7 @@ class AuthControllerTest extends WebTestCase
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
-            'password' => 'newuserpass'
+            'password' => 'newuserpass',
         ]));
 
         $response = $this->kernelBrowser->getResponse();
@@ -93,7 +93,7 @@ class AuthControllerTest extends WebTestCase
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'NEWUSER',
-            'password' => 'newuserpass'
+            'password' => 'newuserpass',
         ]));
         $response = $this->kernelBrowser->getResponse();
 
@@ -112,7 +112,7 @@ class AuthControllerTest extends WebTestCase
     {
         $this->kernelBrowser->request('POST', '/auth/login', [], [], [], json_encode([
             'username' => 'newuser',
-            'password' => 'wrongnewuserpass'
+            'password' => 'wrongnewuserpass',
         ]));
 
         $response = $this->kernelBrowser->getResponse();

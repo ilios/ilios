@@ -68,7 +68,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -100,7 +100,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('create')->andReturn($authentication);
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -115,7 +115,7 @@ class InvalidateUserTokenCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 

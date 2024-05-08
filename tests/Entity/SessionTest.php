@@ -47,7 +47,7 @@ class SessionTest extends EntityBase
     {
         $notNull = [
             'sessionType',
-            'course'
+            'course',
         ];
         $this->validateNotNulls($notNull);
 

@@ -32,7 +32,7 @@ class SchoolTest extends EntityBase
     {
         $notBlank = [
             'title',
-            'iliosAdministratorEmail'
+            'iliosAdministratorEmail',
         ];
         $this->validateNotBlanks($notBlank);
 

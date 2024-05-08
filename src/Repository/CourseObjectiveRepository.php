@@ -82,7 +82,7 @@ class CourseObjectiveRepository extends ServiceEntityRepository implements DTORe
                 'programYearObjectives',
                 'sessionObjectives',
                 'meshDescriptors',
-                'descendants'
+                'descendants',
             ],
         );
 

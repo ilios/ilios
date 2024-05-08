@@ -95,7 +95,7 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
             ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
             [
                 '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
-                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>'
+                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>',
             ],
         ];
     }
@@ -116,7 +116,7 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_sessionobjectives_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['sessionObjectives' => [$postData]]),
             $this->createJwtForRootUser($this->kernelBrowser)
@@ -147,7 +147,7 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_sessionobjectives_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['sessionObjectives' => [$postData]]),
             $this->createJwtForRootUser($this->kernelBrowser)

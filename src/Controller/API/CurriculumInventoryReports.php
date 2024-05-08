@@ -52,7 +52,7 @@ class CurriculumInventoryReports extends AbstractApiController
         summary: 'Fetch a single curriculum inventory report.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -66,12 +66,12 @@ class CurriculumInventoryReports extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventoryReportDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -127,7 +127,7 @@ class CurriculumInventoryReports extends AbstractApiController
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -141,11 +141,11 @@ class CurriculumInventoryReports extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventoryReportDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -176,7 +176,7 @@ class CurriculumInventoryReports extends AbstractApiController
                         items: new OA\Items(
                             ref: new Model(type: CurriculumInventoryReportDTO::class)
                         )
-                    )
+                    ),
                 ],
                 type: 'object',
             )
@@ -196,13 +196,13 @@ class CurriculumInventoryReports extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventoryReportDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function post(
@@ -264,14 +264,14 @@ class CurriculumInventoryReports extends AbstractApiController
                         'curriculumInventoryReport',
                         ref: new Model(type: CurriculumInventoryReportDTO::class),
                         type: 'object'
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -282,7 +282,7 @@ class CurriculumInventoryReports extends AbstractApiController
                         new OA\Property(
                             'curriculumInventoryReport',
                             ref: new Model(type: CurriculumInventoryReportDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
@@ -295,14 +295,14 @@ class CurriculumInventoryReports extends AbstractApiController
                         new OA\Property(
                             'curriculumInventoryReport',
                             ref: new Model(type: CurriculumInventoryReportDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function put(
@@ -342,7 +342,7 @@ class CurriculumInventoryReports extends AbstractApiController
         summary: 'Delete a curriculum inventory report.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(response: '204', description: 'Deleted.'),
@@ -351,7 +351,7 @@ class CurriculumInventoryReports extends AbstractApiController
             new OA\Response(
                 response: '500',
                 description: 'Deletion failed (usually caused by non-cascading relationships).'
-            )
+            ),
         ]
     )]
     public function delete(
@@ -397,7 +397,7 @@ class CurriculumInventoryReports extends AbstractApiController
                             'program',
                             description: 'Program ID',
                             type: 'string',
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
@@ -405,7 +405,7 @@ class CurriculumInventoryReports extends AbstractApiController
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -419,13 +419,13 @@ class CurriculumInventoryReports extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventoryReportDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function rollover(
@@ -491,7 +491,7 @@ class CurriculumInventoryReports extends AbstractApiController
         summary: 'Fetch verification preview data for a given report.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -502,12 +502,12 @@ class CurriculumInventoryReports extends AbstractApiController
                         new OA\Property(
                             'preview',
                             type: 'object',
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function verificationPreview(

@@ -287,7 +287,7 @@ class EntityMetadataTest extends KernelTestCase
                     'instructorGroups',
                     'instructors',
                     'learners',
-                ]
+                ],
             ],
             [stdClass::class, []],
         ];
@@ -301,7 +301,7 @@ class EntityMetadataTest extends KernelTestCase
                 [
                     'schools' => 'array<integer>',
                     'startYears' => 'array<integer>',
-                ]
+                ],
             ],
             [stdClass::class, []],
         ];
@@ -322,7 +322,7 @@ class EntityMetadataTest extends KernelTestCase
                 VocabularyDTO::class,
                 [
                     'school' => 'schools',
-                    'terms' => 'terms'
+                    'terms' => 'terms',
                 ],
             ],
             [
@@ -342,7 +342,7 @@ class EntityMetadataTest extends KernelTestCase
                     'school' => 'schools',
                     'terms' => 'terms',
                 ],
-            ]
+            ],
         ];
     }
 

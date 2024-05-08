@@ -48,7 +48,7 @@ class LearningMaterials extends OpenSearchBase
             foreach ($this->extractLearningMaterialData($lm) as $data) {
                 $materials[] = [
                     'id' => $lm->id,
-                    'data' => $data
+                    'data' => $data,
                 ];
             }
             return $materials;
@@ -61,7 +61,7 @@ class LearningMaterials extends OpenSearchBase
                 'body' => [
                     'learningMaterialId' => $arr['id'],
                     'data' => $arr['data'],
-                ]
+                ],
             ];
             return $this->client->index($params);
         }, $extractedMaterials);
@@ -80,9 +80,9 @@ class LearningMaterials extends OpenSearchBase
             'index' => self::INDEX,
             'body' => [
                 'query' => [
-                    'term' => ['learningMaterialId' => $id]
-                ]
-            ]
+                    'term' => ['learningMaterialId' => $id],
+                ],
+            ],
         ]);
 
         return !count($result['failures']);
@@ -110,7 +110,7 @@ class LearningMaterials extends OpenSearchBase
         $encodedData = base64_encode($data);
         if (strlen($encodedData) < $this->uploadLimit) {
             return [
-                $encodedData
+                $encodedData,
             ];
         }
 
@@ -130,13 +130,13 @@ class LearningMaterials extends OpenSearchBase
                 ],
                 'properties' => [
                     'learningMaterialId' => [
-                        'type' => 'integer'
+                        'type' => 'integer',
                     ],
                     'material' => [
-                        'type' => 'object'
+                        'type' => 'object',
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -151,10 +151,10 @@ class LearningMaterials extends OpenSearchBase
                         'attachment' => [
                             'field' => 'data',
                             'target_field' => 'material',
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

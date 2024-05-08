@@ -20,7 +20,7 @@ use OpenApi\Attributes as OA;
             "username",
             description: "Username",
             type: "string"
-        )
+        ),
     ]
 )]
 class AuthenticationDTO

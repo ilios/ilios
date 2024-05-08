@@ -30,7 +30,7 @@ class GraphQL
             'fields' => $types,
         ]);
         $schema = new Schema([
-            'query' => $queryType
+            'query' => $queryType,
         ]);
         $input = json_decode($request->getContent() ?: '', true);
         $variableValues = array_key_exists('variables', $input) ? $input['variables'] : null;

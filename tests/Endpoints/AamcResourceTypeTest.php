@@ -23,7 +23,7 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
     {
         return [
             LoadAamcResourceTypeData::class,
-            LoadTermData::class
+            LoadTermData::class,
         ];
     }
 

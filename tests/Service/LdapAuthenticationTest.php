@@ -63,7 +63,7 @@ class LdapAuthenticationTest extends TestCase
     {
         $arr = [
             'username' => null,
-            'password' => null
+            'password' => null,
         ];
 
         $request = m::mock(Request::class);
@@ -83,7 +83,7 @@ class LdapAuthenticationTest extends TestCase
     {
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
         $request = m::mock(Request::class);
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
@@ -107,13 +107,13 @@ class LdapAuthenticationTest extends TestCase
                 $this->authRepository,
                 $this->jwtManager,
                 $this->config,
-                $this->sessionUserProvider
+                $this->sessionUserProvider,
             ]
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(false);
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
 
         $request = m::mock(Request::class);
@@ -141,7 +141,7 @@ class LdapAuthenticationTest extends TestCase
     {
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
 
         $request = m::mock(Request::class);
@@ -176,13 +176,13 @@ class LdapAuthenticationTest extends TestCase
                 $this->authRepository,
                 $this->jwtManager,
                 $this->config,
-                $this->sessionUserProvider
+                $this->sessionUserProvider,
             ]
         );
         $obj->shouldReceive('checkLdapPassword')->once()->andReturn(true);
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
 
         $request = m::mock(Request::class);

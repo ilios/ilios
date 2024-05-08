@@ -66,7 +66,7 @@ class ListSchoolConfigValuesCommandTest extends KernelTestCase
             ->andReturn([$mockConfig]);
 
         $this->commandTester->execute([
-            'school' => '1'
+            'school' => '1',
         ]);
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(

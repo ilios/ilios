@@ -162,7 +162,7 @@ class ImportDefaultDataCommandTest extends KernelTestCase
                 [
                     $this->learningMaterialUserRoleRepository,
                     DefaultDataImporter::LEARNING_MATERIAL_USER_ROLE,
-                    []
+                    [],
                 ]
             )
             ->andReturn([]);
@@ -177,7 +177,7 @@ class ImportDefaultDataCommandTest extends KernelTestCase
                 [
                     $this->curriculumInventoryInstitutionRepository,
                     DefaultDataImporter::CURRICULUM_INVENTORY_INSTITUTION,
-                    []
+                    [],
                 ]
             )
             ->andReturn([]);

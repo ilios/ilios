@@ -29,7 +29,7 @@ class LearningMaterialUserRoleTest extends EntityBase
     public function testNotBlankValidation(): void
     {
         $notBlank = [
-            'title'
+            'title',
         ];
         $this->validateNotBlanks($notBlank);
 

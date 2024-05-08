@@ -27,7 +27,7 @@ use OpenApi\Attributes as OA;
             description: "Session types",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class AssessmentOptionDTO

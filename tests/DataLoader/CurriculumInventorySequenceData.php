@@ -39,7 +39,7 @@ class CurriculumInventorySequenceData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'report' => '4'
+            'report' => '4',
         ];
     }
 

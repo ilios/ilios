@@ -48,7 +48,7 @@ class UserSessionMaterialStatusTest extends AbstractBase
             VoterPermissions::VIEW,
             VoterPermissions::DELETE,
             VoterPermissions::CREATE,
-            VoterPermissions::EDIT
+            VoterPermissions::EDIT,
             ] as $attr
         ) {
             $sessionUser->shouldReceive('getUser')->andReturn($user);

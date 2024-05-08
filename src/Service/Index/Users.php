@@ -80,7 +80,7 @@ class Users extends OpenSearchBase
                 'completion' => [
                     'field' => "{$field}",
                     'skip_duplicates' => true,
-                ]
+                ],
             ];
 
             return $carry;
@@ -102,8 +102,8 @@ class Users extends OpenSearchBase
                     'email',
                     'enabled',
                 ],
-                'sort' => '_score'
-            ]
+                'sort' => '_score',
+            ],
         ];
 
         if (!$onlySuggest) {
@@ -125,8 +125,8 @@ class Users extends OpenSearchBase
                         'campusId^5',
                         'email',
                         'email.email^5',
-                    ]
-                ]
+                    ],
+                ],
             ];
         }
 
@@ -146,7 +146,7 @@ class Users extends OpenSearchBase
 
         return [
             'autocomplete' => $autocompleteSuggestions,
-            'users' => $users
+            'users' => $users,
         ];
     }
     public static function getMapping(): array
@@ -173,7 +173,7 @@ class Users extends OpenSearchBase
                         'fields' => [
                             'raw' => [
                                 'type' => 'keyword',
-                            ]
+                            ],
                         ],
                     ],
                     'middleName' => [
@@ -183,7 +183,7 @@ class Users extends OpenSearchBase
                         'fields' => [
                             'raw' => [
                                 'type' => 'keyword',
-                            ]
+                            ],
                         ],
                     ],
                     'lastName' => [
@@ -193,7 +193,7 @@ class Users extends OpenSearchBase
                         'fields' => [
                             'raw' => [
                                 'type' => 'keyword',
-                            ]
+                            ],
                         ],
                     ],
                     'displayName' => [
@@ -205,15 +205,15 @@ class Users extends OpenSearchBase
                                 'type' => 'keyword',
                             ],
                             'cmp' => [
-                                'type' => 'completion'
+                                'type' => 'completion',
                             ],
                         ],
                     ],
                     'fullName' => [
-                        'type' => 'completion'
+                        'type' => 'completion',
                     ],
                     'fullNameLastFirst' => [
-                        'type' => 'completion'
+                        'type' => 'completion',
                     ],
                     'username' => [
                         'type' => 'text',
@@ -224,7 +224,7 @@ class Users extends OpenSearchBase
                                 'type' => 'keyword',
                             ],
                             'cmp' => [
-                                'type' => 'completion'
+                                'type' => 'completion',
                             ],
                         ],
                     ],
@@ -232,8 +232,8 @@ class Users extends OpenSearchBase
                         'type' => 'keyword',
                         'fields' => [
                             'cmp' => [
-                                'type' => 'completion'
-                            ]
+                                'type' => 'completion',
+                            ],
                         ],
                     ],
                     'email' => [
@@ -247,14 +247,14 @@ class Users extends OpenSearchBase
                             'email' => [
                                 'type' => 'text',
                                 'analyzer' => 'email_address',
-                            ]
+                            ],
                         ],
                     ],
                     'enabled' => [
                         'type' => 'boolean',
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -284,7 +284,7 @@ class Users extends OpenSearchBase
                     'max_gram' => 15,
                     'token_chars' => [
                         'letter',
-                        'digit'
+                        'digit',
                     ],
                 ],
             ],

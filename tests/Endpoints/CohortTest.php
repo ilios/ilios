@@ -31,7 +31,7 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
             LoadProgramYearData::class,
             LoadCourseData::class,
             LoadLearnerGroupData::class,
-            LoadUserData::class
+            LoadUserData::class,
         ];
     }
 
@@ -99,7 +99,7 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
             'PUT',
             $this->getUrl($this->kernelBrowser, 'app_api_cohorts_put', [
                 'version' => $this->apiVersion,
-                'id' => $data['id']
+                'id' => $data['id'],
             ]),
             json_encode(['cohort' => $data]),
             $jwt

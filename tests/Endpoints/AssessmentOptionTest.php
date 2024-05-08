@@ -23,7 +23,7 @@ class AssessmentOptionTest extends AbstractReadWriteEndpoint
     {
         return [
             LoadAssessmentOptionData::class,
-            LoadSessionTypeData::class
+            LoadSessionTypeData::class,
         ];
     }
 

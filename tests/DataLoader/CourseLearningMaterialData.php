@@ -88,7 +88,7 @@ class CourseLearningMaterialData extends AbstractDataLoader
             'meshDescriptors' => [],
             'position' => 4,
             'startDate' => date_format(new DateTime('+2 days'), 'c'),
-            'endDate' => null
+            'endDate' => null,
         ];
 
         $arr[] = [

@@ -14,12 +14,12 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
 
         $arr[] = [
             'id' => 1,
-            'title' => 'first lm user role'
+            'title' => 'first lm user role',
         ];
 
         $arr[] = [
             'id' => 2,
-            'title' => 'second lm user role'
+            'title' => 'second lm user role',
         ];
 
         return $arr;
@@ -29,7 +29,7 @@ class LearningMaterialUserRoleData extends AbstractDataLoader
     {
         return [
             'id' => 3,
-            'title' => 'third lm user role'
+            'title' => 'third lm user role',
         ];
     }
 

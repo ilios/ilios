@@ -292,7 +292,7 @@ class UserTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_users_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['users' => [$data]]),
             $rootUserToken

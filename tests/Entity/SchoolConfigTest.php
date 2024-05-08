@@ -31,7 +31,7 @@ class SchoolConfigTest extends EntityBase
     {
         $notBlank = [
             'name',
-            'value'
+            'value',
         ];
         $this->object->setSchool(new School());
         $this->validateNotBlanks($notBlank);
@@ -46,7 +46,7 @@ class SchoolConfigTest extends EntityBase
         $this->object->setName('smallestDog');
         $this->object->setValue('Jayden');
         $notNull = [
-            'school'
+            'school',
         ];
         $this->validateNotNulls($notNull);
 

@@ -473,7 +473,7 @@ EOL;
                     'annotation' => $descriptor->getAnnotation(),
                     'updated_at' => $now,
                 ], [
-                    'mesh_descriptor_uid' => $descriptor->getUi()
+                    'mesh_descriptor_uid' => $descriptor->getUi(),
                 ], [
                     PDO::PARAM_STR,
                     PDO::PARAM_STR,
@@ -491,7 +491,7 @@ EOL;
                     PDO::PARAM_STR,
                     PDO::PARAM_STR,
                     'datetime',
-                    'datetime'
+                    'datetime',
                 ]);
             }
             /* @var Concept $concept */
@@ -513,7 +513,7 @@ EOL;
                     PDO::PARAM_STR,
                     PDO::PARAM_STR,
                     'datetime',
-                    'datetime'
+                    'datetime',
                 ]);
             }
             /* @var Term $term */

@@ -204,7 +204,7 @@ use OpenApi\Attributes as OA;
             description: "Course vocabulary terms",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 

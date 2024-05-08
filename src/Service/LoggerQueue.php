@@ -30,7 +30,7 @@ class LoggerQueue
             'className' => $className,
             //deleted entities lose their ID before they can be logged so we must record it here
             'id' => (string)$entity,
-            'changes' => $changes
+            'changes' => $changes,
         ];
     }
 

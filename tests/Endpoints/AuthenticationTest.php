@@ -445,7 +445,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $ids = array_map(fn(array $arr) => $arr['user'], $responseData);
         $filters = [
             'filters[user]' => $ids,
-            'limit' => count($ids)
+            'limit' => count($ids),
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
@@ -465,7 +465,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         $responseData = $this->postManyJsonApi($postData, $jwt);
         $ids = array_column($responseData, 'id');
         $filters = [
-            'filters[user]' => $ids
+            'filters[user]' => $ids,
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
@@ -624,10 +624,10 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
                     'user' => [
                         'data' => [
                             'id' => $user['user'],
-                            'type' => 'users'
-                        ]
-                    ]
-                ]
+                            'type' => 'users',
+                        ],
+                    ],
+                ],
             ];
             if (array_key_exists('password', $user)) {
                 $rhett['attributes']['password'] = $user['password'];

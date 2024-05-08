@@ -74,13 +74,13 @@ class UsermaterialController extends AbstractController
                             items: new OA\Items(
                                 ref: new Model(type: UserMaterial::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function getMaterials(

@@ -61,7 +61,7 @@ class AddRootUserCommandTest extends KernelTestCase
         $user->shouldReceive('setRoot');
 
         $this->commandTester->execute([
-            'userId' => $userId
+            'userId' => $userId,
         ]);
 
         $this->userRepository->shouldHaveReceived('update', [ $user, true, true ]);
@@ -91,7 +91,7 @@ class AddRootUserCommandTest extends KernelTestCase
 
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'userId' => $userId
+            'userId' => $userId,
         ]);
     }
 }

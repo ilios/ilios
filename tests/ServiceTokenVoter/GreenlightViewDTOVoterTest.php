@@ -155,7 +155,7 @@ class GreenlightViewDTOVoterTest extends AbstractReadonlyBase
             [UserDTO::class, true],
             [UserRoleDTO::class, true],
             [VocabularyDTO::class, true],
-            [self::class, false]
+            [self::class, false],
         ];
     }
 }

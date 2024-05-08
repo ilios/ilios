@@ -208,7 +208,7 @@ class ApiRequestParserTest extends KernelTestCase
         return [
             [
                 [],
-                ['offset' => null, 'limit' => null, 'orderBy' => null, 'criteria' => []]
+                ['offset' => null, 'limit' => null, 'orderBy' => null, 'criteria' => []],
             ],
             [
                 ['offset' => '219', 'limit' => '120', 'order_by' => 'foobar'],
@@ -226,7 +226,7 @@ class ApiRequestParserTest extends KernelTestCase
                         'roles' => [
                             '1',
                             '2',
-                        ]
+                        ],
                     ],
                 ],
                 [
@@ -254,7 +254,7 @@ class ApiRequestParserTest extends KernelTestCase
                         'description' => 'some words',
                         'sessionTypes' => ['1', '2'],
                         'active' => true,
-                    ]
+                    ],
                 ],
                 'aamcmethods',
                 [
@@ -262,8 +262,8 @@ class ApiRequestParserTest extends KernelTestCase
                         'description' => 'some words',
                         'sessionTypes' => ['1', '2'],
                         'active' => true,
-                    ]
-                ]
+                    ],
+                ],
             ],
             [
                 true,
@@ -281,8 +281,8 @@ class ApiRequestParserTest extends KernelTestCase
                                     ['type' => 'sessionTypes', 'id' => '2'],
                                 ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'aamcmethods',
                 [
@@ -290,9 +290,9 @@ class ApiRequestParserTest extends KernelTestCase
                         'description' => 'some words',
                         'sessionTypes' => ['1', '2'],
                         'active' => false,
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
     }
 
@@ -332,7 +332,7 @@ class ApiRequestParserTest extends KernelTestCase
                         'description' => 'some words',
                         'sessionTypes' => ['1', '2'],
                         'active' => true,
-                    ]
+                    ],
                 ],
                 'aamcmethods',
                 (object)[
@@ -359,8 +359,8 @@ class ApiRequestParserTest extends KernelTestCase
                                     ['type' => 'sessionTypes', 'id' => '2'],
                                 ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'aamcmethods',
                 (object)[
@@ -369,7 +369,7 @@ class ApiRequestParserTest extends KernelTestCase
                     'sessionTypes' => ['1', '2'],
                     'active' => true,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -428,8 +428,8 @@ class ApiRequestParserTest extends KernelTestCase
                                     ['type' => 'sessionTypes', 'id' => '2'],
                                 ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 AamcMethod::class . '[]',
                 'does not matter',
@@ -442,7 +442,7 @@ class ApiRequestParserTest extends KernelTestCase
                         'description' => 'some words',
                         'sessionTypes' => ['1', '2'],
                         'active' => true,
-                    ]
+                    ],
                 ],
                 AamcMethod::class . '[]',
                 'aamcmethods',
@@ -483,12 +483,12 @@ class ApiRequestParserTest extends KernelTestCase
                                     ['type' => 'sessionTypes', 'id' => '2'],
                                 ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'does not matter',
                 new AamcMethod(),
-                $callback
+                $callback,
             ],
             [
                 false,
@@ -498,11 +498,11 @@ class ApiRequestParserTest extends KernelTestCase
                         'description' => 'some words',
                         'sessionTypes' => ['1', '2'],
                         'active' => true,
-                    ]
+                    ],
                 ],
                 'aamcmethods',
                 new AamcMethod(),
-                $callback
+                $callback,
             ],
         ];
     }
@@ -526,8 +526,8 @@ class ApiRequestParserTest extends KernelTestCase
                                     ['type' => 'sessionTypes', 'id' => '2'],
                                 ],
                             ],
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 [
                     'id' => 'AM001',

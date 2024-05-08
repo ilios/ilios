@@ -115,7 +115,7 @@ class FilesystemFactory
             ],
             'region' => $matches[5],
             'version' => 'latest',
-            'bucket' => $matches[4]
+            'bucket' => $matches[4],
         ];
     }
 }

@@ -43,12 +43,12 @@ class CurrentSessionController extends AbstractController
                         new OA\Property(
                             'userId',
                             type: 'string',
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getCurrentSession(

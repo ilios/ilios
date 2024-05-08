@@ -128,7 +128,7 @@ abstract class AbstractEndpoint extends WebTestCase
     protected function compareJsonApiData(array $expected, object $result): void
     {
         $transformed = [
-            'id' => (string) $result->id
+            'id' => (string) $result->id,
         ];
         foreach ($result->attributes as $key => $value) {
             if (!is_null($value)) {
@@ -588,7 +588,7 @@ abstract class AbstractEndpoint extends WebTestCase
         $data = $loader->getAll();
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { $name { $fields }}"
+                'query' => "query { $name { $fields }}",
             ]),
             $jwt
         );
@@ -723,7 +723,7 @@ abstract class AbstractEndpoint extends WebTestCase
         $ids = array_map(fn(array $arr) => $arr['id'], $responseData);
         $filters = [
             'filters[id]' => $ids,
-            'limit' => count($ids)
+            'limit' => count($ids),
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
@@ -762,7 +762,7 @@ abstract class AbstractEndpoint extends WebTestCase
         $responseData = $this->postManyJsonApi($postData, $jwt);
         $ids = array_column($responseData, 'id');
         $filters = [
-            'filters[id]' => $ids
+            'filters[id]' => $ids,
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
@@ -1452,7 +1452,7 @@ abstract class AbstractEndpoint extends WebTestCase
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { $name$filterString { $idField }}"
+                'query' => "query { $name$filterString { $idField }}",
             ]),
             $jwt
         );

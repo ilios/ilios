@@ -30,7 +30,7 @@ class AamcMethodTest extends EntityBase
     {
         $notBlank = [
             'id',
-            'description'
+            'description',
         ];
         $this->validateNotBlanks($notBlank);
 

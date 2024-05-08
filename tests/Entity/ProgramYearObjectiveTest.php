@@ -47,7 +47,7 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $this->object->setProgramYear(new ProgramYear());
         $notBlank = [
-            'title'
+            'title',
         ];
         $this->validateNotBlanks($notBlank);
 
@@ -59,7 +59,7 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $this->object->setTitle('foo');
         $notNull = [
-            'programYear'
+            'programYear',
         ];
         $this->validateNotNulls($notNull);
 

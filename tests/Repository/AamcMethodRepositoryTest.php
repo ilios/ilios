@@ -23,7 +23,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
 
         $databaseToot = self::$kernel->getContainer()->get(DatabaseToolCollection::class)->get();
         $executor = $databaseToot->loadFixtures([
-            LoadAamcMethodData::class
+            LoadAamcMethodData::class,
         ]);
         $this->fixtures = $executor->getReferenceRepository();
 

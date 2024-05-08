@@ -49,7 +49,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
             'competency' => ['competency', 2],
-            'courseObjectives' => ['courseObjectives', [2]]
+            'courseObjectives' => ['courseObjectives', [2]],
 
         ];
     }
@@ -151,7 +151,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_programyearobjectives_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['programYearObjectives' => [$postData]]),
             $this->createJwtForRootUser($this->kernelBrowser)
@@ -177,7 +177,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
             ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
             [
                 '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
-                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>'
+                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>',
             ],
         ];
     }
@@ -197,7 +197,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_programyearobjectives_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['programYearObjectives' => [$postData]]),
             $this->createJwtForRootUser($this->kernelBrowser)

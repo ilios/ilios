@@ -640,7 +640,7 @@ class SchooleventsTest extends AbstractEndpoint
         $parameters = [
             'version' => $this->apiVersion,
             'id' => $school['id'],
-            'to' => 1000000
+            'to' => 1000000,
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -665,7 +665,7 @@ class SchooleventsTest extends AbstractEndpoint
         $parameters = [
             'version' => $this->apiVersion,
             'id' => $school['id'],
-            'from' => 1000000
+            'from' => 1000000,
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -704,7 +704,7 @@ class SchooleventsTest extends AbstractEndpoint
             'version' => $this->apiVersion,
             'id' => $schoolId,
             'from' => $from,
-            'to' => $to
+            'to' => $to,
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,
@@ -737,7 +737,7 @@ class SchooleventsTest extends AbstractEndpoint
         $parameters = [
             'version' => $this->apiVersion,
             'id' => $schoolId,
-            'session' => $sessionId
+            'session' => $sessionId,
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,

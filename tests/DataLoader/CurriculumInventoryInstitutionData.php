@@ -20,7 +20,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'addressStateOrProvince' => 'AB',
             'addressZipCode' => '11111',
             'addressCountryCode' => 'UK',
-            'school' => '1'
+            'school' => '1',
         ];
         $arr[] = [
             'id' => 2,
@@ -31,7 +31,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'addressStateOrProvince' => 'CA',
             'addressZipCode' => '90210',
             'addressCountryCode' => 'BC',
-            'school' => '2'
+            'school' => '2',
         ];
 
         return $arr;
@@ -48,7 +48,7 @@ class CurriculumInventoryInstitutionData extends AbstractDataLoader
             'addressStateOrProvince' => 'XX',
             'addressZipCode' => '44332',
             'addressCountryCode' => 'US',
-            'school' => '3'
+            'school' => '3',
         ];
     }
 

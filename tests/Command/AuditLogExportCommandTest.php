@@ -118,7 +118,7 @@ class AuditLogExportCommandTest extends KernelTestCase
                     'objectId' => '20',
                     'valuesChanged' => 'phone',
                     'objectClass' => 'FooBar',
-                ]
+                ],
             ]);
 
         $this->logger->shouldReceive('info');
@@ -161,7 +161,7 @@ class AuditLogExportCommandTest extends KernelTestCase
                     'objectId' => '21',
                     'valuesChanged' => 'email',
                     'objectClass' => 'Baz',
-                ]
+                ],
             ]);
         $this->auditLogRepository->shouldReceive('deleteInRange')->once();
 

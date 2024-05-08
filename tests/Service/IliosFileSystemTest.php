@@ -108,7 +108,7 @@ class IliosFileSystemTest extends TestCase
             'learning_materials',
             'lm',
             $hashDirectory,
-            $hash
+            $hash,
         ];
         return implode('/', $parts);
     }
@@ -117,7 +117,7 @@ class IliosFileSystemTest extends TestCase
     {
         $parts = [
             IliosFileSystem::LOCK_FILE_DIRECTORY,
-            $name
+            $name,
         ];
         return implode('/', $parts);
     }

@@ -44,7 +44,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
         summary: 'Fetch a single curriculum inventory sequence block.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -58,12 +58,12 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventorySequenceBlockDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -119,7 +119,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -133,11 +133,11 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventorySequenceBlockDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -163,13 +163,13 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                         items: new OA\Items(
                             ref: new Model(type: CurriculumInventorySequenceBlockDTO::class)
                         )
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -183,13 +183,13 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventorySequenceBlockDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function post(
@@ -235,14 +235,14 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                         'curriculumInventorySequenceBlock',
                         ref: new Model(type: CurriculumInventorySequenceBlockDTO::class),
                         type: 'object'
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -253,7 +253,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                         new OA\Property(
                             'curriculumInventorySequenceBlock',
                             ref: new Model(type: CurriculumInventorySequenceBlockDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
@@ -266,14 +266,14 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
                         new OA\Property(
                             'curriculumInventorySequenceBlock',
                             ref: new Model(type: CurriculumInventorySequenceBlockDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function put(
@@ -329,7 +329,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
         summary: 'Delete a curriculum inventory sequence block.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(response: '204', description: 'Deleted.'),
@@ -338,7 +338,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
             new OA\Response(
                 response: '500',
                 description: 'Deletion failed (usually caused by non-cascading relationships).'
-            )
+            ),
         ]
     )]
     public function delete(

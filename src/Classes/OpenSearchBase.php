@@ -148,7 +148,7 @@ class OpenSearchBase
         $results = [
             'took' => 0,
             'errors' => false,
-            'items' => []
+            'items' => [],
         ];
 
         foreach ($chunks as $chunk) {
@@ -156,7 +156,7 @@ class OpenSearchBase
             foreach ($chunk as $item) {
                 $body[] = ['index' => [
                     '_index' => $index,
-                    '_id' => $item['id']
+                    '_id' => $item['id'],
                 ]];
                 $body[] = $item;
             }

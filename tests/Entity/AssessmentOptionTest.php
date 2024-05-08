@@ -29,7 +29,7 @@ class AssessmentOptionTest extends EntityBase
     public function testNotBlankValidation(): void
     {
         $notBlank = [
-            'name'
+            'name',
         ];
         $this->validateNotBlanks($notBlank);
 

@@ -39,7 +39,7 @@ class LearningMaterialTest extends EntityBase
     public function testNotBlankValidation(): void
     {
         $notBlank = [
-            'title'
+            'title',
         ];
         $this->object->setUserRole(m::mock(LearningMaterialUserRoleInterface::class));
         $this->object->setStatus(m::mock(LearningMaterialStatusInterface::class));
@@ -61,7 +61,7 @@ class LearningMaterialTest extends EntityBase
         $notNulls = [
             'userRole',
             'status',
-            'owningUser'
+            'owningUser',
         ];
         $this->object->setTitle('test');
 

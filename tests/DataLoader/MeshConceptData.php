@@ -19,7 +19,7 @@ class MeshConceptData extends AbstractDataLoader
             'casn1Name' => 'casn123456',
             'registryNumber' => 'abc1234',
             'terms' => ['1', '2'],
-            'descriptors' => ['abc1']
+            'descriptors' => ['abc1'],
         ];
         $arr[] = [
             'id' => '2',
@@ -29,7 +29,7 @@ class MeshConceptData extends AbstractDataLoader
             'casn1Name' => 'second casn',
             'registryNumber' => 'abcd',
             'terms' => [],
-            'descriptors' => ['abc1']
+            'descriptors' => ['abc1'],
         ];
 
         return $arr;
@@ -45,14 +45,14 @@ class MeshConceptData extends AbstractDataLoader
             'casn1Name' => 'casn1122433',
             'registryNumber' => '112233',
             'terms' => ['1'],
-            'descriptors' => []
+            'descriptors' => [],
         ];
     }
 
     public function createInvalid(): array
     {
         return [
-            'id' => 'bad'
+            'id' => 'bad',
         ];
     }
 

@@ -82,7 +82,7 @@ class SyncUserCommand extends Command
                     $user->getDisplayName(),
                     $user->getPronouns(),
                     $user->getEmail(),
-                    $user->getPhone()
+                    $user->getPhone(),
                 ],
                 [
                     'Directory User',
@@ -93,7 +93,7 @@ class SyncUserCommand extends Command
                     $userRecord['pronouns'],
                     $userRecord['email'],
                     $userRecord['telephoneNumber'],
-                ]
+                ],
             ])
         ;
         $table->render();

@@ -71,7 +71,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
 
@@ -98,7 +98,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
 
@@ -119,7 +119,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 
@@ -133,7 +133,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 
@@ -147,7 +147,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
 
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 
@@ -167,7 +167,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
 
@@ -194,7 +194,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
 
@@ -210,7 +210,7 @@ class ChangeUsernameCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 

@@ -50,7 +50,7 @@ class ServiceTokenData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'id' => 'bad'
+            'id' => 'bad',
         ];
     }
 

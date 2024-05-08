@@ -18,7 +18,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => 1,
             'courses' => ['1', '2'],
             'learnerGroups' => ['1', '3', '4', '5'],
-            'users' => ['1', '2']
+            'users' => ['1', '2'],
         ];
 
         $arr[] = [
@@ -27,7 +27,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => 2,
             'courses' => ["3"],
             'learnerGroups' => ['2'],
-            'users' => []
+            'users' => [],
         ];
 
         $arr[] = [
@@ -36,7 +36,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => 3,
             'courses' => ["4", "5"],
             'learnerGroups' => [],
-            'users' => []
+            'users' => [],
         ];
 
         $arr[] = [
@@ -45,7 +45,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => 4,
             'courses' => [],
             'learnerGroups' => [],
-            'users' => []
+            'users' => [],
         ];
 
         $arr[] = [
@@ -54,7 +54,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => 5,
             'courses' => [],
             'learnerGroups' => [],
-            'users' => []
+            'users' => [],
         ];
 
 
@@ -69,7 +69,7 @@ class CohortData extends AbstractDataLoader
             'programYear' => "5",
             'courses' => ['1'],
             'learnerGroups' => [],
-            'users' => ['1']
+            'users' => ['1'],
         ];
     }
 
@@ -78,7 +78,7 @@ class CohortData extends AbstractDataLoader
         return [
             'id' => 'string',
             'title' => null,
-            'programYear' => null
+            'programYear' => null,
         ];
     }
 

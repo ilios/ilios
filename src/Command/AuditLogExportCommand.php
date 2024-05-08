@@ -84,7 +84,7 @@ class AuditLogExportCommand extends Command
                 $dt->format('c'),
                 $arr['objectId'],
                 $arr['objectClass'],
-                $arr['valuesChanged']
+                $arr['valuesChanged'],
             ];
         }, $this->auditLogRepository->findInRange($from, $to));
 

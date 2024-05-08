@@ -26,7 +26,7 @@ use OpenApi\Attributes as OA;
             description: "Alerts",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class AlertChangeTypeDTO

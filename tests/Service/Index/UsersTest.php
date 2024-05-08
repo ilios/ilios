@@ -54,7 +54,7 @@ class UsersTest extends TestCase
         $users = [
             m::mock(UserDTO::class),
             m::mock(User::class),
-            m::mock(UserDTO::class)
+            m::mock(UserDTO::class),
         ];
         $obj->index($users);
     }
@@ -80,8 +80,8 @@ class UsersTest extends TestCase
                 [
                     'index' => [
                         '_index' => Users::INDEX,
-                        '_id' => $user1->id
-                    ]
+                        '_id' => $user1->id,
+                    ],
                 ],
                 [
                     'id' => $user1->id,
@@ -99,8 +99,8 @@ class UsersTest extends TestCase
                 [
                     'index' => [
                         '_index' => Users::INDEX,
-                        '_id' => $user2->id
-                    ]
+                        '_id' => $user2->id,
+                    ],
                 ],
                 [
                     'id' => $user2->id,
@@ -115,7 +115,7 @@ class UsersTest extends TestCase
                     'fullName' => '11 first 11 middle 11 last',
                     'fullNameLastFirst' => '11 last, 11 first 11 middle',
                 ],
-            ]
+            ],
         ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$user1, $user2]);
     }

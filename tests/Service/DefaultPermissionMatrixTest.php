@@ -62,7 +62,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_PROGRAMS,
@@ -79,7 +79,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_ALL_PROGRAMS,
@@ -96,7 +96,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_THEIR_PROGRAMS,
@@ -113,7 +113,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_ALL_PROGRAMS,
@@ -130,7 +130,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_THEIR_PROGRAMS,
@@ -147,7 +147,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_PROGRAM_YEARS,
@@ -164,7 +164,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_ALL_PROGRAM_YEARS,
@@ -181,7 +181,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_THEIR_PROGRAM_YEARS,
@@ -198,7 +198,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_ALL_PROGRAM_YEARS,
@@ -215,7 +215,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
                     UserRoles::PROGRAM_DIRECTOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_THEIR_PROGRAM_YEARS,
@@ -232,7 +232,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UNLOCK_ALL_PROGRAM_YEARS,
@@ -249,7 +249,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UNLOCK_THEIR_PROGRAM_YEARS,
@@ -266,7 +266,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_LOCK_ALL_PROGRAM_YEARS,
@@ -283,7 +283,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS,
@@ -300,7 +300,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS,
@@ -317,7 +317,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS,
@@ -334,7 +334,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_COURSES,
@@ -351,7 +351,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_ALL_COURSES,
@@ -368,7 +368,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_THEIR_COURSES,
@@ -385,7 +385,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_ALL_COURSES,
@@ -402,7 +402,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_THEIR_COURSES,
@@ -419,7 +419,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UNLOCK_ALL_COURSES,
@@ -436,7 +436,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UNLOCK_THEIR_COURSES,
@@ -453,7 +453,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_LOCK_ALL_COURSES,
@@ -470,7 +470,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_LOCK_THEIR_COURSES,
@@ -487,7 +487,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_ARCHIVE_ALL_COURSES,
@@ -504,7 +504,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_ARCHIVE_THEIR_COURSES,
@@ -521,7 +521,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_SESSIONS,
@@ -538,7 +538,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_ALL_SESSIONS,
@@ -555,7 +555,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_THEIR_SESSIONS,
@@ -572,7 +572,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::COURSE_DIRECTOR,
                     UserRoles::COURSE_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_ALL_SESSIONS,
@@ -589,7 +589,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
                     UserRoles::COURSE_ADMINISTRATOR,
                     UserRoles::COURSE_DIRECTOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_THEIR_SESSIONS,
@@ -606,7 +606,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_COMPETENCIES,
@@ -623,7 +623,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_COMPETENCIES,
@@ -640,7 +640,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_COMPETENCIES,
@@ -657,7 +657,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_SESSION_TYPES,
@@ -674,7 +674,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_SESSION_TYPES,
@@ -691,7 +691,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_SESSION_TYPES,
@@ -708,7 +708,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_VOCABULARIES,
@@ -725,7 +725,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_VOCABULARIES,
@@ -742,7 +742,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_VOCABULARIES,
@@ -759,7 +759,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_TERMS,
@@ -776,7 +776,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_TERMS,
@@ -793,7 +793,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_TERMS,
@@ -810,7 +810,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_INSTRUCTOR_GROUPS,
@@ -827,7 +827,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_INSTRUCTOR_GROUPS,
@@ -844,7 +844,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_INSTRUCTOR_GROUPS,
@@ -861,7 +861,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_LEARNER_GROUPS,
@@ -878,7 +878,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::COURSE_INSTRUCTOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_LEARNER_GROUPS,
@@ -895,7 +895,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::COURSE_INSTRUCTOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_LEARNER_GROUPS,
@@ -912,7 +912,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_REPORTS,
@@ -929,7 +929,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_ALL_CURRICULUM_INVENTORY_REPORTS,
@@ -946,7 +946,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_THEIR_CURRICULUM_INVENTORY_REPORTS,
@@ -963,7 +963,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::COURSE_INSTRUCTOR,
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_ALL_CURRICULUM_INVENTORY_REPORTS,
@@ -980,7 +980,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_THEIR_CURRICULUM_INVENTORY_REPORTS,
@@ -997,7 +997,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_SCHOOL_CONFIGS,
@@ -1014,7 +1014,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_CURRICULUM_INVENTORY_INSTITUTIONS,
@@ -1031,7 +1031,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_CURRICULUM_INVENTORY_INSTITUTIONS,
@@ -1048,7 +1048,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_CURRICULUM_INVENTORY_INSTITUTIONS,
@@ -1065,7 +1065,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_CREATE_USERS,
@@ -1082,7 +1082,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_UPDATE_USERS,
@@ -1099,7 +1099,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
             [
                 Capabilities::CAN_DELETE_USERS,
@@ -1116,7 +1116,7 @@ class DefaultPermissionMatrixTest extends TestCase
                     UserRoles::SESSION_ADMINISTRATOR,
                     UserRoles::SESSION_INSTRUCTOR,
                     UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR,
-                ]
+                ],
             ],
         ];
     }

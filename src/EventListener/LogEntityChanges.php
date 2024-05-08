@@ -43,7 +43,7 @@ class LogEntityChanges
                     $updates[$entity::class] = [
                         'entity' => $entity,
                         'action' => $action,
-                        'changes' => array_keys($changes)
+                        'changes' => array_keys($changes),
                     ];
                 }
             }
@@ -60,7 +60,7 @@ class LogEntityChanges
                     $updates[$entityClass] = [
                         'entity' => $entity,
                         'action' => 'update',
-                        'changes' => []
+                        'changes' => [],
                     ];
                 }
                 $ref = new ReflectionClass($change);
@@ -78,7 +78,7 @@ class LogEntityChanges
                     $updates[$entityClass] = [
                         'entity' => $entity,
                         'action' => 'update',
-                        'changes' => []
+                        'changes' => [],
                     ];
                 }
                 $ref = new ReflectionClass($change);

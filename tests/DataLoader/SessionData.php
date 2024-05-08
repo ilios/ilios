@@ -165,7 +165,7 @@ class SessionData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'course' => 11
+            'course' => 11,
         ];
     }
 

@@ -66,7 +66,7 @@ use OpenApi\Attributes as OA;
             description: "MeSH descriptors",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class MeshConceptDTO

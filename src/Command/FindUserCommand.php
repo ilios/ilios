@@ -54,7 +54,7 @@ class FindUserCommand extends Command
             $arr['firstName'],
             $arr['lastName'],
             $arr['email'],
-            $arr['telephoneNumber']
+            $arr['telephoneNumber'],
         ], $userRecords);
         $table = new Table($output);
         $table

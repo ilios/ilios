@@ -34,7 +34,7 @@ class JsonApiData
     {
         return [
             'data' => $this->data,
-            'included' => $this->includes
+            'included' => $this->includes,
         ];
     }
 
@@ -50,25 +50,25 @@ class JsonApiData
             $value = $related['value'];
             if (is_null($value)) {
                 $data['relationships'][$name] = [
-                    'data' => null
+                    'data' => null,
                 ];
             } elseif (is_array($value)) {
                 $relatedData = [];
                 foreach ($value as $id) {
                     $relatedData[] = [
                         'type' => $related['type'],
-                        'id' => (string) $id
+                        'id' => (string) $id,
                     ];
                 }
                 $data['relationships'][$name] = [
-                    'data' => $relatedData
+                    'data' => $relatedData,
                 ];
             } else {
                 $data['relationships'][$name] = [
                     'data' => [
                         'type' => $related['type'],
-                        'id' => (string) $value
-                    ]
+                        'id' => (string) $value,
+                    ],
                 ];
             }
         }

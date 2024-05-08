@@ -109,7 +109,7 @@ use OpenApi\Attributes as OA;
             description: "Course learning materials",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 #[IA\FilterableBy('learningMaterials', 'array<integer>')]

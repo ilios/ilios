@@ -35,7 +35,7 @@ class AuditLogTest extends EntityBase
             'action',
             'objectId',
             'objectClass',
-            'valuesChanged'
+            'valuesChanged',
         ];
         $this->validateNotBlanks($notBlank);
 

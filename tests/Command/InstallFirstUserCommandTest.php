@@ -88,7 +88,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->schoolRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            '--school' => '1'
+            '--school' => '1',
         ]);
     }
 
@@ -98,7 +98,7 @@ class InstallFirstUserCommandTest extends KernelTestCase
         $this->schoolRepository->shouldReceive('findBy')->with([], ['title' => 'ASC'])->andReturn([]);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            '--school' => '1'
+            '--school' => '1',
         ]);
     }
 

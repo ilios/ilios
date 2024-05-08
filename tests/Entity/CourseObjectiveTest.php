@@ -48,7 +48,7 @@ class CourseObjectiveTest extends EntityBase
     {
         $this->object->setCourse(new Course());
         $notBlank = [
-            'title'
+            'title',
         ];
         $this->validateNotBlanks($notBlank);
 
@@ -60,7 +60,7 @@ class CourseObjectiveTest extends EntityBase
     {
         $this->object->setTitle('foo');
         $notNull = [
-            'course'
+            'course',
         ];
         $this->validateNotNulls($notNull);
 

@@ -26,7 +26,7 @@ class MeshDescriptorData extends AbstractDataLoader
             'deleted' => false,
             'sessionObjectives' => ['2'],
             'courseObjectives' => ['1', '2'],
-            'programYearObjectives' => ['1']
+            'programYearObjectives' => ['1'],
         ];
         $arr[] = [
             'id' => 'abc2',
@@ -43,7 +43,7 @@ class MeshDescriptorData extends AbstractDataLoader
             'deleted' => false,
             'sessionObjectives' => ['1'],
             'courseObjectives' => ['4'],
-            'programYearObjectives' => []
+            'programYearObjectives' => [],
         ];
         $arr[] = [
             'id' => 'abc3',
@@ -60,7 +60,7 @@ class MeshDescriptorData extends AbstractDataLoader
             'deleted' => false,
             'sessionObjectives' => ['3'],
             'courseObjectives' => ['3'],
-            'programYearObjectives' => ['2']
+            'programYearObjectives' => ['2'],
         ];
 
         return $arr;
@@ -90,7 +90,7 @@ class MeshDescriptorData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'id' => 'bad'
+            'id' => 'bad',
         ];
     }
 

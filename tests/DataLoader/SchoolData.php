@@ -27,7 +27,7 @@ class SchoolData extends AbstractDataLoader
             'vocabularies' => ['1'],
             'directors' => ['1'],
             'administrators' => ['1'],
-            'configurations' => ['1', '2']
+            'configurations' => ['1', '2'],
         ];
 
         $arr[] = [
@@ -45,7 +45,7 @@ class SchoolData extends AbstractDataLoader
             'vocabularies' => ['2'],
             'directors' => [],
             'administrators' => [],
-            'configurations' => ['3']
+            'configurations' => ['3'],
         ];
 
         $arr[] = [
@@ -62,7 +62,7 @@ class SchoolData extends AbstractDataLoader
             'vocabularies' => [],
             'directors' => [],
             'administrators' => [],
-            'configurations' => []
+            'configurations' => [],
         ];
 
 
@@ -93,7 +93,7 @@ class SchoolData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'id' => 'lkjdsf'
+            'id' => 'lkjdsf',
         ];
     }
 

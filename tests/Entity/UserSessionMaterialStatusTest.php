@@ -35,7 +35,7 @@ class UserSessionMaterialStatusTest extends EntityBase
         $notNull = [
             'user',
             'material',
-            'status'
+            'status',
         ];
         $this->validateNotNulls($notNull);
 

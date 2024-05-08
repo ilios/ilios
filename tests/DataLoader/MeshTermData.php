@@ -19,7 +19,7 @@ class MeshTermData extends AbstractDataLoader
             'conceptPreferred' => true,
             'recordPreferred' => false,
             'permuted' => true,
-            'concepts' => ['1']
+            'concepts' => ['1'],
         ];
         $arr[] = [
             'id' => 2,
@@ -29,7 +29,7 @@ class MeshTermData extends AbstractDataLoader
             'conceptPreferred' => false,
             'recordPreferred' => true,
             'permuted' => false,
-            'concepts' => ['1']
+            'concepts' => ['1'],
         ];
 
         return $arr;
@@ -46,14 +46,14 @@ class MeshTermData extends AbstractDataLoader
             'conceptPreferred' => true,
             'recordPreferred' => true,
             'permuted' => true,
-            'concepts' => ['1']
+            'concepts' => ['1'],
         ];
     }
 
     public function createInvalid(): array
     {
         return [
-            'id' => 'bad'
+            'id' => 'bad',
         ];
     }
 

@@ -125,7 +125,7 @@ class NonCachingIliosFileSystemTest extends TestCase
             'learning_materials',
             'lm',
             $hashDirectory,
-            $hash
+            $hash,
         ];
         return implode('/', $parts);
     }
@@ -134,7 +134,7 @@ class NonCachingIliosFileSystemTest extends TestCase
     {
         $parts = [
             IliosFileSystem::LOCK_FILE_DIRECTORY,
-            $name
+            $name,
         ];
         return implode('/', $parts);
     }

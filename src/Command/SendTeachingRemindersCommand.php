@@ -157,7 +157,7 @@ class SendTeachingRemindersCommand extends Command
                     'base_url' => $baseUrl,
                     'instructor' => $instructor,
                     'offering' => $offering,
-                    'timezone' => $timezone
+                    'timezone' => $timezone,
                 ]);
                 $email = $instructor->getPreferredEmail();
                 if (empty($email)) {

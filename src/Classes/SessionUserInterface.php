@@ -86,7 +86,7 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
             UserRoles::COURSE_DIRECTOR,
             UserRoles::COURSE_ADMINISTRATOR,
             UserRoles::SESSION_ADMINISTRATOR,
-            UserRoles::COURSE_INSTRUCTOR
+            UserRoles::COURSE_INSTRUCTOR,
         ]
     ): array;
     public function isAdministeringSessionInCourse(int $courseId): bool;

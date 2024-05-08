@@ -69,7 +69,7 @@ class CompetencyData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'school' => 11
+            'school' => 11,
         ];
     }
 

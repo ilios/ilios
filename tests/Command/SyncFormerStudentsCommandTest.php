@@ -105,7 +105,7 @@ class SyncFormerStudentsCommandTest extends KernelTestCase
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
-            'filter' => 'FILTER'
+            'filter' => 'FILTER',
         ]);
 
         $output = $this->commandTester->getDisplay();

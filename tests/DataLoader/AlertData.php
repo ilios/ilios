@@ -18,7 +18,7 @@ class AlertData extends AbstractDataLoader
             'dispatched' => true,
             'changeTypes' => ['1'],
             'instigators' => ['1', '2'],
-            'recipients' => ['1', '2']
+            'recipients' => ['1', '2'],
         ];
         $arr[] = [
             'id' => 2,
@@ -28,7 +28,7 @@ class AlertData extends AbstractDataLoader
             'dispatched' => true,
             'changeTypes' => ['1'],
             'instigators' => ['2'],
-            'recipients' => []
+            'recipients' => [],
         ];
         $arr[] = [
             'id' => 3,
@@ -37,7 +37,7 @@ class AlertData extends AbstractDataLoader
             'dispatched' => false,
             'changeTypes' => [],
             'instigators' => [],
-            'recipients' => ['2']
+            'recipients' => ['2'],
         ];
 
         return $arr;
@@ -52,7 +52,7 @@ class AlertData extends AbstractDataLoader
             'dispatched' => true,
             'changeTypes' => ['1'],
             'instigators' => ['1'],
-            'recipients' => ['1']
+            'recipients' => ['1'],
         ];
     }
 
@@ -62,7 +62,7 @@ class AlertData extends AbstractDataLoader
             'id' => 'string',
             'changeTypes' => [232452],
             'instigators' => [3234],
-            'recipients' => [32434]
+            'recipients' => [32434],
         ];
     }
 

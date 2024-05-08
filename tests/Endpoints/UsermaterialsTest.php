@@ -24,7 +24,7 @@ class UsermaterialsTest extends AbstractEndpoint
             LoadIlmSessionData::class,
             LoadUserData::class,
             LoadSessionLearningMaterialData::class,
-            LoadCourseLearningMaterialData::class
+            LoadCourseLearningMaterialData::class,
         ];
     }
 
@@ -172,7 +172,7 @@ class UsermaterialsTest extends AbstractEndpoint
     {
         $parameters = [
             'version' => $this->apiVersion,
-            'id' => $userId
+            'id' => $userId,
         ];
         if (null !== $before) {
             $parameters['before'] = $before;
@@ -212,7 +212,7 @@ class UsermaterialsTest extends AbstractEndpoint
     ): void {
         $parameters = [
             'version' => $this->apiVersion,
-            'id' => 99
+            'id' => 99,
         ];
         $url = $this->getUrl(
             $this->kernelBrowser,

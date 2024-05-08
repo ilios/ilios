@@ -135,7 +135,7 @@ class TermData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'vocabulary' => 11
+            'vocabulary' => 11,
         ];
     }
 

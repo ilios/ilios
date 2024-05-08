@@ -58,7 +58,7 @@ use OpenApi\Attributes as OA;
             description: "Sessions",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 #[IA\FilterableBy('courses', 'array<integer>')]

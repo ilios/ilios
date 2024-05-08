@@ -49,7 +49,7 @@ class SerializerFactory
             ],
             [
                 $jsonApiEncoder,
-                $jsonEncoder
+                $jsonEncoder,
             ]
         );
 

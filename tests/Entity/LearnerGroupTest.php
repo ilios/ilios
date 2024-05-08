@@ -34,7 +34,7 @@ class LearnerGroupTest extends EntityBase
     public function testNotBlankValidation(): void
     {
         $notBlank = [
-            'title'
+            'title',
         ];
         $this->object->setCohort(m::mock('App\Entity\CohortInterface'));
 
@@ -50,7 +50,7 @@ class LearnerGroupTest extends EntityBase
     public function testNotNullValidation(): void
     {
         $notNulls = [
-            'cohort'
+            'cohort',
         ];
         $this->object->setTitle('test');
         $this->validateNotNulls($notNulls);

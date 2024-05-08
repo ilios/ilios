@@ -36,7 +36,7 @@ class ExceptionController
 
         $json = json_encode([
             'code' => $code,
-            'message' => $safeMessage
+            'message' => $safeMessage,
         ]);
         $response->setContent($json);
         $response->headers->set('Content-Type', 'application/json');

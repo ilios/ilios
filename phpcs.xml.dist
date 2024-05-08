@@ -12,6 +12,7 @@
     <rule ref="Generic.PHP.RequireStrictTypes"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
     <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue" />
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
 
     <file>bin/</file>
     <file>config/</file>

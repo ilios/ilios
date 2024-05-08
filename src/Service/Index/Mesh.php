@@ -25,12 +25,12 @@ class Mesh extends OpenSearchBase
                 'query' => [
                     'query_string' => [
                         'query' => "*{$query}*",
-                    ]
+                    ],
                 ],
                 "_source" => [
-                    '_id'
-                ]
-            ]
+                    '_id',
+                ],
+            ],
         ];
         $results = $this->doSearch($params);
         return array_map(fn(array $arr) => $arr['_id'], $results['hits']['hits']);

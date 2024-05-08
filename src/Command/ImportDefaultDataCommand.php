@@ -187,7 +187,7 @@ class ImportDefaultDataCommand extends Command
         } catch (Exception $e) {
             $io->error([
                 'An error occurred during data import:',
-                $e->getMessage()
+                $e->getMessage(),
             ]);
             $this->release();
             return Command::FAILURE;

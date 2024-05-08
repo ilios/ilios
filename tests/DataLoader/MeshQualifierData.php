@@ -14,12 +14,12 @@ class MeshQualifierData extends AbstractDataLoader
         $arr[] = [
             'id' => '1',
             'name' => 'qual one',
-            'descriptors' => ['abc1']
+            'descriptors' => ['abc1'],
         ];
         $arr[] = [
             'id' => '2',
             'name' => 'second qualifier',
-            'descriptors' => ['abc1']
+            'descriptors' => ['abc1'],
         ];
 
         return $arr;
@@ -30,7 +30,7 @@ class MeshQualifierData extends AbstractDataLoader
         return [
             'id' => '3',
             'name' => 'third qualifier',
-            'descriptors' => []
+            'descriptors' => [],
         ];
     }
 

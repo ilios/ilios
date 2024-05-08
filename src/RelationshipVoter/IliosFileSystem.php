@@ -18,7 +18,7 @@ class IliosFileSystem extends AbstractVoter
             $permissionChecker,
             FileSystem::class,
             [
-                VoterPermissions::CREATE_TEMPORARY_FILE
+                VoterPermissions::CREATE_TEMPORARY_FILE,
             ]
         );
     }

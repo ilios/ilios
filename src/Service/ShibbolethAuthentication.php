@@ -78,7 +78,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 'Shib-Session-ID',
                 'Shib-Authentication-Instant',
                 'Shib-Authentication-Method',
-                'Shib-Session-Index'
+                'Shib-Session-Index',
             ];
             foreach ($shibProperties as $key) {
                 $logVars[$key] = $request->server->get($key);
@@ -126,7 +126,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         }
         return new JsonResponse([
             'status' => 'redirect',
-            'logoutUrl' => $logoutUrl
+            'logoutUrl' => $logoutUrl,
 
         ], JsonResponse::HTTP_OK);
     }

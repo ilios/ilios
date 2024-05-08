@@ -34,7 +34,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             description: "Created at",
             type: "string",
             format: "date-time"
-        )
+        ),
     ]
 )]
 class CurriculumInventoryExportDTO
