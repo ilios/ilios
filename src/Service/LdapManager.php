@@ -36,6 +36,8 @@ class LdapManager
         $ldapPronounsProperty = $this->config->get('ldap_directory_pronouns_property');
         $ldapFirstNameProperty = $this->config->get('ldap_directory_first_name_property') ?? 'givenName';
         $ldapLastNameProperty = $this->config->get('ldap_directory_last_name_property') ?? 'sn';
+        $ldapPreferredFirstNameProperty = $this->config->get('ldap_directory_preferred_first_name_property');
+        $ldapPreferredLastNameProperty = $this->config->get('ldap_directory_preferred_last_name_property');
 
         $rhett = [];
         try {
@@ -52,6 +54,12 @@ class LdapManager
                 $ldapDisplayNameProperty => 'displayName',
                 $ldapPronounsProperty => 'pronouns',
             ];
+            if ($ldapPreferredFirstNameProperty) {
+                $attributes[$ldapPreferredFirstNameProperty] = 'preferredFirstName';
+            }
+            if ($ldapPreferredLastNameProperty) {
+                $attributes[$ldapPreferredLastNameProperty] = 'preferredLastName';
+            }
 
             foreach ($results as $userData) {
                 $values = [];

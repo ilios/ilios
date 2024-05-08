@@ -130,6 +130,77 @@ class SyncUserCommandTest extends KernelTestCase
             $output
         );
     }
+
+    public function testExecuteWithPreferredNames(): void
+    {
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('setUsername')->with('username');
+
+        $pendingUpdate = m::mock(PendingUserUpdateInterface::class);
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getFirstName')->andReturn('old-first');
+        $user->shouldReceive('getPendingUserUpdates')->andReturn(new ArrayCollection([$pendingUpdate]));
+        $user->shouldReceive('getLastName')->andReturn('old-last');
+        $user->shouldReceive('getEmail')->andReturn('old-email');
+        $user->shouldReceive('getDisplayName')->andReturn('old-display');
+        $user->shouldReceive('getPronouns')->andReturn('old-pronouns');
+        $user->shouldReceive('getPhone')->andReturn('old-phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setFirstName')->with('preferred-first');
+        $user->shouldReceive('setLastName')->with('preferred-last');
+        $user->shouldReceive('setEmail')->with('email');
+        $user->shouldReceive('setDisplayName')->with('display');
+        $user->shouldReceive('setPronouns')->with('pronouns');
+        $user->shouldReceive('setPhone')->with('phone');
+
+        $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
+        $this->userRepository->shouldReceive('update')->with($user);
+        $this->authenticationRepository->shouldReceive('update')->with($authentication, false);
+        $this->pendingUserUpdateRepository->shouldReceive('delete')->with($pendingUpdate)->once();
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'preferredFirstName' => 'preferred-first',
+            'preferredLastName' => 'preferred-last',
+            'email' => 'email',
+            'displayName' => 'display',
+            'pronouns' => 'pronouns',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'username'
+        ];
+        $this->directory->shouldReceive('findByCampusId')->with('abc')->andReturn($fakeDirectoryUser);
+        $this->commandTester->setInputs(['Yes']);
+
+        $this->commandTester->execute([
+            'userId' => '1'
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Ilios User\s+\| ' .
+            'abc\s+\| ' .
+            'old-first\s+\| ' .
+            'old-last\s+\| ' .
+            'old-display\s+\| ' .
+            'old-pronouns\s+\| ' .
+            'old-email\s+\| ' .
+            'old-phone/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/Directory User\s+\| ' .
+            'abc\s+\| ' .
+             'preferred-first\s+\| ' .
+            'preferred-last\s+\| ' .
+             'display\s+\| ' .
+            'pronouns\s+\| ' .
+             'email\s+\| ' .
+            'phone/',
+            $output
+        );
+    }
     public function testEmptyPronouns(): void
     {
         $authentication = m::mock(AuthenticationInterface::class);
