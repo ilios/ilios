@@ -1,8 +1,13 @@
 #!/bin/sh
 set -e
 
+echo "Waiting for db to be ready..."
 /srv/app/bin/console ilios:wait-for-database
+echo "The db is now ready and reachable"
+
+echo "Waiting for search index to be ready..."
 /srv/app/bin/console ilios:wait-for-index
+echo "The search index is now ready and reachable"
 
 # use exec so the process is the container's PID 1 which will allow
 # signals (Kill, Quit, Term) to be passed to the process.
