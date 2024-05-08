@@ -125,22 +125,24 @@ class SyncAllUsersCommand extends Command
                         $this->pendingUserUpdateRepository->update($pendingUpdate, false);
                     }
                 }
+                $computedFirstName = $recordArray['preferredFirstName'] ?? $recordArray['firstName'];
+                $computedLastName = $recordArray['preferredLastName'] ?? $recordArray['lastName'];
 
-                if ($fixSmallThings && $user->getFirstName() != $recordArray['firstName']) {
+                if ($fixSmallThings && $user->getFirstName() != $computedFirstName) {
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating first name from "' . $user->getFirstName() .
-                        '" to "' . $recordArray['firstName'] . '".</comment>'
+                        '" to "' . $computedFirstName . '".</comment>'
                     );
-                    $user->setFirstName($recordArray['firstName']);
+                    $user->setFirstName($computedFirstName);
                 }
-                if ($fixSmallThings && $user->getLastName() != $recordArray['lastName']) {
+                if ($fixSmallThings && $user->getLastName() != $computedLastName) {
                     $update = true;
                     $output->writeln(
                         '  <comment>[I] Updating last name from "' . $user->getLastName() .
-                        '" to "' . $recordArray['lastName'] . '".</comment>'
+                        '" to "' . $computedLastName . '".</comment>'
                     );
-                    $user->setLastName($recordArray['lastName']);
+                    $user->setLastName($computedLastName);
                 }
                 if ($fixSmallThings && $user->getDisplayName() != $recordArray['displayName']) {
                     $update = true;

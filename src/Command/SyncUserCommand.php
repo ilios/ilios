@@ -71,7 +71,7 @@ class SyncUserCommand extends Command
                 'Display Name',
                 'Pronouns',
                 'Email',
-                'Phone Number'
+                'Phone Number',
             ])
             ->setRows([
                 [
@@ -87,12 +87,12 @@ class SyncUserCommand extends Command
                 [
                     'Directory User',
                     $userRecord['campusId'],
-                    $userRecord['firstName'],
-                    $userRecord['lastName'],
+                    $userRecord['preferredFirstName'] ?? $userRecord['firstName'],
+                    $userRecord['preferredLastName'] ?? $userRecord['lastName'],
                     $userRecord['displayName'],
                     $userRecord['pronouns'],
                     $userRecord['email'],
-                    $userRecord['telephoneNumber']
+                    $userRecord['telephoneNumber'],
                 ]
             ])
         ;
@@ -107,8 +107,8 @@ class SyncUserCommand extends Command
         );
 
         if ($helper->ask($input, $output, $question)) {
-            $user->setFirstName($userRecord['firstName']);
-            $user->setLastName($userRecord['lastName']);
+            $user->setFirstName($userRecord['preferredFirstName'] ?? $userRecord['firstName']);
+            $user->setLastName($userRecord['preferredLastName'] ?? $userRecord['lastName']);
             $user->setDisplayName($userRecord['displayName']);
             $user->setPronouns($userRecord['pronouns']);
             $user->setEmail($userRecord['email']);
