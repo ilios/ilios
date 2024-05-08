@@ -18,4 +18,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarqube.ucsf.edu
-          SONAR_PROJECT_KEY: ilios_ilios_99baf4a1-99a4-4d9a-adb9-2c1253c22751
+        with:
+          args: >
+            -Dsonar.projectKey=ilios_ilios_99baf4a1-99a4-4d9a-adb9-2c1253c22751
