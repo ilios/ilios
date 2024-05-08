@@ -1,0 +1,21 @@
+name: UCSF SonarQube Scan
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  scan:
+    name: Scan with SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # disable shallow clone for full access to code
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarqube.ucsf.edu
+          SONAR_PROJECT_KEY: ilios_ilios_99baf4a1-99a4-4d9a-adb9-2c1253c22751
