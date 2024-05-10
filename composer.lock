@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a3accc537a06c3d86ffa60ef19878dc",
+    "content-hash": "e406aed25b90982d0cdb5a608e2bd0f2",
     "packages": [
         {
             "name": "async-aws/core",
@@ -6014,16 +6014,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.17.6",
+            "version": "v5.17.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "d7a42b29d1b1a64aae36d094bd4873d8e0762e13"
+                "reference": "60304834e69fa747aeba403545747d7dc2ebcf86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/d7a42b29d1b1a64aae36d094bd4873d8e0762e13",
-                "reference": "d7a42b29d1b1a64aae36d094bd4873d8e0762e13",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/60304834e69fa747aeba403545747d7dc2ebcf86",
+                "reference": "60304834e69fa747aeba403545747d7dc2ebcf86",
                 "shasum": ""
             },
             "type": "library",
@@ -6069,9 +6069,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.17.6"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.17.7"
             },
-            "time": "2024-05-07T10:47:45+00:00"
+            "time": "2024-05-09T11:11:55+00:00"
         },
         {
             "name": "symfony/amazon-mailer",
