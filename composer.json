@@ -67,7 +67,8 @@
     "symfony/validator": "@stable",
     "symfony/web-link": "@stable",
     "symfony/yaml": "@stable",
-    "webonyx/graphql-php": "^15.0"
+    "webonyx/graphql-php": "^15.0",
+    "ext-sodium": "*"
   },
   "require-dev": {
     "infection/infection": "^0.28.0",
