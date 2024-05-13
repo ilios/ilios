@@ -27,7 +27,6 @@ class CasAuthentication implements AuthenticationInterface
     protected const string REDIRECT_COOKIE = 'ilios-cas-redirect';
     protected const string JWT_COOKIE = 'ilios-cas-jwt';
     protected const string NO_ACCOUNT_EXISTS_COOKIE = 'ilios-cas-no-account-exists';
-    protected const string COOKIE_SIGNATURE_SEPARATOR = '..xxx..';
 
     /**
      * Constructor
@@ -93,7 +92,7 @@ class CasAuthentication implements AuthenticationInterface
                 $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
                 if ($request->cookies->has(self::REDIRECT_COOKIE)) {
                     $value = $request->cookies->get(self::REDIRECT_COOKIE);
-                    [$providedHash, $redirectUrl] = explode(self::COOKIE_SIGNATURE_SEPARATOR, $value);
+                    [$providedHash, $redirectUrl] = unserialize($value);
                     $signature = $this->generateSignature($redirectUrl);
                     //validate the signature to ensure the redirect hasn't been tampered with
                     if (!hash_equals($signature, $providedHash)) {
@@ -175,11 +174,11 @@ class CasAuthentication implements AuthenticationInterface
 
             $signature = $this->generateSignature($redirectUrl);
             //store the redirect along with a signature to ensure it hasn't been tampered with
-            $value = implode(self::COOKIE_SIGNATURE_SEPARATOR, [$signature, $redirectUrl]);
+            $value = serialize([$signature, $redirectUrl]);
             $response->headers->setCookie(Cookie::create(
                 name: self::REDIRECT_COOKIE,
                 value: $value,
-                expire: strtotime('now + 2 minutes'),
+                expire: strtotime('+2 minutes'),
             ));
         }
 
