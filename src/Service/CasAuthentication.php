@@ -121,18 +121,14 @@ class CasAuthentication implements AuthenticationInterface
             }
         }
 
-        if ($request->cookies->has(self::REDIRECT_COOKIE)) {
-            $url = $request->cookies->get(self::REDIRECT_COOKIE);
-        } else {
-            $url = $this->getRootUrl();
-        }
-
-        $response = new RedirectResponse($url);
+        $response = new RedirectResponse($this->getRootUrl());
         $response->headers->setCookie(Cookie::create(
             self::NO_ACCOUNT_EXISTS_COOKIE,
             $username,
             strtotime('now + 45 seconds')
         ));
+        //just in case the redirect cookie hasn't expired, we should trash it
+        $response->headers->removeCookie(self::REDIRECT_COOKIE);
 
         return $response;
     }
