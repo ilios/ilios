@@ -92,7 +92,7 @@ class CasAuthentication implements AuthenticationInterface
                 $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
                 if ($request->cookies->has(self::REDIRECT_COOKIE)) {
                     $value = $request->cookies->get(self::REDIRECT_COOKIE);
-                    [$providedHash, $redirectUrl] = unserialize($value);
+                    [$providedHash, $redirectUrl] = json_decode($value, associative: true, depth: 2);
                     $signature = $this->generateSignature($redirectUrl);
                     //validate the signature to ensure the redirect hasn't been tampered with
                     if (!hash_equals($signature, $providedHash)) {
@@ -174,7 +174,7 @@ class CasAuthentication implements AuthenticationInterface
 
             $signature = $this->generateSignature($redirectUrl);
             //store the redirect along with a signature to ensure it hasn't been tampered with
-            $value = serialize([$signature, $redirectUrl]);
+            $value = json_encode([$signature, $redirectUrl]);
             $response->headers->setCookie(Cookie::create(
                 name: self::REDIRECT_COOKIE,
                 value: $value,
