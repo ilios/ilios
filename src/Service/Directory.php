@@ -15,9 +15,8 @@ class Directory
 
     /**
      * Get directory information for a single user
-     * @param  string $campusId
      */
-    public function findByCampusId($campusId): ?array
+    public function findByCampusId(string $campusId): ?array
     {
         $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
 
@@ -79,9 +78,8 @@ class Directory
 
     /**
      * Find all users matching LDAP filter
-     * @param  string $filter
      */
-    public function findByLdapFilter($filter): ?array
+    public function findByLdapFilter(string $filter): ?array
     {
         $users = $this->ldapManager->search($filter);
         if ($users !== []) {

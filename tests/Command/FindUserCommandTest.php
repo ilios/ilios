@@ -52,9 +52,12 @@ class FindUserCommandTest extends KernelTestCase
         $fakeDirectoryUser = [
             'firstName' => 'first',
             'lastName' => 'last',
+            'displayName' => 'first last',
             'email' => 'email',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
+            'preferredFirstName' => null,
+            'preferredLastName' => null,
         ];
         $this->directory->shouldReceive('find')->with(['a', 'b'])->andReturn([$fakeDirectoryUser]);
 
@@ -65,7 +68,33 @@ class FindUserCommandTest extends KernelTestCase
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
-            '/abc\s+\| first\s+\| last\s+\| email\s+\| phone/',
+            '/abc\s+\| first last\s+\| first\s+\| last\s+\| email\s+\| phone/',
+            $output
+        );
+    }
+
+    public function testExecuteWithPreferredNames(): void
+    {
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'displayName' => 'first last',
+            'email' => 'email',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'preferredFirstName' => 'preferredFirst',
+            'preferredLastName' => 'preferredLast',
+        ];
+        $this->directory->shouldReceive('find')->with(['a', 'b'])->andReturn([$fakeDirectoryUser]);
+
+        $this->commandTester->execute([
+            'searchTerms' => ['a', 'b'],
+        ]);
+
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/abc\s+\| first last\s+\| preferredFirst\s+\| preferredLast\s+\| email\s+\| phone/',
             $output
         );
     }

@@ -92,8 +92,8 @@ class AddNewStudentsToSchoolCommand extends Command
         );
         $rows = array_map(fn(array $arr) => [
             $arr['campusId'],
-            $arr['firstName'],
-            $arr['lastName'],
+            $arr['preferredFirstName'] ?? $arr['firstName'],
+            $arr['preferredLastName'] ?? $arr['lastName'],
             $arr['email'],
         ], $newStudents);
         $table = new Table($output);
@@ -135,8 +135,9 @@ class AddNewStudentsToSchoolCommand extends Command
                     continue;
                 }
                 $user = $this->userRepository->create();
-                $user->setFirstName($userRecord['firstName']);
-                $user->setLastName($userRecord['lastName']);
+                $user->setFirstName($userRecord['preferredFirstName'] ?? $userRecord['firstName']);
+                $user->setLastName($userRecord['preferredLastName'] ?? $userRecord['lastName']);
+                $user->setDisplayName($userRecord['displayName']);
                 $user->setEmail($userRecord['email']);
                 $user->setCampusId($userRecord['campusId']);
                 $user->setAddedViaIlios(true);
