@@ -342,3 +342,30 @@ jobs:
             coverage.xml:clover
         env:
           CC_TEST_REPORTER_ID: c2e072c72320901c23741e4c25bfd28e149441b5a19ba9abb8cf80ca0363ff9a
+
+  sonarqube_scan:
+    name: Scan with UCSF SonarQube
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    env: 
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    needs: tests
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # disable shallow clone for full access to code
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-output
+      - run: ls -lh coverage.xml
+      - uses: sonarsource/sonarqube-scan-action@v2.0.2
+        if: ${{ env.SONAR_TOKEN != '' }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarqube.ucsf.edu
+        with:
+          args: >
+            -Dsonar.projectKey=ilios_ilios_99baf4a1-99a4-4d9a-adb9-2c1253c22751
+            -Dsonar.php.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=bin,src,public,templates
+            -Dsonar.tests=tests
