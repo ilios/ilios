@@ -54,7 +54,7 @@ class TypeRegistry
             'resolve' => $this->typeResolver,
             'extensions' => [
                 'dtoClassName' => $name,
-            ]
+            ],
         ];
 
         if ($includeArgs) {

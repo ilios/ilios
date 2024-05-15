@@ -60,7 +60,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['4'],
             'filename' => 'testfile.txt',
             'mimetype' => 'text/plain',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
 
         $arr[] = [
@@ -77,7 +77,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => [],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
 
         $arr[] = [
@@ -94,7 +94,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['5'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
 
         $arr[] = [
@@ -111,7 +111,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['6'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
 
         $arr[] = [
@@ -128,7 +128,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['7'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
 
         $arr[] = [
@@ -145,7 +145,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['8'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
         $arr[] = [
             'id' => 9,
@@ -161,7 +161,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['9'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
         $arr[] = [
             'id' => 10,
@@ -177,7 +177,7 @@ class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => ['10'],
             'filename' => 'testfile.pdf',
             'mimetype' => 'application/pdf',
-            'filesize' => 1000
+            'filesize' => 1000,
         ];
 
         return $arr;
@@ -262,7 +262,7 @@ class LearningMaterialData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'id' => 12
+            'id' => 12,
         ];
     }
 

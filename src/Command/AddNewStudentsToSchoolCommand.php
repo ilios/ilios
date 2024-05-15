@@ -94,7 +94,7 @@ class AddNewStudentsToSchoolCommand extends Command
             $arr['campusId'],
             $arr['firstName'],
             $arr['lastName'],
-            $arr['email']
+            $arr['email'],
         ], $newStudents);
         $table = new Table($output);
         $table->setHeaders(['Campus ID', 'First', 'Last', 'Email'])->setRows($rows);

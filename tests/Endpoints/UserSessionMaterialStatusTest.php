@@ -52,7 +52,7 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
             'status' => [[0], ['status' => UserSessionMaterialStatusInterface::NONE]],
             'statuses' => [[0, 1], ['status' => [
                 UserSessionMaterialStatusInterface::NONE,
-                UserSessionMaterialStatusInterface::STARTED
+                UserSessionMaterialStatusInterface::STARTED,
             ]]],
             'material' => [[1], ['material' => 3]],
             'materials' => [[0, 2], ['material' => [1, 5]]],
@@ -69,7 +69,7 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
         $filters['users'] = [[0, 1, 2], ['users' => [2]]];
         $filters['statuses'] = [[0, 1], ['statuses' => [
             UserSessionMaterialStatusInterface::NONE,
-            UserSessionMaterialStatusInterface::STARTED
+            UserSessionMaterialStatusInterface::STARTED,
         ]]];
 
         return $filters;

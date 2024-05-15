@@ -36,7 +36,7 @@ class Sessions extends AbstractApiController
         summary: 'Fetch a single session.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -50,12 +50,12 @@ class Sessions extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: SessionDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -118,7 +118,7 @@ class Sessions extends AbstractApiController
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -132,11 +132,11 @@ class Sessions extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: SessionDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -184,13 +184,13 @@ class Sessions extends AbstractApiController
                         items: new OA\Items(
                             ref: new Model(type: SessionDTO::class)
                         )
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -204,13 +204,13 @@ class Sessions extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: SessionDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function post(
@@ -239,14 +239,14 @@ class Sessions extends AbstractApiController
                         'session',
                         ref: new Model(type: SessionDTO::class),
                         type: 'object'
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -257,7 +257,7 @@ class Sessions extends AbstractApiController
                         new OA\Property(
                             'session',
                             ref: new Model(type: SessionDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
@@ -270,14 +270,14 @@ class Sessions extends AbstractApiController
                         new OA\Property(
                             'session',
                             ref: new Model(type: SessionDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function put(
@@ -317,7 +317,7 @@ class Sessions extends AbstractApiController
         summary: 'Delete a session.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(response: '204', description: 'Deleted.'),
@@ -326,7 +326,7 @@ class Sessions extends AbstractApiController
             new OA\Response(
                 response: '500',
                 description: 'Deletion failed (usually caused by non-cascading relationships).'
-            )
+            ),
         ]
     )]
     public function delete(

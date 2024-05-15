@@ -66,7 +66,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
                 'programYearObjectives',
                 'children',
                 'aamcPcrses',
-                'programYears'
+                'programYears',
             ],
         );
 

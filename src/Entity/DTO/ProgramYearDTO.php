@@ -66,7 +66,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             description: "Program year objectives",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 #[IA\FilterableBy('courses', 'array<integer>')]

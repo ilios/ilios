@@ -46,10 +46,10 @@ class ApiResponseBuilderTest extends TestCase
         $tree = $this->obj->extractJsonApiSideLoadFields($input);
         $expected = [
             'cohorts' => [
-                'green' => []
+                'green' => [],
             ],
             'objective' => [
-                'green' => []
+                'green' => [],
             ],
         ];
         $this->assertEquals($expected, $tree);
@@ -72,10 +72,10 @@ class ApiResponseBuilderTest extends TestCase
                 'programYear' => [
                     'program' => [],
                     'programYearObjectives' => [
-                        'objective' => []
-                    ]
+                        'objective' => [],
+                    ],
                 ],
-            ]
+            ],
         ];
         $this->assertEquals($expected, $tree);
     }
@@ -92,7 +92,7 @@ class ApiResponseBuilderTest extends TestCase
                         'directors' => [],
                     ],
                 ],
-            ]
+            ],
         ];
         $this->assertEquals($expected, $tree);
     }
@@ -124,7 +124,7 @@ class ApiResponseBuilderTest extends TestCase
                 'learningMaterials' => [
                     'learningMaterial' => [
                         'owningUser' => [],
-                    ]
+                    ],
                 ],
                 'sessionObjectives' => [
                     'objective' => [
@@ -132,37 +132,37 @@ class ApiResponseBuilderTest extends TestCase
                         'meshDescriptors' => [],
                     ],
                     'terms' => [
-                        'vocabulary' => []
+                        'vocabulary' => [],
                     ],
                 ],
                 'offerings' => [
                     'learners' => [],
                     'instructors' => [],
                     'instructorGroups' => [
-                        'users' => []
+                        'users' => [],
                     ],
                     'learnerGroups' => [
-                        'users' => []
-                    ]
+                        'users' => [],
+                    ],
                 ],
                 'ilmSession' => [
                     'learners' => [],
                     'instructors' => [],
                     'instructorGroups' => [
-                        'users' => []
+                        'users' => [],
                     ],
                     'learnerGroups' => [
-                        'users' => []
-                    ]
+                        'users' => [],
+                    ],
                 ],
                 'sessionDescription' => [],
                 'terms' => [
-                    'vocabulary' => []
+                    'vocabulary' => [],
                 ],
                 'meshDescriptors' => [
-                    'trees' => []
+                    'trees' => [],
                 ],
-            ]
+            ],
         ];
         $this->assertEquals($expected, $tree);
     }

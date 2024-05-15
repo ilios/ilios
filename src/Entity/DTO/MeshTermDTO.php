@@ -65,7 +65,7 @@ use OpenApi\Attributes as OA;
             description: "MeSH concepts",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class MeshTermDTO

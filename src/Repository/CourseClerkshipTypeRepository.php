@@ -49,7 +49,7 @@ class CourseClerkshipTypeRepository extends ServiceEntityRepository implements
         $dtos = $this->attachRelatedToDtos(
             $dtos,
             [
-                'courses'
+                'courses',
             ],
         );
 

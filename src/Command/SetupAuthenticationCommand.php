@@ -77,14 +77,14 @@ class SetupAuthenticationCommand extends Command
     protected function setupForm(): array
     {
         return [
-            'authentication_type' => 'form'
+            'authentication_type' => 'form',
         ];
     }
 
     protected function setupCas(InputInterface $input, OutputInterface $output): array
     {
         $parameters = [
-            'authentication_type' => 'cas'
+            'authentication_type' => 'cas',
         ];
         $helper = $this->getHelper('question');
         $question = new Question('What is the url for you CAS server?: ');
@@ -109,7 +109,7 @@ class SetupAuthenticationCommand extends Command
     protected function setupLdap(InputInterface $input, OutputInterface $output): array
     {
         $parameters = [
-            'authentication_type' => 'ldap'
+            'authentication_type' => 'ldap',
         ];
         $helper = $this->getHelper('question');
         $question = new Question('What is the url for you LDAP server? ');
@@ -130,7 +130,7 @@ class SetupAuthenticationCommand extends Command
     protected function setupShib(InputInterface $input, OutputInterface $output): array
     {
         $parameters = [
-            'authentication_type' => 'shibboleth'
+            'authentication_type' => 'shibboleth',
         ];
         $helper = $this->getHelper('question');
         $question = new Question(

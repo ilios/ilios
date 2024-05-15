@@ -93,7 +93,7 @@ use OpenApi\Attributes as OA;
             description: "Instructors",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 #[IA\FilterableBy('cohorts', 'array<integer>')]

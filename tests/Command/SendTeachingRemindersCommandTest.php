@@ -437,7 +437,7 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->commandTester->execute([
             'sender' => 'not an email',
             'base_url' => 'http://foobar.com',
-            '--days' => -1
+            '--days' => -1,
         ]);
 
         $output = $this->commandTester->getDisplay();

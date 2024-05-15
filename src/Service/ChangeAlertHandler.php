@@ -109,7 +109,7 @@ class ChangeAlertHandler
         $alert = $this->alertRepository->findOneBy([
             'dispatched' => false,
             'tableName' => 'offering',
-            'tableRowId' => $offering->getId()
+            'tableRowId' => $offering->getId(),
         ]);
 
         if (! $alert) {

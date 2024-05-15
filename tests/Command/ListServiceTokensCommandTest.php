@@ -66,7 +66,7 @@ class ListServiceTokensCommandTest extends KernelTestCase
         $serviceToken1->shouldReceive('getExpiresAt')->andReturn($expiresAt1);
         $serviceToken2->shouldReceive('getExpiresAt')->andReturn($expiresAt2);
         $this->serviceTokenRepository->shouldReceive('findBy')->andReturn([
-            $serviceToken1, $serviceToken2
+            $serviceToken1, $serviceToken2,
         ]);
         $this->commandTester->execute([]);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());

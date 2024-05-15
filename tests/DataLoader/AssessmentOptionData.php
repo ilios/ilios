@@ -15,13 +15,13 @@ class AssessmentOptionData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'name' => 'first option',
-            'sessionTypes' => [1]
+            'sessionTypes' => [1],
         ];
 
         $arr[] = [
             'id' => 2,
             'name' => 'second option',
-            'sessionTypes' => [2]
+            'sessionTypes' => [2],
         ];
         return $arr;
     }
@@ -31,7 +31,7 @@ class AssessmentOptionData extends AbstractDataLoader
         return [
             'id' => 3,
             'name' => 'third option',
-            'sessionTypes' => []
+            'sessionTypes' => [],
         ];
     }
 

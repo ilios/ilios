@@ -329,7 +329,7 @@ class XmlPrinter
             $topLevelSequenceBlocks,
             [
                 'App\Entity\CurriculumInventorySequenceBlock',
-                'compareSequenceBlocksWithDefaultStrategy'
+                'compareSequenceBlocksWithDefaultStrategy',
             ]
         );
         foreach ($topLevelSequenceBlocks as $block) {

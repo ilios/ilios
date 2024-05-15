@@ -29,7 +29,7 @@ class MeshPreviousIndexingTest extends EntityBase
     public function testNotBlankValidation(): void
     {
         $notBlank = [
-            'previousIndexing'
+            'previousIndexing',
         ];
         $this->validateNotBlanks($notBlank);
 

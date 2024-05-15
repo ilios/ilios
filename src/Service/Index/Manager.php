@@ -34,21 +34,21 @@ class Manager extends OpenSearchBase
 
         $this->client->indices()->create([
             'index' => Users::INDEX,
-            'body' => Users::getMapping()
+            'body' => Users::getMapping(),
         ]);
         $this->client->indices()->create([
             'index' => Mesh::INDEX,
-            'body' => Mesh::getMapping()
+            'body' => Mesh::getMapping(),
         ]);
         $this->client->indices()->create([
             'index' => Curriculum::INDEX,
-            'body' => Curriculum::getMapping()
+            'body' => Curriculum::getMapping(),
         ]);
 
         $this->client->ingest()->putPipeline(LearningMaterials::getPipeline());
         $this->client->indices()->create([
             'index' => LearningMaterials::INDEX,
-            'body' => LearningMaterials::getMapping()
+            'body' => LearningMaterials::getMapping(),
         ]);
     }
 

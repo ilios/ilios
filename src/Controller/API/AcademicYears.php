@@ -27,7 +27,7 @@ class AcademicYears
         summary: 'Fetch a single academic years.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -41,16 +41,16 @@ class AcademicYears
                             items: new OA\Items(
                                 properties: [
                                     new OA\Property("id", type: "string"),
-                                    new OA\Property("title", type: "string")
+                                    new OA\Property("title", type: "string"),
                                 ],
                                 type: "object"
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -76,7 +76,7 @@ class AcademicYears
                     $builder->extractJsonApiSideLoadFields(
                         $request->query->has('include') ? $request->query->all()['include'] : null
                     ),
-                'singleItem' => true
+                'singleItem' => true,
             ]);
             return new Response(
                 $json,
@@ -115,15 +115,15 @@ class AcademicYears
                             items: new OA\Items(
                                 properties: [
                                     new OA\Property("id", type: "string"),
-                                    new OA\Property("title", type: "string")
+                                    new OA\Property("title", type: "string"),
                                 ],
                                 type: "object"
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -142,7 +142,7 @@ class AcademicYears
                     $builder->extractJsonApiSideLoadFields(
                         $request->query->has('include') ? $request->query->all()['include'] : null
                     ),
-                'singleItem' => false
+                'singleItem' => false,
             ]);
             return new Response(
                 $json,

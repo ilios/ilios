@@ -27,7 +27,7 @@ use OpenApi\Attributes as OA;
             description: "Competencies",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class AamcPcrsDTO

@@ -54,7 +54,7 @@ class ValidateLearningMaterialPathsCommand extends Command
                 } else {
                     $broken[] = [
                         'id' => $lm->getId(),
-                        'path' => $lm->getRelativePath()
+                        'path' => $lm->getRelativePath(),
                     ];
                 }
                 $progress->advance();
@@ -71,7 +71,7 @@ class ValidateLearningMaterialPathsCommand extends Command
             $output->writeln($msg);
             $rows = array_map(fn($arr) => [
                 $arr['id'],
-                $arr['path']
+                $arr['path'],
             ], $broken);
             $table = new Table($output);
             $table

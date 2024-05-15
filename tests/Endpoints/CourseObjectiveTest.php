@@ -49,7 +49,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
             'terms' => ['terms', [1, 4]],
             'meshDescriptors' => ['meshDescriptors', ['abc2']],
             'programYearObjectives' => ['programYearObjectives', [2]],
-            'sessionObjectives' => ['sessionObjectives', [2, 3]]
+            'sessionObjectives' => ['sessionObjectives', [2, 3]],
         ];
     }
 
@@ -72,7 +72,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
             'title' => [[1], ['title' => 'course objective 2']],
             'active' => [[0, 1, 2, 3, 4], ['active' => true]],
             'notActive' => [[], ['active' => false]],
-            'ancestor' => [[1], ['ancestor' => [1]]]
+            'ancestor' => [[1], ['ancestor' => [1]]],
         ];
     }
 
@@ -101,7 +101,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_courseobjectives_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['courseObjectives' => [$postData]]),
             $this->createJwtForRootUser($this->kernelBrowser)
@@ -127,7 +127,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
             ['<script>alert("hello");</script><p>foo</p>', '<p>foo</p>'],
             [
                 '<a href="https://iliosproject.org" target="_blank">Ilios</a>',
-                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>'
+                '<a href="https://iliosproject.org" target="_blank" rel="noreferrer noopener">Ilios</a>',
             ],
         ];
     }
@@ -147,7 +147,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_courseobjectives_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['courseObjectives' => [$postData]]),
             $this->createJwtForRootUser($this->kernelBrowser)
@@ -164,7 +164,7 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { courseObjectives(id: {$data['id']}) { id, course { id } }}"
+                'query' => "query { courseObjectives(id: {$data['id']}) { id, course { id } }}",
             ]),
             $this->createJwtForRootUser($this->kernelBrowser)
         );

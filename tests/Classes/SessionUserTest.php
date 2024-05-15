@@ -480,7 +480,7 @@ class SessionUserTest extends TestCase
         $roles = [UserRoles::COURSE_DIRECTOR,
             UserRoles::COURSE_ADMINISTRATOR,
             UserRoles::SESSION_ADMINISTRATOR,
-            UserRoles::COURSE_INSTRUCTOR
+            UserRoles::COURSE_INSTRUCTOR,
         ];
         $this->userRepository
             ->shouldReceive('getDirectedCourseAndSchoolIds')

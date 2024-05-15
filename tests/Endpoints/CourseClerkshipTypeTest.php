@@ -23,7 +23,7 @@ class CourseClerkshipTypeTest extends AbstractReadWriteEndpoint
     {
         return [
             LoadCourseClerkshipTypeData::class,
-            LoadCourseData::class
+            LoadCourseData::class,
         ];
     }
 

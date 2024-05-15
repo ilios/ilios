@@ -152,7 +152,7 @@ class SessionLearningMaterialData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'session' => 11
+            'session' => 11,
         ];
     }
 

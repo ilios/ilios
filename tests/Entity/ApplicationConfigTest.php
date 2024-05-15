@@ -30,7 +30,7 @@ class ApplicationConfigTest extends EntityBase
     {
         $notBlank = [
             'name',
-            'value'
+            'value',
         ];
         $this->validateNotBlanks($notBlank);
 

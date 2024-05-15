@@ -37,7 +37,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
             'addressCity',
             'addressStateOrProvince',
             'addressZipCode',
-            'addressCountryCode'
+            'addressCountryCode',
         ];
         $this->object->setSchool(m::mock(SchoolInterface::class));
         $this->validateNotBlanks($notBlank);
@@ -55,7 +55,7 @@ class CurriculumInventoryInstitutionTest extends EntityBase
     public function testNotNullValidation(): void
     {
         $notNull = [
-            'school'
+            'school',
         ];
         $this->object->setName('10lenMAX');
         $this->object->setAamcCode('ddd');

@@ -37,7 +37,7 @@ class ProgramYearObjectiveData extends AbstractDataLoader
             'courseObjectives' => [],
             'descendants' => [],
             'ancestor' => 1,
-            'competency' => '2'
+            'competency' => '2',
         ];
 
         return $arr;

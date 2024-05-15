@@ -30,7 +30,7 @@ class AamcPcrsTest extends EntityBase
     {
         $notBlank = [
             'id',
-            'description'
+            'description',
         ];
         $this->validateNotBlanks($notBlank);
 

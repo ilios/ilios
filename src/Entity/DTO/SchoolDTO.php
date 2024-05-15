@@ -36,7 +36,7 @@ use OpenApi\Attributes as OA;
             "changeAlertRecipients",
             description: "Change alert recipients",
             type: "string"
-        )
+        ),
     ]
 )]
 class SchoolDTO

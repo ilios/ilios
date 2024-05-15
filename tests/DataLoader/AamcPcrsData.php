@@ -14,12 +14,12 @@ class AamcPcrsData extends AbstractDataLoader
         $arr[] = [
             'id' => 'aamc-pcrs-comp-c0101',
             'description' => 'first description',
-            'competencies' => [1,2]
+            'competencies' => [1,2],
         ];
         $arr[] = [
             'id' => 'aamc-pcrs-comp-c0102',
             'description' => 'second description',
-            'competencies' => [2,3]
+            'competencies' => [2,3],
         ];
 
         return $arr;
@@ -30,7 +30,7 @@ class AamcPcrsData extends AbstractDataLoader
         return [
             'id' => 'fk-',
             'description' => 'some other description',
-            'competencies' => [1]
+            'competencies' => [1],
         ];
     }
 
@@ -38,7 +38,7 @@ class AamcPcrsData extends AbstractDataLoader
     {
         return [
             'id' => 'key',
-            'competencies' => [454098430958]
+            'competencies' => [454098430958],
         ];
     }
 

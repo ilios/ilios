@@ -19,7 +19,7 @@ class LearningMaterialStatusTest extends AbstractReadEndpoint
     {
         return [
             LoadLearningMaterialStatusData::class,
-            LoadLearningMaterialData::class
+            LoadLearningMaterialData::class,
         ];
     }
 

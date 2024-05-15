@@ -61,7 +61,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         $this->jwtManager->shouldReceive('createJwtFromUserId')->with(1, 'PT8H')->andReturn('123JWT');
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
 
@@ -79,7 +79,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         $this->jwtManager->shouldReceive('createJwtFromUserId')->with(1, '108Franks')->andReturn('123JWT');
         $this->commandTester->execute([
             'userId' => '1',
-            '--ttl' => '108Franks'
+            '--ttl' => '108Franks',
         ]);
 
 
@@ -95,7 +95,7 @@ class CreateUserTokenCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 

@@ -26,7 +26,7 @@ use OpenApi\Attributes as OA;
             "descriptor",
             description: "MeSH descriptor",
             type: "string"
-        )
+        ),
     ]
 )]
 class MeshPreviousIndexingDTO

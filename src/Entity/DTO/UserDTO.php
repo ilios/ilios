@@ -250,7 +250,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             description: "Audit logs",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 #[IA\FilterableBy('roles', 'array<integer>')]

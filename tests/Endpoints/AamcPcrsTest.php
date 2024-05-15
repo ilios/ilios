@@ -24,7 +24,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
     {
         return [
             LoadAamcPcrsData::class,
-            LoadCompetencyData::class
+            LoadCompetencyData::class,
         ];
     }
 

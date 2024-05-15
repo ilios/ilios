@@ -313,7 +313,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
             'year' => 2023,
-            'newStartDate' => '2023-02-05'
+            'newStartDate' => '2023-02-05',
         ]);
 
         $this->assertSame(2023, $newCourse['year']);
@@ -346,7 +346,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
             'year' => 2030,
-            'skipOfferings' => true
+            'skipOfferings' => true,
         ]);
 
         $this->assertSame(2030, $newCourse['year']);
@@ -380,7 +380,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
             'year' => $course['year'],
-            'newCourseTitle' => $newCourseTitle
+            'newCourseTitle' => $newCourseTitle,
         ]);
 
         $this->assertSame($course['year'], $newCourse['year']);
@@ -398,7 +398,7 @@ class CourseTest extends AbstractReadWriteEndpoint
             'version' => $this->apiVersion,
             'id' => $course['id'],
             'year' => $course['year'],
-            'newCourseTitle' => $newCourseTitle
+            'newCourseTitle' => $newCourseTitle,
         ];
 
         $this->createJsonRequest(
@@ -466,7 +466,7 @@ class CourseTest extends AbstractReadWriteEndpoint
             'year' => 2023,
             'newStartDate' => 'false',
             'skipOfferings' => 'true',
-            'newCohorts' => [5]
+            'newCohorts' => [5],
         ]);
 
         $this->assertSame($course['title'], $newCourse['title']);
@@ -801,7 +801,7 @@ class CourseTest extends AbstractReadWriteEndpoint
             [
                 'version' => $this->apiVersion,
                 'id' => 1,
-                'include' => 'sessions.administrators'
+                'include' => 'sessions.administrators',
             ]
         );
         $this->createJsonApiRequest(
@@ -834,7 +834,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->createGraphQLRequest(
             json_encode([
                 'query' =>
-                    "query { courses(id: {$data['id']}) { id, school { id }, sessions { id, administrators { id }} }}"
+                    "query { courses(id: {$data['id']}) { id, school { id }, sessions { id, administrators { id }} }}",
             ]),
             $this->createJwtForRootUser($this->kernelBrowser)
         );
@@ -878,7 +878,7 @@ class CourseTest extends AbstractReadWriteEndpoint
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { courses(id: {$data['id']}) { id, sessions { id, administrators { id }} }}"
+                'query' => "query { courses(id: {$data['id']}) { id, sessions { id, administrators { id }} }}",
             ]),
             $this->createJwtFromUserId($this->kernelBrowser, 5)
         );

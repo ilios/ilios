@@ -87,7 +87,7 @@ class AcademicYearTest extends AbstractReadEndpoint
         sort($academicYears);
         return array_map(fn($year) => [
             'id' => $year,
-            'title' => $year
+            'title' => $year,
         ], $academicYears);
     }
 

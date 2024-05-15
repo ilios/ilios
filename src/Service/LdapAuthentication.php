@@ -100,7 +100,7 @@ class LdapAuthentication implements AuthenticationInterface
     public function logout(Request $request): JsonResponse
     {
         return new JsonResponse([
-            'status' => 'success'
+            'status' => 'success',
         ], JsonResponse::HTTP_OK);
     }
 

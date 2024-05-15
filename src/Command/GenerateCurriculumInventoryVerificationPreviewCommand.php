@@ -107,7 +107,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             'Item Code',
             'Instructional Method',
             'Number of Events Featuring This as the Primary Method',
-            'Number of Non-Primary Occurrences if This Method'
+            'Number of Non-Primary Occurrences if This Method',
             ]);
         $table->addRows($data);
         $table->addRow(new TableSeparator());
@@ -118,7 +118,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             '',
             '<options=bold>TOTAL</>',
             "<options=bold>{$primaryMethodTotal}</>",
-            "<options=bold>{$nonPrimaryMethodTotal}</>"
+            "<options=bold>{$nonPrimaryMethodTotal}</>",
         ];
         $table->addRow($summaryRow);
         $table->render();
@@ -135,7 +135,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             'Item Code',
             'Assessment Method(s)',
             'Number of Summative Assessments',
-            'Number of Formative Assessments'
+            'Number of Formative Assessments',
         ]);
         $table->addRows($data);
         $table->addRow(new TableSeparator());
@@ -146,7 +146,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             '',
             '<options=bold>TOTAL</>',
             "<options=bold>{$summativeAssessmentsTotal}</>",
-            "<options=bold>{$formativeAssessmentsTotal}</>"
+            "<options=bold>{$formativeAssessmentsTotal}</>",
         ];
         $table->addRow($summaryRow);
         $table->render();
@@ -171,7 +171,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             $rows[] = [
                 'n/a',
                 trim(strip_tags($expectation['title'])),
-                implode("\n", $expectation['pcrs'])
+                implode("\n", $expectation['pcrs']),
             ];
         };
 
@@ -204,9 +204,9 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             [
                 new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
                 new TableCell('Academic Level', ['rowspan' => 2]),
-                new TableCell('Number of Formal Instructional Hours Per Course', ['colspan' => count($titles) + 1])
+                new TableCell('Number of Formal Instructional Hours Per Course', ['colspan' => count($titles) + 1]),
             ],
-            array_merge($titles, ['Total'])
+            array_merge($titles, ['Total']),
         ]);
 
         foreach ($data['rows'] as $clerkship) {
@@ -260,7 +260,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             'Non-Clerkship Sequence Blocks',
             'Academic Level',
             'Total Weeks',
-            'Average Hours of Instruction Per Week'
+            'Average Hours of Instruction Per Week',
             ]);
         $table->setRows($data);
         $table->render();
@@ -275,7 +275,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
                 'Clerkship Sequence Blocks',
                 'Academic Level',
                 'Total Weeks',
-                'Average Hours of Instruction Per Week'
+                'Average Hours of Instruction Per Week',
             ]);
         $table->setRows($data);
         $table->render();
@@ -295,7 +295,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
                 new TableCell('Narrative Asmt.', ['rowspan' => 2]),
                 new TableCell('Included in Grade', ['colspan' => count($data['methods']) + 1 ]),
             ],
-            array_merge(['Number of Exams'], $data['methods'])
+            array_merge(['Number of Exams'], $data['methods']),
         ]);
 
         foreach ($data['rows'] as $row) {
@@ -325,7 +325,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
                 new TableCell('Narrative Asmt.', ['rowspan' => 2]),
                 new TableCell('Included in Grade', ['colspan' => count($data['methods']) ]),
             ],
-            $data['methods']
+            $data['methods'],
         ]);
 
         foreach ($data['rows'] as $row) {

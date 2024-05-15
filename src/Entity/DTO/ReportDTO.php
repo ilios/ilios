@@ -53,7 +53,7 @@ use OpenApi\Attributes as OA;
             "user",
             description: "User",
             type: "integer"
-        )
+        ),
     ]
 )]
 class ReportDTO

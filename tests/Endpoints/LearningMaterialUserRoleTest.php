@@ -19,7 +19,7 @@ class LearningMaterialUserRoleTest extends AbstractReadEndpoint
     {
         return [
             LoadLearningMaterialUserRoleData::class,
-            LoadLearningMaterialData::class
+            LoadLearningMaterialData::class,
         ];
     }
 

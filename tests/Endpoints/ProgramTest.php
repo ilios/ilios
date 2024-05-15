@@ -29,7 +29,7 @@ class ProgramTest extends AbstractReadWriteEndpoint
             LoadProgramYearData::class,
             LoadCourseData::class,
             LoadSessionData::class,
-            LoadCurriculumInventoryReportData::class
+            LoadCurriculumInventoryReportData::class,
         ];
     }
 
@@ -163,7 +163,7 @@ class ProgramTest extends AbstractReadWriteEndpoint
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { programs(id: {$data['id']}) { id, school { id } }}"
+                'query' => "query { programs(id: {$data['id']}) { id, school { id } }}",
             ]),
             $this->createJwtForRootUser($this->kernelBrowser)
         );

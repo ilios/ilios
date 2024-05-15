@@ -147,7 +147,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
             'id' => $id,
             'type' => $type,
             'attributes' => $attributes,
-            'relationships' => $relationships
+            'relationships' => $relationships,
         ];
     }
 

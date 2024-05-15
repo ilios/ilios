@@ -29,7 +29,7 @@ class MeshTreeTest extends EntityBase
     public function testNotBlankValidation(): void
     {
         $notBlank = [
-            'treeNumber'
+            'treeNumber',
         ];
         $this->validateNotBlanks($notBlank);
 

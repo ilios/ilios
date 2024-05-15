@@ -218,7 +218,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $ids = array_map(fn(array $arr) => $arr['id'], $responseData);
         $filters = [
             'filters[id]' => $ids,
-            'limit' => count($ids)
+            'limit' => count($ids),
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
@@ -255,7 +255,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $responseData = $this->postManyJsonApi($postData, $jwt);
         $ids = array_column($responseData, 'id');
         $filters = [
-            'filters[id]' => $ids
+            'filters[id]' => $ids,
         ];
         //re-fetch the data to test persistence
         $fetchedResponseData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
@@ -511,7 +511,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $this->createJsonRequest(
             'POST',
             $this->getUrl($this->kernelBrowser, 'app_api_programs_post', [
-                'version' => $this->apiVersion
+                'version' => $this->apiVersion,
             ]),
             json_encode(['programs' => [$postData]]),
             $this->createJwtForRootUser($this->kernelBrowser)

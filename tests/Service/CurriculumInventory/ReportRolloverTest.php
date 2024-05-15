@@ -150,7 +150,7 @@ class ReportRolloverTest extends TestCase
                 $topLevelBlock1,
                 $topLevelBlock2,
                 $subLevelBlock1, $subLevelBlock2,
-                $subSubLevelBlock1
+                $subSubLevelBlock1,
             ])
         );
         return [[ $report ]];

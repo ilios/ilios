@@ -58,7 +58,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             description: "Learners",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 #[IA\FilterableBy('courses', 'array<integer>')]

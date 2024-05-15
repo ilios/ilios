@@ -142,7 +142,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
             'learnerGroups',
             'instructorGroups',
             'learners',
-            'instructors'
+            'instructors',
         ];
         foreach ($related as $rel) {
             if (array_key_exists($rel, $criteria)) {

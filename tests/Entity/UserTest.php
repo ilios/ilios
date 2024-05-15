@@ -33,7 +33,7 @@ class UserTest extends EntityBase
         $notBlank = [
             'lastName',
             'firstName',
-            'email'
+            'email',
         ];
         $this->validateNotBlanks($notBlank);
 

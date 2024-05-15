@@ -30,7 +30,7 @@ class AlertTest extends EntityBase
     {
         $notBlank = [
             'tableRowId',
-            'tableName'
+            'tableName',
         ];
         $this->validateNotBlanks($notBlank);
 

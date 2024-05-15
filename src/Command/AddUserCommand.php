@@ -114,7 +114,7 @@ class AddUserCommand extends Command
                 $input->getOption('isRoot'),
                 FILTER_VALIDATE_BOOLEAN,
                 FILTER_NULL_ON_FAILURE
-            ) : null
+            ) : null,
         ];
 
         $userRecord = $this->fillUserRecord($userRecord, $input, $output);
@@ -144,7 +144,7 @@ class AddUserCommand extends Command
                     $userRecord['username'],
                     $userRecord['telephoneNumber'],
                     $userRecord['isRoot'] ? 'yes' : 'no',
-                ]
+                ],
             ])
         ;
         $table->render();

@@ -30,7 +30,7 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
     {
         $notBlank = [
             'name',
-            'level'
+            'level',
         ];
         $this->validateNotBlanks($notBlank);
 

@@ -75,7 +75,7 @@ class CourseLearningMaterialRepository extends ServiceEntityRepository implement
         $dtos = $this->attachRelatedToDtos(
             $dtos,
             [
-                'meshDescriptors'
+                'meshDescriptors',
             ],
         );
 

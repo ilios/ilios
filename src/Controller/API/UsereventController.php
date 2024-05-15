@@ -59,7 +59,7 @@ class UsereventController extends AbstractController
                 in: 'query',
                 required: false,
                 schema: new OA\Schema(type: 'string', format: 'date-time')
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -73,13 +73,13 @@ class UsereventController extends AbstractController
                             items: new OA\Items(
                                 ref: new Model(type: UserEvent::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function getEvents(

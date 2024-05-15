@@ -35,7 +35,7 @@ class MeshDescriptors extends AbstractApiController
         summary: 'Fetch a single MeSH descriptor.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -49,12 +49,12 @@ class MeshDescriptors extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: MeshDescriptorDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -115,7 +115,7 @@ class MeshDescriptors extends AbstractApiController
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -129,11 +129,11 @@ class MeshDescriptors extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: MeshDescriptorDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(

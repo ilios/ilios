@@ -40,7 +40,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         summary: 'Fetch a single user session learning material.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -54,12 +54,12 @@ class UserSessionMaterialStatuses extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: UserSessionMaterialStatusDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -116,7 +116,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -130,11 +130,11 @@ class UserSessionMaterialStatuses extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: UserSessionMaterialStatusDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -161,13 +161,13 @@ class UserSessionMaterialStatuses extends AbstractApiController
                         items: new OA\Items(
                             ref: new Model(type: UserSessionMaterialStatusDTO::class)
                         )
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -181,13 +181,13 @@ class UserSessionMaterialStatuses extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: UserSessionMaterialStatusDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function post(
@@ -217,14 +217,14 @@ class UserSessionMaterialStatuses extends AbstractApiController
                         'userSessionMaterialStatuses',
                         ref: new Model(type: UserSessionMaterialStatusDTO::class),
                         type: 'object'
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -235,7 +235,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
                         new OA\Property(
                             'userSessionMaterialStatuses',
                             ref: new Model(type: UserSessionMaterialStatusDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
@@ -248,14 +248,14 @@ class UserSessionMaterialStatuses extends AbstractApiController
                         new OA\Property(
                             'userSessionMaterialStatuses',
                             ref: new Model(type: UserSessionMaterialStatusDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function put(
@@ -297,7 +297,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
         summary: 'Delete a user session learning material.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(response: '204', description: 'Deleted.'),
@@ -306,7 +306,7 @@ class UserSessionMaterialStatuses extends AbstractApiController
             new OA\Response(
                 response: '500',
                 description: 'Deletion failed (usually caused by non-cascading relationships).'
-            )
+            ),
         ]
     )]
     public function delete(

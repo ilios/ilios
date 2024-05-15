@@ -29,7 +29,7 @@ class ApplicationConfigData extends AbstractDataLoader
         $arr[] = [
             'id' => 4,
             'name' => 'institution_domain',
-            'value' => 'test.edu'
+            'value' => 'test.edu',
         ];
 
         return $arr;
@@ -60,7 +60,7 @@ class ApplicationConfigData extends AbstractDataLoader
     public function createInvalid(): array
     {
         return [
-            'id' => 'dsfdsaf'
+            'id' => 'dsfdsaf',
         ];
     }
 

@@ -40,7 +40,7 @@ class Cohorts extends AbstractApiController
         summary: 'Fetch a single cohort.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -54,12 +54,12 @@ class Cohorts extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CohortDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(
@@ -115,7 +115,7 @@ class Cohorts extends AbstractApiController
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -129,11 +129,11 @@ class Cohorts extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CohortDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -164,14 +164,14 @@ class Cohorts extends AbstractApiController
                         'cohort',
                         ref: new Model(type: CohortDTO::class),
                         type: 'object'
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -182,14 +182,14 @@ class Cohorts extends AbstractApiController
                         new OA\Property(
                             'cohort',
                             ref: new Model(type: CohortDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function put(

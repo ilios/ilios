@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
             "userId",
             description: "The user ID",
             type: "string"
-        )
+        ),
     ]
 )]
 class CurrentSession

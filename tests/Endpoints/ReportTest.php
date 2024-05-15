@@ -24,7 +24,7 @@ class ReportTest extends AbstractReadWriteEndpoint
     {
         return [
             LoadReportData::class,
-            LoadUserData::class
+            LoadUserData::class,
         ];
     }
 

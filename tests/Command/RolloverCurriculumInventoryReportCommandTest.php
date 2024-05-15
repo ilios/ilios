@@ -88,7 +88,7 @@ class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
         $options = [
             'name' => 'foo',
             'description' => 'lorem ipsum',
-            'year' => 2016
+            'year' => 2016,
         ];
 
         $reportId  = 1;

@@ -15,12 +15,12 @@ class IngestionExceptionData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'uid' => 'first exception',
-            'user' => '1'
+            'user' => '1',
         ];
         $arr[] = [
             'id' => 2,
             'uid' => 'second exception',
-            'user' => '2'
+            'user' => '2',
         ];
 
         return $arr;

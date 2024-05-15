@@ -22,7 +22,7 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
     {
         return [
             LoadIlmSessionData::class,
-            LoadSessionData::class
+            LoadSessionData::class,
         ];
     }
 

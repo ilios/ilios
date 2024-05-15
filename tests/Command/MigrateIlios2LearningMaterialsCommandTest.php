@@ -88,7 +88,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $this->commandTester->setInputs(['Yes']);
 
         $this->commandTester->execute([
-            'pathToIlios2' => __DIR__ . '/'
+            'pathToIlios2' => __DIR__ . '/',
         ]);
 
 
@@ -117,7 +117,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 
         $this->commandTester->setInputs(['Yes']);
         $this->commandTester->execute([
-            'pathToIlios2' => 'path'
+            'pathToIlios2' => 'path',
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -136,7 +136,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $this->symfonyFileSystem->shouldReceive('exists')->with('badpath')->andReturn(false);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'pathToIlios2' => 'badpath'
+            'pathToIlios2' => 'badpath',
         ]);
     }
 

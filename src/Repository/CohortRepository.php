@@ -62,7 +62,7 @@ class CohortRepository extends ServiceEntityRepository implements DTORepositoryI
             [
                 'courses',
                 'learnerGroups',
-                'users'
+                'users',
             ],
         );
 

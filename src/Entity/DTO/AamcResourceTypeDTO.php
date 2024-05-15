@@ -32,7 +32,7 @@ use OpenApi\Attributes as OA;
             description: "Vocabulary terms",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class AamcResourceTypeDTO

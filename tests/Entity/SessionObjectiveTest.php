@@ -46,7 +46,7 @@ class SessionObjectiveTest extends EntityBase
     {
         $this->object->setSession(new Session());
         $notBlank = [
-            'title'
+            'title',
         ];
         $this->validateNotBlanks($notBlank);
 
@@ -58,7 +58,7 @@ class SessionObjectiveTest extends EntityBase
     {
         $this->object->setTitle('foo');
         $notNull = [
-            'session'
+            'session',
         ];
         $this->validateNotNulls($notNull);
 

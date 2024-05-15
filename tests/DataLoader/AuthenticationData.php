@@ -23,7 +23,7 @@ class AuthenticationData extends AbstractDataLoader
         $arr[] = [
             'user' => 2,
             'username' => 'newuser',
-            'password' => 'newuserpass'
+            'password' => 'newuserpass',
         ];
 
         $arr[] = [
@@ -40,7 +40,7 @@ class AuthenticationData extends AbstractDataLoader
         return [
             'user' => 4,
             'username' => 'createduser',
-            'password' => 'newpass'
+            'password' => 'newpass',
         ];
     }
 

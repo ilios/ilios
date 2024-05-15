@@ -55,7 +55,7 @@ class Authentications
         summary: 'Fetch a single authentication record.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'user id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -69,12 +69,12 @@ class Authentications
                             items: new OA\Items(
                                 ref: new Model(type: AuthenticationDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
-            new OA\Response(response: '404', description: 'Not found.')
+            new OA\Response(response: '404', description: 'Not found.'),
         ]
     )]
     public function getOne(string $version, int $id, ApiResponseBuilder $builder, Request $request): Response
@@ -107,17 +107,17 @@ class Authentications
                             properties: [
                                 new OA\Property("user", type: "integer"),
                                 new OA\Property("username", type: "string"),
-                                new OA\Property("password", type: "string")
+                                new OA\Property("password", type: "string"),
                             ],
                             type: "object"
                         )
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -131,13 +131,13 @@ class Authentications
                             items: new OA\Items(
                                 ref: new Model(type: AuthenticationDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function post(
@@ -237,7 +237,7 @@ class Authentications
                     items: new OA\Items(type: 'string'),
                 ),
                 style: "deepObject"
-            )
+            ),
         ],
         responses: [
             new OA\Response(
@@ -251,11 +251,11 @@ class Authentications
                             items: new OA\Items(
                                 ref: new Model(type: AuthenticationDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
-            )
+            ),
         ]
     )]
     public function getAll(
@@ -301,18 +301,18 @@ class Authentications
                             properties: [
                                 new OA\Property("user", type: "integer"),
                                 new OA\Property("username", type: "string"),
-                                new OA\Property("password", type: "string")
+                                new OA\Property("password", type: "string"),
                             ],
                             type: "object"
                         )
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'user id', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -323,7 +323,7 @@ class Authentications
                         new OA\Property(
                             'authentication',
                             ref: new Model(type: AuthenticationDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
@@ -336,14 +336,14 @@ class Authentications
                         new OA\Property(
                             'authentication',
                             ref: new Model(type: AuthenticationDTO::class)
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
             new OA\Response(response: '403', description: 'Access Denied.'),
-            new OA\Response(response: '404', description: 'Not Found.')
+            new OA\Response(response: '404', description: 'Not Found.'),
         ]
     )]
     public function put(
@@ -454,7 +454,7 @@ class Authentications
         summary: 'Delete an authentication record.',
         parameters: [
             new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'user id', in: 'path')
+            new OA\Parameter(name: 'id', description: 'user id', in: 'path'),
         ],
         responses: [
             new OA\Response(response: '204', description: 'Deleted.'),
@@ -463,7 +463,7 @@ class Authentications
             new OA\Response(
                 response: '500',
                 description: 'Deletion failed (usually caused by non-cascading relationships).'
-            )
+            ),
         ]
     )]
     public function delete(

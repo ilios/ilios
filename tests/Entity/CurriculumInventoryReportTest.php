@@ -34,7 +34,7 @@ class CurriculumInventoryReportTest extends EntityBase
         $notBlank = [
             'year',
             'startDate',
-            'endDate'
+            'endDate',
         ];
         $this->validateNotBlanks($notBlank);
 

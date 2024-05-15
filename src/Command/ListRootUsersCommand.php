@@ -43,7 +43,7 @@ class ListRootUsersCommand extends Command
             $dto->lastName,
             $dto->email,
             $dto->phone,
-            ($dto->enabled ? 'Yes' : 'No')
+            ($dto->enabled ? 'Yes' : 'No'),
         ], $users);
 
         $table = new Table($output);

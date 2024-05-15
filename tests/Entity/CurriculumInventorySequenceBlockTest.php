@@ -55,7 +55,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     public function testNotNullValidation(): void
     {
         $notNulls = [
-            'report'
+            'report',
         ];
         $this->object->setTitle('test title for the block max 200');
         $this->object->setChildSequenceOrder(1);

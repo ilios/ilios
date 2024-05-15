@@ -146,7 +146,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             "isBlanked",
             description: "Is blanked",
             type: "boolean"
-        )
+        ),
     ]
 )]
 class UserMaterial

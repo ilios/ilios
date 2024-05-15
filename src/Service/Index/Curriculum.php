@@ -39,7 +39,7 @@ class Curriculum extends OpenSearchBase
                 'completion' => [
                     'field' => "{$field}.cmp",
                     'skip_duplicates' => true,
-                ]
+                ],
             ];
 
             return $carry;
@@ -58,8 +58,8 @@ class Curriculum extends OpenSearchBase
                     'school',
                 ],
                 'sort' => '_score',
-                'size' => 1000
-            ]
+                'size' => 1000,
+            ],
         ];
 
         if (!$onlySuggest) {
@@ -120,9 +120,9 @@ class Curriculum extends OpenSearchBase
             'index' => self::INDEX,
             'body' => [
                 'query' => [
-                    'term' => ['courseId' => $id]
-                ]
-            ]
+                    'term' => ['courseId' => $id],
+                ],
+            ],
         ]);
 
         return !count($result['failures']);
@@ -135,7 +135,7 @@ class Curriculum extends OpenSearchBase
     {
         $result = $this->doDelete([
             'index' => self::INDEX,
-            'id' => self::SESSION_ID_PREFIX . $id
+            'id' => self::SESSION_ID_PREFIX . $id,
         ]);
 
         return $result['result'] === 'deleted';
@@ -153,14 +153,14 @@ class Curriculum extends OpenSearchBase
                 'body' => [
                     'query' => [
                         'terms' => [
-                            'learningMaterialId' => $learningMaterialIds
-                        ]
+                            'learningMaterialId' => $learningMaterialIds,
+                        ],
                     ],
                     "_source" => [
                         'learningMaterialId',
                         'material.content',
-                    ]
-                ]
+                    ],
+                ],
             ];
             $results = $this->doSearch($params);
 
@@ -278,7 +278,7 @@ class Curriculum extends OpenSearchBase
          * but we wrap it in a should block so they don't all have to match
          */
         $must = ['bool' => [
-            'should' => $mustMatch
+            'should' => $mustMatch,
         ]];
 
         /**
@@ -304,7 +304,7 @@ class Curriculum extends OpenSearchBase
             'bool' => [
                 'must' => $must,
                 'should' => $should,
-            ]
+            ],
         ];
     }
 
@@ -394,7 +394,7 @@ class Curriculum extends OpenSearchBase
 
         return [
             'autocomplete' => $autocompleteSuggestions,
-            'courses' => $courses
+            'courses' => $courses,
         ];
     }
 
@@ -416,7 +416,7 @@ class Curriculum extends OpenSearchBase
                 'raw' => [
                     'type' => 'text',
                     'analyzer' => 'keyword',
-                ]
+                ],
             ],
         ];
         $txtTypeFieldWithCompletion = $txtTypeField;
@@ -441,8 +441,8 @@ class Curriculum extends OpenSearchBase
                         'type' => 'keyword',
                         'fields' => [
                             'cmp' => [
-                                'type' => 'completion'
-                            ]
+                                'type' => 'completion',
+                            ],
                         ],
                     ],
                     'courseYear' => [
@@ -463,7 +463,7 @@ class Curriculum extends OpenSearchBase
                                 // we have to override the analyzer here because the default strips
                                 // out numbers and mesh ids are mostly numbers
                                 'analyzer' => 'standard',
-                            ]
+                            ],
                         ],
                     ],
                     'courseMeshDescriptorNames' => $txtTypeFieldWithCompletion,
@@ -477,8 +477,8 @@ class Curriculum extends OpenSearchBase
                         'type' => 'keyword',
                         'fields' => [
                             'cmp' => [
-                                'type' => 'completion'
-                            ]
+                                'type' => 'completion',
+                            ],
                         ],
                     ],
                     'sessionTerms' => $txtTypeFieldWithCompletion,
@@ -495,13 +495,13 @@ class Curriculum extends OpenSearchBase
                                 // we have to override the analyzer here because the default strips
                                 // out numbers and mesh ids are mostly numbers
                                 'analyzer' => 'standard',
-                            ]
+                            ],
                         ],
                     ],
                     'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
                     'sessionMeshDescriptorAnnotations' => $txtTypeField,
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -526,7 +526,7 @@ class Curriculum extends OpenSearchBase
                     'max_gram' => 15,
                     'token_chars' => [
                         'letter',
-                        'digit'
+                        'digit',
                     ],
                 ],
             ],

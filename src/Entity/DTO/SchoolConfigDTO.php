@@ -30,7 +30,7 @@ use OpenApi\Attributes as OA;
             "school",
             description: "School",
             type: "integer"
-        )
+        ),
     ]
 )]
 class SchoolConfigDTO

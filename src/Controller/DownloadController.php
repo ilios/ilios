@@ -60,7 +60,7 @@ class DownloadController extends AbstractController
 
         $headers = [
             'Content-Type' => $learningMaterial->getMimetype(),
-            'Content-Disposition' => 'attachment; filename="' . $learningMaterial->getFilename() . '"'
+            'Content-Disposition' => 'attachment; filename="' . $learningMaterial->getFilename() . '"',
         ];
 
         // d/l PDFs inline if requested so.

@@ -23,7 +23,7 @@ class MigrateParameters
         'mailer_user',
         'mailer_password',
         'locale',
-        'secret'
+        'secret',
     ];
     public static function migrate(Event $event)
     {

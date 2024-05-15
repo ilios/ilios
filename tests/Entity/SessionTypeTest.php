@@ -32,7 +32,7 @@ class SessionTypeTest extends EntityBase
     public function testNotBlankValidation(): void
     {
         $notBlank = [
-            'title'
+            'title',
         ];
         $this->object->setSchool(m::mock(SchoolInterface::class));
 
@@ -45,7 +45,7 @@ class SessionTypeTest extends EntityBase
     public function testNotNullValidation(): void
     {
         $notNull = [
-            'school'
+            'school',
         ];
         $this->object->setTitle('test');
 

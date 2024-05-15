@@ -55,13 +55,13 @@ class CurriculumInventoryExports extends AbstractApiController
                         'curriculumInventoryExports',
                         ref: new Model(type: CurriculumInventoryExportDTO::class),
                         type: 'object'
-                    )
+                    ),
                 ],
                 type: 'object',
             )
         ),
         parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path')
+            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
         ],
         responses: [
             new OA\Response(
@@ -75,13 +75,13 @@ class CurriculumInventoryExports extends AbstractApiController
                             items: new OA\Items(
                                 ref: new Model(type: CurriculumInventoryExportDTO::class)
                             )
-                        )
+                        ),
                     ],
                     type: 'object'
                 )
             ),
             new OA\Response(response: '400', description: 'Bad Request Data.'),
-            new OA\Response(response: '403', description: 'Access Denied.')
+            new OA\Response(response: '403', description: 'Access Denied.'),
         ]
     )]
     public function post(

@@ -33,7 +33,7 @@ class IlmSessionTest extends EntityBase
         $notBlank = [
             'session',
             'hours',
-            'dueDate'
+            'dueDate',
         ];
         $this->validateNotBlanks($notBlank);
 

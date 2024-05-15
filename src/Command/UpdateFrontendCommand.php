@@ -255,7 +255,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     ): void {
         $parts = [
             $archiveDir,
-            $key
+            $key,
         ];
         $archivePath = join(DIRECTORY_SEPARATOR, $parts);
         $version = explode(':', $key)[1];

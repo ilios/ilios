@@ -25,7 +25,7 @@ class RedirectInsecureConnections implements EventSubscriberInterface
         return [
             KernelEvents::REQUEST => [
                 ['checkAndRedirect', 10],
-            ]
+            ],
         ];
     }
 

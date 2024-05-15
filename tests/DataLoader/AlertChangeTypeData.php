@@ -16,49 +16,49 @@ class AlertChangeTypeData extends AbstractDataLoader
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_TIME,
             'title' => 'first title',
-            'alerts' => ['1', '2']
+            'alerts' => ['1', '2'],
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_LOCATION,
             'title' => 'second title',
-            'alerts' => []
+            'alerts' => [],
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNING_MATERIAL,
             'title' => 'third title',
-            'alerts' => []
+            'alerts' => [],
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR,
             'title' => 'fourth title',
-            'alerts' => []
+            'alerts' => [],
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_COURSE_DIRECTOR,
             'title' => 'fifth title',
-            'alerts' => []
+            'alerts' => [],
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP,
             'title' => 'sixth title',
-            'alerts' => []
+            'alerts' => [],
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
             'title' => 'seventh title',
-            'alerts' => []
+            'alerts' => [],
         ];
 
         $arr[] = [
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_SESSION_PUBLISH,
             'title' => 'eighth title',
-            'alerts' => []
+            'alerts' => [],
         ];
 
         return $arr;
@@ -69,7 +69,7 @@ class AlertChangeTypeData extends AbstractDataLoader
         return [
             'id' => 9,
             'title' => 'ninth title',
-            'alerts' => ['1']
+            'alerts' => ['1'],
         ];
     }
 
@@ -77,7 +77,7 @@ class AlertChangeTypeData extends AbstractDataLoader
     {
         return [
             'id' => 'something',
-            'alerts' => [424524]
+            'alerts' => [424524],
         ];
     }
 

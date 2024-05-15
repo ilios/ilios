@@ -1168,7 +1168,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             if (!array_key_exists($arr['id'], $sessions)) {
                 $sessions[$arr['id']] = [
                     'firstOfferingDate' => $arr['startDate'],
-                    'instructors' => []
+                    'instructors' => [],
                 ];
             }
             if ($arr['startDate'] < $sessions[$arr['id']]['firstOfferingDate']) {
@@ -1182,7 +1182,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             if (!array_key_exists($arr['id'], $sessions)) {
                 $sessions[$arr['id']] = [
                     'firstOfferingDate' => $arr['dueDate'],
-                    'instructors' => []
+                    'instructors' => [],
                 ];
             }
             if ($arr['dueDate'] < $sessions[$arr['id']]['firstOfferingDate']) {
@@ -1737,15 +1737,15 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             [['ilm' => 'u.instructorIlmSessions'], CalendarEventUserContext::INSTRUCTOR],
             [
                 ['dc' => 'u.directedCourses', 'sess' => 'dc.sessions', 'ilm' => 'sess.ilmSession'],
-                CalendarEventUserContext::COURSE_DIRECTOR
+                CalendarEventUserContext::COURSE_DIRECTOR,
             ],
             [
                 ['ac' => 'u.administeredCourses', 'sess' => 'ac.sessions', 'ilm' => 'sess.ilmSession'],
-                CalendarEventUserContext::COURSE_ADMINISTRATOR
+                CalendarEventUserContext::COURSE_ADMINISTRATOR,
             ],
             [
                 ['sess' => 'u.administeredSessions', 'ilm' => 'sess.ilmSession'],
-                CalendarEventUserContext::SESSION_ADMINISTRATOR
+                CalendarEventUserContext::SESSION_ADMINISTRATOR,
             ],
         ];
     }
@@ -1759,15 +1759,15 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             [['o' => 'u.instructedOfferings'], CalendarEventUserContext::INSTRUCTOR],
             [
                 ['dc' => 'u.directedCourses', 'dcs' => 'dc.sessions', 'o' => 'dcs.offerings'],
-                CalendarEventUserContext::COURSE_DIRECTOR
+                CalendarEventUserContext::COURSE_DIRECTOR,
             ],
             [
                 ['ac' => 'u.administeredCourses', 'acs' => 'ac.sessions', 'o' => 'acs.offerings'],
-                CalendarEventUserContext::COURSE_ADMINISTRATOR
+                CalendarEventUserContext::COURSE_ADMINISTRATOR,
             ],
             [
                 ['sess' => 'u.administeredSessions', 'o' => 'sess.offerings'],
-                CalendarEventUserContext::SESSION_ADMINISTRATOR
+                CalendarEventUserContext::SESSION_ADMINISTRATOR,
             ],
 
         ];

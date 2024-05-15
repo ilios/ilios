@@ -43,7 +43,7 @@ class ErrorControllerTest extends WebTestCase
     {
         $data = [
             'mainMessage' => 'dev/null',
-            'stack' => 'lorem ipsum'
+            'stack' => 'lorem ipsum',
         ];
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -61,7 +61,7 @@ class ErrorControllerTest extends WebTestCase
     {
         $data = [
             'mainMessage' => 'lorem ipsum',
-            'stack' => 'dev/null'
+            'stack' => 'dev/null',
         ];
         $this->makeJsonRequest(
             $this->kernelBrowser,
@@ -78,7 +78,7 @@ class ErrorControllerTest extends WebTestCase
     {
         $data = [
             'mainMessage' => 'lorem ipsum',
-            'stack' => 'dev/null'
+            'stack' => 'dev/null',
         ];
         $this->makeJsonRequest(
             $this->kernelBrowser,

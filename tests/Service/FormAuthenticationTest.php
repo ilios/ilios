@@ -69,7 +69,7 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock(Request::class);
         $arr = [
             'username' => null,
-            'password' => null
+            'password' => null,
         ];
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
@@ -88,7 +88,7 @@ class FormAuthenticationTest extends TestCase
         $request = m::mock(Request::class);
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
         $request->shouldReceive('getContent')->once()->andReturn(json_encode($arr));
 
@@ -107,7 +107,7 @@ class FormAuthenticationTest extends TestCase
     {
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
 
         $request = m::mock(Request::class);
@@ -135,7 +135,7 @@ class FormAuthenticationTest extends TestCase
     {
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
 
         $request = m::mock(Request::class);
@@ -162,7 +162,7 @@ class FormAuthenticationTest extends TestCase
     {
         $arr = [
             'username' => 'abc',
-            'password' => '123'
+            'password' => '123',
         ];
 
         $request = m::mock(Request::class);

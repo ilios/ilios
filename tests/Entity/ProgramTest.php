@@ -32,7 +32,7 @@ class ProgramTest extends EntityBase
     {
         $notBlank = [
             'title',
-            'duration'
+            'duration',
         ];
         $this->object->setSchool(m::mock(SchoolInterface::class));
 
@@ -49,7 +49,7 @@ class ProgramTest extends EntityBase
     public function testNotNullValidation(): void
     {
         $notNull = [
-            'school'
+            'school',
         ];
         $this->object->setTitle('DVc');
         $this->object->setDuration(30);

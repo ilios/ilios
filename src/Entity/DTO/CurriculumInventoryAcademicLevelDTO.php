@@ -49,7 +49,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             description: "Ending sequence blocks",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class CurriculumInventoryAcademicLevelDTO

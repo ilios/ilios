@@ -20,7 +20,7 @@ use OpenApi\Attributes as OA;
             "title",
             description: "Title",
             type: "string"
-        )
+        ),
     ]
 )]
 class UserRoleDTO

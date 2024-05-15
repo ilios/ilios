@@ -401,7 +401,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $logB->setCreatedAt(new DateTime('2015-09-20 15:20:15', new DateTimeZone('UTC')));
 
         return [
-            [ $alert , $offering, [ $logA, $logB ]]
+            [ $alert , $offering, [ $logA, $logB ]],
         ];
     }
 

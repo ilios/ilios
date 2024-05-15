@@ -137,7 +137,7 @@ class XmlPrinterTest extends TestCase
                             'event_id' => 1000,
                             'id' => 'D000758',
                             'source' => 'MeSH',
-                            'name' => 'Anesthesia'
+                            'name' => 'Anesthesia',
                         ],
                         [
                             'event_id' => 1000,
@@ -165,7 +165,7 @@ class XmlPrinterTest extends TestCase
                             'event_id' => 2000,
                             'id' => 'D000005',
                             'source' => 'MeSH',
-                            'name' => 'Abdomen'
+                            'name' => 'Abdomen',
                         ],
                         [
                             'event_id' => 2000,
@@ -179,7 +179,7 @@ class XmlPrinterTest extends TestCase
                         'course_objectives' => [ 2 ],
                         'program_objectives' => [ 2 ],
                     ],
-                ]
+                ],
             ],
             'expectations' => [
                 'program_objectives' => [
@@ -236,7 +236,7 @@ class XmlPrinterTest extends TestCase
                             [ 'rel1' => 2, 'rel2' => 2, ],
                         ],
                     ],
-                ]
+                ],
             ],
             'sequence_block_references' => [
                 'events' => [

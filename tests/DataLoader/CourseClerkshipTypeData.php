@@ -15,13 +15,13 @@ class CourseClerkshipTypeData extends AbstractDataLoader
         $arr[] = [
             'id' => 1,
             'title' => 'first clerkship type',
-            'courses' => ['1', '2']
+            'courses' => ['1', '2'],
         ];
 
         $arr[] = [
             'id' => 2,
             'title' => 'second clerkship type',
-            'courses' => []
+            'courses' => [],
         ];
 
 
@@ -33,7 +33,7 @@ class CourseClerkshipTypeData extends AbstractDataLoader
         return [
             'id' => 3,
             'title' => 'third clerkship type',
-            'courses' => []
+            'courses' => [],
         ];
     }
 

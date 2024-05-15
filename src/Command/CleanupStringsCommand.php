@@ -161,7 +161,7 @@ class CleanupStringsCommand extends Command
         $objectiveManagers = [
             $this->sessionObjectiveRepository,
             $this->courseObjectiveRepository,
-            $this->programYearObjectiveRepository
+            $this->programYearObjectiveRepository,
         ];
 
         foreach ($objectiveManagers as $objectiveManager) {

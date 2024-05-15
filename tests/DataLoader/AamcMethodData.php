@@ -35,7 +35,7 @@ class AamcMethodData extends AbstractDataLoader
             'id' => 'FK',
             'description' => 'method description',
             'sessionTypes' => ['1'],
-            'active' => true
+            'active' => true,
         ];
     }
 

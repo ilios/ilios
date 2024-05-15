@@ -53,7 +53,7 @@ class CurriculumTest extends TestCase
         $courses = [
             m::mock(IndexableCourse::class),
             m::mock(CourseDTO::class),
-            m::mock(IndexableCourse::class)
+            m::mock(IndexableCourse::class),
         ];
         $obj->index($courses);
     }
@@ -73,7 +73,7 @@ class CurriculumTest extends TestCase
         $obj = new Curriculum($this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
         $course1->shouldReceive('createIndexObjects')->once()->andReturn([
-            ['id' => 1, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []]
+            ['id' => 1, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
         ]);
 
         $course2 = m::mock(IndexableCourse::class);
@@ -87,8 +87,8 @@ class CurriculumTest extends TestCase
                 [
                     'index' => [
                         '_index' => Curriculum::INDEX,
-                        '_id' => 1
-                    ]
+                        '_id' => 1,
+                    ],
                 ],
                 [
                     'id' => 1,
@@ -96,8 +96,8 @@ class CurriculumTest extends TestCase
                 [
                     'index' => [
                         '_index' => Curriculum::INDEX,
-                        '_id' => 2
-                    ]
+                        '_id' => 2,
+                    ],
                 ],
                 [
                     'id' => 2,
@@ -105,13 +105,13 @@ class CurriculumTest extends TestCase
                 [
                     'index' => [
                         '_index' => Curriculum::INDEX,
-                        '_id' => 3
-                    ]
+                        '_id' => 3,
+                    ],
                 ],
                 [
                     'id' => 3,
                 ],
-            ]
+            ],
         ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$course1, $course2]);
     }

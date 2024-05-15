@@ -53,7 +53,7 @@ use OpenApi\Attributes as OA;
             description: "Recipient schools",
             type: "array",
             items: new OA\Items(type: "string")
-        )
+        ),
     ]
 )]
 class AlertDTO

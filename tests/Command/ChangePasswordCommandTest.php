@@ -120,7 +120,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->authenticationRepository->shouldReceive('update')->with($authentication);
 
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
 
 
@@ -136,7 +136,7 @@ class ChangePasswordCommandTest extends KernelTestCase
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn(null);
         $this->expectException(Exception::class);
         $this->commandTester->execute([
-            'userId' => '1'
+            'userId' => '1',
         ]);
     }
 

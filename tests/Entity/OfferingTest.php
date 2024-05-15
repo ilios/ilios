@@ -36,7 +36,7 @@ class OfferingTest extends EntityBase
     {
         $notBlank = [
             'startDate',
-            'endDate'
+            'endDate',
         ];
         $this->object->setSession(m::mock(SessionInterface::class));
 
@@ -55,7 +55,7 @@ class OfferingTest extends EntityBase
     public function testNotNullValidation(): void
     {
         $notNulls = [
-            'session'
+            'session',
         ];
 
         $this->object->setRoom('RCF 112');

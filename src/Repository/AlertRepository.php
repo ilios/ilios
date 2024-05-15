@@ -47,7 +47,7 @@ class AlertRepository extends ServiceEntityRepository implements DTORepositoryIn
             [
                 'changeTypes',
                 'instigators',
-                'recipients'
+                'recipients',
             ],
         );
 

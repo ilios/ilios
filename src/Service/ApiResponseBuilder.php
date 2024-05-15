@@ -127,7 +127,7 @@ class ApiResponseBuilder
     {
         $json = $this->serializer->serialize($data, 'json-api', [
             'sideLoadFields' => $this->extractJsonApiSideLoadFields($include),
-            'singleItem' => $singleItem
+            'singleItem' => $singleItem,
         ]);
         return new Response(
             $json,

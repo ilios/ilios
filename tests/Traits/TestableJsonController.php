@@ -66,7 +66,7 @@ trait TestableJsonController
     ): void {
         $headers = [
             'HTTP_ACCEPT' => 'application/json',
-            'CONTENT_TYPE' => 'application/json'
+            'CONTENT_TYPE' => 'application/json',
         ];
 
         if (! empty($jwt)) {

@@ -46,7 +46,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             // 'children' => ['children', [1]], // skipped
             'report' => ['report', 2],
             'sessions' => ['sessions', [1, 2]],
-            'excludedSessions' => ['excludedSessions', [1, 2]]
+            'excludedSessions' => ['excludedSessions', [1, 2]],
         ];
     }
 
@@ -68,7 +68,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'optional' => [[1, 2, 3, 4], ['required' => CurriculumInventorySequenceBlockInterface::OPTIONAL]],
             'childSequenceOrder' => [[0], ['childSequenceOrder' => CurriculumInventorySequenceBlockInterface::ORDERED]],
             'childSequenceOpt' => [[1, 2, 3, 4], [
-                'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::OPTIONAL]
+                'childSequenceOrder' => CurriculumInventorySequenceBlockInterface::OPTIONAL],
             ],
             'orderInSequence' => [[1], ['orderInSequence' => 1]],
             'minimum' => [[0, 1, 2, 3, 4], ['minimum' => 1]],
@@ -638,7 +638,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'PUT',
             $this->getUrl($this->kernelBrowser, 'app_api_curriculuminventorysequenceblocks_put', [
                 'version' => $this->apiVersion,
-                'id' => $blockId
+                'id' => $blockId,
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),
             $this->createJwtForRootUser($this->kernelBrowser)
@@ -652,7 +652,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
             'PUT',
             $this->getUrl($this->kernelBrowser, 'app_api_curriculuminventorysequenceblocks_put', [
                 'version' => $this->apiVersion,
-                'id' => $blockId
+                'id' => $blockId,
             ]),
             json_encode(['curriculumInventorySequenceBlock' => $block]),
             $this->createJwtForRootUser($this->kernelBrowser)

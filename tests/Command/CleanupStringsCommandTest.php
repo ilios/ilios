@@ -145,7 +145,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->times(3);
         $this->em->shouldReceive('clear')->times(3);
         $this->commandTester->execute([
-            '--objective-title' => true
+            '--objective-title' => true,
         ]);
 
 
@@ -197,7 +197,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->times(3);
         $this->em->shouldReceive('clear')->times(3);
         $this->commandTester->execute([
-            '--objective-title-blankspace' => true
+            '--objective-title-blankspace' => true,
         ]);
 
 
@@ -226,7 +226,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
-            '--learningmaterial-description' => true
+            '--learningmaterial-description' => true,
         ]);
 
 
@@ -269,7 +269,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->twice();
         $this->em->shouldReceive('clear')->twice();
         $this->commandTester->execute([
-            '--learningmaterial-note' => true
+            '--learningmaterial-note' => true,
         ]);
 
 
@@ -304,7 +304,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
-            '--session-description' => true
+            '--session-description' => true,
         ]);
 
 
@@ -334,7 +334,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->em->shouldReceive('flush')->once();
         $this->em->shouldReceive('clear')->once();
         $this->commandTester->execute([
-            '--session-description' => true
+            '--session-description' => true,
         ]);
 
 

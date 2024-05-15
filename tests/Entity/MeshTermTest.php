@@ -31,7 +31,7 @@ class MeshTermTest extends EntityBase
     {
         $notBlank = [
             'name',
-            'meshTermUid'
+            'meshTermUid',
         ];
         $this->validateNotBlanks($notBlank);
 
