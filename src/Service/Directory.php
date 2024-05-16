@@ -61,11 +61,11 @@ class Directory
      */
     public function find(array $searchTerms): ?array
     {
-        $ldapCampusIdProperty = $this->config->get('ldap_directory_campus_id_property');
-        $filterTerms = array_map(function ($term) use ($ldapCampusIdProperty) {
-            $term = ldap_escape($term, "", LDAP_ESCAPE_FILTER);
-            return "(|(sn={$term}*)(givenname={$term}*)(mail={$term}*)({$ldapCampusIdProperty}={$term}*))";
-        }, $searchTerms);
+        $format = $this->getLdapFilterFormat();
+        $filterTerms = array_map(
+            fn ($term) => sprintf($format, ldap_escape($term, "", LDAP_ESCAPE_FILTER)),
+            $searchTerms
+        );
         $filterTermsString = implode('', $filterTerms);
         $filter = "(&{$filterTermsString})";
         $users = $this->ldapManager->search($filter);
@@ -89,5 +89,32 @@ class Directory
         }
 
         return null;
+    }
+
+    /**
+     * Build the ldap filter format string
+     * Turns each possible filter property into a pattern we can attach to search terms
+     */
+    protected function getLdapFilterFormat(): string
+    {
+        $ldapPreferredFirstNameProperty = $this->config->get('ldap_directory_preferred_first_name_property');
+        $ldapPreferredLastNameProperty = $this->config->get('ldap_directory_preferred_last_name_property');
+        $attributes = [
+            'mail',
+            $this->config->get('ldap_directory_campus_id_property'),
+            $this->config->get('ldap_directory_display_name_property'),
+            $this->config->get('ldap_directory_first_name_property') ?? 'givenName',
+            $this->config->get('ldap_directory_last_name_property') ?? 'sn',
+        ];
+        if ($ldapPreferredFirstNameProperty) {
+            $attributes[] = $ldapPreferredFirstNameProperty;
+        }
+        if ($ldapPreferredLastNameProperty) {
+            $attributes[] = $ldapPreferredLastNameProperty;
+        }
+        $filters = array_map(function ($term) {
+            return '(' . $term . '=%1$s*)';
+        }, $attributes);
+        return '(|' . implode('', $filters) . ')';
     }
 }
