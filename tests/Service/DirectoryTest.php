@@ -51,7 +51,7 @@ class DirectoryTest extends TestCase
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
         $this->ldapManager->shouldReceive('search')->with('(campusId=1234)')->andReturn([['id' => 1]]);
 
-        $result = $this->obj->findByCampusId(1234);
+        $result = $this->obj->findByCampusId('1234');
         $this->assertSame($result, ['id' => 1]);
     }
 
@@ -144,7 +144,7 @@ class DirectoryTest extends TestCase
     {
         $this->setupConfigForSearch([
             'ldap_directory_first_name_property' => null,
-            'ldap_directory_last_name_property' => null
+            'ldap_directory_last_name_property' => null,
         ]);
         $filter = '(&(|(mail=jj*)(cid=jj*)(dn=jj*)(givenName=jj*)(sn=jj*)(pfn=jj*)(pln=jj*)))';
         $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
@@ -157,7 +157,7 @@ class DirectoryTest extends TestCase
     {
         $this->setupConfigForSearch([
             'ldap_directory_preferred_first_name_property' => null,
-            'ldap_directory_preferred_last_name_property' => null
+            'ldap_directory_preferred_last_name_property' => null,
         ]);
         $filter = '(&(|(mail=jj*)(cid=jj*)(dn=jj*)(f=jj*)(l=jj*)))';
         $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);

@@ -79,18 +79,24 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $fakeDirectoryUser1 = [
             'firstName' => 'first',
             'lastName' => 'last',
+            'displayName' => 'first last',
             'email' => 'email',
             'telephoneNumber' => 'phone',
             'campusId' => 'abc',
             'username' => 'username',
+            'preferredFirstName' => 'preferredFirst',
+            'preferredLastName' => 'preferredLast',
         ];
         $fakeDirectoryUser2 = [
             'firstName' => 'first2',
             'lastName' => 'last2',
+            'displayName' => 'first2 last2',
             'email' => 'email2',
             'telephoneNumber' => 'phone2',
             'campusId' => 'abc2',
             'username' => 'username2',
+            'preferredFirstName' => null,
+            'preferredLastName' => null,
         ];
         $school = m::mock(SchoolInterface::class);
         $school->shouldReceive('getTitle')->andReturn('school 1');
@@ -101,8 +107,9 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getCampusId')->andReturn('abc');
-        $user->shouldReceive('setFirstName')->with('first');
-        $user->shouldReceive('setLastName')->with('last');
+        $user->shouldReceive('setFirstName')->with('preferredFirst');
+        $user->shouldReceive('setLastName')->with('preferredLast');
+        $user->shouldReceive('setDisplayName')->with('first last');
         $user->shouldReceive('setEmail')->with('email');
         $user->shouldReceive('setPhone')->with('phone');
         $user->shouldReceive('setCampusId')->with('abc');
@@ -163,7 +170,7 @@ class AddNewStudentsToSchoolCommandTest extends KernelTestCase
             $output
         );
         $this->assertMatchesRegularExpression(
-            '/abc\s+\| first\s+\| last\s+\| email /',
+            '/abc\s+\| preferredFirst\s+\| preferredLast\s+\| email /',
             $output
         );
         $this->assertMatchesRegularExpression(

@@ -79,12 +79,13 @@ class AddDirectoryUserCommand extends Command
 
         $table = new Table($output);
         $table
-            ->setHeaders(['Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number'])
+            ->setHeaders(['Campus ID', 'First', 'Last', 'Display', 'Email', 'Username', 'Phone Number'])
             ->setRows([
                 [
                     $userRecord['campusId'],
-                    $userRecord['firstName'],
-                    $userRecord['lastName'],
+                    $userRecord['preferredFirstName'] ?? $userRecord['firstName'],
+                    $userRecord['preferredLastName'] ?? $userRecord['lastName'],
+                    $userRecord['displayName'],
                     $userRecord['email'],
                     $userRecord['username'],
                     $userRecord['telephoneNumber'],
@@ -102,8 +103,9 @@ class AddDirectoryUserCommand extends Command
 
         if ($helper->ask($input, $output, $question)) {
             $user = $this->userRepository->create();
-            $user->setFirstName($userRecord['firstName']);
-            $user->setLastName($userRecord['lastName']);
+            $user->setFirstName($userRecord['preferredFirstName'] ?? $userRecord['firstName']);
+            $user->setLastName($userRecord['preferredLastName'] ?? $userRecord['lastName']);
+            $user->setDisplayName($userRecord['displayName']);
             $user->setEmail($userRecord['email']);
             $user->setCampusId($userRecord['campusId']);
             $user->setAddedViaIlios(true);
