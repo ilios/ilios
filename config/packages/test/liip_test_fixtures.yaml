@@ -1,2 +1,3 @@
 liip_test_fixtures:
   cache_metadata: true
+  keep_database_and_schema: true
