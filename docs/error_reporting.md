@@ -8,6 +8,7 @@ If your organization would like to share any errors or crashes in your Ilios ins
 
 ```bash
 sudo -u apache bin/console ilios:set-config-value errorCaptureEnabled true
+sudo -u apache bin/console ilios:set-config-value errorCaptureEnvironment YOUR_CAMPUS_NAME
 ```
 
 This command will simply add a configuration setting named `errorCaptureEnabled` to the `application_config` table in your Ilios database and set its value to `true`.  In turn, this will activate the extra features necessary for sending information about your application's errors/issues directly to us in the background.
