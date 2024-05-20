@@ -10,11 +10,13 @@ use Sentry\Event;
 class SentryBeforeSend
 {
     protected bool $errorCaptureEnabled;
+    protected ?string $errorCaptureEnvironment;
 
     public function __construct(
         Config $config,
     ) {
         $this->errorCaptureEnabled = (bool) $config->get('errorCaptureEnabled');
+        $this->errorCaptureEnvironment = $config->get('errorCaptureEnvironment');
     }
 
     public function __invoke(Event $event)
@@ -24,6 +26,7 @@ class SentryBeforeSend
         }
 
         $event->setRelease(InstalledVersions::getPrettyVersion(InstalledVersions::getRootPackage()['name']));
+        $event->setEnvironment($this->errorCaptureEnvironment);
 
         return $event;
     }

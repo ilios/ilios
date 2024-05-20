@@ -176,6 +176,7 @@ class IndexController extends AbstractController
             'noScripts' => $noScripts,
             'divs' => $divs,
             'errorCaptureEnabled' => $this->config->get('errorCaptureEnabled'),
+            'errorCaptureEnvironment' => $this->config->get('errorCaptureEnvironment'),
         ];
     }
 
