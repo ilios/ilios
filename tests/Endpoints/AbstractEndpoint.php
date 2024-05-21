@@ -71,6 +71,8 @@ abstract class AbstractEndpoint extends WebTestCase
         parent::tearDown();
         unset($this->kernelBrowser);
         unset($this->fixtures);
+        unset($this->databaseTool);
+        unset($this->inflector);
     }
 
 
