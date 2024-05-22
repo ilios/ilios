@@ -1,6 +1,7 @@
 name: Future PHP Versions
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '33 1 * * 1' # weekly, on Monday morning
 
@@ -15,16 +16,14 @@ env:
 
 jobs:
   test:
-    name: Test PHP v${{ env.latest_php }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Use PHP ${{ env.latest_php }}
+    - name: Install PHP ${{ env.future_php }}
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ env.latest_php }}
+        php-version: ${{ env.future_php }}
         coverage: none
-        tools: pecl
         extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
@@ -33,5 +32,5 @@ jobs:
     - uses: act10ns/slack@v2.0.0
       with:
         status: ${{ job.status }}
-        message: PHP v${{ env.latest_php }} (future version) tests failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
+        message: PHP v${{ env.future_php }} (future version) tests failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
       if: failure()
