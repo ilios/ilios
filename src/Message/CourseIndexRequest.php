@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Message;
 
+use DateTime;
 use InvalidArgumentException;
 
 class CourseIndexRequest
 {
     private $courseIds;
-    public const MAX_COURSES = 50;
+    private $createdAt;
+    public const MAX_COURSES = 500;
 
     /**
      * CourseIndexRequest constructor.
@@ -28,10 +30,16 @@ class CourseIndexRequest
             );
         }
         $this->courseIds = $courseIds;
+        $this->createdAt = new DateTime();
     }
 
     public function getCourseIds(): array
     {
         return $this->courseIds;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
     }
 }

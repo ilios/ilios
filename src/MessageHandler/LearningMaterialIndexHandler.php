@@ -23,7 +23,7 @@ class LearningMaterialIndexHandler
 
     public function __invoke(LearningMaterialIndexRequest $message)
     {
-        $dtos = $this->repository->findDTOsBy(['id' => $message->getId()]);
+        $dtos = $this->repository->findDTOsBy(['id' => $message->getIds()]);
         $filteredDtos = array_filter(
             $dtos,
             fn(LearningMaterialDTO $dto) => $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath)
