@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13cb6f780412075a566da39113fb08b0",
+    "content-hash": "54fc1fc3c495a2aa1c1e4d248bdeb92d",
     "packages": [
         {
             "name": "async-aws/core",
@@ -15583,7 +15583,6 @@
         "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
-        "liip/test-fixtures-bundle": 0,
         "mockery/mockery": 0,
         "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
