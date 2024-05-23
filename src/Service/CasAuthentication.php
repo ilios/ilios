@@ -90,25 +90,27 @@ class CasAuthentication implements AuthenticationInterface
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
                 $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
+                $response = $this->createSuccessResponseFromJWT($jwt);
+
                 if ($request->cookies->has(self::REDIRECT_COOKIE)) {
                     $value = $request->cookies->get(self::REDIRECT_COOKIE);
                     [$providedHash, $redirectUrl] = json_decode($value, associative: true, depth: 2);
-                    $signature = $this->generateSignature($redirectUrl);
-                    //validate the signature to ensure the redirect hasn't been tampered with
-                    if (!hash_equals($signature, $providedHash)) {
-                        $this->logger->error(
-                            "Invalid signature in redirect cookie. " .
-                            "This is shady and may indicate someone is attempting " .
-                            "to use our redirect cookie for something nefarious. "
-                        );
-                        $response = $this->createSuccessResponseFromJWT($jwt);
-                    } else {
-                        $response = new RedirectResponse($redirectUrl);
+                    if (is_string($providedHash) && filter_var($redirectUrl, FILTER_VALIDATE_URL)) {
+                        $signature = $this->generateSignature($redirectUrl);
+                        //validate the signature to ensure the redirect hasn't been tampered with
+                        if (hash_equals($signature, $providedHash)) {
+                            $response = new RedirectResponse($redirectUrl);
+                        } else {
+                            $this->logger->error(
+                                "Invalid signature in redirect cookie. " .
+                                "This is shady and may indicate someone is attempting " .
+                                "to use our redirect cookie for something nefarious. "
+                            );
+                        }
                     }
                     $response->headers->clearCookie(self::REDIRECT_COOKIE);
-                } else {
-                    $response = $this->createSuccessResponseFromJWT($jwt);
                 }
+
                 $exp = $this->jwtManager->getExpiresAtFromToken($jwt);
                 $response->headers->setCookie(Cookie::create(
                     self::JWT_COOKIE,
