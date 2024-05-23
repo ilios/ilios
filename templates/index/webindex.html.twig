@@ -16,7 +16,7 @@
 #}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     {% for m in metas %}
         <meta {% if m.httpequiv %} http-equiv="{{ m.httpequiv }}" {% endif %} {% if m.charset %} charset="{{ m.charset }}" {% endif %} {% if m.name %} name="{{ m.name }}" {% endif %} {% if m.content %} content="{{ m.content }}" {% endif %} />
