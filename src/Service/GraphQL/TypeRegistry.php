@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
-use App\Attributes\Id;
+use App\Attributes as IA;
 use App\Service\EntityMetadata;
 use Doctrine\Inflector\Inflector;
 use Exception;
@@ -86,7 +86,7 @@ class TypeRegistry
             $name = $this->entityMetadata->extractRelatedNameForProperty($property);
 
             //wrap array types in listOf
-            $fn = in_array($type, ['array<string>', 'array<integer>']) ?
+            $fn = in_array($type, [IA\Type::STRINGS, IA\Type::INTEGERS]) ?
                 fn() => Type::listOf($this->getType($name)) :
                 fn() => $this->getType($name)
             ;
@@ -104,7 +104,7 @@ class TypeRegistry
                     'integer' => Type::int(),
                     'float' => Type::float(),
                     'dateTime' => DateTimeType::getInstance(),
-                    'array<dto>', 'array<string>', 'array' => Type::listOf(Type::string()),
+                    IA\Type::DTOS, IA\Type::STRINGS, 'array' => Type::listOf(Type::string()),
                     default => throw new Exception("Unhandled property type $type encountered."),
                 },
                 'resolve' => $this->fieldResolver,
@@ -150,10 +150,10 @@ class TypeRegistry
     {
         return match ($type) {
             'string' => Type::string(),
-            'array<dto>', 'array<string>' => Type::listOf(Type::string()),
+            IA\Type::DTOS, IA\Type::STRINGS => Type::listOf(Type::string()),
             'boolean' => Type::boolean(),
             'integer', 'entity' => Type::int(),
-            'array<integer>' => Type::listOf(Type::int()),
+            IA\Type::INTEGERS => Type::listOf(Type::int()),
             'float' => Type::float(),
             'dateTime' => DateTimeType::getInstance(),
             default => throw new Exception("Unhandled property type $type encountered."),
@@ -162,7 +162,7 @@ class TypeRegistry
 
     protected function isId(ReflectionProperty $property): bool
     {
-        $id = $property->getAttributes(Id::class);
+        $id = $property->getAttributes(IA\Id::class);
         return $id !== [];
     }
 }

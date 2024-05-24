@@ -81,7 +81,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directors;
 
     #[ORM\ManyToMany(targetEntity: 'Competency', inversedBy: 'programYears')]
@@ -90,7 +90,7 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\InverseJoinColumn(name: 'competency_id', referencedColumnName: 'competency_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $competencies;
 
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYears')]
@@ -99,13 +99,13 @@ class ProgramYear implements ProgramYearInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $terms;
 
     #[ORM\OneToMany(mappedBy: 'programYear', targetEntity: 'ProgramYearObjective')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYearObjectives;
 
     public function __construct()

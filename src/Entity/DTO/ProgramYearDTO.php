@@ -69,10 +69,10 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('courses', 'array<integer>')]
-#[IA\FilterableBy('sessions', 'array<integer>')]
-#[IA\FilterableBy('schools', 'array<integer>')]
-#[IA\FilterableBy('startYears', 'array<integer>')]
+#[IA\FilterableBy('courses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
+#[IA\FilterableBy('startYears', IA\Type::INTEGERS)]
 class ProgramYearDTO
 {
     #[IA\Id]
@@ -107,7 +107,7 @@ class ProgramYearDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $directors = [];
 
     /**
@@ -115,7 +115,7 @@ class ProgramYearDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $competencies = [];
 
     /**
@@ -123,7 +123,7 @@ class ProgramYearDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $terms = [];
 
     /**
@@ -131,7 +131,7 @@ class ProgramYearDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programYearObjectives = [];
 
     /**

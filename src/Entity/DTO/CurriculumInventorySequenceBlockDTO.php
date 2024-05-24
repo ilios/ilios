@@ -202,7 +202,7 @@ class CurriculumInventorySequenceBlockDTO
      */
     #[IA\Expose]
     #[IA\Related('curriculumInventorySequenceBlocks')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $children = [];
 
     /**
@@ -210,7 +210,7 @@ class CurriculumInventorySequenceBlockDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessions = [];
 
     /**
@@ -218,7 +218,7 @@ class CurriculumInventorySequenceBlockDTO
      */
     #[IA\Expose]
     #[IA\Related('sessions')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $excludedSessions = [];
 
     /**

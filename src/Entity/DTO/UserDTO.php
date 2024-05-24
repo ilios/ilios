@@ -253,14 +253,14 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('roles', 'array<integer>')]
-#[IA\FilterableBy('instructedCourses', 'array<integer>')]
-#[IA\FilterableBy('instructedSessions', 'array<integer>')]
-#[IA\FilterableBy('instructedSessionTypes', 'array<integer>')]
-#[IA\FilterableBy('instructedLearningMaterials', 'array<integer>')]
-#[IA\FilterableBy('learnerSessions', 'array<integer>')]
-#[IA\FilterableBy('schools', 'array<integer>')]
-#[IA\FilterableBy('instructedAcademicYears', 'array<integer>')]
+#[IA\FilterableBy('roles', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructedCourses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructedSessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructedSessionTypes', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructedLearningMaterials', IA\Type::INTEGERS)]
+#[IA\FilterableBy('learnerSessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructedAcademicYears', IA\Type::INTEGERS)]
 class UserDTO
 {
     #[IA\Id]
@@ -354,7 +354,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $reports = [];
 
     /**
@@ -362,7 +362,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('courses')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $directedCourses = [];
 
     /**
@@ -370,7 +370,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('courses')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $administeredCourses = [];
 
     /**
@@ -378,7 +378,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('courses')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $studentAdvisedCourses = [];
 
     /**
@@ -386,7 +386,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $learnerGroups = [];
 
     /**
@@ -394,7 +394,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('learnerGroups')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instructedLearnerGroups = [];
 
     /**
@@ -402,7 +402,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instructorGroups = [];
 
     /**
@@ -410,7 +410,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('ilmSessions')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instructorIlmSessions = [];
 
     /**
@@ -418,7 +418,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('ilmSessions')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $learnerIlmSessions = [];
 
     /**
@@ -426,7 +426,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $offerings = [];
 
     /**
@@ -434,7 +434,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('offerings')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instructedOfferings = [];
 
     /**
@@ -442,7 +442,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programYears = [];
 
     /**
@@ -450,7 +450,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('userRoles')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $roles = [];
 
     /**
@@ -458,7 +458,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $cohorts = [];
 
     /**
@@ -466,7 +466,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $pendingUserUpdates = [];
 
     /**
@@ -474,7 +474,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('schools')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $directedSchools = [];
 
     /**
@@ -482,7 +482,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('schools')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $administeredSchools = [];
 
     /**
@@ -490,7 +490,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('sessions')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $administeredSessions = [];
 
     /**
@@ -498,7 +498,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('sessions')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $studentAdvisedSessions = [];
 
     /**
@@ -506,7 +506,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('programs')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $directedPrograms = [];
 
     /**
@@ -514,7 +514,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('curriculumInventoryReports')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $administeredCurriculumInventoryReports = [];
 
     /**
@@ -522,7 +522,7 @@ class UserDTO
      */
     #[IA\Expose]
     #[IA\Related('userSessionMaterialStatuses')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessionMaterialStatuses = [];
 
     /**

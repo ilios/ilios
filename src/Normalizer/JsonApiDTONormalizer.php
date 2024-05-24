@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use App\Attributes as IA;
 use ArrayObject;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use ReflectionClass;
 use ReflectionProperty;
-use DateTime;
 
 class JsonApiDTONormalizer implements NormalizerInterface
 {
@@ -68,7 +68,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
             return null === $value ? null : $value->format('c');
         }
 
-        if ($type === 'array<string>' || $type === 'array<integer>') {
+        if ($type === IA\Type::STRINGS || $type === IA\Type::INTEGERS) {
             $values = $object->{$property->name};
             $stringValues = array_map('strval', $values);
 

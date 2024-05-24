@@ -94,25 +94,25 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $descendants;
 
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'LearnerGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $children;
 
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $ilmSessions;
 
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $offerings;
 
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'learnerGroups')]
@@ -125,7 +125,7 @@ class LearnerGroup implements LearnerGroupInterface
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerGroups')]
@@ -134,7 +134,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $users;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedLearnerGroups')]
@@ -143,7 +143,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructors;
 
     public function __construct()

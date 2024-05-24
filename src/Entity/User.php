@@ -170,13 +170,13 @@ class User implements UserInterface
      */
     #[ORM\OneToMany(mappedBy: 'owningUser', targetEntity: 'LearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learningMaterials;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'Report')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $reports;
 
     #[ORM\ManyToOne(targetEntity: 'School')]
@@ -188,79 +188,79 @@ class User implements UserInterface
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directedCourses;
 
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administeredCourses;
 
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'studentAdvisors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $studentAdvisedCourses;
 
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administeredSessions;
 
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'studentAdvisors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $studentAdvisedSessions;
 
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'users')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructedLearnerGroups;
 
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', mappedBy: 'users')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorIlmSessions;
 
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learners')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerIlmSessions;
 
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learners')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $offerings;
 
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructedOfferings;
 
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYears;
 
     /**
@@ -268,7 +268,7 @@ class User implements UserInterface
      */
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'instigators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $alerts;
 
     #[ORM\ManyToMany(targetEntity: 'UserRole', inversedBy: 'users')]
@@ -277,7 +277,7 @@ class User implements UserInterface
     #[ORM\InverseJoinColumn(name: 'user_role_id', referencedColumnName: 'user_role_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $roles;
 
     #[ORM\ManyToMany(targetEntity: 'Cohort', inversedBy: 'users')]
@@ -286,7 +286,7 @@ class User implements UserInterface
     #[ORM\InverseJoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $cohorts;
 
     #[ORM\ManyToOne(targetEntity: 'Cohort')]
@@ -298,25 +298,25 @@ class User implements UserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: 'PendingUserUpdate')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $pendingUserUpdates;
 
     #[ORM\ManyToMany(targetEntity: 'School', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directedSchools;
 
     #[ORM\ManyToMany(targetEntity: 'School', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administeredSchools;
 
     #[ORM\ManyToMany(targetEntity: 'Program', mappedBy: 'directors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directedPrograms;
 
     #[ORM\Column(name: 'root', type: 'boolean')]
@@ -329,12 +329,12 @@ class User implements UserInterface
     #[ORM\ManyToMany(targetEntity: 'CurriculumInventoryReport', mappedBy: 'administrators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administeredCurriculumInventoryReports;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSessionMaterialStatus::class)]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionMaterialStatuses;
 
     public function __construct()

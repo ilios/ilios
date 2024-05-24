@@ -67,7 +67,7 @@ class MeshQualifierDTO
      */
     #[IA\Expose]
     #[IA\Related('meshDescriptors')]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $descriptors = [];
 
     public function __construct(string $id, string $name, DateTime $createdAt, DateTime $updatedAt)

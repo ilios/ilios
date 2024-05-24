@@ -46,7 +46,7 @@ class AssessmentOption implements AssessmentOptionInterface
     #[ORM\OneToMany(mappedBy: 'assessmentOption', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionTypes;
 
     public function __construct()

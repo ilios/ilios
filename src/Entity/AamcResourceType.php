@@ -52,7 +52,7 @@ class AamcResourceType implements AamcResourceTypeInterface
     #[ORM\ManyToMany(targetEntity: 'Term', mappedBy: 'aamcResourceTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $terms;
 
     public function __construct()

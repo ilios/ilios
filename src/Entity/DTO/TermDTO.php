@@ -93,15 +93,15 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('sessionTypes', 'array<integer>')]
-#[IA\FilterableBy('instructors', 'array<integer>')]
-#[IA\FilterableBy('instructorGroups', 'array<integer>')]
-#[IA\FilterableBy('learningMaterials', 'array<integer>')]
-#[IA\FilterableBy('competencies', 'array<integer>')]
-#[IA\FilterableBy('meshDescriptors', 'array<string>')]
-#[IA\FilterableBy('programs', 'array<integer>')]
-#[IA\FilterableBy('schools', 'array<integer>')]
-#[IA\FilterableBy('academicYears', 'array<integer>')]
+#[IA\FilterableBy('sessionTypes', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructors', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructorGroups', IA\Type::INTEGERS)]
+#[IA\FilterableBy('learningMaterials', IA\Type::INTEGERS)]
+#[IA\FilterableBy('competencies', IA\Type::INTEGERS)]
+#[IA\FilterableBy('meshDescriptors', IA\Type::STRINGS)]
+#[IA\FilterableBy('programs', IA\Type::INTEGERS)]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
+#[IA\FilterableBy('academicYears', IA\Type::INTEGERS)]
 class TermDTO
 {
     #[IA\Id]
@@ -136,7 +136,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related('terms')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $children = [];
 
     /**
@@ -144,7 +144,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courses = [];
 
     /**
@@ -152,7 +152,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programYears = [];
 
     /**
@@ -160,7 +160,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessions = [];
 
     /**
@@ -168,7 +168,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $aamcResourceTypes = [];
 
     /**
@@ -176,7 +176,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessionObjectives = [];
 
     /**
@@ -184,7 +184,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courseObjectives = [];
 
     /**
@@ -192,7 +192,7 @@ class TermDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programYearObjectives = [];
 
     /**

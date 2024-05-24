@@ -57,7 +57,7 @@ class Vocabulary implements VocabularyInterface
     #[ORM\OneToMany(mappedBy: 'vocabulary', targetEntity: 'Term')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $terms;
 
     #[ORM\Column(type: 'boolean')]

@@ -112,10 +112,10 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
-#[IA\FilterableBy('learningMaterials', 'array<integer>')]
-#[IA\FilterableBy('terms', 'array<integer>')]
-#[IA\FilterableBy('sessionTypes', 'array<integer>')]
-#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('learningMaterials', IA\Type::INTEGERS)]
+#[IA\FilterableBy('terms', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessionTypes', IA\Type::INTEGERS)]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
 class MeshDescriptorDTO
 {
     #[IA\Id]
@@ -153,7 +153,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courses = [];
 
     /**
@@ -161,7 +161,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('sessionObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessionObjectives = [];
 
     /**
@@ -169,7 +169,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('courseObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courseObjectives = [];
 
     /**
@@ -177,7 +177,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('programYearObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programYearObjectives = [];
 
     /**
@@ -185,7 +185,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessions = [];
 
     /**
@@ -193,7 +193,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('meshConcepts')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $concepts = [];
 
     /**
@@ -201,7 +201,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('meshQualifiers')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $qualifiers = [];
 
     /**
@@ -209,7 +209,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related('meshTrees')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $trees = [];
 
     /**
@@ -217,7 +217,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessionLearningMaterials = [];
 
     /**
@@ -225,7 +225,7 @@ class MeshDescriptorDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courseLearningMaterials = [];
 
     public function __construct(

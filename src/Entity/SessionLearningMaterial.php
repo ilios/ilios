@@ -92,7 +92,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $meshDescriptors;
 
     #[ORM\Column(name: 'position', type: 'integer')]

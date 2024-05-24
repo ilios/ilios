@@ -85,7 +85,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sequenceBlocks;
 
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'curriculumInventoryReports')]
@@ -97,7 +97,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $academicLevels;
 
     #[ORM\Column(name: 'token', type: 'string', length: 64, nullable: true)]
@@ -111,7 +111,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administrators;
 
     public function __construct()

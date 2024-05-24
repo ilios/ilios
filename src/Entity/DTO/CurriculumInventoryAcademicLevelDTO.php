@@ -81,7 +81,7 @@ class CurriculumInventoryAcademicLevelDTO
      */
     #[IA\Expose]
     #[IA\Related('curriculumInventorySequenceBlocks')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $startingSequenceBlocks = [];
 
     /**
@@ -89,7 +89,7 @@ class CurriculumInventoryAcademicLevelDTO
      */
     #[IA\Expose]
     #[IA\Related('curriculumInventorySequenceBlocks')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $endingSequenceBlocks = [];
 
     /**

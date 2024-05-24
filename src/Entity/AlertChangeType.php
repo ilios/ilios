@@ -45,7 +45,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'changeTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $alerts;
 
     public function __construct()

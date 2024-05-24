@@ -85,37 +85,37 @@ class School implements SchoolInterface
      */
     #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'recipients')]
     #[ORM\OrderBy(['id' => 'ASC'])]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $alerts;
 
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $competencies;
 
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courses;
 
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Program')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programs;
 
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Vocabulary')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $vocabularies;
 
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'InstructorGroup')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
     #[ORM\OneToOne(mappedBy: 'school', targetEntity: 'CurriculumInventoryInstitution')]
@@ -126,7 +126,7 @@ class School implements SchoolInterface
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SessionType')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionTypes;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedSchools')]
@@ -135,7 +135,7 @@ class School implements SchoolInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directors;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredSchools')]
@@ -144,13 +144,13 @@ class School implements SchoolInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administrators;
 
     #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SchoolConfig')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $configurations;
 
     public function __construct()

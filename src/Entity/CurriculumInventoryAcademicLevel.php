@@ -67,13 +67,13 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[ORM\OneToMany(mappedBy: 'startingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $startingSequenceBlocks;
 
     #[ORM\OneToMany(mappedBy: 'endingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $endingSequenceBlocks;
 
     public function __construct()

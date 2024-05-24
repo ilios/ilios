@@ -65,7 +65,7 @@ class Alert implements AlertInterface
     #[ORM\InverseJoinColumn(name: 'alert_change_type_id', referencedColumnName: 'alert_change_type_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $changeTypes;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'alerts')]
@@ -74,7 +74,7 @@ class Alert implements AlertInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instigators;
 
     #[ORM\ManyToMany(targetEntity: 'School', inversedBy: 'alerts')]
@@ -83,7 +83,7 @@ class Alert implements AlertInterface
     #[ORM\InverseJoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $recipients;
 
     #[ORM\ManyToMany(targetEntity: 'ServiceToken', inversedBy: 'alerts')]
@@ -92,7 +92,7 @@ class Alert implements AlertInterface
     #[ORM\InverseJoinColumn(name: 'service_token_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $serviceTokenInstigators;
 
     public function __construct()

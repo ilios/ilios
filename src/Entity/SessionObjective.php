@@ -63,7 +63,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $terms;
 
     #[ORM\Column(type: 'text')]
@@ -85,7 +85,7 @@ class SessionObjective implements SessionObjectiveInterface
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courseObjectives;
 
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionObjectives')]
@@ -98,7 +98,7 @@ class SessionObjective implements SessionObjectiveInterface
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $meshDescriptors;
 
     #[ORM\ManyToOne(targetEntity: 'SessionObjective', inversedBy: 'descendants')]
@@ -110,7 +110,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'SessionObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $descendants;
 
     #[ORM\Column(type: 'boolean')]

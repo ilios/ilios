@@ -60,13 +60,13 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
     #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $ilmSessions;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructorGroups')]
@@ -75,13 +75,13 @@ class InstructorGroup implements InstructorGroupInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $users;
 
     #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $offerings;
 
     public function __construct()

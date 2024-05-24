@@ -42,7 +42,7 @@ class AamcPcrs implements AamcPcrsInterface
     #[ORM\ManyToMany(targetEntity: 'Competency', mappedBy: 'aamcPcrses')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $competencies;
 
     public function __construct()

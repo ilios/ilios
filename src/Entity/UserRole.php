@@ -46,7 +46,7 @@ class UserRole implements UserRoleInterface
      */
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'roles')]
     #[ORM\OrderBy(['id' => 'ASC'])]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $users;
 
     public function __construct()

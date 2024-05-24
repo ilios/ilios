@@ -149,7 +149,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directors;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredCourses')]
@@ -158,7 +158,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administrators;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'studentAdvisedCourses')]
@@ -167,7 +167,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $studentAdvisors;
 
     #[ORM\ManyToMany(targetEntity: 'Cohort', inversedBy: 'courses')]
@@ -176,7 +176,7 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $cohorts;
 
     #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'courses')]
@@ -185,13 +185,13 @@ class Course implements CourseInterface
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $terms;
 
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CourseObjective')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courseObjectives;
 
     #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courses')]
@@ -204,24 +204,24 @@ class Course implements CourseInterface
     )]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $meshDescriptors;
 
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CourseLearningMaterial')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learningMaterials;
 
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessions;
 
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: 'CurriculumInventorySequenceBlock')]
     #[ORM\OrderBy(['id' => 'ASC'])]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sequenceBlocks;
 
     #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'descendants')]
@@ -233,7 +233,7 @@ class Course implements CourseInterface
     #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'Course')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $descendants;
 
     public function __construct()

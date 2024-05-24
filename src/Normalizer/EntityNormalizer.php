@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use App\Attributes as IA;
 use ArrayObject;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use HTMLPurifier;
@@ -75,7 +75,7 @@ class EntityNormalizer implements NormalizerInterface
             return $value ? (string) $value : null;
         }
 
-        if ($type === 'entityCollection') {
+        if ($type === IA\Type::ENTITY_COLLECTION) {
             /** @var ArrayCollection $value $ids */
             $ids = $value->map(fn($entity) => $entity ? (string) $entity : null)->toArray();
 

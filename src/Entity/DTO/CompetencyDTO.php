@@ -63,12 +63,12 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
-#[IA\FilterableBy('schools', 'array<integer>')]
-#[IA\FilterableBy('courses', 'array<integer>')]
-#[IA\FilterableBy('terms', 'array<integer>')]
-#[IA\FilterableBy('sessions', 'array<integer>')]
-#[IA\FilterableBy('sessionTypes', 'array<integer>')]
-#[IA\FilterableBy('academicYears', 'array<integer>')]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
+#[IA\FilterableBy('courses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('terms', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessionTypes', IA\Type::INTEGERS)]
+#[IA\FilterableBy('academicYears', IA\Type::INTEGERS)]
 class CompetencyDTO
 {
     #[IA\Id]
@@ -99,7 +99,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related('competencies')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $children = [];
 
     /**
@@ -107,7 +107,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $aamcPcrses = [];
 
     /**
@@ -115,7 +115,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programYears = [];
 
     /**
@@ -123,7 +123,7 @@ class CompetencyDTO
      */
     #[IA\Expose]
     #[IA\Related('programYearObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programYearObjectives = [];
 
     public function __construct(

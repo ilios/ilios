@@ -109,7 +109,7 @@ class MeshConceptDTO
      */
     #[IA\Expose]
     #[IA\Related('meshTerms')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $terms = [];
 
     /**
@@ -117,7 +117,7 @@ class MeshConceptDTO
      */
     #[IA\Expose]
     #[IA\Related('meshDescriptors')]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $descriptors = [];
 
     public function __construct(

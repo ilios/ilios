@@ -84,7 +84,7 @@ class AlertDTO
      */
     #[IA\Expose]
     #[IA\Related('alertChangeTypes')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $changeTypes = [];
 
     /**
@@ -92,7 +92,7 @@ class AlertDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instigators = [];
 
     /**
@@ -100,7 +100,7 @@ class AlertDTO
      */
     #[IA\Expose]
     #[IA\Related('schools')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $recipients = [];
 
     public function __construct(
