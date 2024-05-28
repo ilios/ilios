@@ -71,7 +71,7 @@
     "ext-sodium": "*"
   },
   "require-dev": {
-    "infection/infection": "^0.28.0",
+    "infection/infection": "^0.29.0",
     "liip/test-fixtures-bundle": "2.9.0",
     "mockery/mockery": "@stable",
     "phpstan/extension-installer": "^1.0",
