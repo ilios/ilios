@@ -52,7 +52,7 @@ class Term implements TermInterface
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courses;
 
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
@@ -71,37 +71,37 @@ class Term implements TermInterface
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Term')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $children;
 
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYears;
 
     #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessions;
 
     #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionObjectives;
 
     #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courseObjectives;
 
     #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYearObjectives;
 
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
@@ -125,7 +125,7 @@ class Term implements TermInterface
     #[ORM\InverseJoinColumn(name: 'resource_type_id', referencedColumnName: 'resource_type_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $aamcResourceTypes;
 
     #[ORM\Column(type: 'boolean')]

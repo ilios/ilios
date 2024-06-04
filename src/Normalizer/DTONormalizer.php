@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Normalizer;
 
 use App\Service\EntityMetadata;
+use App\Attributes as IA;
 use ArrayObject;
 use ReflectionClass;
 use ReflectionProperty;
@@ -65,12 +66,12 @@ class DTONormalizer implements NormalizerInterface
             return is_null($value) ? null : (int) $value;
         }
 
-        if ($type === 'array<string>' || $type === 'array<integer>') {
+        if ($type === IA\Type::STRINGS || $type === IA\Type::INTEGERS) {
             $stringValues = array_map('strval', $value);
             return array_values($stringValues);
         }
 
-        if ($type === 'array<dto>') {
+        if ($type === IA\Type::DTOS) {
             return array_map([$this, 'normalize'], $value);
         }
 

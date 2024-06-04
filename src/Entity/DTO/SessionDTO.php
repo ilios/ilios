@@ -140,14 +140,14 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('programs', 'array<integer>')]
-#[IA\FilterableBy('instructors', 'array<integer>')]
-#[IA\FilterableBy('instructorGroups', 'array<integer>')]
-#[IA\FilterableBy('competencies', 'array<integer>')]
-#[IA\FilterableBy('schools', 'array<integer>')]
-#[IA\FilterableBy('courses', 'array<integer>')]
-#[IA\FilterableBy('sessionTypes', 'array<integer>')]
-#[IA\FilterableBy('academicYears', 'array<integer>')]
+#[IA\FilterableBy('programs', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructors', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructorGroups', IA\Type::INTEGERS)]
+#[IA\FilterableBy('competencies', IA\Type::INTEGERS)]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
+#[IA\FilterableBy('courses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessionTypes', IA\Type::INTEGERS)]
+#[IA\FilterableBy('academicYears', IA\Type::INTEGERS)]
 class SessionDTO
 {
     #[IA\Id]
@@ -220,7 +220,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $terms = [];
 
     /**
@@ -228,7 +228,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessionObjectives = [];
 
     /**
@@ -236,7 +236,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $meshDescriptors = [];
 
     /**
@@ -244,7 +244,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('sessionLearningMaterials')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $learningMaterials = [];
 
     /**
@@ -252,7 +252,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $administrators = [];
 
     /**
@@ -260,7 +260,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $studentAdvisors = [];
 
     /**
@@ -268,7 +268,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $offerings = [];
 
     /**
@@ -276,7 +276,7 @@ class SessionDTO
      */
     #[IA\Expose]
     #[IA\Related('sessions')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $prerequisites = [];
 
     /**

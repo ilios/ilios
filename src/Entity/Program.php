@@ -70,13 +70,13 @@ class Program implements ProgramInterface
     #[ORM\OneToMany(mappedBy: 'program', targetEntity: 'ProgramYear')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYears;
 
     #[ORM\OneToMany(mappedBy: 'program', targetEntity: 'CurriculumInventoryReport')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $curriculumInventoryReports;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedPrograms')]
@@ -85,7 +85,7 @@ class Program implements ProgramInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directors;
 
     public function __construct()

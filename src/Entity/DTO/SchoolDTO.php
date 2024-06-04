@@ -67,7 +67,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $competencies = [];
 
     /**
@@ -75,7 +75,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courses = [];
 
     /**
@@ -83,7 +83,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $programs = [];
 
     /**
@@ -91,7 +91,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $vocabularies = [];
 
     /**
@@ -99,7 +99,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instructorGroups = [];
 
     #[IA\Expose]
@@ -112,7 +112,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessionTypes = [];
 
     /**
@@ -120,7 +120,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $directors = [];
 
     /**
@@ -128,7 +128,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $administrators = [];
 
     /**
@@ -136,7 +136,7 @@ class SchoolDTO
      */
     #[IA\Expose]
     #[IA\Related('schoolConfigs')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $configurations = [];
 
     public function __construct(

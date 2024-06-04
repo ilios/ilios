@@ -147,15 +147,15 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
-#[IA\FilterableBy('schools', 'array<integer>')]
-#[IA\FilterableBy('ancestors', 'array<integer>')]
-#[IA\FilterableBy('sessions', 'array<integer>')]
-#[IA\FilterableBy('programs', 'array<integer>')]
-#[IA\FilterableBy('instructors', 'array<integer>')]
-#[IA\FilterableBy('instructorGroups', 'array<integer>')]
-#[IA\FilterableBy('programYears', 'array<integer>')]
-#[IA\FilterableBy('competencies', 'array<integer>')]
-#[IA\FilterableBy('academicYears', 'array<integer>')]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
+#[IA\FilterableBy('ancestors', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('programs', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructors', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructorGroups', IA\Type::INTEGERS)]
+#[IA\FilterableBy('programYears', IA\Type::INTEGERS)]
+#[IA\FilterableBy('competencies', IA\Type::INTEGERS)]
+#[IA\FilterableBy('academicYears', IA\Type::INTEGERS)]
 class CourseDTO
 {
     #[IA\Id]
@@ -222,7 +222,7 @@ class CourseDTO
      * @var int[]
      */
     #[IA\Expose]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     #[IA\Related('users')]
     public array $directors = [];
 
@@ -230,7 +230,7 @@ class CourseDTO
      * @var int[]
      */
     #[IA\Expose]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     #[IA\Related('users')]
     public array $administrators = [];
 
@@ -238,7 +238,7 @@ class CourseDTO
      * @var int[]
      */
     #[IA\Expose]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     #[IA\Related('users')]
     public array $studentAdvisors = [];
 
@@ -247,7 +247,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $cohorts = [];
 
     /**
@@ -255,7 +255,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $terms = [];
 
     /**
@@ -263,7 +263,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courseObjectives = [];
 
     /**
@@ -271,7 +271,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $meshDescriptors = [];
 
     /**
@@ -279,7 +279,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related('courseLearningMaterials')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $learningMaterials = [];
 
     /**
@@ -287,7 +287,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessions = [];
 
     /**
@@ -295,7 +295,7 @@ class CourseDTO
      */
     #[IA\Expose]
     #[IA\Related('courses')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $descendants = [];
 
     public function __construct(

@@ -7,6 +7,7 @@ namespace App\Denormalizer;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
+use App\Attributes as IA;
 use DateTime;
 use DateTimeZone;
 use Doctrine\Persistence\ManagerRegistry;
@@ -102,7 +103,7 @@ class EntityDenormalizer implements DenormalizerInterface
     protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
-        if (in_array($type, ['entity', 'entityCollection'])) {
+        if (in_array($type, ['entity', IA\Type::ENTITY_COLLECTION])) {
             $entityManager = $this->managerRegistry->getManagerForClass($property->class);
             $metaData = $entityManager->getClassMetadata($property->class);
             if (!$metaData->hasAssociation($property->name)) {

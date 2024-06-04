@@ -99,7 +99,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
     #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'offerings')]
@@ -108,7 +108,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'offerings')]
@@ -117,7 +117,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learners;
 
     #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedOfferings')]
@@ -126,7 +126,7 @@ class Offering implements OfferingInterface
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructors;
 
     public function __construct()

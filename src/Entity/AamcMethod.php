@@ -44,7 +44,7 @@ class AamcMethod implements AamcMethodInterface
     #[ORM\ManyToMany(targetEntity: 'SessionType', mappedBy: 'aamcMethods')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionTypes;
 
     #[ORM\Column(type: 'boolean')]

@@ -69,7 +69,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
 class SessionLearningMaterialDTO
 {
     #[IA\Id]
@@ -116,7 +116,7 @@ class SessionLearningMaterialDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $meshDescriptors = [];
 
     /**

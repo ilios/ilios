@@ -113,7 +113,7 @@ class ProgramYearObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $terms = [];
 
     /**
@@ -121,7 +121,7 @@ class ProgramYearObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related('courseObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courseObjectives = [];
 
     /**
@@ -129,7 +129,7 @@ class ProgramYearObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $meshDescriptors = [];
 
     /**
@@ -137,7 +137,7 @@ class ProgramYearObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related('programYearObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $descendants = [];
 
     /**

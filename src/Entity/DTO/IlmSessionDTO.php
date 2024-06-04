@@ -61,8 +61,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('courses', 'array<integer>')]
-#[IA\FilterableBy('sessions', 'array<integer>')]
+#[IA\FilterableBy('courses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessions', IA\Type::INTEGERS)]
 class IlmSessionDTO
 {
     #[IA\Id]
@@ -88,7 +88,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $learnerGroups = [];
 
     /**
@@ -96,7 +96,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instructorGroups = [];
 
     /**
@@ -104,7 +104,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $instructors = [];
 
     /**
@@ -112,7 +112,7 @@ class IlmSessionDTO
      */
     #[IA\Expose]
     #[IA\Related('users')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $learners = [];
 
     /**

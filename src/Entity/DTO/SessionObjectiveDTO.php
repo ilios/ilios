@@ -64,9 +64,9 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('courses', 'array<integer>')]
-#[IA\FilterableBy('sessions', 'array<integer>')]
-#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('courses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
 class SessionObjectiveDTO
 {
     #[IA\Id]
@@ -101,7 +101,7 @@ class SessionObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $terms = [];
 
     /**
@@ -109,7 +109,7 @@ class SessionObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related('courseObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courseObjectives = [];
 
     /**
@@ -117,7 +117,7 @@ class SessionObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $meshDescriptors = [];
 
     /**
@@ -125,7 +125,7 @@ class SessionObjectiveDTO
      */
     #[IA\Expose]
     #[IA\Related('sessionObjectives')]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $descendants = [];
 
     /**

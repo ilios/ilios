@@ -61,19 +61,19 @@ class Cohort implements CohortInterface
     #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courses;
 
     #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'cohort')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
     #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $users;
 
     public function __construct()

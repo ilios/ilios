@@ -108,15 +108,15 @@ use Symfony\Component\Serializer\Annotation\Ignore;
         ),
     ]
 )]
-#[IA\FilterableBy('courses', 'array<integer>')]
-#[IA\FilterableBy('sessions', 'array<integer>')]
-#[IA\FilterableBy('sessionTypes', 'array<integer>')]
-#[IA\FilterableBy('instructors', 'array<integer>')]
-#[IA\FilterableBy('instructorGroups', 'array<integer>')]
-#[IA\FilterableBy('terms', 'array<integer>')]
-#[IA\FilterableBy('fullCourses', 'array<integer>')]
-#[IA\FilterableBy('meshDescriptors', 'array<string>')]
-#[IA\FilterableBy('schools', 'array<integer>')]
+#[IA\FilterableBy('courses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessionTypes', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructors', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructorGroups', IA\Type::INTEGERS)]
+#[IA\FilterableBy('terms', IA\Type::INTEGERS)]
+#[IA\FilterableBy('fullCourses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('meshDescriptors', IA\Type::STRINGS)]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
 class LearningMaterialDTO
 {
     #[IA\Id]
@@ -192,7 +192,7 @@ class LearningMaterialDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $sessionLearningMaterials = [];
 
     /**
@@ -200,7 +200,7 @@ class LearningMaterialDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $courseLearningMaterials = [];
 
     /**

@@ -24,19 +24,23 @@ use InvalidArgumentException;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Type
 {
-    public const VALUE = 'value';
-    private const ALLOWED_VALUES = [
-     'integer',
-     'float',
-     'string',
-     'boolean',
-     'dateTime',
-     'entity',
-     'entityCollection',
-     'array',
-     'array<string>',
-     'array<integer>',
-     'array<dto>',
+    public const string VALUE = 'value';
+    public const string STRINGS = 'array<string>';
+    public const string INTEGERS = 'array<integer>';
+    public const string ENTITY_COLLECTION = 'entityCollection';
+    public const string DTOS = 'array<dto>';
+    private const array ALLOWED_VALUES = [
+        'integer',
+        'float',
+        'string',
+        'boolean',
+        'dateTime',
+        'entity',
+        self::ENTITY_COLLECTION,
+        'array',
+        self::STRINGS,
+        self::INTEGERS,
+        self::DTOS,
     ];
 
     public string $value;

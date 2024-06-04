@@ -62,11 +62,11 @@ class CalendarEvent
     public bool $isScheduled = false;
 
     #[IA\Expose]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $instructors = [];
 
     #[IA\Expose]
-    #[IA\Type('array<dto>')]
+    #[IA\Type(IA\Type::DTOS)]
     public array $learningMaterials = [];
 
     #[IA\Expose]
@@ -130,7 +130,7 @@ class CalendarEvent
     public array $competencies = [];
 
     #[IA\Expose]
-    #[IA\Type('array<dto>')]
+    #[IA\Type(IA\Type::DTOS)]
     public array $postrequisites = [];
 
     #[IA\Expose]
@@ -138,7 +138,7 @@ class CalendarEvent
     public array $cohorts = [];
 
     #[IA\Expose]
-    #[IA\Type('array<dto>')]
+    #[IA\Type(IA\Type::DTOS)]
     public array $prerequisites = [];
 
     #[IA\Expose]
@@ -158,7 +158,7 @@ class CalendarEvent
     public array $courseTerms = [];
 
     #[IA\Expose]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $userContexts = [];
 
     /**

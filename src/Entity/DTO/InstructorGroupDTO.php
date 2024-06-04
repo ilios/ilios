@@ -53,14 +53,14 @@ use OpenApi\Attributes as OA;
         ),
     ]
 )]
-#[IA\FilterableBy('schools', 'array<integer>')]
-#[IA\FilterableBy('courses', 'array<integer>')]
-#[IA\FilterableBy('sessions', 'array<integer>')]
-#[IA\FilterableBy('sessionTypes', 'array<integer>')]
-#[IA\FilterableBy('learningMaterials', 'array<integer>')]
-#[IA\FilterableBy('instructors', 'array<integer>')]
-#[IA\FilterableBy('terms', 'array<integer>')]
-#[IA\FilterableBy('academicYears', 'array<integer>')]
+#[IA\FilterableBy('schools', IA\Type::INTEGERS)]
+#[IA\FilterableBy('courses', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessions', IA\Type::INTEGERS)]
+#[IA\FilterableBy('sessionTypes', IA\Type::INTEGERS)]
+#[IA\FilterableBy('learningMaterials', IA\Type::INTEGERS)]
+#[IA\FilterableBy('instructors', IA\Type::INTEGERS)]
+#[IA\FilterableBy('terms', IA\Type::INTEGERS)]
+#[IA\FilterableBy('academicYears', IA\Type::INTEGERS)]
 class InstructorGroupDTO
 {
     #[IA\Id]
@@ -82,7 +82,7 @@ class InstructorGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $learnerGroups = [];
 
     /**
@@ -90,7 +90,7 @@ class InstructorGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $ilmSessions = [];
 
     /**
@@ -98,7 +98,7 @@ class InstructorGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $users = [];
 
     /**
@@ -106,7 +106,7 @@ class InstructorGroupDTO
      */
     #[IA\Expose]
     #[IA\Related]
-    #[IA\Type('array<integer>')]
+    #[IA\Type(IA\Type::INTEGERS)]
     public array $offerings = [];
 
     public function __construct(int $id, string $title)

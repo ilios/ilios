@@ -90,13 +90,13 @@ class SessionType implements SessionTypeInterface
     #[ORM\InverseJoinColumn(name: 'method_id', referencedColumnName: 'method_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $aamcMethods;
 
     #[ORM\OneToMany(mappedBy: 'sessionType', targetEntity: 'Session')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessions;
 
     public function __construct()

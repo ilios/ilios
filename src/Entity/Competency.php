@@ -64,7 +64,7 @@ class Competency implements CompetencyInterface
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Competency')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $children;
 
     #[ORM\ManyToMany(targetEntity: 'AamcPcrs', inversedBy: 'competencies')]
@@ -73,13 +73,13 @@ class Competency implements CompetencyInterface
     #[ORM\InverseJoinColumn(name: 'pcrs_id', referencedColumnName: 'pcrs_id')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $aamcPcrses;
 
     #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'competencies')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYears;
 
     #[ORM\Column(type: 'boolean')]
@@ -92,7 +92,7 @@ class Competency implements CompetencyInterface
     #[ORM\OneToMany(mappedBy: 'competency', targetEntity: 'ProgramYearObjective')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
-    #[IA\Type('entityCollection')]
+    #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYearObjectives;
 
     public function __construct()

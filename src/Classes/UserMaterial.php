@@ -261,7 +261,7 @@ class UserMaterial
     public ?DateTime $firstOfferingDate = null;
 
     #[IA\Expose]
-    #[IA\Type('array<string>')]
+    #[IA\Type(IA\Type::STRINGS)]
     public array $instructors = [];
 
     #[IA\Expose]
