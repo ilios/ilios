@@ -29,7 +29,7 @@ jobs:
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
       run: vendor/bin/phpunit
-    - uses: act10ns/slack@v2.0.0
+    - uses: act10ns/slack@v2.1.0
       with:
         status: ${{ job.status }}
         message: PHP v${{ env.future_php }} (future version) tests failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}

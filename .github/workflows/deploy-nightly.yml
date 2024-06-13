@@ -79,7 +79,7 @@ jobs:
         push: true
         provenance: false #https://github.com/gabrieldemarmiesse/python-on-whales/issues/407
         platforms: linux/amd64,linux/arm64
-    - uses: act10ns/slack@v2.0.0
+    - uses: act10ns/slack@v2.1.0
       with:
         status: ${{ job.status }}
         message: Failed to deploy {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}

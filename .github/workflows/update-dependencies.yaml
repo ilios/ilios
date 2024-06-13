@@ -48,7 +48,7 @@ jobs:
           committer: Zorgbort <info@iliosproject.org>
           author: Zorgbort <info@iliosproject.org>
           labels: dependencies
-    - uses: act10ns/slack@v2.0.0
+    - uses: act10ns/slack@v2.1.0
       with:
         status: ${{ job.status }}
         message: Update Dependency Job Failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
