@@ -25,16 +25,16 @@ jobs:
       run: |
         LATEST_TAG=$(git describe --tags --abbrev=0)
         echo ${LATEST_TAG}
-        echo "::set-output name=latestTag::${LATEST_TAG}"
+        echo "latestTag=${LATEST_TAG}" >> "$GITHUB_OUTPUT"
         MAJOR_VERSION=$(echo $LATEST_TAG | sed -rn 's#^(v3)\.([0-9]+)\.([0-9]+)$#\1#p')
         echo ${MAJOR_VERSION}
-        echo "::set-output name=major::${MAJOR_VERSION}"
+        echo "major=${MAJOR_VERSION}" >> "$GITHUB_OUTPUT"
         MINOR_VERSION=$(echo $LATEST_TAG | sed -rn 's#^(v3)\.([0-9]+)\.([0-9]+)$#\1.\2#p')
         echo ${MINOR_VERSION}
-        echo "::set-output name=minor::${MINOR_VERSION}"
+        echo "minor=${MINOR_VERSION}" >> "$GITHUB_OUTPUT"
         PATCH_VERSION=$(echo $LATEST_TAG | sed -rn 's#^(v3)\.([0-9]+)\.([0-9]+)$#\1.\2.\3#p')
         echo ${PATCH_VERSION}
-        echo "::set-output name=patch::${PATCH_VERSION}"
+        echo "patch=${PATCH_VERSION}" >> "$GITHUB_OUTPUT"
   deploy-docker-containers:
     needs: tags
     name: ${{ matrix.image }} Docker (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})

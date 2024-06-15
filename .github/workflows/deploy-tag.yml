@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - '*'
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
 
 jobs:
   tags:
@@ -18,18 +20,19 @@ jobs:
         echo ${GITHUB_REF}
         MAJOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1#p')
         echo ${MAJOR_VERSION}
-        echo "::set-output name=major::${MAJOR_VERSION}"
+        echo "major=${MAJOR_VERSION}" >> "$GITHUB_OUTPUT"
         MINOR_VERSION=$(echo $GITHUB_REF | sed -rn 's#^refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2#p')
         echo ${MINOR_VERSION}
-        echo "::set-output name=minor::${MINOR_VERSION}"
+        echo "minor=${MINOR_VERSION}" >> "$GITHUB_OUTPUT"
         PATCH_VERSION=$(echo $GITHUB_REF | sed -rn 's#^refs/tags/(v3)\.([0-9]+)\.([0-9]+)$#\1.\2.\3#p')
         echo ${PATCH_VERSION}
-        echo "::set-output name=patch::${PATCH_VERSION}"
+        echo "patch=${PATCH_VERSION}" >> "$GITHUB_OUTPUT"
   deploy-docker-containers:
     needs: tags
     name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         image:
           - php-apache
@@ -64,6 +67,11 @@ jobs:
         push: true
         provenance: false #https://github.com/gabrieldemarmiesse/python-on-whales/issues/407
         platforms: linux/amd64,linux/arm64
+    - uses: act10ns/slack@v2.1.0
+      with:
+        status: ${{ job.status }}
+        message: Failed to deploy {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
+      if: failure()
 
   sentry-release:
     name: Create Sentry Release
@@ -84,3 +92,8 @@ jobs:
           SENTRY_ORG: ilios
           SENTRY_PROJECT: api
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      - uses: act10ns/slack@v2
+        if: failure()
+        with:
+          status: ${{ job.status }}
+          message: Sentry Deploy Failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
