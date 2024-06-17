@@ -80,7 +80,7 @@ ilios filesystem.
 
 ```bash
 sudo -u apache echo "ILIOS_SECRET='NotSecretChangeMe'" >> .env.local
-sudo -u apache echo "ILIOS_DATABASE_URL=mysql://ilios:ilios@127.0.0.1/ilios?serverVersion=8.0" >> .env.local
+sudo -u apache echo "ILIOS_DATABASE_URL=mysql://ilios:ilios@127.0.0.1/ilios?serverVersion=8.0.36" >> .env.local
 sudo -u apache echo "ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp" >> .env.local
 ```
 

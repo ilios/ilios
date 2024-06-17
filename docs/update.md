@@ -69,8 +69,8 @@ bin/console ilios:set-config-value --remove tracking_code
 ### Upgrading to Ilios 3.71.0
 
 1. The `ILIOS_DATABASE_MYSQL_VERSION` parameter has been removed, instead the MySQL version should be specified in the `ILIOS_DATABASE_URL`
-as `?serverVersion=8.0`. for example 
-`ILIOS_DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=8.0`.
+as `?serverVersion=8.0.36`. for example 
+`ILIOS_DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=8.0.36`.
 
 ### Upgrading to Ilios 3.69.1
 
