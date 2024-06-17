@@ -57,7 +57,7 @@ jobs:
         username: zorgbort
         password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
     - name: ${{ matrix.image }} to Docker Registry
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         tags: ilios/${{ matrix.image }}:${{needs.tags.outputs.major}},ilios/${{ matrix.image }}:${{needs.tags.outputs.minor}},ilios/${{ matrix.image }}:${{needs.tags.outputs.patch}}
         target: ${{ matrix.image }}
