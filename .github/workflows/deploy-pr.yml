@@ -37,7 +37,7 @@ jobs:
         username: zorgbort
         password: ${{ secrets.ZORGBORT_DOCKER_TOKEN }}
     - name: ${{ matrix.image }} (preview-pr-${{github.event.number}})
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         tags: |
             ilios/${{ matrix.image }}:preview-pr-${{github.event.number}}
