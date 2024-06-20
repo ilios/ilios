@@ -25,7 +25,7 @@ ENV FPM_CONTAINERS=fpm:9000
 # Docker builtin nameserver
 ENV NGINX_NAMESERVERS=127.0.0.11
 
-HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 localhost 80
+HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 127.0.0.1 80
 
 ###############################################################################
 # Dependencies we need in all PHP containers
