@@ -15,7 +15,7 @@ COPY public/theme-overrides/ /src/app/public/theme-overrides/
 ###############################################################################
 # Nginx Configured to Run Ilios from an FPM host
 ###############################################################################
-FROM nginx:1.19-alpine as nginx
+FROM nginx:stable-alpine as nginx
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=src /src/app /srv/app/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
