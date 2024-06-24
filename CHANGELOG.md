@@ -69,7 +69,7 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 
 **Closed issues:**
 
-- include terms linked to owned sessions in terms filter to course endpoint.  [\#1737](https://github.com/ilios/ilios/issues/1737)
+- include terms linked to owned sessions in terms filter to course endpoint. [\#1737](https://github.com/ilios/ilios/issues/1737)
 - Add 'composer install' step to vagrant build [\#789](https://github.com/ilios/ilios/issues/789)
 
 **Merged pull requests:**
@@ -1793,7 +1793,7 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Feature 3024: display parent competency titles in learner course summary view [\#23](https://github.com/ilios/ilios/pull/23) ([stopfstedt](https://github.com/stopfstedt))
 - reintegrate rb2.1.2 into master  [\#22](https://github.com/ilios/ilios/pull/22) ([stopfstedt](https://github.com/stopfstedt))
 - added proper sort order to competency dropdown in program objective dialog [\#21](https://github.com/ilios/ilios/pull/21) ([stopfstedt](https://github.com/stopfstedt))
-- added download instructions to README file.  [\#20](https://github.com/ilios/ilios/pull/20) ([stopfstedt](https://github.com/stopfstedt))
+- added download instructions to README file. [\#20](https://github.com/ilios/ilios/pull/20) ([stopfstedt](https://github.com/stopfstedt))
 - added indexes/foreign key constraints for user\_x\_user\_role table [\#19](https://github.com/ilios/ilios/pull/19) ([thecoolestguy](https://github.com/thecoolestguy))
 - refactored hardwired path to Shib Logout Service into a config setting. ... [\#18](https://github.com/ilios/ilios/pull/18) ([stopfstedt](https://github.com/stopfstedt))
 - modified idle page timeout mechanism to allow for logout url configurati... [\#17](https://github.com/ilios/ilios/pull/17) ([stopfstedt](https://github.com/stopfstedt))
