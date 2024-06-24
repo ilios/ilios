@@ -1,8 +1,9 @@
 # Authentication and Users
 
-Ilios provides several methods for populating and authenticating users within the application, natively and via external processes or systems. 
+Ilios provides several methods for populating and authenticating users within the application, natively and via external processes or systems.
 
 ## Authentication Types
+
 Ilios supports several different authentcation types to choose from, depending on your needs: Form, LDAP, CAS, Shibboleth.
 
 **Form:** Username and password are stored in the Ilios database, users login with a simple form - this is the default authentication type for a new Ilios installation.
@@ -16,13 +17,14 @@ Ilios supports several different authentcation types to choose from, depending o
 ### Initial Setup Ilios for your Authentication type
 
 Change to your Ilios application directory (e.g. `/var/www/ilios`) and run the setup authentication command.
+
 ```bash
-sudo -u apache bin/console ilios:setup:authentication --env=prod 
+sudo -u apache bin/console ilios:setup:authentication --env=prod
 ```
 
-# Using an LDAP Directory Connection for User Population
+## Using an LDAP Directory Connection for User Population
 
-If you are using on of the CAS, LDAP, or Shibboleth authentication types, you will probably want to also connect Ilios to your campus directory in order for users to be programmatically added to Ilios with all of the details they will need to successfully login. If you do not connect Ilios to your campus directory, you will need to ensure that each user has their respective `username` correctly entered into the Ilios application to exactly match the necessary attribute value(s) of your chosen authentication type. 
+If you are using on of the CAS, LDAP, or Shibboleth authentication types, you will probably want to also connect Ilios to your campus directory in order for users to be programmatically added to Ilios with all of the details they will need to successfully login. If you do not connect Ilios to your campus directory, you will need to ensure that each user has their respective `username` correctly entered into the Ilios application to exactly match the necessary attribute value(s) of your chosen authentication type.
 
 Ilios supports the **ldap** protocol for connecting to a campus directory. Unlike the **ldap** authentication
 type, our directory will only use a single account to make all queries instead of users' individual accounts. This is typically a 'service' account created by LDAP administrators expressly for use by Ilios to make directory lookups.

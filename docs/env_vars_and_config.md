@@ -36,9 +36,11 @@ MESSENGER_TRANSPORT_DSN="doctrine://default"
 ```
 
 To see which environment variables are set for your respective user, you can run the `env` command like so:
+
 ```bash
 env
 ```
+
 When you run this command, all of your current environment variables will be displayed and will look something like the following:
 
 ```bash
@@ -65,17 +67,18 @@ APP_ENV=prod
 
 You'll want to verify that the `APP_ENV` variable is set (typically to `prod`) and that the other variables shown above, prefixed by `ILIOS_`, are also present.
 
-# Setting ENV vars
+## Setting ENV vars
 
-## Setting Environment Variables for each Command-Line User
+### Setting Environment Variables for each Command-Line User
 
-Setting the ENV variables for a given user on a system is typically a pretty straight-forward process and, for installation and maintenance of Ilios using console commands, you would just need to set the required ENV variables directly on the command-line, in a script at runtime, or have them already set upon login by declaring them in one of the respective user's initialization scripts (eg, .bashrc, .bash_profile`, `.profile`, etc.).
+Setting the ENV variables for a given user on a system is typically a pretty straight-forward process and, for installation and maintenance of Ilios using console commands, you would just need to set the required ENV variables directly on the command-line, in a script at runtime, or have them already set upon login by declaring them in one of the respective user's initialization scripts (e.g., `.bashrc`, `.bash_profile`, `.profile`, etc.).
 
 You can set these runtime variables in one of 3 ways:
 
 #### Example #1 - Setting ENV vars upon login by exporting them using a user-initialization script
+
 ```bash
-# Export these vars directly from within your preferred user initialization script (.bash_profile, .bashrc, .profile) and 
+# Export these vars directly from within your preferred user initialization script (.bash_profile, .bashrc, .profile) and
 # they will be set and ready to be used upon login to the terminal and throughout the entirety of your user session
 
 export APP_ENV=prod
@@ -86,11 +89,13 @@ export ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com
 export ILIOS_LOCALE=en
 export ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
 ```
+
 Doing it this way ensures that these ENV vars will always be available to your user while you work and/or run commands directly from the command line.
 
 #### Example #2 - Setting ENV vars at the top of a shell script that runs the desired console command
 
 Let's say that you are going to run the `/bin/setup` command to install a completely new version of Ilios.  For this approach, you would create a shell script that runs `bin/setup` as its final step, and set the ENV vars above it in the file, like so:
+
 ```bash
 #!/bin/bash
 
@@ -117,17 +122,18 @@ While it is technically possible to set all of the ENV vars at the command line 
 ```bash
 APP_ENV=prod MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25 ILIOS_AUTHENTICATION_TYPE=form ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=8.0 ILIOS_LOCALE=en ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt bin/setup
 ```
+
 Furthermore, as was the case in Example #2, the ENV vars set in this way only persist for the duration of the execution of the command being run.
-  
+
 ## Setting Environment Variables for the Web-Services user
 
 The user running the web server processes on your system will most likely NOT have an environment with a typical login shell like `BASH` or `csh`, so setting the ENV vars cannot be done with the usual method (eg, prefixing the command with `APP_ENV=prod ILIOS_SECRET='SomethingSecret'` vars at the command line). In these cases, the web service user's ENV variable values need to be set in the web server configuration directly (eg, within the `httpd.conf` file on Apache) or within the web service user's initialization script (eg, `/etc/sysconfig/httpd` or `/etc/apache/envvars`, depending on your flavor of Linux).
 
-#### Option #1: Setting Web Service ENV vars via Web Service User Initialization Scripts (Apache httpd)
+### Option #1: Setting Web Service ENV vars via Web Service User Initialization Scripts (Apache httpd)
 
 By populating one of these web service user-specific initialization scripts with the ENV vars in the same way as shown for a shell script (see Example #2 above), the variables will be accessible by the web daemon/service while the service remains running.  For example, on a RHEL system (RedHat, CentOS, or Fedora), we would populate the `/etc/sysconfig/http` file with following content:
 
-```
+```bash
 APP_ENV=prod
 MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 ILIOS_AUTHENTICATION_TYPE=form
@@ -135,13 +141,13 @@ ILIOS_FILE_SYSTEM_STORAGE_PATH=/var/www/files/learning_materials
 ILIOS_DATABASE_URL=mysql://ilios_user:ili0s_passw0rd@database.example.com/ilios_db?serverVersion=8.0
 ILIOS_LOCALE=en
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt
-``` 
+```
 
-#### Option #2: Setting Web Service ENV vars via the Web Service Configuration Files (Apache httpd)
+### Option #2: Setting Web Service ENV vars via the Web Service Configuration Files (Apache httpd)
 
 In order to set runtime environment variables within the Apache httpd web service configuration itself, you will need to enable the `mod_env` Apache module and set the `SetEnv` directives in the appropriate section(s) of your httpd configuration files as shown:
 
-```
+```bash
 SetEnv ILIOS_DATABASE_URL mysql://ilios_db_user:Pa$$w0rd@db-host1/ilios_db?serverVersion=8.0
 SetEnv ILIOS_DATABASE_PORT 3306
 SetEnv MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
@@ -149,10 +155,11 @@ SetEnv ILIOS_LOCALE en
 SetEnv ILIOS_SECRET ThisTokenIsNotSoSecretChangeIt
 ```
 
-#### Multiple Ilios instances on single Apache httpd server:
-If you are running more than one Ilios instance (eg, production and staging instances) on a single Apache httpd server using multiple VirtualHost configurations, certain variables will collide (eg, `ILIOS_DATABASE_URL`), so these will need to be set conditionally.  In order to do this, you will need to install/enable the `mod_setenvif` Apache module and set the 'SetEnvIf' directives in the appropriate section(s) of your httpd configuration files as shown.  Note that the values shared between the two instances are set using `SetEnv`, while the conditional values are set with `SetEnvIf` and require a specific condition to be true in order to be set.  
+### Multiple Ilios instances on single Apache httpd server
 
-```
+If you are running more than one Ilios instance (eg, production and staging instances) on a single Apache httpd server using multiple VirtualHost configurations, certain variables will collide (eg, `ILIOS_DATABASE_URL`), so these will need to be set conditionally.  In order to do this, you will need to install/enable the `mod_setenvif` Apache module and set the 'SetEnvIf' directives in the appropriate section(s) of your httpd configuration files as shown.  Note that the values shared between the two instances are set using `SetEnv`, while the conditional values are set with `SetEnvIf` and require a specific condition to be true in order to be set.
+
+```bash
 SetEnv MAILER_DSN=smtp://ilios_mail_user:Passw0rd@smtp-relay.example.com:25
 SetEnv ILIOS_LOCALE en
 
@@ -163,11 +170,11 @@ SetEnvIf Host "ilios-production\.example\.com" ILIOS_DATABASE_URL=mysql://ilios_
 SetEnvIf Host "ilios-production\.example\.com ILIOS_SECRET=PR0DUCT10nS3CRET12345
 ```
 
-For more information on Apache Environments, `SetEnv`, and `SetEnvIf`, please refer to the Apache 2.4.x documentation at https://httpd.apache.org/docs/2.4/env.html
+For more information on Apache Environments, `SetEnv`, and `SetEnvIf`, please refer to the Apache 2.4.x documentation at [https://httpd.apache.org/docs/2.4/env.html](https://httpd.apache.org/docs/2.4/env.html).
 
 ## Verifying your Environment Variables
 
-#### Verifying the user Environment at the Command Line
+### Verifying the user Environment at the Command Line
 
 If you would like to verify that you have set all of the ENV variables required to install Ilios or use its command-line tools, you can run the following console command to do and Ilios-readiness health check (example shown being run in the context of the `apache` command-line user):
 
@@ -218,7 +225,8 @@ env
 sudo -u [USER_NAME] env
 ```
 
-#### Verifying the Environment on the Web Server
+### Verifying the Environment on the Web Server
+
 To verify that the web-service user has all of the required ENV vars set for your Ilios instance, you can launch the Ilios health check by visiting the health-check URL of your Ilios system in your browser by going to https://[YOUR ILIOS FQDN]/ilios/health
 
 If all of the settings are correct, all of the boxes of the 'System Health Status' grid shown at the top page should be displayed in green as shown here:
@@ -234,9 +242,9 @@ phpinfo();
 
 For Apache-based web servers, the currently-set Environment Variables should appear under the 'Apache Environment' or 'Environment' sections of the output.  If they are not set, you need to set them via one of the appropriate configurations as described above.
 
-#### Setting ENV vars globally and concurrently (command-line AND web-services users)
+## Setting ENV vars globally and concurrently (command-line AND web-services users)
 
-Regardless of how you plan to use Ilios, we know that you will be working with it heavily at both the command line, for scheduled 'cron' jobs and maintenance tasks, AND as a web-service, for hosting the application GUI.  We also know that maintaining multiple environments for each use-case (command line users vs. web-service) can be a hassle, especially when the ENV values would typically be the same between the two and could effectively be shared.  
+Regardless of how you plan to use Ilios, we know that you will be working with it heavily at both the command line, for scheduled 'cron' jobs and maintenance tasks, AND as a web-service, for hosting the application GUI.  We also know that maintaining multiple environments for each use-case (command line users vs. web-service) can be a hassle, especially when the ENV values would typically be the same between the two and could effectively be shared.
 
 Unfortunately, there is no easy "standard" solution for sharing the ENV variables between command-line use-cases and the web service, so we've come up with a bit of a workaround for accomplishing this and we thought we'd mention it here. While this isn't necessarily a recommendation or a "best practice" per sé, we have had some success in keeping all of our required ENV vars in-sync between our command-line `apache` user and the `apache` user running our web service by using the following method:
 
@@ -260,7 +268,7 @@ And then we delete the global `/etc/environment` init script, and recreate it as
 sudo rm /etc/environment && sudo ln -s /etc/sysconfig/httpd /etc/environment
 ```
 
-The idea behind this is that EVERYONE who logs in to the system will have the properly-configured ENV settings that match those set for the apache httpd web service user by having the two init scripts point to the exact same file.  One file ensures the settings will ALWAYS be in-sync. If you'd like to try this, but are confused, or if you can come up with a better way for managing this file-synchronicity, please do not hesitate to contact us at support@iliosproject.org with any questions or suggestions!
+The idea behind this is that EVERYONE who logs in to the system will have the properly-configured ENV settings that match those set for the apache httpd web service user by having the two init scripts point to the exact same file.  One file ensures the settings will ALWAYS be in-sync. If you'd like to try this, but are confused, or if you can come up with a better way for managing this file-synchronicity, please do not hesitate to contact us at ][support@iliosproject.org](mailto:support@iliosproject.org) with any questions or suggestions!
 
 ## Why Environment Variables?
 
