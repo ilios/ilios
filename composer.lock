@@ -12424,16 +12424,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.29.5",
+            "version": "0.29.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "a663d6cecee222e9b33f11608073c134eb5e6916"
+                "reference": "a8510c1d472892dda2ae32e2c4b2e795533db810"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/a663d6cecee222e9b33f11608073c134eb5e6916",
-                "reference": "a663d6cecee222e9b33f11608073c134eb5e6916",
+                "url": "https://api.github.com/repos/infection/infection/zipball/a8510c1d472892dda2ae32e2c4b2e795533db810",
+                "reference": "a8510c1d472892dda2ae32e2c4b2e795533db810",
                 "shasum": ""
             },
             "require": {
@@ -12539,7 +12539,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.29.5"
+                "source": "https://github.com/infection/infection/tree/0.29.6"
             },
             "funding": [
                 {
@@ -12551,7 +12551,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-06-12T07:22:52+00:00"
+            "time": "2024-06-21T10:21:05+00:00"
         },
         {
             "name": "infection/mutator",
@@ -13875,16 +13875,16 @@
         },
         {
             "name": "sanmai/pipeline",
-            "version": "v6.10",
+            "version": "v6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sanmai/pipeline.git",
-                "reference": "cbd2ea30ba8bef596b8dad1adb9c92fb2987e430"
+                "reference": "a5fa2a6c6ca93efa37e7c24aab72f47448a6b110"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/cbd2ea30ba8bef596b8dad1adb9c92fb2987e430",
-                "reference": "cbd2ea30ba8bef596b8dad1adb9c92fb2987e430",
+                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/a5fa2a6c6ca93efa37e7c24aab72f47448a6b110",
+                "reference": "a5fa2a6c6ca93efa37e7c24aab72f47448a6b110",
                 "shasum": ""
             },
             "require": {
@@ -13928,7 +13928,7 @@
             "description": "General-purpose collections pipeline",
             "support": {
                 "issues": "https://github.com/sanmai/pipeline/issues",
-                "source": "https://github.com/sanmai/pipeline/tree/v6.10"
+                "source": "https://github.com/sanmai/pipeline/tree/v6.11"
             },
             "funding": [
                 {
@@ -13936,7 +13936,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-16T01:33:30+00:00"
+            "time": "2024-06-15T03:11:19+00:00"
         },
         {
             "name": "sebastian/cli-parser",
