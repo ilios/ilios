@@ -49,6 +49,10 @@ After this command is run you will need to clear your cache for new terms to app
 
 ## Developer tools
 
+List configuration values in the database.
+
+`sudo -u apache bin/console --env=prod ilios:list-config-values`
+
 Set a configuration value in the database.
 
 `sudo -u apache bin/console --env=prod ilios:set-config-value [-r|--remove] [--] <name> [<value>]`
