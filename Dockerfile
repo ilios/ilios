@@ -15,7 +15,7 @@ COPY public/theme-overrides/ /src/app/public/theme-overrides/
 ###############################################################################
 # Nginx Configured to Run Ilios from an FPM host
 ###############################################################################
-FROM nginx:1.19-alpine as nginx
+FROM nginx:stable-alpine as nginx
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=src /src/app /srv/app/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
@@ -25,7 +25,7 @@ ENV FPM_CONTAINERS=fpm:9000
 # Docker builtin nameserver
 ENV NGINX_NAMESERVERS=127.0.0.11
 
-HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 localhost 80
+HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 127.0.0.1 80
 
 ###############################################################################
 # Dependencies we need in all PHP containers
