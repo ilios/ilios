@@ -78,7 +78,7 @@ A new asynchronous queue service has been added. You must run `bin/console messe
 
 1. `parameters.yml` has been replaced with ENV configuration. See [env_vars_and_config](env_vars_and_config.md) for details.
 
-2. Individual database configuration options have been replaced with a single database URL setting (`ILIOS_DATABASE_UR`L). See [https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url](https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url) for details.
+2. Individual database configuration options have been replaced with a single database URL setting (`ILIOS_DATABASE_URL`). See [https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url](https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url) for details.
 
 ### Upgrading to Ilios 3.36.1
 
