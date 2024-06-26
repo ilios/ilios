@@ -12,7 +12,7 @@ To make calls to any of the endpoints provided by the Ilios API, a valid JSON We
 
 ### Creating a JSON Web Token (JWT)
 
-To create a new JWT, a user should log into their Ilios application and visit their profile page at `/myprofile` (e.g., [https://ilios3-demo.ucsf.edu/myprofile](https://ilios3-demo.ucsf.edu/myprofile)). Once on their profile page, they can create a new token by clicking on the 'Create New' button, selecting an expiration date for the token, and copying the JWT text returned. For security reasons, it is ill-advised to create a token with an expiration date far out into the future; tokens should only remain valid for their intended duration and no longer. All tokens no longer being used should be invalidated ASAP.
+To create a new JWT, a user should log into their Ilios application and visit their profile page at `/myprofile` (e.g., [https://demo.iliosproject.org/myprofile](https://demo.iliosproject.org/myprofile)). Once on their profile page, they can create a new token by clicking on the 'Create New' button, selecting an expiration date for the token, and copying the JWT text returned. For security reasons, it is ill-advised to create a token with an expiration date far out into the future; tokens should only remain valid for their intended duration and no longer. All tokens no longer being used should be invalidated ASAP.
 
 ### Creating JWT tokens from the command line
 
