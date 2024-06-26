@@ -1,10 +1,11 @@
 # Release Notes
+
 In order to standardize and improve our release process, the Ilios team has discontinued the use of this change log
-and will instead publish changes in our [Release Notes](https://github.com/ilios/ilios/releases)
+and will instead publish changes in our [Release Notes](https://github.com/ilios/ilios/releases).
 
-# Change Log (for previous releases)
+## Change Log (for previous releases)
 
-## [v3.28.1](https://github.com/ilios/ilios/tree/v3.28.1)
+### [v3.28.1](https://github.com/ilios/ilios/tree/v3.28.1)
 
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.28.0...v3.28.1)
 
@@ -16,7 +17,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 
 - Prevent users from editing their own account [\#1764](https://github.com/ilios/ilios/pull/1764) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.28.0](https://github.com/ilios/ilios/tree/v3.28.0) (2017-02-24)
+### [v3.28.0](https://github.com/ilios/ilios/tree/v3.28.0) (2017-02-24)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.27.0...v3.28.0)
 
 **Implemented enhancements:**
@@ -38,7 +40,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - sortable course/session learning materials [\#1754](https://github.com/ilios/ilios/pull/1754) ([stopfstedt](https://github.com/stopfstedt))
 - Update Dependencies [\#1752](https://github.com/ilios/ilios/pull/1752) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.27.0](https://github.com/ilios/ilios/tree/v3.27.0) (2017-02-10)
+### [v3.27.0](https://github.com/ilios/ilios/tree/v3.27.0) (2017-02-10)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.26.0...v3.27.0)
 
 **Implemented enhancements:**
@@ -60,12 +63,13 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Allow ILIOS\_\* env variables to fill parameters.yml [\#1740](https://github.com/ilios/ilios/pull/1740) ([jrjohnson](https://github.com/jrjohnson))
 - application and school configuration [\#1736](https://github.com/ilios/ilios/pull/1736) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.26.0](https://github.com/ilios/ilios/tree/v3.26.0) (2017-02-04)
+### [v3.26.0](https://github.com/ilios/ilios/tree/v3.26.0) (2017-02-04)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.25.0...v3.26.0)
 
 **Closed issues:**
 
-- include terms linked to owned sessions in terms filter to course endpoint.  [\#1737](https://github.com/ilios/ilios/issues/1737)
+- include terms linked to owned sessions in terms filter to course endpoint. [\#1737](https://github.com/ilios/ilios/issues/1737)
 - Add 'composer install' step to vagrant build [\#789](https://github.com/ilios/ilios/issues/789)
 
 **Merged pull requests:**
@@ -74,7 +78,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - include session terms in course filter [\#1738](https://github.com/ilios/ilios/pull/1738) ([stopfstedt](https://github.com/stopfstedt))
 - Replace Vagrant with docker [\#1607](https://github.com/ilios/ilios/pull/1607) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.25.0](https://github.com/ilios/ilios/tree/v3.25.0) (2017-01-27)
+### [v3.25.0](https://github.com/ilios/ilios/tree/v3.25.0) (2017-01-27)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.24.1...v3.25.0)
 
 **Implemented enhancements:**
@@ -96,7 +101,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - filter session types by terms [\#1726](https://github.com/ilios/ilios/pull/1726) ([stopfstedt](https://github.com/stopfstedt))
 - Grant VIEW permissions for all departments [\#1723](https://github.com/ilios/ilios/pull/1723) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.24.1](https://github.com/ilios/ilios/tree/v3.24.1) (2017-01-13)
+### [v3.24.1](https://github.com/ilios/ilios/tree/v3.24.1) (2017-01-13)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.24.0...v3.24.1)
 
 **Closed issues:**
@@ -117,7 +123,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Update dependencies [\#1712](https://github.com/ilios/ilios/pull/1712) ([jrjohnson](https://github.com/jrjohnson))
 - Correctly apply maximum TTL for tokens [\#1710](https://github.com/ilios/ilios/pull/1710) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.24.0](https://github.com/ilios/ilios/tree/v3.24.0) (2016-12-22)
+### [v3.24.0](https://github.com/ilios/ilios/tree/v3.24.0) (2016-12-22)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.23.0...v3.24.0)
 
 **Implemented enhancements:**
@@ -147,7 +154,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - refactored track api usage listener w/o container aware trait. [\#1693](https://github.com/ilios/ilios/pull/1693) ([stopfstedt](https://github.com/stopfstedt))
 - catch and log tracking exceptions. [\#1690](https://github.com/ilios/ilios/pull/1690) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.23.0](https://github.com/ilios/ilios/tree/v3.23.0) (2016-12-02)
+### [v3.23.0](https://github.com/ilios/ilios/tree/v3.23.0) (2016-12-02)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.22.0...v3.23.0)
 
 **Implemented enhancements:**
@@ -169,7 +177,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - added requirement notes for php-zip extension and URL-rewriting [\#1681](https://github.com/ilios/ilios/pull/1681) ([thecoolestguy](https://github.com/thecoolestguy))
 - track API usage [\#1677](https://github.com/ilios/ilios/pull/1677) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.22.0](https://github.com/ilios/ilios/tree/v3.22.0) (2016-11-18)
+### [v3.22.0](https://github.com/ilios/ilios/tree/v3.22.0) (2016-11-18)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.21.0...v3.22.0)
 
 **Implemented enhancements:**
@@ -194,7 +203,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - added frontend-update command instructions [\#1665](https://github.com/ilios/ilios/pull/1665) ([thecoolestguy](https://github.com/thecoolestguy))
 - updated version requirements in INSTALL.md [\#1662](https://github.com/ilios/ilios/pull/1662) ([thecoolestguy](https://github.com/thecoolestguy))
 
-## [v3.21.0](https://github.com/ilios/ilios/tree/v3.21.0) (2016-10-28)
+### [v3.21.0](https://github.com/ilios/ilios/tree/v3.21.0) (2016-10-28)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.20.0...v3.21.0)
 
 **Implemented enhancements:**
@@ -260,7 +270,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - set a cookie to report download response. [\#1613](https://github.com/ilios/ilios/pull/1613) ([stopfstedt](https://github.com/stopfstedt))
 - Update relationships only when needed [\#1611](https://github.com/ilios/ilios/pull/1611) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.20.0](https://github.com/ilios/ilios/tree/v3.20.0) (2016-09-30)
+### [v3.20.0](https://github.com/ilios/ilios/tree/v3.20.0) (2016-09-30)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.19.0...v3.20.0)
 
 **Implemented enhancements:**
@@ -285,7 +296,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Expand Course externalId to 255 characters [\#1599](https://github.com/ilios/ilios/pull/1599) ([jrjohnson](https://github.com/jrjohnson))
 - Cascade learner group deletes to sub groups [\#1595](https://github.com/ilios/ilios/pull/1595) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.19.0](https://github.com/ilios/ilios/tree/v3.19.0) (2016-09-16)
+### [v3.19.0](https://github.com/ilios/ilios/tree/v3.19.0) (2016-09-16)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.18.1...v3.19.0)
 
 **Implemented enhancements:**
@@ -308,7 +320,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Add ancestry to courses and objectives [\#1585](https://github.com/ilios/ilios/pull/1585) ([jrjohnson](https://github.com/jrjohnson))
 - Allow lockable entities to be unlocked [\#1583](https://github.com/ilios/ilios/pull/1583) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.18.1](https://github.com/ilios/ilios/tree/v3.18.1) (2016-09-09)
+### [v3.18.1](https://github.com/ilios/ilios/tree/v3.18.1) (2016-09-09)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.18.0...v3.18.1)
 
 **Closed issues:**
@@ -333,7 +346,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Don't set the session if we are unsetting the ILM session [\#1566](https://github.com/ilios/ilios/pull/1566) ([jrjohnson](https://github.com/jrjohnson))
 - Detect if a session exists before attempting to destroy it [\#1565](https://github.com/ilios/ilios/pull/1565) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.18.0](https://github.com/ilios/ilios/tree/v3.18.0) (2016-09-02)
+### [v3.18.0](https://github.com/ilios/ilios/tree/v3.18.0) (2016-09-02)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.17.0...v3.18.0)
 
 **Implemented enhancements:**
@@ -356,7 +370,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Add EasyLog logger [\#1552](https://github.com/ilios/ilios/pull/1552) ([jrjohnson](https://github.com/jrjohnson))
 - Improved composer install instructions [\#1550](https://github.com/ilios/ilios/pull/1550) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.17.0](https://github.com/ilios/ilios/tree/v3.17.0) (2016-08-17)
+### [v3.17.0](https://github.com/ilios/ilios/tree/v3.17.0) (2016-08-17)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.16.0...v3.17.0)
 
 **Implemented enhancements:**
@@ -378,7 +393,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - apply correct strategy when changing sequence sort order [\#1537](https://github.com/ilios/ilios/pull/1537) ([stopfstedt](https://github.com/stopfstedt))
 - annotate the track property as exposed. [\#1536](https://github.com/ilios/ilios/pull/1536) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.16.0](https://github.com/ilios/ilios/tree/v3.16.0) (2016-07-29)
+### [v3.16.0](https://github.com/ilios/ilios/tree/v3.16.0) (2016-07-29)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.15.0...v3.16.0)
 
 **Implemented enhancements:**
@@ -414,7 +430,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - grant dev role to first user instead of course director. [\#1515](https://github.com/ilios/ilios/pull/1515) ([stopfstedt](https://github.com/stopfstedt))
 - Disabled/re-enabled foreign key checks on several migrations to get them to work with MySQL 5.6+ [\#1451](https://github.com/ilios/ilios/pull/1451) ([thecoolestguy](https://github.com/thecoolestguy))
 
-## [v3.15.0](https://github.com/ilios/ilios/tree/v3.15.0) (2016-07-08)
+### [v3.15.0](https://github.com/ilios/ilios/tree/v3.15.0) (2016-07-08)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.14.0...v3.15.0)
 
 **Implemented enhancements:**
@@ -435,7 +452,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - corrected table joins in query. [\#1502](https://github.com/ilios/ilios/pull/1502) ([stopfstedt](https://github.com/stopfstedt))
 - Add PHP7 support, remove 5.5 [\#1481](https://github.com/ilios/ilios/pull/1481) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.14.0](https://github.com/ilios/ilios/tree/v3.14.0) (2016-06-30)
+### [v3.14.0](https://github.com/ilios/ilios/tree/v3.14.0) (2016-06-30)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.13.0...v3.14.0)
 
 **Implemented enhancements:**
@@ -486,7 +504,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - fixed toString magic method. [\#1457](https://github.com/ilios/ilios/pull/1457) ([stopfstedt](https://github.com/stopfstedt))
 - log auditable entity creation with record ids. [\#1454](https://github.com/ilios/ilios/pull/1454) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.13.0](https://github.com/ilios/ilios/tree/v3.13.0) (2016-06-10)
+### [v3.13.0](https://github.com/ilios/ilios/tree/v3.13.0) (2016-06-10)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.12.0...v3.13.0)
 
 **Implemented enhancements:**
@@ -513,7 +532,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Update API to v1.5 [\#1434](https://github.com/ilios/ilios/pull/1434) ([jrjohnson](https://github.com/jrjohnson))
 - refactor managers and handlers. [\#1426](https://github.com/ilios/ilios/pull/1426) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.12.0](https://github.com/ilios/ilios/tree/v3.12.0) (2016-05-27)
+### [v3.12.0](https://github.com/ilios/ilios/tree/v3.12.0) (2016-05-27)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.11.0...v3.12.0)
 
 **Implemented enhancements:**
@@ -539,7 +559,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - added min and max attributes on sequence blocks to ci export. [\#1418](https://github.com/ilios/ilios/pull/1418) ([stopfstedt](https://github.com/stopfstedt))
 - added aamc resource type and rigged it up to terms. [\#1399](https://github.com/ilios/ilios/pull/1399) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.11.0](https://github.com/ilios/ilios/tree/v3.11.0) (2016-05-13)
+### [v3.11.0](https://github.com/ilios/ilios/tree/v3.11.0) (2016-05-13)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.10.0...v3.11.0)
 
 **Implemented enhancements:**
@@ -572,7 +593,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - grant view privileges to developers on all published user events [\#1398](https://github.com/ilios/ilios/pull/1398) ([stopfstedt](https://github.com/stopfstedt))
 - Latest updates to dependencies [\#1397](https://github.com/ilios/ilios/pull/1397) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.10.0](https://github.com/ilios/ilios/tree/v3.10.0) (2016-04-30)
+### [v3.10.0](https://github.com/ilios/ilios/tree/v3.10.0) (2016-04-30)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.9.0...v3.10.0)
 
 **Implemented enhancements:**
@@ -599,7 +621,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Fix annotation for SessionDescription [\#1381](https://github.com/ilios/ilios/pull/1381) ([jrjohnson](https://github.com/jrjohnson))
 - Require a frontend when starting up [\#1379](https://github.com/ilios/ilios/pull/1379) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.9.0](https://github.com/ilios/ilios/tree/v3.9.0) (2016-04-08)
+### [v3.9.0](https://github.com/ilios/ilios/tree/v3.9.0) (2016-04-08)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.8.0...v3.9.0)
 
 **Implemented enhancements:**
@@ -625,7 +648,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - added distinct clause to queries. [\#1364](https://github.com/ilios/ilios/pull/1364) ([stopfstedt](https://github.com/stopfstedt))
 - Fix error handling [\#1360](https://github.com/ilios/ilios/pull/1360) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.8.0](https://github.com/ilios/ilios/tree/v3.8.0) (2016-03-22)
+### [v3.8.0](https://github.com/ilios/ilios/tree/v3.8.0) (2016-03-22)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.7.0...v3.8.0)
 
 **Implemented enhancements:**
@@ -654,7 +678,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Bump the api version to 1.2 [\#1344](https://github.com/ilios/ilios/pull/1344) ([jrjohnson](https://github.com/jrjohnson))
 - migrate topics to terms and vocabs, rm topics [\#1281](https://github.com/ilios/ilios/pull/1281) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.7.0](https://github.com/ilios/ilios/tree/v3.7.0) (2016-03-02)
+### [v3.7.0](https://github.com/ilios/ilios/tree/v3.7.0) (2016-03-02)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.6.0...v3.7.0)
 
 **Implemented enhancements:**
@@ -680,7 +705,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Prevent disabled users from logging in [\#1333](https://github.com/ilios/ilios/pull/1333) ([jrjohnson](https://github.com/jrjohnson))
 - Add UserDTO [\#1331](https://github.com/ilios/ilios/pull/1331) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.6.0](https://github.com/ilios/ilios/tree/v3.6.0) (2016-02-12)
+### [v3.6.0](https://github.com/ilios/ilios/tree/v3.6.0) (2016-02-12)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.5.0...v3.6.0)
 
 **Implemented enhancements:**
@@ -706,7 +732,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - losened up views perms. [\#1324](https://github.com/ilios/ilios/pull/1324) ([stopfstedt](https://github.com/stopfstedt))
 - losened up view perms on instructor groups. [\#1323](https://github.com/ilios/ilios/pull/1323) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.5.0](https://github.com/ilios/ilios/tree/v3.5.0) (2016-02-05)
+### [v3.5.0](https://github.com/ilios/ilios/tree/v3.5.0) (2016-02-05)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.4.1...v3.5.0)
 
 **Implemented enhancements:**
@@ -731,7 +758,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Remove support for PHP 5.4 [\#1303](https://github.com/ilios/ilios/pull/1303) ([jrjohnson](https://github.com/jrjohnson))
 - get rid of deprecation warnings [\#1301](https://github.com/ilios/ilios/pull/1301) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.4.1](https://github.com/ilios/ilios/tree/v3.4.1) (2016-02-02)
+### [v3.4.1](https://github.com/ilios/ilios/tree/v3.4.1) (2016-02-02)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.4.0...v3.4.1)
 
 **Closed issues:**
@@ -742,7 +770,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 
 - filter unpublished offerings out of teaching reminders [\#1309](https://github.com/ilios/ilios/pull/1309) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.4.0](https://github.com/ilios/ilios/tree/v3.4.0) (2016-02-01)
+### [v3.4.0](https://github.com/ilios/ilios/tree/v3.4.0) (2016-02-01)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.3.1...v3.4.0)
 
 **Implemented enhancements:**
@@ -771,14 +800,16 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - declared cohort-getter/setters in program-year entity interface. [\#1282](https://github.com/ilios/ilios/pull/1282) ([stopfstedt](https://github.com/stopfstedt))
 - Add new taxonomy system [\#1279](https://github.com/ilios/ilios/pull/1279) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.3.1](https://github.com/ilios/ilios/tree/v3.3.1) (2016-01-25)
+### [v3.3.1](https://github.com/ilios/ilios/tree/v3.3.1) (2016-01-25)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.3.0...v3.3.1)
 
 **Merged pull requests:**
 
 - updated frontend build hash to non-corrupted one [\#1278](https://github.com/ilios/ilios/pull/1278) ([thecoolestguy](https://github.com/thecoolestguy))
 
-## [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0) (2016-01-23)
+### [v3.3.0](https://github.com/ilios/ilios/tree/v3.3.0) (2016-01-23)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.2.0...v3.3.0)
 
 **Implemented enhancements:**
@@ -808,7 +839,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - throw an exception if remote file could not be loaded. [\#1266](https://github.com/ilios/ilios/pull/1266) ([stopfstedt](https://github.com/stopfstedt))
 - check for pre-existing relationship before adding learner group to ilm [\#1265](https://github.com/ilios/ilios/pull/1265) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.2.0](https://github.com/ilios/ilios/tree/v3.2.0) (2016-01-16)
+### [v3.2.0](https://github.com/ilios/ilios/tree/v3.2.0) (2016-01-16)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.1.0...v3.2.0)
 
 **Implemented enhancements:**
@@ -835,7 +867,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Move publishing migration to the right place in time [\#1252](https://github.com/ilios/ilios/pull/1252) ([jrjohnson](https://github.com/jrjohnson))
 - Publishing Simplified [\#1212](https://github.com/ilios/ilios/pull/1212) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.1.0](https://github.com/ilios/ilios/tree/v3.1.0) (2016-01-11)
+### [v3.1.0](https://github.com/ilios/ilios/tree/v3.1.0) (2016-01-11)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0...v3.1.0)
 
 **Implemented enhancements:**
@@ -886,7 +919,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Update symphony to 2.8 [\#1208](https://github.com/ilios/ilios/pull/1208) ([jrjohnson](https://github.com/jrjohnson))
 - Remove courses, sessions, and programYears from topic endpoint [\#1205](https://github.com/ilios/ilios/pull/1205) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0](https://github.com/ilios/ilios/tree/v3.0.0) (2015-12-15)
+### [v3.0.0](https://github.com/ilios/ilios/tree/v3.0.0) (2015-12-15)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-rc1...v3.0.0)
 
 **Implemented enhancements:**
@@ -977,7 +1011,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Add users as a filter on courses endpoint [\#1126](https://github.com/ilios/ilios/pull/1126) ([jrjohnson](https://github.com/jrjohnson))
 - Allow sessions to be filtered by related entities needed for reporting [\#1124](https://github.com/ilios/ilios/pull/1124) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-rc1](https://github.com/ilios/ilios/tree/v3.0.0-rc1) (2015-11-16)
+### [v3.0.0-rc1](https://github.com/ilios/ilios/tree/v3.0.0-rc1) (2015-11-16)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta9...v3.0.0-rc1)
 
 **Implemented enhancements:**
@@ -1114,7 +1149,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Add a q \(query\) to get learningmaterials [\#1055](https://github.com/ilios/ilios/pull/1055) ([jrjohnson](https://github.com/jrjohnson))
 - fix mesh descriptor search [\#1050](https://github.com/ilios/ilios/pull/1050) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.0.0-beta9](https://github.com/ilios/ilios/tree/v3.0.0-beta9) (2015-10-27)
+### [v3.0.0-beta9](https://github.com/ilios/ilios/tree/v3.0.0-beta9) (2015-10-27)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta8...v3.0.0-beta9)
 
 **Implemented enhancements:**
@@ -1143,7 +1179,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - sanitize form input. [\#1053](https://github.com/ilios/ilios/pull/1053) ([stopfstedt](https://github.com/stopfstedt))
 - API improvements [\#1052](https://github.com/ilios/ilios/pull/1052) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-beta8](https://github.com/ilios/ilios/tree/v3.0.0-beta8) (2015-10-13)
+### [v3.0.0-beta8](https://github.com/ilios/ilios/tree/v3.0.0-beta8) (2015-10-13)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta7...v3.0.0-beta8)
 
 **Closed issues:**
@@ -1160,7 +1197,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Fix commands and broken build [\#1036](https://github.com/ilios/ilios/pull/1036) ([jrjohnson](https://github.com/jrjohnson))
 - added teaching reminder command [\#1035](https://github.com/ilios/ilios/pull/1035) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v3.0.0-beta7](https://github.com/ilios/ilios/tree/v3.0.0-beta7) (2015-09-25)
+### [v3.0.0-beta7](https://github.com/ilios/ilios/tree/v3.0.0-beta7) (2015-09-25)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta6...v3.0.0-beta7)
 
 **Closed issues:**
@@ -1185,7 +1223,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Fix issue with production install [\#1015](https://github.com/ilios/ilios/pull/1015) ([jrjohnson](https://github.com/jrjohnson))
 - User Management Commands [\#1013](https://github.com/ilios/ilios/pull/1013) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-beta6](https://github.com/ilios/ilios/tree/v3.0.0-beta6) (2015-09-11)
+### [v3.0.0-beta6](https://github.com/ilios/ilios/tree/v3.0.0-beta6) (2015-09-11)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta5...v3.0.0-beta6)
 
 **Merged pull requests:**
@@ -1214,7 +1253,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - defined setter/getter methods for curr inv report in program interface. [\#977](https://github.com/ilios/ilios/pull/977) ([stopfstedt](https://github.com/stopfstedt))
 - Change educational year to academic year [\#970](https://github.com/ilios/ilios/pull/970) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-beta5](https://github.com/ilios/ilios/tree/v3.0.0-beta5) (2015-08-25)
+### [v3.0.0-beta5](https://github.com/ilios/ilios/tree/v3.0.0-beta5) (2015-08-25)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta4...v3.0.0-beta5)
 
 **Closed issues:**
@@ -1246,7 +1286,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - deprecated publish event components [\#946](https://github.com/ilios/ilios/pull/946) ([stopfstedt](https://github.com/stopfstedt))
 - Stop deactivating new student accounts [\#940](https://github.com/ilios/ilios/pull/940) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-beta4](https://github.com/ilios/ilios/tree/v3.0.0-beta4) (2015-08-10)
+### [v3.0.0-beta4](https://github.com/ilios/ilios/tree/v3.0.0-beta4) (2015-08-10)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta3...v3.0.0-beta4)
 
 **Implemented enhancements:**
@@ -1324,7 +1365,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Update a session when its ILM is updated [\#870](https://github.com/ilios/ilios/pull/870) ([jrjohnson](https://github.com/jrjohnson))
 - added INSTALL.md and updated UPGRADE.md files [\#863](https://github.com/ilios/ilios/pull/863) ([thecoolestguy](https://github.com/thecoolestguy))
 
-## [v3.0.0-beta3](https://github.com/ilios/ilios/tree/v3.0.0-beta3) (2015-06-30)
+### [v3.0.0-beta3](https://github.com/ilios/ilios/tree/v3.0.0-beta3) (2015-06-30)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta2...v3.0.0-beta3)
 
 **Merged pull requests:**
@@ -1332,14 +1374,16 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Beta 3 Release Prep [\#865](https://github.com/ilios/ilios/pull/865) ([jrjohnson](https://github.com/jrjohnson))
 - Authentication [\#864](https://github.com/ilios/ilios/pull/864) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-beta2](https://github.com/ilios/ilios/tree/v3.0.0-beta2) (2015-06-20)
+### [v3.0.0-beta2](https://github.com/ilios/ilios/tree/v3.0.0-beta2) (2015-06-20)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v3.0.0-beta1...v3.0.0-beta2)
 
 **Merged pull requests:**
 
 - Release Preparation [\#861](https://github.com/ilios/ilios/pull/861) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v3.0.0-beta1](https://github.com/ilios/ilios/tree/v3.0.0-beta1) (2015-06-19)
+### [v3.0.0-beta1](https://github.com/ilios/ilios/tree/v3.0.0-beta1) (2015-06-19)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.8...v3.0.0-beta1)
 
 **Closed issues:**
@@ -1416,7 +1460,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Linting [\#727](https://github.com/ilios/ilios/pull/727) ([Trott](https://github.com/Trott))
 - updated CHANGELOG.txt, ready for release 2.4.8 [\#726](https://github.com/ilios/ilios/pull/726) ([thecoolestguy](https://github.com/thecoolestguy))
 
-## [v2.4.8](https://github.com/ilios/ilios/tree/v2.4.8) (2014-11-04)
+### [v2.4.8](https://github.com/ilios/ilios/tree/v2.4.8) (2014-11-04)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.7...v2.4.8)
 
 **Implemented enhancements:**
@@ -1438,7 +1483,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - 'scheduled' session icon color change [\#714](https://github.com/ilios/ilios/pull/714) ([thecoolestguy](https://github.com/thecoolestguy))
 - Allow learner groups to be created empty [\#713](https://github.com/ilios/ilios/pull/713) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v2.4.7](https://github.com/ilios/ilios/tree/v2.4.7) (2014-10-14)
+### [v2.4.7](https://github.com/ilios/ilios/tree/v2.4.7) (2014-10-14)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.6...v2.4.7)
 
 **Implemented enhancements:**
@@ -1472,7 +1518,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Basic Structure and Dashboard [\#683](https://github.com/ilios/ilios/pull/683) ([jrjohnson](https://github.com/jrjohnson))
 - Add a cron task to run the user sync process and nothing else. [\#678](https://github.com/ilios/ilios/pull/678) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v2.4.6](https://github.com/ilios/ilios/tree/v2.4.6) (2014-09-02)
+### [v2.4.6](https://github.com/ilios/ilios/tree/v2.4.6) (2014-09-02)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.6-rc1...v2.4.6)
 
 **Implemented enhancements:**
@@ -1494,7 +1541,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - learning material dialog disappears in firefox [\#669](https://github.com/ilios/ilios/pull/669) ([thecoolestguy](https://github.com/thecoolestguy))
 - added learningmaterials to session cloning [\#667](https://github.com/ilios/ilios/pull/667) ([thecoolestguy](https://github.com/thecoolestguy))
 
-## [v2.4.6-rc1](https://github.com/ilios/ilios/tree/v2.4.6-rc1) (2014-08-15)
+### [v2.4.6-rc1](https://github.com/ilios/ilios/tree/v2.4.6-rc1) (2014-08-15)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.5...v2.4.6-rc1)
 
 **Implemented enhancements:**
@@ -1509,7 +1557,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Localsauce README tweaks [\#659](https://github.com/ilios/ilios/pull/659) ([stopfstedt](https://github.com/stopfstedt))
 - Better shibboleth authentication errors [\#658](https://github.com/ilios/ilios/pull/658) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v2.4.5](https://github.com/ilios/ilios/tree/v2.4.5) (2014-08-08)
+### [v2.4.5](https://github.com/ilios/ilios/tree/v2.4.5) (2014-08-08)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.3...v2.4.5)
 
 **Implemented enhancements:**
@@ -1544,7 +1593,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - added changes from the re-tagged CodeIgniter 2.2.0 release. [\#638](https://github.com/ilios/ilios/pull/638) ([stopfstedt](https://github.com/stopfstedt))
 - Allow session offerings to be counted only once [\#635](https://github.com/ilios/ilios/pull/635) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v2.4.3](https://github.com/ilios/ilios/tree/v2.4.3) (2014-06-20)
+### [v2.4.3](https://github.com/ilios/ilios/tree/v2.4.3) (2014-06-20)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.2...v2.4.3)
 
 **Implemented enhancements:**
@@ -1573,7 +1623,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Do background of Behat tests in database [\#621](https://github.com/ilios/ilios/pull/621) ([jrjohnson](https://github.com/jrjohnson))
 - Added audit log config to phing build [\#620](https://github.com/ilios/ilios/pull/620) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v2.4.2](https://github.com/ilios/ilios/tree/v2.4.2) (2014-05-21)
+### [v2.4.2](https://github.com/ilios/ilios/tree/v2.4.2) (2014-05-21)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.2-prerelease-20140407...v2.4.2)
 
 **Implemented enhancements:**
@@ -1605,14 +1656,16 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 
 - Temporarily disable Save All Draft button [\#610](https://github.com/ilios/ilios/pull/610) ([jrjohnson](https://github.com/jrjohnson))
 
-## [v2.4.2-prerelease-20140407](https://github.com/ilios/ilios/tree/v2.4.2-prerelease-20140407) (2014-04-07)
+### [v2.4.2-prerelease-20140407](https://github.com/ilios/ilios/tree/v2.4.2-prerelease-20140407) (2014-04-07)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.1...v2.4.2-prerelease-20140407)
 
 **Closed issues:**
 
 - Remove final instance of abominable deepCloneAssociativeArray\(\) [\#548](https://github.com/ilios/ilios/issues/548)
 
-## [v2.4.1](https://github.com/ilios/ilios/tree/v2.4.1) (2014-04-04)
+### [v2.4.1](https://github.com/ilios/ilios/tree/v2.4.1) (2014-04-04)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.4.0...v2.4.1)
 
 **Closed issues:**
@@ -1626,7 +1679,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Run Jasmine tests on CI server [\#464](https://github.com/ilios/ilios/issues/464)
 - Documentation of security considerations for learning materials [\#414](https://github.com/ilios/ilios/issues/414)
 
-## [v2.4.0](https://github.com/ilios/ilios/tree/v2.4.0) (2014-02-20)
+### [v2.4.0](https://github.com/ilios/ilios/tree/v2.4.0) (2014-02-20)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.3.2...v2.4.0)
 
 **Implemented enhancements:**
@@ -1656,7 +1710,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - move webcal to webcals [\#348](https://github.com/ilios/ilios/issues/348)
 - Notes field in Learning Materials does not alert user if max char length is exceeded. [\#339](https://github.com/ilios/ilios/issues/339)
 
-## [v2.3.2](https://github.com/ilios/ilios/tree/v2.3.2) (2013-12-10)
+### [v2.3.2](https://github.com/ilios/ilios/tree/v2.3.2) (2013-12-10)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.3.1...v2.3.2)
 
 **Implemented enhancements:**
@@ -1675,7 +1730,8 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - recurring events tool creates additional offerings when used with "create offerings by group" feature [\#275](https://github.com/ilios/ilios/issues/275)
 - mesh picker for my reports not functioning [\#260](https://github.com/ilios/ilios/issues/260)
 
-## [v2.3.1](https://github.com/ilios/ilios/tree/v2.3.1) (2013-11-01)
+### [v2.3.1](https://github.com/ilios/ilios/tree/v2.3.1) (2013-11-01)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.3...v2.3.1)
 
 **Implemented enhancements:**
@@ -1707,19 +1763,24 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - footer shouldn't overlap other items just because I change window size... [\#191](https://github.com/ilios/ilios/pull/191) ([Trott](https://github.com/Trott))
 - Make appalling inline CSS abomination marginally less appalling [\#190](https://github.com/ilios/ilios/pull/190) ([Trott](https://github.com/Trott))
 
-## [v2.3](https://github.com/ilios/ilios/tree/v2.3) (2013-09-23)
+### [v2.3](https://github.com/ilios/ilios/tree/v2.3) (2013-09-23)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.2.2...v2.3)
 
-## [v2.2.2](https://github.com/ilios/ilios/tree/v2.2.2) (2013-07-16)
+### [v2.2.2](https://github.com/ilios/ilios/tree/v2.2.2) (2013-07-16)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.2.1...v2.2.2)
 
-## [v2.2.1](https://github.com/ilios/ilios/tree/v2.2.1) (2013-03-22)
+### [v2.2.1](https://github.com/ilios/ilios/tree/v2.2.1) (2013-03-22)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.2...v2.2.1)
 
-## [v2.2](https://github.com/ilios/ilios/tree/v2.2) (2013-03-06)
+### [v2.2](https://github.com/ilios/ilios/tree/v2.2) (2013-03-06)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.1.2...v2.2)
 
-## [v2.1.2](https://github.com/ilios/ilios/tree/v2.1.2) (2012-12-20)
+### [v2.1.2](https://github.com/ilios/ilios/tree/v2.1.2) (2012-12-20)
+
 [Full Changelog](https://github.com/ilios/ilios/compare/v2.1.1...v2.1.2)
 
 **Merged pull requests:**
@@ -1732,7 +1793,7 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - Feature 3024: display parent competency titles in learner course summary view [\#23](https://github.com/ilios/ilios/pull/23) ([stopfstedt](https://github.com/stopfstedt))
 - reintegrate rb2.1.2 into master  [\#22](https://github.com/ilios/ilios/pull/22) ([stopfstedt](https://github.com/stopfstedt))
 - added proper sort order to competency dropdown in program objective dialog [\#21](https://github.com/ilios/ilios/pull/21) ([stopfstedt](https://github.com/stopfstedt))
-- added download instructions to README file.  [\#20](https://github.com/ilios/ilios/pull/20) ([stopfstedt](https://github.com/stopfstedt))
+- added download instructions to README file. [\#20](https://github.com/ilios/ilios/pull/20) ([stopfstedt](https://github.com/stopfstedt))
 - added indexes/foreign key constraints for user\_x\_user\_role table [\#19](https://github.com/ilios/ilios/pull/19) ([thecoolestguy](https://github.com/thecoolestguy))
 - refactored hardwired path to Shib Logout Service into a config setting. ... [\#18](https://github.com/ilios/ilios/pull/18) ([stopfstedt](https://github.com/stopfstedt))
 - modified idle page timeout mechanism to allow for logout url configurati... [\#17](https://github.com/ilios/ilios/pull/17) ([stopfstedt](https://github.com/stopfstedt))
@@ -1747,13 +1808,12 @@ and will instead publish changes in our [Release Notes](https://github.com/ilios
 - rm needed dirs from .gitignore [\#6](https://github.com/ilios/ilios/pull/6) ([Trott](https://github.com/Trott))
 - please merge project name changes on landing page [\#5](https://github.com/ilios/ilios/pull/5) ([stopfstedt](https://github.com/stopfstedt))
 
-## [v2.1.1](https://github.com/ilios/ilios/tree/v2.1.1) (2012-12-07)
+### [v2.1.1](https://github.com/ilios/ilios/tree/v2.1.1) (2012-12-07)
+
 **Merged pull requests:**
 
 - please merge with rb2.1.1 and master [\#4](https://github.com/ilios/ilios/pull/4) ([stopfstedt](https://github.com/stopfstedt))
 - Vagrant/Puppet easy dev/demo install [\#3](https://github.com/ilios/ilios/pull/3) ([Trott](https://github.com/Trott))
 - fixed broken SQL INSERT statement. refs \#3037 [\#1](https://github.com/ilios/ilios/pull/1) ([stopfstedt](https://github.com/stopfstedt))
-
-
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
