@@ -12,7 +12,7 @@ All commands must be run on your web server as your webservices user! In these e
 
 Create a user, find an existing one, or change an existing one's password.
 
-`sudo -u apache bin/console --env=prod ilios:add-user`
+`sudo -u apache bin/console --env=prod ilios:add-user` \
 `sudo -u apache bin/console --env=prod ilios:find-user <searchTerm>` \
 `sudo -u apache bin/console --env=prod ilios:change-password <userId>`
 
