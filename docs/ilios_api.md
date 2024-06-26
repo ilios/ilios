@@ -4,7 +4,7 @@ This document provides instructions for connecting to the Ilios API for making r
 
 ## API Endpoints
 
-The functional endpoints provided by the Ilios API, and how they are called, are listed and documented at /api/doc on the webserver that runs Ilios. For example, to examine the API endpoints and their use on the publicly-accessible Ilios demo server ([https://ilios3-demo.ucsf.edu](https://ilios3-demo.ucsf.edu)), one would just need to visit [https://ilios3-demo.ucsf.edu/api/doc](https://ilios3-demo.ucsf.edu/api/doc) in their browser.
+The functional endpoints provided by the Ilios API, and how they are called, are listed and documented at /api/doc on the webserver that runs Ilios. For example, to examine the API endpoints and their use on the publicly-accessible Ilios demo server ([https://demo.iliosproject.org](https://demo.iliosproject.org)), one would just need to visit [https://demo.iliosproject.org/api/doc](https://demo.iliosproject.org/api/doc) in their browser.
 
 ## API Authentication - Using JSON Web Tokens
 
