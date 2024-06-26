@@ -80,7 +80,7 @@ If all went as planned, this header value should now be sent with EVERY request 
 
 To test that the header is being sent correctly, visit your Ilios API instance and check for users by appending `/api/v1/users` to your own Ilios URL as shown here:
 
-[https://ilios3-demo.ucsf.edu/api/v1/users](https://ilios3-demo.ucsf.edu/api/v1/users)
+[https://demo.iliosproject.org/api/v1/users](https://demo.iliosproject.org/api/v1/users)
 
 If adding the token to the headers was successful, you will see a JSON-formatted display of all the user accounts in Ilios. Congratulations! Your JWT token is working correctly!
 
