@@ -36,6 +36,15 @@ jobs:
       run: vendor/bin/phpcs
     - name: lint twig
       run: bin/console lint:twig templates custom
+    - name: lint markdown
+      uses: DavidAnson/markdownlint-cli2-action@v16
+      with:
+        globs: |
+          CHANGELOG.md
+          CODE_OF_CONDUCT.md
+          CONTRIBUTING.md
+          README.md
+          docs/*.md
     - name: lint yaml
       run: |
         vendor/bin/yaml-lint .gitpod.yml
@@ -370,7 +379,7 @@ jobs:
     name: Scan with UCSF SonarQube
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    env: 
+    env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     needs: tests
     steps:
