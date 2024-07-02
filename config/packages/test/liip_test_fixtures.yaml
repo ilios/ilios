@@ -1,4 +1,3 @@
 liip_test_fixtures:
   cache_metadata: true
-  cache_db:
-    sqlite: Liip\TestFixturesBundle\Services\DatabaseBackup\SqliteDatabaseBackup
+  keep_database_and_schema: true
