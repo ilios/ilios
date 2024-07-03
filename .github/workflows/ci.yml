@@ -381,7 +381,7 @@ jobs:
         with:
           name: coverage-output
       - run: ls -lh coverage.xml
-      - uses: sonarsource/sonarqube-scan-action@v2.2
+      - uses: sonarsource/sonarqube-scan-action@v2.3
         if: ${{ env.SONAR_TOKEN != '' }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
