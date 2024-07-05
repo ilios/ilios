@@ -37,9 +37,9 @@ You will need Docker and Docker compose:
 From your ILIOS_CODE directory run:
 
 ```bash
-$ composer install
-$ bin/console cache:warmup
-$ docker compose up -d
+composer install
+bin/console cache:warmup
+docker compose up -d
 ```
 
 ### Accessing Ilios
@@ -52,5 +52,5 @@ by visiting [http://localhost:8000](http://localhost:8000) in your browser.
 From your ILIOS_CODE directory run:
 
 ```bash
-$ docker compose down
+docker compose down
 ```
