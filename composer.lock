@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f3f6a4d623371c627784dcb5facb5af",
+    "content-hash": "668f89ee79cab320615cf1a5e055765f",
     "packages": [
         {
             "name": "async-aws/core",
@@ -12602,16 +12602,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "2.9.0",
+            "version": "2.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "b8b54aced62d61fa03a0faa33c22915b04e29e36"
+                "reference": "aa89bed82eda771483eae0bb043f10f827cd90b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/b8b54aced62d61fa03a0faa33c22915b04e29e36",
-                "reference": "b8b54aced62d61fa03a0faa33c22915b04e29e36",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/aa89bed82eda771483eae0bb043f10f827cd90b0",
+                "reference": "aa89bed82eda771483eae0bb043f10f827cd90b0",
                 "shasum": ""
             },
             "require": {
@@ -12690,9 +12690,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.9.0"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/2.9.1"
             },
-            "time": "2024-03-31T16:02:52+00:00"
+            "time": "2024-07-15T09:31:30+00:00"
         },
         {
             "name": "masterminds/html5",
