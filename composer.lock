@@ -3045,16 +3045,16 @@
         },
         {
             "name": "flagception/flagception-bundle",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/playox/flagception-bundle.git",
-                "reference": "2ccba9a3f5b7557b4142075f9dc50e4eebddce8c"
+                "reference": "72b4b1b36ab47a65215105376cf0e675747cf3d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/playox/flagception-bundle/zipball/2ccba9a3f5b7557b4142075f9dc50e4eebddce8c",
-                "reference": "2ccba9a3f5b7557b4142075f9dc50e4eebddce8c",
+                "url": "https://api.github.com/repos/playox/flagception-bundle/zipball/72b4b1b36ab47a65215105376cf0e675747cf3d6",
+                "reference": "72b4b1b36ab47a65215105376cf0e675747cf3d6",
                 "shasum": ""
             },
             "require": {
@@ -3113,9 +3113,9 @@
             ],
             "support": {
                 "issues": "https://github.com/playox/flagception-bundle/issues",
-                "source": "https://github.com/playox/flagception-bundle/tree/5.0.0"
+                "source": "https://github.com/playox/flagception-bundle/tree/5.0.1"
             },
-            "time": "2024-07-04T08:17:37+00:00"
+            "time": "2024-08-05T08:04:41+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -15715,6 +15715,7 @@
         "symfony/web-link": 0,
         "symfony/yaml": 0,
         "mockery/mockery": 0,
+        "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
