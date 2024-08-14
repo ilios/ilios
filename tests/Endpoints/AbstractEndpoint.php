@@ -600,7 +600,9 @@ abstract class AbstractEndpoint extends WebTestCase
 
         $content = json_decode($response->getContent());
 
+        $this->assertObjectHasProperty('data', $content);
         $this->assertIsObject($content->data);
+        $this->assertObjectNotHasProperty('errors', $content);
         $this->assertIsArray($content->data->{$name});
 
         $now = new DateTime();
@@ -1462,6 +1464,8 @@ abstract class AbstractEndpoint extends WebTestCase
         $this->assertGraphQLResponse($response);
         $content = json_decode($response->getContent());
 
+        $this->assertObjectHasProperty('data', $content);
+        $this->assertObjectNotHasProperty('errors', $content);
         $this->assertIsArray($content->data->{$name});
 
         return $content->data->{$name};

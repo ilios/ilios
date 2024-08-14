@@ -41,6 +41,9 @@ class TypeResolver
             //we have already fetched an object and just need to fetch
             //things related to it
             $value = $source->$fieldName;
+            if (is_null($value)) {
+                return null;
+            }
             if (is_array($value)) {// one-to-many and many-to-many relationships are arrays
                 $this->buffer->bufferRequest($type, $value);
                 return new Deferred(
