@@ -125,8 +125,8 @@ HEALTHCHECK --timeout=1s --retries=10 CMD ["docker-healthcheck"]
 ###############################################################################
 FROM fpm AS fpm-dev
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-ENV APP_ENV dev
-ENV APP_DEBUG true
+ENV APP_ENV=dev
+ENV APP_DEBUG=true
 COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
 RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN set -eux; \
@@ -206,7 +206,7 @@ HEALTHCHECK NONE
 ###############################################################################
 FROM mysql:8.0-oracle AS mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-ENV MYSQL_RANDOM_ROOT_PASSWORD yes
+ENV MYSQL_RANDOM_ROOT_PASSWORD=yes
 COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf
 RUN chmod 755 /etc/mysql/conf.d/ilios.cnf
 
@@ -215,10 +215,10 @@ RUN chmod 755 /etc/mysql/conf.d/ilios.cnf
 ###############################################################################
 FROM mysql AS mysql-demo
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-ENV MYSQL_USER ilios
-ENV MYSQL_PASSWORD ilios
-ENV MYSQL_DATABASE ilios
-ENV DEMO_DATABASE_LOCATION https://ilios-demo-db.iliosproject.org/
+ENV MYSQL_USER=ilios
+ENV MYSQL_PASSWORD=ilios
+ENV MYSQL_DATABASE=ilios
+ENV DEMO_DATABASE_LOCATION=https://ilios-demo-db.iliosproject.org/
 RUN set -eux; \
     microdnf install -y wget; \
     microdnf clean all;
