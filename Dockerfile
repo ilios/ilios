@@ -170,7 +170,7 @@ COPY docker/admin-entrypoint /entrypoint
 
 # expose the ssh port
 EXPOSE 22
-ENTRYPOINT /entrypoint
+ENTRYPOINT ["/entrypoint"]
 
 HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 
