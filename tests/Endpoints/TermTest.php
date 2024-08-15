@@ -166,4 +166,41 @@ class TermTest extends AbstractReadWriteEndpoint
         unset($data['title']);
         $this->badPutTest($data, $data['id'], $jwt);
     }
+
+    public function testFetchTermsWithAndWithoutParents(): void
+    {
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' =>
+                    "query { terms(ids: [1, 2]) " .
+                    "{ id parent { id } }}",
+            ]),
+            $this->createJwtForRootUser($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertObjectNotHasProperty('errors', $content);
+        $this->assertIsArray($content->data->terms);
+
+        $result = $content->data->terms;
+        $this->assertCount(2, $result);
+        $term = $result[0];
+        $this->assertObjectHasProperty('id', $term);
+        $this->assertSame('1', $term->id);
+        $this->assertObjectHasProperty('parent', $term);
+        $this->assertNull($term->parent);
+
+        $term = $result[1];
+        $this->assertObjectHasProperty('id', $term);
+        $this->assertSame('2', $term->id);
+        $this->assertObjectHasProperty('parent', $term);
+        $this->assertNotNull($term->parent);
+        $this->assertObjectHasProperty('id', $term->parent);
+        $this->assertSame('1', $term->parent->id);
+    }
 }
