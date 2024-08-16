@@ -1,7 +1,7 @@
 ###############################################################################
 # Contains all of the ilios src code for use in other containers
 ###############################################################################
-FROM scratch as src
+FROM scratch AS src
 COPY composer.* symfony.lock LICENSE /src/app/
 COPY config /src/app/config/
 COPY custom /src/app/custom/
@@ -15,7 +15,7 @@ COPY public/theme-overrides/ /src/app/public/theme-overrides/
 ###############################################################################
 # Nginx Configured to Run Ilios from an FPM host
 ###############################################################################
-FROM nginx:stable-alpine as nginx
+FROM nginx:stable-alpine AS nginx
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=src /src/app /srv/app/
 COPY docker/nginx.conf.template /etc/nginx/templates/default.conf.template
@@ -31,7 +31,7 @@ HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 127.0.0.1 80
 # Dependencies we need in all PHP containers
 # Production ready composer pacakges installed
 ###############################################################################
-FROM php:8.3-fpm as php-base
+FROM php:8.3-fpm AS php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /srv/app/
@@ -112,7 +112,7 @@ CMD ["php-fpm"]
 # FPM configured to run ilios
 # Really just a wrapper around php-base, but here in case we need to modify it
 ###############################################################################
-FROM php-base as fpm
+FROM php-base AS fpm
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY docker/fpm/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
@@ -123,10 +123,10 @@ HEALTHCHECK --timeout=1s --retries=10 CMD ["docker-healthcheck"]
 # FPM configured for development
 # Runs a dev environment and composer dependencies
 ###############################################################################
-FROM fpm as fpm-dev
+FROM fpm AS fpm-dev
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-ENV APP_ENV dev
-ENV APP_DEBUG true
+ENV APP_ENV=dev
+ENV APP_DEBUG=true
 COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
 RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN set -eux; \
@@ -143,7 +143,7 @@ COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
 ###############################################################################
-FROM php-base as admin
+FROM php-base AS admin
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 
 # semi-colon seperates list of github users that can SSH in
@@ -170,7 +170,7 @@ COPY docker/admin-entrypoint /entrypoint
 
 # expose the ssh port
 EXPOSE 22
-ENTRYPOINT /entrypoint
+ENTRYPOINT ["/entrypoint"]
 
 HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 
@@ -180,7 +180,7 @@ HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 # fpm and nginx containers in order to provide the shared static files that
 # have to be in sync
 ###############################################################################
-FROM php-base as update-frontend
+FROM php-base AS update-frontend
 ENTRYPOINT ["bin/console"]
 CMD ["ilios:update-frontend"]
 
@@ -188,7 +188,7 @@ CMD ["ilios:update-frontend"]
 # Single purpose container that starts a message consumer
 # Should be setup to run and restart itself when it shuts down
 ###############################################################################
-FROM php-base as consume-messages
+FROM php-base AS consume-messages
 # add the pcntl extension which allows PHP to consume process controll messages
 # and shutdown the message consumer gracefully
 RUN set -eux; \
@@ -204,21 +204,21 @@ HEALTHCHECK NONE
 ###############################################################################
 # MySQL configured as needed for Ilios
 ###############################################################################
-FROM mysql:8.0-oracle as mysql
+FROM mysql:8.0-oracle AS mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-ENV MYSQL_RANDOM_ROOT_PASSWORD yes
+ENV MYSQL_RANDOM_ROOT_PASSWORD=yes
 COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf
 RUN chmod 755 /etc/mysql/conf.d/ilios.cnf
 
 ###############################################################################
 # Setup a mysql server running the demo database for use in development
 ###############################################################################
-FROM mysql as mysql-demo
+FROM mysql AS mysql-demo
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-ENV MYSQL_USER ilios
-ENV MYSQL_PASSWORD ilios
-ENV MYSQL_DATABASE ilios
-ENV DEMO_DATABASE_LOCATION https://ilios-demo-db.iliosproject.org/
+ENV MYSQL_USER=ilios
+ENV MYSQL_PASSWORD=ilios
+ENV MYSQL_DATABASE=ilios
+ENV DEMO_DATABASE_LOCATION=https://ilios-demo-db.iliosproject.org/
 RUN set -eux; \
     microdnf install -y wget; \
     microdnf clean all;
@@ -228,14 +228,14 @@ RUN /bin/bash /fetch-demo-database.sh
 ###############################################################################
 # Setup opensearch with the plugins we needed
 ###############################################################################
-FROM opensearchproject/opensearch:2 as opensearch
+FROM opensearchproject/opensearch:2 AS opensearch
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 RUN bin/opensearch-plugin install -b ingest-attachment
 
 ###############################################################################
 # Setup redis with needed config
 ###############################################################################
-FROM redis:7-alpine as redis
+FROM redis:7-alpine AS redis
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY docker/redis/redis.conf /usr/local/etc/redis/redis.conf
 CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
@@ -244,7 +244,7 @@ CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
-FROM php:8.3-apache as php-apache
+FROM php:8.3-apache AS php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /var/www/ilios
