@@ -30,7 +30,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class IndexEntityChanges
 {
     /**
-     * ACHTUNG!!! Do NOT change the name of $dispatchBus it tells the dependency injection system what bus to inject!!!
+     * ACHTUNG!!! Do NOT change the name of $bus it tells the dependency injection system what bus to inject!!!
      */
     public function __construct(
         protected Curriculum $curriculumIndex,
@@ -66,7 +66,12 @@ class IndexEntityChanges
         $entity = $args->getObject();
 
         if ($entity instanceof UserInterface) {
-            $this->indexUser($entity);
+            $changeSet = $args->getObjectManager()->getUnitOfWork()->getEntityChangeSet($entity);
+            $changed = array_keys($changeSet);
+            //if the only field that changed was examined this is a usersync job and doesn't need to get indexed
+            if ($changed !== ['examined']) {
+                $this->indexUser($entity);
+            }
         }
 
         if ($entity instanceof AuthenticationInterface) {
