@@ -10,7 +10,6 @@ use App\Entity\LearningMaterialInterface;
 use App\Entity\SessionInterface;
 use App\Entity\UserInterface;
 use App\Message\CourseIndexRequest;
-use App\Message\LearningMaterialIndexRequest;
 use App\Message\UserIndexRequest;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
