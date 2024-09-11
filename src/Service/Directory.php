@@ -96,6 +96,8 @@ class Directory
     protected function getLdapFilterFormat(): string
     {
         $ldapPreferredFirstNameProperty = $this->config->get('ldap_directory_preferred_first_name_property');
+        $ldapMiddleNameProperty = $this->config->get('ldap_directory_middle_name_property');
+        $ldapPreferredMiddleNameProperty = $this->config->get('ldap_directory_preferred_middle_name_property');
         $ldapPreferredLastNameProperty = $this->config->get('ldap_directory_preferred_last_name_property');
         $attributes = [
             'mail',
@@ -104,8 +106,14 @@ class Directory
             $this->config->get('ldap_directory_first_name_property') ?? 'givenName',
             $this->config->get('ldap_directory_last_name_property') ?? 'sn',
         ];
+        if ($ldapMiddleNameProperty) {
+            $attributes[] = $ldapMiddleNameProperty;
+        }
         if ($ldapPreferredFirstNameProperty) {
             $attributes[] = $ldapPreferredFirstNameProperty;
+        }
+        if ($ldapPreferredMiddleNameProperty) {
+            $attributes[] = $ldapPreferredMiddleNameProperty;
         }
         if ($ldapPreferredLastNameProperty) {
             $attributes[] = $ldapPreferredLastNameProperty;

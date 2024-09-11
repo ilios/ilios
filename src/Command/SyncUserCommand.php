@@ -67,6 +67,7 @@ class SyncUserCommand extends Command
                 'Record',
                 'Campus ID',
                 'First',
+                'Middle',
                 'Last',
                 'Display Name',
                 'Pronouns',
@@ -78,6 +79,7 @@ class SyncUserCommand extends Command
                     'Ilios User',
                     $user->getCampusId(),
                     $user->getFirstName(),
+                    $user->getMiddleName(),
                     $user->getLastName(),
                     $user->getDisplayName(),
                     $user->getPronouns(),
@@ -88,6 +90,7 @@ class SyncUserCommand extends Command
                     'Directory User',
                     $userRecord['campusId'],
                     $userRecord['preferredFirstName'] ?? $userRecord['firstName'],
+                    $userRecord['preferredMiddleName'] ?? $userRecord['middleName'] ?? null,
                     $userRecord['preferredLastName'] ?? $userRecord['lastName'],
                     $userRecord['displayName'],
                     $userRecord['pronouns'],
@@ -108,6 +111,7 @@ class SyncUserCommand extends Command
 
         if ($helper->ask($input, $output, $question)) {
             $user->setFirstName($userRecord['preferredFirstName'] ?? $userRecord['firstName']);
+            $user->setMiddleName($userRecord['preferredMiddleName'] ?? $userRecord['middleName'] ?? null);
             $user->setLastName($userRecord['preferredLastName'] ?? $userRecord['lastName']);
             $user->setDisplayName($userRecord['displayName']);
             $user->setPronouns($userRecord['pronouns']);

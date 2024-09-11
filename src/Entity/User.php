@@ -65,11 +65,11 @@ class User implements UserInterface
     #[Assert\Length(min: 1, max: 50)]
     protected string $firstName;
 
-    #[ORM\Column(name: 'middle_name', type: 'string', length: 20, nullable: true)]
+    #[ORM\Column(name: 'middle_name', type: 'string', length: 50, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\Length(max: 20)]
+    #[Assert\Length(max: 50)]
     protected ?string $middleName = null;
 
     #[ORM\Column(name: 'display_name', type: 'string', length: 200, nullable: true)]
