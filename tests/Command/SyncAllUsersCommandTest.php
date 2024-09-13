@@ -453,6 +453,69 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
+    public function testExecuteWitMiddleNameNotInResults(): void
+    {
+        $this->userRepository->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'displayName' => 'display',
+            'pronouns' => 'pronouns',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('middle');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setMiddleName')->with(null);
+
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(['campusId' => 'abc', 'enabled' => true])
+            ->andReturn([$user])
+            ->once();
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
+            ->andReturn([])
+            ->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute([]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Updating middle name from "middle" to ""./',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
+            $output
+        );
+    }
+
     public function testExecuteWithLastNameChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')

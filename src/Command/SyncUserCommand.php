@@ -111,6 +111,7 @@ class SyncUserCommand extends Command
 
         if ($helper->ask($input, $output, $question)) {
             $user->setFirstName($userRecord['preferredFirstName'] ?? $userRecord['firstName']);
+            //middle name falls back to null because it can be unset if not configured explicitly
             $user->setMiddleName($userRecord['preferredMiddleName'] ?? $userRecord['middleName'] ?? null);
             $user->setLastName($userRecord['preferredLastName'] ?? $userRecord['lastName']);
             $user->setDisplayName($userRecord['displayName']);

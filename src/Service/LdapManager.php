@@ -35,6 +35,7 @@ class LdapManager
         $ldapDisplayNameProperty = $this->config->get('ldap_directory_display_name_property');
         $ldapPronounsProperty = $this->config->get('ldap_directory_pronouns_property');
         $ldapFirstNameProperty = $this->config->get('ldap_directory_first_name_property') ?? 'givenName';
+        //There is no fallback for middle name so we either use the configured fields or ignore this
         $ldapMiddleNameProperty = $this->config->get('ldap_directory_middle_name_property');
         $ldapLastNameProperty = $this->config->get('ldap_directory_last_name_property') ?? 'sn';
         $ldapPreferredFirstNameProperty = $this->config->get('ldap_directory_preferred_first_name_property');

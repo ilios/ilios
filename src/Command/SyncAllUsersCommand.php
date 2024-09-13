@@ -126,6 +126,7 @@ class SyncAllUsersCommand extends Command
                     }
                 }
                 $computedFirstName = $recordArray['preferredFirstName'] ?? $recordArray['firstName'];
+                //middle name falls back to null because it can be unset if not configured explicitly
                 $computedMiddleName = $recordArray['preferredMiddleName'] ?? $recordArray['middleName'] ?? null;
                 $computedLastName = $recordArray['preferredLastName'] ?? $recordArray['lastName'];
 
