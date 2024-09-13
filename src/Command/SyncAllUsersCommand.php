@@ -126,6 +126,8 @@ class SyncAllUsersCommand extends Command
                     }
                 }
                 $computedFirstName = $recordArray['preferredFirstName'] ?? $recordArray['firstName'];
+                //middle name falls back to null because it can be unset if not configured explicitly
+                $computedMiddleName = $recordArray['preferredMiddleName'] ?? $recordArray['middleName'] ?? null;
                 $computedLastName = $recordArray['preferredLastName'] ?? $recordArray['lastName'];
 
                 if ($fixSmallThings && $user->getFirstName() != $computedFirstName) {
@@ -135,6 +137,14 @@ class SyncAllUsersCommand extends Command
                         '" to "' . $computedFirstName . '".</comment>'
                     );
                     $user->setFirstName($computedFirstName);
+                }
+                if ($fixSmallThings && $user->getMiddleName() != $computedMiddleName) {
+                    $update = true;
+                    $output->writeln(
+                        '  <comment>[I] Updating middle name from "' . $user->getMiddleName() .
+                        '" to "' . $computedMiddleName . '".</comment>'
+                    );
+                    $user->setMiddleName($computedMiddleName);
                 }
                 if ($fixSmallThings && $user->getLastName() != $computedLastName) {
                     $update = true;

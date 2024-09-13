@@ -79,6 +79,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'first',
+            'middleName' => 'middle',
             'lastName' => 'last',
             'email' => 'email',
             'displayName' => 'display',
@@ -98,6 +99,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('middle');
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -139,6 +141,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
             ->with(false, false)->andReturn(['abc']);
         $fakeDirectoryUser = [
             'firstName' => 'new-first',
+            'middleName' => 'middle',
             'lastName' => 'last',
             'email' => 'email',
             'displayName' => 'display',
@@ -158,6 +161,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('middle');
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -202,6 +206,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $fakeDirectoryUser = [
             'firstName' => 'new legal first',
             'preferredFirstName' => 'new-first',
+            'middleName' => 'middle',
             'lastName' => 'last',
             'email' => 'email',
             'displayName' => 'display',
@@ -221,6 +226,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('middle');
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -258,6 +264,258 @@ class SyncAllUsersCommandTest extends KernelTestCase
         );
     }
 
+    public function testExecuteWithNoMiddleNameChange(): void
+    {
+        $this->userRepository->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'middleName' => 'middle',
+            'preferredMiddleName' => '',
+            'email' => 'email',
+            'displayName' => 'display',
+            'pronouns' => 'pronouns',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(['campusId' => 'abc', 'enabled' => true])
+            ->andReturn([$user])
+            ->once();
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
+            ->andReturn([])
+            ->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute([]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Completed sync process 1 users found in the directory; 0 users updated./',
+            $output
+        );
+    }
+
+    public function testExecuteWithMiddleNameChange(): void
+    {
+        $this->userRepository->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'middleName' => 'new-middle',
+            'lastName' => 'last',
+            'email' => 'email',
+            'displayName' => 'display',
+            'pronouns' => 'pronouns',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('middle');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setMiddleName')->with('new-middle');
+
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(['campusId' => 'abc', 'enabled' => true])
+            ->andReturn([$user])
+            ->once();
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
+            ->andReturn([])
+            ->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute([]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Updating middle name from "middle" to "new-middle"./',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
+            $output
+        );
+    }
+
+    public function testExecuteWithPreferredMiddleNameChange(): void
+    {
+        $this->userRepository->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'middleName' => 'middle',
+            'lastName' => 'last',
+            'preferredMiddleName' => 'new-middle',
+            'email' => 'email',
+            'displayName' => 'display',
+            'pronouns' => 'pronouns',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('middle');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setMiddleName')->with('new-middle');
+
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(['campusId' => 'abc', 'enabled' => true])
+            ->andReturn([$user])
+            ->once();
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
+            ->andReturn([])
+            ->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute([]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Updating middle name from "middle" to "new-middle"./',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
+            $output
+        );
+    }
+
+    public function testExecuteWitMiddleNameNotInResults(): void
+    {
+        $this->userRepository->shouldReceive('getAllCampusIds')
+            ->with(false, false)->andReturn(['abc']);
+        $fakeDirectoryUser = [
+            'firstName' => 'first',
+            'lastName' => 'last',
+            'email' => 'email',
+            'displayName' => 'display',
+            'pronouns' => 'pronouns',
+            'telephoneNumber' => 'phone',
+            'campusId' => 'abc',
+            'username' => 'abc123',
+        ];
+        $this->directory
+            ->shouldReceive('findByCampusIds')
+            ->with(['abc'])
+            ->andReturn([$fakeDirectoryUser]);
+        $authentication = m::mock(AuthenticationInterface::class);
+        $authentication->shouldReceive('getUsername')->andReturn('abc123');
+
+        $user = m::mock(UserInterface::class);
+        $user->shouldReceive('getId')->andReturn(42);
+        $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
+        $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn('middle');
+        $user->shouldReceive('getLastName')->andReturn('last');
+        $user->shouldReceive('getEmail')->andReturn('email');
+        $user->shouldReceive('getDisplayName')->andReturn('display');
+        $user->shouldReceive('getPronouns')->andReturn('pronouns');
+        $user->shouldReceive('getPhone')->andReturn('phone');
+        $user->shouldReceive('getCampusId')->andReturn('abc');
+        $user->shouldReceive('getAuthentication')->andReturn($authentication);
+        $user->shouldReceive('setExamined')->with(true);
+        $user->shouldReceive('setMiddleName')->with(null);
+
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(['campusId' => 'abc', 'enabled' => true])
+            ->andReturn([$user])
+            ->once();
+        $this->userRepository
+            ->shouldReceive('findBy')
+            ->with(m::hasKey('examined'), m::any())->andReturn([])
+            ->andReturn([])
+            ->once();
+        $this->userRepository->shouldReceive('update')->with($user, false)->once();
+
+        $this->em->shouldReceive('flush')->twice();
+        $this->em->shouldReceive('clear')->once();
+        $this->commandTester->execute([]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Updating middle name from "middle" to ""./',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/Completed sync process 1 users found in the directory; 1 users updated./',
+            $output
+        );
+    }
+
     public function testExecuteWithLastNameChange(): void
     {
         $this->userRepository->shouldReceive('getAllCampusIds')
@@ -283,6 +541,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -346,6 +605,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -408,6 +668,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -470,6 +731,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -539,6 +801,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -601,6 +864,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -663,6 +927,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -725,6 +990,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -788,6 +1054,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -848,6 +1115,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -1245,6 +1513,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user->shouldReceive('getId')->andReturn(42);
         $user->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user->shouldReceive('getFirstName')->andReturn('first');
+        $user->shouldReceive('getMiddleName')->andReturn(null);
         $user->shouldReceive('getLastName')->andReturn('last');
         $user->shouldReceive('getEmail')->andReturn('email');
         $user->shouldReceive('getDisplayName')->andReturn('display');
@@ -1307,6 +1576,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user1->shouldReceive('getId')->andReturn(42);
         $user1->shouldReceive('getFirstAndLastName')->andReturn('first last');
         $user1->shouldReceive('getFirstName')->andReturn('first');
+        $user1->shouldReceive('getMiddleName')->andReturn(null);
         $user1->shouldReceive('getLastName')->andReturn('last');
         $user1->shouldReceive('getEmail')->andReturn('email');
         $user1->shouldReceive('getDisplayName')->andReturn('display');
@@ -1320,6 +1590,7 @@ class SyncAllUsersCommandTest extends KernelTestCase
         $user2->shouldReceive('getId')->andReturn(11);
         $user2->shouldReceive('getFirstAndLastName')->andReturn('other guy');
         $user2->shouldReceive('getFirstName')->andReturn('other');
+        $user2->shouldReceive('getMiddleName')->andReturn(null);
         $user2->shouldReceive('getLastName')->andReturn('guy');
         $user2->shouldReceive('getEmail')->andReturn('other-guy');
         $user2->shouldReceive('getPhone')->andReturn('');
