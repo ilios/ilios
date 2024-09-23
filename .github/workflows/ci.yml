@@ -17,6 +17,7 @@ env:
   MESSENGER_TRANSPORT_DSN: doctrine://default
   latest_php: 8.3
   DOCKER_BUILDKIT: 1
+  UCSF_SQ_TK: sqp_d0279fe2dd0d948f8366350841b7ac5d0682e0c9
 
 jobs:
   code_style:
@@ -359,8 +360,6 @@ jobs:
     name: Scan with UCSF SonarQube
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    env:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     needs: tests
     steps:
       - uses: actions/checkout@v4
@@ -371,9 +370,8 @@ jobs:
           name: coverage-output
       - run: ls -lh coverage.xml
       - uses: sonarsource/sonarqube-scan-action@v3.0
-        if: ${{ env.SONAR_TOKEN != '' }}
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ env.UCSF_SQ_TK }}
           SONAR_HOST_URL: https://sonarqube.ucsf.edu
         with:
           args: >
