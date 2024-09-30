@@ -244,6 +244,8 @@ jobs:
         docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH consume-messages:testing
         docker ps
         docker ps | grep -q ilios-consume-messages
+        docker stop ilios-consume-messages
+        docker rm --volumes ilios-consume-messages
     - name: Apache PHP
       if: ${{ always() }}
       run: |
@@ -251,6 +253,8 @@ jobs:
         docker ps
         docker ps | grep -q ilios-php-apache
         docker exec ilios-php-apache php /var/www/ilios/bin/console monitor:health
+        docker stop ilios-php-apache
+        docker rm --volumes ilios-php-apache
     - name: Nginx
       if: ${{ always() }}
       run: |
@@ -258,6 +262,8 @@ jobs:
         sleep 15
         docker ps
         docker ps --filter "health=healthy" | grep -q ilios-nginx
+        docker stop ilios-nginx
+        docker rm --volumes ilios-nginx
     - name: FPM
       if: ${{ always() }}
       run: |
@@ -265,6 +271,8 @@ jobs:
         docker ps
         docker ps | grep -q ilios-fpm
         docker exec ilios-fpm php bin/console monitor:health
+        docker stop ilios-fpm
+        docker rm --volumes ilios-fpm
     - name: FPM Dev
       if: ${{ always() }}
       run: |
@@ -272,36 +280,48 @@ jobs:
         docker ps
         docker ps | grep -q ilios-fpm-dev
         docker exec ilios-fpm-dev php bin/console monitor:health
+        docker stop ilios-fpm-dev
+        docker rm --volumes ilios-fpm-dev
     - name: Admin
       if: ${{ always() }}
       run: |
         docker run -d --name ilios-admin admin:testing
         docker ps
         docker ps | grep -q ilios-admin
+        docker stop ilios-admin
+        docker rm --volumes ilios-admin
     - name: MySQL
       if: ${{ always() }}
       run: |
         docker run -d --name ilios-mysql mysql:testing
         docker ps
         docker ps | grep -q ilios-mysql
+        docker stop ilios-mysql
+        docker rm --volumes ilios-mysql
     - name: MySQL Demo
       if: ${{ always() }}
       run: |
         docker run -d --name ilios-mysql-demo mysql-demo:testing
         docker ps
         docker ps | grep -q ilios-mysql-demo
+        docker stop ilios-mysql-demo
+        docker rm --volumes ilios-mysql-demo
     - name: OpenSearch
       if: ${{ always() }}
       run: |
         docker run -d --name ilios-opensearch opensearch:testing
         docker ps
         docker ps | grep -q ilios-opensearch
+        docker stop ilios-opensearch
+        docker rm --volumes ilios-opensearch
     - name: REdis
       if: ${{ always() }}
       run: |
         docker run -d --name ilios-redis redis:testing
         docker ps
         docker ps | grep -q ilios-redis
+        docker stop ilios-redis
+        docker rm --volumes ilios-redis
     - name: Output Docker Logs
       if: failure()
       run: |
