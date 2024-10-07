@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\IlmSession;
 use App\Entity\Course;
 use App\Entity\CourseInterface;
 use App\Entity\School;
@@ -180,7 +181,7 @@ class SessionTest extends EntityBase
     {
         $this->assertTrue(method_exists($this->object, 'getIlmSession'), "Method getIlmSession missing");
         $this->assertTrue(method_exists($this->object, 'setIlmSession'), "Method setIlmSession missing");
-        $obj = m::mock('App\Entity\IlmSession');
+        $obj = m::mock(IlmSession::class);
         $obj->shouldReceive('setSession')->with($this->object)->once();
         $this->object->setIlmSession($obj);
         $this->assertSame($obj, $this->object->getIlmSession());

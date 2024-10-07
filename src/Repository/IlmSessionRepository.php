@@ -46,7 +46,7 @@ class IlmSessionRepository extends ServiceEntityRepository implements DTOReposit
             ->select(
                 'x.id as xId, session.id AS sessionId, course.id AS courseId, school.id AS schoolId'
             )
-            ->from('App\Entity\IlmSession', 'x')
+            ->from(IlmSession::class, 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')

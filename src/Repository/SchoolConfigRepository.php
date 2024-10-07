@@ -45,7 +45,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
 
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x.id as xId, school.id AS schoolId')
-            ->from('App\Entity\SchoolConfig', 'x')
+            ->from(SchoolConfig::class, 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $schoolConfigIds);
@@ -63,7 +63,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
     public function getValue($name): mixed
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('x.value')->from('App\Entity\SchoolConfig', 'x')
+        $qb->select('x.value')->from(SchoolConfig::class, 'x')
             ->where($qb->expr()->eq('x.name', ':name'))
             ->setParameter('name', $name);
 

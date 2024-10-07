@@ -68,7 +68,7 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
 
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('x.id as offeringId, school.id as schoolId, course.id as courseId, session.id as sessionId')
-            ->from('App\Entity\Offering', 'x')
+            ->from(Offering::class, 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')
@@ -97,13 +97,13 @@ class OfferingRepository extends ServiceEntityRepository implements DTORepositor
     public function getOfferingsForTeachingReminders(int $daysInAdvance, array $schoolIds): array
     {
         $now = time();
-        $startDate = new \DateTime();
+        $startDate = new DateTime();
         $startDate->setTimezone(new DateTimeZone('UTC'));
         $startDate->setTimestamp($now);
         $startDate->modify("midnight +{$daysInAdvance} days");
 
         $daysInAdvance++;
-        $endDate = new \DateTime();
+        $endDate = new DateTime();
         $endDate->setTimezone(new DateTimeZone('UTC'));
         $endDate->setTimestamp($now);
         $endDate->modify("midnight +{$daysInAdvance} days");

@@ -411,8 +411,8 @@ class EntityMetadataTest extends KernelTestCase
     protected function getEntityForTypeProvider(): array
     {
         return [
-            ['aamcMethods', 'App\Entity\AamcMethod'],
-            ['vocabularies', 'App\Entity\Vocabulary'],
+            ['aamcMethods', AamcMethod::class],
+            ['vocabularies', Vocabulary::class],
         ];
     }
 }

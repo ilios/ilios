@@ -45,7 +45,7 @@ class MeshTreeRepository extends ServiceEntityRepository implements DTORepositor
             ->select(
                 'x.id as xId, descriptor.id AS descriptorId'
             )
-            ->from('App\Entity\MeshTree', 'x')
+            ->from(MeshTree::class, 'x')
             ->join('x.descriptor', 'descriptor')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', array_keys($dtos));

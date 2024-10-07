@@ -49,7 +49,7 @@ class ReportRepository extends ServiceEntityRepository implements DTORepositoryI
             ->select(
                 'x.id as xId, school.id AS schoolId, user.id AS userId'
             )
-            ->from('App\Entity\Report', 'x')
+            ->from(Report::class, 'x')
             ->join('x.user', 'user')
             ->leftJoin('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))

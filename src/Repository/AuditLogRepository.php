@@ -36,7 +36,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('a as log', 'u.id as userId')
-            ->from('App\Entity\AuditLog', 'a')
+            ->from(AuditLog::class, 'a')
             ->leftJoin('a.user', 'u')
             ->where(
                 $qb->expr()->between(
@@ -71,7 +71,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb
-            ->delete('App\Entity\AuditLog', 'a')
+            ->delete(AuditLog::class, 'a')
             ->add(
                 'where',
                 $qb->expr()->between(
