@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\SchoolInterface;
 use App\Entity\InstructorGroup;
 use Mockery as m;
 
@@ -32,7 +33,7 @@ class InstructorGroupTest extends EntityBase
         $notBlank = [
             'title',
         ];
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
         $this->validateNotBlanks($notBlank);
 
         $this->object->setTitle('test');
@@ -47,7 +48,7 @@ class InstructorGroupTest extends EntityBase
         $this->object->setTitle('test');
 
         $this->validateNotNulls($notNulls);
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
 
 
         $this->validate(0);

@@ -61,7 +61,7 @@ class CurriculumInventorySequenceBlockRepository extends ServiceEntityRepository
                 'startingAcademicLevel.id AS startingAcademicLevelId, ' .
                 'endingAcademicLevel.id AS endingAcademicLevelId, course.id AS courseId, parent.id AS parentId '
             )
-            ->from('App\Entity\CurriculumInventorySequenceBlock', 'x')
+            ->from(CurriculumInventorySequenceBlock::class, 'x')
             ->join('x.report', 'report')
             ->join('report.program', 'program')
             ->join('program.school', 'school')

@@ -55,7 +55,7 @@ class SessionLearningMaterialRepository extends ServiceEntityRepository implemen
                 'course.id AS courseId, course.locked AS courseIsLocked, course.archived AS courseIsArchived, ' .
                 'status.id as statusId, school.id AS schoolId'
             )
-            ->from('App\Entity\SessionLearningMaterial', 'x')
+            ->from(SessionLearningMaterial::class, 'x')
             ->join('x.session', 'session')
             ->join('session.course', 'course')
             ->join('course.school', 'school')

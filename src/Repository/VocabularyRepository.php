@@ -54,7 +54,7 @@ class VocabularyRepository extends ServiceEntityRepository implements
             ->select(
                 'x.id as xId, school.id AS schoolId'
             )
-            ->from('App\Entity\Vocabulary', 'x')
+            ->from(Vocabulary::class, 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $vocabularyIds);

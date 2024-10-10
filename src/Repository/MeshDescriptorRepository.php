@@ -103,7 +103,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         $descriptorIds = array_keys($dtos);
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('p.id AS prevId, m.id AS descriptorId')
-            ->from('App\Entity\MeshPreviousIndexing', 'p')
+            ->from(MeshPreviousIndexing::class, 'p')
             ->join('p.descriptor', 'm')
             ->where($qb->expr()->in('m.id', ':descriptorIds'))
             ->setParameter('descriptorIds', $descriptorIds);

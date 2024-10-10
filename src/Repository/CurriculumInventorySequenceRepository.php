@@ -46,7 +46,7 @@ class CurriculumInventorySequenceRepository extends ServiceEntityRepository impl
             ->select(
                 'x.id as xId, report.id AS reportId, school.id AS schoolId'
             )
-            ->from('App\Entity\CurriculumInventorySequence', 'x')
+            ->from(CurriculumInventorySequence::class, 'x')
             ->join('x.report', 'report')
             ->join('report.program', 'program')
             ->join('program.school', 'school')

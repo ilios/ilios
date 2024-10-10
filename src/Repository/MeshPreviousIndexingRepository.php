@@ -50,7 +50,7 @@ class MeshPreviousIndexingRepository extends ServiceEntityRepository implements
             ->select(
                 'x.id as xId, descriptor.id AS descriptorId'
             )
-            ->from('App\Entity\MeshPreviousIndexing', 'x')
+            ->from(MeshPreviousIndexing::class, 'x')
             ->join('x.descriptor', 'descriptor')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', $meshPreviousIndexingIds);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use App\Entity\Competency;
 use App\Entity\Course;
 use App\Entity\Session;
 use App\Entity\User;
@@ -237,7 +238,7 @@ trait CalendarEventRepository
         $qb = $em->createQueryBuilder();
         $qb->select('s.id AS session_id, so.id, so.title, so.position, cm.id AS competency_id')
             ->distinct()
-            ->from('App\Entity\Session', 's')
+            ->from(Session::class, 's')
             ->join('s.sessionObjectives', 'so')
             ->leftJoin('so.courseObjectives', 'co')
             ->leftJoin('co.programYearObjectives', 'po')
@@ -322,7 +323,7 @@ trait CalendarEventRepository
         $qb = $em->createQueryBuilder();
         $qb->select('cm.id, cm.title, cm2.id AS parent_id, cm2.title AS parent_title')
             ->distinct()
-            ->from('App\Entity\Competency', 'cm')
+            ->from(Competency::class, 'cm')
             ->leftJoin('cm.parent', 'cm2')
             ->where($qb->expr()->in('cm.id', ':ids'))
             ->setParameter(':ids', $competencyIds);
@@ -502,7 +503,7 @@ trait CalendarEventRepository
             'slm.id as slmId, slm.position, slm.notes, slm.required, slm.publicNotes, slm.startDate, slm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
-        $qb->select($what)->from('App\Entity\Session', 's');
+        $qb->select($what)->from(Session::class, 's');
         $qb->join('s.learningMaterials', 'slm');
         $qb->join('slm.learningMaterial', 'lm');
         $qb->join('lm.status', 'lms');
@@ -552,7 +553,7 @@ trait CalendarEventRepository
             'clm.id as clmId, clm.position, clm.notes, clm.required, clm.publicNotes, clm.startDate, clm.endDate, ' .
             'lm.id, lm.title, lm.description, lm.originalAuthor, lm.token, ' .
             'lm.citation, lm.link, lm.filename, lm.filesize, lm.mimetype, lms.id AS status';
-        $qb->select($what)->from('App\Entity\Session', 's');
+        $qb->select($what)->from(Session::class, 's');
         $qb->join('s.course', 'c');
         $qb->join('c.learningMaterials', 'clm');
         $qb->join('clm.learningMaterial', 'lm');

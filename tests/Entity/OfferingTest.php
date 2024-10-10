@@ -63,7 +63,7 @@ class OfferingTest extends EntityBase
         $this->object->setEndDate(new DateTime());
 
         $this->validateNotNulls($notNulls);
-        $this->object->setSession(m::mock('App\Entity\SessionInterface'));
+        $this->object->setSession(m::mock(SessionInterface::class));
 
         $this->validate(0);
     }

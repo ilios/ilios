@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Offering;
+use App\Entity\IlmSession;
 use App\Classes\CalendarEventUserContext;
 use App\Entity\Session;
 use App\Entity\UserRole;
@@ -123,7 +125,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('u')
-            ->from('App\Entity\User', 'u')
+            ->from(User::class, 'u')
             ->where($qb->expr()->in('u.campusId', ':campusIds'));
         $qb->setParameter(':campusIds', $campusIds);
 
@@ -308,7 +310,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     public function getIds($includeDisabled = true, $includeSyncIgnore = true): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->addSelect('u.id')->from('App\Entity\User', 'u');
+        $qb->addSelect('u.id')->from(User::class, 'u');
         if (!$includeDisabled) {
             $qb->andWhere('u.enabled=1');
         }
@@ -328,7 +330,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->addSelect('u.campusId')->from('App\Entity\User', 'u');
+        $qb->addSelect('u.campusId')->from(User::class, 'u');
         if (!$includeDisabled) {
             $qb->andWhere('u.enabled=1');
         }
@@ -346,7 +348,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
-        $qb->update('App\Entity\User', 'u')
+        $qb->update(User::class, 'u')
             ->set('u.examined', $qb->expr()->literal(false));
 
         $qb->getQuery()->execute();
@@ -375,7 +377,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
-        $qb->addSelect($what)->from('App\Entity\User', 'u');
+        $qb->addSelect($what)->from(User::class, 'u');
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
         }
@@ -421,7 +423,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
 
-        $qb->addSelect($what)->from('App\Entity\User', 'u');
+        $qb->addSelect($what)->from(User::class, 'u');
 
         foreach ($joins as $key => $statement) {
             $qb->leftJoin($statement, $key);
@@ -500,7 +502,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.externalId as courseExternalId, s.description AS sessionDescription';
         foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
-            $qb->addSelect($what)->from('App\Entity\User', 'u');
+            $qb->addSelect($what)->from(User::class, 'u');
             foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
@@ -567,7 +569,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             's.description AS sessionDescription, st.title AS sessionTypeTitle, c.externalId AS courseExternalId';
         foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
-            $qb->addSelect($what)->from('App\Entity\User', 'u');
+            $qb->addSelect($what)->from(User::class, 'u');
             foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
@@ -659,7 +661,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.externalId as courseExternalId, s.description AS sessionDescription';
         foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
-            $qb->addSelect($what)->from('App\Entity\User', 'u');
+            $qb->addSelect($what)->from(User::class, 'u');
             foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
@@ -724,7 +726,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             'c.externalId as courseExternalId, s.description AS sessionDescription';
         foreach ($joinsAndUserContexts as $joinsAndUserContext) {
             $qb = $this->getEntityManager()->createQueryBuilder();
-            $qb->addSelect($what)->from('App\Entity\User', 'u');
+            $qb->addSelect($what)->from(User::class, 'u');
             foreach ($joinsAndUserContext[0] as $key => $statement) {
                 $qb->leftJoin($statement, $key);
             }
@@ -1098,19 +1100,19 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     {
         $factory = $this->factory;
         $offIdQb = $this->getEntityManager()->createQueryBuilder();
-        $offIdQb->select('learnerOffering.id')->from('App\Entity\User', 'learnerU');
+        $offIdQb->select('learnerOffering.id')->from(User::class, 'learnerU');
         $offIdQb->join('learnerU.offerings', 'learnerOffering');
         $offIdQb->andWhere($offIdQb->expr()->eq('learnerU.id', ':user_id'));
 
         $groupOfferingQb = $this->getEntityManager()->createQueryBuilder();
-        $groupOfferingQb->select('groupOffering.id')->from('App\Entity\User', 'groupU');
+        $groupOfferingQb->select('groupOffering.id')->from(User::class, 'groupU');
         $groupOfferingQb->leftJoin('groupU.learnerGroups', 'g');
         $groupOfferingQb->leftJoin('g.offerings', 'groupOffering');
         $groupOfferingQb->andWhere($groupOfferingQb->expr()->eq('groupU.id', ':user_id'));
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s.id, o.startDate, o.id as offeringId');
-        $qb->from('App\Entity\Offering', 'o');
+        $qb->from(Offering::class, 'o');
         $qb->join('o.session', 's');
         $qb->where($qb->expr()->orX(
             $qb->expr()->in('o.id', $offIdQb->getDQL()),
@@ -1129,19 +1131,19 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $offeringSessions = $qb->getQuery()->getArrayResult();
 
         $ilmQb = $this->getEntityManager()->createQueryBuilder();
-        $ilmQb->select('learnerIlmSession.id')->from('App\Entity\User', 'learnerU');
+        $ilmQb->select('learnerIlmSession.id')->from(User::class, 'learnerU');
         $ilmQb->join('learnerU.learnerIlmSessions', 'learnerIlmSession');
         $ilmQb->andWhere($ilmQb->expr()->eq('learnerU.id', ':user_id'));
 
         $groupIlmSessionQb = $this->getEntityManager()->createQueryBuilder();
-        $groupIlmSessionQb->select('groupIlmSession.id')->from('App\Entity\User', 'groupU');
+        $groupIlmSessionQb->select('groupIlmSession.id')->from(User::class, 'groupU');
         $groupIlmSessionQb->leftJoin('groupU.learnerGroups', 'g');
         $groupIlmSessionQb->leftJoin('g.ilmSessions', 'groupIlmSession');
         $groupIlmSessionQb->andWhere($groupIlmSessionQb->expr()->eq('groupU.id', ':user_id'));
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('s.id, ilm.dueDate, ilm.id AS ilmId');
-        $qb->from('App\Entity\IlmSession', 'ilm');
+        $qb->from(IlmSession::class, 'ilm');
         $qb->join('ilm.session', 's');
         $qb->where($qb->expr()->orX(
             $qb->expr()->in('ilm.id', $ilmQb->getDQL()),

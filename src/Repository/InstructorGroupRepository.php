@@ -46,7 +46,7 @@ class InstructorGroupRepository extends ServiceEntityRepository implements DTORe
             ->select(
                 'x.id as xId, school.id AS schoolId'
             )
-            ->from('App\Entity\InstructorGroup', 'x')
+            ->from(InstructorGroup::class, 'x')
             ->join('x.school', 'school')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', array_keys($dtos));

@@ -309,7 +309,7 @@ class CourseTest extends EntityBase
      */
     public function testGetAncestorOrSelfWithAncestor(): void
     {
-        $ancestor = m::mock('App\Entity\Course');
+        $ancestor = m::mock(Course::class);
         $this->object->setAncestor($ancestor);
         $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
     }

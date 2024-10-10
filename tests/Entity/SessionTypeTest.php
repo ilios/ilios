@@ -51,7 +51,7 @@ class SessionTypeTest extends EntityBase
 
         $this->validateNotNulls($notNull);
 
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
 
 
         $this->validate(0);
@@ -163,7 +163,7 @@ class SessionTypeTest extends EntityBase
     public function testValidHexCodes(): void
     {
         $this->object->setTitle('test');
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
         $this->object->setCalendarColor('#123abc');
         $this->validate(0);
 
