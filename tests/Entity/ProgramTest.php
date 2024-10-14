@@ -56,7 +56,7 @@ class ProgramTest extends EntityBase
 
         $this->validateNotNulls($notNull);
 
-        $this->object->setSchool(m::mock('App\Entity\SchoolInterface'));
+        $this->object->setSchool(m::mock(SchoolInterface::class));
 
         $this->validate(0);
     }

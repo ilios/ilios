@@ -77,7 +77,7 @@ class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
         $this->learningMaterialRepository->shouldReceive('flushAndClear')->once();
 
         $this->iliosFileSystem
-            ->shouldReceive('storeLearningMaterialFile')->with(\Mockery::on(function ($argument) {
+            ->shouldReceive('storeLearningMaterialFile')->with(m::on(function ($argument) {
                 if ($argument instanceof File && $argument->getRealPath() === __FILE__) {
                     return true;
                 }

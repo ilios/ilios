@@ -47,7 +47,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
             ->select(
                 'x.id as xId, user.id AS userId'
             )
-            ->from('App\Entity\PendingUserUpdate', 'x')
+            ->from(PendingUserUpdate::class, 'x')
             ->join('x.user', 'user')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', array_keys($dtos));
@@ -94,7 +94,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
     public function removeAllPendingUserUpdates()
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->delete('App\Entity\PendingUserUpdate', 'p');
+        $qb->delete(PendingUserUpdate::class, 'p');
         $qb->getQuery()->execute();
     }
 }

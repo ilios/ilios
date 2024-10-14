@@ -47,7 +47,7 @@ class IngestionExceptionRepository extends ServiceEntityRepository implements
             ->select(
                 'x.id as xId, user.id AS userId'
             )
-            ->from('App\Entity\IngestionException', 'x')
+            ->from(IngestionException::class, 'x')
             ->join('x.user', 'user')
             ->where($qb->expr()->in('x.id', ':ids'))
             ->setParameter('ids', array_keys($dtos));

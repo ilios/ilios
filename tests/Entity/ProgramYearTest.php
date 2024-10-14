@@ -51,7 +51,7 @@ class ProgramYearTest extends EntityBase
         $this->object->setStartYear(3);
 
         $this->validateNotNulls($notNull);
-        $this->object->setProgram(m::mock('App\Entity\ProgramInterface'));
+        $this->object->setProgram(m::mock(ProgramInterface::class));
 
 
         $this->validate(0);

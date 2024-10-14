@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\CurriculumInventory\Export;
 
+use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CourseClerkshipTypeInterface;
 use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryInstitutionInterface;
@@ -328,7 +329,7 @@ class XmlPrinter
         usort(
             $topLevelSequenceBlocks,
             [
-                'App\Entity\CurriculumInventorySequenceBlock',
+                CurriculumInventorySequenceBlock::class,
                 'compareSequenceBlocksWithDefaultStrategy',
             ]
         );

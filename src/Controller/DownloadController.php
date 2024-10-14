@@ -47,7 +47,7 @@ class DownloadController extends AbstractController
 
         $path = $learningMaterial->getRelativePath();
         if (!$path) {
-            throw new \Exception(
+            throw new Exception(
                 "No valid path for learning material with token: " . $token
             );
         }

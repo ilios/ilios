@@ -53,7 +53,7 @@ class Fetch
         }
 
         if (empty($fileContents)) {
-            throw new \Exception('Failed to load ' . $url);
+            throw new Exception('Failed to load ' . $url);
         }
 
         return $fileContents;

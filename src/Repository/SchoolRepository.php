@@ -152,7 +152,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
-        $qb->addSelect($what)->from('App\Entity\School', 'school');
+        $qb->addSelect($what)->from(School::class, 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.offerings', 'o');
@@ -196,7 +196,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.level as courseLevel, st.id as sessionTypeId, ' .
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
-        $qb->addSelect($what)->from('App\Entity\School', 'school');
+        $qb->addSelect($what)->from(School::class, 'school');
 
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
@@ -298,7 +298,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->addSelect($what)->from('App\Entity\School', 'school');
+        $qb->addSelect($what)->from(School::class, 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.offerings', 'o');
@@ -345,7 +345,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->addSelect($what)->from('App\Entity\School', 'school');
+        $qb->addSelect($what)->from(School::class, 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.ilmSession', 'ilm');
@@ -416,7 +416,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->addSelect($what)->from('App\Entity\School', 'school');
+        $qb->addSelect($what)->from(School::class, 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.offerings', 'o');
@@ -463,7 +463,7 @@ class SchoolRepository extends ServiceEntityRepository implements
             'c.externalId as courseExternalId, s.description AS sessionDescription';
 
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->addSelect($what)->from('App\Entity\School', 'school');
+        $qb->addSelect($what)->from(School::class, 'school');
         $qb->join('school.courses', 'c');
         $qb->join('c.sessions', 's');
         $qb->join('s.ilmSession', 'ilm');
