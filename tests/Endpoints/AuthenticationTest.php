@@ -335,7 +335,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         if (array_key_exists($key, $data) and $data[$key] == $value) {
             $this->fail(
                 "This value is already set for $key. " .
-                "Modify " . $this::class . '::putsToTest'
+                "Modify " . static::class . '::putsToTest'
             );
         }
         unset($data['passwordHash']);
@@ -531,7 +531,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
             if (array_key_exists($key, $data) and $data[$key] == $value) {
                 $this->fail(
                     "This value is already set for $key. " .
-                    "Modify " . $this::class . '::readOnlyPropertiesToTest'
+                    "Modify " . static::class . '::readOnlyPropertiesToTest'
                 );
             }
             unset($data['passwordHash']);
