@@ -1601,8 +1601,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     protected function pruneData(array $data): array
     {
-        return array_filter($data, function ($v) {
-            return ! is_null($v);
-        });
+        return array_filter($data, fn($v) => ! is_null($v));
     }
 }

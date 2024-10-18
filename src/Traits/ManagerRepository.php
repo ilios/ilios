@@ -239,14 +239,12 @@ trait ManagerRepository
 
     protected function extractSetsFromOwningSideMetadata(array $arr): array
     {
-        return array_map(function (array $arr) {
-            return [
-                'fieldName' => $arr['fieldName'],
-                'tableName'  => $arr['joinTable']['name'],
-                'dtoIdColumn'  => $arr['joinTable']['joinColumns'][0]['name'],
-                'relatedIdColumn'  => $arr['joinTable']['inverseJoinColumns'][0]['name'],
-            ];
-        }, $arr);
+        return array_map(fn(array $arr) => [
+            'fieldName' => $arr['fieldName'],
+            'tableName'  => $arr['joinTable']['name'],
+            'dtoIdColumn'  => $arr['joinTable']['joinColumns'][0]['name'],
+            'relatedIdColumn'  => $arr['joinTable']['inverseJoinColumns'][0]['name'],
+        ], $arr);
     }
 
     protected function extractSetsFromInverseSideMetadata(array $arr): array
