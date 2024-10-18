@@ -136,7 +136,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         if (array_key_exists($key, $data) and $data[$key] == $value) {
             $this->fail(
                 "This value is already set for $key. " .
-                "Modify " . $this::class . '::putsToTest'
+                "Modify " . static::class . '::putsToTest'
             );
         }
         //extract the ID before changing anything in case
