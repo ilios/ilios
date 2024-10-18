@@ -118,9 +118,7 @@ class Directory
         if ($ldapPreferredLastNameProperty) {
             $attributes[] = $ldapPreferredLastNameProperty;
         }
-        $filters = array_map(function ($term) {
-            return '(' . $term . '=%1$s*)';
-        }, $attributes);
+        $filters = array_map(fn($term) => '(' . $term . '=%1$s*)', $attributes);
         return '(|' . implode('', $filters) . ')';
     }
 }

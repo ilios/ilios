@@ -126,13 +126,10 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     {
         $tokenId = $this->jwtManager->getServiceTokenIdFromToken($jwt);
         $schoolIds = $this->jwtManager->getWriteableSchoolIdsFromToken($jwt);
-        $provider = $this->tokenUserProvider;
         $passport = new Passport(
             new UserBadge(
                 (string) $tokenId,
-                function (string $identifier) use ($provider) {
-                    return $provider->loadUserByIdentifier($identifier);
-                }
+                fn(string $identifier) => $this->tokenUserProvider->loadUserByIdentifier($identifier)
             ),
             new CustomCredentials(
                 function ($token, ServiceTokenUserInterface $user) {

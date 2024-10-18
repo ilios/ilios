@@ -242,9 +242,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 ];
             }
         }
-        return array_filter($allDistributions, function (array $arr) {
-            return !str_ends_with($arr['key'], 'frontend.tar.gz');
-        });
+        return array_filter($allDistributions, fn(array $arr) => !str_ends_with($arr['key'], 'frontend.tar.gz'));
     }
 
     protected function downloadAndExtractArchive(
