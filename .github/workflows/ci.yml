@@ -104,7 +104,7 @@ jobs:
       run: composer install --no-interaction --prefer-dist
     - name: Drop, Create, Migrate, and Validate DB
       env:
-        ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
+        ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
       run: |
         sudo systemctl start mysql.service
         bin/console doctrine:database:drop --if-exists --force
@@ -208,7 +208,7 @@ jobs:
     needs: build_amd_containers
     runs-on: ubuntu-latest
     env:
-      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
+      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
       ILIOS_SECRET: DifferentSecret
       ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
     steps:
