@@ -152,7 +152,7 @@ class CourseRolloverTest extends TestCase
         $ancestor = $course->getAncestor();
         $newCourse->shouldReceive('setAncestor')->with($ancestor)->once();
 
-        /* @var CourseObjectiveInterface $objective */
+        /** @var CourseObjectiveInterface $courseObjective */
         foreach ($course->getCourseObjectives() as $courseObjective) {
             $newCourseObjective = m::mock(CourseObjectiveInterface::class);
             $newCourseObjective->shouldReceive('setTitle')->with($courseObjective->getTitle())->once();
@@ -195,7 +195,7 @@ class CourseRolloverTest extends TestCase
                 ->withArgs([$newLearningMaterial, false, false]);
         }
 
-        /* @var SessionInterface $session */
+        /** @var SessionInterface $session */
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldReceive('setTitle')->with($session->getTitle())->once();
@@ -714,7 +714,7 @@ class CourseRolloverTest extends TestCase
             $this->courseLearningMaterialRepository->shouldIgnoreMissing();
         }
 
-        /* @var SessionInterface $session */
+        /** @var SessionInterface $session */
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();

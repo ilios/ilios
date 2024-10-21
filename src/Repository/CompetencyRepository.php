@@ -232,7 +232,7 @@ class CompetencyRepository extends ServiceEntityRepository implements
     protected function importCompetencyToPcrsMapping(array $data, array $referenceMap): array
     {
         // `competency_id`,`pcrs_id`
-        /* @var Competency $entity */
+        /** @var Competency $entity */
         $entity = $referenceMap[DefaultDataImporter::COMPETENCY . $data[0]];
         $entity->addAamcPcrs($referenceMap[DefaultDataImporter::AAMC_PCRS . $data[1]]);
         $this->update($entity, true, true);

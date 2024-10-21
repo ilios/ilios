@@ -65,7 +65,7 @@ class ReportRollover
         $newDescription = null,
         ?int $newYear = null
     ) {
-        /* @var CurriculumInventoryReportInterface $newReport */
+        /** @var CurriculumInventoryReportInterface $newReport */
         $newReport = $this->reportRepository->create();
 
         $newYear = $newYear ?: $report->getYear();
@@ -95,7 +95,7 @@ class ReportRollover
         $newLevels = [];
         $levels = $report->getAcademicLevels();
         foreach ($levels as $level) {
-            /* @var CurriculumInventoryAcademicLevelInterface $newLevel */
+            /** @var CurriculumInventoryAcademicLevelInterface $newLevel */
             $newLevel = $this->academicLevelRepository->create();
             $newLevel->setLevel($level->getLevel());
             $newLevel->setName($level->getName());
@@ -116,7 +116,7 @@ class ReportRollover
         }
 
         $sequence = $report->getSequence();
-        /* @var  CurriculumInventorySequenceInterface $newSequence */
+        /** @var  CurriculumInventorySequenceInterface $newSequence */
         $newSequence = $this->sequenceRepository->create();
         $newSequence->setDescription($sequence->getDescription());
         $newReport->setSequence($newSequence);
@@ -145,7 +145,7 @@ class ReportRollover
         array $newLevels,
         ?CurriculumInventorySequenceBlockInterface $newParent = null
     ) {
-        /* @var CurriculumInventorySequenceBlockInterface $newBlock */
+        /** @var CurriculumInventorySequenceBlockInterface $newBlock */
         $newBlock = $this->sequenceBlockRepository->create();
         $newBlock->setReport($newReport);
         $newBlock->setStartingAcademicLevel($newLevels[$block->getStartingAcademicLevel()->getLevel()]);

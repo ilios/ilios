@@ -44,7 +44,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $reportId = $input->getArgument('reportId');
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var ?CurriculumInventoryReportInterface $report */
         $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
             $output->writeln("<error>No report with id #{$reportId} was found.</error>");

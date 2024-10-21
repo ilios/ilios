@@ -95,7 +95,7 @@ class CourseRollover
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
-        /* @var CourseInterface $newCourse */
+        /** @var CourseInterface $newCourse */
         $newCourse = $this->courseRepository->create();
         $newCourse->setTitle($newTitle);
         $newCourse->setLevel($origCourse->getLevel());
@@ -161,11 +161,11 @@ class CourseRollover
 
     protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $origCourse)
     {
-        /* @var CourseLearningMaterialInterface[] $origCourseLearningMaterials */
+        /** @var CourseLearningMaterialInterface[] $origCourseLearningMaterials */
         $origCourseLearningMaterials = $origCourse->getLearningMaterials();
 
         foreach ($origCourseLearningMaterials as $origCourseLearningMaterial) {
-            /* @var CourseLearningMaterialInterface $newCourseLearningMaterial */
+            /** @var CourseLearningMaterialInterface $newCourseLearningMaterial */
             $newCourseLearningMaterial = $this->courseLearningMaterialRepository->create();
             $newCourseLearningMaterial->setNotes($origCourseLearningMaterial->getNotes());
             $newCourseLearningMaterial->setRequired($origCourseLearningMaterial->isRequired());
@@ -192,13 +192,13 @@ class CourseRollover
         $options,
         array $newCourseObjectives
     ) {
-        /* @var SessionInterface[] $origCourseSessions */
+        /** @var SessionInterface[] $origCourseSessions */
         $origCourseSessions = $origCourse->getSessions();
 
         $sessionMap = [];
 
         foreach ($origCourseSessions as $origCourseSession) {
-            /* @var SessionInterface $newSession */
+            /** @var SessionInterface $newSession */
             $newSession = $this->sessionRepository->create();
             $newSession->setCourse($newCourse);
             $newSession->setTitle($origCourseSession->getTitle());
@@ -260,11 +260,11 @@ class CourseRollover
         SessionInterface $newSession,
         SessionInterface $origCourseSession
     ) {
-        /* @var SessionLearningMaterialInterface[] $origSessionLearningMaterials */
+        /** @var SessionLearningMaterialInterface[] $origSessionLearningMaterials */
         $origSessionLearningMaterials = $origCourseSession->getLearningMaterials();
 
         foreach ($origSessionLearningMaterials as $origSessionLearningMaterial) {
-            /* @var SessionLearningMaterialInterface $newSessionLearningMaterial */
+            /** @var SessionLearningMaterialInterface $newSessionLearningMaterial */
             $newSessionLearningMaterial = $this->sessionLearningMaterialRepository->create();
             $newSessionLearningMaterial->setNotes($origSessionLearningMaterial->getNotes());
             $newSessionLearningMaterial->setRequired($origSessionLearningMaterial->isRequired());
@@ -292,7 +292,7 @@ class CourseRollover
         $options
     ) {
 
-        /* @var OfferingInterface[] $origSessionOfferings */
+        /** @var OfferingInterface[] $origSessionOfferings */
         $origSessionOfferings = $origCourseSession->getOfferings();
 
         foreach ($origSessionOfferings as $origSessionOffering) {
@@ -305,7 +305,7 @@ class CourseRollover
                 $daysOffset
             );
 
-            /* @var OfferingInterface $newOffering */
+            /** @var OfferingInterface $newOffering */
             $newOffering = $this->offeringRepository->create();
             $newOffering->setRoom($origSessionOffering->getRoom());
             $newOffering->setSite($origSessionOffering->getSite());
@@ -382,7 +382,7 @@ class CourseRollover
      */
     private function getOriginalCourse($origCourseId): CourseInterface
     {
-        /* @var CourseInterface $origCourse */
+        /** @var ?CourseInterface $origCourse */
         $origCourse = $this->courseRepository->findOneBy(['id' => $origCourseId]);
         if (empty($origCourse)) {
             throw new Exception(
@@ -399,7 +399,7 @@ class CourseRollover
         $newCourseObjectives = [];
         $cohorts = $newCourse->getCohorts();
         foreach ($origCourse->getCourseObjectives() as $courseObjective) {
-            /* @var CourseObjectiveInterface $newCourseObjective */
+            /** @var CourseObjectiveInterface $newCourseObjective */
             $newCourseObjective = $this->courseObjectiveRepository->create();
             $newCourseObjective->setCourse($newCourse);
             $newCourseObjective->setTerms($courseObjective->getTerms());
@@ -488,7 +488,7 @@ class CourseRollover
         $daysOffset
     ) {
         if ($origIlmSession = $origSession->getIlmSession()) {
-            /* @var IlmSessionInterface $newIlmSession */
+            /** @var IlmSessionInterface $newIlmSession */
             $newIlmSession = $this->ilmSessionRepository->create();
             $newIlmSession->setHours($origIlmSession->getHours());
             $newSession->setIlmSession($newIlmSession);

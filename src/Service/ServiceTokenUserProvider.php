@@ -37,7 +37,7 @@ class ServiceTokenUserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): ServiceTokenUserInterface
     {
-        /* @var ServiceTokenInterface $token */
+        /** @var ?ServiceTokenInterface $token */
         $token = $this->tokenRepository->findOneBy(['id' => (int) $identifier]);
 
         if (!$token) {

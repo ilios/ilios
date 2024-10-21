@@ -75,8 +75,7 @@ class EntityNormalizer implements NormalizerInterface
             return $value ? (string) $value : null;
         }
 
-        if ($type === IA\Type::ENTITY_COLLECTION) {
-            /** @var ArrayCollection $value $ids */
+        if ($type === IA\Type::ENTITY_COLLECTION && $value instanceof ArrayCollection) {
             $ids = $value->map(fn($entity) => $entity ? (string) $entity : null)->toArray();
 
             return array_values($ids);

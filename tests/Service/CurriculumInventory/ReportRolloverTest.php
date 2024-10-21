@@ -175,9 +175,9 @@ class ReportRolloverTest extends TestCase
         $newAcademicLevels = $newReport->getAcademicLevels()->toArray();
         $this->assertEquals(count($academicLevels), count($newAcademicLevels));
         for ($i = 0, $n = count($academicLevels); $i < $n; $i++) {
-            /* @var CurriculumInventoryAcademicLevel $academicLevel */
+            /** @var CurriculumInventoryAcademicLevel $academicLevel */
             $academicLevel = $academicLevels[$i];
-            /* @var CurriculumInventoryAcademicLevel $newAcademicLevel */
+            /** @var CurriculumInventoryAcademicLevel $newAcademicLevel */
             $newAcademicLevel = $newAcademicLevels[$i];
             $this->assertNotEquals($academicLevel, $newAcademicLevel);
             $this->assertEquals($academicLevel->getLevel(), $newAcademicLevel->getLevel());

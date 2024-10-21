@@ -81,7 +81,7 @@ class SyncAllUsersCommand extends Command
                         'campus ID (' . $recordArray['campusId'] . ').  ' .
                         'None of them will be updated.</error>'
                     );
-                    /* @var UserInterface $user */
+                    /** @var UserInterface $user */
                     foreach ($users as $user) {
                         $user->setExamined(true);
                         $this->userRepository->update($user, false);

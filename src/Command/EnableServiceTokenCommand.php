@@ -36,7 +36,7 @@ class EnableServiceTokenCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $tokenId = $input->getArgument(self::ID_KEY);
-        /* @var ServiceTokenInterface $token */
+        /** @var ?ServiceTokenInterface $token */
         $token = $this->tokenRepository->findOneById($input->getArgument(self::ID_KEY));
         if (!$token) {
             $output->writeln("No service token with id #{$tokenId} was found.");
