@@ -72,7 +72,7 @@ class TermRepository extends ServiceEntityRepository implements
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $dtos[$arr['termId']]->vocabulary = $arr['vocabularyId'];
-            $dtos[$arr['termId']]->parent = $arr['parentId'] ? $arr['parentId'] : null;
+            $dtos[$arr['termId']]->parent = $arr['parentId'] ?: null;
             $dtos[$arr['termId']]->school = $arr['schoolId'];
         }
 

@@ -143,8 +143,8 @@ abstract class EntityBase extends TestCase
         string|bool $setter = false,
         string|bool $crossSaveMethod = false
     ): void {
-        $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
-        $setMethod = $setter ? $setter : $this->getSetMethodForCollectionProperty($property);
+        $getMethod = $getter ?: $this->getGetMethodForCollectionProperty($property);
+        $setMethod = $setter ?: $this->getSetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->getObject(), $setMethod), "Method {$setMethod} missing");
         $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing");
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
@@ -181,8 +181,8 @@ abstract class EntityBase extends TestCase
         string|bool $crossSaveMethod = false
     ): void {
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
-        $addMethod = $setter ? $setter : $this->getAddMethodForProperty($property);
-        $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
+        $addMethod = $setter ?: $this->getAddMethodForProperty($property);
+        $getMethod = $getter ?: $this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(method_exists($this->getObject(), $addMethod), "Method {$addMethod} missing");
         $this->assertTrue(method_exists($this->getObject(), $getMethod), "Method {$getMethod} missing");
         foreach ($arr as $obj) {
@@ -218,9 +218,9 @@ abstract class EntityBase extends TestCase
         string|bool $crossSaveMethod = false
     ): void {
         $arr = $this->getArrayOfMockObjects('App\Entity\\' . $entityName, 10);
-        $addMethod = $adder ? $adder : $this->getAddMethodForProperty($property);
-        $removeMethod = $remover ? $remover : $this->getRemoveMethodForProperty($property);
-        $getMethod = $getter ? $getter : $this->getGetMethodForCollectionProperty($property);
+        $addMethod = $adder ?: $this->getAddMethodForProperty($property);
+        $removeMethod = $remover ?: $this->getRemoveMethodForProperty($property);
+        $getMethod = $getter ?: $this->getGetMethodForCollectionProperty($property);
         $this->assertTrue(
             method_exists($this->getObject(), $addMethod),
             "Method {$addMethod} missing from {$entityName}"
