@@ -1053,10 +1053,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             ->setParameter('userIds', array_keys($dtos));
 
         foreach ($qb->getQuery()->getResult() as $arr) {
-            $dtos[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ? $arr['primaryCohortId'] : null;
+            $dtos[$arr['userId']]->primaryCohort = $arr['primaryCohortId'] ?: null;
             $dtos[$arr['userId']]->school = $arr['schoolId'];
-            $dtos[$arr['userId']]->authentication = $arr['authenticationId'] ? $arr['authenticationId'] : null;
-            $dtos[$arr['userId']]->username = $arr['username'] ? $arr['username'] : null;
+            $dtos[$arr['userId']]->authentication = $arr['authenticationId'] ?: null;
+            $dtos[$arr['userId']]->username = $arr['username'] ?: null;
         }
 
         $dtos = $this->attachRelatedToDtos(

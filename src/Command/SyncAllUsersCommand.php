@@ -237,7 +237,7 @@ class SyncAllUsersCommand extends Command
         $output->writeln('<info>Found ' . count($unsyncedUsers) . ' unexamined users.</info>');
 
         foreach ($unsyncedUsers as $user) {
-            $campusId = $user->getCampusId() ? $user->getCampusId() : '(no campusId)';
+            $campusId = $user->getCampusId() ?: '(no campusId)';
             $output->writeln(
                 '<comment>[I] User #' . $user->getId() . ' ' . $user->getFirstAndLastName() . ' ' .
                 $user->getEmail() . ' ' . $campusId . ' ' .

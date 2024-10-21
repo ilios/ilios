@@ -167,7 +167,7 @@ class UsereventController extends AbstractController
             }
         }
 
-        $response['userEvents'] = $events ? $events : [];
+        $response['userEvents'] = $events ?: [];
 
         return new Response(
             $serializer->serialize($response, 'json'),

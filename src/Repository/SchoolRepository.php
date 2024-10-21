@@ -530,7 +530,7 @@ class SchoolRepository extends ServiceEntityRepository implements
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $dtos[$arr['schoolId']]->curriculumInventoryInstitution =
-                $arr['curriculumInventoryInstitutionId'] ? $arr['curriculumInventoryInstitutionId'] : null;
+                $arr['curriculumInventoryInstitutionId'] ?: null;
         }
 
         $dtos = $this->attachRelatedToDtos(
