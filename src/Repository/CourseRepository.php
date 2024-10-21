@@ -698,8 +698,6 @@ EOL;
         return array_values($indexableCourses);
     }
 
-    /**
-     */
     protected function joinResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -716,8 +714,6 @@ EOL;
         return $rhett;
     }
 
-    /**
-     */
     protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

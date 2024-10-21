@@ -238,10 +238,6 @@ class ReportRolloverTest extends TestCase
         $this->assertEquals("06/30/{$followingYear}", $newReport->getEndDate()->format('m/d/Y'));
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     * @param CurriculumInventorySequenceBlockInterface $newSequenceBlock
-     */
     protected function assertSequenceBlockEquals(
         CurriculumInventorySequenceBlockInterface $sequenceBlock,
         CurriculumInventorySequenceBlockInterface $newSequenceBlock

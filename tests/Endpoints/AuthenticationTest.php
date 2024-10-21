@@ -589,11 +589,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         parent::anonymousDeniedPatchTest($data);
     }
 
-    /**
-     * @param int $count
-     * @param string $jwt
-     * @return array
-     */
     protected function createMany(int $count, string $jwt): array
     {
         $userDataLoader = self::getContainer()->get(UserData::class);

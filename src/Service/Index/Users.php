@@ -48,9 +48,6 @@ class Users extends OpenSearchBase
         return !$result['errors'];
     }
 
-    /**
-     * @param int $id
-     */
     public function delete(int $id): bool
     {
         $result = $this->doDelete([

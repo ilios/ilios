@@ -117,9 +117,6 @@ class UserMaterialTest extends TestCase
         $this->assertBlanked($this->userMaterial);
     }
 
-    /**
-     * @param UserMaterial $material
-     */
     protected function assertBlanked(UserMaterial $material)
     {
         $this->assertTrue($material->isBlanked);
@@ -148,9 +145,6 @@ class UserMaterialTest extends TestCase
         $this->assertEmpty($material->instructors);
     }
 
-    /**
-     * @param UserMaterial $material
-     */
     protected function assertNotBlanked(UserMaterial $material)
     {
         $this->assertFalse($material->isBlanked);

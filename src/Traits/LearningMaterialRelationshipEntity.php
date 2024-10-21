@@ -17,9 +17,6 @@ trait LearningMaterialRelationshipEntity
 {
     protected ?string $notes = null;
 
-    /**
-     * @param string|null $notes
-     */
     public function setNotes(?string $notes): void
     {
         $this->notes = $notes;
@@ -30,9 +27,6 @@ trait LearningMaterialRelationshipEntity
         return $this->notes;
     }
 
-    /**
-     * @param bool $required
-     */
     public function setRequired(bool $required): void
     {
         $this->required = $required;
@@ -43,9 +37,6 @@ trait LearningMaterialRelationshipEntity
         return $this->required;
     }
 
-    /**
-     * @param bool $publicNotes
-     */
     public function setPublicNotes(bool $publicNotes): void
     {
         $this->publicNotes = $publicNotes;
