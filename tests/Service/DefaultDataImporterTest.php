@@ -20,9 +20,6 @@ class DefaultDataImporterTest extends TestCase
     protected m\MockInterface $loader;
     protected DefaultDataImporter $importer;
 
-    /**
-     * @inheritdoc
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,9 +28,6 @@ class DefaultDataImporterTest extends TestCase
         $this->importer = new DefaultDataImporter($this->loader);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         unset($this->importer);

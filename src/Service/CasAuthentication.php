@@ -134,9 +134,6 @@ class CasAuthentication implements AuthenticationInterface
         return $response;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function logout(Request $request): JsonResponse
     {
         $logoutUrl = $this->casManager->getLogoutUrl();

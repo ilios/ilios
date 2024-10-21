@@ -71,9 +71,6 @@ class LearningMaterials extends OpenSearchBase
         return empty($errors);
     }
 
-    /**
-     * @param int $id
-     */
     public function delete(int $id): bool
     {
         $result = $this->doDeleteByQuery([

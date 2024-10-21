@@ -340,10 +340,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->render();
     }
 
-    /**
-     * @param OutputInterface $output
-     * @param string $title
-     */
     protected function printTableHeadline(OutputInterface $output, string $title): void
     {
         $output->writeln('');

@@ -159,9 +159,6 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
 
     public function getDirectedProgramSchoolIds(): array;
 
-    /**
-     * @@return array
-     */
     public function getDirectedProgramYearIds(): array;
 
     public function getDirectedProgramYearProgramIds(): array;

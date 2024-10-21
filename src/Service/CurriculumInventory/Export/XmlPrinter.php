@@ -355,13 +355,6 @@ class XmlPrinter
         return $xw->outputMemory();
     }
 
-    /**
-     * @param XMLWriter $xw
-     * @param CurriculumInventoryReportInterface $report
-     * @param string $reportId
-     * @param string $institutionDomain
-     * @param array $expectations
-     */
     protected function writeCompetencyFrameworkNode(
         XmlWriter $xw,
         CurriculumInventoryReportInterface $report,
@@ -681,10 +674,6 @@ class XmlPrinter
         $xw->writeElement('CompetencyObjectReference', $ref);
     }
 
-    /**
-     * @param XmlWriter $xw
-     * @param string $uri
-     */
     protected function writeCompetencyFrameworkIncludesNode(XmlWriter $xw, string $uri): void
     {
         $xw->startElement('cf:Includes');
@@ -693,12 +682,6 @@ class XmlPrinter
         $xw->endElement(); // </cf:Includes>
     }
 
-    /**
-     * @param XmlWriter $xw
-     * @param string $relUri1
-     * @param string $relUri2
-     * @param string $relationshipUri
-     */
     protected function writeCompetencyFrameworkRelationNode(
         XmlWriter $xw,
         string $relUri1,

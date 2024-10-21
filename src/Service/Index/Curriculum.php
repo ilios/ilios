@@ -111,9 +111,6 @@ class Curriculum extends OpenSearchBase
         return true;
     }
 
-    /**
-     * @param int $id
-     */
     public function deleteCourse(int $id): bool
     {
         $result = $this->doDeleteByQuery([
@@ -128,9 +125,6 @@ class Curriculum extends OpenSearchBase
         return !count($result['failures']);
     }
 
-    /**
-     * @param int $id
-     */
     public function deleteSession(int $id): bool
     {
         $result = $this->doDelete([
