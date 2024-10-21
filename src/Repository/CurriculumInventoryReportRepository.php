@@ -182,7 +182,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
         $queries[] = $qb->getQuery();
         foreach ($queries as $query) {
-            /* @var Query $query */
+            /** @var Query $query */
             $rhett = array_merge($rhett, $query->getResult(AbstractQuery::HYDRATE_ARRAY));
         }
         return $rhett;
@@ -445,7 +445,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         $queries[] = $qb->getQuery();
 
         foreach ($queries as $query) {
-            /* @var Query $query */
+            /** @var Query $query */
             $rows = $query->getResult(AbstractQuery::HYDRATE_ARRAY);
             foreach ($rows as $row) {
                 $rhett[$row['pcrs_id']] = $row;

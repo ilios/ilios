@@ -24,7 +24,7 @@ class UserMaterialFactory
             );
         }
 
-        /* @var UserMaterial $obj */
+        /** @var UserMaterial $obj */
         $obj = new UserMaterial();
         $obj->id = $material['id'];
         $obj->courseLearningMaterial = isset($material['clmId']) ? $material['clmId'] : null;

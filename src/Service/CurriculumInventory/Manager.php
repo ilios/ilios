@@ -430,9 +430,9 @@ class Manager
         foreach ($rows as $row) {
             $row['duration'] = 0;
             if ($row['startDate']) {
-                /* @var DateTime $startDate */
+                /** @var DateTime $startDate */
                 $startDate = $row['startDate'];
-                /* @var DateTime $endDate */
+                /** @var DateTime $endDate */
                 $endDate = $row['endDate'];
                 $duration = floor(($endDate->getTimestamp() - $startDate->getTimestamp()) / 60);
                 $row['duration'] = $duration;
@@ -502,9 +502,9 @@ class Manager
             $ilmHours[$row['event_id']] =  floor($row['ilm_hours'] * 60);
             $row['duration'] = 0;
             if ($row['startDate']) {
-                /* @var DateTime $startDate */
+                /** @var DateTime $startDate */
                 $startDate = $row['startDate'];
-                /* @var DateTime $endDate */
+                /** @var DateTime $endDate */
                 $endDate = $row['endDate'];
                 $duration = floor(($endDate->getTimestamp() - $startDate->getTimestamp()) / 60);
                 $row['duration'] = $duration;

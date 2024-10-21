@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Traits\AuthenticationService;
+use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -95,7 +96,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
                 'jwt' => null,
             ], JsonResponse::HTTP_OK);
         }
-        /* @var \App\Entity\AuthenticationInterface $authEntity */
+        /** @var ?AuthenticationEntityInterface $authEntity */
         $authEntity = $this->authenticationRepository->findOneBy(['username' => $userId]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());

@@ -32,7 +32,7 @@ class ChangeAlertHandler
         ?ServiceTokenInterface $serviceTokenInstigator = null
     ): void {
         // create new alert for this offering
-        /* @var AlertInterface $alert */
+        /** @var AlertInterface $alert */
         $alert = $this->alertRepository->create();
         $alert->addChangeType($this->alertChangeTypeRepository->findOneBy([
             'id' => AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING]));

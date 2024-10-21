@@ -15,6 +15,7 @@
     <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
     <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment" />
     <rule ref="SlevomatCodingStandard.Commenting.UselessInheritDocComment" />
+    <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration" />
 
     <file>bin/</file>
     <file>config/</file>

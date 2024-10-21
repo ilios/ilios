@@ -69,7 +69,7 @@ class RolloverCurriculumInventoryReportCommand extends Command
         $description = $input->getOption('description');
         $year = $input->getOption('year');
 
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var ?CurriculumInventoryReportInterface $report */
         $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
             throw new Exception(

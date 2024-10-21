@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\AuthenticationRepository;
+use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -84,7 +85,7 @@ class CasAuthentication implements AuthenticationInterface
             $this->logger->error($msg, ['server vars' => var_export($_SERVER, true)]);
             throw new Exception($msg);
         }
-        /* @var \App\Entity\AuthenticationInterface $authEntity */
+        /** @var ?AuthenticationEntityInterface $authEntity */
         $authEntity = $this->authenticationRepository->findOneBy(['username' => $username]);
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());

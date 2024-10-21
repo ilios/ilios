@@ -348,7 +348,7 @@ class CleanupStringsCommand extends Command
         $progress->start();
         do {
             $materials = $this->learningMaterialRepository->findBy([], ['id' => 'ASC'], $limit, $offset);
-            /* @var LearningMaterialInterface $material */
+            /** @var LearningMaterialInterface $material */
             foreach ($materials as $material) {
                 $original = $material->getLink();
                 if (null === $original || '' === trim($original)) {

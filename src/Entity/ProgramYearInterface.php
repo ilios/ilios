@@ -34,5 +34,5 @@ interface ProgramYearInterface extends
     public function getSchool(): SchoolInterface;
 
     public function setCohort(CohortInterface $cohort): void;
-    public function getCohort(): CohortInterface;
+    public function getCohort(): ?CohortInterface;
 }

@@ -115,7 +115,7 @@ class ListServiceTokensCommand extends Command
         $table = new Table($output);
         $table->setHeaders(['id', 'description', 'status', 'created at', 'expires at']);
 
-        /* @var ServiceTokenInterface $token */
+        /** @var ServiceTokenInterface $token */
         foreach ($tokens as $token) {
             $table->addRow([
                 $token->getId(),

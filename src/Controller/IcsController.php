@@ -82,7 +82,7 @@ class IcsController extends AbstractController
             fn(UserEvent $event) => $event->isPublished && $event->isScheduled
         );
 
-        /* @var UserEvent $event */
+        /** @var UserEvent $event */
         foreach ($publishedEvents as $event) {
             $vEvent = new Event();
             $vEvent->setOccurrence(
@@ -123,7 +123,7 @@ class IcsController extends AbstractController
 
         if ($event->offering) {
             $offering = $this->offeringRepository->findOneBy(['id' => $event->offering]);
-            /* @var SessionInterface $session */
+            /** @var SessionInterface $session */
             $session = $offering->getSession();
             $slug .= 'O' . $event->offering;
         } elseif ($event->ilmSession) {

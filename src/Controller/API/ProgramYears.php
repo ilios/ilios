@@ -295,7 +295,7 @@ class ProgramYears extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        /* @var ProgramYearInterface $entity */
+        /** @var ?ProgramYearInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
@@ -317,7 +317,7 @@ class ProgramYears extends AbstractApiController
             $permission = VoterPermissions::CREATE;
         }
 
-        /* @var ProgramYearInterface $entity */
+        /** @var ProgramYearInterface $entity */
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
         $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
@@ -435,7 +435,7 @@ class ProgramYears extends AbstractApiController
         $program = $programYear->getProgram();
         $graduationYear = $programYear->getStartYear() + $program->getDuration();
 
-        /* @var CohortInterface $cohort */
+        /** @var CohortInterface $cohort */
         $cohort = $this->cohortRepository->create();
         $cohort->setTitle("Class of {$graduationYear}");
         $cohort->setProgramYear($programYear);

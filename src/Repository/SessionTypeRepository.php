@@ -278,7 +278,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
 
     protected function importSessionTypeToMethodMapping(array $data, array $referenceMap): array
     {
-        /* @var SessionType $entity */
+        /** @var SessionType $entity */
         $entity = $referenceMap[DefaultDataImporter::SESSION_TYPE . $data[0]];
         $entity->addAamcMethod($referenceMap[DefaultDataImporter::AAMC_METHOD . $data[1]]);
         $this->update($entity, true, true);

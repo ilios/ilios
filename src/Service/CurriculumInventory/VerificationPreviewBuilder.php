@@ -197,7 +197,7 @@ class VerificationPreviewBuilder
      */
     public function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
     {
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
         $events = $data['events'];
         $rows = [];
@@ -206,7 +206,7 @@ class VerificationPreviewBuilder
 
         $methodsToGroups = $this->getReverseLookupMap(self::TABLE2_METHOD_MAP);
 
-        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        /** @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
         foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
             $blockId = $sequenceBlock->getId();
             $course = $sequenceBlock->getCourse();
@@ -500,9 +500,9 @@ class VerificationPreviewBuilder
 
         $methodsToGroups = $this->getReverseLookupMap($map);
 
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
-        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        /** @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
         foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
             $blockId = $sequenceBlock->getId();
             $course = $sequenceBlock->getCourse();
@@ -594,13 +594,13 @@ class VerificationPreviewBuilder
      */
     protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
     {
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
         $events = $data['events'];
         $rows = [];
         $eventRefs = $data['sequence_block_references']['events'];
 
-        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        /** @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
         foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
             $blockId = $sequenceBlock->getId();
             $course  = $sequenceBlock->getCourse();
