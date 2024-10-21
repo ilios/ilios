@@ -43,7 +43,7 @@ class MeshQualifierData extends AbstractDataLoader
      * Mesh qualifier IDs are strings so we have to convert them
      * @inheritdoc
      */
-    public function createMany($count): array
+    public function createMany(int $count): array
     {
         $data = parent::createMany($count);
 

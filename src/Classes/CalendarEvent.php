@@ -166,7 +166,7 @@ class CalendarEvent
      *
      * This information is not available to un-privileged users
      */
-    protected function clearDataForDraftOrScheduledEvent()
+    protected function clearDataForDraftOrScheduledEvent(): void
     {
         if (!$this->isPublished || $this->isScheduled) {
             $this->name = 'Scheduled';
@@ -200,7 +200,7 @@ class CalendarEvent
     /**
      * Removes any materials that are in draft mode.
      */
-    protected function removeMaterialsInDraft()
+    protected function removeMaterialsInDraft(): void
     {
         $this->learningMaterials = array_values(
             array_filter(

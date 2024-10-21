@@ -145,7 +145,7 @@ class UsermaterialController extends AbstractController
     /**
      * @param UserMaterial[] $materials
      */
-    protected function clearTimedMaterials(array $materials, DateTime $dateTime)
+    protected function clearTimedMaterials(array $materials, DateTime $dateTime): void
     {
         foreach ($materials as $material) {
             $material->clearTimedMaterial($dateTime);

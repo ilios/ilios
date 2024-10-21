@@ -49,7 +49,7 @@ class AuthenticationData extends AbstractDataLoader
         return [];
     }
 
-    public function createMany($count): array
+    public function createMany(int $count): array
     {
         throw new Exception("Cannot auto create many Authentications.  Users have to be created first");
     }

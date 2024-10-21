@@ -21,20 +21,11 @@ class ShibbolethAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    /**
-     * @var String
-     */
-    protected $logoutPath;
+    protected ?string $logoutPath;
 
-    /**
-     * @var String
-     */
-    protected $loginPath;
+    protected ?string $loginPath;
 
-    /**
-     * @var String
-     */
-    protected $userIdAttribute;
+    protected ?string $userIdAttribute;
 
     /**
      * Constructor

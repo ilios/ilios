@@ -8,8 +8,8 @@ use InvalidArgumentException;
 
 class CourseIndexRequest
 {
-    private $courseIds;
-    public const MAX_COURSES = 50;
+    private array $courseIds;
+    public const int MAX_COURSES = 50;
 
     /**
      * CourseIndexRequest constructor.

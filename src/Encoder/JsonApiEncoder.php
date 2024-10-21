@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
 class JsonApiEncoder implements EncoderInterface, DecoderInterface
 {
-    protected const FORMAT = 'json-api';
+    protected const string FORMAT = 'json-api';
 
     public function __construct(protected JsonApiDataShaper $dataShaper)
     {
@@ -36,7 +36,7 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
         return self::FORMAT === $format;
     }
 
-    public function encode($data, string $format, array $context = []): string
+    public function encode(mixed $data, string $format, array $context = []): string
     {
         $shaped = $this->dataShaper->shapeData($data, $context['sideLoadFields']);
 

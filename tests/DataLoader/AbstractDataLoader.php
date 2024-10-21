@@ -22,8 +22,7 @@ use function array_values;
  */
 abstract class AbstractDataLoader implements DataLoaderInterface
 {
-    protected $data;
-
+    protected ?array $data;
 
     public function __construct(
         protected EntityMetadata $entityMetadata,
@@ -36,7 +35,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
      */
     abstract protected function getData(): array;
 
-    protected function setup()
+    protected function setup(): void
     {
         if (!empty($this->data)) {
             return;
@@ -59,9 +58,8 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
     /**
      * Get a formatted data from a string
-     * @param string $when
      */
-    public function getFormattedDate($when): string
+    public function getFormattedDate(string $when): string
     {
         $dt = new DateTime($when);
         return $dt->format('c');
@@ -77,7 +75,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         return json_decode(json_encode(['data' => $item]), false);
     }
 
-    public function createMany($count): array
+    public function createMany(int $count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

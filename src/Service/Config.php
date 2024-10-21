@@ -42,9 +42,8 @@ class Config
      * Look in ENV variables first, if this is set there then
      * go ahead and ignore the DB
      *
-     * @param string $name
      */
-    public function get($name): string|bool|int|null
+    public function get(string $name): string|bool|int|null
     {
         $result = $this->getValueFromEnv($name);
         if (null === $result) {
@@ -57,9 +56,8 @@ class Config
     /**
      * See if there is an environmental variable for this var
      *
-     * @param string $name
      */
-    protected function getValueFromEnv($name): string|bool|null
+    protected function getValueFromEnv(string $name): string|bool|null
     {
         $snakeName = $this->camelToSnake($name);
         $envName = 'ILIOS_' .  strtoupper($snakeName);
@@ -88,9 +86,8 @@ class Config
      * If there is a problem connecting to the DB or with the tables we
      * just return null
      *
-     * @param string $name
      */
-    protected function getValueFromDb($name): string|null
+    protected function getValueFromDb(string $name): string|null
     {
         try {
             return $this->applicationConfigRepository->getValue($name);
@@ -105,10 +102,8 @@ class Config
      * Some parameters are expected to be booleans because they always have been.
      * Since the database stores all of these as long_text we need to cast them back
      *
-     * @param string $name
-     * @param string|bool|null|int $result
      */
-    protected function castResult($name, $result): string|bool|int|null
+    protected function castResult(string $name, string|bool|int|null $result): string|bool|int|null
     {
         if (null !== $result && !is_bool($result) && in_array($name, self::BOOLEAN_NAMES)) {
             return (bool) json_decode($result);

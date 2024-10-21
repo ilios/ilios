@@ -9,7 +9,7 @@ use App\Tests\TestCase;
 
 class AcademicYearTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $obj = new AcademicYear(2021, '2021 - 2022');
         $this->assertSame($obj->id, 2021);

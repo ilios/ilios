@@ -26,7 +26,7 @@ class BadRequestController extends AbstractController
         ],
         priority: -1,
     )]
-    public function indexAction()
+    public function indexAction(): void
     {
         throw $this->createNotFoundException();
     }

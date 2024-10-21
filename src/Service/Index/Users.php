@@ -58,7 +58,7 @@ class Users extends OpenSearchBase
         return $result['result'] === 'deleted';
     }
 
-    public function search(string $query, int $size, bool $onlySuggest)
+    public function search(string $query, int $size, bool $onlySuggest): array
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");

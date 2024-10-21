@@ -157,7 +157,6 @@ class ReportRolloverTest extends TestCase
     }
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReport $report
      */
     public function testRollover(CurriculumInventoryReport $report): void
     {
@@ -207,7 +206,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverKeepName(CurriculumInventoryReportInterface $report): void
     {
@@ -217,7 +215,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverKeepDescription(CurriculumInventoryReportInterface $report): void
     {
@@ -227,7 +224,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverKeepYear(CurriculumInventoryReportInterface $report): void
     {
@@ -280,7 +276,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverWithDifferentProgram(CurriculumInventoryReportInterface $report): void
     {

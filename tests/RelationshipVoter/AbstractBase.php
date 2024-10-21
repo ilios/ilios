@@ -83,8 +83,6 @@ abstract class AbstractBase extends TestCase
 
     /**
      * Check that "root" users are granted access in all votes on the given entity.
-     * @param m\MockInterface $mockEntity
-     * @param array $entityAttrs
      */
     protected function checkRootEntityAccess(
         m\MockInterface $mockEntity,
@@ -106,7 +104,6 @@ abstract class AbstractBase extends TestCase
 
     /**
      * Check that "root" users are granted access in all votes on the given DTO.
-     * @param string $dtoClass
      */
     protected function checkRootDTOAccess(string $dtoClass): void
     {

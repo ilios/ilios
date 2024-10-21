@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -23,7 +24,7 @@ class UploadController extends AbstractController
         Request $request,
         IliosFileSystem $iliosFileSystem,
         AuthorizationCheckerInterface $authorizationChecker
-    ) {
+    ): JsonResponse {
         if (! $authorizationChecker->isGranted(VoterPermissions::CREATE_TEMPORARY_FILE, $iliosFileSystem)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
@@ -33,7 +34,7 @@ class UploadController extends AbstractController
             return new JsonResponse([
                 'errors' => 'Unable to find file in the request. ' .
                             'The uploaded file may have exceeded the maximum allowed size',
-            ], JsonResponse::HTTP_BAD_REQUEST);
+            ], Response::HTTP_BAD_REQUEST);
         }
         if (!$uploadedFile->isValid()) {
             return new JsonResponse(['errors' => 'File failed to upload'], JsonResponse::HTTP_BAD_REQUEST);

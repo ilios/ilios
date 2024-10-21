@@ -53,21 +53,21 @@ class UserMaterialTest extends TestCase
         unset($this->userMaterial);
     }
 
-    public function testClearMaterial()
+    public function testClearMaterial(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->clearMaterial();
         $this->assertBlanked($this->userMaterial);
     }
 
-    public function testClearTimedMaterialWithNoDates()
+    public function testClearTimedMaterialWithNoDates(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->clearTimedMaterial(new DateTime());
         $this->assertNotBlanked($this->userMaterial);
     }
 
-    public function testClearTimedMaterialWithStartDateAndInRange()
+    public function testClearTimedMaterialWithStartDateAndInRange(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->startDate = new DateTime('2 days ago');
@@ -75,7 +75,7 @@ class UserMaterialTest extends TestCase
         $this->assertNotBlanked($this->userMaterial);
     }
 
-    public function testClearTimedMaterialWithStartDateAndOutOfRange()
+    public function testClearTimedMaterialWithStartDateAndOutOfRange(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->startDate = new DateTime('+2 days');
@@ -83,7 +83,7 @@ class UserMaterialTest extends TestCase
         $this->assertBlanked($this->userMaterial);
     }
 
-    public function testClearTimedMaterialWithEndDateAndInRange()
+    public function testClearTimedMaterialWithEndDateAndInRange(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->endDate = new DateTime('+2 days');
@@ -91,7 +91,7 @@ class UserMaterialTest extends TestCase
         $this->assertNotBlanked($this->userMaterial);
     }
 
-    public function testClearTimedMaterialWithEndDateAndOutOfRange()
+    public function testClearTimedMaterialWithEndDateAndOutOfRange(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->endDate = new DateTime('2 days ago');
@@ -99,7 +99,7 @@ class UserMaterialTest extends TestCase
         $this->assertBlanked($this->userMaterial);
     }
 
-    public function testClearTimedMaterialWithStartEndDateAndInRange()
+    public function testClearTimedMaterialWithStartEndDateAndInRange(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->startDate = new DateTime('2 days ago');
@@ -108,7 +108,7 @@ class UserMaterialTest extends TestCase
         $this->assertNotBlanked($this->userMaterial);
     }
 
-    public function testClearTimedMaterialWithStartEndDateAndOutOfRange()
+    public function testClearTimedMaterialWithStartEndDateAndOutOfRange(): void
     {
         $this->assertNotBlanked($this->userMaterial);
         $this->userMaterial->startDate = new DateTime('4 days ago');
@@ -117,7 +117,7 @@ class UserMaterialTest extends TestCase
         $this->assertBlanked($this->userMaterial);
     }
 
-    protected function assertBlanked(UserMaterial $material)
+    protected function assertBlanked(UserMaterial $material): void
     {
         $this->assertTrue($material->isBlanked);
         $this->assertNotNull($material->id);
@@ -145,7 +145,7 @@ class UserMaterialTest extends TestCase
         $this->assertEmpty($material->instructors);
     }
 
-    protected function assertNotBlanked(UserMaterial $material)
+    protected function assertNotBlanked(UserMaterial $material): void
     {
         $this->assertFalse($material->isBlanked);
         $this->assertNotNull($material->id);

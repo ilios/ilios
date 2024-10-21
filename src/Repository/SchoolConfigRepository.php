@@ -57,10 +57,7 @@ class SchoolConfigRepository extends ServiceEntityRepository implements DTORepos
         return array_values($dtos);
     }
 
-    /**
-     * @param string $name
-     */
-    public function getValue($name): mixed
+    public function getValue(string $name): mixed
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('x.value')->from(SchoolConfig::class, 'x')

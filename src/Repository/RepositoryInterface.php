@@ -14,22 +14,24 @@ interface RepositoryInterface
     /**
      * Flush and clear the entity repository when doing bulk updates
      */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
     public function flushAndClear();
 
     /**
      * Flush the entity repository when doing bulk updates
      */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
     public function flush();
 
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
     public function findOneBy(
         array $criteria
     );
 
     /**
-     * Find a single entity by it's ID
-     * @param mixed $id
+     * Find a single entity by its ID
      */
-    public function findOneById($id): ?object;
+    public function findOneById(string|int $id): ?object;
 
     /**
      * Searches the data store for a single object by given criteria and sort order.
@@ -40,6 +42,7 @@ interface RepositoryInterface
      * @param int $limit
      * @param int $offset
      */
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint,SlevomatCodingStandard.TypeHints.ParameterTypeHint
     public function findBy(
         array $criteria,
         ?array $orderBy = null,
@@ -49,28 +52,18 @@ interface RepositoryInterface
 
     /**
      * Searches the data store for all objects matching the given criteria.
-     * @param int $limit
-     * @param int $offset
      */
-    public function findDTOsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array;
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array;
 
-    /**
-     * @param object $entity
-     * @param bool $andFlush
-     * @param bool $forceId
-     */
     public function update(
-        $entity,
-        $andFlush = true,
-        $forceId = false
-    );
+        object $entity,
+        bool $andFlush = true,
+        bool $forceId = false
+    ): void;
 
-    /**
-     * @param object $entity
-     */
     public function delete(
-        $entity
-    );
+        object $entity
+    ): void;
 
     public function create(): object;
 

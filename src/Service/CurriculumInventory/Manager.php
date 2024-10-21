@@ -449,7 +449,7 @@ class Manager
             }
         }
 
-        array_walk($rhett, function (&$row) {
+        array_walk($rhett, function (&$row): void {
             unset($row['startDate']);
             unset($row['endDate']);
         });
@@ -521,7 +521,7 @@ class Manager
             }
         }
 
-        array_walk($rhett, function (&$row) use ($ilmHours) {
+        array_walk($rhett, function (&$row) use ($ilmHours): void {
             $row['duration'] = $row['duration'] + $ilmHours[$row['event_id']];
             unset($row['startDate']);
             unset($row['endDate']);

@@ -44,7 +44,7 @@ class ApplicationConfigData extends AbstractDataLoader
         ];
     }
 
-    public function createMany($count): array
+    public function createMany(int $count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

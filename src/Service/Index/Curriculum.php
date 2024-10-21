@@ -194,7 +194,6 @@ class Curriculum extends OpenSearchBase
 
     /**
      * Construct the query to search the curriculum
-     * @param string $query
      */
     protected function buildCurriculumSearch(string $query): array
     {

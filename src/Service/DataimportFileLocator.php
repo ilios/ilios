@@ -13,17 +13,11 @@ use Symfony\Component\Config\FileLocator;
  */
 class DataimportFileLocator
 {
-    /**
-     * @var string
-     */
-    protected $dir;
+    protected string $dir;
 
-    /**
-     * @var FileLocator
-     */
-    protected $fileLocator;
+    protected FileLocator $fileLocator;
 
-    public function __construct($kernelProjectDir)
+    public function __construct(string $kernelProjectDir)
     {
         $path = realpath($kernelProjectDir . '/config/dataimport');
         $this->fileLocator = new FileLocator();
@@ -35,7 +29,7 @@ class DataimportFileLocator
      *
      * @param string $fileName name of the data file.
      */
-    public function getDataFilePath($fileName): string
+    public function getDataFilePath(string $fileName): string
     {
         return $this->fileLocator->locate($this->getDirectoryPath() . DIRECTORY_SEPARATOR . basename($fileName));
     }
@@ -43,7 +37,7 @@ class DataimportFileLocator
     /**
      * @param string $dir The relative path to the data-files directory.
      */
-    public function setDirectoryPath($dir)
+    public function setDirectoryPath(string $dir): void
     {
         $this->dir = $dir;
     }

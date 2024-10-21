@@ -1321,14 +1321,13 @@ class CourseRolloverTest extends TestCase
     }
 
     /**
-     * Setup the course repository mock to do basic stuff we need in most tests
-     *
-     * @param CourseInterface $course
-     * @param CourseInterface $newCourse
-     * @param int $interval the length of time in the future for the new academic year
+     * Set up the course repository mock to do basic stuff we need in most tests
      */
-    protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1): int
-    {
+    protected function setupCourseRepository(
+        CourseInterface $course,
+        CourseInterface $newCourse,
+        int $interval = 1
+    ): int {
         $newYear = $course->getYear() + $interval;
         $this->courseRepository->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();

@@ -407,7 +407,7 @@ class ProgramYears extends AbstractApiController
 
         $data = $this->programYearRepository->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
 
-        array_walk($data, function (&$row) {
+        array_walk($data, function (&$row): void {
             foreach (['program_year_objective', 'mapped_course_objective'] as $key) {
                 if ($row[$key]) {
                     $row[$key] = strip_tags($row[$key]);
@@ -430,7 +430,7 @@ class ProgramYears extends AbstractApiController
     /**
      * Creates a new cohort for a new program year.
      */
-    protected function createCohort(ProgramYearInterface $programYear)
+    protected function createCohort(ProgramYearInterface $programYear): void
     {
         $program = $programYear->getProgram();
         $graduationYear = $programYear->getStartYear() + $program->getDuration();

@@ -104,7 +104,7 @@ class LocalCachingFilesystemDecorator implements FilesystemOperator
         return $result;
     }
 
-    public function readStream(string $location)
+    public function readStream(string $location): mixed
     {
         if ($this->cacheEnabled && $this->cacheFileSystem->fileExists($location)) {
             return $this->cacheFileSystem->readStream($location);
@@ -148,7 +148,7 @@ class LocalCachingFilesystemDecorator implements FilesystemOperator
         }
     }
 
-    public function writeStream(string $location, $contents, array $config = []): void
+    public function writeStream(string $location, mixed $contents, array $config = []): void
     {
         $this->remoteFileSystem->writeStream($location, $contents, $config);
         if ($this->cacheEnabled) {

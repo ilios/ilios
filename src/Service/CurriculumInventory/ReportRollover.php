@@ -22,25 +22,10 @@ use DateTime;
  */
 class ReportRollover
 {
-    /**
-     * @var int
-     */
-    private const START_DATE_DAY_OF_MONTH = 1;
-
-    /**
-     * @var int
-     */
-    private const START_DATE_MONTH = 7;
-
-    /**
-     * @var int
-     */
-    private const END_DATE_DAY_OF_MONTH = 30;
-
-    /**
-     * @var int
-     */
-    private const END_DATE_MONTH = 6;
+    private const int START_DATE_DAY_OF_MONTH = 1;
+    private const int START_DATE_MONTH = 7;
+    private const int END_DATE_DAY_OF_MONTH = 30;
+    private const int END_DATE_MONTH = 6;
 
     public function __construct(
         protected CurriculumInventoryReportRepository $reportRepository,
@@ -61,10 +46,10 @@ class ReportRollover
     public function rollover(
         CurriculumInventoryReportInterface $report,
         ProgramInterface $program,
-        $newName = null,
-        $newDescription = null,
+        ?string $newName = null,
+        ?string $newDescription = null,
         ?int $newYear = null
-    ) {
+    ): CurriculumInventoryReportInterface {
         /** @var CurriculumInventoryReportInterface $newReport */
         $newReport = $this->reportRepository->create();
 
@@ -144,7 +129,7 @@ class ReportRollover
         CurriculumInventoryReportInterface $newReport,
         array $newLevels,
         ?CurriculumInventorySequenceBlockInterface $newParent = null
-    ) {
+    ): void {
         /** @var CurriculumInventorySequenceBlockInterface $newBlock */
         $newBlock = $this->sequenceBlockRepository->create();
         $newBlock->setReport($newReport);

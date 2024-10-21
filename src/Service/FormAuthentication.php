@@ -94,13 +94,12 @@ class FormAuthentication implements AuthenticationInterface
 
     /**
      * Update users to the new password encoding when they login
-     * @param string $password
      */
     protected function updatePassword(
         AuthenticationEntityInterface $authEntity,
         SessionUserInterface $sessionUser,
-        $password
-    ) {
+        string $password
+    ): void {
         if ($this->hasher->needsRehash($sessionUser)) {
             $newPassword = $this->hasher->hashPassword($sessionUser, $password);
             $authEntity->setPasswordHash($newPassword);

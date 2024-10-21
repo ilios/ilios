@@ -139,10 +139,7 @@ class ProgramYearRepository extends ServiceEntityRepository implements
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    /**
-     * @param int $programYearId
-     */
-    public function getProgramYearObjectiveToCourseObjectivesMapping($programYearId): array
+    public function getProgramYearObjectiveToCourseObjectivesMapping(int $programYearId): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(

@@ -14,10 +14,7 @@ class OpenSearchBase
     protected Client $client;
     protected bool $enabled = false;
 
-    /**
-     * @var int|string|null
-     */
-    protected $uploadLimit;
+    protected int|string|null $uploadLimit = null;
 
     /**
      * Search constructor.

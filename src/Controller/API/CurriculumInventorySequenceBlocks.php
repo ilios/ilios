@@ -418,7 +418,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
      */
     protected function reorderSiblingsOnDeletion(
         CurriculumInventorySequenceBlockInterface $block
-    ) {
+    ): void {
         $parent = $block->getParent();
         if (! $parent || $parent->getChildSequenceOrder() !== CurriculumInventorySequenceBlockInterface::ORDERED) {
             return;
@@ -443,7 +443,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
     protected function reorderChildrenOnChildSequenceOrderChange(
         ?int $oldValue,
         CurriculumInventorySequenceBlockInterface $block
-    ) {
+    ): void {
         /** @var CurriculumInventorySequenceBlockInterface[] $children */
         $children = $block->getChildren()->toArray();
         if (empty($children)) {
@@ -484,7 +484,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
     protected function reorderBlocksInSequenceOnOrderChange(
         ?int $oldValue,
         CurriculumInventorySequenceBlockInterface $block
-    ) {
+    ): void {
         $parent = $block->getParent();
         if (! $parent) {
             return;
