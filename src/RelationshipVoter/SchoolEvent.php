@@ -66,12 +66,7 @@ class SchoolEvent extends AbstractCalendarEvent
         }
     }
 
-    /**
-     * @param SessionUserInterface $user
-     * @param Event $event
-     * @return bool
-     */
-    protected function isUserLearnerInEvent(SessionUserInterface $user, Event $event)
+    protected function isUserLearnerInEvent(SessionUserInterface $user, Event $event): bool
     {
         $offeringId = $event->offering;
         $ilmId = $event->ilmSession;

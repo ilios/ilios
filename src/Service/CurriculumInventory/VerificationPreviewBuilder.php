@@ -79,7 +79,7 @@ class VerificationPreviewBuilder
     /**
      * @var null|array
      */
-    protected $methodMaps;
+    protected ?array $methodMaps = null;
 
     /**
      * CurriculumInventoryVerificationReportBuilder constructor.
@@ -156,7 +156,7 @@ class VerificationPreviewBuilder
                 = str_replace('aamc-pcrs-comp-', '', $pcrsId) . ': ' . $pcrsMap[$pcrsId]->description;
         }
 
-        array_walk($expectations, function (&$expectation) {
+        array_walk($expectations, function (&$expectation): void {
             sort($expectation['pcrs']);
         });
 
@@ -175,7 +175,7 @@ class VerificationPreviewBuilder
 
         array_multisort(array_column($expectations, 'title_plain'), SORT_ASC, $expectations);
 
-        array_walk($expectations, function (&$expectation) {
+        array_walk($expectations, function (&$expectation): void {
             unset($expectation['title_plain']);
         });
 
@@ -487,10 +487,7 @@ class VerificationPreviewBuilder
         return $reverseMap;
     }
 
-    /**
-     * @param bool $clerkships
-     */
-    protected function getSequenceBlockAssessmentMethods(array $data, array $map, $clerkships = false): array
+    protected function getSequenceBlockAssessmentMethods(array $data, array $map, bool $clerkships = false): array
     {
         $rows = [];
         $methods = array_keys($map);
@@ -589,10 +586,7 @@ class VerificationPreviewBuilder
         return $this->methodMaps;
     }
 
-    /**
-     * @param bool $clerkships
-     */
-    protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
+    protected function getSequenceBlockInstructionalTime(array $data, bool $clerkships = false): array
     {
         /** @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];

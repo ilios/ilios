@@ -192,7 +192,7 @@ class AddUserCommand extends Command
         }
     }
 
-    protected function fillUserRecord(array $userRecord, $input, $output): array
+    protected function fillUserRecord(array $userRecord, InputInterface $input, OutputInterface $output): array
     {
         if (empty($userRecord['firstName'])) {
             $userRecord['firstName'] = $this->askForString('First Name', 1, 50, $input, $output);
@@ -245,8 +245,13 @@ class AddUserCommand extends Command
         return $userRecord;
     }
 
-    protected function askForString($what, $min, $max, $input, $output): mixed
-    {
+    protected function askForString(
+        string $what,
+        int $min,
+        int $max,
+        InputInterface $input,
+        OutputInterface $output,
+    ): mixed {
         $question = new Question("What is the user's {$what}? ");
         $question->setValidator(function ($answer) use ($what, $min, $max) {
             if (strlen($answer) < $min) {

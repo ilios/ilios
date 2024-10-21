@@ -55,7 +55,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
         ];
     }
 
-    protected function getPropertyValue(ReflectionProperty $property, object $object)
+    protected function getPropertyValue(ReflectionProperty $property, object $object): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'string') {

@@ -89,7 +89,6 @@ class LearningMaterials extends OpenSearchBase
      * Base64 encodes learning material contents for indexing
      * Files larger than the upload limit are ignored
      *
-     * @param LearningMaterialDTO $dto
      */
     protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
     {

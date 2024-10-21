@@ -50,9 +50,6 @@ class DefaultDataImporter
     /**
      * Preprocesses a give row of raw CSV data before it's handed to the DB layer for ingestion.
      * Here, we do some mild data normalization as applicable, such as type casting on attributes.
-     * @param array $row
-     * @param string $type
-     * @return array
      */
     protected function prepareForImport(array $row, string $type): array
     {
@@ -77,9 +74,6 @@ class DefaultDataImporter
 
     /**
      * Casts the value of a given array item to integer, then returns the modified array.
-     * @param array $row
-     * @param int $index
-     * @return array
      */
     protected function castToInteger(array $row, int $index): array
     {
@@ -89,9 +83,6 @@ class DefaultDataImporter
 
     /**
      * Casts the value of a given array item to boolean, then returns the modified array.
-     * @param array $row
-     * @param int $index
-     * @return array
      */
     protected function castToBoolean(array $row, int $index): array
     {

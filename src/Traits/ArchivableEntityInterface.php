@@ -11,8 +11,5 @@ interface ArchivableEntityInterface
 {
     public function isArchived(): bool;
 
-    /**
-     * @param bool $archived
-     */
-    public function setArchived($archived): void;
+    public function setArchived(bool $archived): void;
 }

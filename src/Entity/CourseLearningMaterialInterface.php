@@ -10,6 +10,6 @@ interface CourseLearningMaterialInterface extends
     LearningMaterialRelationshipInterface,
     IndexableCoursesEntityInterface
 {
-    public function setCourse(CourseInterface $course);
+    public function setCourse(CourseInterface $course): void;
     public function getCourse(): CourseInterface;
 }

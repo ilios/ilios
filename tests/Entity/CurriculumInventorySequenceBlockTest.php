@@ -228,14 +228,11 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy
      * @dataProvider compareSequenceBlocksWithOrderedStrategyProvider
      *
-     * @param CurriculumInventorySequenceBlockInterface $blockA
-     * @param CurriculumInventorySequenceBlockInterface $blockB
-     * @param int $expected
      */
     public function testCompareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
-        $expected
+        int $expected
     ): void {
         $this->assertEquals(
             $expected,
@@ -276,14 +273,11 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      * @covers \App\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy
      * @dataProvider compareSequenceBlocksWithDefaultStrategyProvider
      *
-     * @param CurriculumInventorySequenceBlockInterface $blockA
-     * @param CurriculumInventorySequenceBlockInterface $blockB
-     * @param int $expected
      */
     public function testCompareSequenceBlocksWithDefaultStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
-        $expected
+        int $expected
     ): void {
         $this->assertEquals(
             $expected,

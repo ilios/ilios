@@ -373,7 +373,7 @@ trait CalendarEventRepository
             $competencyIds = [];
             // flatted out lists of competency ids
             // @link https://stackoverflow.com/a/1320156
-            array_walk_recursive($listsOfCompetencyIds, function ($a) use (&$competencyIds) {
+            array_walk_recursive($listsOfCompetencyIds, function ($a) use (&$competencyIds): void {
                 $competencyIds[] = $a;
             });
             // filter out null values and de-dupe list

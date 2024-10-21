@@ -20,7 +20,7 @@ class Timestamper
     /**
      * Add an entity to be time stamped
      */
-    public function add(TimestampableEntityInterface $entity, DateTime $timestamp)
+    public function add(TimestampableEntityInterface $entity, DateTime $timestamp): void
     {
         $class = $entity->getClassName();
         $ts = $timestamp->getTimestamp();
@@ -34,7 +34,7 @@ class Timestamper
         $this->entities[$ts][$class][] = (string) $entity;
     }
 
-    public function flush()
+    public function flush(): void
     {
         if ($this->entities !== []) {
             /** @var EntityManager $om */

@@ -99,7 +99,7 @@ class IliosFileSystemTest extends TestCase
         $this->assertFalse($this->iliosFileSystem->checkLearningMaterialFilePath($badLm));
     }
 
-    protected function getTestFilePath($path): string
+    protected function getTestFilePath(string $path): string
     {
         $hash = md5_file($path);
         $hashDirectory = substr($hash, 0, 2);
@@ -113,7 +113,7 @@ class IliosFileSystemTest extends TestCase
         return implode('/', $parts);
     }
 
-    protected function getTestFileLock($name): string
+    protected function getTestFileLock(string $name): string
     {
         $parts = [
             IliosFileSystem::LOCK_FILE_DIRECTORY,

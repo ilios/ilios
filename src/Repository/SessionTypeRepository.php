@@ -258,7 +258,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         };
     }
 
-    protected function importSessionType(array $data, $type, array $referenceMap): array
+    protected function importSessionType(array $data, string $type, array $referenceMap): array
     {
         // `session_type_id`,`title`,`school_id`,`calendar_color`,`assessment`,`assessment_option_id`, `active`
         $entity = new SessionType();

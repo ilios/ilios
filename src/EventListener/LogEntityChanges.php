@@ -25,7 +25,7 @@ class LogEntityChanges
     /**
      * Get all the entities that have changed and create log entries for them
      */
-    public function onFlush(OnFlushEventArgs $eventArgs)
+    public function onFlush(OnFlushEventArgs $eventArgs): void
     {
         $objectManager = $eventArgs->getObjectManager();
         $uow = $objectManager->getUnitOfWork();

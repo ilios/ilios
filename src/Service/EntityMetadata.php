@@ -117,7 +117,6 @@ class EntityMetadata
 
     /**
      * Checks to see if what we have been passed is a string or a class
-     * @param mixed $classNameOrObject
      */
     protected function isAStringOrClass(mixed $classNameOrObject): bool
     {

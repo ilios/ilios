@@ -12,10 +12,7 @@ use App\Repository\SchoolRepository;
 
 class DefaultPermissionMatrix extends PermissionMatrix
 {
-    /**
-     * @var bool
-     */
-    protected $hasMatrixBeenBuilt;
+    protected bool $hasMatrixBeenBuilt;
 
     public function __construct(protected SchoolRepository $schoolRepository)
     {
@@ -41,7 +38,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
     /**
      * Builds the permission matrices for all schools.
      */
-    protected function buildMatrix()
+    protected function buildMatrix(): void
     {
         $schoolDtos = $this->schoolRepository->findDTOsBy([]);
 

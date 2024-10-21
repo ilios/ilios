@@ -78,8 +78,6 @@ abstract class EntityBase extends TestCase
     /**
      * A generic test for entity setters.
      *
-     * @param string $property
-     * @param string $type
      */
     protected function basicSetTest(string $property, string $type): void
     {
@@ -95,7 +93,6 @@ abstract class EntityBase extends TestCase
     /**
      * A generic test for boolean entity setters.
      *
-     * @param string $property
      * @param bool $is should we use is vs has when generating the method.
      */
     protected function booleanSetTest(string $property, bool $is = true): void
@@ -112,8 +109,6 @@ abstract class EntityBase extends TestCase
     /**
      * A generic test for entity setters which use other entites
      *
-     * @param string $property
-     * @param string $entityName
      */
     protected function entitySetTest(string $property, string $entityName): void
     {
@@ -130,8 +125,6 @@ abstract class EntityBase extends TestCase
      * A generic test for setters for collections.
      * @todo should we mock Collection when passing it to the setMethod?
      *
-     * @param string $property
-     * @param string $entityName
      * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $setter name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
@@ -167,8 +160,6 @@ abstract class EntityBase extends TestCase
     /**
      * A generic test for entity setters which hold collections of other entities.
      *
-     * @param string $property
-     * @param string $entityName
      * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $setter name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $crossSaveMethod name of the method to call on the inverse side of the relationship.
@@ -202,8 +193,6 @@ abstract class EntityBase extends TestCase
     /**
      * A generic test for entity setters which hold collections of other entities.
      *
-     * @param string $property
-     * @param string $entityName
      * @param string|bool $getter name of the method to use instead of a generated method, or FALSE if n/a.
      * @param string|bool $adder name of the method used to add instead of a generated method, or FALSE if n/a.
      * @param string|bool $remover name of the method to use instead of a generated method, or FALSE if n/a.

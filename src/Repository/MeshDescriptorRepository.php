@@ -131,7 +131,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         return array_values($dtos);
     }
 
-    protected function getTermsFromQ(string $q)
+    protected function getTermsFromQ(string $q): array
     {
         $terms = explode(' ', $q);
         return array_filter($terms, 'strlen');
@@ -401,7 +401,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
      * Gut the MeSH tables, leaving only descriptor records in place that are somehow wired up to the rest of Ilios.
      * @throws Exception
      */
-    public function clearExistingData()
+    public function clearExistingData(): void
     {
         $conn = $this->getEntityManager()->getConnection();
         $conn->beginTransaction();
@@ -439,7 +439,7 @@ EOL;
     /**
      * @throws Exception
      */
-    public function upsertMeshUniverse(DescriptorSet $descriptorSet, array $existingDescriptorIds)
+    public function upsertMeshUniverse(DescriptorSet $descriptorSet, array $existingDescriptorIds): void
     {
         $data = $this->transmogrifier->transmogrify($descriptorSet, $existingDescriptorIds);
         $now = new DateTime();
@@ -588,7 +588,7 @@ EOL;
      * Flag all given MeSH descriptors as "deleted".
      * @param array $ids The mesh descriptor IDs.
      */
-    public function flagDescriptorsAsDeleted(array $ids)
+    public function flagDescriptorsAsDeleted(array $ids): void
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->update(MeshDescriptor::class, 'm');

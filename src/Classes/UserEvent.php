@@ -230,14 +230,14 @@ class UserEvent extends CalendarEvent
     /**
      * This information is not available to un-privileged users
      */
-    public function clearDataForUnprivilegedUsers(DateTime $dateTime)
+    public function clearDataForUnprivilegedUsers(DateTime $dateTime): void
     {
         $this->instructionalNotes = null;
         $this->clearDataForDraftOrScheduledEvent();
         $this->removeMaterialsInDraft();
         $this->clearTimedMaterials($dateTime);
     }
-    protected function clearTimedMaterials(DateTime $dateTime)
+    protected function clearTimedMaterials(DateTime $dateTime): void
     {
         /** @var UserMaterial $lm */
         foreach ($this->learningMaterials as $lm) {

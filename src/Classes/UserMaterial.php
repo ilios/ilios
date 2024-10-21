@@ -283,7 +283,7 @@ class UserMaterial
      * timed-release window (relative to the given date-time).
      * And sets the isBlanked flag to TRUE, as applicable.
      */
-    public function clearTimedMaterial(DateTime $dateTime)
+    public function clearTimedMaterial(DateTime $dateTime): void
     {
         $startDate = $this->startDate;
         $endDate = $this->endDate;
@@ -303,7 +303,7 @@ class UserMaterial
     /**
      * Blanks out most data points of this learning material.
      */
-    public function clearMaterial()
+    public function clearMaterial(): void
     {
         $this->isBlanked = true;
         $props = array_keys(get_object_vars($this));

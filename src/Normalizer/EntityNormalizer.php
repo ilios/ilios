@@ -55,9 +55,8 @@ class EntityNormalizer implements NormalizerInterface
     /**
      * Converts value into the type dictated by it's annotation on the entity
      *
-     * @param mixed $value
      */
-    protected function convertValueByType(ReflectionProperty $property, $value): mixed
+    protected function convertValueByType(ReflectionProperty $property, mixed $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'dateTime') {

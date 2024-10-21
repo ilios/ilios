@@ -28,9 +28,8 @@ interface DataLoaderInterface
 
     /**
      * Create multiple samples of this item
-     * @param int $count
      */
-    public function createMany($count): array;
+    public function createMany(int $count): array;
 
     /**
      * Create a JSON:API compatible version

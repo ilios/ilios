@@ -698,7 +698,7 @@ class SchooleventsTest extends AbstractEndpoint
         $this->runAccessDeniedTest($jwt, Response::HTTP_FORBIDDEN);
     }
 
-    protected function getEvents($schoolId, $from, $to, $userId = null): array
+    protected function getEvents(int $schoolId, int $from, int $to, ?int $userId = null): array
     {
         $parameters = [
             'version' => $this->apiVersion,
@@ -732,7 +732,7 @@ class SchooleventsTest extends AbstractEndpoint
         return json_decode($response->getContent(), true)['events'];
     }
 
-    protected function getEventsForSessionId($schoolId, $sessionId, $userId = null): array
+    protected function getEventsForSessionId(int $schoolId, int $sessionId, ?int $userId = null): array
     {
         $parameters = [
             'version' => $this->apiVersion,

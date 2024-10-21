@@ -49,12 +49,6 @@ trait TestableJsonController
     /**
      * Create a JSON request
      *
-     * @param KernelBrowser $client
-     * @param string $method
-     * @param string $url
-     * @param ?string $content
-     * @param ?string $jwt
-     * @param array $files
      */
     public function makeJsonRequest(
         KernelBrowser $client,
@@ -86,9 +80,6 @@ trait TestableJsonController
     /**
      * Check if the response is valid
      * tests the status code, headers, and the content
-     * @param Response $response
-     * @param int $statusCode
-     * @param bool $checkValidJson
      */
     protected function assertJsonResponse(Response $response, int $statusCode, bool $checkValidJson = true): void
     {
@@ -118,9 +109,6 @@ trait TestableJsonController
     /**
      * Check if the response is valid
      * tests the status code, headers, and the content
-     * @param Response $response
-     * @param int $statusCode
-     * @param bool $checkValidJson
      */
     protected function assertJsonApiResponse(Response $response, int $statusCode, bool $checkValidJson = true): void
     {
@@ -154,7 +142,6 @@ trait TestableJsonController
     /**
      * Check if the response is valid graphQL
      * tests the status code, headers, and the content
-     * @param Response $response
      */
     protected function assertGraphQLResponse(Response $response): void
     {
@@ -249,7 +236,6 @@ trait TestableJsonController
     /**
      * Creates a user-based JWT for a given user id.
      *
-     * @param KernelBrowser $browser
      * @param int $userId the user ID
      * @return string the generated JWT
      */
@@ -265,7 +251,6 @@ trait TestableJsonController
      * Creates a service-token based JWT for an active, un-expired service token,
      * optionally with write permissions to given schools.
      *
-     * @param KernelBrowser $browser
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @return string the generated JWT
      */
@@ -281,7 +266,6 @@ trait TestableJsonController
     /**
      * Creates a service-token based JWT for a given service token, optionally with write permissions to given schools.
      *
-     * @param KernelBrowser $browser
      * @param int $serviceTokenId the service token id
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @return string the generated JWT

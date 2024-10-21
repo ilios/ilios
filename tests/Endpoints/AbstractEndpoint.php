@@ -112,8 +112,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * So those endpoints which don't return all data
      * like Users::alerts[] will be able to do their comparison
      *
-     * @param array $expected
-     * @param array $result
      */
     protected function compareData(array $expected, array $result): void
     {
@@ -190,11 +188,6 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Create a JSON request
      *
-     * @param string $method
-     * @param string $url
-     * @param ?string $content
-     * @param ?string $jwt
-     * @param array $files
      */
     protected function createJsonRequest(
         string $method,
@@ -661,10 +654,6 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test saving new data to the API
      *
-     * @param array $data
-     * @param array $postData
-     * @param string $jwt
-     * @return array
      */
     protected function postTest(array $data, array $postData, string $jwt): array
     {
@@ -715,9 +704,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test POSTing an array of similar items to the API
-     * @param array $data
-     * @param string $jwt
-     * @return array
      */
     protected function postManyTest(array $data, string $jwt): array
     {
@@ -833,9 +819,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * POST a single item to the JSON:API
-     * @param object $postData
-     * @param string $jwt
-     * @return object
      */
     protected function postOneJsonApi(object $postData, string $jwt): object
     {
@@ -868,7 +851,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param array $postData to send
      * @param string $jwt an API access token
      * @param ?string $version the version of the API endpoint
-     * @return array
      */
     protected function postMany(
         string $endpoint,
@@ -896,9 +878,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * POST multiple items to the JSON:API
-     * @param object $postData
-     * @param string $jwt
-     * @return array
      */
     protected function postManyJsonApi(object $postData, string $jwt): array
     {
@@ -929,9 +908,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test POSTing bad data to the API
-     * @param array $data
-     * @param string $jwt
-     * @param int $code
      */
     protected function badPostTest(array $data, string $jwt, int $code = Response::HTTP_BAD_REQUEST): void
     {
@@ -977,10 +953,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test POSTing bad data to the API
-     * @param array $data
-     * @param mixed $id
-     * @param string $jwt
-     * @param int $code
      */
     protected function badPutTest(array $data, mixed $id, string $jwt, int $code = Response::HTTP_BAD_REQUEST): void
     {
@@ -1033,7 +1005,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param string $jwt an API access token
      * @param string $relationship the test target has to the subject
      * @param string $related the name of the related data
-     * @param ?string $relatedName
      */
     public function relatedPostDataTest(
         array $data,
@@ -1056,12 +1027,7 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test putting a  single value to the API
-     * @param array $data
-     * @param array $postData
-     * @param mixed $id
-     * @param string $jwt
      * @param bool $new if we are expecting this data to create a new item
-     * @return array
      */
     protected function putTest(array $data, array $postData, mixed $id, string $jwt, bool $new = false): array
     {
@@ -1128,9 +1094,6 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * PUT a single item to the JSON:API
      *
-     * @param object $data
-     * @param string $jwt
-     * @return object
      */
     protected function patchOneJsonApi(object $data, string $jwt): object
     {
@@ -1209,8 +1172,6 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test deleting an object from the API
      *
-     * @param mixed $id
-     * @param string $jwt
      */
     protected function deleteTest(mixed $id, string $jwt): void
     {
@@ -1225,7 +1186,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * @param mixed $id we want to delete
      * @param string $jwt an API access token
      * @param ?string $version the version of the API endpoint
-     * @return Response
      */
     protected function deleteOne(string $endpoint, mixed $id, string $jwt, ?string $version = null): Response
     {
@@ -1248,8 +1208,6 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Ensure that a bad ID returns a 404
      *
-     * @param mixed $badId
-     * @param string $jwt
      */
     protected function notFoundTest(mixed $badId, string $jwt): void
     {
@@ -1316,7 +1274,6 @@ abstract class AbstractEndpoint extends WebTestCase
      * Test that a filter returns the expected data
      * @param array $filters we are using
      * @param array $expectedData we hope to see
-     * @param string $jwt
      */
     protected function filterTest(array $filters, array $expectedData, string $jwt): void
     {
@@ -1388,12 +1345,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Get data from the API using filter parameters
-     * @param string $endpoint
-     * @param string $responseKey
-     * @param array $filters
-     * @param string $jwt
-     * @param ?string $version
-     * @return array
      */
     protected function getFiltered(
         string $endpoint,
@@ -1474,8 +1425,6 @@ abstract class AbstractEndpoint extends WebTestCase
     /**
      * Test invalid filters
      *
-     * @param array $badFilters
-     * @param string $jwt
      */
     protected function badFilterTest(array $badFilters, string $jwt): void
     {
@@ -1501,11 +1450,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test that updating a related entity updates the timestamp on this one
-     * @param mixed $id
-     * @param string $relatedEndpoint
-     * @param string $relatedResponseKey
-     * @param array $relatedData
-     * @param string $jwt
      */
     protected function relatedTimeStampUpdateTest(
         mixed $id,
@@ -1535,11 +1479,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test that creating related data updates a timestamp on this endpoint
-     * @param mixed $id
-     * @param string $relatedPluralObjectName
-     * @param string $relatedResponseKey
-     * @param array $relatedPostData
-     * @param string $jwt
      */
     protected function relatedTimeStampPostTest(
         mixed $id,
@@ -1569,10 +1508,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     /**
      * Test that deleting a related entity updates a timestamp on this one
-     * @param mixed $id
-     * @param string $relatedPluralObjectName
-     * @param mixed $relatedId
-     * @param string $jwt
      */
     protected function relatedTimeStampDeleteTest(
         mixed $id,

@@ -25,8 +25,6 @@ class Runtime implements RuntimeExtensionInterface
     /**
      * KLUDGE!
      * Twig filter that injects our descriptions and version into the API docs data structure before it gets rendered.
-     * @param array $swaggerData
-     * @return array
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError

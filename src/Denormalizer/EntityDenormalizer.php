@@ -35,7 +35,7 @@ class EntityDenormalizer implements DenormalizerInterface
     ) {
     }
 
-    public function denormalize($data, string $type, ?string $format = null, array $context = []): mixed
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (array_key_exists('object_to_populate', $context)) {
             $entity = $context['object_to_populate'];
@@ -98,9 +98,8 @@ class EntityDenormalizer implements DenormalizerInterface
     /**
      * Convert single API value back into what the entity needs
      *
-     * @param mixed $value
      */
-    protected function getDenormalizedValueForProperty(ReflectionProperty $property, $value): mixed
+    protected function getDenormalizedValueForProperty(ReflectionProperty $property, mixed $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if (in_array($type, ['entity', IA\Type::ENTITY_COLLECTION])) {
@@ -175,8 +174,12 @@ class EntityDenormalizer implements DenormalizerInterface
         return $value;
     }
 
-    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
-    {
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = [],
+    ): bool {
         return $this->entityMetadata->isAnIliosEntity($type);
     }
 

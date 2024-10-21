@@ -102,9 +102,6 @@ class ExportMeshUniverseCommand extends Command
     }
 
     /**
-     * @param array $header
-     * @param array $data
-     * @param string $fileName
      * @throws Exception
      */
     protected function writeToFile(array $header, array $data, string $fileName): void

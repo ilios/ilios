@@ -22,7 +22,7 @@ class LoggerQueue
     /**
      * Adds a given action, entity and change set to the queue.
      */
-    public function add(string $action, object $entity, string $className, string $changes)
+    public function add(string $action, object $entity, string $className, string $changes): void
     {
         $this->queue[] = [
             'action' => $action,
@@ -37,7 +37,7 @@ class LoggerQueue
     /**
      * Flushes out the entity queue to the audit logger.
      */
-    public function flush()
+    public function flush(): void
     {
         if (empty($this->queue)) {
             return;

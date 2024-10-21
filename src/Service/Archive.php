@@ -12,7 +12,7 @@ use Archive_Tar;
  */
 class Archive
 {
-    public static function extract(string $source, string $destination)
+    public static function extract(string $source, string $destination): void
     {
         $tar = new Archive_Tar($source, true);
         $tar->extract($destination);

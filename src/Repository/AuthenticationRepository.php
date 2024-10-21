@@ -31,9 +31,8 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
 
     /**
      * Get an authentication entity by case insensitive user name.
-     * @param  string $username
      */
-    public function findOneByUsername($username): ?AuthenticationInterface
+    public function findOneByUsername(string $username): ?AuthenticationInterface
     {
         $username = strtolower($username);
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -57,8 +56,12 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
     /**
      * Special case for Authentication since the ID is the user
      */
-    protected function findIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
-    {
+    protected function findIdsBy(
+        array $criteria,
+        ?array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null,
+    ): array {
         $keys = array_keys($criteria);
 
         //if the only criteria is the IDs we don't need to look that up

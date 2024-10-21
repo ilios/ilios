@@ -19,7 +19,7 @@ class SentryBeforeSend
         $this->errorCaptureEnvironment = $config->get('errorCaptureEnvironment');
     }
 
-    public function __invoke(Event $event)
+    public function __invoke(Event $event): ?Event
     {
         if (!$this->errorCaptureEnabled) {
             return null;

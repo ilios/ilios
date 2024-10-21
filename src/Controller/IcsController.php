@@ -29,8 +29,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends AbstractController
 {
-    private const LOOK_BACK = '-4 months';
-    private const LOOK_FORWARD = '+2 months';
+    private const string LOOK_BACK = '-4 months';
+    private const string LOOK_FORWARD = '+2 months';
 
     public function __construct(
         private RouterInterface $router,
@@ -47,7 +47,7 @@ class IcsController extends AbstractController
         ],
         methods: ['GET'],
     )]
-    public function getICSFeed(Request $request, $key)
+    public function getICSFeed(Request $request, string $key): Response
     {
         $user = $this->userRepository->findOneBy(['icsFeedKey' => $key]);
         if (!$user) {
@@ -166,10 +166,7 @@ class IcsController extends AbstractController
         return implode("\n", $lines);
     }
 
-    /**
-     * @param string $string
-     */
-    protected function purify($string): string
+    protected function purify(string $string): string
     {
         return str_replace("\n", ' ', trim(strip_tags($string)));
     }

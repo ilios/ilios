@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class MigrateParameters
 {
-    private const SYMFONY_KEYS = [
+    private const array SYMFONY_KEYS = [
         'database_driver',
         'database_host',
         'database_port',
@@ -25,7 +25,7 @@ class MigrateParameters
         'locale',
         'secret',
     ];
-    public static function migrate(Event $event)
+    public static function migrate(Event $event): void
     {
         $io = $event->getIO();
 
@@ -52,7 +52,7 @@ class MigrateParameters
     /**
      * Read existing parameters
      */
-    protected static function readParameters($parametersPath): array
+    protected static function readParameters(string $parametersPath): array
     {
         if (is_readable($parametersPath)) {
             $parameters = Yaml::parse(file_get_contents($parametersPath));
@@ -65,11 +65,9 @@ class MigrateParameters
 
     /**
      * Write parameters to the file
-     * @param string $parametersPath
-     * @param mixed $parameters
      * @throws Exception
      */
-    protected static function writeParameters($parametersPath, $parameters)
+    protected static function writeParameters(string $parametersPath, mixed $parameters): void
     {
         if (!is_writable($parametersPath)) {
             throw new Exception("Unable to write parameters file at {$parametersPath}");

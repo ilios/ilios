@@ -60,18 +60,16 @@ class TemporaryFileSystem
 
     /**
      * Remove a file from the file system by hash
-     * @param string $hash
      */
-    public function removeFile($hash)
+    public function removeFile(string $hash): void
     {
         $this->fileSystem->remove($this->getPath($hash));
     }
 
     /**
      * Get a File from a hash
-     * @param string $hash
      */
-    public function getFile($hash): File|bool
+    public function getFile(string $hash): File|bool
     {
         if ($this->fileSystem->exists($this->getPath($hash))) {
             return new File($this->getPath($hash));
@@ -82,9 +80,8 @@ class TemporaryFileSystem
 
     /**
      * Turn a relative path into an ilios file store path
-     * @param  string $hash
      */
-    protected function getPath($hash): string
+    protected function getPath(string $hash): string
     {
         return $this->temporaryFileStorePath . '/' . $hash;
     }

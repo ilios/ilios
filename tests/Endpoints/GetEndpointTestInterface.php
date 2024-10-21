@@ -54,16 +54,12 @@ interface GetEndpointTestInterface
     public function testNotFoundWithServiceToken(): void;
 
     /**
-     * @param array $dataKeys
-     * @param array $filterParts
      *
      * @dataProvider filtersToTest
      */
     public function testFilters(array $dataKeys = [], array $filterParts = []): void;
 
     /**
-     * @param array $dataKeys
-     * @param array $filterParts
      *
      * @dataProvider filtersToTest
      */

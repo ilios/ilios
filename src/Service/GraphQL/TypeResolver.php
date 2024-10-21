@@ -6,7 +6,6 @@ namespace App\Service\GraphQL;
 
 use App\Attributes\Id;
 use App\Classes\VoterPermissions;
-use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityMetadata;
 use App\Service\EntityRepositoryLookup;
 use Doctrine\Inflector\Inflector;
@@ -31,7 +30,7 @@ class TypeResolver
     ) {
     }
 
-    public function __invoke($source, $args, $context, ResolveInfo $info)
+    public function __invoke(mixed $source, array $args, mixed $context, ResolveInfo $info): mixed
     {
         $fieldName = $info->fieldName;
         $ref = $this->getRef($fieldName, $source);

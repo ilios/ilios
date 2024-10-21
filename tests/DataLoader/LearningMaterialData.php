@@ -241,7 +241,7 @@ class LearningMaterialData extends AbstractDataLoader
     /**
      * @throws Exception
      */
-    public function createFile()
+    public function createFile(): array
     {
         return [
             'id' => 11,

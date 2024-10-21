@@ -16,7 +16,7 @@ class UserIndexHandler
     {
     }
 
-    public function __invoke(UserIndexRequest $message)
+    public function __invoke(UserIndexRequest $message): void
     {
         $dtos = $this->userRepository->findDTOsBy(['id' => $message->getUserIds()]);
         $this->usersIndex->index($dtos);

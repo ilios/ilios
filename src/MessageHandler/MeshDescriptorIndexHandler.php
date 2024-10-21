@@ -16,7 +16,7 @@ class MeshDescriptorIndexHandler
     {
     }
 
-    public function __invoke(MeshDescriptorIndexRequest $message)
+    public function __invoke(MeshDescriptorIndexRequest $message): void
     {
         $descriptors = $this->repository->getIliosMeshDescriptorsById($message->getDescriptorIds());
         $this->meshIndex->index($descriptors);
