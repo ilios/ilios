@@ -61,7 +61,7 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         $this->fourOhFourTest('DELETE', ['id' => $id]);
     }
 
-    protected function fourOhFourTest($type, array $parameters = []): void
+    protected function fourOhFourTest(string $type, array $parameters = []): void
     {
         $url = '/api/' . $this->apiVersion . '/ingestionexceptions/';
         if (array_key_exists('id', $parameters)) {

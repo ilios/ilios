@@ -14,9 +14,9 @@ interface ProgramsEntityInterface
 {
     public function setPrograms(Collection $programs): void;
 
-    public function addProgram(ProgramInterface $program);
+    public function addProgram(ProgramInterface $program): void;
 
-    public function removeProgram(ProgramInterface $program);
+    public function removeProgram(ProgramInterface $program): void;
 
     public function getPrograms(): Collection;
 }

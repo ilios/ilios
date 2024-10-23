@@ -356,8 +356,6 @@ class CleanupStringsCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
      * @dataProvider correctLearningMaterialLinksProvider
-     * @param string $link
-     * @param string $fixedLink
      */
     public function testCorrectLearningMaterialLinks(string $link, string $fixedLink): void
     {
@@ -394,8 +392,6 @@ class CleanupStringsCommandTest extends KernelTestCase
     /**
      * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
      * @dataProvider correctLearningMaterialLinksWhithoutFetchingProvider
-     * @param string $link
-     * @param string $fixedLink
      */
     public function testCorrectLearningMaterialLinksWithoutFetching(string $link, string $fixedLink): void
     {

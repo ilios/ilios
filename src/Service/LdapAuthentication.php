@@ -15,20 +15,11 @@ class LdapAuthentication implements AuthenticationInterface
 {
     use AuthenticationService;
 
-    /**
-     * @var string
-     */
-    protected $ldapHost;
+    protected ?string $ldapHost;
 
-    /**
-     * @var string
-     */
-    protected $ldapPort;
+    protected ?string $ldapPort;
 
-    /**
-     * @var string
-     */
-    protected $ldapBindTemplate;
+    protected ?string $ldapBindTemplate;
 
     public function __construct(
         protected AuthenticationRepository $authRepository,
@@ -106,10 +97,8 @@ class LdapAuthentication implements AuthenticationInterface
 
     /**
      * Check against ldap to see if the user is valid
-     * @param  string $username
-     * @param  string $password
      */
-    public function checkLdapPassword($username, $password): bool
+    public function checkLdapPassword(string $username, string $password): bool
     {
         $ldapConn = @ldap_connect($this->ldapHost, $this->ldapPort);
         if ($ldapConn) {

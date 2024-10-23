@@ -8,15 +8,11 @@ interface PatchEndpointTestInterface
 {
     /**
      * Test PATCH to update a single object using JSON:API
-     * @param string $key
-     * @param mixed $value
      */
     public function testPatchJsonApi(string $key, mixed $value): void;
 
     /**
      * Test PATCH to update a single object using JSON:API with a service token
-     * @param string $key
-     * @param mixed $value
      */
     public function testPatchJsonApiWithServiceToken(string $key, mixed $value): void;
 

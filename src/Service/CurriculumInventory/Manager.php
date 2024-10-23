@@ -430,9 +430,9 @@ class Manager
         foreach ($rows as $row) {
             $row['duration'] = 0;
             if ($row['startDate']) {
-                /* @var DateTime $startDate */
+                /** @var DateTime $startDate */
                 $startDate = $row['startDate'];
-                /* @var DateTime $endDate */
+                /** @var DateTime $endDate */
                 $endDate = $row['endDate'];
                 $duration = floor(($endDate->getTimestamp() - $startDate->getTimestamp()) / 60);
                 $row['duration'] = $duration;
@@ -449,7 +449,7 @@ class Manager
             }
         }
 
-        array_walk($rhett, function (&$row) {
+        array_walk($rhett, function (&$row): void {
             unset($row['startDate']);
             unset($row['endDate']);
         });
@@ -502,9 +502,9 @@ class Manager
             $ilmHours[$row['event_id']] =  floor($row['ilm_hours'] * 60);
             $row['duration'] = 0;
             if ($row['startDate']) {
-                /* @var DateTime $startDate */
+                /** @var DateTime $startDate */
                 $startDate = $row['startDate'];
-                /* @var DateTime $endDate */
+                /** @var DateTime $endDate */
                 $endDate = $row['endDate'];
                 $duration = floor(($endDate->getTimestamp() - $startDate->getTimestamp()) / 60);
                 $row['duration'] = $duration;
@@ -521,7 +521,7 @@ class Manager
             }
         }
 
-        array_walk($rhett, function (&$row) use ($ilmHours) {
+        array_walk($rhett, function (&$row) use ($ilmHours): void {
             $row['duration'] = $row['duration'] + $ilmHours[$row['event_id']];
             unset($row['startDate']);
             unset($row['endDate']);

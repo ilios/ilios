@@ -42,8 +42,6 @@ class EndpointResponseNamer
     /**
      * Get the pluralized name of an endpoint
      *
-     * @param string $endpointKey
-     * @return string
      */
     public function getPluralName(string $endpointKey): string
     {
@@ -55,8 +53,6 @@ class EndpointResponseNamer
     /**
      * Get the singular name for an endpoint
      *
-     * @param string $endpointKey
-     * @return string
      */
     public function getSingularName(string $endpointKey): string
     {

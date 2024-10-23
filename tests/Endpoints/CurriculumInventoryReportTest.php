@@ -285,7 +285,7 @@ class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         return $fetchedResponseData;
     }
 
-    protected function putTest(array $data, array $postData, mixed $id, string $jwt, $new = false): array
+    protected function putTest(array $data, array $postData, mixed $id, string $jwt, bool $new = false): array
     {
         $endpoint = $this->getPluralName();
         $putResponseKey = $this->getCamelCasedSingularName();

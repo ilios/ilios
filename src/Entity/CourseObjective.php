@@ -249,16 +249,6 @@ class CourseObjective implements CourseObjectiveInterface
         return $this->descendants;
     }
 
-    public function setTitle($title): void
-    {
-        $this->title = $title;
-    }
-
-    public function setActive($active): void
-    {
-        $this->active = $active;
-    }
-
     public function setMeshDescriptors(Collection $meshDescriptors): void
     {
         $this->meshDescriptors = new ArrayCollection();

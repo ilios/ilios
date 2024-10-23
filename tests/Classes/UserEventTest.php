@@ -19,10 +19,7 @@ use DateTime;
  */
 class UserEventTest extends TestCase
 {
-    /**
-     * @var UserEvent
-     */
-    protected $userEvent;
+    protected UserEvent $userEvent;
 
     protected function setUp(): void
     {
@@ -37,7 +34,7 @@ class UserEventTest extends TestCase
     /**
      * @covers \App\Classes\CalendarEvent::removeMaterialsInDraft
      */
-    public function testRemoveMaterialsInDraft()
+    public function testRemoveMaterialsInDraft(): void
     {
         $draftMaterial = new UserMaterial();
         $draftMaterial->status = LearningMaterialStatusInterface::IN_DRAFT;
@@ -57,7 +54,7 @@ class UserEventTest extends TestCase
     /**
      * @covers \App\Classes\UserEvent::createFromCalendarEvent
      */
-    public function testCreateFromCalendarEvent()
+    public function testCreateFromCalendarEvent(): void
     {
         $userId = 100;
         $calendarEvent = new CalendarEvent();

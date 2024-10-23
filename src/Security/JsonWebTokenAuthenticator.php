@@ -86,8 +86,6 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     }
 
     /**
-     * @param string $jwt
-     * @return Passport
      * @throws CustomUserMessageAuthenticationException
      */
     protected function getPassportForUser(string $jwt): Passport

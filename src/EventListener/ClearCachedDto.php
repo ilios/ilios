@@ -21,7 +21,7 @@ class ClearCachedDto
     /**
      * Clear cache entries referencing any tagged entity
      */
-    public function onFlush(OnFlushEventArgs $eventArgs)
+    public function onFlush(OnFlushEventArgs $eventArgs): void
     {
         if (!$this->featureManager->isActive('dto_caching')) {
             return;

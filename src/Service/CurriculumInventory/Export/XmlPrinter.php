@@ -355,13 +355,6 @@ class XmlPrinter
         return $xw->outputMemory();
     }
 
-    /**
-     * @param XMLWriter $xw
-     * @param CurriculumInventoryReportInterface $report
-     * @param string $reportId
-     * @param string $institutionDomain
-     * @param array $expectations
-     */
     protected function writeCompetencyFrameworkNode(
         XmlWriter $xw,
         CurriculumInventoryReportInterface $report,
@@ -460,11 +453,9 @@ class XmlPrinter
     }
 
     /**
-     * @param XmlWriter $xw
      * @param CurriculumInventorySequenceBlockInterface $block the current sequence block
      * @param array $eventReferences A reference map of sequence blocks to events.
      * @param array $competencyObjectReferences A reference map of sequence blocks to competency objects.
-     * @param string $institutionDomain
      */
     protected function writeSequenceBlockNode(
         XmlWriter $xw,
@@ -645,10 +636,8 @@ class XmlPrinter
     }
 
     /**
-     * @param XmlWriter $xw
      * @param string $title The competency object's title.
      * @param string $uri An URI that uniquely identifies the competency object.
-     * @param string $category
      */
     protected function writeCompetencyObjectNode(XmlWriter $xw, string $title, string $uri, string $category): void
     {
@@ -671,7 +660,6 @@ class XmlPrinter
     }
 
     /**
-     * @param XMLWriter $xw
      * @param string $uri An URI that uniquely identifies the competency object.
      */
     protected function writeCompetencyObjectReferenceNode(XmlWriter $xw, string $uri): void
@@ -681,10 +669,6 @@ class XmlPrinter
         $xw->writeElement('CompetencyObjectReference', $ref);
     }
 
-    /**
-     * @param XmlWriter $xw
-     * @param string $uri
-     */
     protected function writeCompetencyFrameworkIncludesNode(XmlWriter $xw, string $uri): void
     {
         $xw->startElement('cf:Includes');
@@ -693,12 +677,6 @@ class XmlPrinter
         $xw->endElement(); // </cf:Includes>
     }
 
-    /**
-     * @param XmlWriter $xw
-     * @param string $relUri1
-     * @param string $relUri2
-     * @param string $relationshipUri
-     */
     protected function writeCompetencyFrameworkRelationNode(
         XmlWriter $xw,
         string $relUri1,
@@ -718,10 +696,7 @@ class XmlPrinter
         $xw->endElement(); // </cf:Relation>
     }
 
-    /**
-     * @param string $type
-     */
-    protected function createRelationshipUri($type): string
+    protected function createRelationshipUri(string $type): string
     {
         return "http://www.w3.org/2004/02/skos/core#{$type}";
     }
@@ -734,9 +709,8 @@ class XmlPrinter
      *     "program_objective"
      *     "course_objective"
      *     "session_objective"
-     * @param string $institutionDomain
      */
-    protected function createCompetencyObjectUri($id, $type, $institutionDomain): string
+    protected function createCompetencyObjectUri(int $id, string $type, string $institutionDomain): string
     {
         return "http://{$institutionDomain}/{$type}/{$id}";
     }
@@ -745,7 +719,7 @@ class XmlPrinter
      * Returns a URI that identifies a given PCRS as defined by the AAMC.
      * @param string $pcrsPartialUri A part of the URI that uniquely identifies te PCRS competency.
      */
-    protected function createPcrsUri($pcrsPartialUri): string
+    protected function createPcrsUri(string $pcrsPartialUri): string
     {
         return "https://services.aamc.org/30/ci-school-web/pcrs/PCRS.html#{$pcrsPartialUri}";
     }

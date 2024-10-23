@@ -55,7 +55,7 @@ class AamcResourceTypeData extends AbstractDataLoader
         return [];
     }
 
-    public function createMany($count): array
+    public function createMany(int $count): array
     {
         $data = [];
         for ($i = 0; $i < $count; $i++) {

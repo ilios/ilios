@@ -231,11 +231,6 @@ class CourseObjectiveTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @param int $count
-     * @param string $jwt
-     * @return array
-     */
     protected function createMany(int $count, string $jwt): array
     {
         $courseDataLoader = self::getContainer()->get(CourseData::class);

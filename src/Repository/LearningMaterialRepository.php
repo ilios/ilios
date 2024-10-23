@@ -40,9 +40,6 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
 
     /**
      * Find all the file type learning materials
-     * @param int $limit
-     * @param int $offset
-     * @return array
      */
     public function findFileLearningMaterials(int $limit, int $offset): array
     {

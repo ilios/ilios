@@ -8,7 +8,7 @@ use App\Classes\OpenSearchBase;
 
 class Manager extends OpenSearchBase
 {
-    public function drop()
+    public function drop(): void
     {
         if (!$this->enabled) {
             return;
@@ -26,7 +26,7 @@ class Manager extends OpenSearchBase
         }
     }
 
-    public function create()
+    public function create(): void
     {
         if (!$this->enabled) {
             return;

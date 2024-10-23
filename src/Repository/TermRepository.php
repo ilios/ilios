@@ -368,7 +368,7 @@ class TermRepository extends ServiceEntityRepository implements
     protected function importTermToResourceTypeMapping(array $data, array $referenceMap): array
     {
         // `term_id`,`resource_type_id`
-        /* @var TermInterface $entity */
+        /** @var TermInterface $entity */
         $entity = $referenceMap[DefaultDataImporter::TERM . $data[0]];
         $resourceType = $referenceMap[DefaultDataImporter::AAMC_RESOURCE_TYPE . $data[1]];
         $entity->addAamcResourceType($resourceType);

@@ -295,7 +295,7 @@ class ProgramYears extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        /* @var ProgramYearInterface $entity */
+        /** @var ?ProgramYearInterface $entity */
         $entity = $this->repository->findOneBy(['id' => $id]);
 
         if ($entity) {
@@ -317,7 +317,7 @@ class ProgramYears extends AbstractApiController
             $permission = VoterPermissions::CREATE;
         }
 
-        /* @var ProgramYearInterface $entity */
+        /** @var ProgramYearInterface $entity */
         $entity = $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
 
         $this->validateAndAuthorizeEntity($entity, $permission, $validator, $authorizationChecker);
@@ -407,7 +407,7 @@ class ProgramYears extends AbstractApiController
 
         $data = $this->programYearRepository->getProgramYearObjectiveToCourseObjectivesMapping($dto->id);
 
-        array_walk($data, function (&$row) {
+        array_walk($data, function (&$row): void {
             foreach (['program_year_objective', 'mapped_course_objective'] as $key) {
                 if ($row[$key]) {
                     $row[$key] = strip_tags($row[$key]);
@@ -430,12 +430,12 @@ class ProgramYears extends AbstractApiController
     /**
      * Creates a new cohort for a new program year.
      */
-    protected function createCohort(ProgramYearInterface $programYear)
+    protected function createCohort(ProgramYearInterface $programYear): void
     {
         $program = $programYear->getProgram();
         $graduationYear = $programYear->getStartYear() + $program->getDuration();
 
-        /* @var CohortInterface $cohort */
+        /** @var CohortInterface $cohort */
         $cohort = $this->cohortRepository->create();
         $cohort->setTitle("Class of {$graduationYear}");
         $cohort->setProgramYear($programYear);

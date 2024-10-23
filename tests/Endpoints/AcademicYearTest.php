@@ -40,12 +40,12 @@ class AcademicYearTest extends AbstractReadEndpoint
         return self::filtersToTest();
     }
 
-    public function testPostIs404()
+    public function testPostIs404(): void
     {
         $this->fourOhFourTest('POST');
     }
 
-    public function testPutIs404()
+    public function testPutIs404(): void
     {
         $academicYears = $this->getYears();
         $id = $academicYears[0]['id'];
@@ -53,7 +53,7 @@ class AcademicYearTest extends AbstractReadEndpoint
         $this->fourOhFourTest('PUT', ['id' => $id]);
     }
 
-    public function testDeleteIs404()
+    public function testDeleteIs404(): void
     {
         $academicYears = $this->getYears();
         $id = $academicYears[0]['id'];
@@ -61,7 +61,7 @@ class AcademicYearTest extends AbstractReadEndpoint
         $this->fourOhFourTest('DELETE', ['id' => $id]);
     }
 
-    protected function fourOhFourTest($type, array $parameters = []): void
+    protected function fourOhFourTest(string $type, array $parameters = []): void
     {
         $url = '/api/' . $this->apiVersion . '/academicyears/';
         if (array_key_exists('id', $parameters)) {
@@ -237,7 +237,7 @@ class AcademicYearTest extends AbstractReadEndpoint
         $this->markTestSkipped('test not applicable');
     }
 
-    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
+    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void
     {
         $this->markTestSkipped('test not applicable');
     }

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 abstract class AbstractReadWriteBase extends AbstractBase
 {
-    public function testCanRead()
+    public function testCanRead(): void
     {
         $subject = $this->createMockSubject();
 
@@ -21,7 +21,7 @@ abstract class AbstractReadWriteBase extends AbstractBase
         );
     }
 
-    public function testCanNotRead()
+    public function testCanNotRead(): void
     {
         $subject = $this->createMockSubject();
 
@@ -43,7 +43,7 @@ abstract class AbstractReadWriteBase extends AbstractBase
     /**
      * @dataProvider writePermissionsProvider
      */
-    public function testCanWrite(string $voterPermission)
+    public function testCanWrite(string $voterPermission): void
     {
         $subject = $this->createMockSubjectWithSchoolContext(2);
 
@@ -63,7 +63,7 @@ abstract class AbstractReadWriteBase extends AbstractBase
     /**
      * @dataProvider writePermissionsProvider
      */
-    public function testCanNotWrite(string $voterPermission)
+    public function testCanNotWrite(string $voterPermission): void
     {
         $subject = $this->createMockSubjectWithSchoolContext(2);
 

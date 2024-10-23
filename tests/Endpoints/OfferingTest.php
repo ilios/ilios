@@ -128,7 +128,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
     /**
      * @dataProvider changeTypePutsToTest
      */
-    public function testPutTriggerChangeType(string $key, $value, int $changeType): void
+    public function testPutTriggerChangeType(string $key, mixed $value, int $changeType): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();
@@ -152,7 +152,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
     /**
      * @dataProvider changeTypePutsToTest
      */
-    public function testPatchJsonApiTriggerChangeType(string $key, $value, int $changeType): void
+    public function testPatchJsonApiTriggerChangeType(string $key, mixed $value, int $changeType): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $dataLoader = $this->getDataLoader();

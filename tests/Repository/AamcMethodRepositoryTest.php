@@ -33,7 +33,7 @@ class AamcMethodRepositoryTest extends KernelTestCase
         $this->repository = $repository;
     }
 
-    public function testFindById()
+    public function testFindById(): void
     {
         $entity = $this->repository->findOneBy(['id' => 'AM002']);
         $this->assertNotNull($entity);

@@ -71,9 +71,6 @@ class LearningMaterials extends OpenSearchBase
         return empty($errors);
     }
 
-    /**
-     * @param int $id
-     */
     public function delete(int $id): bool
     {
         $result = $this->doDeleteByQuery([
@@ -92,7 +89,6 @@ class LearningMaterials extends OpenSearchBase
      * Base64 encodes learning material contents for indexing
      * Files larger than the upload limit are ignored
      *
-     * @param LearningMaterialDTO $dto
      */
     protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
     {

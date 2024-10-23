@@ -94,7 +94,7 @@ class InstallFirstUserCommand extends Command
         $schoolId = $input->getOption('school');
         if (!$schoolId) {
             $schoolTitles = [];
-            /* @var SchoolInterface $school */
+            /** @var SchoolInterface $school */
             foreach ($schools as $school) {
                 $schoolTitles[$school->getTitle()] = $school->getId();
             }

@@ -8,55 +8,39 @@ use App\Service\Index\Curriculum;
 
 class IndexableSession
 {
-    /** @var int */
-    public $courseId;
+    public int $courseId;
 
-    /** @var int */
-    public $sessionId;
+    public int $sessionId;
 
-    /** @var string */
-    public $title;
+    public string $title;
 
-    /** @var string */
-    public $sessionType;
+    public string $sessionType;
 
-    /** @var string */
-    public $description;
+    public string $description;
 
-    /** @var array  */
-    public $directors = [];
+    public array $directors = [];
 
-    /** @var array  */
-    public $administrators = [];
+    public array $administrators = [];
 
-    /** @var array  */
-    public $terms = [];
+    public array $terms = [];
 
-    /** @var array  */
-    public $objectives = [];
+    public array $objectives = [];
 
-    /** @var array  */
-    public $meshDescriptorIds = [];
+    public array $meshDescriptorIds = [];
 
-    /** @var array  */
-    public $meshDescriptorNames = [];
+    public array $meshDescriptorNames = [];
 
-    /** @var array  */
-    public $meshDescriptorAnnotations = [];
+    public array $meshDescriptorAnnotations = [];
 
-    /** @var array  */
-    public $learningMaterialTitles = [];
+    public array $learningMaterialTitles = [];
 
-    /** @var array  */
-    public $learningMaterialDescriptions = [];
+    public array $learningMaterialDescriptions = [];
 
-    /** @var array  */
-    public $learningMaterialCitations = [];
+    public array $learningMaterialCitations = [];
 
-    /** @var array  */
-    public $fileLearningMaterialIds = [];
+    public array $fileLearningMaterialIds = [];
 
-    public function createIndexObject()
+    public function createIndexObject(): array
     {
         return [
             'id' => Curriculum::SESSION_ID_PREFIX . $this->sessionId,

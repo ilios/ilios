@@ -224,7 +224,7 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         $this->assertEquals($expected, $actual);
     }
 
-    protected function postTest(array $data, array $postData, $jwt): array
+    protected function postTest(array $data, array $postData, string $jwt): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();

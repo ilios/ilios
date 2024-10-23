@@ -69,7 +69,7 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
     public function isTeachingCourse(int $courseId): bool;
     public function rolesInSchool(
         int $schoolId,
-        $roles = [
+        array $roles = [
             UserRoles::SCHOOL_DIRECTOR,
             UserRoles::SCHOOL_ADMINISTRATOR,
             UserRoles::COURSE_DIRECTOR,
@@ -82,7 +82,7 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
     ): array;
     public function rolesInCourse(
         int $courseId,
-        $roles = [
+        array $roles = [
             UserRoles::COURSE_DIRECTOR,
             UserRoles::COURSE_ADMINISTRATOR,
             UserRoles::SESSION_ADMINISTRATOR,
@@ -102,22 +102,22 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
 
     public function rolesInSession(
         int $sessionId,
-        $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
+        array $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
     ): array;
     public function rolesInProgram(
         int $programId,
-        $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
+        array $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
     ): array;
     public function isDirectingProgram(int $programId): bool;
     public function isDirectingProgramInSchool(int $schoolId): bool;
-    public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]): array;
+    public function rolesInProgramYear(int $programYearId, array $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]): array;
     public function isDirectingProgramYear(int $programYearId): bool;
     public function isDirectingProgramYearInProgram(int $programId): bool;
     public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId): bool;
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId): bool;
     public function rolesInCurriculumInventoryReport(
         int $curriculumInventoryReportId,
-        $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
+        array $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
     ): array;
 
     /**
@@ -159,9 +159,6 @@ interface SessionUserInterface extends PasswordAuthenticatedUserInterface, UserI
 
     public function getDirectedProgramSchoolIds(): array;
 
-    /**
-     * @@return array
-     */
     public function getDirectedProgramYearIds(): array;
 
     public function getDirectedProgramYearProgramIds(): array;

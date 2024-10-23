@@ -131,7 +131,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
         return array_values($dtos);
     }
 
-    protected function getTermsFromQ(string $q)
+    protected function getTermsFromQ(string $q): array
     {
         $terms = explode(' ', $q);
         return array_filter($terms, 'strlen');
@@ -401,7 +401,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
      * Gut the MeSH tables, leaving only descriptor records in place that are somehow wired up to the rest of Ilios.
      * @throws Exception
      */
-    public function clearExistingData()
+    public function clearExistingData(): void
     {
         $conn = $this->getEntityManager()->getConnection();
         $conn->beginTransaction();
@@ -439,7 +439,7 @@ EOL;
     /**
      * @throws Exception
      */
-    public function upsertMeshUniverse(DescriptorSet $descriptorSet, array $existingDescriptorIds)
+    public function upsertMeshUniverse(DescriptorSet $descriptorSet, array $existingDescriptorIds): void
     {
         $data = $this->transmogrifier->transmogrify($descriptorSet, $existingDescriptorIds);
         $now = new DateTime();
@@ -448,7 +448,7 @@ EOL;
         $termMap = []; // maps term hashes to record ids.
         $conn->beginTransaction();
         try {
-            /* @var Descriptor $descriptor */
+            /** @var Descriptor $descriptor */
             foreach ($data['insert']['mesh_descriptor'] as $descriptor) {
                     $conn->insert('mesh_descriptor', [
                         'mesh_descriptor_uid' => $descriptor->getUi(),
@@ -466,7 +466,7 @@ EOL;
                         'datetime',
                     ]);
             }
-            /* @var Descriptor $descriptor */
+            /** @var Descriptor $descriptor */
             foreach ($data['update']['mesh_descriptor'] as $descriptor) {
                 $conn->update('mesh_descriptor', [
                     'name' => $descriptor->getName(),
@@ -480,7 +480,7 @@ EOL;
                     'datetime',
                 ]);
             }
-            /* @var AllowableQualifier $qualifier */
+            /** @var AllowableQualifier $qualifier */
             foreach ($data['insert']['mesh_qualifier'] as $qualifier) {
                 $conn->insert('mesh_qualifier', [
                     'mesh_qualifier_uid' => $qualifier->getQualifierReference()->getUi(),
@@ -494,7 +494,7 @@ EOL;
                     'datetime',
                 ]);
             }
-            /* @var Concept $concept */
+            /** @var Concept $concept */
             foreach ($data['insert']['mesh_concept'] as $concept) {
                 $conn->insert('mesh_concept', [
                     'mesh_concept_uid' => $concept->getUi(),
@@ -516,8 +516,8 @@ EOL;
                     'datetime',
                 ]);
             }
-            /* @var Term $term */
             $i = 1;
+            /** @var Term $term */
             foreach ($data['insert']['mesh_term'] as $hash => $term) {
                 $conn->insert('mesh_term', [
                     'mesh_term_id' => $i,
@@ -588,7 +588,7 @@ EOL;
      * Flag all given MeSH descriptors as "deleted".
      * @param array $ids The mesh descriptor IDs.
      */
-    public function flagDescriptorsAsDeleted(array $ids)
+    public function flagDescriptorsAsDeleted(array $ids): void
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->update(MeshDescriptor::class, 'm');

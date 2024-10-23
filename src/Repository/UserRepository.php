@@ -46,17 +46,14 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Find by a string query
-     * @param string $q
-     * @param int $limit
-     * @param int $offset
      */
     public function findDTOsByQ(
-        $q,
+        string $q,
         ?array $orderBy = null,
-        $limit = null,
-        $offset = null,
+        ?int $limit = null,
+        ?int $offset = null,
         array $criteria = []
-    ) {
+    ): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x')->from(User::class, 'x');
         $qb->leftJoin('x.authentication', 'auth');
@@ -134,9 +131,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Find all of the events for a user id between two dates
-     * @param int $id
      */
-    public function findEventsForUser($id, DateTime $from, DateTime $to): array
+    public function findEventsForUser(int $id, DateTime $from, DateTime $to): array
     {
         //These joins are DQL representations to go from a user to an offerings
         $joinsAndUserContexts = $this->getUserToOfferingJoinsAndUserContexts();
@@ -304,10 +300,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Get all the IDs for all users
      *
-     * @param bool $includeDisabled
-     * @param bool $includeSyncIgnore
      */
-    public function getIds($includeDisabled = true, $includeSyncIgnore = true): array
+    public function getIds(bool $includeDisabled = true, bool $includeSyncIgnore = true): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('u.id')->from(User::class, 'u');
@@ -324,10 +318,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Get all the campus IDs for all users
      *
-     * @param bool $includeDisabled
-     * @param bool $includeSyncIgnore
      */
-    public function getAllCampusIds($includeDisabled = true, $includeSyncIgnore = true): array
+    public function getAllCampusIds(bool $includeDisabled = true, bool $includeSyncIgnore = true): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('u.campusId')->from(User::class, 'u');
@@ -344,7 +336,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Reset examined flag for all users
      */
-    public function resetExaminedFlagForAllUsers()
+    public function resetExaminedFlagForAllUsers(): void
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
@@ -358,15 +350,14 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * Use the query builder and the $joins to get a set of
      * offering based user events
      *
-     * @param int $id
      */
     protected function getOfferingEventsFor(
-        $id,
+        int $id,
         DateTime $from,
         DateTime $to,
         array $joins,
         string $userContext,
-    ) {
+    ): array {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $what = 'c.id as courseId, s.id AS sessionId, school.id AS schoolId, o.id, o.startDate, o.endDate, o.room, ' .
@@ -462,7 +453,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param int $id The user id.
      * @param UserEvent[] $events A list of events.
      */
-    public function addPreAndPostRequisites($id, array $events): array
+    public function addPreAndPostRequisites(int $id, array $events): array
     {
         $events = $this->attachPreRequisitesToEvents($id, $events);
         return $this->attachPostRequisitesToEvents($id, $events);
@@ -473,7 +464,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param int $id The user id.
      * @param UserEvent[] $events A list of events.
      */
-    protected function attachPreRequisitesToEvents($id, array $events): array
+    protected function attachPreRequisitesToEvents(int $id, array $events): array
     {
         if (empty($events)) {
             return $events;
@@ -632,7 +623,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      * @param int $id The user id.
      * @param array $events A list of events.
      */
-    protected function attachPostRequisitesToEvents($id, array $events): array
+    protected function attachPostRequisitesToEvents(int $id, array $events): array
     {
         if (empty($events)) {
             return $events;
@@ -1093,10 +1084,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Find all of the assigned materials for a user
-     * @param int $id
-     * @param array $criteria
      */
-    public function findMaterialsForUser($id, $criteria): array
+    public function findMaterialsForUser(int $id, array $criteria): array
     {
         $factory = $this->factory;
         $offIdQb = $this->getEntityManager()->createQueryBuilder();
@@ -1245,9 +1234,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools directed by the given user.
-     * @param int $userId
      */
-    public function getDirectedSchoolIds($userId): array
+    public function getDirectedSchoolIds(int $userId): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('school.id')->distinct()->from(User::class, 'u');
@@ -1260,9 +1248,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools administered by the given user.
-     * @param int $userId
      */
-    public function getAdministeredSchoolIds($userId): array
+    public function getAdministeredSchoolIds(int $userId): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('school.id')->distinct()->from(User::class, 'u');
@@ -1276,9 +1263,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids os courses directed by the given user,
      * and the ids of schools owning these directed courses.
-     * @param int $userId
      */
-    public function getDirectedCourseAndSchoolIds($userId): array
+    public function getDirectedCourseAndSchoolIds(int $userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];
@@ -1303,9 +1289,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of courses administered by the given user,
      * and the ids of schools owning these administered courses.
-     * @param int $userId
      */
-    public function getAdministeredCourseAndSchoolIds($userId): array
+    public function getAdministeredCourseAndSchoolIds(int $userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];
@@ -1330,9 +1315,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of curriculum inventory reports administered by the given user,
      * and the ids of schools owning these administered reports.
-     * @param int $userId
      */
-    public function getAdministeredCurriculumInventoryReportAndSchoolIds($userId): array
+    public function getAdministeredCurriculumInventoryReportAndSchoolIds(int $userId): array
     {
         $rhett['reportIds'] = [];
         $rhett['schoolIds'] = [];
@@ -1358,9 +1342,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of sessions administered by the given user,
      * and the ids of schools and courses owning these administered sessions.
-     * @param int $userId
      */
-    public function getAdministeredSessionCourseAndSchoolIds($userId): array
+    public function getAdministeredSessionCourseAndSchoolIds(int $userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];
@@ -1472,9 +1455,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools which own learner groups instructed by the given user.
-     * @param int $userId
      */
-    public function getInstructedLearnerGroupSchoolIds($userId): array
+    public function getInstructedLearnerGroupSchoolIds(int $userId): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('school.id')->distinct()->from(User::class, 'u');
@@ -1491,9 +1473,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of learner groups that the given user is a member of.
-     * @param int $userId
      */
-    public function getLearnerGroupIds($userId): array
+    public function getLearnerGroupIds(int $userId): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('learnerGroups.id')->distinct()->from(User::class, 'u');
@@ -1506,9 +1487,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of instructor groups that the given user is a member of.
-     * @param int $userId
      */
-    public function getInstructorGroupIds($userId): array
+    public function getInstructorGroupIds(int $userId): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('instructorGroups.id')->distinct()->from(User::class, 'u');
@@ -1521,9 +1501,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
 
     /**
      * Returns a list of ids of schools owning instructor groups that the given user is part of.
-     * @param int $userId
      */
-    public function getInstructorGroupSchoolIds($userId): array
+    public function getInstructorGroupSchoolIds(int $userId): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('school.id')->distinct()->from(User::class, 'u');
@@ -1538,9 +1517,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of courses that are linked to the programs directed by the given user,
      * and the ids of cohorts, program years and directed programs in this chain of associations.
-     * @param int $userId
      */
-    public function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($userId): array
+    public function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser(int $userId): array
     {
         $rhett['programIds'] = [];
         $rhett['programYearIds'] = [];
@@ -1571,9 +1549,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of ILMs and offerings instructed by the given user,
      * and the ids of schools, courses, and sessions owning these instructed and offerings.
-     * @param int $userId
      */
-    public function getInstructedOfferingIlmSessionCourseAndSchoolIds($userId): array
+    public function getInstructedOfferingIlmSessionCourseAndSchoolIds(int $userId): array
     {
         $rhett['schoolIds'] = [];
         $rhett['courseIds'] = [];
@@ -1661,9 +1638,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of programs directed by the given user,
      * and the ids of schools owning these directed programs.
-     * @param int $userId
      */
-    public function getDirectedProgramAndSchoolIds($userId): array
+    public function getDirectedProgramAndSchoolIds(int $userId): array
     {
         $rhett['programIds'] = [];
         $rhett['schoolIds'] = [];
@@ -1687,9 +1663,8 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
     /**
      * Returns an assoc. array of ids of program-years directed by the given user,
      * and the ids of programs and schools owning these directed program years.
-     * @param int $userId
      */
-    public function getDirectedProgramYearProgramAndSchoolIds($userId): array
+    public function getDirectedProgramYearProgramAndSchoolIds(int $userId): array
     {
         $rhett['programYearIds'] = [];
         $rhett['programIds'] = [];

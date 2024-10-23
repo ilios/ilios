@@ -38,7 +38,7 @@ class AddRootUserCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $userId = $input->getArgument('userId');
-        /* @var UserInterface $user */
+        /** @var ?UserInterface $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception("No user with id #{$userId} was found.");

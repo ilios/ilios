@@ -258,7 +258,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
         };
     }
 
-    protected function importSessionType(array $data, $type, array $referenceMap): array
+    protected function importSessionType(array $data, string $type, array $referenceMap): array
     {
         // `session_type_id`,`title`,`school_id`,`calendar_color`,`assessment`,`assessment_option_id`, `active`
         $entity = new SessionType();
@@ -278,7 +278,7 @@ class SessionTypeRepository extends ServiceEntityRepository implements
 
     protected function importSessionTypeToMethodMapping(array $data, array $referenceMap): array
     {
-        /* @var SessionType $entity */
+        /** @var SessionType $entity */
         $entity = $referenceMap[DefaultDataImporter::SESSION_TYPE . $data[0]];
         $entity->addAamcMethod($referenceMap[DefaultDataImporter::AAMC_METHOD . $data[1]]);
         $this->update($entity, true, true);

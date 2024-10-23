@@ -91,7 +91,7 @@ class PendingUserUpdateRepository extends ServiceEntityRepository implements DTO
     /**
      * Remove all pending user updates from the database
      */
-    public function removeAllPendingUserUpdates()
+    public function removeAllPendingUserUpdates(): void
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->delete(PendingUserUpdate::class, 'p');

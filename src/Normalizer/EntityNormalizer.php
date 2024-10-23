@@ -55,9 +55,8 @@ class EntityNormalizer implements NormalizerInterface
     /**
      * Converts value into the type dictated by it's annotation on the entity
      *
-     * @param mixed $value
      */
-    protected function convertValueByType(ReflectionProperty $property, $value): mixed
+    protected function convertValueByType(ReflectionProperty $property, mixed $value): mixed
     {
         $type = $this->entityMetadata->getTypeOfProperty($property);
         if ($type === 'dateTime') {
@@ -75,8 +74,7 @@ class EntityNormalizer implements NormalizerInterface
             return $value ? (string) $value : null;
         }
 
-        if ($type === IA\Type::ENTITY_COLLECTION) {
-            /** @var ArrayCollection $value $ids */
+        if ($type === IA\Type::ENTITY_COLLECTION && $value instanceof ArrayCollection) {
             $ids = $value->map(fn($entity) => $entity ? (string) $entity : null)->toArray();
 
             return array_values($ids);

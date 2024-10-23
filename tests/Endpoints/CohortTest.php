@@ -149,8 +149,6 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
 
     /**
      * Get programYear data from loader by id
-     * @param int $id
-     * @return array
      */
     protected function getProgramYear(int $id): array
     {

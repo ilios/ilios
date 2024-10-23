@@ -32,7 +32,7 @@ class ServiceTokenRepository extends ServiceEntityRepository implements Reposito
     /**
      * @throws Exception
      */
-    public function findDTOsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         throw new Exception("not implemented");
     }

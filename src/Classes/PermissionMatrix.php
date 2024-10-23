@@ -10,10 +10,7 @@ namespace App\Classes;
  */
 class PermissionMatrix implements PermissionMatrixInterface
 {
-    /**
-     * @var array
-     */
-    protected $matrix = [];
+    protected array $matrix = [];
 
     public function hasPermission(int $schoolId, string $capability, array $roles): bool
     {

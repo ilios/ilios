@@ -63,7 +63,7 @@ class CourseRollover
         //make sure that the new course's academic year or new start date year is not in the past
         $this->confirmYearIsValid($newAcademicYear);
         if (!empty($newStartDate)) {
-            $this->confirmYearIsValid($newStartDate->format('Y'));
+            $this->confirmYearIsValid((int)$newStartDate->format('Y'));
         }
 
         //get the original course object
@@ -95,7 +95,7 @@ class CourseRollover
 
         //create the Course
         //if there are not any duplicates, create a new course with the relevant info
-        /* @var CourseInterface $newCourse */
+        /** @var CourseInterface $newCourse */
         $newCourse = $this->courseRepository->create();
         $newCourse->setTitle($newTitle);
         $newCourse->setLevel($origCourse->getLevel());
@@ -159,13 +159,13 @@ class CourseRollover
         return $newCourse;
     }
 
-    protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $origCourse)
+    protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $origCourse): void
     {
-        /* @var CourseLearningMaterialInterface[] $origCourseLearningMaterials */
+        /** @var CourseLearningMaterialInterface[] $origCourseLearningMaterials */
         $origCourseLearningMaterials = $origCourse->getLearningMaterials();
 
         foreach ($origCourseLearningMaterials as $origCourseLearningMaterial) {
-            /* @var CourseLearningMaterialInterface $newCourseLearningMaterial */
+            /** @var CourseLearningMaterialInterface $newCourseLearningMaterial */
             $newCourseLearningMaterial = $this->courseLearningMaterialRepository->create();
             $newCourseLearningMaterial->setNotes($origCourseLearningMaterial->getNotes());
             $newCourseLearningMaterial->setRequired($origCourseLearningMaterial->isRequired());
@@ -180,25 +180,23 @@ class CourseRollover
     }
 
     /**
-     * @param int $daysOffset
-     * @param array $options
      * @param CourseObjectiveInterface[] $newCourseObjectives
      * @throws Exception
      */
     protected function rolloverSessions(
         CourseInterface $newCourse,
         CourseInterface $origCourse,
-        $daysOffset,
-        $options,
+        int $daysOffset,
+        array $options,
         array $newCourseObjectives
-    ) {
-        /* @var SessionInterface[] $origCourseSessions */
+    ): void {
+        /** @var SessionInterface[] $origCourseSessions */
         $origCourseSessions = $origCourse->getSessions();
 
         $sessionMap = [];
 
         foreach ($origCourseSessions as $origCourseSession) {
-            /* @var SessionInterface $newSession */
+            /** @var SessionInterface $newSession */
             $newSession = $this->sessionRepository->create();
             $newSession->setCourse($newCourse);
             $newSession->setTitle($origCourseSession->getTitle());
@@ -259,12 +257,12 @@ class CourseRollover
     protected function rolloverSessionLearningMaterials(
         SessionInterface $newSession,
         SessionInterface $origCourseSession
-    ) {
-        /* @var SessionLearningMaterialInterface[] $origSessionLearningMaterials */
+    ): void {
+        /** @var SessionLearningMaterialInterface[] $origSessionLearningMaterials */
         $origSessionLearningMaterials = $origCourseSession->getLearningMaterials();
 
         foreach ($origSessionLearningMaterials as $origSessionLearningMaterial) {
-            /* @var SessionLearningMaterialInterface $newSessionLearningMaterial */
+            /** @var SessionLearningMaterialInterface $newSessionLearningMaterial */
             $newSessionLearningMaterial = $this->sessionLearningMaterialRepository->create();
             $newSessionLearningMaterial->setNotes($origSessionLearningMaterial->getNotes());
             $newSessionLearningMaterial->setRequired($origSessionLearningMaterial->isRequired());
@@ -279,20 +277,16 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface $newSession
-     * @param SessionInterface $origCourseSession
-     * @param int $daysOffset
-     * @param array $options
      * @throws Exception
      */
     protected function rolloverOfferings(
         SessionInterface $newSession,
         SessionInterface $origCourseSession,
-        $daysOffset,
-        $options
-    ) {
+        int $daysOffset,
+        array $options
+    ): void {
 
-        /* @var OfferingInterface[] $origSessionOfferings */
+        /** @var OfferingInterface[] $origSessionOfferings */
         $origSessionOfferings = $origCourseSession->getOfferings();
 
         foreach ($origSessionOfferings as $origSessionOffering) {
@@ -305,7 +299,7 @@ class CourseRollover
                 $daysOffset
             );
 
-            /* @var OfferingInterface $newOffering */
+            /** @var OfferingInterface $newOffering */
             $newOffering = $this->offeringRepository->create();
             $newOffering->setRoom($origSessionOffering->getRoom());
             $newOffering->setSite($origSessionOffering->getSite());
@@ -346,10 +340,9 @@ class CourseRollover
     }
 
     /**
-     * @param int $newAcademicYear
      * @throws Exception
      */
-    private function confirmYearIsValid($newAcademicYear)
+    private function confirmYearIsValid(int $newAcademicYear): void
     {
         $lastYear = date('Y') - 1;
         if ($newAcademicYear < $lastYear) {
@@ -360,11 +353,9 @@ class CourseRollover
     }
 
     /**
-     * @param string $title
-     * @param int    $newAcademicYear
      * @throws Exception
      */
-    private function checkForDuplicateRollover($title, $newAcademicYear)
+    private function checkForDuplicateRollover(string $title, int $newAcademicYear): void
     {
         $duplicateCourses = $this->courseRepository->findBy(['title' => $title, 'year' => $newAcademicYear]);
         if (!empty($duplicateCourses)) {
@@ -376,13 +367,11 @@ class CourseRollover
     }
 
     /**
-     * @param int $origCourseId
-     * @return CourseInterface
      * @throws Exception
      */
-    private function getOriginalCourse($origCourseId): CourseInterface
+    private function getOriginalCourse(int $origCourseId): CourseInterface
     {
-        /* @var CourseInterface $origCourse */
+        /** @var ?CourseInterface $origCourse */
         $origCourse = $this->courseRepository->findOneBy(['id' => $origCourseId]);
         if (empty($origCourse)) {
             throw new Exception(
@@ -399,7 +388,7 @@ class CourseRollover
         $newCourseObjectives = [];
         $cohorts = $newCourse->getCohorts();
         foreach ($origCourse->getCourseObjectives() as $courseObjective) {
-            /* @var CourseObjectiveInterface $newCourseObjective */
+            /** @var CourseObjectiveInterface $newCourseObjective */
             $newCourseObjective = $this->courseObjectiveRepository->create();
             $newCourseObjective->setCourse($newCourse);
             $newCourseObjective->setTerms($courseObjective->getTerms());
@@ -423,7 +412,7 @@ class CourseRollover
         CourseObjectiveInterface $courseObjective,
         CourseObjectiveInterface $newCourseObjective,
         CohortInterface $cohort
-    ) {
+    ): void {
         $programYear = $cohort->getProgramYear();
         $programYearObjectives = $programYear->getProgramYearObjectives();
 
@@ -449,7 +438,7 @@ class CourseRollover
     ): void {
         $origSession->getSessionObjectives()
             ->map(
-                function (SessionObjectiveInterface $sessionObjective) use ($newSession, $newCourseObjectives) {
+                function (SessionObjectiveInterface $sessionObjective) use ($newSession, $newCourseObjectives): void {
                     /** @var SessionObjectiveInterface $newSessionObjective */
                     $newSessionObjective = $this->sessionObjectiveRepository->create();
                     $newSessionObjective->setSession($newSession);
@@ -477,18 +466,15 @@ class CourseRollover
     }
 
     /**
-     * @param SessionInterface $newSession
-     * @param SessionInterface $origSession
-     * @param int $daysOffset
      * @throws Exception
      */
     protected function rolloverIlmSession(
         SessionInterface $newSession,
         SessionInterface $origSession,
-        $daysOffset
-    ) {
+        int $daysOffset
+    ): void {
         if ($origIlmSession = $origSession->getIlmSession()) {
-            /* @var IlmSessionInterface $newIlmSession */
+            /** @var IlmSessionInterface $newIlmSession */
             $newIlmSession = $this->ilmSessionRepository->create();
             $newIlmSession->setHours($origIlmSession->getHours());
             $newSession->setIlmSession($newIlmSession);
@@ -503,11 +489,9 @@ class CourseRollover
     }
 
     /**
-     * @param DateTime $origCourseStartDate
-     * @param DateTime $newStartDate
      * @throws Exception
      */
-    protected function compareStartDateDayOfWeek($origCourseStartDate, $newStartDate)
+    protected function compareStartDateDayOfWeek(DateTime $origCourseStartDate, DateTime $newStartDate): void
     {
         if ($origCourseStartDate->format('w') !== $newStartDate->format('w')) {
             throw new Exception(

@@ -363,7 +363,7 @@ class AuthControllerTest extends WebTestCase
         return $jwt;
     }
 
-    protected function decode($jwt): array
+    protected function decode(string $jwt): array
     {
         $decoded = JWT::decode($jwt, new Key($this->jwtKey, JsonWebTokenManager::SIGNING_ALGORITHM));
         return (array) $decoded;

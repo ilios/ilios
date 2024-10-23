@@ -12,7 +12,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 class FieldResolver
 {
-    public function __invoke($source, $args, $context, ResolveInfo $info)
+    public function __invoke(mixed $source, array $args, mixed $context, ResolveInfo $info): mixed
     {
         $fieldName = $info->fieldName;
         $property = null;

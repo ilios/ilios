@@ -559,7 +559,7 @@ class LearningMaterials
         }
     }
 
-    protected function validateLmEntity(LearningMaterialInterface $lm, ValidatorInterface $validator)
+    protected function validateLmEntity(LearningMaterialInterface $lm, ValidatorInterface $validator): void
     {
         $errors = [];
         /** @var ConstraintViolationInterface $violation */

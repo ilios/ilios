@@ -13,18 +13,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 trait GetUrlTrait
 {
-    /**
-     * @param KernelBrowser $browser
-     * @param string $route
-     * @param array $params
-     * @param int $absolute
-     */
     public function getUrl(
         KernelBrowser $browser,
-        $route,
-        $params = [],
-        $absolute = UrlGeneratorInterface::ABSOLUTE_PATH
-    ) {
+        string $route,
+        array $params = [],
+        int $absolute = UrlGeneratorInterface::ABSOLUTE_PATH
+    ): string {
         return $browser->getContainer()->get('router')->generate($route, $params, $absolute);
     }
 }

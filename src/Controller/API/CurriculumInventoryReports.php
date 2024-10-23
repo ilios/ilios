@@ -516,7 +516,7 @@ class CurriculumInventoryReports extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         VerificationPreviewBuilder $previewBuilder
     ): Response {
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var ?CurriculumInventoryReportInterface $report */
         $report = $this->repository->findOneBy(['id' => $id]);
 
         if (! $report) {
