@@ -597,7 +597,7 @@ EOL;
                 $arr['published']
             );
             $index->school = $arr['school'];
-            $index->clerkshipType = $arr['clerkshipType'] ? $arr['clerkshipType'] : null;
+            $index->clerkshipType = $arr['clerkshipType'] ?: null;
 
             $indexableCourses[$arr['id']] = $index;
         }

@@ -144,8 +144,8 @@ class SessionRepository extends ServiceEntityRepository implements
             $dtos[$arr['sessionId']]->course = $arr['courseId'];
             $dtos[$arr['sessionId']]->school = $arr['schoolId'];
             $dtos[$arr['sessionId']]->sessionType = $arr['sessionTypeId'];
-            $dtos[$arr['sessionId']]->ilmSession = $arr['ilmId'] ? $arr['ilmId'] : null;
-            $dtos[$arr['sessionId']]->postrequisite = $arr['postrequisiteId'] ? $arr['postrequisiteId'] : null;
+            $dtos[$arr['sessionId']]->ilmSession = $arr['ilmId'] ?: null;
+            $dtos[$arr['sessionId']]->postrequisite = $arr['postrequisiteId'] ?: null;
         }
 
         $dtos = $this->attachRelatedToDtos(
