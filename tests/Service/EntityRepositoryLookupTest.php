@@ -100,7 +100,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         ];
     }
 
-    public function getDtoClassForEndpointProvider(): array
+    public static function getDtoClassForEndpointProvider(): array
     {
         return [
             [ 'aamcmethods', AamcMethodDTO::class ],
@@ -108,7 +108,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         ];
     }
 
-    public function getDtoClassForEndpointFailsProvider(): array
+    public static function getDtoClassForEndpointFailsProvider(): array
     {
         return [
             [ 'servicetokens', "The DTO 'App\Entity\DTO\ServiceTokenDTO' does not exist." ],
