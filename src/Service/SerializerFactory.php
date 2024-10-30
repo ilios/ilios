@@ -35,7 +35,7 @@ class SerializerFactory
         JsonApiEncoder $jsonApiEncoder,
         EntityDenormalizer $entityDenormalizer,
         EntityNormalizer $entityNormalizer
-    ): SerializerInterface & NormalizerInterface {
+    ): Serializer {
         $jsonEncoder = new JsonEncoder();
         $array = new ArrayDenormalizer();
         $dateTime = new DateTimeNormalizer();
