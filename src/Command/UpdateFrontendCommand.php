@@ -85,6 +85,13 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Request a specific version of the frontend (instead of the default active one)'
+            )
+            ->addOption(
+                'limit',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Limit the number of past frontend versions to download. Set to zero for all versions.',
+                3,
             );
     }
 
@@ -92,6 +99,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     {
         $stagingBuild = $input->getOption('staging-build');
         $versionOverride = $input->getOption('at-version');
+        $limit = (int) $input->getOption('limit');
         $environment = $stagingBuild ? self::STAGING : self::PRODUCTION;
         $this->output = $output;
         $message = '';
@@ -103,7 +111,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
 
         try {
-            $currentVersion = $this->downloadAndExtractAllArchives($environment);
+            $currentVersion = $this->downloadAndExtractArchives($environment, $limit);
             $distributions = $this->listDistributions($environment);
             foreach ($distributions as $path) {
                 $this->copyAssetsIntoPublicDirectory($path);
@@ -135,7 +143,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         try {
-            $currentVersion = $this->downloadAndExtractAllArchives(self::PRODUCTION);
+            $currentVersion = $this->downloadAndExtractArchives(self::PRODUCTION, 3);
             $distributions = $this->listDistributions(self::PRODUCTION);
             foreach ($distributions as $path) {
                 $this->copyAssetsIntoPublicDirectory($path);
@@ -176,13 +184,20 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $this->fs->copy("{$distributionPath}/index.json", $frontendPath);
     }
 
-    protected function downloadAndExtractAllArchives(string $environment): ?string
+    protected function downloadAndExtractArchives(string $environment, int $limit): ?string
     {
         $this->optionalOutput('Downloading List of Frontend Distributions...');
         $distributions = $this->extractS3Index($environment);
         if (empty($distributions)) {
             $this->optionalOutput('There are no current frontend distributions for your API version', 'comment');
             return null;
+        }
+        if ($limit) {
+            $count = count($distributions);
+            if ($limit < $count) {
+                $this->optionalOutput("Found {$count}, using the {$limit} most recent.");
+            }
+            $distributions = array_slice($distributions, 0, $limit);
         }
         $this->optionalOutput('Done!');
         $progressBar = $this->output ? new ProgressBar($this->output, count($distributions)) : null;
@@ -242,7 +257,12 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 ];
             }
         }
-        return array_filter($allDistributions, fn(array $arr) => !str_ends_with($arr['key'], 'frontend.tar.gz'));
+        $rhett =  array_filter($allDistributions, fn(array $arr) => !str_ends_with($arr['key'], 'frontend.tar.gz'));
+
+        //reverse sort so we get the latest release first
+        usort($rhett, fn(array $a, array $b) => $b['lastModified'] <=> $a['lastModified']);
+
+        return $rhett;
     }
 
     protected function downloadAndExtractArchive(
