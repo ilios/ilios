@@ -7,7 +7,7 @@ namespace App\Normalizer;
 use App\Service\EntityMetadata;
 use App\Attributes as IA;
 use ArrayObject;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 use HTMLPurifier;
 use Psr\Log\LoggerInterface;
@@ -74,7 +74,7 @@ class EntityNormalizer implements NormalizerInterface
             return $value ? (string) $value : null;
         }
 
-        if ($type === IA\Type::ENTITY_COLLECTION && $value instanceof ArrayCollection) {
+        if ($type === IA\Type::ENTITY_COLLECTION && $value instanceof Collection) {
             $ids = $value->map(fn($entity) => $entity ? (string) $entity : null)->toArray();
 
             return array_values($ids);
