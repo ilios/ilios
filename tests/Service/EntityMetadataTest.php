@@ -257,7 +257,7 @@ class EntityMetadataTest extends KernelTestCase
         $this->service->getEntityForType('geflarknik');
     }
 
-    protected function dtoProvider(): array
+    public static function dtoProvider(): array
     {
         return [
             [new AcademicYear(2024, '2024-2025')],
@@ -265,7 +265,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function entityProvider(): array
+    public static function entityProvider(): array
     {
         return [
             [new AamcMethod()],
@@ -273,7 +273,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractExposedPropertiesProvider(): array
+    public static function extractExposedPropertiesProvider(): array
     {
         return [
             [
@@ -293,7 +293,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractFilterableProvider(): array
+    public static function extractFilterableProvider(): array
     {
         return [
             [
@@ -307,7 +307,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractIdProvider(): array
+    public static function extractIdProvider(): array
     {
         return [
             [AamcMethodDTO::class, 'id'],
@@ -315,7 +315,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractRelatedProvider(): array
+    public static function extractRelatedProvider(): array
     {
         return [
             [
@@ -346,7 +346,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractRelatedNameForPropertyProvider(): array
+    public static function extractRelatedNameForPropertyProvider(): array
     {
         return [
             [VocabularyDTO::class, 'school', 'schools'],
@@ -354,7 +354,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractTypeProvider(): array
+    public static function extractTypeProvider(): array
     {
         return [
             [VocabularyDTO::class, 'vocabularies'],
@@ -362,7 +362,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractWritablePropertiesProvider(): array
+    public static function extractWritablePropertiesProvider(): array
     {
         return [
             [AamcMethod::class, ['id', 'description', 'sessionTypes', 'active']],
@@ -371,7 +371,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function extractOnlyReadablePropertiesProvider(): array
+    public static function extractOnlyReadablePropertiesProvider(): array
     {
         return [
             [AamcMethod::class, []],
@@ -380,7 +380,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function getTypeOfPropertyProvider(): array
+    public static function getTypeOfPropertyProvider(): array
     {
         return [
             [VocabularyDTO::class, 'id', 'integer'],
@@ -391,7 +391,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function isPropertyOnlyReadableProvider(): array
+    public static function isPropertyOnlyReadableProvider(): array
     {
         return [
             [IngestionException::class, 'id', true],
@@ -400,7 +400,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function isPropertyRemoveMarkupProvider(): array
+    public static function isPropertyRemoveMarkupProvider(): array
     {
         return [
             [Session::class, 'description', true],
@@ -408,7 +408,7 @@ class EntityMetadataTest extends KernelTestCase
         ];
     }
 
-    protected function getEntityForTypeProvider(): array
+    public static function getEntityForTypeProvider(): array
     {
         return [
             ['aamcMethods', AamcMethod::class],
