@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Traits\DescribableEntity;
 use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,6 +23,7 @@ class AamcResourceType implements AamcResourceTypeInterface
     use IdentifiableStringEntity;
     use TitledEntity;
     use CategorizableEntity;
+    use DescribableEntity;
 
     #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
     #[ORM\Id]
@@ -74,16 +76,6 @@ class AamcResourceType implements AamcResourceTypeInterface
             $this->terms->removeElement($term);
             $term->removeAamcResourceType($this);
         }
-    }
-
-    public function setDescription($description): void
-    {
-        $this->description = $description;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
     }
 
     public function __toString(): string

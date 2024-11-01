@@ -12,7 +12,7 @@ class InflectorTest extends TestCase
     /**
      * @group twice
      */
-    public function testInstanceInflection()
+    public function testInstanceInflection(): void
     {
         $singular = 'aamcPcrs';
         $plural = 'aamcPcrses';
@@ -39,7 +39,7 @@ class InflectorTest extends TestCase
     /**
      * @group twice
      */
-    public function testLowerCaseInstanceInflection()
+    public function testLowerCaseInstanceInflection(): void
     {
         $singular = 'aamcpcrs';
         $plural = 'aamcpcrses';

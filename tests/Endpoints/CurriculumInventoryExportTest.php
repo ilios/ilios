@@ -166,7 +166,7 @@ class CurriculumInventoryExportTest extends AbstractEndpoint
         );
     }
 
-    protected function fourOhFourTest($type, array $parameters = []): void
+    protected function fourOhFourTest(string $type, array $parameters = []): void
     {
         $url = '/api/' . $this->apiVersion . '/curriculuminventoryexports/';
         if (array_key_exists('id', $parameters)) {

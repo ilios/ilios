@@ -37,7 +37,7 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
         unset($this->subject);
     }
 
-    public function testReadDoesNotCacheFailures()
+    public function testReadDoesNotCacheFailures(): void
     {
         $path = __FILE__;
         $this->remoteFileSystem->shouldReceive('read')->with($path)->andThrow(UnableToReadFile::class);
@@ -49,7 +49,7 @@ class LocalCachingFilesystemDecoratorTest extends TestCase
         $this->assertFalse($result);
     }
 
-    public function testReadStreamDoesNotCacheFailures()
+    public function testReadStreamDoesNotCacheFailures(): void
     {
         $path = __FILE__;
         $this->remoteFileSystem->shouldReceive('readStream')->with($path)->andThrow(UnableToReadFile::class);

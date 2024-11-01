@@ -226,7 +226,7 @@ class IliosFileSystem
         return $hash;
     }
 
-    public function getUploadedTemporaryFileContentsAndRemoveFile($hash): ?string
+    public function getUploadedTemporaryFileContentsAndRemoveFile(string $hash): ?string
     {
         $relativePath = $this->getTemporaryFilePath($hash);
         if ($this->fileSystem->fileExists($relativePath)) {

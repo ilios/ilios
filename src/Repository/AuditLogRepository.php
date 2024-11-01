@@ -24,7 +24,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
         parent::__construct($registry, AuditLog::class);
     }
 
-    public function findDTOsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         throw new Exception('DTOs for AuditLogs are not implemented yet');
     }
@@ -67,7 +67,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
     /**
      * Deletes all audit log entries in a given date/time range.
      */
-    public function deleteInRange(DateTime $from, DateTime $to)
+    public function deleteInRange(DateTime $from, DateTime $to): void
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb
@@ -98,7 +98,7 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
      *
      * @throws Exception where there are issues with the passed data
      */
-    public function writeLogs(array $entries)
+    public function writeLogs(array $entries): void
     {
         $conn = $this->getEntityManager()->getConnection();
         $now = new DateTime();

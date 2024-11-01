@@ -418,14 +418,14 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
      */
     protected function reorderSiblingsOnDeletion(
         CurriculumInventorySequenceBlockInterface $block
-    ) {
+    ): void {
         $parent = $block->getParent();
         if (! $parent || $parent->getChildSequenceOrder() !== CurriculumInventorySequenceBlockInterface::ORDERED) {
             return;
         }
 
         $siblings = $parent->getChildren()->toArray();
-        /* @var CurriculumInventorySequenceBlockInterface[] $siblingsWithHigherSortOrder */
+        /** @var CurriculumInventorySequenceBlockInterface[] $siblingsWithHigherSortOrder */
         $siblingsWithHigherSortOrder = array_values(array_filter(
             $siblings,
             fn($sibling) => $sibling->getOrderInSequence() > $block->getOrderInSequence()
@@ -443,8 +443,8 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
     protected function reorderChildrenOnChildSequenceOrderChange(
         ?int $oldValue,
         CurriculumInventorySequenceBlockInterface $block
-    ) {
-        /* @var CurriculumInventorySequenceBlockInterface[] $children */
+    ): void {
+        /** @var CurriculumInventorySequenceBlockInterface[] $children */
         $children = $block->getChildren()->toArray();
         if (empty($children)) {
             return;
@@ -484,7 +484,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
     protected function reorderBlocksInSequenceOnOrderChange(
         ?int $oldValue,
         CurriculumInventorySequenceBlockInterface $block
-    ) {
+    ): void {
         $parent = $block->getParent();
         if (! $parent) {
             return;
@@ -520,7 +520,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
 
         array_splice($blocks, $block->getOrderInSequence() - 1, 0, [$block]);
         for ($i = 0, $n = count($blocks); $i < $n; $i++) {
-            /* @var CurriculumInventorySequenceBlockInterface $current */
+            /** @var CurriculumInventorySequenceBlockInterface $current */
             $current = $blocks[$i];
             $j = $i + 1;
             if ($current->getOrderInSequence() !== $j) {

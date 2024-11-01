@@ -182,7 +182,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
 
         $queries[] = $qb->getQuery();
         foreach ($queries as $query) {
-            /* @var Query $query */
+            /** @var Query $query */
             $rhett = array_merge($rhett, $query->getResult(AbstractQuery::HYDRATE_ARRAY));
         }
         return $rhett;
@@ -194,7 +194,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getEventReferencesForSequenceBlocks(
         CurriculumInventoryReportInterface $report,
         array $eventIds = []
-    ) {
+    ): array {
         if (empty($eventIds)) {
             return [];
         }
@@ -298,7 +298,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getCompetencyObjectReferencesForEvents(
         CurriculumInventoryReportInterface $report,
         array $eventIds = []
-    ) {
+    ): array {
         if (empty($eventIds)) {
             return [];
         }
@@ -365,7 +365,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getCourseObjectivesToProgramObjectivesRelations(
         array $courseObjectiveIds,
         array $programObjectiveIds
-    ) {
+    ): array {
         if ($courseObjectiveIds === [] || $programObjectiveIds === []) {
             return [];
         }
@@ -386,7 +386,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getSessionObjectivesToCourseObjectivesRelations(
         array $sessionObjectiveIds,
         array $courseObjectiveIds
-    ) {
+    ): array {
         if ($sessionObjectiveIds === [] || $courseObjectiveIds === []) {
             return [];
         }
@@ -445,7 +445,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
         $queries[] = $qb->getQuery();
 
         foreach ($queries as $query) {
-            /* @var Query $query */
+            /** @var Query $query */
             $rows = $query->getResult(AbstractQuery::HYDRATE_ARRAY);
             foreach ($rows as $row) {
                 $rhett[$row['pcrs_id']] = $row;
@@ -457,7 +457,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getEventsFromIlmOnlySessions(
         CurriculumInventoryReportInterface $report,
         array $excludedSessionIds = []
-    ) {
+    ): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS event_id, s.title, s.description, am.id AS method_id,'
@@ -493,7 +493,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getEventsFromOfferingsOnlySessions(
         CurriculumInventoryReportInterface $report,
         array $excludedSessionIds = []
-    ) {
+    ): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS event_id, s.title, s.description, am.id AS method_id,'
@@ -524,7 +524,7 @@ class CurriculumInventoryReportRepository extends ServiceEntityRepository implem
     public function getEventsFromIlmSessionsWithOfferings(
         CurriculumInventoryReportInterface $report,
         array $excludedSessionIds = []
-    ) {
+    ): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(
             's.id AS event_id, s.title, s.description, am.id AS method_id, sf.hours as ilm_hours,'

@@ -157,7 +157,6 @@ class ReportRolloverTest extends TestCase
     }
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReport $report
      */
     public function testRollover(CurriculumInventoryReport $report): void
     {
@@ -175,9 +174,9 @@ class ReportRolloverTest extends TestCase
         $newAcademicLevels = $newReport->getAcademicLevels()->toArray();
         $this->assertEquals(count($academicLevels), count($newAcademicLevels));
         for ($i = 0, $n = count($academicLevels); $i < $n; $i++) {
-            /* @var CurriculumInventoryAcademicLevel $academicLevel */
+            /** @var CurriculumInventoryAcademicLevel $academicLevel */
             $academicLevel = $academicLevels[$i];
-            /* @var CurriculumInventoryAcademicLevel $newAcademicLevel */
+            /** @var CurriculumInventoryAcademicLevel $newAcademicLevel */
             $newAcademicLevel = $newAcademicLevels[$i];
             $this->assertNotEquals($academicLevel, $newAcademicLevel);
             $this->assertEquals($academicLevel->getLevel(), $newAcademicLevel->getLevel());
@@ -207,7 +206,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverKeepName(CurriculumInventoryReportInterface $report): void
     {
@@ -217,7 +215,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverKeepDescription(CurriculumInventoryReportInterface $report): void
     {
@@ -227,7 +224,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverKeepYear(CurriculumInventoryReportInterface $report): void
     {
@@ -238,10 +234,6 @@ class ReportRolloverTest extends TestCase
         $this->assertEquals("06/30/{$followingYear}", $newReport->getEndDate()->format('m/d/Y'));
     }
 
-    /**
-     * @param CurriculumInventorySequenceBlockInterface $sequenceBlock
-     * @param CurriculumInventorySequenceBlockInterface $newSequenceBlock
-     */
     protected function assertSequenceBlockEquals(
         CurriculumInventorySequenceBlockInterface $sequenceBlock,
         CurriculumInventorySequenceBlockInterface $newSequenceBlock
@@ -284,7 +276,6 @@ class ReportRolloverTest extends TestCase
 
     /**
      * @dataProvider reportProvider
-     * @param CurriculumInventoryReportInterface $report
      */
     public function testRolloverWithDifferentProgram(CurriculumInventoryReportInterface $report): void
     {

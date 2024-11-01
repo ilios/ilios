@@ -43,19 +43,14 @@ class Logger
     /**
      * Log an action
      *
-     * @param string $action
-     * @param string $objectId
-     * @param string $objectClass
-     * @param string $valuesChanged
-     * @param bool $andFlush
      */
     public function log(
-        $action,
-        $objectId,
-        $objectClass,
-        $valuesChanged,
-        $andFlush = true
-    ) {
+        string $action,
+        string $objectId,
+        string $objectClass,
+        string $valuesChanged,
+        bool $andFlush = true
+    ): void {
         if (!$this->userId && !$this->tokenId) {
             throw new Exception('Attempted to log something but there is no authenticated user.');
         }
@@ -77,7 +72,7 @@ class Logger
     /**
      * Write logs to the DB
      */
-    public function flush()
+    public function flush(): void
     {
         try {
             $this->repository->writeLogs($this->entries);

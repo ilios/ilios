@@ -8,52 +8,38 @@ use App\Entity\DTO\CourseDTO;
 
 class IndexableCourse
 {
-    /** @var CourseDTO */
-    public $courseDTO;
+    public CourseDTO $courseDTO;
 
-    /** @var string */
-    public $school;
+    public string $school;
 
-    /** @var string */
-    public $clerkshipType;
+    public string $clerkshipType;
 
-    /** @var array  */
-    public $directors = [];
+    public array $directors = [];
 
-    /** @var array  */
-    public $administrators = [];
+    public array $administrators = [];
 
-    /** @var array  */
-    public $terms = [];
+    public array $terms = [];
 
-    /** @var array  */
-    public $objectives = [];
+    public array $objectives = [];
 
-    /** @var array  */
-    public $meshDescriptorIds = [];
+    public array $meshDescriptorIds = [];
 
-    /** @var array  */
-    public $meshDescriptorNames = [];
+    public array $meshDescriptorNames = [];
 
-    /** @var array  */
-    public $meshDescriptorAnnotations = [];
+    public array $meshDescriptorAnnotations = [];
 
-    /** @var array  */
-    public $learningMaterialTitles = [];
+    public array $learningMaterialTitles = [];
 
-    /** @var array  */
-    public $learningMaterialDescriptions = [];
+    public array $learningMaterialDescriptions = [];
 
-    /** @var array  */
-    public $learningMaterialCitations = [];
+    public array $learningMaterialCitations = [];
 
-    /** @var array  */
-    public $fileLearningMaterialIds = [];
+    public array $fileLearningMaterialIds = [];
 
     /** @var IndexableSession[]  */
-    public $sessions = [];
+    public array $sessions = [];
 
-    public function createIndexObjects()
+    public function createIndexObjects(): array
     {
         $courseData = [
             'courseId' => $this->courseDTO->id,

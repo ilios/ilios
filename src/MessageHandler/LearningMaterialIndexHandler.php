@@ -21,7 +21,7 @@ class LearningMaterialIndexHandler
     ) {
     }
 
-    public function __invoke(LearningMaterialIndexRequest $message)
+    public function __invoke(LearningMaterialIndexRequest $message): void
     {
         $dtos = $this->repository->findDTOsBy(['id' => $message->getId()]);
         $filteredDtos = array_filter(

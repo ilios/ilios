@@ -29,8 +29,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class IcsController extends AbstractController
 {
-    private const LOOK_BACK = '-4 months';
-    private const LOOK_FORWARD = '+2 months';
+    private const string LOOK_BACK = '-4 months';
+    private const string LOOK_FORWARD = '+2 months';
 
     public function __construct(
         private RouterInterface $router,
@@ -47,7 +47,7 @@ class IcsController extends AbstractController
         ],
         methods: ['GET'],
     )]
-    public function getICSFeed(Request $request, $key)
+    public function getICSFeed(Request $request, string $key): Response
     {
         $user = $this->userRepository->findOneBy(['icsFeedKey' => $key]);
         if (!$user) {
@@ -82,7 +82,7 @@ class IcsController extends AbstractController
             fn(UserEvent $event) => $event->isPublished && $event->isScheduled
         );
 
-        /* @var UserEvent $event */
+        /** @var UserEvent $event */
         foreach ($publishedEvents as $event) {
             $vEvent = new Event();
             $vEvent->setOccurrence(
@@ -123,7 +123,7 @@ class IcsController extends AbstractController
 
         if ($event->offering) {
             $offering = $this->offeringRepository->findOneBy(['id' => $event->offering]);
-            /* @var SessionInterface $session */
+            /** @var SessionInterface $session */
             $session = $offering->getSession();
             $slug .= 'O' . $event->offering;
         } elseif ($event->ilmSession) {
@@ -166,10 +166,7 @@ class IcsController extends AbstractController
         return implode("\n", $lines);
     }
 
-    /**
-     * @param string $string
-     */
-    protected function purify($string): string
+    protected function purify(string $string): string
     {
         return str_replace("\n", ' ', trim(strip_tags($string)));
     }

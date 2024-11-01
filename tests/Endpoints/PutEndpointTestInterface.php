@@ -35,16 +35,12 @@ interface PutEndpointTestInterface
     public static function readOnlyPropertiesToTest(): array;
 
     /**
-     * @param string $key
-     * @param mixed $value
      *
      * @dataProvider putsToTest
      */
     public function testPut(string $key, mixed $value): void;
 
     /**
-     * @param string $key
-     * @param mixed $value
      *
      * @dataProvider putsToTest
      */
@@ -63,10 +59,6 @@ interface PutEndpointTestInterface
     public function testPutForAllDataWithServiceToken(): void;
 
     /**
-     * @param ?string $key
-     * @param mixed $id
-     * @param mixed $value
-     * @param bool $skipped
      *
      * @dataProvider readOnlyPropertiesToTest
      */
@@ -78,10 +70,6 @@ interface PutEndpointTestInterface
     ): void;
 
     /**
-     * @param ?string $key
-     * @param mixed $id
-     * @param mixed $value
-     * @param bool $skipped
      *
      * @dataProvider readOnlyPropertiesToTest
      */

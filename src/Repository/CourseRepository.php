@@ -35,8 +35,12 @@ class CourseRepository extends ServiceEntityRepository implements
         parent::__construct($registry, Course::class);
     }
 
-    protected function findIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
-    {
+    protected function findIdsBy(
+        array $criteria,
+        ?array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null,
+    ): array {
         if (array_key_exists('startDate', $criteria)) {
             $criteria['startDate'] = new DateTime($criteria['startDate']);
         }
@@ -153,20 +157,17 @@ class CourseRepository extends ServiceEntityRepository implements
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *
-     * @param int $userId
      * @param array|null $orderBy
-     * @param null $limit
-     * @param null $offset
      * @return CourseDTO[]
      * @throws Exception
      */
     public function findByUserId(
-        $userId,
+        int $userId,
         array $criteria,
         ?array $orderBy = null,
-        $limit = null,
-        $offset = null
-    ) {
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
         $rows = $this->findMyCourses($userId, $criteria, $orderBy, $limit, $offset);
 
         $courseDTOs = [];
@@ -698,8 +699,6 @@ EOL;
         return array_values($indexableCourses);
     }
 
-    /**
-     */
     protected function joinResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -716,8 +715,6 @@ EOL;
         return $rhett;
     }
 
-    /**
-     */
     protected function joinObjectiveResults(string $from, string $rel, string $select, array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

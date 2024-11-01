@@ -224,24 +224,24 @@ class SchoolEvent extends CalendarEvent
     /**
      * Clear out all draft and schedule events as well as all materials
      */
-    public function clearDataForUnprivilegedUsers()
+    public function clearDataForUnprivilegedUsers(): void
     {
         $this->instructionalNotes = null;
         $this->clearDataForDraftOrScheduledEvent();
         $this->removeMaterialsInDraft();
-        array_walk($this->learningMaterials, function (UserMaterial $lm) {
+        array_walk($this->learningMaterials, function (UserMaterial $lm): void {
             $lm->clearMaterial();
         });
     }
     /**
      * Clear out all draft and schedule events as well as LMs based on time
      */
-    public function clearDataForStudentAssociatedWithEvent(DateTime $dateTime)
+    public function clearDataForStudentAssociatedWithEvent(DateTime $dateTime): void
     {
         $this->instructionalNotes = null;
         $this->clearDataForDraftOrScheduledEvent();
         $this->removeMaterialsInDraft();
-        array_walk($this->learningMaterials, function (UserMaterial $lm) use ($dateTime) {
+        array_walk($this->learningMaterials, function (UserMaterial $lm) use ($dateTime): void {
             $lm->clearTimedMaterial($dateTime);
         });
     }

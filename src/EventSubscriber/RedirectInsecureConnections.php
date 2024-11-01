@@ -33,7 +33,7 @@ class RedirectInsecureConnections implements EventSubscriberInterface
      * If we are enforcing a secure connection redirect any users who land
      * here accidentally.
      */
-    public function checkAndRedirect(RequestEvent $event)
+    public function checkAndRedirect(RequestEvent $event): void
     {
         if ($this->requireSecureConnection && $event->isMainRequest()) {
             $request = $event->getRequest();

@@ -104,8 +104,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @covers \App\Command\SendChangeAlertsCommand::execute
      * @dataProvider executeProvider
      *
-     * @param AlertInterface $alert
-     * @param OfferingInterface $offering
      * @param AuditLogInterface[] $auditLogs
      */
     public function testExecuteDryRun(AlertInterface $alert, OfferingInterface $offering, array $auditLogs): void
@@ -189,8 +187,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @covers \App\Command\SendChangeAlertsCommand::execute
      * @dataProvider executeProvider
      *
-     * @param AlertInterface $alert
-     * @param OfferingInterface $offering
      * @param AuditLogInterface[] $auditLogs
      */
     public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs): void
@@ -227,8 +223,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @covers \App\Command\SendChangeAlertsCommand::execute
      * @dataProvider executeNoRecipientsConfiguredProvider
      *
-     * @param AlertInterface $alert
-     * @param OfferingInterface $offering
      */
     public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering): void
     {
@@ -251,8 +245,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @covers \App\Command\SendChangeAlertsCommand::execute
      * @dataProvider executeRecipientWithoutEmailProvider
      *
-     * @param AlertInterface $alert
-     * @param OfferingInterface $offering
      */
     public function testExecuteRecipientWithoutEmail(AlertInterface $alert, OfferingInterface $offering): void
     {
@@ -278,8 +270,6 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      * @covers \App\Command\SendChangeAlertsCommand::execute
      * @dataProvider executeDeletedOfferingProvider
      *
-     * @param AlertInterface $alert
-     * @param OfferingInterface $offering
      */
     public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering): void
     {

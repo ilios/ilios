@@ -19,7 +19,7 @@ use Doctrine\Inflector\Rules\Transformations;
  */
 class InflectorFactory
 {
-    protected static $inflector;
+    protected static ?DoctrineInflector $inflector = null;
 
     public static function create(): DoctrineInflector
     {

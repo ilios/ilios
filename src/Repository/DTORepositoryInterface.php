@@ -12,5 +12,5 @@ interface DTORepositoryInterface extends ObjectRepository, Selectable
     /**
      * Find and hydrate as DTOs
      */
-    public function findDTOsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array;
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array;
 }

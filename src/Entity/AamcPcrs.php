@@ -66,7 +66,7 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
-    public function setDescription($description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }

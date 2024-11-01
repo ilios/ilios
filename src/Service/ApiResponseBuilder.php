@@ -108,7 +108,7 @@ class ApiResponseBuilder
     /**
      * Create a response for our classic JSON api
      */
-    protected function buildJsonResponse($data, int $status): Response
+    protected function buildJsonResponse(mixed $data, int $status): Response
     {
         return new Response(
             $this->serializer->serialize(
@@ -123,7 +123,7 @@ class ApiResponseBuilder
     /**
      * Create a response for JSON:API api
      */
-    protected function buildJsonApiResponse($data, int $status, ?string $include, bool $singleItem): Response
+    protected function buildJsonApiResponse(mixed $data, int $status, ?string $include, bool $singleItem): Response
     {
         $json = $this->serializer->serialize($data, 'json-api', [
             'sideLoadFields' => $this->extractJsonApiSideLoadFields($include),

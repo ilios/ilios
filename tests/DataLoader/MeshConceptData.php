@@ -60,7 +60,7 @@ class MeshConceptData extends AbstractDataLoader
      * Mesh concept IDs are strings so we have to convert them
      * @inheritdoc
      */
-    public function createMany($count): array
+    public function createMany(int $count): array
     {
         $data = parent::createMany($count);
 

@@ -91,9 +91,9 @@ class SyncFormerStudentsCommand extends Command
         );
 
         if ($helper->ask($input, $output, $question)) {
-            /* @var UserRoleInterface $formerStudentRole */
+            /** @var UserRoleInterface $formerStudentRole */
             $formerStudentRole = $this->userRoleRepository->findOneBy(['title' => 'Former Student']);
-            /* @var UserInterface $user */
+            /** @var UserInterface $user */
             foreach ($usersToUpdate as $user) {
                 $formerStudentRole->addUser($user);
                 $user->addRole($formerStudentRole);

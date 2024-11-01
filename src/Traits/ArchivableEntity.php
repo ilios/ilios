@@ -16,10 +16,7 @@ trait ArchivableEntity
         return $this->archived;
     }
 
-    /**
-     * @param bool $archived
-     */
-    public function setArchived($archived): void
+    public function setArchived(bool $archived): void
     {
         $this->archived = $archived;
     }

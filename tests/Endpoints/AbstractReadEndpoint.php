@@ -99,7 +99,7 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
     /**
      * @dataProvider graphQLFiltersToTest
      */
-    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], $skipped = false): void
+    public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void
     {
         if (!property_exists($this, 'isGraphQLTestable') || !$this->isGraphQLTestable) {
             $this->markTestSkipped();

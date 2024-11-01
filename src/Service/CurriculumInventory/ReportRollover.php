@@ -22,25 +22,10 @@ use DateTime;
  */
 class ReportRollover
 {
-    /**
-     * @var int
-     */
-    private const START_DATE_DAY_OF_MONTH = 1;
-
-    /**
-     * @var int
-     */
-    private const START_DATE_MONTH = 7;
-
-    /**
-     * @var int
-     */
-    private const END_DATE_DAY_OF_MONTH = 30;
-
-    /**
-     * @var int
-     */
-    private const END_DATE_MONTH = 6;
+    private const int START_DATE_DAY_OF_MONTH = 1;
+    private const int START_DATE_MONTH = 7;
+    private const int END_DATE_DAY_OF_MONTH = 30;
+    private const int END_DATE_MONTH = 6;
 
     public function __construct(
         protected CurriculumInventoryReportRepository $reportRepository,
@@ -61,11 +46,11 @@ class ReportRollover
     public function rollover(
         CurriculumInventoryReportInterface $report,
         ProgramInterface $program,
-        $newName = null,
-        $newDescription = null,
+        ?string $newName = null,
+        ?string $newDescription = null,
         ?int $newYear = null
-    ) {
-        /* @var CurriculumInventoryReportInterface $newReport */
+    ): CurriculumInventoryReportInterface {
+        /** @var CurriculumInventoryReportInterface $newReport */
         $newReport = $this->reportRepository->create();
 
         $newYear = $newYear ?: $report->getYear();
@@ -95,7 +80,7 @@ class ReportRollover
         $newLevels = [];
         $levels = $report->getAcademicLevels();
         foreach ($levels as $level) {
-            /* @var CurriculumInventoryAcademicLevelInterface $newLevel */
+            /** @var CurriculumInventoryAcademicLevelInterface $newLevel */
             $newLevel = $this->academicLevelRepository->create();
             $newLevel->setLevel($level->getLevel());
             $newLevel->setName($level->getName());
@@ -116,7 +101,7 @@ class ReportRollover
         }
 
         $sequence = $report->getSequence();
-        /* @var  CurriculumInventorySequenceInterface $newSequence */
+        /** @var  CurriculumInventorySequenceInterface $newSequence */
         $newSequence = $this->sequenceRepository->create();
         $newSequence->setDescription($sequence->getDescription());
         $newReport->setSequence($newSequence);
@@ -144,8 +129,8 @@ class ReportRollover
         CurriculumInventoryReportInterface $newReport,
         array $newLevels,
         ?CurriculumInventorySequenceBlockInterface $newParent = null
-    ) {
-        /* @var CurriculumInventorySequenceBlockInterface $newBlock */
+    ): void {
+        /** @var CurriculumInventorySequenceBlockInterface $newBlock */
         $newBlock = $this->sequenceBlockRepository->create();
         $newBlock->setReport($newReport);
         $newBlock->setStartingAcademicLevel($newLevels[$block->getStartingAcademicLevel()->getLevel()]);

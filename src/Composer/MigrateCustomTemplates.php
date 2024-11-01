@@ -10,7 +10,7 @@ use Symfony\Component\Finder\Finder;
 
 class MigrateCustomTemplates
 {
-    public static function migrate(Event $event)
+    public static function migrate(Event $event): void
     {
         $io = $event->getIO();
         $filesystem = new Filesystem();

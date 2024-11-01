@@ -17,10 +17,7 @@ class LearningMaterialDecoratorFactory
     {
     }
 
-    /**
-     * @param mixed $object
-     */
-    public function create($object): LearningMaterialDTO
+    public function create(mixed $object): LearningMaterialDTO
     {
         if (!$object instanceof LearningMaterialInterface && !$object instanceof LearningMaterialDTO) {
             throw new InvalidArgumentException(

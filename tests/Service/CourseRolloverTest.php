@@ -152,7 +152,7 @@ class CourseRolloverTest extends TestCase
         $ancestor = $course->getAncestor();
         $newCourse->shouldReceive('setAncestor')->with($ancestor)->once();
 
-        /* @var CourseObjectiveInterface $objective */
+        /** @var CourseObjectiveInterface $courseObjective */
         foreach ($course->getCourseObjectives() as $courseObjective) {
             $newCourseObjective = m::mock(CourseObjectiveInterface::class);
             $newCourseObjective->shouldReceive('setTitle')->with($courseObjective->getTitle())->once();
@@ -195,7 +195,7 @@ class CourseRolloverTest extends TestCase
                 ->withArgs([$newLearningMaterial, false, false]);
         }
 
-        /* @var SessionInterface $session */
+        /** @var SessionInterface $session */
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldReceive('setTitle')->with($session->getTitle())->once();
@@ -714,7 +714,7 @@ class CourseRolloverTest extends TestCase
             $this->courseLearningMaterialRepository->shouldIgnoreMissing();
         }
 
-        /* @var SessionInterface $session */
+        /** @var SessionInterface $session */
         foreach ($course->getSessions() as $session) {
             $newSession = m::mock(SessionInterface::class);
             $newSession->shouldIgnoreMissing();
@@ -1321,14 +1321,13 @@ class CourseRolloverTest extends TestCase
     }
 
     /**
-     * Setup the course repository mock to do basic stuff we need in most tests
-     *
-     * @param CourseInterface $course
-     * @param CourseInterface $newCourse
-     * @param int $interval the length of time in the future for the new academic year
+     * Set up the course repository mock to do basic stuff we need in most tests
      */
-    protected function setupCourseRepository(CourseInterface $course, CourseInterface $newCourse, $interval = 1): int
-    {
+    protected function setupCourseRepository(
+        CourseInterface $course,
+        CourseInterface $newCourse,
+        int $interval = 1
+    ): int {
         $newYear = $course->getYear() + $interval;
         $this->courseRepository->shouldReceive('findOneBy')
             ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();

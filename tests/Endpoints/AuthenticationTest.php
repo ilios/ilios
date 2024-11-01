@@ -328,7 +328,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * 'user' as the Primary Key
      * @dataProvider putsToTest
      */
-    protected function runPutTest($key, $value, string $jwt): void
+    protected function runPutTest(string $key, mixed $value, string $jwt): void
     {
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
@@ -420,7 +420,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      */
-    protected function putTest(array $data, array $postData, mixed $id, string $jwt, $new = false): array
+    protected function putTest(array $data, array $postData, mixed $id, string $jwt, bool $new = false): array
     {
         $endpoint = $this->getPluralName();
         $responseKey = $this->getCamelCasedPluralName();
@@ -589,11 +589,6 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         parent::anonymousDeniedPatchTest($data);
     }
 
-    /**
-     * @param int $count
-     * @param string $jwt
-     * @return array
-     */
     protected function createMany(int $count, string $jwt): array
     {
         $userDataLoader = self::getContainer()->get(UserData::class);
@@ -611,7 +606,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
         }, $savedUsers);
     }
 
-    protected function createBulkJsonApi($arr): object
+    protected function createBulkJsonApi(array $arr): object
     {
         $data = array_map(function (array $user) {
             $rhett = [

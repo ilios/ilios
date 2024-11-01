@@ -237,17 +237,19 @@ class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->isServiceToken($jwt), $expected);
     }
 
-    protected static function buildUserJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
+    protected static function buildUserJwt(array $values = [], string $secretKey = 'ilios.jwt.key.secret'): string
     {
         return self::buildJwt(array_merge([JsonWebTokenManager::USER_ID_KEY => 42], $values), $secretKey);
     }
 
-    protected static function buildServiceTokenJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
-    {
+    protected static function buildServiceTokenJwt(
+        array $values = [],
+        string $secretKey = 'ilios.jwt.key.secret',
+    ): string {
         return self::buildJwt(array_merge([JsonWebTokenManager::TOKEN_ID_KEY => 12], $values), $secretKey);
     }
 
-    protected static function buildJwt(array $values = [], $secretKey = 'ilios.jwt.key.secret'): string
+    protected static function buildJwt(array $values = [], string $secretKey = 'ilios.jwt.key.secret'): string
     {
         $now = new DateTime();
         $default = [

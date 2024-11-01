@@ -412,7 +412,7 @@ class Offerings extends AbstractApiController
         return $this->handleDelete($version, $id, $authorizationChecker);
     }
 
-    protected function createAlertForNewOffering(OfferingInterface $offering)
+    protected function createAlertForNewOffering(OfferingInterface $offering): void
     {
         $user = null;
         $serviceToken = null;
@@ -430,7 +430,7 @@ class Offerings extends AbstractApiController
     protected function createOrUpdateAlertForUpdatedOffering(
         OfferingInterface $offering,
         array $originalProperties
-    ) {
+    ): void {
         $user = null;
         $serviceToken = null;
 

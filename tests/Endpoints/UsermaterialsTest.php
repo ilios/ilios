@@ -168,7 +168,7 @@ class UsermaterialsTest extends AbstractEndpoint
         $this->runAccessDeniedTest($jwt, Response::HTTP_FORBIDDEN);
     }
 
-    protected function getMaterials($userId, $before = null, $after = null, $authUser = null)
+    protected function getMaterials(int $userId, ?int $before = null, ?int $after = null, ?int $authUser = null): array
     {
         $parameters = [
             'version' => $this->apiVersion,

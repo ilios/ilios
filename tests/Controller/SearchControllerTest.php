@@ -56,7 +56,7 @@ class SearchControllerTest extends TestCase
         unset($this->mockPermissionChecker);
     }
 
-    public function testCurriculumSearch()
+    public function testCurriculumSearch(): void
     {
         $searchTerm = 'jasper & jackson';
         $result = [
@@ -108,7 +108,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testCurriculumSearchWithServiceToken()
+    public function testCurriculumSearchWithServiceToken(): void
     {
         $searchTerm = 'rocket surgery 101';
         $result = [
@@ -143,7 +143,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testCurriculumSearchSuggestionsOnly()
+    public function testCurriculumSearchSuggestionsOnly(): void
     {
         $searchTerm = 'jasper & jackson';
         $result = [
@@ -182,7 +182,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testCurriculumSearchFailsIfUserDoesntHaveProperPermissions()
+    public function testCurriculumSearchFailsIfUserDoesntHaveProperPermissions(): void
     {
         $this->mockTokenStorage
             ->shouldReceive('getToken')
@@ -195,7 +195,7 @@ class SearchControllerTest extends TestCase
         $this->controller->curriculumSearch(new Request());
     }
 
-    public function testUserSearch()
+    public function testUserSearch(): void
     {
         $searchTerm = 'jasper & jackson';
         $result = [
@@ -238,7 +238,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testUserSearchWithServiceToken()
+    public function testUserSearchWithServiceToken(): void
     {
         $searchTerm = 'janusz';
         $result = [
@@ -275,7 +275,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testUserSearchSuggestionsOnly()
+    public function testUserSearchSuggestionsOnly(): void
     {
         $searchTerm = 'jasper & jackson';
         $result = [
@@ -314,7 +314,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testUserSearchSize()
+    public function testUserSearchSize(): void
     {
         $searchTerm = 'jasper & jackson';
         $result = [
@@ -350,7 +350,7 @@ class SearchControllerTest extends TestCase
         );
     }
 
-    public function testUserSearchFailsIfUserDoesntHaveProperPermissions()
+    public function testUserSearchFailsIfUserDoesntHaveProperPermissions(): void
     {
         $this->mockTokenStorage
             ->shouldReceive('getToken')

@@ -79,7 +79,7 @@ class VerificationPreviewBuilder
     /**
      * @var null|array
      */
-    protected $methodMaps;
+    protected ?array $methodMaps = null;
 
     /**
      * CurriculumInventoryVerificationReportBuilder constructor.
@@ -156,7 +156,7 @@ class VerificationPreviewBuilder
                 = str_replace('aamc-pcrs-comp-', '', $pcrsId) . ': ' . $pcrsMap[$pcrsId]->description;
         }
 
-        array_walk($expectations, function (&$expectation) {
+        array_walk($expectations, function (&$expectation): void {
             sort($expectation['pcrs']);
         });
 
@@ -175,7 +175,7 @@ class VerificationPreviewBuilder
 
         array_multisort(array_column($expectations, 'title_plain'), SORT_ASC, $expectations);
 
-        array_walk($expectations, function (&$expectation) {
+        array_walk($expectations, function (&$expectation): void {
             unset($expectation['title_plain']);
         });
 
@@ -197,7 +197,7 @@ class VerificationPreviewBuilder
      */
     public function getPrimaryInstructionalMethodsByNonClerkshipSequenceBlock(array $data): array
     {
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
         $events = $data['events'];
         $rows = [];
@@ -206,7 +206,7 @@ class VerificationPreviewBuilder
 
         $methodsToGroups = $this->getReverseLookupMap(self::TABLE2_METHOD_MAP);
 
-        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        /** @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
         foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
             $blockId = $sequenceBlock->getId();
             $course = $sequenceBlock->getCourse();
@@ -487,10 +487,7 @@ class VerificationPreviewBuilder
         return $reverseMap;
     }
 
-    /**
-     * @param bool $clerkships
-     */
-    protected function getSequenceBlockAssessmentMethods(array $data, array $map, $clerkships = false): array
+    protected function getSequenceBlockAssessmentMethods(array $data, array $map, bool $clerkships = false): array
     {
         $rows = [];
         $methods = array_keys($map);
@@ -500,9 +497,9 @@ class VerificationPreviewBuilder
 
         $methodsToGroups = $this->getReverseLookupMap($map);
 
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
-        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        /** @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
         foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
             $blockId = $sequenceBlock->getId();
             $course = $sequenceBlock->getCourse();
@@ -589,18 +586,15 @@ class VerificationPreviewBuilder
         return $this->methodMaps;
     }
 
-    /**
-     * @param bool $clerkships
-     */
-    protected function getSequenceBlockInstructionalTime(array $data, $clerkships = false): array
+    protected function getSequenceBlockInstructionalTime(array $data, bool $clerkships = false): array
     {
-        /* @var CurriculumInventoryReportInterface $report */
+        /** @var CurriculumInventoryReportInterface $report */
         $report = $data['report'];
         $events = $data['events'];
         $rows = [];
         $eventRefs = $data['sequence_block_references']['events'];
 
-        /* @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
+        /** @var CurriculumInventorySequenceBlockInterface $sequenceBlock */
         foreach ($report->getSequenceBlocks()->toArray() as $sequenceBlock) {
             $blockId = $sequenceBlock->getId();
             $course  = $sequenceBlock->getCourse();

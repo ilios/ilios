@@ -20,7 +20,7 @@ use function var_export;
 
 class MysqlMigrationTest extends WebTestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $kernel = self::bootKernel();
         $path = $kernel->getProjectDir() . '/migrations';
@@ -30,7 +30,7 @@ class MysqlMigrationTest extends WebTestCase
             fn(SplFileInfo $file) => 'Ilios\Migrations' . '\\' . $file->getBasename('.php'),
             array_values(iterator_to_array($files))
         );
-        spl_autoload_register(function ($class) use ($path) {
+        spl_autoload_register(function ($class) use ($path): void {
             if (str_starts_with($class, 'Ilios\\Migrations\\')) {
                 $parts = explode('\\', $class);
                 $baseName = end($parts);

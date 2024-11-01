@@ -35,7 +35,7 @@ class CurriculumInventoryDownloadController extends AbstractController
         CurriculumInventoryExportRepository $exportManager,
         Exporter $exporter
     ): Response {
-        /* @var CurriculumInventoryReportInterface $curriculumInventoryReport */
+        /** @var ?CurriculumInventoryReportInterface $curriculumInventoryReport */
         $curriculumInventoryReport = $reportRepository->findOneBy(['token' => $token]);
 
         if (! $curriculumInventoryReport) {

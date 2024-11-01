@@ -285,7 +285,7 @@ class IcsControllerTest extends WebTestCase
     public function testLinkedSessionWithDueDatesNotShown2635(): void
     {
         $container = $this->kernelBrowser->getContainer();
-        /* @var array $sessionData */
+        /** @var array $sessionData */
         $sessionData = $container->get(SessionData::class)->create();
         $skipTitle = 'SKIP THIS SESSION';
         $sessionData['title'] = $skipTitle;
@@ -293,7 +293,7 @@ class IcsControllerTest extends WebTestCase
         $sessionData['publishedAsTbd'] = false;
 
         $session = $this->postOne('sessions', $sessionData);
-        /* @var array $ilmSessionData */
+        /** @var array $ilmSessionData */
         $ilmSessionData = $container->get(IlmSessionData::class)->create();
         $ilmSessionData['session'] = $session['id'];
         $dt = new DateTime('tomorrow');

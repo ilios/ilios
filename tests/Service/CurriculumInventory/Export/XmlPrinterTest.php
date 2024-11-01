@@ -260,7 +260,6 @@ class XmlPrinterTest extends TestCase
     /**
      * @covers \App\Service\CurriculumInventory\Export\XmlPrinter::print
      * @dataProvider inventoryDataProvider
-     * @param array $inventory
      */
     public function testPrintReport(array $inventory): void
     {

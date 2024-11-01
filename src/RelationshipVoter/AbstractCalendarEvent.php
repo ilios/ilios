@@ -13,9 +13,6 @@ abstract class AbstractCalendarEvent extends AbstractVoter
      * Checks if the given user is associated with the given event
      * in a directing/administrating/instructing capacity via the event's
      * owning school/course/session/ILM/offering context,
-     * @param SessionUserInterface $user
-     * @param CalendarEvent $event
-     * @return bool
      */
     protected function isUserAdministratorDirectorsOrInstructorOfEvent(
         SessionUserInterface $user,

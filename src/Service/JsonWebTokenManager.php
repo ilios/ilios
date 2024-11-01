@@ -16,14 +16,14 @@ use function array_key_exists;
 
 class JsonWebTokenManager
 {
-    public const PREPEND_KEY = 'ilios.jwt.key.';
-    private const TOKEN_ISS = 'ilios';
-    private const TOKEN_AUD = 'ilios';
-    public const SIGNING_ALGORITHM = 'HS256';
+    public const string PREPEND_KEY = 'ilios.jwt.key.';
+    private const string TOKEN_ISS = 'ilios';
+    private const string TOKEN_AUD = 'ilios';
+    public const string SIGNING_ALGORITHM = 'HS256';
 
-    public const TOKEN_ID_KEY = 'token_id';
-    public const USER_ID_KEY = 'user_id';
-    public const WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
+    public const string TOKEN_ID_KEY = 'token_id';
+    public const string USER_ID_KEY = 'user_id';
+    public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
 
     protected string $jwtKey;
 
@@ -37,61 +37,61 @@ class JsonWebTokenManager
         JWT::$leeway = 5;
     }
 
-    public function getUserIdFromToken($jwt): int
+    public function getUserIdFromToken(string $jwt): int
     {
         $arr = $this->decode($jwt);
         return (int) $arr[self::USER_ID_KEY];
     }
 
-    public function getServiceTokenIdFromToken($jwt): int
+    public function getServiceTokenIdFromToken(string $jwt): int
     {
         $arr = $this->decode($jwt);
         return (int) $arr[self::TOKEN_ID_KEY];
     }
 
-    public function isUserToken($jwt): bool
+    public function isUserToken(string $jwt): bool
     {
         $arr = $this->decode($jwt);
         return array_key_exists(self::USER_ID_KEY, $arr);
     }
 
-    public function isServiceToken($jwt): bool
+    public function isServiceToken(string $jwt): bool
     {
         $arr = $this->decode($jwt);
         return array_key_exists(self::TOKEN_ID_KEY, $arr);
     }
 
-    public function getIssuedAtFromToken($jwt): DateTimeInterface
+    public function getIssuedAtFromToken(string $jwt): DateTimeInterface
     {
         $arr = $this->decode($jwt);
         return DateTime::createFromFormat('U', (string) $arr['iat']);
     }
 
-    public function getExpiresAtFromToken($jwt): DateTimeInterface
+    public function getExpiresAtFromToken(string $jwt): DateTimeInterface
     {
         $arr = $this->decode($jwt);
         return DateTime::createFromFormat('U', (string) $arr['exp']);
     }
 
-    public function getIsRootFromToken($jwt): bool
+    public function getIsRootFromToken(string $jwt): bool
     {
         $arr = $this->decode($jwt);
         return $arr['is_root'];
     }
 
-    public function getPerformsNonLearnerFunctionFromToken($jwt): bool
+    public function getPerformsNonLearnerFunctionFromToken(string $jwt): bool
     {
         $arr = $this->decode($jwt);
         return $arr['performs_non_learner_function'];
     }
 
-    public function getCanCreateOrUpdateUserInAnySchoolFromToken($jwt): bool
+    public function getCanCreateOrUpdateUserInAnySchoolFromToken(string $jwt): bool
     {
         $arr = $this->decode($jwt);
         return $arr['can_create_or_update_user_in_any_school'];
     }
 
-    public function getFirstCreatedAt($jwt): DateTimeInterface
+    public function getFirstCreatedAt(string $jwt): DateTimeInterface
     {
         $arr = $this->decode($jwt);
         if (array_key_exists('firstCreatedAt', $arr)) {
@@ -102,19 +102,19 @@ class JsonWebTokenManager
         return $rhett;
     }
 
-    public function getRefreshCount($jwt): int
+    public function getRefreshCount(string $jwt): int
     {
         $arr = $this->decode($jwt);
         return $arr['refreshCount'] ?? 0;
     }
 
-    public function getPermissionsFromToken($jwt): string
+    public function getPermissionsFromToken(string $jwt): string
     {
         $arr = $this->decode($jwt);
         return $arr['permissions'] ?? 'user';
     }
 
-    public function getWriteableSchoolIdsFromToken($jwt): array
+    public function getWriteableSchoolIdsFromToken(string $jwt): array
     {
         if (!$this->isServiceToken($jwt)) {
             return [];
@@ -129,7 +129,7 @@ class JsonWebTokenManager
         return $arr[self::WRITEABLE_SCHOOLS_KEY];
     }
 
-    protected function decode($jwt): array
+    protected function decode(string $jwt): array
     {
         $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
         return (array) $decoded;

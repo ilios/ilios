@@ -11,8 +11,5 @@ interface LockableEntityInterface
 {
     public function isLocked(): bool;
 
-    /**
-     * @param bool $locked
-     */
     public function setLocked(bool $locked): void;
 }

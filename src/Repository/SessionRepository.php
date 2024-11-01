@@ -40,7 +40,7 @@ class SessionRepository extends ServiceEntityRepository implements
         ?array $orderBy = null,
         ?int $limit = null,
         ?int $offset = null,
-    ) {
+    ): array {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x')->from(Session::class, 'x');
         $qb->leftJoin('x.course', 'course');
@@ -81,8 +81,12 @@ class SessionRepository extends ServiceEntityRepository implements
         return $this->createSessionDTOs($qb->getQuery());
     }
 
-    protected function findIdsBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
-    {
+    protected function findIdsBy(
+        array $criteria,
+        ?array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null,
+    ): array {
         if (array_key_exists('updatedAt', $criteria)) {
             $criteria['updatedAt'] = new DateTime($criteria['updatedAt']);
         }
