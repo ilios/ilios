@@ -92,6 +92,8 @@ jobs:
     name: Test Migrations Against MySQL
     needs: code_style
     runs-on: ubuntu-latest
+    env:
+      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
     steps:
     - uses: actions/checkout@v4
     - name: Use PHP ${{ env.latest_php }}
@@ -102,15 +104,15 @@ jobs:
         extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
-    - name: Drop, Create, Migrate, and Validate DB
-      env:
-        ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
+    - run: sudo systemctl start mysql.service
+    - name: Drop, Create, Migrate
       run: |
-        sudo systemctl start mysql.service
         bin/console doctrine:database:drop --if-exists --force
         bin/console doctrine:database:create
         bin/console doctrine:migrations:migrate  --no-interaction
-        bin/console doctrine:schema:validate
+    - name: Validate Schema Matches Migrations
+      # Workaround from https://github.com/doctrine/migrations/issues/1406#issuecomment-2402548597
+      run: true && ! bin/console doctrine:migrations:diff
 
   run_twice:
     name: PHPUnit Run Twice
