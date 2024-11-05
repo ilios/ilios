@@ -11,7 +11,7 @@ use Doctrine\DBAL\Schema\Schema;
  * Doctrine 4.0 changes datetime types
  * @link https://github.com/doctrine/dbal/blob/4.0.x/UPGRADE.md#bc-break-stricter-datetime-types
  */
-final class Version20240226230422 extends MysqlMigration
+final class Version20241105000000 extends MysqlMigration
 {
     public function getDescription(): string
     {
