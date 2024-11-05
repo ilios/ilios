@@ -93,7 +93,7 @@ jobs:
     needs: code_style
     runs-on: ubuntu-latest
     env:
-      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
+      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
     steps:
       - uses: actions/checkout@v4
       - name: Use PHP ${{ env.latest_php }}
@@ -210,7 +210,7 @@ jobs:
     needs: build_amd_containers
     runs-on: ubuntu-latest
     env:
-      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
+      ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
       ILIOS_SECRET: DifferentSecret
       ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
     steps:
