@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 trait ImportableEntityRepository
 {
@@ -12,7 +12,7 @@ trait ImportableEntityRepository
     {
         $em = $this->getEntityManager();
         $metadata = $em->getClassMetadata($entity::class);
-        $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+        $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         $em->persist($entity);
         $em->flush();
     }
