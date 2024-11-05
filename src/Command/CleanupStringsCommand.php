@@ -40,11 +40,11 @@ class CleanupStringsCommand extends Command
     /**
      * @var int where to limit each query for memory management
      */
-    private const QUERY_LIMIT = 500;
+    private const int QUERY_LIMIT = 500;
 
-    private const CLEANUP_MODE_OBJECTIVE_TITLE_TRIM_BLANK_SPACE = 1;
+    private const int CLEANUP_MODE_OBJECTIVE_TITLE_TRIM_BLANK_SPACE = 1;
 
-    private const CLEANUP_MODE_OBJECTIVE_TITLE_PURIFY_MARKUP = 2;
+    private const int CLEANUP_MODE_OBJECTIVE_TITLE_PURIFY_MARKUP = 2;
 
     public function __construct(
         protected HTMLPurifier $purifier,

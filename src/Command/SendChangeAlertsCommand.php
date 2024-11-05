@@ -33,7 +33,7 @@ use Twig\Environment;
 )]
 class SendChangeAlertsCommand extends Command
 {
-    private const DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
+    private const string DEFAULT_TEMPLATE_NAME = 'offeringchangealert.text.twig';
 
     public function __construct(
         protected AlertRepository $alertRepository,

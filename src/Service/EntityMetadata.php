@@ -26,7 +26,7 @@ use function array_key_exists;
 
 class EntityMetadata
 {
-    private const CACHE_KEY_PREFIX = 'ilios-entity-metadata-';
+    private const string CACHE_KEY_PREFIX = 'ilios-entity-metadata-';
     private array $exposedPropertiesForClass;
     private array $typeForClasses;
     private array $typeForProperties;

@@ -14,7 +14,7 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class FilesystemFactory
 {
-    private const LOCAL_S3_CACHE_DIR = '/ilios/s3-cache';
+    private const string LOCAL_S3_CACHE_DIR = '/ilios/s3-cache';
 
     public function __construct(protected Config $config, private string $kernelCacheDir)
     {

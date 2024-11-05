@@ -11,14 +11,14 @@ use Laminas\Diagnostics\Result\Success;
 
 class RequiredENV implements CheckInterface
 {
-    private const REQUIRED_ENV = [
+    private const array REQUIRED_ENV = [
         'ILIOS_DATABASE_URL',
         'ILIOS_LOCALE',
         'ILIOS_SECRET',
         'MAILER_DSN',
     ];
-    private const INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
-    private const UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
+    private const string INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
+    private const string UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
 
     /**
      * Perform the actual check and return a ResultInterface

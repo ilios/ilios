@@ -17,7 +17,7 @@ use Symfony\Component\Cache\Marshaller\SodiumMarshaller;
 
 class DynamicCacheFactory
 {
-    private const DEFAULT_LIFETIME_SECONDS = 86400;
+    private const int DEFAULT_LIFETIME_SECONDS = 86400;
 
     public static function getCache(
         string $namespace,

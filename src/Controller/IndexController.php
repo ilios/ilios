@@ -20,7 +20,7 @@ use DateTime;
 
 class IndexController extends AbstractController
 {
-    private const DEFAULT_TEMPLATE_NAME = 'index/webindex.html.twig';
+    private const string DEFAULT_TEMPLATE_NAME = 'index/webindex.html.twig';
 
     /**
      * IndexController constructor.

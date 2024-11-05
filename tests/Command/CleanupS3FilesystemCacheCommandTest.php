@@ -26,7 +26,7 @@ class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    private const CACHE_DIR = __DIR__ . '/test';
+    private const string CACHE_DIR = __DIR__ . '/test';
 
     protected CommandTester $commandTester;
     protected m\MockInterface $filesystem;

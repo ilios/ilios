@@ -30,7 +30,7 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
     protected bool $enablePostTestsWithServiceToken = false;
     protected bool $enablePutTestsWithServiceToken = false;
 
-    private const UNBLANKED_ATTRIBUTES = [
+    private const array UNBLANKED_ATTRIBUTES = [
         'id',
         'title',
         'uploadDate',

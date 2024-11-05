@@ -14,7 +14,7 @@ use function strtoupper;
 
 class Config
 {
-    private const BOOLEAN_NAMES = [
+    private const array BOOLEAN_NAMES = [
         'keep_frontend_updated',
         'cas_authentication_verify_ssl',
         'requireSecureConnection',
@@ -25,7 +25,7 @@ class Config
         'showCampusNameOfRecord',
     ];
 
-    private const INT_NAMES = [
+    private const array INT_NAMES = [
         'cas_authentication_version',
     ];
 
