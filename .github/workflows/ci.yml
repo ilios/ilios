@@ -95,24 +95,24 @@ jobs:
     env:
       ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0
     steps:
-    - uses: actions/checkout@v4
-    - name: Use PHP ${{ env.latest_php }}
-      uses: shivammathur/setup-php@v2
-      with:
-        coverage: none
-        php-version: ${{ env.latest_php }}
-        extensions: apcu
-    - name: install dependencies
-      run: composer install --no-interaction --prefer-dist
-    - run: sudo systemctl start mysql.service
-    - name: Drop, Create, Migrate
-      run: |
-        bin/console doctrine:database:drop --if-exists --force
-        bin/console doctrine:database:create
-        bin/console doctrine:migrations:migrate  --no-interaction
-    - name: Validate Schema Matches Migrations
-      # Workaround from https://github.com/doctrine/migrations/issues/1406#issuecomment-2402548597
-      run: true && ! bin/console doctrine:migrations:diff
+      - uses: actions/checkout@v4
+      - name: Use PHP ${{ env.latest_php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ env.latest_php }}
+          extensions: apcu
+      - name: install dependencies
+        run: composer install --no-interaction --prefer-dist
+      - run: sudo systemctl start mysql.service
+      - name: Drop, Create, Migrate
+        run: |
+          bin/console doctrine:database:drop --if-exists --force
+          bin/console doctrine:database:create
+          bin/console doctrine:migrations:migrate  --no-interaction
+      - name: Validate Schema Matches Migrations
+        # Workaround from https://github.com/doctrine/migrations/issues/1406#issuecomment-2402548597
+        run: true && ! bin/console doctrine:migrations:diff
 
   run_twice:
     name: PHPUnit Run Twice
