@@ -34,9 +34,9 @@ use Twig\Environment;
 )]
 class SendTeachingRemindersCommand extends Command
 {
-    public const DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
+    public const string DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
 
-    public const DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
+    public const string DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
 
     public function __construct(
         protected OfferingRepository $offeringRepository,

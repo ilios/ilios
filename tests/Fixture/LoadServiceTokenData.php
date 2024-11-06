@@ -12,7 +12,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class LoadServiceTokenData extends AbstractFixture implements ORMFixtureInterface
 {
-    public const REFERENCE_KEY_PREFIX = 'serviceTokens';
+    public const string REFERENCE_KEY_PREFIX = 'serviceTokens';
 
     public function __construct(protected ServiceTokenData $data)
     {

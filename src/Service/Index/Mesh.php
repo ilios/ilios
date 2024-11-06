@@ -12,7 +12,7 @@ use InvalidArgumentException;
 
 class Mesh extends OpenSearchBase
 {
-    public const INDEX = 'ilios-mesh';
+    public const string INDEX = 'ilios-mesh';
 
     public function idsQuery(string $query): array
     {

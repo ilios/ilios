@@ -18,7 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class LoadLearningMaterialData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
-    public const TEST_FILE_PATH = __DIR__ . '/FakeTestFiles/TESTFILE.txt';
+    public const string TEST_FILE_PATH = __DIR__ . '/FakeTestFiles/TESTFILE.txt';
 
     public function __construct(protected Config $config, protected LearningMaterialData $data)
     {

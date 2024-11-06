@@ -11,8 +11,8 @@ use InvalidArgumentException;
 
 class Curriculum extends OpenSearchBase
 {
-    public const INDEX = 'ilios-curriculum';
-    public const SESSION_ID_PREFIX = 'session_';
+    public const string INDEX = 'ilios-curriculum';
+    public const string SESSION_ID_PREFIX = 'session_';
 
     public function search(string $query, bool $onlySuggest): array
     {

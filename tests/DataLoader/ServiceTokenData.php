@@ -10,9 +10,9 @@ use Exception;
 
 class ServiceTokenData extends AbstractDataLoader
 {
-    public const ENABLED_SERVICE_TOKEN_ID = 1;
-    public const EXPIRED_SERVICE_TOKEN_ID = 2;
-    public const DISABLED_SERVICE_TOKEN_ID = 3;
+    public const int ENABLED_SERVICE_TOKEN_ID = 1;
+    public const int EXPIRED_SERVICE_TOKEN_ID = 2;
+    public const int DISABLED_SERVICE_TOKEN_ID = 3;
 
     protected function getData(): array
     {

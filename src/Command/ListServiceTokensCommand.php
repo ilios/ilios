@@ -26,9 +26,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class ListServiceTokensCommand extends Command
 {
-    public const EXCLUDE_DISABLED_KEY = 'exclude-disabled';
-    public const EXCLUDE_EXPIRED_KEY = 'exclude-expired';
-    public const EXPIRES_WITHIN_KEY = 'expires-within';
+    public const string EXCLUDE_DISABLED_KEY = 'exclude-disabled';
+    public const string EXCLUDE_EXPIRED_KEY = 'exclude-expired';
+    public const string EXPIRES_WITHIN_KEY = 'expires-within';
 
 
     public function __construct(protected ServiceTokenRepository $tokenRepository)

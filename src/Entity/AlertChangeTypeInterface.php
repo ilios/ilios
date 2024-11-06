@@ -17,33 +17,33 @@ interface AlertChangeTypeInterface extends
     /**
      * Indicates a course director change.
      */
-    public const CHANGE_TYPE_COURSE_DIRECTOR = 5;
+    public const int CHANGE_TYPE_COURSE_DIRECTOR = 5;
     /**
      * Indicates a course instructor change.
      */
-    public const CHANGE_TYPE_INSTRUCTOR = 4;
+    public const int CHANGE_TYPE_INSTRUCTOR = 4;
     /**
      * Indicates a learning material change.
      */
-    public const CHANGE_TYPE_LEARNING_MATERIAL = 3;
+    public const int CHANGE_TYPE_LEARNING_MATERIAL = 3;
     /**
      * Indicates a learner group change.
      */
-    public const CHANGE_TYPE_LEARNER_GROUP = 6;
+    public const int CHANGE_TYPE_LEARNER_GROUP = 6;
     /**
      * Indicates a location change.
      */
-    public const CHANGE_TYPE_LOCATION = 2;
+    public const int CHANGE_TYPE_LOCATION = 2;
     /**
      * Indicates the addition of a new offering.
      */
-    public const CHANGE_TYPE_NEW_OFFERING = 7;
+    public const int CHANGE_TYPE_NEW_OFFERING = 7;
     /**
      * Indicates a session's publication status change.
      */
-    public const CHANGE_TYPE_SESSION_PUBLISH = 8;
+    public const int CHANGE_TYPE_SESSION_PUBLISH = 8;
     /**
      * Indicates a time change.
      */
-    public const CHANGE_TYPE_TIME = 1;
+    public const int CHANGE_TYPE_TIME = 1;
 }

@@ -14,7 +14,7 @@ interface CourseClerkshipTypeInterface extends
     CoursesEntityInterface,
     LoggableEntityInterface
 {
-    public const BLOCK = 1;
-    public const LONGITUDINAL = 2;
-    public const INTEGRATED = 3;
+    public const int BLOCK = 1;
+    public const int LONGITUDINAL = 2;
+    public const int INTEGRATED = 3;
 }
