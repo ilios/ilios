@@ -20,10 +20,10 @@ use XMLWriter;
  */
 class XmlPrinter
 {
-    public const CATEGORY_TERM_PROGRAM_LEVEL_COMPETENCY = 'program-level-competency';
-    public const CATEGORY_TERM_PROGRAM_OBJECTIVE_DOMAIN = 'program-objective-domain';
-    public const CATEGORY_TERM_SEQUENCE_BLOCK_LEVEL_COMPETENCY = 'sequence-block-level-competency';
-    public const CATEGORY_TERM_EVENT_LEVEL_COMPETENCY = 'event-level-competency';
+    public const string CATEGORY_TERM_PROGRAM_LEVEL_COMPETENCY = 'program-level-competency';
+    public const string CATEGORY_TERM_PROGRAM_OBJECTIVE_DOMAIN = 'program-objective-domain';
+    public const string CATEGORY_TERM_SEQUENCE_BLOCK_LEVEL_COMPETENCY = 'sequence-block-level-competency';
+    public const string CATEGORY_TERM_EVENT_LEVEL_COMPETENCY = 'event-level-competency';
     /**
      * Creates an XML representation of the given curriculum inventory.
      * @param array $inventory An associated array, containing the inventory.

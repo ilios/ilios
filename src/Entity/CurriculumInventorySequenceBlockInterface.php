@@ -18,13 +18,13 @@ interface CurriculumInventorySequenceBlockInterface extends
     LoggableEntityInterface,
     SessionsEntityInterface
 {
-    public const REQUIRED = 1;
-    public const OPTIONAL = 2;
-    public const REQUIRED_IN_TRACK = 3;
+    public const int REQUIRED = 1;
+    public const int OPTIONAL = 2;
+    public const int REQUIRED_IN_TRACK = 3;
 
-    public const ORDERED = 1;
-    public const UNORDERED = 2;
-    public const PARALLEL = 3;
+    public const int ORDERED = 1;
+    public const int UNORDERED = 2;
+    public const int PARALLEL = 3;
 
     public function setRequired(int $required): void;
     public function getRequired(): int;

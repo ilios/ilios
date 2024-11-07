@@ -14,7 +14,7 @@ interface LearningMaterialStatusInterface extends
     LoggableEntityInterface,
     LearningMaterialsEntityInterface
 {
-    public const IN_DRAFT = 1;
-    public const FINALIZED  = 2;
-    public const REVISED = 3;
+    public const int IN_DRAFT = 1;
+    public const int FINALIZED  = 2;
+    public const int REVISED = 3;
 }

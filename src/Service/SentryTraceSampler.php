@@ -8,7 +8,7 @@ use Sentry\Tracing\SamplingContext;
 
 class SentryTraceSampler
 {
-    private const SKIP_ROUTES = ['app_ics_geticsfeed', 'app_download_downloadmaterials'];
+    private const array SKIP_ROUTES = ['app_ics_geticsfeed', 'app_download_downloadmaterials'];
 
     /**
      * Don't sample ICS or LM transactions as they are very noisy

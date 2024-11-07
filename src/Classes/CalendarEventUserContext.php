@@ -10,13 +10,13 @@ namespace App\Classes;
  */
 interface CalendarEventUserContext
 {
-    public const LEARNER = 'learner';
+    public const string LEARNER = 'learner';
 
-    public const INSTRUCTOR = 'instructor';
+    public const string INSTRUCTOR = 'instructor';
 
-    public const COURSE_DIRECTOR = 'course director';
+    public const string COURSE_DIRECTOR = 'course director';
 
-    public const COURSE_ADMINISTRATOR = 'course administrator';
+    public const string COURSE_ADMINISTRATOR = 'course administrator';
 
-    public const SESSION_ADMINISTRATOR = 'session administrator';
+    public const string SESSION_ADMINISTRATOR = 'session administrator';
 }

@@ -14,7 +14,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class DTOCacheManager
 {
-    private const CACHE_KEY_SEPARATOR = 'xxDTOxx';
+    private const string CACHE_KEY_SEPARATOR = 'xxDTOxx';
     public function __construct(
         protected EntityMetadata $entityMetadata,
         protected CacheItemPoolInterface $psr6Cache,

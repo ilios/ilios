@@ -18,14 +18,14 @@ class DeprecatedConfigurationOption implements CheckInterface
     }
 
     // key is the option, value is whether to fail [true] or warn [false] when the value is present.
-    private const DEPRECATED_CONFIG = [
+    private const array DEPRECATED_CONFIG = [
         'enable_tracking' => false,
         'tracking_code' => false,
         'elasticsearch_hosts' => true,
         'elasticsearch_upload_limit' => true,
     ];
-    private const INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
-    private const UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
+    private const string INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
+    private const string UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
 
     public function check(): ResultInterface
     {

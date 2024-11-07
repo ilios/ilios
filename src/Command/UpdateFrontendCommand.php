@@ -37,14 +37,14 @@ use function is_dir;
 )]
 class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 {
-    private const UNPACKED_DIRECTORY = '/deploy-dist/';
-    private const FRONTEND_FILES = '/var/frontend/';
-    private const STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
-    private const STAGING_ASSET_LIST = 'https://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
-    private const PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
-    private const PRODUCTION_ASSET_LIST = 'https://frontend-archive-production.s3.us-west-2.amazonaws.com/';
-    private const STAGING = 'stage';
-    private const PRODUCTION = 'prod';
+    private const string UNPACKED_DIRECTORY = '/deploy-dist/';
+    private const string FRONTEND_FILES = '/var/frontend/';
+    private const string STAGING_CDN_ASSET_DOMAIN = 'https://frontend-archive-staging.iliosproject.org/';
+    private const string STAGING_ASSET_LIST = 'https://frontend-archive-staging.s3.us-west-2.amazonaws.com/';
+    private const string PRODUCTION_CDN_ASSET_DOMAIN = 'https://frontend-archive-production.iliosproject.org/';
+    private const string PRODUCTION_ASSET_LIST = 'https://frontend-archive-production.s3.us-west-2.amazonaws.com/';
+    private const string STAGING = 'stage';
+    private const string PRODUCTION = 'prod';
     protected string $productionTemporaryFileStore;
     protected string $stagingTemporaryFileStore;
     protected string $frontendAssetDirectory;

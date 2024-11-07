@@ -17,7 +17,7 @@ use SplFileInfo;
 
 class LearningMaterials extends OpenSearchBase
 {
-    public const INDEX = 'ilios-learning-materials';
+    public const string INDEX = 'ilios-learning-materials';
 
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,

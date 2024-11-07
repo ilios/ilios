@@ -25,7 +25,7 @@ class EndpointResponseNamer
      */
     protected string $pathToEntities;
 
-    private const LIST_CACHE_KEY = 'endpoint-response-namer-entity-list';
+    private const string LIST_CACHE_KEY = 'endpoint-response-namer-entity-list';
 
     /**
      * EndpointResponseNamer constructor.

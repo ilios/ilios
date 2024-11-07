@@ -11,7 +11,7 @@ use Exception;
 
 class Users extends OpenSearchBase
 {
-    public const INDEX = 'ilios-users';
+    public const string INDEX = 'ilios-users';
 
     /**
      * @param UserDTO[] $users

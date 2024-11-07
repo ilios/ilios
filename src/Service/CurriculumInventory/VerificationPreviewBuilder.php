@@ -22,7 +22,7 @@ class VerificationPreviewBuilder
     /**
      * @var array
      */
-    private const TABLE2_METHOD_MAP = [
+    private const array TABLE2_METHOD_MAP = [
         'Lecture' => ['IM013'],
         'Lab' => ['IM012'],
         'Small group' => ['IM008', 'IM019', 'IM026'],
@@ -54,7 +54,7 @@ class VerificationPreviewBuilder
     /**
      * @var array
      */
-    private const TABLE5_METHOD_MAP = [
+    private const array TABLE5_METHOD_MAP = [
         'Internal exams' => ['AM004', 'AM005'],
         'Lab or practical exams' => ['AM019'],
         'NBME subject exams' => ['AM008'],
@@ -67,7 +67,7 @@ class VerificationPreviewBuilder
     /**
      * @var array
      */
-    private const TABLE6_METHOD_MAP = [
+    private const array TABLE6_METHOD_MAP = [
         'NBME subject exams' => ['AM008'],
         'Internal written exams' => ['AM004'],
         'Oral Exam or Pres.' => ['AM005', 'AM011'],

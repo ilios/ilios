@@ -28,10 +28,10 @@ use App\Service\JsonWebTokenManager;
 )]
 class CreateServiceTokenCommand extends Command
 {
-    public const TTL_KEY = 'ttl';
-    public const TTL_MAX_VALUE = 'P180D'; // roughly six months
-    public const WRITEABLE_SCHOOLS_KEY = 'writeable-schools';
-    public const DESCRIPTION_KEY = 'description';
+    public const string TTL_KEY = 'ttl';
+    public const string TTL_MAX_VALUE = 'P180D'; // roughly six months
+    public const string WRITEABLE_SCHOOLS_KEY = 'writeable-schools';
+    public const string DESCRIPTION_KEY = 'description';
 
     public function __construct(
         protected ServiceTokenRepository $tokenRepository,

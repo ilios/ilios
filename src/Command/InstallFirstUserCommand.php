@@ -34,10 +34,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 )]
 class InstallFirstUserCommand extends Command
 {
-    private const USERNAME = 'first_user';
-    private const PASSWORD = 'Ch4nge_m3';
-    private const FIRST_NAME = 'First';
-    private const LAST_NAME = 'User';
+    private const string USERNAME = 'first_user';
+    private const string PASSWORD = 'Ch4nge_m3';
+    private const string FIRST_NAME = 'First';
+    private const string LAST_NAME = 'User';
 
     /**
      * Constructor.

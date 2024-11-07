@@ -18,7 +18,7 @@ use function array_keys;
 
 class DTOInfo
 {
-    private const CACHE_KEY_PREFIX = 'ilios-dto-info';
+    private const string CACHE_KEY_PREFIX = 'ilios-dto-info';
     protected array $types;
 
     public function __construct(

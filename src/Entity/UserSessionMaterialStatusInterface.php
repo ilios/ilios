@@ -12,9 +12,9 @@ interface UserSessionMaterialStatusInterface extends
     LoggableEntityInterface,
     TimestampableEntityInterface
 {
-    public const NONE = 0;
-    public const STARTED = 1;
-    public const COMPLETE = 2;
+    public const int NONE = 0;
+    public const int STARTED = 1;
+    public const int COMPLETE = 2;
 
     public function setUser(UserInterface $user): void;
     public function getUser(): UserInterface;

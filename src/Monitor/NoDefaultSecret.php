@@ -12,7 +12,7 @@ use Laminas\Diagnostics\Result\Warning;
 
 class NoDefaultSecret implements CheckInterface
 {
-    private const NAME = 'ILIOS_SECRET';
+    private const string NAME = 'ILIOS_SECRET';
 
     /**
      * Ensure ILIOS_SECRET isn't set to a default value

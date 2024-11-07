@@ -22,7 +22,7 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
 {
     use NormalizerAwareTrait;
 
-    private const ALREADY_CALLED = 'FACTORY_NORMALIZER_ALREADY_CALLED';
+    private const string ALREADY_CALLED = 'FACTORY_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(
         protected LearningMaterialDecoratorFactory $learningMaterialDecoratorFactory,

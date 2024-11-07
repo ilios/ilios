@@ -8,7 +8,7 @@ use App\Entity\DTO\UserDTO;
 
 class UserData extends AbstractDataLoader
 {
-    public const ROOT_USER_ID = 2;
+    public const int ROOT_USER_ID = 2;
 
     protected function getData(): array
     {

@@ -29,22 +29,22 @@ class IliosFileSystem
      * file hash are stored in this subdirectory of the
      * learning_material directory
      */
-    public const HASHED_LM_DIRECTORY = 'learning_materials/lm';
+    public const string HASHED_LM_DIRECTORY = 'learning_materials/lm';
 
     /**
      * Lock files are stored in this directory
      */
-    public const LOCK_FILE_DIRECTORY = 'locks';
+    public const string LOCK_FILE_DIRECTORY = 'locks';
 
     /**
      * Temporary File which need to be shared across servers
      */
-    public const TEMPORARY_SHARED_FILE_DIRECTORY = 'tmp';
+    public const string TEMPORARY_SHARED_FILE_DIRECTORY = 'tmp';
 
     /**
      * Testing files are stored in this directory
      */
-    public const TEST_FILE_ROOT = 'crud_tests';
+    public const string TEST_FILE_ROOT = 'crud_tests';
 
     public function __construct(protected FilesystemOperator $fileSystem)
     {
