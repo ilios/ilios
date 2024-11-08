@@ -396,7 +396,7 @@ jobs:
         with:
           name: coverage-output
       - run: ls -lh coverage.xml
-      - uses: sonarsource/sonarqube-scan-action@v3.0
+      - uses: sonarsource/sonarqube-scan-action@v3.1
         env:
           SONAR_TOKEN: ${{ env.UCSF_SQ_TK }}
           SONAR_HOST_URL: https://sonarqube.ucsf.edu
