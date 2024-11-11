@@ -4247,16 +4247,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.33.2",
+            "version": "v4.33.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "9d74fa9874b9f9b13b2fa4f6eb38082c2405c33b"
+                "reference": "c43171895161c8eb342bc5fc5eb21760dd91b646"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/9d74fa9874b9f9b13b2fa4f6eb38082c2405c33b",
-                "reference": "9d74fa9874b9f9b13b2fa4f6eb38082c2405c33b",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/c43171895161c8eb342bc5fc5eb21760dd91b646",
+                "reference": "c43171895161c8eb342bc5fc5eb21760dd91b646",
                 "shasum": ""
             },
             "require": {
@@ -4357,7 +4357,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.33.2"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.33.4"
             },
             "funding": [
                 {
@@ -4365,7 +4365,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-07T09:50:16+00:00"
+            "time": "2024-11-08T15:00:51+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -4845,23 +4845,23 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "1fb5ba8d045f5dd984ebded5b1cc66f29459422d"
+                "reference": "679e3ce485b99e84c775d28e2e96fade9a7fb50a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/1fb5ba8d045f5dd984ebded5b1cc66f29459422d",
-                "reference": "1fb5ba8d045f5dd984ebded5b1cc66f29459422d",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/679e3ce485b99e84c775d28e2e96fade9a7fb50a",
+                "reference": "679e3ce485b99e84c775d28e2e96fade9a7fb50a",
                 "shasum": ""
             },
             "require": {
                 "doctrine/deprecations": "^1.0",
                 "php": "^7.3 || ^8.0",
                 "phpdocumentor/reflection-common": "^2.0",
-                "phpstan/phpdoc-parser": "^1.18"
+                "phpstan/phpdoc-parser": "^1.18|^2.0"
             },
             "require-dev": {
                 "ext-tokenizer": "*",
@@ -4897,9 +4897,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.9.0"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.10.0"
             },
-            "time": "2024-11-03T20:11:34+00:00"
+            "time": "2024-11-09T15:12:26+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
