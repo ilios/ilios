@@ -45,7 +45,7 @@
     "symfony/asset": "@stable",
     "symfony/console": "@stable",
     "symfony/doctrine-messenger": "@stable",
-    "symfony/dotenv":"@stable",
+    "symfony/dotenv": "@stable",
     "symfony/flex": "@stable",
     "symfony/framework-bundle": "@stable",
     "symfony/http-client": "@stable",
@@ -76,9 +76,9 @@
     "liip/test-fixtures-bundle": "3.1.1",
     "mockery/mockery": "@stable",
     "phpstan/extension-installer": "^1.0",
-    "phpstan/phpstan": "@stable",
-    "phpstan/phpstan-mockery": "^1.1",
-    "phpstan/phpstan-symfony": "@stable",
+    "phpstan/phpstan": "^2.0",
+    "phpstan/phpstan-mockery": "^2.0",
+    "phpstan/phpstan-symfony": "^2.0",
     "phpunit/phpunit": "^11.4",
     "slevomat/coding-standard": "~8.0",
     "squizlabs/php_codesniffer": "@stable",
@@ -128,10 +128,10 @@
     "symfony/polyfill-php71": "*",
     "symfony/polyfill-php72": "*",
     "symfony/polyfill-php73": "*",
-    "symfony/polyfill-php80":  "*",
+    "symfony/polyfill-php80": "*",
     "symfony/polyfill-php81": "*",
     "symfony/polyfill-php82": "*",
-    "symfony/polyfill-php83":  "*"
+    "symfony/polyfill-php83": "*"
   },
   "scripts": {
     "auto-scripts": {
