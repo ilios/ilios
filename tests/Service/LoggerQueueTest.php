@@ -36,6 +36,5 @@ class LoggerQueueTest extends TestCase
         $queue = new LoggerQueue($logger);
         $queue->flush();
         $logger->shouldNotHaveReceived('log');
-        $this->assertTrue(true);
     }
 }
