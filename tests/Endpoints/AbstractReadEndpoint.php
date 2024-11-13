@@ -52,7 +52,7 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
 
     public function testGraphQL(): void
     {
-        if (!property_exists($this, 'isGraphQLTestable') || !$this->isGraphQLTestable) {
+        if (!$this->isGraphQLTestable) {
             $this->markTestSkipped();
         }
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -101,7 +101,7 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
      */
     public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void
     {
-        if (!property_exists($this, 'isGraphQLTestable') || !$this->isGraphQLTestable) {
+        if (!$this->isGraphQLTestable) {
             $this->markTestSkipped();
         }
         if ($skipped) {
