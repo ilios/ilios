@@ -64,10 +64,8 @@ class SessionRepository extends ServiceEntityRepository implements
             $orderBy = ['id' => 'ASC'];
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
+        foreach ($orderBy as $sort => $order) {
+            $qb->addOrderBy('x.' . $sort, $order);
         }
 
         if ($offset) {
