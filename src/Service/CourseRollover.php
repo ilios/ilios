@@ -161,11 +161,9 @@ class CourseRollover
 
     protected function rolloverCourseLearningMaterials(CourseInterface $newCourse, CourseInterface $origCourse): void
     {
-        /** @var CourseLearningMaterialInterface[] $origCourseLearningMaterials */
         $origCourseLearningMaterials = $origCourse->getLearningMaterials();
 
         foreach ($origCourseLearningMaterials as $origCourseLearningMaterial) {
-            /** @var CourseLearningMaterialInterface $newCourseLearningMaterial */
             $newCourseLearningMaterial = $this->courseLearningMaterialRepository->create();
             $newCourseLearningMaterial->setNotes($origCourseLearningMaterial->getNotes());
             $newCourseLearningMaterial->setRequired($origCourseLearningMaterial->isRequired());
@@ -190,13 +188,11 @@ class CourseRollover
         array $options,
         array $newCourseObjectives
     ): void {
-        /** @var SessionInterface[] $origCourseSessions */
         $origCourseSessions = $origCourse->getSessions();
 
         $sessionMap = [];
 
         foreach ($origCourseSessions as $origCourseSession) {
-            /** @var SessionInterface $newSession */
             $newSession = $this->sessionRepository->create();
             $newSession->setCourse($newCourse);
             $newSession->setTitle($origCourseSession->getTitle());
@@ -258,11 +254,9 @@ class CourseRollover
         SessionInterface $newSession,
         SessionInterface $origCourseSession
     ): void {
-        /** @var SessionLearningMaterialInterface[] $origSessionLearningMaterials */
         $origSessionLearningMaterials = $origCourseSession->getLearningMaterials();
 
         foreach ($origSessionLearningMaterials as $origSessionLearningMaterial) {
-            /** @var SessionLearningMaterialInterface $newSessionLearningMaterial */
             $newSessionLearningMaterial = $this->sessionLearningMaterialRepository->create();
             $newSessionLearningMaterial->setNotes($origSessionLearningMaterial->getNotes());
             $newSessionLearningMaterial->setRequired($origSessionLearningMaterial->isRequired());
@@ -285,8 +279,6 @@ class CourseRollover
         int $daysOffset,
         array $options
     ): void {
-
-        /** @var OfferingInterface[] $origSessionOfferings */
         $origSessionOfferings = $origCourseSession->getOfferings();
 
         foreach ($origSessionOfferings as $origSessionOffering) {
