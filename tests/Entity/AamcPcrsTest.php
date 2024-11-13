@@ -44,7 +44,7 @@ class AamcPcrsTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCompetencies());
+        $this->assertCount(0, $this->object->getCompetencies());
     }
 
     /**

@@ -44,7 +44,7 @@ class AamcMethodTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getSessionTypes());
+        $this->assertCount(0, $this->object->getSessionTypes());
     }
 
     /**

@@ -79,8 +79,8 @@ class LearningMaterialTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCourseLearningMaterials());
-        $this->assertEmpty($this->object->getSessionLearningMaterials());
+        $this->assertCount(0, $this->object->getCourseLearningMaterials());
+        $this->assertCount(0, $this->object->getSessionLearningMaterials());
     }
 
     /**

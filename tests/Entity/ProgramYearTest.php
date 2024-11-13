@@ -62,10 +62,10 @@ class ProgramYearTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCompetencies());
-        $this->assertEmpty($this->object->getDirectors());
-        $this->assertEmpty($this->object->getProgramYearObjectives());
-        $this->assertEmpty($this->object->getTerms());
+        $this->assertCount(0, $this->object->getCompetencies());
+        $this->assertCount(0, $this->object->getDirectors());
+        $this->assertCount(0, $this->object->getProgramYearObjectives());
+        $this->assertCount(0, $this->object->getTerms());
     }
 
     /**

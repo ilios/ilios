@@ -61,8 +61,8 @@ class SessionTypeTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getAamcMethods());
-        $this->assertEmpty($this->object->getSessions());
+        $this->assertCount(0, $this->object->getAamcMethods());
+        $this->assertCount(0, $this->object->getSessions());
     }
 
     /**

@@ -49,7 +49,7 @@ class CourseLearningMaterialTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
         $this->assertFalse($this->object->hasPublicNotes());
     }
 

@@ -47,8 +47,8 @@ class CurriculumInventoryAcademicLevelTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getStartingSequenceBlocks());
-        $this->assertEmpty($this->object->getEndingSequenceBlocks());
+        $this->assertCount(0, $this->object->getStartingSequenceBlocks());
+        $this->assertCount(0, $this->object->getEndingSequenceBlocks());
     }
 
     /**

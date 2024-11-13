@@ -57,8 +57,8 @@ class CurriculumInventoryReportTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getAcademicLevels());
-        $this->assertEmpty($this->object->getSequenceBlocks());
+        $this->assertCount(0, $this->object->getAcademicLevels());
+        $this->assertCount(0, $this->object->getSequenceBlocks());
     }
 
     /**

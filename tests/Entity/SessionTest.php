@@ -62,14 +62,14 @@ class SessionTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getSessionObjectives());
-        $this->assertEmpty($this->object->getOfferings());
-        $this->assertEmpty($this->object->getTerms());
-        $this->assertEmpty($this->object->getSequenceBlocks());
-        $this->assertEmpty($this->object->getPrerequisites());
-        $this->assertEmpty($this->object->getAdministrators());
-        $this->assertEmpty($this->object->getStudentAdvisors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getSessionObjectives());
+        $this->assertCount(0, $this->object->getOfferings());
+        $this->assertCount(0, $this->object->getTerms());
+        $this->assertCount(0, $this->object->getSequenceBlocks());
+        $this->assertCount(0, $this->object->getPrerequisites());
+        $this->assertCount(0, $this->object->getAdministrators());
+        $this->assertCount(0, $this->object->getStudentAdvisors());
     }
 
     /**

@@ -38,10 +38,10 @@ class CourseObjectiveTest extends EntityBase
     {
         $this->assertEquals(0, $this->object->getPosition());
         $this->assertEquals(true, $this->object->isActive());
-        $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getSessionObjectives());
-        $this->assertEmpty($this->object->getProgramYearObjectives());
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getSessionObjectives());
+        $this->assertCount(0, $this->object->getProgramYearObjectives());
+        $this->assertCount(0, $this->object->getDescendants());
     }
 
     public function testNotBlankValidation(): void
@@ -129,7 +129,7 @@ class CourseObjectiveTest extends EntityBase
     public function testAddMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
-        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
         $this->object->addMeshDescriptor($meshDescriptor);
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
     }
@@ -140,11 +140,11 @@ class CourseObjectiveTest extends EntityBase
     public function testRemoveMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
-        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
         $this->object->addMeshDescriptor($meshDescriptor);
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
         $this->object->removeMeshDescriptor($meshDescriptor);
-        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
     }
 
     /**
@@ -169,7 +169,7 @@ class CourseObjectiveTest extends EntityBase
     public function testAddSessionObjective(): void
     {
         $sessionObjective = new SessionObjective();
-        $this->assertEmpty($this->object->getSessionObjectives());
+        $this->assertCount(0, $this->object->getSessionObjectives());
         $this->object->addSessionObjective($sessionObjective);
         $this->assertCount(1, $this->object->getSessionObjectives());
         $this->assertEquals($sessionObjective, $this->object->getSessionObjectives()->first());
@@ -181,11 +181,11 @@ class CourseObjectiveTest extends EntityBase
     public function testRemoveSessionObjective(): void
     {
         $sessionObjective = new SessionObjective();
-        $this->assertEmpty($this->object->getSessionObjectives());
+        $this->assertCount(0, $this->object->getSessionObjectives());
         $this->object->addSessionObjective($sessionObjective);
         $this->assertEquals($sessionObjective, $this->object->getSessionObjectives()->first());
         $this->object->removeSessionObjective($sessionObjective);
-        $this->assertEmpty($this->object->getSessionObjectives());
+        $this->assertCount(0, $this->object->getSessionObjectives());
     }
 
     /**
@@ -211,7 +211,7 @@ class CourseObjectiveTest extends EntityBase
     public function testAddProgramYearObjective(): void
     {
         $pyObjective = new ProgramYearObjective();
-        $this->assertEmpty($this->object->getProgramYearObjectives());
+        $this->assertCount(0, $this->object->getProgramYearObjectives());
         $this->object->addProgramYearObjective($pyObjective);
         $this->assertCount(1, $this->object->getProgramYearObjectives());
         $this->assertEquals($pyObjective, $this->object->getProgramYearObjectives()->first());
@@ -223,11 +223,11 @@ class CourseObjectiveTest extends EntityBase
     public function testRemoveProgramYearObjective(): void
     {
         $pyObjective = new ProgramYearObjective();
-        $this->assertEmpty($this->object->getProgramYearObjectives());
+        $this->assertCount(0, $this->object->getProgramYearObjectives());
         $this->object->addProgramYearObjective($pyObjective);
         $this->assertEquals($pyObjective, $this->object->getProgramYearObjectives()->first());
         $this->object->removeProgramYearObjective($pyObjective);
-        $this->assertEmpty($this->object->getProgramYearObjectives());
+        $this->assertCount(0, $this->object->getProgramYearObjectives());
     }
 
     /**
@@ -282,7 +282,7 @@ class CourseObjectiveTest extends EntityBase
     public function testAddDescendant(): void
     {
         $descendant = new CourseObjective();
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getDescendants());
         $this->object->addDescendant($descendant);
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
     }
@@ -293,11 +293,11 @@ class CourseObjectiveTest extends EntityBase
     public function testRemoveDescendant(): void
     {
         $descendant = new CourseObjective();
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getDescendants());
         $this->object->addDescendant($descendant);
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
         $this->object->removeDescendant($descendant);
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getDescendants());
     }
 
     /**

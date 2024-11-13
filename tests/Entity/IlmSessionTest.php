@@ -60,10 +60,10 @@ class IlmSessionTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getLearnerGroups());
-        $this->assertEmpty($this->object->getInstructors());
-        $this->assertEmpty($this->object->getInstructorGroups());
-        $this->assertEmpty($this->object->getLearners());
+        $this->assertCount(0, $this->object->getLearnerGroups());
+        $this->assertCount(0, $this->object->getInstructors());
+        $this->assertCount(0, $this->object->getInstructorGroups());
+        $this->assertCount(0, $this->object->getLearners());
     }
 
     /**
