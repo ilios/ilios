@@ -82,11 +82,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $orderBy = ['id' => 'ASC'];
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
+        foreach ($orderBy as $sort => $order) {
+            $qb->addOrderBy('x.' . $sort, $order);
         }
+
         if (array_key_exists('roles', $criteria)) {
             $roleIds = is_array($criteria['roles']) ? $criteria['roles'] : [$criteria['roles']];
             $qb->join('x.roles', 'r');
