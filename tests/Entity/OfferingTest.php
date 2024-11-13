@@ -77,7 +77,6 @@ class OfferingTest extends EntityBase
         $this->assertCount(0, $this->object->getInstructorGroups());
         $this->assertCount(0, $this->object->getLearners());
         $this->assertCount(0, $this->object->getInstructors());
-        $this->assertNotEmpty($this->object->getUpdatedAt());
     }
 
     /**

@@ -28,14 +28,6 @@ class ReportTest extends EntityBase
         unset($this->object);
     }
 
-    /**
-     * @covers \App\Entity\Session::__construct
-     */
-    public function testConstructor(): void
-    {
-        $this->assertNotEmpty($this->object->getCreatedAt());
-    }
-
     public function testNotNullValidation(): void
     {
         $this->object->setSubject('test');

@@ -38,14 +38,6 @@ class CurriculumInventoryExportTest extends EntityBase
     }
 
     /**
-     * @covers \App\Entity\Session::__construct
-     */
-    public function testConstructor(): void
-    {
-        $this->assertNotEmpty($this->object->getCreatedAt());
-    }
-
-    /**
      * @covers \App\Entity\CurriculumInventoryExport::setDocument
      * @covers \App\Entity\CurriculumInventoryExport::getDocument
      */

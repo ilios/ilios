@@ -179,8 +179,6 @@ class SessionTest extends EntityBase
      */
     public function testSetIlmSession(): void
     {
-        $this->assertTrue(method_exists($this->object, 'getIlmSession'), "Method getIlmSession missing");
-        $this->assertTrue(method_exists($this->object, 'setIlmSession'), "Method setIlmSession missing");
         $obj = m::mock(IlmSession::class);
         $obj->shouldReceive('setSession')->with($this->object)->once();
         $this->object->setIlmSession($obj);

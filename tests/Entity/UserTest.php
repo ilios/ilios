@@ -617,9 +617,6 @@ class UserTest extends EntityBase
      */
     public function testSetCohorts(): void
     {
-        $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
-        $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
-
         $obj = m::mock(Cohort::class);
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
@@ -723,9 +720,6 @@ class UserTest extends EntityBase
      */
     public function testSetPrimaryCohort(): void
     {
-        $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
-        $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
-
         $obj = m::mock(Cohort::class);
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
@@ -873,8 +867,6 @@ class UserTest extends EntityBase
      */
     public function testSetAuthentication(): void
     {
-        $this->assertTrue(method_exists($this->object, 'getAuthentication'), "Method getAuthentication missing");
-        $this->assertTrue(method_exists($this->object, 'setAuthentication'), "Method setAuthentication missing");
         $obj = m::mock(Authentication::class);
         $obj->shouldReceive('setUser')->with($this->object)->once();
         $this->object->setAuthentication($obj);

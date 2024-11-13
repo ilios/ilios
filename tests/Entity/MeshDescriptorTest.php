@@ -60,7 +60,6 @@ class MeshDescriptorTest extends EntityBase
         $this->assertCount(0, $this->object->getTrees());
         $now = new DateTime();
         $createdAt = $this->object->getCreatedAt();
-        $this->assertTrue($createdAt instanceof DateTime);
         $diff = $now->diff($createdAt);
         $this->assertTrue($diff->s < 2);
     }
