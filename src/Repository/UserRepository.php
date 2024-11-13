@@ -540,7 +540,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
-                /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
                     $event->prerequisites[] = $prerequisite;
                 }
@@ -607,7 +606,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
-                /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
                     $event->prerequisites[] = $prerequisite;
                 }
