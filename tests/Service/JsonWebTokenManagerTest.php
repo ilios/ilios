@@ -49,11 +49,6 @@ class JsonWebTokenManagerTest extends TestCase
         unset($this->serviceTokenUserProvider);
     }
 
-    public function testConstructor(): void
-    {
-        $this->assertTrue($this->obj instanceof JsonWebTokenManager);
-    }
-
     public function testGetUserIdFromToken(): void
     {
         $jwt = $this->buildUserJwt();
