@@ -59,11 +59,6 @@ class FormAuthenticationTest extends TestCase
         unset($this->obj);
     }
 
-    public function testConstructor(): void
-    {
-        $this->assertTrue($this->obj instanceof FormAuthentication);
-    }
-
     public function testMissingValues(): void
     {
         $request = m::mock(Request::class);
@@ -75,7 +70,6 @@ class FormAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -96,7 +90,6 @@ class FormAuthenticationTest extends TestCase
             ->with('abc')->andReturn(null);
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -124,7 +117,6 @@ class FormAuthenticationTest extends TestCase
         $this->hasher->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(false);
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -151,7 +143,6 @@ class FormAuthenticationTest extends TestCase
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -182,7 +173,6 @@ class FormAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
