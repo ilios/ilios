@@ -39,11 +39,9 @@ class UsersTest extends TestCase
     public function testSetup(): void
     {
         $obj1 = new Users($this->config, $this->client);
-        $this->assertTrue($obj1 instanceof Users);
         $this->assertTrue($obj1->isEnabled());
 
         $obj2 = new Users($this->config, null);
-        $this->assertTrue($obj2 instanceof Users);
         $this->assertFalse($obj2->isEnabled());
     }
 

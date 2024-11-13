@@ -37,11 +37,9 @@ class CurriculumTest extends TestCase
     public function testSetup(): void
     {
         $obj1 = new Curriculum($this->config, $this->client);
-        $this->assertTrue($obj1 instanceof Curriculum);
         $this->assertTrue($obj1->isEnabled());
 
         $obj2 = new Curriculum($this->config, null);
-        $this->assertTrue($obj2 instanceof Curriculum);
         $this->assertFalse($obj2->isEnabled());
     }
 
