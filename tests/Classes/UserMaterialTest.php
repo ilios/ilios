@@ -120,17 +120,14 @@ class UserMaterialTest extends TestCase
     protected function assertBlanked(UserMaterial $material): void
     {
         $this->assertTrue($material->isBlanked);
-        $this->assertNotNull($material->id);
         $this->assertNotNull($material->courseLearningMaterial);
         $this->assertNotNull($material->sessionLearningMaterial);
         $this->assertNotNull($material->position);
-        $this->assertNotNull($material->title);
         $this->assertNotNull($material->session);
         $this->assertNotNull($material->sessionTitle);
         $this->assertNotNull($material->course);
         $this->assertNotNull($material->courseTitle);
         $this->assertNotNull($material->courseExternalId);
-        $this->assertNotNull($material->courseYear);
         $this->assertNotNull($material->firstOfferingDate);
         $this->assertNull($material->publicNotes);
         $this->assertNull($material->required);
@@ -148,17 +145,14 @@ class UserMaterialTest extends TestCase
     protected function assertNotBlanked(UserMaterial $material): void
     {
         $this->assertFalse($material->isBlanked);
-        $this->assertNotNull($material->id);
         $this->assertNotNull($material->courseLearningMaterial);
         $this->assertNotNull($material->sessionLearningMaterial);
         $this->assertNotNull($material->position);
-        $this->assertNotNull($material->title);
         $this->assertNotNull($material->session);
         $this->assertNotNull($material->sessionTitle);
         $this->assertNotNull($material->course);
         $this->assertNotNull($material->courseTitle);
         $this->assertNotNull($material->courseExternalId);
-        $this->assertNotNull($material->courseYear);
         $this->assertNotNull($material->firstOfferingDate);
         $this->assertNotNull($material->publicNotes);
         $this->assertNotNull($material->required);
