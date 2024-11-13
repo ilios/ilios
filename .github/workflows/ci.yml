@@ -79,7 +79,7 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
-      run: vendor/bin/phpunit --coverage-clover build/coverage.xml
+      run: vendor/bin/phpunit --display-deprecations --coverage-clover build/coverage.xml
     - name: Archive Coverage Report
       uses: actions/upload-artifact@v4
       with:
