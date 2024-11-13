@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "128a56f0db4120f5a1a2854a133815ae",
+    "content-hash": "b426d989fdfa014bb71d78febf3181f6",
     "packages": [
         {
             "name": "async-aws/core",
@@ -12144,16 +12144,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "c170375e247603a81d3c16efd1a46d22215ec26d"
+                "reference": "537bcb45e61bdef2a853caeb37643159a3b44e15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/c170375e247603a81d3c16efd1a46d22215ec26d",
-                "reference": "c170375e247603a81d3c16efd1a46d22215ec26d",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/537bcb45e61bdef2a853caeb37643159a3b44e15",
+                "reference": "537bcb45e61bdef2a853caeb37643159a3b44e15",
                 "shasum": ""
             },
             "require": {
@@ -12226,9 +12226,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.1.0"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.1.1"
             },
-            "time": "2024-08-05T20:30:34+00:00"
+            "time": "2024-11-12T19:08:31+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -15192,6 +15192,7 @@
         "symfony/postmark-mailer": 0,
         "symfony/property-access": 0,
         "symfony/property-info": 0,
+        "symfony/requirements-checker": 0,
         "symfony/runtime": 0,
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
@@ -15203,6 +15204,7 @@
         "mockery/mockery": 0,
         "phpstan/phpstan": 0,
         "phpstan/phpstan-symfony": 0,
+        "squizlabs/php_codesniffer": 0,
         "symfony/browser-kit": 0,
         "symfony/css-selector": 0,
         "symfony/debug-bundle": 0,
