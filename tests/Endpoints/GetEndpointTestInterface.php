@@ -53,16 +53,10 @@ interface GetEndpointTestInterface
      */
     public function testNotFoundWithServiceToken(): void;
 
-    /**
-     *
-     * @dataProvider filtersToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('filtersToTest')]
     public function testFilters(array $dataKeys = [], array $filterParts = []): void;
 
-    /**
-     *
-     * @dataProvider filtersToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('filtersToTest')]
     public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = []): void;
 
     /**
@@ -72,8 +66,8 @@ interface GetEndpointTestInterface
 
     /**
      * Tests reading data from the GraphQL search endpoint while providing input for filtering.
-     * @dataProvider graphQLFiltersToTest
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('graphQLFiltersToTest')]
     public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void;
 
     /**

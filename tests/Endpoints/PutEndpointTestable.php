@@ -12,10 +12,13 @@ trait PutEndpointTestable
 {
     protected bool $enablePutTestsWithServiceToken = true;
 
+    abstract public static function putsToTest(): array;
+    abstract public static function readOnlyPropertiesToTest(): array;
+
     /**
-     * @dataProvider putsToTest
      * @see PutEndpointTestInterface::testPut()
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
     public function testPut(string $key, mixed $value): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -23,9 +26,9 @@ trait PutEndpointTestable
     }
 
     /**
-     * @dataProvider putsToTest
      * @see PutEndpointTestInterface::testPutWithServiceToken()
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
     public function testPutWithServiceToken(string $key, mixed $value): void
     {
         if (!$this->enablePutTestsWithServiceToken) {
@@ -57,9 +60,9 @@ trait PutEndpointTestable
     }
 
     /**
-     * @dataProvider readOnlyPropertiesToTest
      * @see PutEndpointTestInterface::testPutReadOnly()
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnly(
         ?string $key = null,
         mixed $id = null,
@@ -74,9 +77,9 @@ trait PutEndpointTestable
     }
 
     /**
-     * @dataProvider readOnlyPropertiesToTest
      * @see PutEndpointTestInterface::testPutReadOnlyWithServiceToken()
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnlyWithServiceToken(
         ?string $key = null,
         mixed $id = null,

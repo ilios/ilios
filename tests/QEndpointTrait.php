@@ -20,9 +20,9 @@ trait QEndpointTrait
     abstract public function testFindByQWithOffsetAndLimitJsonApi(): void;
 
     /**
-     * @dataProvider qsToTest
      * @throws Exception
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('qsToTest')]
     public function testFindByQ(string $q, array $dataKeys): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -34,9 +34,9 @@ trait QEndpointTrait
     }
 
     /**
-     * @dataProvider qsToTest
      * @throws Exception
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('qsToTest')]
     public function testFindByQJsonApi(string $q, array $dataKeys): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

@@ -34,16 +34,10 @@ interface PutEndpointTestInterface
      */
     public static function readOnlyPropertiesToTest(): array;
 
-    /**
-     *
-     * @dataProvider putsToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
     public function testPut(string $key, mixed $value): void;
 
-    /**
-     *
-     * @dataProvider putsToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
     public function testPutWithServiceToken(string $key, mixed $value): void;
 
     /**
@@ -58,10 +52,7 @@ interface PutEndpointTestInterface
      */
     public function testPutForAllDataWithServiceToken(): void;
 
-    /**
-     *
-     * @dataProvider readOnlyPropertiesToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnly(
         ?string $key = null,
         mixed $id = null,
@@ -69,10 +60,7 @@ interface PutEndpointTestInterface
         bool $skipped = false
     ): void;
 
-    /**
-     *
-     * @dataProvider readOnlyPropertiesToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnlyWithServiceToken(
         ?string $key = null,
         mixed $id = null,
