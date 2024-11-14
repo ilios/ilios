@@ -158,7 +158,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->entitySetTest('report', 'CurriculumInventoryReport');
     }
 
-    
+
     #[\PHPUnit\Framework\Attributes\DataProvider('compareSequenceBlocksWithOrderedStrategyProvider')]
     public function testCompareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
@@ -200,7 +200,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         return $rhett;
     }
 
-    
+
     #[\PHPUnit\Framework\Attributes\DataProvider('compareSequenceBlocksWithDefaultStrategyProvider')]
     public function testCompareSequenceBlocksWithDefaultStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,

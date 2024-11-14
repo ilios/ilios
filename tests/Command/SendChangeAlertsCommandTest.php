@@ -215,7 +215,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
 
         $this->assertEquals('No undispatched offering alerts found.', trim($output));
     }
-    
+
     #[\PHPUnit\Framework\Attributes\DataProvider('executeNoRecipientsConfiguredProvider')]
     public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering): void
     {
@@ -234,7 +234,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->assertStringContainsString("Marked 1 offering change alerts as dispatched.", $output);
     }
 
-    
+
     #[\PHPUnit\Framework\Attributes\DataProvider('executeRecipientWithoutEmailProvider')]
     public function testExecuteRecipientWithoutEmail(AlertInterface $alert, OfferingInterface $offering): void
     {
@@ -256,7 +256,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->assertStringContainsString("Marked 1 offering change alerts as dispatched.", $output);
     }
 
-    
+
     #[\PHPUnit\Framework\Attributes\DataProvider('executeDeletedOfferingProvider')]
     public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering): void
     {

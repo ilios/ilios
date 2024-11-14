@@ -81,7 +81,7 @@ class ProgramYearTest extends EntityBase
         $this->booleanSetTest('archived');
     }
 
-   public function testSetProgram(): void
+    public function testSetProgram(): void
     {
         $this->entitySetTest('program', 'Program');
     }
