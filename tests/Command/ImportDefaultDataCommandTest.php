@@ -34,8 +34,8 @@ use Mockery as m;
  * Class ImportDefaultDataCommandTest
  * @package App\Tests\Command
  * @group cli
- * @covers \App\Command\ImportDefaultDataCommand
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ImportDefaultDataCommand::class)]
 class ImportDefaultDataCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

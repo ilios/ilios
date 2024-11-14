@@ -20,8 +20,8 @@ use Mockery as m;
  * Class ImportMeshUniverseCommandTest
  * @package App\Tests\Command
  * @group cli
- * @covers \App\Command\ImportMeshUniverseCommand
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ImportMeshUniverseCommand::class)]
 class ImportMeshUniverseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

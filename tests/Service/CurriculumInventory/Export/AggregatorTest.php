@@ -17,6 +17,7 @@ use Mockery as m;
  * Class AggregatorTest
  * @package App\Tests\Service\CurriculumInventory\Export
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\Export\Aggregator::class)]
 class AggregatorTest extends TestCase
 {
     protected m\MockInterface $manager;
@@ -42,9 +43,6 @@ class AggregatorTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\Aggregator::addKeywordsToEvents
-     */
     public function testAddKeywordsToEvents(): void
     {
         $event1 = [];
@@ -65,9 +63,6 @@ class AggregatorTest extends TestCase
         $this->assertFalse(array_key_exists('keywords', $events[20]));
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\Aggregator::addResourceTypesToEvents
-     */
     public function testAddResourceTypesToEvents(): void
     {
         $resourceType1 = ['event_id' => 10];
@@ -86,9 +81,6 @@ class AggregatorTest extends TestCase
         $this->assertFalse(array_key_exists('resource_types', $events[20]));
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\Aggregator::addCompetencyObjectReferencesToEvents
-     */
     public function testAddCompetencyObjectReferencesToEvents(): void
     {
         $events = [
@@ -113,9 +105,6 @@ class AggregatorTest extends TestCase
         $this->assertFalse(array_key_exists('competency_object_references', $events[30]));
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\Aggregator::getConsolidatedObjectivesMap
-     */
     public function testGetConsolidatedObjectivesMap(): void
     {
         $objectives = [
@@ -140,9 +129,6 @@ class AggregatorTest extends TestCase
         $this->assertEquals(10, $map[1]);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\Aggregator::getData
-     */
     public function testGetFailsIfReportHasNoProgram(): void
     {
         $this->expectExceptionMessage('No program found for report with id = 1.');
@@ -155,7 +141,6 @@ class AggregatorTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\CurriculumInventory\Export\Aggregator::getData
      * @todo Implement this monster of a test. [ST 2018/07/18]
      */
     public function testGetData(): void

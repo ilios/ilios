@@ -10,6 +10,7 @@ use App\Entity\IngestionException;
  * Tests for Entity IngestionException
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\IngestionException::class)]
 class IngestionExceptionTest extends EntityBase
 {
     protected IngestionException $object;
@@ -38,20 +39,11 @@ class IngestionExceptionTest extends EntityBase
     }
 
     // not sure about this one -- there is the ID field which is NotBlank() but I recall this failing
-
-    /**
-     * @covers \App\Entity\IngestionException::setUser
-     * @covers \App\Entity\IngestionException::getUser
-     */
     public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
     }
 
-    /**
-     * @covers \App\Entity\IngestionException::setUid
-     * @covers \App\Entity\IngestionException::getUid
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('uid', 'string');

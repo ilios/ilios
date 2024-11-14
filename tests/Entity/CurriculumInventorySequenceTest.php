@@ -12,6 +12,7 @@ use Mockery as m;
  * Tests for Entity CurriculumInventorySequence
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventorySequence::class)]
 class CurriculumInventorySequenceTest extends EntityBase
 {
     protected CurriculumInventorySequence $object;
@@ -42,19 +43,11 @@ class CurriculumInventorySequenceTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequence::setDescription
-     * @covers \App\Entity\CurriculumInventorySequence::getDescription
-     */
     public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequence::setReport
-     * @covers \App\Entity\CurriculumInventorySequence::getReport
-     */
     public function testSetReport(): void
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');

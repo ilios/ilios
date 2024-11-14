@@ -22,9 +22,9 @@ use function json_decode;
 use function var_export;
 
 /**
- * @covers \App\Controller\AuthController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\AuthController::class)]
 class AuthControllerTest extends WebTestCase
 {
     use TestableJsonController;

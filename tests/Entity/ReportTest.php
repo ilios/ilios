@@ -12,6 +12,7 @@ use Mockery as m;
  * Tests for Entity Report
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Report::class)]
 class ReportTest extends EntityBase
 {
     protected Report $object;
@@ -51,64 +52,36 @@ class ReportTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\Report::setSubject
-     * @covers \App\Entity\Report::getSubject
-     */
     public function testSetSubject(): void
     {
         $this->basicSetTest('subject', 'string');
     }
 
-    /**
-     * @covers \App\Entity\Report::setPrepositionalObject
-     * @covers \App\Entity\Report::getPrepositionalObject
-     */
     public function testSetPrepositionalObject(): void
     {
         $this->basicSetTest('prepositionalObject', 'string');
     }
 
-    /**
-     * @covers \App\Entity\Report::setPrepositionalObjectTableRowId
-     * @covers \App\Entity\Report::getPrepositionalObjectTableRowId
-     */
     public function testSetPrepositionalObjectTableRowId(): void
     {
         $this->basicSetTest('prepositionalObjectTableRowId', 'string');
     }
 
-    /**
-     * @covers \App\Entity\Report::setTitle
-     * @covers \App\Entity\Report::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\Report::setUser
-     * @covers \App\Entity\Report::getUser
-     */
     public function testSetUser(): void
     {
         $this->entitySetTest('user', 'User');
     }
 
-    /**
-     * @covers \App\Entity\Report::setSchool
-     * @covers \App\Entity\Report::getSchool
-     */
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
 
-    /**
-     * @covers \App\Entity\Report::setSchool
-     * @covers \App\Entity\Report::getSchool
-     */
     public function testSetSchoolToNull(): void
     {
         $this->object->setSchool(null);

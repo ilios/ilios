@@ -11,8 +11,8 @@ use DateTime;
 /**
  * Class UserMaterialTest
  * @package App\Tests\Classes
- * @covers \App\Classes\UserMaterial
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Classes\UserMaterial::class)]
 class UserMaterialTest extends TestCase
 {
     protected UserMaterial $userMaterial;

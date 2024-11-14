@@ -11,8 +11,8 @@ use function method_exists;
 /**
  * Tests for Entity AuditLog
  * @group model
- * @covers \App\Entity\AuditLog
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AuditLog::class)]
 class AuditLogTest extends EntityBase
 {
     protected AuditLog $object;

@@ -19,8 +19,8 @@ use Mockery as m;
 /**
  * Class PermissionCheckerTest
  * @package App\Tests\Service
- * @covers \App\Service\SessionUserPermissionChecker
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\SessionUserPermissionChecker::class)]
 class SessionUserPermissionCheckerTest extends TestCase
 {
     protected SessionUserPermissionChecker $permissionChecker;

@@ -20,6 +20,7 @@ use Mockery as m;
  * Tests for Entity LearningMaterial
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearningMaterial::class)]
 class LearningMaterialTest extends EntityBase
 {
     protected LearningMaterial $object;
@@ -74,45 +75,27 @@ class LearningMaterialTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getCourseLearningMaterials());
         $this->assertCount(0, $this->object->getSessionLearningMaterials());
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::setTitle
-     * @covers \App\Entity\LearningMaterial::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::setDescription
-     * @covers \App\Entity\LearningMaterial::getDescription
-     */
     public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::setOriginalAuthor
-     * @covers \App\Entity\LearningMaterial::getOriginalAuthor
-     */
     public function testSetOriginalAuthor(): void
     {
         $this->basicSetTest('originalAuthor', 'string');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::getOwningSchool
-     */
     public function testGetOwningSchool(): void
     {
         $school = new School();
@@ -123,59 +106,36 @@ class LearningMaterialTest extends EntityBase
         $this->assertSame($school, $lm->getOwningSchool());
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::addCourseLearningMaterial
-     */
     public function testAddCourseLearningMaterial(): void
     {
         $this->entityCollectionAddTest('courseLearningMaterial', 'CourseLearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::removeCourseLearningMaterial
-     */
     public function testRemoveCourseLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('courseLearningMaterial', 'CourseLearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::getCourseLearningMaterials
-     * @covers \App\Entity\LearningMaterial::setCourseLearningMaterials
-     */
     public function testGetCourseLearningMaterials(): void
     {
         $this->entityCollectionSetTest('courseLearningMaterial', 'CourseLearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::addSessionLearningMaterial
-     */
     public function testAddSessionLearningMaterial(): void
     {
         $this->entityCollectionAddTest('sessionLearningMaterial', 'SessionLearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::removeSessionLearningMaterial
-     */
     public function testRemoveSessionLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('sessionLearningMaterial', 'SessionLearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::getSessionLearningMaterials
-     * @covers \App\Entity\LearningMaterial::setSessionLearningMaterials
-     */
     public function testGetSessionLearningMaterials(): void
     {
         $this->entityCollectionSetTest('sessionLearningMaterial', 'SessionLearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterial::getIndexableCourses
-     */
     public function testGetIndexableCourses(): void
     {
         $course1 = m::mock(CourseInterface::class);

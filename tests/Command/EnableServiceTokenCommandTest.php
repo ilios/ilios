@@ -17,8 +17,8 @@ use Mockery as m;
 /**
  * @package App\Tests\Command
  * @group cli
- * @covers \App\Command\EnableServiceTokenCommand
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\EnableServiceTokenCommand::class)]
 class EnableServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

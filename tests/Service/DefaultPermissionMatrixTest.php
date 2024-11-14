@@ -15,8 +15,8 @@ use Mockery as m;
 /**
  * Class DefaultPermissionMatrixTest
  * @package App\Tests\Service
- * @covers \App\Service\DefaultPermissionMatrix
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\DefaultPermissionMatrix::class)]
 class DefaultPermissionMatrixTest extends TestCase
 {
     protected DefaultPermissionMatrix $permissionMatrix;
@@ -1121,9 +1121,7 @@ class DefaultPermissionMatrixTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider hasPermissionProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('hasPermissionProvider')]
     public function testHasPermission(string $capability, array $allowedRoles, array $deniedRoles): void
     {
         $this->assertEquals(count($allowedRoles) +  count($deniedRoles), 10);

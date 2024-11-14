@@ -10,10 +10,7 @@ use App\Traits\CompetenciesEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-/**
- * @covers \App\Traits\CompetenciesEntity
- */
-
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Traits\CompetenciesEntity::class)]
 class CompetenciesEntityTest extends TestCase
 {
     private object $traitObject;

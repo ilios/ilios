@@ -22,9 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
 /**
- * @covers \App\Controller\CurriculumInventoryDownloadController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\CurriculumInventoryDownloadController::class)]
 class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {
     use TestableJsonController;

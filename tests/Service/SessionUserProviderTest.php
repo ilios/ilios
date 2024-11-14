@@ -18,9 +18,7 @@ use DateTime;
 use Mockery as m;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
-/**
- * @covers \App\Service\SessionUserProvider
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\SessionUserProvider::class)]
 class SessionUserProviderTest extends TestCase
 {
     protected SessionUserProvider $provider;
@@ -48,9 +46,7 @@ class SessionUserProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider supportsClassProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('supportsClassProvider')]
     public function testSupportsClass(string $className, bool $expected): void
     {
         $this->assertEquals($expected, $this->provider->supportsClass($className));

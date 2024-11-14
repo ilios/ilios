@@ -10,6 +10,7 @@ use App\Entity\AlertChangeType;
  * Tests for Entity AlertChangeType
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AlertChangeType::class)]
 class AlertChangeTypeTest extends EntityBase
 {
     protected AlertChangeType $object;
@@ -36,42 +37,26 @@ class AlertChangeTypeTest extends EntityBase
         $this->object->setTitle('Title it is');
         $this->validate(0);
     }
-    /**
-     * @covers \App\Entity\AlertChangeType::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getAlerts());
     }
 
-    /**
-     * @covers \App\Entity\AlertChangeType::setTitle
-     * @covers \App\Entity\AlertChangeType::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\AlertChangeType::addAlert
-     */
     public function testAddAlert(): void
     {
         $this->entityCollectionAddTest('alert', 'Alert', false, false, 'addChangeType');
     }
 
-    /**
-     * @covers \App\Entity\AlertChangeType::removeAlert
-     */
     public function testRemoveAlert(): void
     {
         $this->entityCollectionRemoveTest('alert', 'Alert', false, false, false, 'removeChangeType');
     }
 
-    /**
-     * @covers \App\Entity\AlertChangeType::getAlerts
-     */
     public function testGetAlerts(): void
     {
         $this->entityCollectionSetTest('alert', 'Alert', false, false, 'addChangeType');

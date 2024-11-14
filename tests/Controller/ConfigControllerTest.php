@@ -13,9 +13,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @covers \App\Controller\ConfigController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\ConfigController::class)]
 class ConfigControllerTest extends WebTestCase
 {
     use TestableJsonController;

@@ -18,9 +18,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * Class ElevatedPermissionsViewDtoVoterTest
  * @package App\Tests\RelationshipVoter
- * @covers \App\RelationshipVoter\ElevatedPermissionsViewDTOVoter
-
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\RelationshipVoter\ElevatedPermissionsViewDTOVoter::class)]
 class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 {
     public function setUp(): void
@@ -41,9 +40,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         ];
     }
 
-    /**
-     * @dataProvider dtoProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dtoProvider')]
     public function testCanViewDTO(string $class): void
     {
         $user = $this->createMockSessionUserPerformingNonLearnerFunction();
@@ -53,9 +50,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    /**
-     * @dataProvider dtoProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dtoProvider')]
     public function testRootCanViewDTO(string $class): void
     {
         $user = $this->createMockRootSessionUser();
@@ -65,9 +60,7 @@ class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    /**
-     * @dataProvider dtoProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dtoProvider')]
     public function testCanNotViewDTO(string $class): void
     {
         $user = $this->createMockSessionUserPerformingOnlyLearnerFunction();

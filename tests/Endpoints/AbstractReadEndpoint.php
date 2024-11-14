@@ -75,18 +75,14 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         $this->runNotFoundTest($jwt);
     }
 
-    /**
-     * @dataProvider filtersToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('filtersToTest')]
     public function testFilters(array $dataKeys = [], array $filterParts = []): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $this->runFiltersTest($jwt, $dataKeys, $filterParts);
     }
 
-    /**
-     * @dataProvider filtersToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('filtersToTest')]
     public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = []): void
     {
         if (!$this->enableGetTestsWithServiceToken) {
@@ -96,9 +92,7 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         $this->runFiltersTest($jwt, $dataKeys, $filterParts);
     }
 
-    /**
-     * @dataProvider graphQLFiltersToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('graphQLFiltersToTest')]
     public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void
     {
         if (!$this->isGraphQLTestable) {

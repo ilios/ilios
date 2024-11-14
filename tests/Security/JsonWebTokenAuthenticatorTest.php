@@ -20,9 +20,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use UnexpectedValueException;
 
-/**
- * @covers \App\Security\JsonWebTokenAuthenticator
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Security\JsonWebTokenAuthenticator::class)]
 class JsonWebTokenAuthenticatorTest extends TestCase
 {
     protected m\MockInterface $routerMock;

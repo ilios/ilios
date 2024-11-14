@@ -37,17 +37,13 @@ class MeshTest extends AbstractBase
         ];
     }
 
-    /**
-     * @dataProvider meshEntitiesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('meshEntitiesProvider')]
     public function testAllowsRootFullAccess(string $className): void
     {
         $this->checkRootEntityAccess(m::mock($className), [VoterPermissions::VIEW]);
     }
 
-    /**
-     * @dataProvider meshEntitiesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('meshEntitiesProvider')]
     public function testCanView(string $className): void
     {
         $user = $this->createMockNonRootSessionUser();

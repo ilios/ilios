@@ -9,8 +9,8 @@ use DateTime;
 
 /**
  * @group model
- * @covers \App\Entity\ServiceToken
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\ServiceToken::class)]
 class ServiceTokenTest extends EntityBase
 {
     protected ServiceToken $object;

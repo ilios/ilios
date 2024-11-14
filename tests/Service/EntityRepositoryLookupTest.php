@@ -16,9 +16,7 @@ use App\Service\EntityRepositoryLookup;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * @covers \App\Service\EntityRepositoryLookup
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\EntityRepositoryLookup::class)]
 class EntityRepositoryLookupTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -38,9 +36,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         unset($this->service);
     }
 
-    /**
-     * @dataProvider getRepositoryForEndpointProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getRepositoryForEndpointProvider')]
     public function testGetRepositoryForEndpoint(string $endpoint, string $expected): void
     {
         $repository = $this->service->getRepositoryForEndpoint($endpoint);
@@ -50,9 +46,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getManagerForEntityProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getManagerForEntityProvider')]
     public function testGetManagerForEntity(string $entityClass, string $expected): void
     {
         $repository = $this->service->getManagerForEntity($entityClass);
@@ -62,9 +56,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getDtoClassForEndpointProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDtoClassForEndpointProvider')]
     public function testGetDtoClassForEndpoint(string $endpoint, string $expected): void
     {
         $this->assertEquals(
@@ -73,9 +65,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getDtoClassForEndpointFailsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getDtoClassForEndpointFailsProvider')]
     public function testGetDtoClassForEndpointFails(string $endpoint, string $expected): void
     {
         $this->expectExceptionMessage($expected);

@@ -13,9 +13,7 @@ use DateTime;
 use Mockery as m;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @covers \App\Classes\ServiceTokenUser
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Classes\ServiceTokenUser::class)]
 class ServiceTokenUserTest extends TestCase
 {
     protected m\MockInterface $mockServiceToken;
@@ -67,9 +65,7 @@ class ServiceTokenUserTest extends TestCase
         $this->assertFalse($this->serviceTokenUser->isEnabled());
     }
 
-    /**
-     * @dataProvider isEqualToProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isEqualToProvider')]
     public function testIsEqualTo(UserInterface $user, bool $expected): void
     {
         $this->mockServiceToken->shouldReceive('getId')->andReturn(1);

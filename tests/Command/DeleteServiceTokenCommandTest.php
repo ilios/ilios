@@ -17,8 +17,8 @@ use Mockery as m;
 /**
  * @package App\Tests\Command
  * @group cli
- * @covers \App\Command\DeleteServiceTokenCommand
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\DeleteServiceTokenCommand::class)]
 class DeleteServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

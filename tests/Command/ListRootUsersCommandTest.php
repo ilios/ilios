@@ -19,6 +19,7 @@ use Mockery as m;
  * Class ListRootUsersCommandTest
  * @group cli
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ListRootUsersCommand::class)]
 class ListRootUsersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -46,9 +47,6 @@ class ListRootUsersCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    /**
-     * @covers \App\Command\ListRootUsersCommand::execute
-     */
     public function testListRootUsers(): void
     {
         $users = [];
@@ -106,9 +104,6 @@ class ListRootUsersCommandTest extends KernelTestCase
         );
     }
 
-    /**
-     * @covers \App\Command\ListRootUsersCommand::execute
-     */
     public function testListUsersNoResults(): void
     {
         $this->userRepository

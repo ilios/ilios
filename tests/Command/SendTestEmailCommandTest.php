@@ -20,6 +20,7 @@ use Symfony\Component\Mime\Email;
  * @package App\Tests\Command
  * @group cli
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\SendChangeAlertsCommand::class)]
 class SendTestEmailCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -48,9 +49,6 @@ class SendTestEmailCommandTest extends KernelTestCase
         unset($this->mailer);
     }
 
-    /**
-     * @covers \App\Command\SendChangeAlertsCommand::execute
-     */
     public function testExecute(): void
     {
         $this->mailer->shouldReceive('send')

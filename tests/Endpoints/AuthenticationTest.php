@@ -326,8 +326,8 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
     /**
      * Overridden because authentication users
      * 'user' as the Primary Key
-     * @dataProvider putsToTest
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
     protected function runPutTest(string $key, mixed $value, string $jwt): void
     {
         $dataLoader = $this->getDataLoader();

@@ -12,9 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-/**
- * @covers \App\DependencyInjection\PrefixSeedCompilerPass
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\DependencyInjection\PrefixSeedCompilerPass::class)]
 class PrefixSeedCompilerPassTest extends TestCase
 {
     protected m\MockInterface $config;

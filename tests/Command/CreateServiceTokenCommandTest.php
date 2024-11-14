@@ -23,8 +23,8 @@ use Mockery as m;
 /**
  * @package App\Tests\Command
  * @group cli
- * @covers \App\Command\CreateServiceTokenCommand
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\CreateServiceTokenCommand::class)]
 class CreateServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -112,9 +112,7 @@ class CreateServiceTokenCommandTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @dataProvider createTokenWithWriteableSchoolsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('createTokenWithWriteableSchoolsProvider')]
     public function testCreateTokenWithWriteableSchools(
         string $schoolIdsInput,
         array $expectedSchoolIdsInToken

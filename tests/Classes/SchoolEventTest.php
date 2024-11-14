@@ -14,8 +14,8 @@ use DateTime;
 /**
  * Class SchoolEventTest
  * @package App\Tests\Classes
- * @covers \App\Classes\SchoolEvent
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Classes\SchoolEvent::class)]
 class SchoolEventTest extends TestCase
 {
     protected SchoolEvent $schoolEvent;

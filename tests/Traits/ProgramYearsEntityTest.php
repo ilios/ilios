@@ -10,10 +10,7 @@ use App\Traits\ProgramYearsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-/**
- * @covers \App\Traits\ProgramYearsEntity
- */
-
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Traits\ProgramYearsEntity::class)]
 class ProgramYearsEntityTest extends TestCase
 {
     private object $traitObject;

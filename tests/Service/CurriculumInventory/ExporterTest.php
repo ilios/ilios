@@ -14,11 +14,9 @@ use Mockery as m;
 /**
  * Class ExporterTest
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\Exporter::class)]
 class ExporterTest extends TestCase
 {
-    /**
-     * @covers \App\Service\CurriculumInventory\Exporter::getXmlReport
-     */
     public function testPrint(): void
     {
         $report = new CurriculumInventoryReport();

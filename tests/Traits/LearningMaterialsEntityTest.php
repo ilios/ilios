@@ -10,10 +10,7 @@ use App\Traits\LearningMaterialsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-/**
- * @covers \App\Traits\LearningMaterialsEntity
- */
-
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Traits\LearningMaterialsEntity::class)]
 class LearningMaterialsEntityTest extends TestCase
 {
     private object $traitObject;

@@ -12,6 +12,7 @@ use Mockery as m;
  * Tests for Entity Competency
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Competency::class)]
 class CompetencyTest extends EntityBase
 {
     protected Competency $object;
@@ -42,9 +43,6 @@ class CompetencyTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\Competency::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getAamcPcrses());
@@ -52,36 +50,21 @@ class CompetencyTest extends EntityBase
         $this->assertCount(0, $this->object->getChildren());
     }
 
-    /**
-     * @covers \App\Entity\Competency::setTitle
-     * @covers \App\Entity\Competency::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\Competency::setSchool
-     * @covers \App\Entity\Competency::getSchool
-     */
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
 
-    /**
-     * @covers \App\Entity\Competency::setParent
-     * @covers \App\Entity\Competency::getParent
-     */
     public function testSetParent(): void
     {
         $this->entitySetTest('parent', 'Competency');
     }
 
-    /**
-     * @covers \App\Entity\Competency::setParent
-     */
     public function testRemoveParent(): void
     {
         $obj = m::mock(Competency::class);
@@ -91,17 +74,11 @@ class CompetencyTest extends EntityBase
         $this->assertNull($this->object->getParent());
     }
 
-    /**
-     * @covers \App\Entity\Competency::addAamcPcrs
-     */
     public function testAddPcrs(): void
     {
         $this->entityCollectionAddTest('aamcPcrses', 'AamcPcrs', 'getAamcPcrses', 'addAamcPcrs', 'addCompetency');
     }
 
-    /**
-     * @covers \App\Entity\Competency::removeAamcPcrs
-     */
     public function testRemovePcrs(): void
     {
         $this->entityCollectionRemoveTest(
@@ -114,68 +91,41 @@ class CompetencyTest extends EntityBase
         );
     }
 
-    /**
-     * @covers \App\Entity\Competency::getAamcPcrses
-     * @covers \App\Entity\Competency::setAamcPcrses
-     */
     public function testGetPcrses(): void
     {
         $this->entityCollectionSetTest('aamcPcrses', 'AamcPcrs', 'getAamcPcrses', 'setAamcPcrses', 'addCompetency');
     }
 
-    /**
-     * @covers \App\Entity\Competency::addProgramYear
-     */
     public function testAddProgramYear(): void
     {
         $this->entityCollectionAddTest('programYear', 'ProgramYear', false, false, 'addCompetency');
     }
 
-    /**
-     * @covers \App\Entity\Competency::removeProgramYear
-     */
     public function testRemoveProgramYear(): void
     {
         $this->entityCollectionRemoveTest('programYear', 'ProgramYear', false, false, false, 'removeCompetency');
     }
 
-    /**
-     * @covers \App\Entity\Competency::getProgramYears
-     */
     public function testGetProgramYears(): void
     {
         $this->entityCollectionSetTest('programYear', 'ProgramYear', false, false, 'addCompetency');
     }
 
-    /**
-     * @covers \App\Entity\Competency::addChild
-     */
     public function testAddChild(): void
     {
         $this->entityCollectionAddTest('child', 'Competency', 'getChildren');
     }
 
-    /**
-     * @covers \App\Entity\Competency::removeChild
-     */
     public function testRemoveChild(): void
     {
         $this->entityCollectionRemoveTest('child', 'Competency', 'getChildren');
     }
 
-    /**
-     * @covers \App\Entity\Competency::getChildren
-     * @covers \App\Entity\Competency::setChildren
-     */
     public function testGetChildren(): void
     {
         $this->entityCollectionSetTest('child', 'Competency', 'getChildren', 'setChildren');
     }
 
-    /**
-     * @covers \App\Entity\Competency::setActive
-     * @covers \App\Entity\Competency::isActive
-     */
     public function testIsActive(): void
     {
         $this->booleanSetTest('active');

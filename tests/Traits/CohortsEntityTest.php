@@ -10,10 +10,7 @@ use App\Traits\CohortsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-/**
- * @covers \App\Traits\CohortsEntity
- */
-
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Traits\CohortsEntity::class)]
 class CohortsEntityTest extends TestCase
 {
     private object $traitObject;

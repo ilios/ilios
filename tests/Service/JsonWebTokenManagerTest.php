@@ -16,9 +16,7 @@ use DateTime;
 use Mockery as m;
 use App\Service\JsonWebTokenManager;
 
-/**
- * @covers \App\Service\JsonWebTokenManager
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\JsonWebTokenManager::class)]
 class JsonWebTokenManagerTest extends TestCase
 {
     protected JsonWebTokenManager $obj;
@@ -190,9 +188,7 @@ class JsonWebTokenManagerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getWriteableSchoolIdsFromTokenProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getWriteableSchoolIdsFromTokenProvider')]
     public function testGetWriteableSchoolIdsFromToken(string $jwt, array $schoolIds): void
     {
         $this->assertEquals($this->obj->getWriteableSchoolIdsFromToken($jwt), $schoolIds);
@@ -207,9 +203,7 @@ class JsonWebTokenManagerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isUserTokenProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isUserTokenProvider')]
     public function testIsUserToken(string $jwt, bool $expected): void
     {
         $this->assertEquals($this->obj->isUserToken($jwt), $expected);
@@ -224,9 +218,7 @@ class JsonWebTokenManagerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isServiceTokenProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isServiceTokenProvider')]
     public function testIsServiceToken(string $jwt, bool $expected): void
     {
         $this->assertEquals($this->obj->isServiceToken($jwt), $expected);

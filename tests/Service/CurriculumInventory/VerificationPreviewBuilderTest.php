@@ -23,8 +23,8 @@ use Mockery\MockInterface;
 /**
  * Class VerificationPreviewBuilderTest
  * @package App\Tests\Service\CurriculumInventory
- * @covers \App\Service\CurriculumInventory\VerificationPreviewBuilder
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\VerificationPreviewBuilder::class)]
 class VerificationPreviewBuilderTest extends TestCase
 {
     protected VerificationPreviewBuilder $builder;

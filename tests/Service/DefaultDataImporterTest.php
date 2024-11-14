@@ -12,8 +12,8 @@ use Mockery as m;
 
 /**
  * @package App\Tests\Service
- * @covers \App\Service\DefaultDataImporter
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\DefaultDataImporter::class)]
 class DefaultDataImporterTest extends TestCase
 {
     protected m\MockInterface $repository;

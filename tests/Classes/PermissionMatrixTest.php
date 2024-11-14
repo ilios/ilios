@@ -9,8 +9,8 @@ use App\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest
- * @covers \App\Classes\PermissionMatrix
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Classes\PermissionMatrix::class)]
 class PermissionMatrixTest extends TestCase
 {
     protected PermissionMatrix $permissionMatrix;

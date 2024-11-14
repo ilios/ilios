@@ -12,9 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @covers \App\Controller\IndexController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\IndexController::class)]
 class IndexControllerTest extends WebTestCase
 {
     use MockeryPHPUnitIntegration;

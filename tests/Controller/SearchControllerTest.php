@@ -19,9 +19,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * @covers \App\Controller\SearchController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\SearchController::class)]
 class SearchControllerTest extends TestCase
 {
     protected SearchController $controller;

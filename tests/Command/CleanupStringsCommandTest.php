@@ -35,6 +35,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * @package App\Tests\Command
  * @group cli
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\CleanupStringsCommand::class)]
 class CleanupStringsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -353,10 +354,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('correctLearningMaterialLinksProvider')]
     public function testCorrectLearningMaterialLinks(string $link, string $fixedLink): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -389,10 +387,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksWhithoutFetchingProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('correctLearningMaterialLinksWhithoutFetchingProvider')]
     public function testCorrectLearningMaterialLinksWithoutFetching(string $link, string $fixedLink): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -425,10 +420,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksNoChangesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('correctLearningMaterialLinksNoChangesProvider')]
     public function testCorrectLearningMaterialLinksNoChanges(?string $link): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -447,9 +439,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("0 learning material links updated, 0 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksInBulk(): void
     {
         $total = 1001;
@@ -490,9 +479,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("{$total} learning material links updated, 0 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksFails(): void
     {
         $link = 'iliosproject.org';
@@ -517,9 +503,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("0 learning material links updated, 1 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksFailsOnHttps(): void
     {
         $link = 'iliosproject.org';
@@ -544,9 +527,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksVerboseFailureOutput(): void
     {
         $link = 'iliosproject.org';

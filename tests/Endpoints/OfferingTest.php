@@ -125,9 +125,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         parent::testGraphQL();
     }
 
-    /**
-     * @dataProvider changeTypePutsToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('changeTypePutsToTest')]
     public function testPutTriggerChangeType(string $key, mixed $value, int $changeType): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -149,9 +147,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->checkAlertChange($id, $changeType, UserData::ROOT_USER_ID, null, $data['id']);
     }
 
-    /**
-     * @dataProvider changeTypePutsToTest
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('changeTypePutsToTest')]
     public function testPatchJsonApiTriggerChangeType(string $key, mixed $value, int $changeType): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

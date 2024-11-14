@@ -21,6 +21,7 @@ use Mockery as m;
  * Class RemoveRootUserCommandTest
  * @group cli
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\RemoveRootUserCommand::class)]
 class RemoveRootUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -48,9 +49,6 @@ class RemoveRootUserCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    /**
-     * @covers \App\Command\RemoveRootUserCommand::execute
-     */
     public function testRemoveRootUser(): void
     {
         $userId = 1;
@@ -72,18 +70,12 @@ class RemoveRootUserCommandTest extends KernelTestCase
         $this->assertEquals("Root-level privileges have been revoked from user with id #{$userId}.", trim($output));
     }
 
-    /**
-     * @covers \App\Command\RemoveRootUserCommand::execute
-     */
     public function testMissingInput(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([]);
     }
 
-    /**
-     * @covers \App\Command\RemoveRootUserCommand::execute
-     */
     public function testUserNotFound(): void
     {
         $userId = 0;

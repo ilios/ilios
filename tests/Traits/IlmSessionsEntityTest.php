@@ -10,10 +10,7 @@ use App\Traits\IlmSessionsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-/**
- * @covers \App\Traits\IlmSessionsEntity
- */
-
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Traits\IlmSessionsEntity::class)]
 class IlmSessionsEntityTest extends TestCase
 {
     private object $traitObject;

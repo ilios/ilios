@@ -25,9 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\Cache\CacheInterface;
 
-/**
- * @covers \App\Service\EntityMetadata
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\EntityMetadata::class)]
 class EntityMetadataTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -53,45 +51,35 @@ class EntityMetadataTest extends KernelTestCase
         unset($this->service);
     }
 
-    /**
-     * @dataProvider entityProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('entityProvider')]
     public function testIsAnIliosEntity(object $obj): void
     {
         $this->assertTrue($this->service->isAnIliosEntity($obj));
         $this->assertTrue($this->service->isAnIliosEntity($obj::class));
     }
 
-    /**
-     * @dataProvider dtoProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dtoProvider')]
     public function testIsNotAnIliosEntity(object $obj): void
     {
         $this->assertFalse($this->service->isAnIliosEntity($obj));
         $this->assertFalse($this->service->isAnIliosEntity($obj::class));
     }
 
-    /**
-     * @dataProvider dtoProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dtoProvider')]
     public function testIsAnIliosDto(object $obj): void
     {
         $this->assertTrue($this->service->isAnIliosDto($obj));
         $this->assertTrue($this->service->isAnIliosDto($obj::class));
     }
 
-    /**
-     * @dataProvider entityProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('entityProvider')]
     public function testIsNotAnIliosDto(object $obj): void
     {
         $this->assertFalse($this->service->isAnIliosDto($obj));
         $this->assertFalse($this->service->isAnIliosDto($obj::class));
     }
 
-    /**
-     * @dataProvider extractExposedPropertiesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractExposedPropertiesProvider')]
     public function testExtractExposedProperties(string $class, array $expected): void
     {
         $properties = $this->service->extractExposedProperties(new ReflectionClass($class));
@@ -101,18 +89,14 @@ class EntityMetadataTest extends KernelTestCase
         }
     }
 
-    /**
-     * @dataProvider extractFilterableProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractFilterableProvider')]
     public function testExtractFilterable(string $class, array $expected): void
     {
         $properties = $this->service->extractFilterable(new ReflectionClass($class));
         $this->assertEquals($expected, $properties);
     }
 
-    /**
-     * @dataProvider extractIdProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractIdProvider')]
     public function testExtractId(string $class, string $expected): void
     {
         $this->assertEquals(
@@ -127,9 +111,7 @@ class EntityMetadataTest extends KernelTestCase
         $this->service->extractId(new ReflectionClass($obj));
     }
 
-    /**
-     * @dataProvider extractRelatedProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractRelatedProvider')]
     public function testExtractRelated(string $class, array $expected): void
     {
         $this->assertEquals(
@@ -138,9 +120,7 @@ class EntityMetadataTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider extractRelatedNameForPropertyProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractRelatedNameForPropertyProvider')]
     public function testExtractRelatedNameForProperty(string $class, string $propertyName, string $expected): void
     {
         $reflection = new ReflectionClass($class);
@@ -151,9 +131,7 @@ class EntityMetadataTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider extractTypeProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractTypeProvider')]
     public function testExtractType(string $class, string $expected): void
     {
         $this->assertEquals(
@@ -162,9 +140,7 @@ class EntityMetadataTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider extractWritablePropertiesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractWritablePropertiesProvider')]
     public function testExtractWritableProperties(string $class, array $expected): void
     {
         $this->assertEquals(
@@ -173,9 +149,7 @@ class EntityMetadataTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider extractOnlyReadablePropertiesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractOnlyReadablePropertiesProvider')]
     public function testExtractOnlyReadableProperties(string $class, array $expected): void
     {
         $this->assertEquals(
@@ -184,9 +158,7 @@ class EntityMetadataTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getTypeOfPropertyProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getTypeOfPropertyProvider')]
     public function testGetTypeOfProperty(string $class, string $propertyName, string $expected): void
     {
         $reflection = new ReflectionClass($class);
@@ -197,9 +169,7 @@ class EntityMetadataTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider isPropertyOnlyReadableProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isPropertyOnlyReadableProvider')]
     public function testIsPropertyOnlyReadable(string $class, string $propertyName, bool $expected): void
     {
         $reflection = new ReflectionClass($class);
@@ -210,9 +180,7 @@ class EntityMetadataTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider isPropertyRemoveMarkupProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isPropertyRemoveMarkupProvider')]
     public function testIsPropertyRemoveMarkup(string $class, string $propertyName, bool $expected): void
     {
         $reflection = new ReflectionClass($class);
@@ -243,9 +211,7 @@ class EntityMetadataTest extends KernelTestCase
         }
     }
 
-    /**
-     * @dataProvider getEntityForTypeProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getEntityForTypeProvider')]
     public function testGetEntityForType(string $type, string $expected): void
     {
         $this->assertEquals($expected, $this->service->getEntityForType($type));

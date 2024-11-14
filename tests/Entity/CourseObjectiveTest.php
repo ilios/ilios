@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Tests for Entity CourseObjective
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CourseObjective::class)]
 class CourseObjectiveTest extends EntityBase
 {
     protected CourseObjective $object;
@@ -31,9 +32,6 @@ class CourseObjectiveTest extends EntityBase
         unset($this->object);
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertEquals(0, $this->object->getPosition());
@@ -68,10 +66,6 @@ class CourseObjectiveTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::setTitle
-     * @covers \App\Entity\CourseObjective::getTitle
-     */
     public function testSetTitle(): void
     {
         $title = 'foo';
@@ -79,53 +73,32 @@ class CourseObjectiveTest extends EntityBase
         $this->assertEquals($title, $this->object->getTitle());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::setCourse
-     * @covers \App\Entity\CourseObjective::getCourse
-     */
     public function testSetCourse(): void
     {
         $this->entitySetTest('course', 'Course');
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::setPosition
-     * @covers \App\Entity\CourseObjective::getPosition
-     */
     public function testSetPosition(): void
     {
         $position = 5;
         $this->object->setPosition(5);
         $this->assertEquals($position, $this->object->getPosition());
     }
-    /**
-     * @covers \App\Entity\CourseObjective::addTerm
-     */
     public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::removeTerm
-     */
     public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::getTerms
-     * @covers \App\Entity\CourseObjective::setTerms
-     */
     public function testSetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::addMeshDescriptor
-     */
     public function testAddMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
@@ -134,9 +107,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::removeMeshDescriptor
-     */
     public function testRemoveMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
@@ -147,9 +117,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertCount(0, $this->object->getMeshDescriptors());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::getMeshDescriptors
-     */
     public function testGetMeshDescriptors(): void
     {
         $meshDescriptors = [];
@@ -163,9 +130,6 @@ class CourseObjectiveTest extends EntityBase
         }
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::addSessionObjective
-     */
     public function testAddSessionObjective(): void
     {
         $sessionObjective = new SessionObjective();
@@ -175,9 +139,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertEquals($sessionObjective, $this->object->getSessionObjectives()->first());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::removeSessionObjective
-     */
     public function testRemoveSessionObjective(): void
     {
         $sessionObjective = new SessionObjective();
@@ -188,10 +149,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertCount(0, $this->object->getSessionObjectives());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::getSessionObjectives
-     * @covers \App\Entity\CourseObjective::setSessionObjectives
-     */
     public function testGetSessionObjectives(): void
     {
         $sessionObjectives = [];
@@ -205,9 +162,6 @@ class CourseObjectiveTest extends EntityBase
         }
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::addProgramYearObjective
-     */
     public function testAddProgramYearObjective(): void
     {
         $pyObjective = new ProgramYearObjective();
@@ -217,9 +171,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertEquals($pyObjective, $this->object->getProgramYearObjectives()->first());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::removeProgramYearObjective
-     */
     public function testRemoveProgramYearObjective(): void
     {
         $pyObjective = new ProgramYearObjective();
@@ -230,10 +181,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertCount(0, $this->object->getProgramYearObjectives());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::getProgramYearObjectives
-     * @covers \App\Entity\CourseObjective::setProgramYearObjectives
-     */
     public function testGetProgramYearObjectives(): void
     {
         $pyObjectives = [];
@@ -247,10 +194,6 @@ class CourseObjectiveTest extends EntityBase
         }
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::setAncestor
-     * @covers \App\Entity\CourseObjective::getAncestor
-     */
     public function testSetAncestor(): void
     {
         $ancestor = new CourseObjective();
@@ -258,9 +201,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertEquals($ancestor, $this->object->getAncestor());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::getAncestorOrSelf
-     */
     public function testGetAncestorOrSelfWithAncestor(): void
     {
         $ancestor = new CourseObjective();
@@ -268,17 +208,11 @@ class CourseObjectiveTest extends EntityBase
         $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::getAncestorOrSelf
-     */
     public function testGetAncestorOrSelfWithNoAncestor(): void
     {
         $this->assertSame($this->object, $this->object->getAncestorOrSelf());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::addDescendant
-     */
     public function testAddDescendant(): void
     {
         $descendant = new CourseObjective();
@@ -287,9 +221,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::removeDescendant
-     */
     public function testRemoveDescendant(): void
     {
         $descendant = new CourseObjective();
@@ -300,10 +231,6 @@ class CourseObjectiveTest extends EntityBase
         $this->assertCount(0, $this->object->getDescendants());
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::getDescendants
-     * @covers \App\Entity\CourseObjective::setDescendants
-     */
     public function testGetDescendants(): void
     {
         $descendants = [];
@@ -317,10 +244,6 @@ class CourseObjectiveTest extends EntityBase
         }
     }
 
-    /**
-     * @covers \App\Entity\CourseObjective::setActive
-     * @covers \App\Entity\CourseObjective::isActive
-     */
     public function testSetActive(): void
     {
         $this->assertTrue($this->object->isActive());

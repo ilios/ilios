@@ -16,6 +16,7 @@ use App\Tests\TestCase;
  * @package App\Tests\Service\CurriculumInventory
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\Manager::class)]
 class ManagerTest extends TestCase
 {
     protected m\MockInterface $repository;
@@ -35,9 +36,6 @@ class ManagerTest extends TestCase
         unset($this->manager);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getEventReferencesForSequenceBlocks
-     */
     public function testGetEventReferencesForSequenceBlocks(): void
     {
         $report = new CurriculumInventoryReport();
@@ -67,9 +65,6 @@ class ManagerTest extends TestCase
         $this->assertEquals($event3, $events[30][0]);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getCompetencyObjectReferencesForSequenceBlocks
-     */
     public function testGetCompetencyObjectReferencesForSequenceBlocks(): void
     {
         $report = new CurriculumInventoryReport();
@@ -129,9 +124,6 @@ class ManagerTest extends TestCase
         $this->assertEquals([32], $courseObjectives);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getCompetencyObjectReferencesForEvents
-     */
     public function testGetCompetencyObjectReferencesForEvents(): void
     {
         $report = new CurriculumInventoryReport();
@@ -253,9 +245,6 @@ class ManagerTest extends TestCase
         $this->assertEquals(0, count($ref['program_objectives']));
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getSessionObjectivesToCourseObjectivesRelations
-     */
     public function testGetSessionObjectivesToCourseObjectivesRelations(): void
     {
         $objectiveRelationships = [
@@ -282,9 +271,6 @@ class ManagerTest extends TestCase
         $this->assertEquals($courseObjectiveIds, $rhett['course_objective_ids']);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getCourseObjectivesToProgramObjectivesRelations
-     */
     public function testGetCourseObjectivesToProgramObjectivesRelations(): void
     {
         $objectiveRelationships = [
@@ -317,9 +303,6 @@ class ManagerTest extends TestCase
         $this->assertEquals([20, 21, 41], $rhett['program_objective_ids']);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getProgramObjectivesToPcrsRelations
-     */
     public function testGetProgramObjectivesToPcrsRelations(): void
     {
         $objectiveRelationships = [
@@ -351,9 +334,6 @@ class ManagerTest extends TestCase
         $this->assertEquals(['a', 'b'], $rhett['pcrs_ids']);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getEventsFromIlmOnlySessions
-     */
     public function testGetEventsFromIlmOnlySessions(): void
     {
         $report = new CurriculumInventoryReport();
@@ -377,9 +357,6 @@ class ManagerTest extends TestCase
         $this->assertEquals(19, $events[30]['duration']);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getEventsFromOfferingsOnlySessions
-     */
     public function testGetEventsFromOfferingsOnlySessions(): void
     {
         $report = new CurriculumInventoryReport();
@@ -411,9 +388,6 @@ class ManagerTest extends TestCase
         $this->assertEquals(0, $events[40]['duration']);
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Manager::getEventsFromIlmSessionsWithOfferings
-     */
     public function testGetEventsFromIlmSessionsWithOfferings(): void
     {
         $report = new CurriculumInventoryReport();

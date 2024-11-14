@@ -21,9 +21,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * @covers \App\Controller\DirectoryController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\DirectoryController::class)]
 class DirectoryControllerTest extends TestCase
 {
     protected DirectoryController $directoryController;

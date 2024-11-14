@@ -21,6 +21,7 @@ use Mockery as m;
  * Class AddRootUserCommandTest
  * @group cli
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\AddRootUserCommand::class)]
 class AddRootUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -48,9 +49,6 @@ class AddRootUserCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    /**
-     * @covers \App\Command\AddRootUserCommand::execute
-     */
     public function testAddRootUser(): void
     {
         $userId = 1;
@@ -72,18 +70,12 @@ class AddRootUserCommandTest extends KernelTestCase
         $this->assertEquals("User with id #{$userId} has been granted root-level privileges.", trim($output));
     }
 
-    /**
-     * @covers \App\Command\AddRootUserCommand::execute
-     */
     public function testMissingInput(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([]);
     }
 
-    /**
-     * @covers \App\Command\AddRootUserCommand::execute
-     */
     public function testUserNotFound(): void
     {
         $userId = 0;

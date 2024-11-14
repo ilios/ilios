@@ -49,8 +49,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * Class GreenlightViewDtoVoterTest
  * @package App\Tests\RelationshipVoter
- * @covers \App\RelationshipVoter\GreenlightViewDTOVoter
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\RelationshipVoter\GreenlightViewDTOVoter::class)]
 class GreenlightViewDtoVoterTest extends AbstractBase
 {
     public function setUp(): void
@@ -103,9 +103,9 @@ class GreenlightViewDtoVoterTest extends AbstractBase
     }
 
     /**
-     * @dataProvider canViewDTOProvider
      * @param string $class The fully qualified class name.
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('canViewDTOProvider')]
     public function testCanViewDTO(string $class): void
     {
         $user = $this->createMockNonRootSessionUser();

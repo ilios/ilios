@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
 /**
- * @covers \App\Controller\ErrorController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\ErrorController::class)]
 class ErrorControllerTest extends WebTestCase
 {
     use TestableJsonController;

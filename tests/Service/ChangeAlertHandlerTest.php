@@ -23,8 +23,8 @@ use App\Tests\TestCase;
 /**
  * Class ChangeAlertHandlerTest
  * @package App\Tests\Service
- * @covers \App\Service\ChangeAlertHandler
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\ChangeAlertHandler::class)]
 class ChangeAlertHandlerTest extends TestCase
 {
     protected m\MockInterface $mockAlertRepository;

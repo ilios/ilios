@@ -40,9 +40,7 @@ abstract class AbstractReadWriteBase extends AbstractBase
 
     abstract public static function writePermissionsProvider(): array;
 
-    /**
-     * @dataProvider writePermissionsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('writePermissionsProvider')]
     public function testCanWrite(string $voterPermission): void
     {
         $subject = $this->createMockSubjectWithSchoolContext(2);
@@ -60,9 +58,7 @@ abstract class AbstractReadWriteBase extends AbstractBase
         );
     }
 
-    /**
-     * @dataProvider writePermissionsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('writePermissionsProvider')]
     public function testCanNotWrite(string $voterPermission): void
     {
         $subject = $this->createMockSubjectWithSchoolContext(2);

@@ -13,6 +13,7 @@ use DateTime;
  * @package App\Tests\Entity\DTO
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\DTO\LearningMaterialDTO::class)]
 class LearningMaterialDTOTest extends TestCase
 {
     protected LearningMaterialDTO $dto;
@@ -44,9 +45,6 @@ class LearningMaterialDTOTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @covers \App\Entity\DTO\LearningMaterialDTO::clearMaterial
-     */
     public function testClearMaterial(): void
     {
         $this->dto->absoluteFileUri = 'https://ilios.demo.edu/lm/1234567890';

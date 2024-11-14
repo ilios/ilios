@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
  * ProgramYear API endpoint Test.
  * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\API\ProgramYears::class)]
 class ProgramYearTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'programYears';
@@ -177,9 +178,6 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         $this->assertFalse($response['locked']);
     }
 
-    /**
-     * @covers \App\Controller\API\ProgramYears::downloadCourseObjectivesReport
-     */
     public function testDownloadCourseObjectivesReport(): void
     {
         $parameters = ['version' => $this->apiVersion, 'object' => $this->getPluralName(), 'id' => 1];

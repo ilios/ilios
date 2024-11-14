@@ -10,6 +10,7 @@ use App\Entity\AamcPcrs;
  * Tests for Entity AamcPcrs
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AamcPcrs::class)]
 class AamcPcrsTest extends EntityBase
 {
     protected AamcPcrs $object;
@@ -39,35 +40,21 @@ class AamcPcrsTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\AamcPcrs::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getCompetencies());
     }
 
-    /**
-     * @covers \App\Entity\AamcPcrs::setDescription
-     * @covers \App\Entity\AamcPcrs::getDescription
-     * @covers \App\Entity\AamcPcrs::getDescription
-     */
     public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
 
-    /**
-     * @covers \App\Entity\AamcPcrs::addCompetency
-     */
     public function testAddCompetency(): void
     {
         $this->entityCollectionAddTest('competencies', 'Competency', 'getCompetencies', 'addCompetency', 'addAamcPcrs');
     }
 
-    /**
-     * @covers \App\Entity\AamcPcrs::getCompetencies
-     */
     public function testGetCompetencies(): void
     {
         $this->entityCollectionSetTest(
@@ -79,9 +66,6 @@ class AamcPcrsTest extends EntityBase
         );
     }
 
-    /**
-     * @covers \App\Entity\AamcPcrs::removeCompetency
-     */
     public function testRemoveCompetency(): void
     {
         $this->entityCollectionRemoveTest(

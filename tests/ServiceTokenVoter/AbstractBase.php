@@ -24,9 +24,7 @@ abstract class AbstractBase extends TestCase
 
     abstract public static function supportsTypeProvider(): array;
 
-    /**
-     * @dataProvider supportsTypeProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('supportsTypeProvider')]
     public function testSupportType(string $className, bool $isSupported): void
     {
         $this->assertEquals($this->voter->supportsType($className), $isSupported);
@@ -34,9 +32,7 @@ abstract class AbstractBase extends TestCase
 
     abstract public static function supportsAttributesProvider(): array;
 
-    /**
-     * @dataProvider supportsAttributesProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('supportsAttributesProvider')]
     public function testSupportAttributes(string $attribute, bool $isSupported): void
     {
         $this->assertEquals($this->voter->supportsAttribute($attribute), $isSupported);

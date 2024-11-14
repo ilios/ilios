@@ -14,6 +14,7 @@ use Mockery as m;
 /**
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\UserSessionMaterialStatus::class)]
 class UserSessionMaterialStatusTest extends EntityBase
 {
     protected UserSessionMaterialStatus $object;
@@ -45,9 +46,6 @@ class UserSessionMaterialStatusTest extends EntityBase
 
         $this->validate(0);
     }
-    /**
-     * @covers \App\Entity\UserSessionMaterialStatus::__construct
-     */
     public function testConstructor(): void
     {
         $now = new DateTime();
@@ -56,29 +54,17 @@ class UserSessionMaterialStatusTest extends EntityBase
         $this->assertTrue($diff->s < 2);
     }
 
-    /**
-     * @covers \App\Entity\UserSessionMaterialStatus::setStatus
-     * @covers \App\Entity\UserSessionMaterialStatus::getStatus
-     */
     public function testSetStatus(): void
     {
         $this->object->setStatus(UserSessionMaterialStatusInterface::NONE);
         $this->assertSame(UserSessionMaterialStatusInterface::NONE, $this->object->getStatus());
     }
 
-    /**
-     * @covers \App\Entity\UserSessionMaterialStatus::setUser
-     * @covers \App\Entity\UserSessionMaterialStatus::getUser
-     */
     public function testSetUser(): void
     {
         $this->entitySetTest('user', "User");
     }
 
-    /**
-     * @covers \App\Entity\UserSessionMaterialStatus::setMaterial
-     * @covers \App\Entity\UserSessionMaterialStatus::getMaterial
-     */
     public function testSetMaterial(): void
     {
         $this->entitySetTest('material', "SessionLearningMaterial");

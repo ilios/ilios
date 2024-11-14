@@ -21,9 +21,9 @@ use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\TestableJsonController;
 
 /**
- * @covers \App\Controller\IcsController
  * @group controller
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\IcsController::class)]
 class IcsControllerTest extends WebTestCase
 {
     use TestableJsonController;

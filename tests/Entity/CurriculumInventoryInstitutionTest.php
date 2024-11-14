@@ -12,6 +12,7 @@ use Mockery as m;
  * Tests for Entity CurriculumInventoryInstitution
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryInstitution::class)]
 class CurriculumInventoryInstitutionTest extends EntityBase
 {
     protected CurriculumInventoryInstitution $object;
@@ -71,73 +72,41 @@ class CurriculumInventoryInstitutionTest extends EntityBase
     }
 
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setName
-     * @covers \App\Entity\CurriculumInventoryInstitution::getName
-     */
     public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setAamcCode
-     * @covers \App\Entity\CurriculumInventoryInstitution::getAamcCode
-     */
     public function testSetAamcCode(): void
     {
         $this->basicSetTest('aamcCode', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setAddressStreet
-     * @covers \App\Entity\CurriculumInventoryInstitution::getAddressStreet
-     */
     public function testSetAddressStreet(): void
     {
         $this->basicSetTest('addressStreet', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setAddressCity
-     * @covers \App\Entity\CurriculumInventoryInstitution::getAddressCity
-     */
     public function testSetAddressCity(): void
     {
         $this->basicSetTest('addressCity', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setAddressStateOrProvince
-     * @covers \App\Entity\CurriculumInventoryInstitution::getAddressStateOrProvince
-     */
     public function testSetAddressStateOrProvince(): void
     {
         $this->basicSetTest('addressStateOrProvince', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setAddressZipcode
-     * @covers \App\Entity\CurriculumInventoryInstitution::getAddressZipcode
-     */
     public function testSetAddressZipcode(): void
     {
         $this->basicSetTest('addressZipcode', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setAddressCountryCode
-     * @covers \App\Entity\CurriculumInventoryInstitution::getAddressCountryCode
-     */
     public function testSetAddressCountryCode(): void
     {
         $this->basicSetTest('addressCountryCode', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventoryInstitution::setSchool
-     * @covers \App\Entity\CurriculumInventoryInstitution::getSchool
-     */
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');

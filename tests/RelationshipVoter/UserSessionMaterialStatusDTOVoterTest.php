@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 /**
  * @package App\Tests\RelationshipVoter
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\RelationshipVoter\UserSessionMaterialStatusDTOVoter::class)]
 class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
 {
     protected UserSessionMaterialStatusDTOVoter $dto;
@@ -26,9 +27,6 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
         $this->voter = new UserSessionMaterialStatusDTOVoter($this->permissionChecker);
     }
 
-    /**
-     * @covers \App\RelationshipVoter\UserSessionMaterialStatusDTOVoter::voteOnAttribute
-     */
     public function testCanViewDTOifYourself(): void
     {
         $userId = 2;
@@ -42,9 +40,6 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $response, "DTO View allowed");
     }
 
-    /**
-     * @covers \App\RelationshipVoter\UserSessionMaterialStatusDTOVoter::voteOnAttribute
-     */
     public function testRootCanNotViewDTO(): void
     {
         $sessionUser = m::mock(SessionUserInterface::class);
@@ -57,9 +52,6 @@ class UserSessionMaterialStatusDTOVoterTest extends AbstractBase
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $response, "DTO View denied");
     }
 
-    /**
-     * @covers \App\RelationshipVoter\UserSessionMaterialStatusDTOVoter::voteOnAttribute
-     */
     public function testCanNotViewDTO(): void
     {
         $dtoId = 1;

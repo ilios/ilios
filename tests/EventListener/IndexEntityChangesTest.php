@@ -20,9 +20,7 @@ use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-/**
- * @covers \App\EventListener\IndexEntityChanges
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\EventListener\IndexEntityChanges::class)]
 class IndexEntityChangesTest extends TestCase
 {
     protected m\MockInterface $curriculumIndex;

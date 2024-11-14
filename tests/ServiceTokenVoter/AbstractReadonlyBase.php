@@ -36,9 +36,7 @@ abstract class AbstractReadonlyBase extends AbstractBase
 
     abstract public static function subjectProvider(): array;
 
-    /**
-     * @dataProvider subjectProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('subjectProvider')]
     public function canReadTest(string $className): void
     {
         $subject = m::mock($className);

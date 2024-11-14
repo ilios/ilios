@@ -10,6 +10,7 @@ use App\Entity\AssessmentOption;
  * Tests for Entity AssessmentOption
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AssessmentOption::class)]
 class AssessmentOptionTest extends EntityBase
 {
     protected AssessmentOption $object;
@@ -37,42 +38,26 @@ class AssessmentOptionTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\AssessmentOption::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getSessionTypes());
     }
 
-    /**
-     * @covers \App\Entity\AssessmentOption::setName
-     * @covers \App\Entity\AssessmentOption::getName
-     */
     public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
 
-    /**
-     * @covers \App\Entity\AssessmentOption::addSessionType
-     */
     public function testAddSessionType(): void
     {
         $this->entityCollectionAddTest('sessionType', 'SessionType');
     }
 
-    /**
-     * @covers \App\Entity\AssessmentOption::removeSessionType
-     */
     public function testRemoveSessionType(): void
     {
         $this->entityCollectionRemoveTest('sessionType', 'SessionType');
     }
 
-    /**
-     * @covers \App\Entity\AssessmentOption::getSessionTypes
-     */
     public function testGetSessionTypes(): void
     {
         $this->entityCollectionSetTest('sessionType', 'SessionType');

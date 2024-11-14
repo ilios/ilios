@@ -11,6 +11,7 @@ use App\Entity\SchoolConfig;
  * Tests for SchoolConfig entity.
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\SchoolConfig::class)]
 class SchoolConfigTest extends EntityBase
 {
     protected SchoolConfig $object;
@@ -54,28 +55,16 @@ class SchoolConfigTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\SchoolConfig::setName
-     * @covers \App\Entity\SchoolConfig::getName
-     */
     public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
 
-    /**
-     * @covers \App\Entity\SchoolConfig::setValue
-     * @covers \App\Entity\SchoolConfig::getValue
-     */
     public function testSetValue(): void
     {
         $this->basicSetTest('value', 'string');
     }
 
-    /**
-     * @covers \App\Entity\SchoolConfig::setValue
-     * @covers \App\Entity\SchoolConfig::getValue
-     */
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');

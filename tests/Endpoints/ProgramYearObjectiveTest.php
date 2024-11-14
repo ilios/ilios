@@ -136,11 +136,11 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
     }
 
     /**
-     * @dataProvider inputSanitationTestProvider
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('inputSanitationTestProvider')]
     public function testInputSanitation(string $input, string $output): void
     {
         $postData = self::getContainer()->get(ProgramYearObjectiveData::class)

@@ -10,6 +10,7 @@ use App\Entity\MeshTree;
  * Tests for Entity MeshTree
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshTree::class)]
 class MeshTreeTest extends EntityBase
 {
     protected MeshTree $object;
@@ -37,19 +38,11 @@ class MeshTreeTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\MeshTree::setTreeNumber
-     * @covers \App\Entity\MeshTree::getTreeNumber
-     */
     public function testSetTreeNumber(): void
     {
         $this->basicSetTest('treeNumber', 'string');
     }
 
-    /**
-     * @covers \App\Entity\MeshTree::getDescriptor
-     * @covers \App\Entity\MeshTree::setDescriptor
-     */
     public function testSetDescriptor(): void
     {
         $this->entitySetTest('descriptor', "MeshDescriptor");

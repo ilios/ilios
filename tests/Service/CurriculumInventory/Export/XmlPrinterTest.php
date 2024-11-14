@@ -22,6 +22,7 @@ use DateTime;
  * Class AggregatorTest
  * @package App\Tests\Service\CurriculumInventory\Export
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\Export\XmlPrinter::class)]
 class XmlPrinterTest extends TestCase
 {
     protected XmlPrinter $printer;
@@ -257,10 +258,7 @@ class XmlPrinterTest extends TestCase
         return [ [ $inventory ] ];
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\XmlPrinter::print
-     * @dataProvider inventoryDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('inventoryDataProvider')]
     public function testPrintReport(array $inventory): void
     {
         $xml = simplexml_load_string($this->printer->print($inventory));

@@ -9,9 +9,7 @@ use App\Service\EndpointResponseNamer;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * @covers \App\Service\EndpointResponseNamer
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\EndpointResponseNamer::class)]
 class EndpointResponseNamerTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -31,9 +29,7 @@ class EndpointResponseNamerTest extends KernelTestCase
         unset($this->service);
     }
 
-    /**
-     * @dataProvider getSingularNameProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getSingularNameProvider')]
     public function testGetSingularName(string $endpointKey, string $expected): void
     {
         $this->assertEquals(
@@ -42,9 +38,7 @@ class EndpointResponseNamerTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getPluralNameProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getPluralNameProvider')]
     public function testGetPluralName(string $endpointKey, string $expected): void
     {
         $this->assertEquals(

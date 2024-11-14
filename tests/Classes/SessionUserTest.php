@@ -18,8 +18,8 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**
  * Class SessionUserTest
- * @covers \App\Classes\SessionUser
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Classes\SessionUser::class)]
 class SessionUserTest extends TestCase
 {
     protected m\MockInterface $iliosUser;
@@ -501,9 +501,7 @@ class SessionUserTest extends TestCase
         $this->assertEquals($roles, $this->sessionUser->rolesInCourse($courseId));
     }
 
-    /**
-     * @dataProvider rolesInSessionProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('rolesInSessionProvider')]
     public function testRolesInSession(
         int $sessionId,
         array $administeredSessions,

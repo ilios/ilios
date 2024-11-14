@@ -18,9 +18,7 @@ use stdClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @covers \App\Service\ApiRequestParser
- */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\ApiRequestParser::class)]
 class ApiRequestParserTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -46,9 +44,7 @@ class ApiRequestParserTest extends KernelTestCase
         unset($this->service);
     }
 
-    /**
-     * @dataProvider extractParametersProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractParametersProvider')]
     public function testExtractParameters(array $parameters, array $expected): void
     {
         $this->assertEquals(
@@ -57,9 +53,7 @@ class ApiRequestParserTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider extractPostDataFromRequestProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractPostDataFromRequestProvider')]
     public function testExtractPostDataFromRequest(
         bool $isJsonApi,
         array $data,
@@ -78,9 +72,7 @@ class ApiRequestParserTest extends KernelTestCase
         $this->assertEquals($expected, $extractedData);
     }
 
-    /**
-     * @dataProvider extractPostDataFromRequestFailsOnBadDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractPostDataFromRequestFailsOnBadDataProvider')]
     public function testExtractPostDataFromRequestFailsOnBadData(
         bool $isJsonApi,
         mixed $data,
@@ -100,9 +92,7 @@ class ApiRequestParserTest extends KernelTestCase
         $this->service->extractPostDataFromRequest($request, $object);
     }
 
-    /**
-     * @dataProvider extractPutDataFromRequestProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractPutDataFromRequestProvider')]
     public function testExtractPutDataFromRequest(
         bool $isJsonApi,
         array $data,
@@ -121,9 +111,7 @@ class ApiRequestParserTest extends KernelTestCase
         $this->assertEquals($expected, $extractedData);
     }
 
-    /**
-     * @dataProvider extractPutDataFromRequestFailsOnBadDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractPutDataFromRequestFailsOnBadDataProvider')]
     public function testExtractPutDataFromRequestFailsOnBadData(
         bool $isJsonApi,
         mixed $data,
@@ -143,9 +131,7 @@ class ApiRequestParserTest extends KernelTestCase
         $this->service->extractPutDataFromRequest($request, $object);
     }
 
-    /**
-     * @dataProvider extractEntitiesFromPostRequestProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractEntitiesFromPostRequestProvider')]
     public function testExtractEntitiesFromPostRequest(
         bool $isJsonApi,
         array $data,
@@ -167,9 +153,7 @@ class ApiRequestParserTest extends KernelTestCase
         $callback($entity);
     }
 
-    /**
-     * @dataProvider extractEntityFromPutRequestProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractEntityFromPutRequestProvider')]
     public function testExtractEntityFromPutRequest(
         bool $isJsonApi,
         array $data,
@@ -189,9 +173,7 @@ class ApiRequestParserTest extends KernelTestCase
         $callback($entity);
     }
 
-    /**
-     * @dataProvider extractJsonApiPatchDataFromRequestProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('extractJsonApiPatchDataFromRequestProvider')]
     public function testExtractJsonApiPatchDataFromRequest(array $data, array $expected): void
     {
         $request = Request::create(

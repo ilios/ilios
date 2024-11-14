@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
  * LearningMaterial API endpoint Test.
  * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\API\LearningMaterials::class)]
 class LearningMaterialTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
@@ -207,9 +208,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->jsonApiFilterTest($filters, [$all[3]], $jwt);
     }
 
-    /**
-     * @covers \App\Controller\API\LearningMaterials::getAll
-     */
     public function testFindByQAsLearner(): void
     {
         $jwt = $this->createJwtFromUserId($this->kernelBrowser, 5);
@@ -226,9 +224,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @covers \App\Controller\API\LearningMaterials::getAll
-     */
     public function testGetAllAsLearner(): void
     {
         $jwt = $this->createJwtFromUserId($this->kernelBrowser, 5);

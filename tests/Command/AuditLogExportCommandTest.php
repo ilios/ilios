@@ -24,6 +24,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @link http://www.ardianys.com/2013/04/symfony2-test-console-command-which-use.html
  * @group cli
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\InstallFirstUserCommand::class)]
 class AuditLogExportCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -53,9 +54,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         unset($this->logger);
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteWithDefaultRange(): void
     {
         $this->auditLogRepository
@@ -75,9 +73,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteWithCustomRange(): void
     {
         $this->auditLogRepository
@@ -100,9 +95,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteCheckTableOutput(): void
     {
         $now = new DateTime();
@@ -133,9 +125,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteCheckLogging(): void
     {
         $from = (new DateTime('midnight yesterday', new DateTimeZone('UTC')))->format('c');
@@ -177,10 +166,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->commandTester->execute(['--delete' => 'true']);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
-
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
 
     public function testExecuteWithDeletion(): void
     {

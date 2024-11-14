@@ -11,6 +11,7 @@ use DateTime;
  * Tests for Entity MeshTerm
  * @group model
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshTerm::class)]
 class MeshTermTest extends EntityBase
 {
     protected MeshTerm $object;
@@ -44,9 +45,6 @@ class MeshTermTest extends EntityBase
     }
 
 
-    /**
-     * @covers \App\Entity\MeshTerm::__construct
-     */
     public function testConstructor(): void
     {
         $now = new DateTime();
@@ -55,70 +53,41 @@ class MeshTermTest extends EntityBase
         $this->assertTrue($diff->s < 2);
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::setName
-     * @covers \App\Entity\MeshTerm::getName
-     */
     public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::setLexicalTag
-     * @covers \App\Entity\MeshTerm::getLexicalTag
-     */
     public function testSetLexicalTag(): void
     {
         $this->basicSetTest('lexicalTag', 'string');
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::setConceptPreferred
-     * @covers \App\Entity\MeshTerm::isConceptPreferred
-     */
     public function testSetConceptPreferred(): void
     {
         $this->booleanSetTest('conceptPreferred');
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::setRecordPreferred
-     * @covers \App\Entity\MeshTerm::isRecordPreferred
-     */
     public function testSetRecordPreferred(): void
     {
         $this->booleanSetTest('recordPreferred');
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::setPermuted
-     * @covers \App\Entity\MeshTerm::isPermuted
-     */
     public function testSetPermuted(): void
     {
         $this->booleanSetTest('permuted');
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::addConcept
-     */
     public function testAddConcept(): void
     {
         $this->entityCollectionAddTest('concept', 'MeshConcept');
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::removeConcept
-     */
     public function testRemoveConcept(): void
     {
         $this->entityCollectionRemoveTest('concept', 'MeshConcept');
     }
 
-    /**
-     * @covers \App\Entity\MeshTerm::getConcepts
-     */
     public function testGetConcepts(): void
     {
         $this->entityCollectionSetTest('concept', 'MeshConcept');
