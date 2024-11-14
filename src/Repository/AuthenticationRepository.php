@@ -130,12 +130,9 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
             $orderBy = ['user' => 'ASC'];
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
+        foreach ($orderBy as $sort => $order) {
+            $qb->addOrderBy('x.' . $sort, $order);
         }
-
 
         if ($offset) {
             $qb->setFirstResult($offset);

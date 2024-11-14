@@ -13,9 +13,6 @@ class Users extends OpenSearchBase
 {
     public const string INDEX = 'ilios-users';
 
-    /**
-     * @param UserDTO[] $users
-     */
     public function index(array $users): bool
     {
         foreach ($users as $user) {

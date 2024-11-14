@@ -42,7 +42,7 @@ class CourseClerkshipTypeTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCourses());
+        $this->assertCount(0, $this->object->getCourses());
     }
 
     /**

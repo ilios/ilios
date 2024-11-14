@@ -319,7 +319,6 @@ class OfferingTest extends AbstractReadWriteEndpoint
                 'tableName' => 'offering',
                 'dispatched' => '0',
             ]);
-        $this->assertIsArray($alerts);
         $this->assertCount(1, $alerts, "Alert was returned");
         $alert = $alerts[0];
 

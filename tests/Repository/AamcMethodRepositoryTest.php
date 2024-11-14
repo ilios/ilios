@@ -52,7 +52,6 @@ class AamcMethodRepositoryTest extends KernelTestCase
     public function testFindDtosBy(): void
     {
         $dtos = $this->repository->findDTOsBy([]);
-        $this->assertIsArray($dtos);
         $this->assertCount(2, $dtos);
         $this->assertInstanceOf(AamcMethodDTO::class, $dtos[0]);
         $this->assertSame('AM001', $dtos[0]->id);
@@ -66,7 +65,6 @@ class AamcMethodRepositoryTest extends KernelTestCase
         putenv("ILIOS_FEATURE_DTO_CACHING=true");
         for ($i = 0; $i <= 1; $i++) {
             $dtos = $this->repository->findDTOsBy([]);
-            $this->assertIsArray($dtos);
             $this->assertCount(2, $dtos);
             $this->assertInstanceOf(AamcMethodDTO::class, $dtos[0]);
             $this->assertSame('AM001', $dtos[0]->id);

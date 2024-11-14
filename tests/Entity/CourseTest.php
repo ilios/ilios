@@ -77,16 +77,16 @@ class CourseTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCohorts());
-        $this->assertEmpty($this->object->getDirectors());
-        $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getCourseObjectives());
-        $this->assertEmpty($this->object->getLearningMaterials());
-        $this->assertEmpty($this->object->getSessions());
-        $this->assertEmpty($this->object->getTerms());
-        $this->assertEmpty($this->object->getDescendants());
-        $this->assertEmpty($this->object->getAdministrators());
-        $this->assertEmpty($this->object->getStudentAdvisors());
+        $this->assertCount(0, $this->object->getCohorts());
+        $this->assertCount(0, $this->object->getDirectors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getCourseObjectives());
+        $this->assertCount(0, $this->object->getLearningMaterials());
+        $this->assertCount(0, $this->object->getSessions());
+        $this->assertCount(0, $this->object->getTerms());
+        $this->assertCount(0, $this->object->getDescendants());
+        $this->assertCount(0, $this->object->getAdministrators());
+        $this->assertCount(0, $this->object->getStudentAdvisors());
     }
 
     /**

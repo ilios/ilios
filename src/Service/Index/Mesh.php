@@ -36,9 +36,6 @@ class Mesh extends OpenSearchBase
         return array_map(fn(array $arr) => $arr['_id'], $results['hits']['hits']);
     }
 
-    /**
-     * @param Descriptor[] $descriptors
-     */
     public function index(array $descriptors): bool
     {
         foreach ($descriptors as $descriptor) {

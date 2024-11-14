@@ -63,11 +63,6 @@ class ShibbolethAuthenticationTest extends TestCase
         unset($this->sessionUserProvider);
     }
 
-    public function testConstructor(): void
-    {
-        $this->assertTrue($this->obj instanceof ShibbolethAuthentication);
-    }
-
     public function testNotAuthenticated(): void
     {
         $serverBag = m::mock(ServerBag::class);
@@ -101,7 +96,6 @@ class ShibbolethAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'redirect');
@@ -120,7 +114,6 @@ class ShibbolethAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'noAccountExists');
@@ -148,7 +141,6 @@ class ShibbolethAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');
@@ -176,7 +168,6 @@ class ShibbolethAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');

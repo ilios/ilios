@@ -47,9 +47,9 @@ class CompetencyTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getAamcPcrses());
-        $this->assertEmpty($this->object->getProgramYears());
-        $this->assertEmpty($this->object->getChildren());
+        $this->assertCount(0, $this->object->getAamcPcrses());
+        $this->assertCount(0, $this->object->getProgramYears());
+        $this->assertCount(0, $this->object->getChildren());
     }
 
     /**

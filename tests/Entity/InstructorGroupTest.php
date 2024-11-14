@@ -59,10 +59,10 @@ class InstructorGroupTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getLearnerGroups());
-        $this->assertEmpty($this->object->getIlmSessions());
-        $this->assertEmpty($this->object->getOfferings());
-        $this->assertEmpty($this->object->getUsers());
+        $this->assertCount(0, $this->object->getLearnerGroups());
+        $this->assertCount(0, $this->object->getIlmSessions());
+        $this->assertCount(0, $this->object->getOfferings());
+        $this->assertCount(0, $this->object->getUsers());
     }
 
     /**

@@ -82,10 +82,8 @@ class CourseRepository extends ServiceEntityRepository implements
             $orderBy = ['id' => 'ASC'];
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
+        foreach ($orderBy as $sort => $order) {
+            $qb->addOrderBy('x.' . $sort, $order);
         }
 
         if ($offset) {
@@ -305,18 +303,16 @@ EOL;
             $sql .= ' WHERE ' . implode(' AND ', $sqlFragments);
         }
 
-        if (is_array($orderBy)) {
-            $sqlFragments = [];
-            foreach ($orderBy as $sort => $order) {
-                if (!$meta->hasField($sort)) {
-                    throw new Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
-                }
-                $column = $meta->getColumnName($sort);
-                $sqlFragments[] = "{$column} " . ('desc' === strtolower($order) ? 'DESC' : 'ASC');
+        $sqlFragments = [];
+        foreach ($orderBy as $sort => $order) {
+            if (!$meta->hasField($sort)) {
+                throw new Exception(sprintf('"%s" is not a property of the Course entity.', $sort));
             }
-            $sql .= ' ORDER BY ';
-            $sql .= implode(', ', $sqlFragments);
+            $column = $meta->getColumnName($sort);
+            $sqlFragments[] = "{$column} " . ('desc' === strtolower($order) ? 'DESC' : 'ASC');
         }
+        $sql .= ' ORDER BY ';
+        $sql .= implode(', ', $sqlFragments);
 
         if (isset($limit)) {
             $sql .= ' LIMIT :limit';

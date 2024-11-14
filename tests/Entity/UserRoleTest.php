@@ -42,7 +42,7 @@ class UserRoleTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getUsers());
+        $this->assertCount(0, $this->object->getUsers());
     }
 
     /**

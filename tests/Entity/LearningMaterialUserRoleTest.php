@@ -42,7 +42,7 @@ class LearningMaterialUserRoleTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getLearningMaterials());
+        $this->assertCount(0, $this->object->getLearningMaterials());
     }
 
     /**

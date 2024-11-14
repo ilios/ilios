@@ -1,6 +1,6 @@
 parameters:
     symfony:
-        container_xml_path: var/cache/test/App_KernelTestDebugContainer.xml
+        containerXmlPath: var/cache/test/App_KernelTestDebugContainer.xml
         consoleApplicationLoader: tests/phpstan-console-application.php
     paths:
         - bin/

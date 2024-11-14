@@ -46,11 +46,6 @@ class AuditLogTest extends EntityBase
         $this->validate(0);
     }
 
-    public function testConstructor(): void
-    {
-        $this->assertNotEmpty($this->object->getCreatedAt());
-    }
-
     public function testSetAction(): void
     {
         $this->basicSetTest('action', 'string');
@@ -58,8 +53,6 @@ class AuditLogTest extends EntityBase
 
     public function testSetObjectIdConvertsIntToString(): void
     {
-        $this->assertTrue(method_exists($this->object, 'setObjectId'));
-        $this->assertTrue(method_exists($this->object, 'getObjectId'));
         $this->object->setObjectId(11);
         $this->assertSame('11', $this->object->getObjectId());
     }

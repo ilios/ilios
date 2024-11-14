@@ -38,9 +38,9 @@ class ProgramYearObjectiveTest extends EntityBase
     {
         $this->assertEquals(0, $this->object->getPosition());
         $this->assertEquals(true, $this->object->isActive());
-        $this->assertEmpty($this->object->getMeshDescriptors());
-        $this->assertEmpty($this->object->getCourseObjectives());
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getCourseObjectives());
+        $this->assertCount(0, $this->object->getDescendants());
     }
 
     public function testNotBlankValidation(): void
@@ -128,7 +128,7 @@ class ProgramYearObjectiveTest extends EntityBase
     public function testAddMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
-        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
         $this->object->addMeshDescriptor($meshDescriptor);
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
     }
@@ -139,11 +139,11 @@ class ProgramYearObjectiveTest extends EntityBase
     public function testRemoveMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
-        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
         $this->object->addMeshDescriptor($meshDescriptor);
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
         $this->object->removeMeshDescriptor($meshDescriptor);
-        $this->assertEmpty($this->object->getMeshDescriptors());
+        $this->assertCount(0, $this->object->getMeshDescriptors());
     }
 
     /**
@@ -168,7 +168,7 @@ class ProgramYearObjectiveTest extends EntityBase
     public function testAddCourseObjective(): void
     {
         $courseObjective = new CourseObjective();
-        $this->assertEmpty($this->object->getCourseObjectives());
+        $this->assertCount(0, $this->object->getCourseObjectives());
         $this->object->addCourseObjective($courseObjective);
         $this->assertCount(1, $this->object->getCourseObjectives());
         $this->assertEquals($courseObjective, $this->object->getCourseObjectives()->first());
@@ -180,11 +180,11 @@ class ProgramYearObjectiveTest extends EntityBase
     public function testRemoveCourseObjective(): void
     {
         $courseObjective = new CourseObjective();
-        $this->assertEmpty($this->object->getCourseObjectives());
+        $this->assertCount(0, $this->object->getCourseObjectives());
         $this->object->addCourseObjective($courseObjective);
         $this->assertEquals($courseObjective, $this->object->getCourseObjectives()->first());
         $this->object->removeCourseObjective($courseObjective);
-        $this->assertEmpty($this->object->getCourseObjectives());
+        $this->assertCount(0, $this->object->getCourseObjectives());
     }
 
     /**
@@ -251,7 +251,7 @@ class ProgramYearObjectiveTest extends EntityBase
     public function testAddDescendant(): void
     {
         $descendant = new ProgramYearObjective();
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getDescendants());
         $this->object->addDescendant($descendant);
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
     }
@@ -262,11 +262,11 @@ class ProgramYearObjectiveTest extends EntityBase
     public function testRemoveDescendant(): void
     {
         $descendant = new ProgramYearObjective();
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getDescendants());
         $this->object->addDescendant($descendant);
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
         $this->object->removeDescendant($descendant);
-        $this->assertEmpty($this->object->getDescendants());
+        $this->assertCount(0, $this->object->getDescendants());
     }
 
     /**

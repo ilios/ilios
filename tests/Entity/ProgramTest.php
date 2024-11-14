@@ -66,9 +66,9 @@ class ProgramTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getProgramYears());
-        $this->assertEmpty($this->object->getCurriculumInventoryReports());
-        $this->assertEmpty($this->object->getDirectors());
+        $this->assertCount(0, $this->object->getProgramYears());
+        $this->assertCount(0, $this->object->getCurriculumInventoryReports());
+        $this->assertCount(0, $this->object->getDirectors());
     }
 
     /**

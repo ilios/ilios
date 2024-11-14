@@ -324,7 +324,6 @@ class SchoolRepository extends ServiceEntityRepository implements
             $prerequisite = SchoolEvent::createFromCalendarEvent($this->createEventObjectForOffering($result));
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
-                /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
                     $event->prerequisites[] = $prerequisite;
                 }
@@ -371,7 +370,6 @@ class SchoolRepository extends ServiceEntityRepository implements
             $prerequisite = SchoolEvent::createFromCalendarEvent($this->createEventObjectForIlmSession($result));
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
-                /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
                     $event->prerequisites[] = $prerequisite;
                 }

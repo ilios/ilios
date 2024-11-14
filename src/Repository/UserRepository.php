@@ -82,11 +82,10 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $orderBy = ['id' => 'ASC'];
         }
 
-        if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
-                $qb->addOrderBy('x.' . $sort, $order);
-            }
+        foreach ($orderBy as $sort => $order) {
+            $qb->addOrderBy('x.' . $sort, $order);
         }
+
         if (array_key_exists('roles', $criteria)) {
             $roleIds = is_array($criteria['roles']) ? $criteria['roles'] : [$criteria['roles']];
             $qb->join('x.roles', 'r');
@@ -541,7 +540,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
-                /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
                     $event->prerequisites[] = $prerequisite;
                 }
@@ -608,7 +606,6 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             );
             $sessionId = $result['preRequisiteSessionId'];
             if (array_key_exists($sessionId, $sessionsMap)) {
-                /** @var CalendarEvent $event */
                 foreach ($sessionsMap[$sessionId] as $event) {
                     $event->prerequisites[] = $prerequisite;
                 }

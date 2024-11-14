@@ -76,8 +76,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getChildren());
-        $this->assertEmpty($this->object->getSessions());
+        $this->assertCount(0, $this->object->getChildren());
+        $this->assertCount(0, $this->object->getSessions());
     }
 
     /**

@@ -35,11 +35,11 @@ class TermTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCourses());
-        $this->assertEmpty($this->object->getProgramYears());
-        $this->assertEmpty($this->object->getSessions());
-        $this->assertEmpty($this->object->getChildren());
-        $this->assertEmpty($this->object->getAamcResourceTypes());
+        $this->assertCount(0, $this->object->getCourses());
+        $this->assertCount(0, $this->object->getProgramYears());
+        $this->assertCount(0, $this->object->getSessions());
+        $this->assertCount(0, $this->object->getChildren());
+        $this->assertCount(0, $this->object->getAamcResourceTypes());
     }
 
     public function testNotNullValidation(): void

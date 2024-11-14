@@ -51,7 +51,6 @@ class MeshTermTest extends EntityBase
     {
         $now = new DateTime();
         $createdAt = $this->object->getCreatedAt();
-        $this->assertTrue($createdAt instanceof DateTime);
         $diff = $now->diff($createdAt);
         $this->assertTrue($diff->s < 2);
     }

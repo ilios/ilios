@@ -63,26 +63,26 @@ class UserTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getAlerts());
-        $this->assertEmpty($this->object->getDirectedCourses());
-        $this->assertEmpty($this->object->getInstructorGroups());
-        $this->assertEmpty($this->object->getInstructedLearnerGroups());
-        $this->assertEmpty($this->object->getOfferings());
-        $this->assertEmpty($this->object->getProgramYears());
-        $this->assertEmpty($this->object->getRoles());
-        $this->assertEmpty($this->object->getLearnerGroups());
-        $this->assertEmpty($this->object->getLearningMaterials());
-        $this->assertEmpty($this->object->getCohorts());
-        $this->assertEmpty($this->object->getAuditLogs());
-        $this->assertEmpty($this->object->getReports());
-        $this->assertEmpty($this->object->getPendingUserUpdates());
-        $this->assertEmpty($this->object->getAdministeredSessions());
-        $this->assertEmpty($this->object->getAdministeredCourses());
-        $this->assertEmpty($this->object->getStudentAdvisedCourses());
-        $this->assertEmpty($this->object->getStudentAdvisedSessions());
-        $this->assertEmpty($this->object->getDirectedSchools());
-        $this->assertEmpty($this->object->getAdministeredSchools());
-        $this->assertEmpty($this->object->getDirectedPrograms());
+        $this->assertCount(0, $this->object->getAlerts());
+        $this->assertCount(0, $this->object->getDirectedCourses());
+        $this->assertCount(0, $this->object->getInstructorGroups());
+        $this->assertCount(0, $this->object->getInstructedLearnerGroups());
+        $this->assertCount(0, $this->object->getOfferings());
+        $this->assertCount(0, $this->object->getProgramYears());
+        $this->assertCount(0, $this->object->getRoles());
+        $this->assertCount(0, $this->object->getLearnerGroups());
+        $this->assertCount(0, $this->object->getLearningMaterials());
+        $this->assertCount(0, $this->object->getCohorts());
+        $this->assertCount(0, $this->object->getAuditLogs());
+        $this->assertCount(0, $this->object->getReports());
+        $this->assertCount(0, $this->object->getPendingUserUpdates());
+        $this->assertCount(0, $this->object->getAdministeredSessions());
+        $this->assertCount(0, $this->object->getAdministeredCourses());
+        $this->assertCount(0, $this->object->getStudentAdvisedCourses());
+        $this->assertCount(0, $this->object->getStudentAdvisedSessions());
+        $this->assertCount(0, $this->object->getDirectedSchools());
+        $this->assertCount(0, $this->object->getAdministeredSchools());
+        $this->assertCount(0, $this->object->getDirectedPrograms());
         $this->assertFalse($this->object->isRoot());
     }
 
@@ -617,9 +617,6 @@ class UserTest extends EntityBase
      */
     public function testSetCohorts(): void
     {
-        $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
-        $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
-
         $obj = m::mock(Cohort::class);
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
@@ -723,9 +720,6 @@ class UserTest extends EntityBase
      */
     public function testSetPrimaryCohort(): void
     {
-        $this->assertTrue(method_exists($this->object, 'setPrimaryCohort'));
-        $this->assertTrue(method_exists($this->object, 'getPrimaryCohort'));
-
         $obj = m::mock(Cohort::class);
         $this->object->addCohort($obj);
         $this->object->setPrimaryCohort($obj);
@@ -873,8 +867,6 @@ class UserTest extends EntityBase
      */
     public function testSetAuthentication(): void
     {
-        $this->assertTrue(method_exists($this->object, 'getAuthentication'), "Method getAuthentication missing");
-        $this->assertTrue(method_exists($this->object, 'setAuthentication'), "Method setAuthentication missing");
         $obj = m::mock(Authentication::class);
         $obj->shouldReceive('setUser')->with($this->object)->once();
         $this->object->setAuthentication($obj);

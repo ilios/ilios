@@ -41,7 +41,7 @@ class AlertChangeTypeTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getAlerts());
+        $this->assertCount(0, $this->object->getAlerts());
     }
 
     /**

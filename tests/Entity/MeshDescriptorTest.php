@@ -53,14 +53,13 @@ class MeshDescriptorTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCourses());
-        $this->assertEmpty($this->object->getCourseLearningMaterials());
-        $this->assertEmpty($this->object->getSessions());
-        $this->assertEmpty($this->object->getSessionLearningMaterials());
-        $this->assertEmpty($this->object->getTrees());
+        $this->assertCount(0, $this->object->getCourses());
+        $this->assertCount(0, $this->object->getCourseLearningMaterials());
+        $this->assertCount(0, $this->object->getSessions());
+        $this->assertCount(0, $this->object->getSessionLearningMaterials());
+        $this->assertCount(0, $this->object->getTrees());
         $now = new DateTime();
         $createdAt = $this->object->getCreatedAt();
-        $this->assertTrue($createdAt instanceof DateTime);
         $diff = $now->diff($createdAt);
         $this->assertTrue($diff->s < 2);
     }

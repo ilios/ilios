@@ -36,11 +36,9 @@ class MeshTest extends TestCase
     public function testSetup(): void
     {
         $obj1 = new Mesh($this->config, $this->client);
-        $this->assertTrue($obj1 instanceof Mesh);
         $this->assertTrue($obj1->isEnabled());
 
         $obj2 = new Mesh($this->config, null);
-        $this->assertTrue($obj2 instanceof Mesh);
         $this->assertFalse($obj2->isEnabled());
     }
 

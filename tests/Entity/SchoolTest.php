@@ -49,14 +49,14 @@ class SchoolTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getAlerts());
-        $this->assertEmpty($this->object->getCourses());
-        $this->assertEmpty($this->object->getPrograms());
-        $this->assertEmpty($this->object->getInstructorGroups());
-        $this->assertEmpty($this->object->getCompetencies());
-        $this->assertEmpty($this->object->getSessionTypes());
-        $this->assertEmpty($this->object->getVocabularies());
-        $this->assertEmpty($this->object->getConfigurations());
+        $this->assertCount(0, $this->object->getAlerts());
+        $this->assertCount(0, $this->object->getCourses());
+        $this->assertCount(0, $this->object->getPrograms());
+        $this->assertCount(0, $this->object->getInstructorGroups());
+        $this->assertCount(0, $this->object->getCompetencies());
+        $this->assertCount(0, $this->object->getSessionTypes());
+        $this->assertCount(0, $this->object->getVocabularies());
+        $this->assertCount(0, $this->object->getConfigurations());
     }
 
     /**

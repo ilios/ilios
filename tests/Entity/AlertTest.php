@@ -49,9 +49,9 @@ class AlertTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getChangeTypes());
-        $this->assertEmpty($this->object->getInstigators());
-        $this->assertEmpty($this->object->getRecipients());
+        $this->assertCount(0, $this->object->getChangeTypes());
+        $this->assertCount(0, $this->object->getInstigators());
+        $this->assertCount(0, $this->object->getRecipients());
     }
 
     /**

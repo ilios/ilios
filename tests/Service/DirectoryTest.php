@@ -36,14 +36,6 @@ class DirectoryTest extends TestCase
     }
 
     /**
-     * @covers \App\Service\Directory::__construct
-     */
-    public function testConstructor(): void
-    {
-        $this->assertTrue($this->obj instanceof Directory);
-    }
-
-    /**
      * @covers \App\Service\Directory::findByCampusId
      */
     public function testFindByCampusId(): void

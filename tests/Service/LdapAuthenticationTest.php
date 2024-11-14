@@ -53,12 +53,6 @@ class LdapAuthenticationTest extends TestCase
         unset($this->config);
     }
 
-
-    public function testConstructor(): void
-    {
-        $this->assertTrue($this->obj instanceof LdapAuthentication);
-    }
-
     public function testMissingValues(): void
     {
         $arr = [
@@ -71,7 +65,6 @@ class LdapAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -92,7 +85,6 @@ class LdapAuthenticationTest extends TestCase
             ->with('abc')->andReturn(null);
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -130,7 +122,6 @@ class LdapAuthenticationTest extends TestCase
 
         $result = $obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -159,7 +150,6 @@ class LdapAuthenticationTest extends TestCase
 
         $result = $this->obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'error');
@@ -200,7 +190,6 @@ class LdapAuthenticationTest extends TestCase
 
         $result = $obj->login($request);
 
-        $this->assertTrue($result instanceof JsonResponse);
         $content = $result->getContent();
         $data = json_decode($content);
         $this->assertSame($data->status, 'success');

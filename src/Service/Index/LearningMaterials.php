@@ -27,9 +27,6 @@ class LearningMaterials extends OpenSearchBase
         parent::__construct($config, $client);
     }
 
-    /**
-     * @param LearningMaterialDTO[] $materials
-     */
     public function index(array $materials): bool
     {
         foreach ($materials as $material) {

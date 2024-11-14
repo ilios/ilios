@@ -100,7 +100,6 @@ class LearningMaterials
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
-        /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
         $values =  [];
@@ -213,7 +212,6 @@ class LearningMaterials
             fn(LearningMaterialDTO $dto) => $authorizationChecker->isGranted(VoterPermissions::VIEW, $dto)
         );
 
-        /** @var SessionUserInterface $sessionUser */
         $sessionUser = $tokenStorage->getToken()->getUser();
 
         $values = array_map(function (LearningMaterialDTO $dto) use ($sessionUser) {

@@ -33,7 +33,7 @@ class VocabularyTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getTerms());
+        $this->assertCount(0, $this->object->getTerms());
     }
 
     public function testNotBlankValidation(): void

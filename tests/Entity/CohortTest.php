@@ -45,9 +45,9 @@ class CohortTest extends EntityBase
      */
     public function testConstructor(): void
     {
-        $this->assertEmpty($this->object->getCourses());
-        $this->assertEmpty($this->object->getLearnerGroups());
-        $this->assertEmpty($this->object->getUsers());
+        $this->assertCount(0, $this->object->getCourses());
+        $this->assertCount(0, $this->object->getLearnerGroups());
+        $this->assertCount(0, $this->object->getUsers());
     }
 
     /**

@@ -71,9 +71,6 @@ class Curriculum extends OpenSearchBase
         return $this->parseCurriculumSearchResults($results);
     }
 
-    /**
-     * @param IndexableCourse[] $courses
-     */
     public function index(array $courses): bool
     {
         foreach ($courses as $course) {
