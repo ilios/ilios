@@ -14,9 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
-/**
- * @group api_3
- */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 class CurrentSessionTest extends WebTestCase
 {
     use TestableJsonController;

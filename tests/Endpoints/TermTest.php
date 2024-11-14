@@ -23,8 +23,8 @@ use App\Tests\Fixture\LoadVocabularyData;
 
 /**
  * Term API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 class TermTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'terms';

@@ -10,8 +10,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity Competency
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Competency::class)]
 class CompetencyTest extends EntityBase
 {

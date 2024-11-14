@@ -24,8 +24,8 @@ use Mockery as m;
 
 /**
  * Class AddNewStudentsToSchoolCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

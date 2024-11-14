@@ -12,8 +12,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity Objective
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\User::class)]
 class UserTest extends EntityBase
 {

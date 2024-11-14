@@ -12,9 +12,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @group controller
- */
+#[\PHPUnit\Framework\Attributes\Group('controller')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\ConfigController::class)]
 class ConfigControllerTest extends WebTestCase
 {

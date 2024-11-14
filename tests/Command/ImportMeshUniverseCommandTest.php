@@ -19,8 +19,8 @@ use Mockery as m;
 /**
  * Class ImportMeshUniverseCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ImportMeshUniverseCommand::class)]
 class ImportMeshUniverseCommandTest extends KernelTestCase
 {

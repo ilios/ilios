@@ -20,8 +20,8 @@ use App\Tests\QEndpointTrait;
 
 /**
  * Session API endpoint Test.
- * @group api_2
  */
+#[\PHPUnit\Framework\Attributes\Group('api_2')]
 class SessionTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;

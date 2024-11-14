@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * CurriculumInventoryExport API endpoint Test.
  * This is a POST only endpoint so that is all we will test
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class CurriculumInventoryExportTest extends AbstractEndpoint
 {
     protected string $testName =  'curriculumInventoryExports';

@@ -8,8 +8,8 @@ use App\Entity\Alert;
 
 /**
  * Tests for Entity Alert
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Alert::class)]
 class AlertTest extends EntityBase
 {

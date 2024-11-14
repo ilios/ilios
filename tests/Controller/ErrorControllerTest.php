@@ -12,9 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
-/**
- * @group controller
- */
+#[\PHPUnit\Framework\Attributes\Group('controller')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\ErrorController::class)]
 class ErrorControllerTest extends WebTestCase
 {

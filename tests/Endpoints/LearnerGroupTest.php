@@ -14,8 +14,8 @@ use App\Tests\Fixture\LoadVocabularyData;
 
 /**
  * LearnerGroup API endpoint Test.
- * @group api_2
  */
+#[\PHPUnit\Framework\Attributes\Group('api_2')]
 class LearnerGroupTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'learnerGroups';

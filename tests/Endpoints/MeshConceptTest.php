@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadMeshTermData;
 
 /**
  * MeshConcept API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class MeshConceptTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshConcepts';

@@ -25,8 +25,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * UsereventTest API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class UsereventTest extends AbstractEndpoint
 {
     protected function getFixtures(): array

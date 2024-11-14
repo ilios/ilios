@@ -9,8 +9,8 @@ use App\Entity\SchoolConfig;
 
 /**
  * Tests for SchoolConfig entity.
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\SchoolConfig::class)]
 class SchoolConfigTest extends EntityBase
 {

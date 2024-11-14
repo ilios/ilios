@@ -16,8 +16,8 @@ use App\Tests\Fixture\LoadUserData;
 
 /**
  * InstructorGroup API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class InstructorGroupTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'instructorGroups';

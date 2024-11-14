@@ -10,8 +10,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventorySequence
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventorySequence::class)]
 class CurriculumInventorySequenceTest extends EntityBase
 {

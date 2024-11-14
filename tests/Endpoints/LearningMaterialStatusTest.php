@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadLearningMaterialStatusData;
 
 /**
  * LearningMaterialStatus API endpoint Test.
- * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 class LearningMaterialStatusTest extends AbstractReadEndpoint
 {
     protected string $testName =  'learningMaterialStatuses';

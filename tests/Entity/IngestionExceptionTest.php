@@ -8,8 +8,8 @@ use App\Entity\IngestionException;
 
 /**
  * Tests for Entity IngestionException
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\IngestionException::class)]
 class IngestionExceptionTest extends EntityBase
 {

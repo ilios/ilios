@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
 
 /**
  * UserSessionMaterialStatusTest API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'userSessionMaterialStatuses';

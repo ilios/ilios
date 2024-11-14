@@ -8,8 +8,8 @@ use App\Entity\AamcMethod;
 
 /**
  * Tests for Entity AamcMethod
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AamcMethod::class)]
 class AamcMethodTest extends EntityBase
 {

@@ -9,9 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class InflectorTest extends TestCase
 {
-    /**
-     * @group twice
-     */
+    #[\PHPUnit\Framework\Attributes\Group('twice')]
     public function testInstanceInflection(): void
     {
         $singular = 'aamcPcrs';
@@ -36,9 +34,7 @@ class InflectorTest extends TestCase
         $this->assertSame($camelSingular, 'aamcPcrs');
     }
 
-    /**
-     * @group twice
-     */
+    #[\PHPUnit\Framework\Attributes\Group('twice')]
     public function testLowerCaseInstanceInflection(): void
     {
         $singular = 'aamcpcrs';

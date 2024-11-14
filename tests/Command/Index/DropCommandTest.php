@@ -12,9 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
-/**
- * @group cli
- */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class DropCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

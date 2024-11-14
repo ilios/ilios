@@ -19,8 +19,8 @@ use Mockery as m;
  * Tests the Add Root User command.
  *
  * Class AddRootUserCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\AddRootUserCommand::class)]
 class AddRootUserCommandTest extends KernelTestCase
 {

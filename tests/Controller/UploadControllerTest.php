@@ -14,9 +14,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
-/**
- * @group controller
- */
+#[\PHPUnit\Framework\Attributes\Group('controller')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\UploadController::class)]
 class UploadControllerTest extends WebTestCase
 {

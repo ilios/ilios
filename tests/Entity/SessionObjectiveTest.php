@@ -12,8 +12,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity SessionObjective
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\SessionObjective::class)]
 class SessionObjectiveTest extends EntityBase
 {

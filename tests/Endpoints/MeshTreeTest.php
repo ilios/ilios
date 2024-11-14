@@ -8,8 +8,8 @@ use App\Tests\Fixture\LoadMeshTreeData;
 
 /**
  * MeshTree API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 class MeshTreeTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshTrees';

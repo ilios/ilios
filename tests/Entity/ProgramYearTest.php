@@ -12,8 +12,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity ProgramYear
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\ProgramYear::class)]
 class ProgramYearTest extends EntityBase
 {

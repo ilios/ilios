@@ -12,8 +12,8 @@ use DateTimeZone;
 
 /**
  * IlmSession API endpoint Test.
- * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 class IlmSessionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'ilmSessions';

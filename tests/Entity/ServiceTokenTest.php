@@ -7,9 +7,7 @@ namespace App\Tests\Entity;
 use App\Entity\ServiceToken;
 use DateTime;
 
-/**
- * @group model
- */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\ServiceToken::class)]
 class ServiceTokenTest extends EntityBase
 {

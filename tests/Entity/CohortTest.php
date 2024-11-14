@@ -11,8 +11,8 @@ use App\Entity\School;
 
 /**
  * Tests for Entity Cohort
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Cohort::class)]
 class CohortTest extends EntityBase
 {

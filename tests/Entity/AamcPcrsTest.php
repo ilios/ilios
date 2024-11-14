@@ -8,8 +8,8 @@ use App\Entity\AamcPcrs;
 
 /**
  * Tests for Entity AamcPcrs
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AamcPcrs::class)]
 class AamcPcrsTest extends EntityBase
 {

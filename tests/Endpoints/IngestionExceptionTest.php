@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * IngestionException API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 class IngestionExceptionTest extends AbstractReadEndpoint
 {
     protected string $testName =  'ingestionExceptions';

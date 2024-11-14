@@ -11,9 +11,7 @@ use App\Entity\UserSessionMaterialStatusInterface;
 use DateTime;
 use Mockery as m;
 
-/**
- * @group model
- */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\UserSessionMaterialStatus::class)]
 class UserSessionMaterialStatusTest extends EntityBase
 {

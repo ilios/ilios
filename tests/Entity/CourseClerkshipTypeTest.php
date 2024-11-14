@@ -8,8 +8,8 @@ use App\Entity\CourseClerkshipType;
 
 /**
  * Tests for Entity CourseClerkshipType
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CourseClerkshipType::class)]
 class CourseClerkshipTypeTest extends EntityBase
 {

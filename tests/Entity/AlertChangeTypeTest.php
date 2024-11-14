@@ -8,8 +8,8 @@ use App\Entity\AlertChangeType;
 
 /**
  * Tests for Entity AlertChangeType
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AlertChangeType::class)]
 class AlertChangeTypeTest extends EntityBase
 {

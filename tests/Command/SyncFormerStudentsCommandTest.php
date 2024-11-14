@@ -21,8 +21,8 @@ use Mockery as m;
 /**
  * Class SyncFormerStudentsCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class SyncFormerStudentsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

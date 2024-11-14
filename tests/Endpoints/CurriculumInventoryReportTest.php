@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * CurriculumInventoryReport API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventoryReports';

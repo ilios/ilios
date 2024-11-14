@@ -21,8 +21,8 @@ use App\Tests\QEndpointTrait;
 
 /**
  * MeshDescriptor API endpoint Test.
- * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 class MeshDescriptorTest extends AbstractMeshEndpoint
 {
     use QEndpointTrait;

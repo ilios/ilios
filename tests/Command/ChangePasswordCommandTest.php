@@ -23,8 +23,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Class ChangePasswordCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class ChangePasswordCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;

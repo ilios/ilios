@@ -8,8 +8,8 @@ use App\Entity\AamcResourceType;
 
 /**
  * Tests for Entity AamcResourceType
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AamcResourceType::class)]
 class AamcResourceTypeTest extends EntityBase
 {

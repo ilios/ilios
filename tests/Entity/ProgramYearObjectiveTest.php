@@ -13,8 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity ProgramYearObjective
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\ProgramYearObjective::class)]
 class ProgramYearObjectiveTest extends EntityBase
 {

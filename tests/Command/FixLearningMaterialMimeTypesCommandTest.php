@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class FixLearningMaterialMimeTypesCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -9,8 +9,9 @@ use App\Tests\Fixture\LoadVocabularyData;
 
 /**
  * Vocabulary API endpoint Test.
- * @group api_2
+ *
  */
+#[\PHPUnit\Framework\Attributes\Group('api_2')]
 class VocabularyTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'vocabularies';

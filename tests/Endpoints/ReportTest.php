@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadUserData;
 
 /**
  * Report API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 class ReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'reports';

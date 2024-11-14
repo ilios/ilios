@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * ProgramYear API endpoint Test.
- * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\API\ProgramYears::class)]
 class ProgramYearTest extends AbstractReadWriteEndpoint
 {

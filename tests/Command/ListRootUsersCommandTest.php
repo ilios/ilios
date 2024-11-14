@@ -17,8 +17,8 @@ use Mockery as m;
  * Tests the List Root Users command.
  *
  * Class ListRootUsersCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ListRootUsersCommand::class)]
 class ListRootUsersCommandTest extends KernelTestCase
 {

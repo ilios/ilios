@@ -16,8 +16,8 @@ use Mockery as m;
 /**
  * Class FindUserCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class FindUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

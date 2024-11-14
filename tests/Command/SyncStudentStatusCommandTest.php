@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class SyncStudentStatusCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

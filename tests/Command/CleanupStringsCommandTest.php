@@ -33,8 +33,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Class CleanupStringsCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\CleanupStringsCommand::class)]
 class CleanupStringsCommandTest extends KernelTestCase
 {

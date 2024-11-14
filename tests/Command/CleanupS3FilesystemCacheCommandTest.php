@@ -20,8 +20,8 @@ use Mockery as m;
 /**
  * Class CleanupS3FilesystemCacheCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

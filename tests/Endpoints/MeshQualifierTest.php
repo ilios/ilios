@@ -8,8 +8,8 @@ use App\Tests\Fixture\LoadMeshQualifierData;
 
 /**
  * MeshQualifier API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class MeshQualifierTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshQualifiers';

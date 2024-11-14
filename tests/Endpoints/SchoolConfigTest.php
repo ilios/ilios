@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadSchoolData;
 
 /**
  * SchoolConfig API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class SchoolConfigTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schoolConfigs';

@@ -21,8 +21,8 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class MigrateIlios2LearningMaterialsCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

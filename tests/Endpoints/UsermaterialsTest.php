@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * UsermaterialsTest API endpoint Test.
- * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 class UsermaterialsTest extends AbstractEndpoint
 {
     protected function getFixtures(): array

@@ -11,9 +11,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * @group controller
- */
+#[\PHPUnit\Framework\Attributes\Group('controller')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\IndexController::class)]
 class IndexControllerTest extends WebTestCase
 {

@@ -18,8 +18,8 @@ use Symfony\Component\Mime\Email;
 /**
  * Class SendTestEmailCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\SendChangeAlertsCommand::class)]
 class SendTestEmailCommandTest extends KernelTestCase
 {

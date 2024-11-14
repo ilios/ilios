@@ -13,8 +13,8 @@ use App\Tests\TestCase;
 
 /**
  * Class EntityBase
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 abstract class EntityBase extends TestCase
 {
     /**

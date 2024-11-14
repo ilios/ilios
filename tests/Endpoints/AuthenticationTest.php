@@ -21,8 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Authentication API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class AuthenticationTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'authentications';

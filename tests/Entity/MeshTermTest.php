@@ -9,8 +9,8 @@ use DateTime;
 
 /**
  * Tests for Entity MeshTerm
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshTerm::class)]
 class MeshTermTest extends EntityBase
 {

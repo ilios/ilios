@@ -15,8 +15,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity MeshDescriptor
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshDescriptor::class)]
 class MeshDescriptorTest extends EntityBase
 {

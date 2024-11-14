@@ -18,8 +18,8 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 
 /**
  * Competency API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class CompetencyTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'competencies';

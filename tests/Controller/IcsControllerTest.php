@@ -20,9 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\TestableJsonController;
 
-/**
- * @group controller
- */
+#[\PHPUnit\Framework\Attributes\Group('controller')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\IcsController::class)]
 class IcsControllerTest extends WebTestCase
 {

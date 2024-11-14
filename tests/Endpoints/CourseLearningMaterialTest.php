@@ -14,8 +14,8 @@ use function is_null;
 
 /**
  * CourseLearningMaterial API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseLearningMaterials';

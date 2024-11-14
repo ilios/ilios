@@ -10,8 +10,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity Vocabulary
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Vocabulary::class)]
 class VocabularyTest extends EntityBase
 {

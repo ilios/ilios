@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * AamcMethod API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class AcademicYearTest extends AbstractReadEndpoint
 {
     protected string $testName = 'academicYears';

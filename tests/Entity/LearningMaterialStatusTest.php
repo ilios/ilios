@@ -8,8 +8,8 @@ use App\Entity\LearningMaterialStatus;
 
 /**
  * Tests for Entity LearningMaterialStatus
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearningMaterialStatus::class)]
 class LearningMaterialStatusTest extends EntityBase
 {

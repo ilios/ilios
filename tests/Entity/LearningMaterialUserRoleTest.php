@@ -8,8 +8,8 @@ use App\Entity\LearningMaterialUserRole;
 
 /**
  * Tests for Entity LearningMaterialUserRole
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearningMaterialUserRole::class)]
 class LearningMaterialUserRoleTest extends EntityBase
 {

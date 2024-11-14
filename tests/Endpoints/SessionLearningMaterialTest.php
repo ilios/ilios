@@ -17,8 +17,8 @@ use function is_null;
 
 /**
  * SessionLearningMaterial API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'sessionLearningMaterials';

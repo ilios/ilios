@@ -8,8 +8,8 @@ use App\Entity\CurriculumInventoryAcademicLevel;
 
 /**
  * Tests for Entity CurriculumInventoryAcademicLevel
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryAcademicLevel::class)]
 class CurriculumInventoryAcademicLevelTest extends EntityBase
 {

@@ -14,7 +14,6 @@ use App\Tests\TestCase;
 /**
  * Class ManagerTest
  * @package App\Tests\Service\CurriculumInventory
- * @group model
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\Manager::class)]
 class ManagerTest extends TestCase

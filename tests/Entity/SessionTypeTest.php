@@ -11,8 +11,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity SessionType
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\SessionType::class)]
 class SessionTypeTest extends EntityBase
 {

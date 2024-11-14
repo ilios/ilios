@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadSessionTypeData;
 
 /**
  * AamcMethod API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class AamcMethodTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcMethods';

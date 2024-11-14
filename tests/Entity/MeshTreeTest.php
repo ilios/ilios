@@ -8,8 +8,8 @@ use App\Entity\MeshTree;
 
 /**
  * Tests for Entity MeshTree
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshTree::class)]
 class MeshTreeTest extends EntityBase
 {

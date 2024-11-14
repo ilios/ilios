@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadSessionTypeData;
 
 /**
  * AssessmentOption API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 class AssessmentOptionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'assessmentOptions';

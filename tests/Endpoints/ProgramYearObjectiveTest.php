@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * ProgramYearObjectiveTest API endpoint Test.
- * @group api_2
  */
+#[\PHPUnit\Framework\Attributes\Group('api_2')]
 class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'programYearObjectives';

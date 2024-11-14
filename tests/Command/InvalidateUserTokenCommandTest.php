@@ -20,8 +20,8 @@ use DateTime;
 
 /**
  * Class InvalidateUserTokenCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class InvalidateUserTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadLearningMaterialUserRoleData;
 
 /**
  * LearningMaterialUserRole API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class LearningMaterialUserRoleTest extends AbstractReadEndpoint
 {
     protected string $testName =  'learningMaterialUserRoles';

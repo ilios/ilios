@@ -8,8 +8,8 @@ use App\Entity\UserRole;
 
 /**
  * Tests for Entity UserRole
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\UserRole::class)]
 class UserRoleTest extends EntityBase
 {

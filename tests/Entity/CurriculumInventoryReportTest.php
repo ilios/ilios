@@ -11,8 +11,8 @@ use DateTime;
 
 /**
  * Tests for Entity CurriculumInventoryReport
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryReport::class)]
 class CurriculumInventoryReportTest extends EntityBase
 {

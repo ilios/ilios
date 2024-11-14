@@ -13,8 +13,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity CourseObjective
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CourseObjective::class)]
 class CourseObjectiveTest extends EntityBase
 {

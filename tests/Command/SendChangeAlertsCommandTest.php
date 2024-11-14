@@ -42,8 +42,8 @@ use Twig\Environment;
  * Send Change Alerts command test.
  *
  * Class SendChangeAlertsCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\SendChangeAlertsCommand::class)]
 class SendChangeAlertsCommandTest extends KernelTestCase
 {

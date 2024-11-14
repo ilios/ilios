@@ -10,8 +10,8 @@ use DateTime;
 
 /**
  * Tests for Entity IlmSession
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\IlmSession::class)]
 class IlmSessionTest extends EntityBase
 {

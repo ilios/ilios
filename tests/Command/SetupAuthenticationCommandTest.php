@@ -15,8 +15,8 @@ use Mockery as m;
 
 /**
  * Class SetupAuthenticationCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class SetupAuthenticationCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

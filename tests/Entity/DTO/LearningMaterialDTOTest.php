@@ -11,8 +11,8 @@ use DateTime;
 /**
  * Class LearningMaterialDTOTest
  * @package App\Tests\Entity\DTO
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\DTO\LearningMaterialDTO::class)]
 class LearningMaterialDTOTest extends TestCase
 {

@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * SessionObjectiveTest API endpoint Test.
- * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 class SessionObjectiveTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'sessionObjectives';

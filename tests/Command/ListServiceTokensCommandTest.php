@@ -18,8 +18,8 @@ use Mockery as m;
 
 /**
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ListServiceTokensCommand::class)]
 class ListServiceTokensCommandTest extends KernelTestCase
 {

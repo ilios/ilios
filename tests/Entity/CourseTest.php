@@ -15,8 +15,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity Course
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Course::class)]
 class CourseTest extends EntityBase
 {

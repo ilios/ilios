@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadUserRoleData;
 
 /**
  * UserRole API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 class UserRoleTest extends AbstractReadEndpoint
 {
     protected string $testName =  'userRoles';

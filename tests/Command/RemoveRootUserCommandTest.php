@@ -19,8 +19,8 @@ use Mockery as m;
  * Tests the Remove Root User command.
  *
  * Class RemoveRootUserCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\RemoveRootUserCommand::class)]
 class RemoveRootUserCommandTest extends KernelTestCase
 {

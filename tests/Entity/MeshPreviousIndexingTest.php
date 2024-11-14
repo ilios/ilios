@@ -8,8 +8,8 @@ use App\Entity\MeshPreviousIndexing;
 
 /**
  * Tests for Entity MeshPreviousIndexing
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshPreviousIndexing::class)]
 class MeshPreviousIndexingTest extends EntityBase
 {

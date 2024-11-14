@@ -16,10 +16,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-/**
- * @group cli
- *
- */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class WaitForDatabaseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

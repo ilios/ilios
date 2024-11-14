@@ -9,8 +9,8 @@ use App\Entity\User;
 
 /**
  * Tests for Entity PendingUserUpdate
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\PendingUserUpdate::class)]
 class PendingUserUpdateTest extends EntityBase
 {

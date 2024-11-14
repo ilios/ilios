@@ -10,8 +10,8 @@ use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 
 /**
  * CurriculumInventorySequence API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventorySequences';

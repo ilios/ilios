@@ -22,8 +22,8 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Offering API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class OfferingTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'offerings';

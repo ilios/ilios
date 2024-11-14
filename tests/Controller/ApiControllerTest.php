@@ -14,8 +14,8 @@ use App\Tests\Traits\TestableJsonController;
 
 /**
  * General API tests.
- * @group controller
  */
+#[\PHPUnit\Framework\Attributes\Group('controller')]
 class ApiControllerTest extends WebTestCase
 {
     use TestableJsonController;

@@ -10,8 +10,8 @@ use App\Tests\Fixture\LoadCompetencyData;
 
 /**
  * AamcPcrses API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class AamcPcrsTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcPcrses';
@@ -65,9 +65,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'aamcPcrses', 'competencies');
     }
 
-    /**
-     * @group twice
-     */
+    #[\PHPUnit\Framework\Attributes\Group('twice')]
     public function testInflection(): void
     {
         $singular = 'aamcPcrs';
@@ -92,9 +90,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         $this->assertSame($camelSingular, 'aamcPcrs');
     }
 
-    /**
-     * @group twice
-     */
+    #[\PHPUnit\Framework\Attributes\Group('twice')]
     public function testLowerCaseInflection(): void
     {
         $singular = 'aamcpcrs';

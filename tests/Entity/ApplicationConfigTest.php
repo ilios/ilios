@@ -8,8 +8,8 @@ use App\Entity\ApplicationConfig;
 
 /**
  * Tests for ApplicationConfig entity.
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\ApplicationConfig::class)]
 class ApplicationConfigTest extends EntityBase
 {

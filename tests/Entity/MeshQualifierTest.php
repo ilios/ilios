@@ -9,8 +9,8 @@ use DateTime;
 
 /**
  * Tests for Entity MeshQualifier
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshQualifier::class)]
 class MeshQualifierTest extends EntityBase
 {

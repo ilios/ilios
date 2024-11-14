@@ -8,8 +8,8 @@ use App\Entity\CurriculumInventoryExport;
 
 /**
  * Tests for Entity CurriculumInventoryExport
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryExport::class)]
 class CurriculumInventoryExportTest extends EntityBase
 {

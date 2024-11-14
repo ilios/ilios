@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * LearningMaterial API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\API\LearningMaterials::class)]
 class LearningMaterialTest extends AbstractReadWriteEndpoint
 {

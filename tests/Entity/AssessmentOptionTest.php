@@ -8,8 +8,8 @@ use App\Entity\AssessmentOption;
 
 /**
  * Tests for Entity AssessmentOption
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AssessmentOption::class)]
 class AssessmentOptionTest extends EntityBase
 {

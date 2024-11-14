@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadCourseData;
 
 /**
  * CourseClerkshipType API endpoint Test.
- * @group api_4
  */
+#[\PHPUnit\Framework\Attributes\Group('api_4')]
 class CourseClerkshipTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseClerkshipTypes';

@@ -18,8 +18,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity LearningMaterial
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearningMaterial::class)]
 class LearningMaterialTest extends EntityBase
 {

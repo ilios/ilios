@@ -12,10 +12,9 @@ use Mockery as m;
 
 /**
  * Tests for Entity Term
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Term::class)]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearningMaterial::class)]
 class TermTest extends EntityBase
 {
     protected Term $object;

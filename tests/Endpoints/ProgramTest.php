@@ -14,8 +14,8 @@ use App\Tests\Fixture\LoadTermData;
 
 /**
  * Program API endpoint Test.
- * @group api_1
  */
+#[\PHPUnit\Framework\Attributes\Group('api_1')]
 class ProgramTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'programs';

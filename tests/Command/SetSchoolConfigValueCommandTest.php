@@ -19,8 +19,8 @@ use Mockery as m;
 /**
  * Class SetSchoolConfigValueCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

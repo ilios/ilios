@@ -38,8 +38,8 @@ use Symfony\Component\Mailer\MailerInterface;
  * Send Teaching Reminder command test.
  *
  * Class SendTeachingRemindersCommandTest
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\SendTeachingRemindersCommand::class)]
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {

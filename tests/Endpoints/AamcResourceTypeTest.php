@@ -9,8 +9,8 @@ use App\Tests\Fixture\LoadTermData;
 
 /**
  * AamcResourceType API endpoint Test.
- * @group api_3
  */
+#[\PHPUnit\Framework\Attributes\Group('api_3')]
 class AamcResourceTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcResourceTypes';

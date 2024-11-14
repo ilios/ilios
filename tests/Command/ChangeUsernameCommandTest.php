@@ -20,8 +20,8 @@ use Mockery as m;
 /**
  * Class ChangeUsernameCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[\PHPUnit\Framework\Attributes\Group('cli')]
 class ChangeUsernameCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

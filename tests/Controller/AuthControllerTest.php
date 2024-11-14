@@ -21,9 +21,7 @@ use function array_key_exists;
 use function json_decode;
 use function var_export;
 
-/**
- * @group controller
- */
+#[\PHPUnit\Framework\Attributes\Group('controller')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\AuthController::class)]
 class AuthControllerTest extends WebTestCase
 {

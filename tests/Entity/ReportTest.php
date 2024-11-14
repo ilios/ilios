@@ -10,8 +10,8 @@ use Mockery as m;
 
 /**
  * Tests for Entity Report
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 #[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Report::class)]
 class ReportTest extends EntityBase
 {

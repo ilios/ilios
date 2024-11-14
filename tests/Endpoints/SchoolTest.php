@@ -16,8 +16,8 @@ use App\Tests\Fixture\LoadSessionTypeData;
 
 /**
  * School API endpoint Test.
- * @group api_5
  */
+#[\PHPUnit\Framework\Attributes\Group('api_5')]
 class SchoolTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schools';
