@@ -62,7 +62,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 2000)]
-    #[Assert\Url]
+    #[Assert\Url(requireTld: false)]
     protected ?string $url = null;
 
     #[ORM\Column(name: 'needs_accommodation', type: 'boolean')]
