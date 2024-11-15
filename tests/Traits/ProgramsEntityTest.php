@@ -18,14 +18,15 @@ class ProgramsEntityTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $traitName = ProgramsEntity::class;
-        $this->traitObject = $this->getObjectForTrait($traitName);
+        $this->traitObject = new class {
+            use ProgramsEntity;
+        };
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->object);
+        unset($this->traitObject);
     }
 
     public function testSetPrograms(): void

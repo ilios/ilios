@@ -18,14 +18,15 @@ class LearningMaterialsEntityTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $traitName = LearningMaterialsEntity::class;
-        $this->traitObject = $this->getObjectForTrait($traitName);
+        $this->traitObject = new class {
+            use LearningMaterialsEntity;
+        };
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->object);
+        unset($this->traitObject);
     }
 
     public function testSetLearningMaterials(): void

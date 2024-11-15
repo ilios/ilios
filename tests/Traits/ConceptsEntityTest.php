@@ -18,14 +18,15 @@ class ConceptsEntityTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $traitName = ConceptsEntity::class;
-        $this->traitObject = $this->getObjectForTrait($traitName);
+        $this->traitObject = new class {
+            use ConceptsEntity;
+        };
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->object);
+        unset($this->traitObject);
     }
 
     public function testSetConcepts(): void
