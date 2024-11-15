@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\ProgramYear;
 use App\Traits\ProgramYearsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Traits\ProgramYearsEntity::class)]
+#[CoversClass(ProgramYearsEntity::class)]
 class ProgramYearsEntityTest extends TestCase
 {
     private object $traitObject;

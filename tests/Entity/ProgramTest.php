@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Program;
 use App\Entity\SchoolInterface;
 use Mockery as m;
@@ -11,8 +13,8 @@ use Mockery as m;
 /**
  * Tests for Entity Program
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Program::class)]
+#[Group('model')]
+#[CoversClass(Program::class)]
 class ProgramTest extends EntityBase
 {
     protected Program $object;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Classes\CalendarEventUserContext;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
@@ -26,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * UsereventTest API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_1')]
+#[Group('api_1')]
 class UsereventTest extends AbstractEndpoint
 {
     protected function getFixtures(): array

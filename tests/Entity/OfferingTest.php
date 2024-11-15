@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Course;
 use App\Entity\Offering;
 use App\Entity\School;
@@ -15,8 +17,8 @@ use Mockery as m;
 /**
  * Tests for Entity Offering
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Offering::class)]
+#[Group('model')]
+#[CoversClass(Offering::class)]
 class OfferingTest extends EntityBase
 {
     protected Offering $object;

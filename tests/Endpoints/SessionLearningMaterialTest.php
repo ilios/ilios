@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Entity\SessionLearningMaterial;
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
@@ -18,7 +19,7 @@ use function is_null;
 /**
  * SessionLearningMaterial API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_1')]
+#[Group('api_1')]
 class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'sessionLearningMaterials';

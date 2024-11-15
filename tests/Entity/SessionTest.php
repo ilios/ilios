@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\IlmSession;
 use App\Entity\Course;
 use App\Entity\CourseInterface;
@@ -15,8 +17,8 @@ use Mockery as m;
 /**
  * Tests for Entity Session
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Session::class)]
+#[Group('model')]
+#[CoversClass(Session::class)]
 class SessionTest extends EntityBase
 {
     protected Session $object;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Program;
 use App\Entity\ProgramInterface;
 use App\Entity\ProgramYear;
@@ -13,8 +15,8 @@ use Mockery as m;
 /**
  * Tests for Entity ProgramYear
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\ProgramYear::class)]
+#[Group('model')]
+#[CoversClass(ProgramYear::class)]
 class ProgramYearTest extends EntityBase
 {
     protected ProgramYear $object;

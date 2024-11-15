@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\DownloadController;
 use App\Entity\LearningMaterial;
 use App\Tests\DataLoader\ApplicationConfigData;
 use App\Tests\Fixture\LoadApplicationConfigData;
@@ -21,8 +24,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
-#[\PHPUnit\Framework\Attributes\Group('controller')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\DownloadController::class)]
+#[Group('controller')]
+#[CoversClass(DownloadController::class)]
 class DownloadControllerTest extends WebTestCase
 {
     use TestableJsonController;

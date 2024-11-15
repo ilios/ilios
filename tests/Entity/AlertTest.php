@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Alert;
 
 /**
  * Tests for Entity Alert
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Alert::class)]
+#[Group('model')]
+#[CoversClass(Alert::class)]
 class AlertTest extends EntityBase
 {
     protected Alert $object;

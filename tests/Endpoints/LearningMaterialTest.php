@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\API\LearningMaterials;
 use App\Entity\LearningMaterialStatusInterface;
 use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\Fixture\LoadCourseData;
@@ -20,8 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * LearningMaterial API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\API\LearningMaterials::class)]
+#[Group('api_4')]
+#[CoversClass(LearningMaterials::class)]
 class LearningMaterialTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;

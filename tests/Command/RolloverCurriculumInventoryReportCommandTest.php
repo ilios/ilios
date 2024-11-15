@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\RolloverCurriculumInventoryReportCommand;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
@@ -19,7 +20,7 @@ use Mockery as m;
 /**
  * Class RolloverCurriculumInventoryReportCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

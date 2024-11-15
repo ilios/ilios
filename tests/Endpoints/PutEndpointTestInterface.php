@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * Interface PutEndpointTestInterface
  * @package App\Tests
@@ -34,10 +36,10 @@ interface PutEndpointTestInterface
      */
     public static function readOnlyPropertiesToTest(): array;
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
+    #[DataProvider('putsToTest')]
     public function testPut(string $key, mixed $value): void;
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
+    #[DataProvider('putsToTest')]
     public function testPutWithServiceToken(string $key, mixed $value): void;
 
     /**
@@ -52,7 +54,7 @@ interface PutEndpointTestInterface
      */
     public function testPutForAllDataWithServiceToken(): void;
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('readOnlyPropertiesToTest')]
+    #[DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnly(
         ?string $key = null,
         mixed $id = null,
@@ -60,7 +62,7 @@ interface PutEndpointTestInterface
         bool $skipped = false
     ): void;
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('readOnlyPropertiesToTest')]
+    #[DataProvider('readOnlyPropertiesToTest')]
     public function testPutReadOnlyWithServiceToken(
         ?string $key = null,
         mixed $id = null,

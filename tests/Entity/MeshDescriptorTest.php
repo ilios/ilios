@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\CourseObjectiveInterface;
@@ -16,8 +18,8 @@ use Mockery as m;
 /**
  * Tests for Entity MeshDescriptor
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshDescriptor::class)]
+#[Group('model')]
+#[CoversClass(MeshDescriptor::class)]
 class MeshDescriptorTest extends EntityBase
 {
     protected MeshDescriptor $object;

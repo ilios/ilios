@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AssessmentOption;
 
 /**
  * Tests for Entity AssessmentOption
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AssessmentOption::class)]
+#[Group('model')]
+#[CoversClass(AssessmentOption::class)]
 class AssessmentOptionTest extends EntityBase
 {
     protected AssessmentOption $object;

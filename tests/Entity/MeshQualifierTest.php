@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\MeshQualifier;
 use DateTime;
 
 /**
  * Tests for Entity MeshQualifier
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshQualifier::class)]
+#[Group('model')]
+#[CoversClass(MeshQualifier::class)]
 class MeshQualifierTest extends EntityBase
 {
     protected MeshQualifier $object;

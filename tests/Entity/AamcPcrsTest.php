@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AamcPcrs;
 
 /**
  * Tests for Entity AamcPcrs
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AamcPcrs::class)]
+#[Group('model')]
+#[CoversClass(AamcPcrs::class)]
 class AamcPcrsTest extends EntityBase
 {
     protected AamcPcrs $object;

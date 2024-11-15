@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\UploadController;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadUserData;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -14,8 +17,8 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
-#[\PHPUnit\Framework\Attributes\Group('controller')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\UploadController::class)]
+#[Group('controller')]
+#[CoversClass(UploadController::class)]
 class UploadControllerTest extends WebTestCase
 {
     use TestableJsonController;

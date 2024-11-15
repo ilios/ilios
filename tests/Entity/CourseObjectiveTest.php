@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Course;
 use App\Entity\CourseObjective;
 use App\Entity\MeshDescriptor;
@@ -14,8 +16,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Tests for Entity CourseObjective
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CourseObjective::class)]
+#[Group('model')]
+#[CoversClass(CourseObjective::class)]
 class CourseObjectiveTest extends EntityBase
 {
     protected CourseObjective $object;

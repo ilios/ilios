@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CourseInterface;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\LearningMaterial;
@@ -19,8 +21,8 @@ use Mockery as m;
 /**
  * Tests for Entity LearningMaterial
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearningMaterial::class)]
+#[Group('model')]
+#[CoversClass(LearningMaterial::class)]
 class LearningMaterialTest extends EntityBase
 {
     protected LearningMaterial $object;

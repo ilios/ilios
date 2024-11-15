@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Report;
 use App\Entity\UserInterface;
 use Mockery as m;
@@ -11,8 +13,8 @@ use Mockery as m;
 /**
  * Tests for Entity Report
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Report::class)]
+#[Group('model')]
+#[CoversClass(Report::class)]
 class ReportTest extends EntityBase
 {
     protected Report $object;

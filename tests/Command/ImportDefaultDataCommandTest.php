@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ImportDefaultDataCommand;
 use App\Entity\DTO\SchoolDTO;
 use App\Repository\AamcMethodRepository;
@@ -34,8 +36,8 @@ use Mockery as m;
  * Class ImportDefaultDataCommandTest
  * @package App\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ImportDefaultDataCommand::class)]
+#[Group('cli')]
+#[CoversClass(ImportDefaultDataCommand::class)]
 class ImportDefaultDataCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

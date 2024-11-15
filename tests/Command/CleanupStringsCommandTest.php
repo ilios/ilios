@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Command\CleanupStringsCommand;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\CourseObjectiveInterface;
@@ -34,8 +37,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * Class CleanupStringsCommandTest
  * @package App\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\CleanupStringsCommand::class)]
+#[Group('cli')]
+#[CoversClass(CleanupStringsCommand::class)]
 class CleanupStringsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -354,7 +357,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('correctLearningMaterialLinksProvider')]
+    #[DataProvider('correctLearningMaterialLinksProvider')]
     public function testCorrectLearningMaterialLinks(string $link, string $fixedLink): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -387,7 +390,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('correctLearningMaterialLinksWhithoutFetchingProvider')]
+    #[DataProvider('correctLearningMaterialLinksWhithoutFetchingProvider')]
     public function testCorrectLearningMaterialLinksWithoutFetching(string $link, string $fixedLink): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -420,7 +423,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('correctLearningMaterialLinksNoChangesProvider')]
+    #[DataProvider('correctLearningMaterialLinksNoChangesProvider')]
     public function testCorrectLearningMaterialLinksNoChanges(?string $link): void
     {
         $lm = m::mock(LearningMaterialInterface::class);

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\ConfigController;
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Traits\TestableJsonController;
 use Composer\InstalledVersions;
@@ -12,8 +15,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-#[\PHPUnit\Framework\Attributes\Group('controller')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\ConfigController::class)]
+#[Group('controller')]
+#[CoversClass(ConfigController::class)]
 class ConfigControllerTest extends WebTestCase
 {
     use TestableJsonController;

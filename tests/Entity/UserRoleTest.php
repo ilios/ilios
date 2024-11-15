@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\UserRole;
 
 /**
  * Tests for Entity UserRole
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\UserRole::class)]
+#[Group('model')]
+#[CoversClass(UserRole::class)]
 class UserRoleTest extends EntityBase
 {
     protected UserRole $object;

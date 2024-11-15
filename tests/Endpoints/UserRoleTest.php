@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserRoleData;
 
 /**
  * UserRole API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
+#[Group('api_4')]
 class UserRoleTest extends AbstractReadEndpoint
 {
     protected string $testName =  'userRoles';

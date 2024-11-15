@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryExport;
 
 /**
  * Tests for Entity CurriculumInventoryExport
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryExport::class)]
+#[Group('model')]
+#[CoversClass(CurriculumInventoryExport::class)]
 class CurriculumInventoryExportTest extends EntityBase
 {
     protected CurriculumInventoryExport $object;

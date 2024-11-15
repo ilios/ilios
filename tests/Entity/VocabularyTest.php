@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\SchoolInterface;
 use App\Entity\Vocabulary;
 use Mockery as m;
@@ -11,8 +13,8 @@ use Mockery as m;
 /**
  * Tests for Entity Vocabulary
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Vocabulary::class)]
+#[Group('model')]
+#[CoversClass(Vocabulary::class)]
 class VocabularyTest extends EntityBase
 {
     protected Vocabulary $object;

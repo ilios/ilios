@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Command\SendChangeAlertsCommand;
 use App\Command\SendTestEmailCommand;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -19,8 +22,8 @@ use Symfony\Component\Mime\Email;
  * Class SendTestEmailCommandTest
  * @package App\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\SendChangeAlertsCommand::class)]
+#[Group('cli')]
+#[CoversClass(SendChangeAlertsCommand::class)]
 class SendTestEmailCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

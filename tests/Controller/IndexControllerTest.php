@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\IndexController;
 use App\Command\UpdateFrontendCommand;
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -11,8 +14,8 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-#[\PHPUnit\Framework\Attributes\Group('controller')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\IndexController::class)]
+#[Group('controller')]
+#[CoversClass(IndexController::class)]
 class IndexControllerTest extends WebTestCase
 {
     use MockeryPHPUnitIntegration;

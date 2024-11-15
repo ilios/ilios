@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadUserData;
@@ -14,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
-#[\PHPUnit\Framework\Attributes\Group('api_3')]
+#[Group('api_3')]
 class CurrentSessionTest extends WebTestCase
 {
     use TestableJsonController;

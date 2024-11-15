@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\MeshTerm;
 use DateTime;
 
 /**
  * Tests for Entity MeshTerm
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshTerm::class)]
+#[Group('model')]
+#[CoversClass(MeshTerm::class)]
 class MeshTermTest extends EntityBase
 {
     protected MeshTerm $object;

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadMeshConceptData;
 use App\Tests\Fixture\LoadMeshTermData;
 
 /**
  * MeshConcept API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_5')]
+#[Group('api_5')]
 class MeshConceptTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshConcepts';

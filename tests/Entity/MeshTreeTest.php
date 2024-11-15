@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\MeshTree;
 
 /**
  * Tests for Entity MeshTree
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\MeshTree::class)]
+#[Group('model')]
+#[CoversClass(MeshTree::class)]
 class MeshTreeTest extends EntityBase
 {
     protected MeshTree $object;

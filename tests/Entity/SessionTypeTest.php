@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\SchoolInterface;
 use App\Entity\SessionType;
 use Exception;
@@ -12,8 +14,8 @@ use Mockery as m;
 /**
  * Tests for Entity SessionType
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\SessionType::class)]
+#[Group('model')]
+#[CoversClass(SessionType::class)]
 class SessionTypeTest extends EntityBase
 {
     protected SessionType $object;

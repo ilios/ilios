@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\WaitForIndexCommand;
 use App\Service\Index\Manager;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -17,7 +18,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class WaitForIndexCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

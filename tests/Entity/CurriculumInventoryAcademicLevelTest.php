@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryAcademicLevel;
 
 /**
  * Tests for Entity CurriculumInventoryAcademicLevel
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryAcademicLevel::class)]
+#[Group('model')]
+#[CoversClass(CurriculumInventoryAcademicLevel::class)]
 class CurriculumInventoryAcademicLevelTest extends EntityBase
 {
     protected CurriculumInventoryAcademicLevel $object;

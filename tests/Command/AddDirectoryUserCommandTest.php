@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\AddDirectoryUserCommand;
 use App\Entity\AuthenticationInterface;
 use App\Entity\SchoolInterface;
@@ -23,7 +24,7 @@ use Mockery as m;
 /**
  * Class AddDirectoryUserCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class AddDirectoryUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

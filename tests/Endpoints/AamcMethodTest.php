@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAamcMethodData;
 use App\Tests\Fixture\LoadSessionTypeData;
 
 /**
  * AamcMethod API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_1')]
+#[Group('api_1')]
 class AamcMethodTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcMethods';

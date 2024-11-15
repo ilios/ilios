@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\SchoolInterface;
 use App\Entity\InstructorGroup;
 use Mockery as m;
@@ -11,8 +13,8 @@ use Mockery as m;
 /**
  * Tests for Entity InstructorGroup
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\InstructorGroup::class)]
+#[Group('model')]
+#[CoversClass(InstructorGroup::class)]
 class InstructorGroupTest extends EntityBase
 {
     protected InstructorGroup $object;

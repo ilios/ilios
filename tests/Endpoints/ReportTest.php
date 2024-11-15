@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadUserData;
 
 /**
  * Report API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
+#[Group('api_4')]
 class ReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'reports';

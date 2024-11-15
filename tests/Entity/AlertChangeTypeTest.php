@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AlertChangeType;
 
 /**
  * Tests for Entity AlertChangeType
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AlertChangeType::class)]
+#[Group('model')]
+#[CoversClass(AlertChangeType::class)]
 class AlertChangeTypeTest extends EntityBase
 {
     protected AlertChangeType $object;

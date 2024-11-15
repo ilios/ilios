@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\ProgramData;
 use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * CurriculumInventoryReport API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_5')]
+#[Group('api_5')]
 class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventoryReports';

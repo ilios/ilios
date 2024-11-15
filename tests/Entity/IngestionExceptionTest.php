@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\IngestionException;
 
 /**
  * Tests for Entity IngestionException
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\IngestionException::class)]
+#[Group('model')]
+#[CoversClass(IngestionException::class)]
 class IngestionExceptionTest extends EntityBase
 {
     protected IngestionException $object;

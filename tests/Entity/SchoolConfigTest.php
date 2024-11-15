@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\School;
 use App\Entity\SchoolConfig;
 
 /**
  * Tests for SchoolConfig entity.
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\SchoolConfig::class)]
+#[Group('model')]
+#[CoversClass(SchoolConfig::class)]
 class SchoolConfigTest extends EntityBase
 {
     protected SchoolConfig $object;

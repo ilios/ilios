@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Repository\DataImportRepositoryInterface;
 use App\Service\DefaultDataImporter;
 use App\Service\DefaultDataLoader;
@@ -13,7 +14,7 @@ use Mockery as m;
 /**
  * @package App\Tests\Service
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\DefaultDataImporter::class)]
+#[CoversClass(DefaultDataImporter::class)]
 class DefaultDataImporterTest extends TestCase
 {
     protected m\MockInterface $repository;

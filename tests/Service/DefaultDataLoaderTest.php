@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Service\DataimportFileLocator;
 use App\Service\DefaultDataImporter;
 use App\Service\DefaultDataLoader;
@@ -13,7 +14,7 @@ use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 /**
  * @package App\Tests\Service
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\DefaultDataLoader::class)]
+#[CoversClass(DefaultDataLoader::class)]
 class DefaultDataLoaderTest extends KernelTestCase
 {
     protected string $projectRootDir;

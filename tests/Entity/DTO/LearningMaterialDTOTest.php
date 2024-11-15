@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity\DTO;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Tests\TestCase;
 use DateTime;
@@ -12,8 +14,8 @@ use DateTime;
  * Class LearningMaterialDTOTest
  * @package App\Tests\Entity\DTO
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\DTO\LearningMaterialDTO::class)]
+#[Group('model')]
+#[CoversClass(LearningMaterialDTO::class)]
 class LearningMaterialDTOTest extends TestCase
 {
     protected LearningMaterialDTO $dto;

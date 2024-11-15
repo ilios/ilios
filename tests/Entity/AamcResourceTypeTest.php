@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AamcResourceType;
 
 /**
  * Tests for Entity AamcResourceType
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AamcResourceType::class)]
+#[Group('model')]
+#[CoversClass(AamcResourceType::class)]
 class AamcResourceTypeTest extends EntityBase
 {
     protected AamcResourceType $object;

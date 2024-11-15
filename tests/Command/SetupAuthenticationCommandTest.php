@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\SetupAuthenticationCommand;
 use App\Entity\ApplicationConfigInterface;
 use App\Repository\ApplicationConfigRepository;
@@ -16,7 +17,7 @@ use Mockery as m;
 /**
  * Class SetupAuthenticationCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class SetupAuthenticationCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

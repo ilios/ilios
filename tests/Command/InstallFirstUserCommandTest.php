@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Classes\SessionUserInterface;
 use App\Entity\AuthenticationInterface;
 use App\Entity\SchoolInterface;
@@ -25,7 +26,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Class InstallFirstUserCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class InstallFirstUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

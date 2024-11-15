@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CourseInterface;
 use App\Entity\SessionInterface;
 use App\Entity\Term;
@@ -13,8 +15,8 @@ use Mockery as m;
 /**
  * Tests for Entity Term
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Term::class)]
+#[Group('model')]
+#[CoversClass(Term::class)]
 class TermTest extends EntityBase
 {
     protected Term $object;

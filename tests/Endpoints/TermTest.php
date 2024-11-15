@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAamcResourceTypeData;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
@@ -24,7 +25,7 @@ use App\Tests\Fixture\LoadVocabularyData;
 /**
  * Term API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
+#[Group('api_4')]
 class TermTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'terms';

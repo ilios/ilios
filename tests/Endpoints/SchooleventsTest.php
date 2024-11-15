@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Tests\DataLoader\CourseData;
@@ -28,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * SchooleventsTest API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_2')]
+#[Group('api_2')]
 class SchooleventsTest extends AbstractEndpoint
 {
     protected function getFixtures(): array

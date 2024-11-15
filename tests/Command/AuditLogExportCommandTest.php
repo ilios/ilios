@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Command\InstallFirstUserCommand;
 use App\Command\AuditLogExportCommand;
 use App\Repository\AuditLogRepository;
 use DateTime;
@@ -23,8 +26,8 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @link http://symfony.com/doc/current/cookbook/console/console_command.html#testing-commands
  * @link http://www.ardianys.com/2013/04/symfony2-test-console-command-which-use.html
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\InstallFirstUserCommand::class)]
+#[Group('cli')]
+#[CoversClass(InstallFirstUserCommand::class)]
 class AuditLogExportCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

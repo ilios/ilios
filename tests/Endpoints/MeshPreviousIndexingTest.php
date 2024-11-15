@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshConceptData;
 use App\Tests\Fixture\LoadMeshPreviousIndexingData;
@@ -13,7 +14,7 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 /**
  * MeshPreviousIndexing API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
+#[Group('api_4')]
 class MeshPreviousIndexingTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshPreviousIndexings';

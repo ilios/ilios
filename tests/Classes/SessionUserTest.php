@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use App\Classes\UserRoles;
@@ -19,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 /**
  * Class SessionUserTest
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Classes\SessionUser::class)]
+#[CoversClass(SessionUser::class)]
 class SessionUserTest extends TestCase
 {
     protected m\MockInterface $iliosUser;
@@ -501,7 +503,7 @@ class SessionUserTest extends TestCase
         $this->assertEquals($roles, $this->sessionUser->rolesInCourse($courseId));
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('rolesInSessionProvider')]
+    #[DataProvider('rolesInSessionProvider')]
     public function testRolesInSession(
         int $sessionId,
         array $administeredSessions,

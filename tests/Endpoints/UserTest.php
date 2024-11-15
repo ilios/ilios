@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAlertData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCourseData;
@@ -25,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * User API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_1')]
+#[Group('api_1')]
 class UserTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;

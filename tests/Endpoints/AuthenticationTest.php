@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Tests\DataLoader\UserData;
 use App\Tests\Fixture\LoadAlertData;
 use App\Tests\Fixture\LoadAuthenticationData;
@@ -22,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Authentication API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_5')]
+#[Group('api_5')]
 class AuthenticationTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'authentications';
@@ -327,7 +329,7 @@ class AuthenticationTest extends AbstractReadWriteEndpoint
      * Overridden because authentication users
      * 'user' as the Primary Key
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('putsToTest')]
+    #[DataProvider('putsToTest')]
     protected function runPutTest(string $key, mixed $value, string $jwt): void
     {
         $dataLoader = $this->getDataLoader();

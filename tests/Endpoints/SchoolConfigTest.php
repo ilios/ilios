@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
 
 /**
  * SchoolConfig API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_5')]
+#[Group('api_5')]
 class SchoolConfigTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schoolConfigs';

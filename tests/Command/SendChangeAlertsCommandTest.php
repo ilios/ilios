@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Command\SendChangeAlertsCommand as Command;
 use App\Entity\Alert;
 use App\Entity\AlertChangeType;
@@ -43,8 +46,8 @@ use Twig\Environment;
  *
  * Class SendChangeAlertsCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\SendChangeAlertsCommand::class)]
+#[Group('cli')]
+#[CoversClass(Command::class)]
 class SendChangeAlertsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -105,7 +108,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      *
      * @param AuditLogInterface[] $auditLogs
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('executeProvider')]
+    #[DataProvider('executeProvider')]
     public function testExecuteDryRun(AlertInterface $alert, OfferingInterface $offering, array $auditLogs): void
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
@@ -187,7 +190,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
      *
      * @param AuditLogInterface[] $auditLogs
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('executeProvider')]
+    #[DataProvider('executeProvider')]
     public function testExecute(AlertInterface $alert, OfferingInterface $offering, array $auditLogs): void
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
@@ -216,7 +219,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
         $this->assertEquals('No undispatched offering alerts found.', trim($output));
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('executeNoRecipientsConfiguredProvider')]
+    #[DataProvider('executeNoRecipientsConfiguredProvider')]
     public function testExecuteNoRecipientsConfigured(AlertInterface $alert, OfferingInterface $offering): void
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
@@ -235,7 +238,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('executeRecipientWithoutEmailProvider')]
+    #[DataProvider('executeRecipientWithoutEmailProvider')]
     public function testExecuteRecipientWithoutEmail(AlertInterface $alert, OfferingInterface $offering): void
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);
@@ -257,7 +260,7 @@ class SendChangeAlertsCommandTest extends KernelTestCase
     }
 
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('executeDeletedOfferingProvider')]
+    #[DataProvider('executeDeletedOfferingProvider')]
     public function testExecuteDeletedOffering(AlertInterface $alert, OfferingInterface $offering): void
     {
         $this->alertRepository->shouldReceive('findBy')->andReturn([ $alert ]);

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseClerkshipTypeData;
 use App\Tests\Fixture\LoadCourseData;
 
 /**
  * CourseClerkshipType API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
+#[Group('api_4')]
 class CourseClerkshipTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseClerkshipTypes';

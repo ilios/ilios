@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Cohort;
 use App\Entity\Program;
 use App\Entity\ProgramYear;
@@ -12,8 +14,8 @@ use App\Entity\School;
 /**
  * Tests for Entity Cohort
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\Cohort::class)]
+#[Group('model')]
+#[CoversClass(Cohort::class)]
 class CohortTest extends EntityBase
 {
     protected Cohort $object;

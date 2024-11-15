@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\Endpoints\PutEndpointTestInterface as PutEndpointInterface;
 
 /**
  * PendingUserUpdate API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_3')]
+#[Group('api_3')]
 class PendingUserUpdateTest extends AbstractReadEndpoint implements PutEndpointInterface, DeleteEndpointTestInterface
 {
     use PutEndpointTestable;

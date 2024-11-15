@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SessionData;
@@ -28,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Course API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_2')]
+#[Group('api_2')]
 class CourseTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;

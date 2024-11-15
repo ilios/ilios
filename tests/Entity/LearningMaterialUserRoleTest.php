@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\LearningMaterialUserRole;
 
 /**
  * Tests for Entity LearningMaterialUserRole
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearningMaterialUserRole::class)]
+#[Group('model')]
+#[CoversClass(LearningMaterialUserRole::class)]
 class LearningMaterialUserRoleTest extends EntityBase
 {
     protected LearningMaterialUserRole $object;

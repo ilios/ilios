@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventoryReportInterface;
@@ -28,7 +30,7 @@ use function count;
 /**
  * Class ReportRolloverTest
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\ReportRollover::class)]
+#[CoversClass(ReportRollover::class)]
 class ReportRolloverTest extends TestCase
 {
     protected MockInterface $reportRepository;
@@ -155,7 +157,7 @@ class ReportRolloverTest extends TestCase
         );
         return [[ $report ]];
     }
-    #[\PHPUnit\Framework\Attributes\DataProvider('reportProvider')]
+    #[DataProvider('reportProvider')]
     public function testRollover(CurriculumInventoryReport $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', 2022);
@@ -202,21 +204,21 @@ class ReportRolloverTest extends TestCase
         }
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('reportProvider')]
+    #[DataProvider('reportProvider')]
     public function testRolloverKeepName(CurriculumInventoryReportInterface $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), null, 'new description', 2022);
         $this->assertEquals($report->getName(), $newReport->getName());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('reportProvider')]
+    #[DataProvider('reportProvider')]
     public function testRolloverKeepDescription(CurriculumInventoryReportInterface $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', null, 2022);
         $this->assertEquals($report->getDescription(), $newReport->getDescription());
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('reportProvider')]
+    #[DataProvider('reportProvider')]
     public function testRolloverKeepYear(CurriculumInventoryReportInterface $report): void
     {
         $newReport = $this->service->rollover($report, $report->getProgram(), 'new name', 'new description', null);
@@ -266,7 +268,7 @@ class ReportRolloverTest extends TestCase
         }
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('reportProvider')]
+    #[DataProvider('reportProvider')]
     public function testRolloverWithDifferentProgram(CurriculumInventoryReportInterface $report): void
     {
         $program = new Program();

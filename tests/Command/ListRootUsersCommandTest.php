@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ListRootUsersCommand;
 use App\Entity\DTO\UserDTO;
 use App\Repository\UserRepository;
@@ -18,8 +20,8 @@ use Mockery as m;
  *
  * Class ListRootUsersCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ListRootUsersCommand::class)]
+#[Group('cli')]
+#[CoversClass(ListRootUsersCommand::class)]
 class ListRootUsersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

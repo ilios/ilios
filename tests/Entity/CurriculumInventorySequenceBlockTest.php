@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlock;
@@ -14,8 +17,8 @@ use Mockery as m;
 /**
  * Tests for Entity CurriculumInventorySequenceBlock
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventorySequenceBlock::class)]
+#[Group('model')]
+#[CoversClass(CurriculumInventorySequenceBlock::class)]
 class CurriculumInventorySequenceBlockTest extends EntityBase
 {
     protected CurriculumInventorySequenceBlock $object;
@@ -159,7 +162,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('compareSequenceBlocksWithOrderedStrategyProvider')]
+    #[DataProvider('compareSequenceBlocksWithOrderedStrategyProvider')]
     public function testCompareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
@@ -201,7 +204,7 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
     }
 
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('compareSequenceBlocksWithDefaultStrategyProvider')]
+    #[DataProvider('compareSequenceBlocksWithDefaultStrategyProvider')]
     public function testCompareSequenceBlocksWithDefaultStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,

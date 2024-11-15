@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ExportMeshUniverseCommand;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\CsvWriter;
@@ -13,8 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ExportMeshUniverseCommand::class)]
+#[Group('cli')]
+#[CoversClass(ExportMeshUniverseCommand::class)]
 class ExportMeshUniverseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\SyncAllUsersCommand;
 use App\Entity\PendingUserUpdateInterface;
 use App\Repository\AuthenticationRepository;
@@ -22,7 +23,7 @@ use Mockery as m;
 /**
  * Class SyncAllUsersCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class SyncAllUsersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

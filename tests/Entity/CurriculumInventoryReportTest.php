@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Entity\School;
@@ -12,8 +14,8 @@ use DateTime;
 /**
  * Tests for Entity CurriculumInventoryReport
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryReport::class)]
+#[Group('model')]
+#[CoversClass(CurriculumInventoryReport::class)]
 class CurriculumInventoryReportTest extends EntityBase
 {
     protected CurriculumInventoryReport $object;

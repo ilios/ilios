@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReport;
 use App\Service\CurriculumInventory\Manager;
 use App\Repository\CurriculumInventoryReportRepository;
@@ -15,7 +16,7 @@ use App\Tests\TestCase;
  * Class ManagerTest
  * @package App\Tests\Service\CurriculumInventory
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\CurriculumInventory\Manager::class)]
+#[CoversClass(Manager::class)]
 class ManagerTest extends TestCase
 {
     protected m\MockInterface $repository;

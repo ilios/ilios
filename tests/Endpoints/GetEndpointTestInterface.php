@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * Interface GetEndpointTestInterface
  * @package App\Tests
@@ -53,10 +55,10 @@ interface GetEndpointTestInterface
      */
     public function testNotFoundWithServiceToken(): void;
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('filtersToTest')]
+    #[DataProvider('filtersToTest')]
     public function testFilters(array $dataKeys = [], array $filterParts = []): void;
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('filtersToTest')]
+    #[DataProvider('filtersToTest')]
     public function testFiltersWithServiceToken(array $dataKeys = [], array $filterParts = []): void;
 
     /**
@@ -67,7 +69,7 @@ interface GetEndpointTestInterface
     /**
      * Tests reading data from the GraphQL search endpoint while providing input for filtering.
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('graphQLFiltersToTest')]
+    #[DataProvider('graphQLFiltersToTest')]
     public function testGraphQLFilters(array $dataKeys = [], array $filterParts = [], bool $skipped = false): void;
 
     /**

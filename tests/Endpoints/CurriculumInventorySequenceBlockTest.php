@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadSessionData;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * CurriculumInventorySequenceBlock API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
+#[Group('api_4')]
 class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventorySequenceBlocks';

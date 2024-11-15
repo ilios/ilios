@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Classes\DiskSpace;
 use App\Command\CleanupS3FilesystemCacheCommand;
 use App\Service\FilesystemFactory;
@@ -21,7 +22,7 @@ use Mockery as m;
  * Class CleanupS3FilesystemCacheCommandTest
  * @package App\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

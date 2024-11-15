@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Command\CreateServiceTokenCommand;
 use App\Entity\ServiceToken;
@@ -23,8 +26,8 @@ use Mockery as m;
 /**
  * @package App\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\CreateServiceTokenCommand::class)]
+#[Group('cli')]
+#[CoversClass(CreateServiceTokenCommand::class)]
 class CreateServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -112,7 +115,7 @@ class CreateServiceTokenCommandTest extends KernelTestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('createTokenWithWriteableSchoolsProvider')]
+    #[DataProvider('createTokenWithWriteableSchoolsProvider')]
     public function testCreateTokenWithWriteableSchools(
         string $schoolIdsInput,
         array $expectedSchoolIdsInToken

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Classes\SessionUserInterface;
 use App\Command\ChangePasswordCommand;
 use App\Entity\AuthenticationInterface;
@@ -24,7 +25,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  * Class ChangePasswordCommandTest
  * @package App\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
+#[Group('cli')]
 class ChangePasswordCommandTest extends KernelTestCase
 {
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;

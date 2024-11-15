@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CourseObjective;
 use App\Entity\CourseObjectiveInterface;
 use App\Command\SendTeachingRemindersCommand;
@@ -39,8 +41,8 @@ use Symfony\Component\Mailer\MailerInterface;
  *
  * Class SendTeachingRemindersCommandTest
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\SendTeachingRemindersCommand::class)]
+#[Group('cli')]
+#[CoversClass(SendTeachingRemindersCommand::class)]
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

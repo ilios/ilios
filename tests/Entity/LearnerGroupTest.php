@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CohortInterface;
 use App\Entity\Cohort;
 use App\Entity\LearnerGroup;
@@ -15,8 +17,8 @@ use Mockery as m;
 /**
  * Tests for Entity LearnerGroup
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\LearnerGroup::class)]
+#[Group('model')]
+#[CoversClass(LearnerGroup::class)]
 class LearnerGroupTest extends EntityBase
 {
     protected LearnerGroup $object;

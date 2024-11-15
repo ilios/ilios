@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialStatusData;
 
 /**
  * LearningMaterialStatus API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_3')]
+#[Group('api_3')]
 class LearningMaterialStatusTest extends AbstractReadEndpoint
 {
     protected string $testName =  'learningMaterialStatuses';

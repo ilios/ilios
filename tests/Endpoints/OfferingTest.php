@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\Alert;
 use App\Entity\AlertChangeTypeInterface;
 use App\Service\JsonWebTokenManager;
@@ -23,7 +25,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * Offering API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_1')]
+#[Group('api_1')]
 class OfferingTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'offerings';
@@ -125,7 +127,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         parent::testGraphQL();
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('changeTypePutsToTest')]
+    #[DataProvider('changeTypePutsToTest')]
     public function testPutTriggerChangeType(string $key, mixed $value, int $changeType): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -147,7 +149,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
         $this->checkAlertChange($id, $changeType, UserData::ROOT_USER_ID, null, $data['id']);
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('changeTypePutsToTest')]
+    #[DataProvider('changeTypePutsToTest')]
     public function testPatchJsonApiTriggerChangeType(string $key, mixed $value, int $changeType): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

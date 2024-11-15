@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Alert;
 use App\Entity\AlertChangeType;
 use App\Entity\AlertChangeTypeInterface;
@@ -24,7 +25,7 @@ use App\Tests\TestCase;
  * Class ChangeAlertHandlerTest
  * @package App\Tests\Service
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Service\ChangeAlertHandler::class)]
+#[CoversClass(ChangeAlertHandler::class)]
 class ChangeAlertHandlerTest extends TestCase
 {
     protected m\MockInterface $mockAlertRepository;

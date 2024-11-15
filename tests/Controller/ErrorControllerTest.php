@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\ErrorController;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -12,8 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
-#[\PHPUnit\Framework\Attributes\Group('controller')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Controller\ErrorController::class)]
+#[Group('controller')]
+#[CoversClass(ErrorController::class)]
 class ErrorControllerTest extends WebTestCase
 {
     use TestableJsonController;

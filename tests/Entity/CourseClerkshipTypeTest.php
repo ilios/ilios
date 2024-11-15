@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CourseClerkshipType;
 
 /**
  * Tests for Entity CourseClerkshipType
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CourseClerkshipType::class)]
+#[Group('model')]
+#[CoversClass(CourseClerkshipType::class)]
 class CourseClerkshipTypeTest extends EntityBase
 {
     protected CourseClerkshipType $object;

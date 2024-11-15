@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Cohort;
 use App\Entity\Authentication;
 use App\Entity\User;
@@ -13,8 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Tests for Entity Objective
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\User::class)]
+#[Group('model')]
+#[CoversClass(User::class)]
 class UserTest extends EntityBase
 {
     protected User $object;

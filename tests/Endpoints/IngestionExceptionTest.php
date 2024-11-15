@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadIngestionExceptionData;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * IngestionException API endpoint Test.
  */
-#[\PHPUnit\Framework\Attributes\Group('api_4')]
+#[Group('api_4')]
 class IngestionExceptionTest extends AbstractReadEndpoint
 {
     protected string $testName =  'ingestionExceptions';

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ListServiceTokensCommand;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
@@ -19,8 +21,8 @@ use Mockery as m;
 /**
  * @package App\Tests\Command
  */
-#[\PHPUnit\Framework\Attributes\Group('cli')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Command\ListServiceTokensCommand::class)]
+#[Group('cli')]
+#[CoversClass(ListServiceTokensCommand::class)]
 class ListServiceTokensCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\ApplicationConfig;
 
 /**
  * Tests for ApplicationConfig entity.
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\ApplicationConfig::class)]
+#[Group('model')]
+#[CoversClass(ApplicationConfig::class)]
 class ApplicationConfigTest extends EntityBase
 {
     protected ApplicationConfig $object;

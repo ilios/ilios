@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AamcMethod;
 
 /**
  * Tests for Entity AamcMethod
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\AamcMethod::class)]
+#[Group('model')]
+#[CoversClass(AamcMethod::class)]
 class AamcMethodTest extends EntityBase
 {
     protected AamcMethod $object;

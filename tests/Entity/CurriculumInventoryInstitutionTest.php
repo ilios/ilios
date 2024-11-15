@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryInstitution;
 use App\Entity\SchoolInterface;
 use Mockery as m;
@@ -11,8 +13,8 @@ use Mockery as m;
 /**
  * Tests for Entity CurriculumInventoryInstitution
  */
-#[\PHPUnit\Framework\Attributes\Group('model')]
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\Entity\CurriculumInventoryInstitution::class)]
+#[Group('model')]
+#[CoversClass(CurriculumInventoryInstitution::class)]
 class CurriculumInventoryInstitutionTest extends EntityBase
 {
     protected CurriculumInventoryInstitution $object;

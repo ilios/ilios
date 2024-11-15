@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\VoterPermissions;
 use App\Entity\DTO\LearnerGroupDTO;
 use App\RelationshipVoter\LearnerGroupDTOVoter;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  * Class LearnerGroupDTOVoterTest
  * @package App\Tests\RelationshipVoter
  */
-#[\PHPUnit\Framework\Attributes\CoversClass(\App\RelationshipVoter\LearnerGroupDTOVoter::class)]
+#[CoversClass(LearnerGroupDTOVoter::class)]
 class LearnerGroupDTOVoterTest extends AbstractBase
 {
     public function setUp(): void
