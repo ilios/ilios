@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c2b50a5ccdbf80863827f1afef78f23",
+    "content-hash": "7e4e6e6931a1de0519c1721b67d19388",
     "packages": [
         {
             "name": "async-aws/core",
@@ -9391,16 +9391,16 @@
         },
         {
             "name": "symfony/requirements-checker",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/requirements-checker.git",
-                "reference": "10e35b45057bd44ad1bffbde9e92fe1bb11d7a3b"
+                "reference": "e68f11c6753d586fb465e17c6c3c8e8d9f642627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/requirements-checker/zipball/10e35b45057bd44ad1bffbde9e92fe1bb11d7a3b",
-                "reference": "10e35b45057bd44ad1bffbde9e92fe1bb11d7a3b",
+                "url": "https://api.github.com/repos/symfony/requirements-checker/zipball/e68f11c6753d586fb465e17c6c3c8e8d9f642627",
+                "reference": "e68f11c6753d586fb465e17c6c3c8e8d9f642627",
                 "shasum": ""
             },
             "require": {
@@ -9432,7 +9432,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/requirements-checker/issues",
-                "source": "https://github.com/symfony/requirements-checker/tree/v2.0.2"
+                "source": "https://github.com/symfony/requirements-checker/tree/v2.0.3"
             },
             "funding": [
                 {
@@ -9448,7 +9448,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-09T08:04:39+00:00"
+            "time": "2024-11-14T22:24:57+00:00"
         },
         {
             "name": "symfony/routing",
@@ -15173,15 +15173,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
-        "symfony/browser-kit": 0,
         "symfony/console": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15194,21 +15189,25 @@
         "symfony/mailgun-mailer": 0,
         "symfony/messenger": 0,
         "symfony/monolog-bundle": 0,
-        "symfony/phpunit-bridge": 0,
         "symfony/postmark-mailer": 0,
         "symfony/property-access": 0,
         "symfony/property-info": 0,
-        "symfony/requirements-checker": 0,
         "symfony/runtime": 0,
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
-        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/web-profiler-bundle": 0,
-        "symfony/yaml": 0
+        "symfony/yaml": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
+        "symfony/browser-kit": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
+        "symfony/phpunit-bridge": 0,
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15226,7 +15225,7 @@
         "ext-zlib": "*",
         "ext-sodium": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.3"
     },
