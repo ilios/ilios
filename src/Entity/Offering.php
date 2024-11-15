@@ -64,7 +64,7 @@ class Offering implements OfferingInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 2000)]
-    #[Assert\Url]
+    #[Assert\Url(requireTld: false)]
     protected ?string $url = null;
 
     #[ORM\Column(name: 'start_date', type: 'datetime')]
