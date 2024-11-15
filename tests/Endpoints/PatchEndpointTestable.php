@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 trait PatchEndpointTestable
 {
     protected bool $enablePatchTestsWithServiceToken = true;
+
+    abstract public static function putsToTest(): array;
+
     /**
-     * @dataProvider putsToTest
      * @see PatchEndpointTestInterface::testPatchJsonApi()
      */
+    #[DataProvider('putsToTest')]
     public function testPatchJsonApi(string $key, mixed $value): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -18,9 +23,9 @@ trait PatchEndpointTestable
     }
 
     /**
-     * @dataProvider putsToTest
      * @see PatchEndpointTestInterface::testPatchJsonApiWithServiceToken()
      */
+    #[DataProvider('putsToTest')]
     public function testPatchJsonApiWithServiceToken(string $key, mixed $value): void
     {
         if (!$this->enablePatchTestsWithServiceToken) {

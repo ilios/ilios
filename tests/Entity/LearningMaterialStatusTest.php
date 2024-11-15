@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\LearningMaterialStatus;
 
 /**
  * Tests for Entity LearningMaterialStatus
- * @group model
  */
+#[Group('model')]
+#[CoversClass(LearningMaterialStatus::class)]
 class LearningMaterialStatusTest extends EntityBase
 {
     protected LearningMaterialStatus $object;
@@ -37,42 +40,26 @@ class LearningMaterialStatusTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialStatus::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getLearningMaterials());
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialStatus::setTitle
-     * @covers \App\Entity\LearningMaterialStatus::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialStatus::addLearningMaterial
-     */
     public function testAddLearningMaterial(): void
     {
         $this->entityCollectionAddTest('learningMaterial', 'LearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialStatus::removeLearningMaterial
-     */
     public function testRemoveLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialStatus::getLearningMaterials
-     */
     public function testGetLearningMaterials(): void
     {
         $this->entityCollectionSetTest('learningMaterial', 'LearningMaterial');

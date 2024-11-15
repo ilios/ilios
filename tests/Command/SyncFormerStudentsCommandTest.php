@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\SyncFormerStudentsCommand;
 use App\Entity\UserInterface;
 use App\Entity\UserRoleInterface;
@@ -21,8 +22,8 @@ use Mockery as m;
 /**
  * Class SyncFormerStudentsCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
 class SyncFormerStudentsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

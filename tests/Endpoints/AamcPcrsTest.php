@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Service\InflectorFactory;
 use App\Tests\Fixture\LoadAamcPcrsData;
 use App\Tests\Fixture\LoadCompetencyData;
 
 /**
  * AamcPcrses API endpoint Test.
- * @group api_5
  */
+#[Group('api_5')]
 class AamcPcrsTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcPcrses';
@@ -65,9 +66,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         $this->relatedPostDataTest($data, $postData, $jwt, 'aamcPcrses', 'competencies');
     }
 
-    /**
-     * @group twice
-     */
+    #[Group('twice')]
     public function testInflection(): void
     {
         $singular = 'aamcPcrs';
@@ -92,9 +91,7 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
         $this->assertSame($camelSingular, 'aamcPcrs');
     }
 
-    /**
-     * @group twice
-     */
+    #[Group('twice')]
     public function testLowerCaseInflection(): void
     {
         $singular = 'aamcpcrs';

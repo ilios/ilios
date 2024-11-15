@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\SchoolInterface;
 use App\Entity\Vocabulary;
 use Mockery as m;
 
 /**
  * Tests for Entity Vocabulary
- * @group model
  */
+#[Group('model')]
+#[CoversClass(Vocabulary::class)]
 class VocabularyTest extends EntityBase
 {
     protected Vocabulary $object;
@@ -28,9 +31,6 @@ class VocabularyTest extends EntityBase
         unset($this->object);
     }
 
-    /**
-     * @covers \App\Entity\Vocabulary::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getTerms());
@@ -52,52 +52,31 @@ class VocabularyTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\Vocabulary::setTitle
-     * @covers \App\Entity\Vocabulary::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\Vocabulary::setSchool
-     * @covers \App\Entity\Vocabulary::getSchool
-     */
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');
     }
 
-    /**
-     * @covers \App\Entity\Vocabulary::addTerm
-     */
     public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\Vocabulary::removeTerm
-     */
     public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\Vocabulary::getTerms
-     */
     public function testGetTerm(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\Vocabulary::setActive
-     * @covers \App\Entity\Vocabulary::isActive
-     */
     public function testIsActive(): void
     {
         $this->booleanSetTest('active');

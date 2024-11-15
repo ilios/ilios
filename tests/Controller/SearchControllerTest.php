@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Controller\SearchController;
@@ -18,10 +20,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @covers \App\Controller\SearchController
- * @group controller
- */
+#[Group('controller')]
+#[CoversClass(SearchController::class)]
 class SearchControllerTest extends TestCase
 {
     protected SearchController $controller;

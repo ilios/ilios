@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAssessmentOptionData;
 use App\Tests\Fixture\LoadSessionTypeData;
 
 /**
  * AssessmentOption API endpoint Test.
- * @group api_4
  */
+#[Group('api_4')]
 class AssessmentOptionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'assessmentOptions';

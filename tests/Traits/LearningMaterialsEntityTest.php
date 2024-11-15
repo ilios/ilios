@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\LearningMaterial;
 use App\Traits\LearningMaterialsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-/**
- * @covers \App\Traits\LearningMaterialsEntity
- */
-
+#[CoversClass(LearningMaterialsEntity::class)]
 class LearningMaterialsEntityTest extends TestCase
 {
     private object $traitObject;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\RemoveRootUserCommand;
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
@@ -19,8 +21,9 @@ use Mockery as m;
  * Tests the Remove Root User command.
  *
  * Class RemoveRootUserCommandTest
- * @group cli
  */
+#[Group('cli')]
+#[CoversClass(RemoveRootUserCommand::class)]
 class RemoveRootUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -48,9 +51,6 @@ class RemoveRootUserCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    /**
-     * @covers \App\Command\RemoveRootUserCommand::execute
-     */
     public function testRemoveRootUser(): void
     {
         $userId = 1;
@@ -72,18 +72,12 @@ class RemoveRootUserCommandTest extends KernelTestCase
         $this->assertEquals("Root-level privileges have been revoked from user with id #{$userId}.", trim($output));
     }
 
-    /**
-     * @covers \App\Command\RemoveRootUserCommand::execute
-     */
     public function testMissingInput(): void
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([]);
     }
 
-    /**
-     * @covers \App\Command\RemoveRootUserCommand::execute
-     */
     public function testUserNotFound(): void
     {
         $userId = 0;

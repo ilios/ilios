@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\API\ProgramYears;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadCompetencyData;
 use App\Tests\Fixture\LoadCourseData;
@@ -19,8 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * ProgramYear API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
+#[CoversClass(ProgramYears::class)]
 class ProgramYearTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'programYears';
@@ -177,9 +181,6 @@ class ProgramYearTest extends AbstractReadWriteEndpoint
         $this->assertFalse($response['locked']);
     }
 
-    /**
-     * @covers \App\Controller\API\ProgramYears::downloadCourseObjectivesReport
-     */
     public function testDownloadCourseObjectivesReport(): void
     {
         $parameters = ['version' => $this->apiVersion, 'object' => $this->getPluralName(), 'id' => 1];

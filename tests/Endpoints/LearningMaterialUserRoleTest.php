@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialUserRoleData;
 
 /**
  * LearningMaterialUserRole API endpoint Test.
- * @group api_1
  */
+#[Group('api_1')]
 class LearningMaterialUserRoleTest extends AbstractReadEndpoint
 {
     protected string $testName =  'learningMaterialUserRoles';

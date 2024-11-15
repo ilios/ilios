@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceBlock;
@@ -13,8 +16,9 @@ use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventorySequenceBlock
- * @group model
  */
+#[Group('model')]
+#[CoversClass(CurriculumInventorySequenceBlock::class)]
 class CurriculumInventorySequenceBlockTest extends EntityBase
 {
     protected CurriculumInventorySequenceBlock $object;
@@ -71,164 +75,94 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getChildren());
         $this->assertCount(0, $this->object->getSessions());
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setRequired
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getRequired
-     */
     public function testSetRequired(): void
     {
         $this->basicSetTest('required', 'integer');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setChildSequenceOrder
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getChildSequenceOrder
-     */
     public function testSetChildSequenceOrder(): void
     {
         $this->basicSetTest('childSequenceOrder', 'integer');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setOrderInSequence
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getOrderInSequence
-     */
     public function testSetOrderInSequence(): void
     {
         $this->basicSetTest('orderInSequence', 'integer');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setMinimum
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getMinimum
-     */
     public function testSetMinimum(): void
     {
         $this->basicSetTest('minimum', 'integer');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setMaximum
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getMaximum
-     */
     public function testSetMaximum(): void
     {
         $this->basicSetTest('maximum', 'integer');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setTrack
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::hasTrack
-     */
     public function testSetTrack(): void
     {
         $this->booleanSetTest('track', false);
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setDescription
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getDescription
-     */
     public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setTitle
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartDate
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartDate
-     */
     public function testSetStartDate(): void
     {
         $this->basicSetTest('startDate', 'datetime');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setEndDate
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getEndDate
-     */
     public function testSetEndDate(): void
     {
         $this->basicSetTest('endDate', 'datetime');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setDuration
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getDuration
-     */
     public function testSetDuration(): void
     {
         $this->basicSetTest('duration', 'integer');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartingAcademicLevel
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartingAcademicLevel
-     */
     public function testSetStartingAcademicLevel(): void
     {
         $this->entitySetTest('startingAcademicLevel', 'CurriculumInventoryAcademicLevel');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setStartingAcademicLevel
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getStartingAcademicLevel
-     */
     public function testSetEndingAcademicLevel(): void
     {
         $this->entitySetTest('endingAcademicLevel', 'CurriculumInventoryAcademicLevel');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setCourse
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getCourse
-     */
     public function testSetCourse(): void
     {
         $this->entitySetTest('course', 'Course');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setParent
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getParent
-     */
     public function testSetParent(): void
     {
         $this->entitySetTest('parent', 'CurriculumInventorySequenceBlock');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setReport
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getReport
-     */
     public function testSetReport(): void
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithOrderedStrategy
-     * @dataProvider compareSequenceBlocksWithOrderedStrategyProvider
-     *
-     */
+
+    #[DataProvider('compareSequenceBlocksWithOrderedStrategyProvider')]
     public function testCompareSequenceBlocksWithOrderedStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
@@ -269,11 +203,8 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         return $rhett;
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy
-     * @dataProvider compareSequenceBlocksWithDefaultStrategyProvider
-     *
-     */
+
+    #[DataProvider('compareSequenceBlocksWithDefaultStrategyProvider')]
     public function testCompareSequenceBlocksWithDefaultStrategy(
         CurriculumInventorySequenceBlockInterface $blockA,
         CurriculumInventorySequenceBlockInterface $blockB,
@@ -360,74 +291,46 @@ class CurriculumInventorySequenceBlockTest extends EntityBase
         return $rhett;
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::addChild
-     */
     public function testAddChild(): void
     {
         $this->entityCollectionAddTest('child', 'CurriculumInventorySequenceBlock', 'getChildren');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::removeChild
-     */
     public function testRemoveChild(): void
     {
         $this->entityCollectionRemoveTest('child', 'CurriculumInventorySequenceBlock', 'getChildren');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getChildren
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::setChildren
-     */
     public function testGetChildren(): void
     {
         $this->entityCollectionSetTest('child', 'CurriculumInventorySequenceBlock', 'getChildren', 'setChildren');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::addSession
-     */
     public function testAddSession(): void
     {
         $this->entityCollectionAddTest('session', 'Session');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::removeSession
-     */
     public function testRemoveSession(): void
     {
         $this->entityCollectionRemoveTest('session', 'Session');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getSessions
-     */
     public function testGetSessions(): void
     {
         $this->entityCollectionSetTest('session', 'Session');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::addExcludedSession
-     */
     public function testAddExcludedSession(): void
     {
         $this->entityCollectionAddTest('excludedSession', 'Session');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::removeExcludedSession
-     */
     public function testRemoveExcludedSession(): void
     {
         $this->entityCollectionRemoveTest('excludedSession', 'Session');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequenceBlock::getExcludedSessions
-     */
     public function testGetExcludedSessions(): void
     {
         $this->entityCollectionSetTest('excludedSession', 'Session');

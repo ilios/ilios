@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\ServiceToken;
 use DateTime;
 
-/**
- * @group model
- * @covers \App\Entity\ServiceToken
- */
+#[Group('model')]
+#[CoversClass(ServiceToken::class)]
 class ServiceTokenTest extends EntityBase
 {
     protected ServiceToken $object;

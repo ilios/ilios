@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadOfferingData;
@@ -13,8 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * UsermaterialsTest API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
 class UsermaterialsTest extends AbstractEndpoint
 {
     protected function getFixtures(): array

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReport;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Export\XmlPrinter;
@@ -14,11 +15,9 @@ use Mockery as m;
 /**
  * Class ExporterTest
  */
+#[CoversClass(Exporter::class)]
 class ExporterTest extends TestCase
 {
-    /**
-     * @covers \App\Service\CurriculumInventory\Exporter::getXmlReport
-     */
     public function testPrint(): void
     {
         $report = new CurriculumInventoryReport();

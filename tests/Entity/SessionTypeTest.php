@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\SchoolInterface;
 use App\Entity\SessionType;
 use Exception;
@@ -11,8 +13,9 @@ use Mockery as m;
 
 /**
  * Tests for Entity SessionType
- * @group model
  */
+#[Group('model')]
+#[CoversClass(SessionType::class)]
 class SessionTypeTest extends EntityBase
 {
     protected SessionType $object;
@@ -56,105 +59,63 @@ class SessionTypeTest extends EntityBase
 
         $this->validate(0);
     }
-    /**
-     * @covers \App\Entity\SessionType::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getAamcMethods());
         $this->assertCount(0, $this->object->getSessions());
     }
 
-    /**
-     * @covers \App\Entity\SessionType::setTitle
-     * @covers \App\Entity\SessionType::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::setCalendarColor()
-     * @covers \App\Entity\SessionType::getCalendarColor()
-     */
     public function testSetSessionTypeCalendarColor(): void
     {
         $this->basicSetTest('calendarColor', 'hexcolor');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::setActive
-     * @covers \App\Entity\SessionType::isActive
-     */
     public function testIsActive(): void
     {
         $this->booleanSetTest('active');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::setAssessment
-     * @covers \App\Entity\SessionType::isAssessment
-     */
     public function testIsAssessment(): void
     {
         $this->booleanSetTest('assessment');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::setAssessmentOption
-     * @covers \App\Entity\SessionType::getAssessmentOption
-     */
     public function testSetAssessmentOption(): void
     {
         $this->entitySetTest('assessmentOption', 'AssessmentOption');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::addAamcMethod
-     */
     public function testAddAamcMethod(): void
     {
         $this->entityCollectionAddTest('aamcMethod', 'AamcMethod');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::removeAamcMethod
-     */
     public function testRemoveAamcMethod(): void
     {
         $this->entityCollectionRemoveTest('aamcMethod', 'AamcMethod');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::setAamcMethods
-     * @covers \App\Entity\SessionType::getAamcMethods
-     */
     public function testSetAamcMethods(): void
     {
         $this->entityCollectionSetTest('aamcMethod', 'AamcMethod');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::addSession
-     */
     public function testAddSession(): void
     {
         $this->entityCollectionAddTest('session', 'Session', false, false, 'setSessionType');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::removeSession
-     */
     public function testRemoveSession(): void
     {
         $this->expectException(Exception::class);
         $this->entityCollectionRemoveTest('session', 'Session');
     }
 
-    /**
-     * @covers \App\Entity\SessionType::setSessions
-     */
     public function testSetSessions(): void
     {
         $this->entityCollectionSetTest('session', 'Session', false, false, 'setSessionType');

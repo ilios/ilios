@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Command\CleanupStringsCommand;
 use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\CourseObjectiveInterface;
@@ -33,8 +36,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * Class CleanupStringsCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
+#[CoversClass(CleanupStringsCommand::class)]
 class CleanupStringsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -353,10 +357,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksProvider
-     */
+    #[DataProvider('correctLearningMaterialLinksProvider')]
     public function testCorrectLearningMaterialLinks(string $link, string $fixedLink): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -389,10 +390,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksWhithoutFetchingProvider
-     */
+    #[DataProvider('correctLearningMaterialLinksWhithoutFetchingProvider')]
     public function testCorrectLearningMaterialLinksWithoutFetching(string $link, string $fixedLink): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -425,10 +423,7 @@ class CleanupStringsCommandTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     * @dataProvider correctLearningMaterialLinksNoChangesProvider
-     */
+    #[DataProvider('correctLearningMaterialLinksNoChangesProvider')]
     public function testCorrectLearningMaterialLinksNoChanges(?string $link): void
     {
         $lm = m::mock(LearningMaterialInterface::class);
@@ -447,9 +442,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("0 learning material links updated, 0 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksInBulk(): void
     {
         $total = 1001;
@@ -490,9 +482,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("{$total} learning material links updated, 0 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksFails(): void
     {
         $link = 'iliosproject.org';
@@ -517,9 +506,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("0 learning material links updated, 1 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksFailsOnHttps(): void
     {
         $link = 'iliosproject.org';
@@ -544,9 +530,6 @@ class CleanupStringsCommandTest extends KernelTestCase
         $this->assertStringContainsString("1 learning material links updated, 0 failures.", $output);
     }
 
-    /**
-     * @covers \App\Command\CleanupStringsCommand::correctLearningMaterialLinks
-     */
     public function testCorrectLearningMaterialLinksVerboseFailureOutput(): void
     {
         $link = 'iliosproject.org';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\DataLoader\SessionLearningMaterialData;
@@ -20,8 +21,8 @@ use App\Tests\QEndpointTrait;
 
 /**
  * Session API endpoint Test.
- * @group api_2
  */
+#[Group('api_2')]
 class SessionTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;

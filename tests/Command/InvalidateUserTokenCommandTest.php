@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\InvalidateUserTokenCommand;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
@@ -20,8 +21,8 @@ use DateTime;
 
 /**
  * Class InvalidateUserTokenCommandTest
- * @group cli
  */
+#[Group('cli')]
 class InvalidateUserTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\VoterPermissions;
 use App\Entity\MeshConceptInterface;
 use App\Entity\MeshDescriptorInterface;
@@ -37,17 +38,13 @@ class MeshTest extends AbstractBase
         ];
     }
 
-    /**
-     * @dataProvider meshEntitiesProvider
-     */
+    #[DataProvider('meshEntitiesProvider')]
     public function testAllowsRootFullAccess(string $className): void
     {
         $this->checkRootEntityAccess(m::mock($className), [VoterPermissions::VIEW]);
     }
 
-    /**
-     * @dataProvider meshEntitiesProvider
-     */
+    #[DataProvider('meshEntitiesProvider')]
     public function testCanView(string $className): void
     {
         $user = $this->createMockNonRootSessionUser();

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ImportMeshUniverseCommand;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
@@ -19,9 +21,9 @@ use Mockery as m;
 /**
  * Class ImportMeshUniverseCommandTest
  * @package App\Tests\Command
- * @group cli
- * @covers \App\Command\ImportMeshUniverseCommand
  */
+#[Group('cli')]
+#[CoversClass(ImportMeshUniverseCommand::class)]
 class ImportMeshUniverseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

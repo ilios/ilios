@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\DeleteServiceTokenCommand;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
@@ -16,9 +18,9 @@ use Mockery as m;
 
 /**
  * @package App\Tests\Command
- * @group cli
- * @covers \App\Command\DeleteServiceTokenCommand
  */
+#[Group('cli')]
+#[CoversClass(DeleteServiceTokenCommand::class)]
 class DeleteServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

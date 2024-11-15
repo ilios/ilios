@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadApplicationConfigData;
 
 /**
  * ApplicationConfig API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
 class ApplicationConfigTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'applicationConfigs';

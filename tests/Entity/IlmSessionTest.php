@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\IlmSession;
 use App\Entity\Session;
 use DateTime;
 
 /**
  * Tests for Entity IlmSession
- * @group model
  */
+#[Group('model')]
+#[CoversClass(IlmSession::class)]
 class IlmSessionTest extends EntityBase
 {
     protected IlmSession $object;
@@ -55,9 +58,6 @@ class IlmSessionTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getLearnerGroups());
@@ -66,124 +66,76 @@ class IlmSessionTest extends EntityBase
         $this->assertCount(0, $this->object->getLearners());
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::setHours
-     * @covers \App\Entity\IlmSession::getHours
-     */
     public function testSetHours(): void
     {
         $this->basicSetTest('hours', 'float');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::setDueDate
-     * @covers \App\Entity\IlmSession::getDueDate
-     */
     public function testSetDueDate(): void
     {
         $this->basicSetTest('dueDate', 'datetime');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::addLearnerGroup
-     */
     public function testAddLearnerGroup(): void
     {
         $this->entityCollectionAddTest('learnerGroup', 'LearnerGroup');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::removeLearnerGroup
-     */
     public function testRemoveLearnerGroup(): void
     {
         $this->entityCollectionRemoveTest('learnerGroup', 'LearnerGroup');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::getLearnerGroups
-     */
     public function testGetLearnerGroups(): void
     {
         $this->entityCollectionSetTest('learnerGroup', 'LearnerGroup');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::addInstructorGroup
-     */
     public function testAddInstructorGroup(): void
     {
         $this->entityCollectionAddTest('instructorGroup', 'InstructorGroup');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::removeInstructorGroup
-     */
     public function testRemoveInstructorGroup(): void
     {
         $this->entityCollectionRemoveTest('instructorGroup', 'InstructorGroup');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::getInstructorGroups
-     */
     public function testGetInstructorGroups(): void
     {
         $this->entityCollectionSetTest('instructorGroup', 'InstructorGroup');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::addInstructor
-     */
     public function testAddInstructor(): void
     {
         $this->entityCollectionAddTest('instructor', 'User');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::removeInstructor
-     */
     public function testRemoveInstructor(): void
     {
         $this->entityCollectionRemoveTest('instructor', 'User');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::getInstructors
-     */
     public function testGetInstructors(): void
     {
         $this->entityCollectionSetTest('instructor', 'User');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::addLearner
-     */
     public function testAddLearner(): void
     {
         $this->entityCollectionAddTest('learner', 'User');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::removeLearner
-     */
     public function testRemoveLearner(): void
     {
         $this->entityCollectionRemoveTest('learner', 'User');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::getLearners
-     */
     public function testGetLearners(): void
     {
         $this->entityCollectionSetTest('learner', 'User');
     }
 
-    /**
-     * @covers \App\Entity\IlmSession::setSession
-     * @covers \App\Entity\IlmSession::getSession
-     */
     public function testSetSession(): void
     {
         $this->entitySetTest('session', 'Session');

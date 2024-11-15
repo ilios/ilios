@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadCourseObjectiveData;
@@ -21,8 +22,8 @@ use App\Tests\QEndpointTrait;
 
 /**
  * MeshDescriptor API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
 class MeshDescriptorTest extends AbstractMeshEndpoint
 {
     use QEndpointTrait;

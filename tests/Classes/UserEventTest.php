@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
@@ -14,9 +15,9 @@ use DateTime;
 /**
  * Class UserEventTest
  * @package App\Tests\Classes
- * @covers \App\Classes\CalendarEvent
- * @covers \App\Classes\UserEvent
  */
+#[CoversClass(CalendarEvent::class)]
+#[CoversClass(UserEvent::class)]
 class UserEventTest extends TestCase
 {
     protected UserEvent $userEvent;
@@ -31,9 +32,6 @@ class UserEventTest extends TestCase
         unset($this->userEvent);
     }
 
-    /**
-     * @covers \App\Classes\CalendarEvent::removeMaterialsInDraft
-     */
     public function testRemoveMaterialsInDraft(): void
     {
         $draftMaterial = new UserMaterial();
@@ -51,9 +49,6 @@ class UserEventTest extends TestCase
         $this->assertTrue(in_array($revisedMaterial, $this->userEvent->learningMaterials));
     }
 
-    /**
-     * @covers \App\Classes\UserEvent::createFromCalendarEvent
-     */
     public function testCreateFromCalendarEvent(): void
     {
         $userId = 100;

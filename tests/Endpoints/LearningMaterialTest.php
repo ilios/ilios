@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\API\LearningMaterials;
 use App\Entity\LearningMaterialStatusInterface;
 use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\Fixture\LoadCourseData;
@@ -19,8 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * LearningMaterial API endpoint Test.
- * @group api_4
  */
+#[Group('api_4')]
+#[CoversClass(LearningMaterials::class)]
 class LearningMaterialTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
@@ -207,9 +211,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         $this->jsonApiFilterTest($filters, [$all[3]], $jwt);
     }
 
-    /**
-     * @covers \App\Controller\API\LearningMaterials::getAll
-     */
     public function testFindByQAsLearner(): void
     {
         $jwt = $this->createJwtFromUserId($this->kernelBrowser, 5);
@@ -226,9 +227,6 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         }
     }
 
-    /**
-     * @covers \App\Controller\API\LearningMaterials::getAll
-     */
     public function testGetAllAsLearner(): void
     {
         $jwt = $this->createJwtFromUserId($this->kernelBrowser, 5);

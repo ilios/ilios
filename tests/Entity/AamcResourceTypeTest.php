@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AamcResourceType;
 
 /**
  * Tests for Entity AamcResourceType
- * @group model
  */
+#[Group('model')]
+#[CoversClass(AamcResourceType::class)]
 class AamcResourceTypeTest extends EntityBase
 {
     protected AamcResourceType $object;
@@ -41,51 +44,31 @@ class AamcResourceTypeTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\AamcResourceType::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getTerms());
     }
 
-    /**
-     * @covers \App\Entity\AamcResourceType::setTitle
-     * @covers \App\Entity\AamcResourceType::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\AamcResourceType::setDescription
-     * @covers \App\Entity\AamcResourceType::getDescription
-     */
     public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
 
-    /**
-     * @covers \App\Entity\AamcResourceType::addTerm
-     */
     public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term', false, false, 'addAamcResourceType');
     }
 
-    /**
-     * @covers \App\Entity\AamcResourceType::removeTerm
-     */
     public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term', false, false, false, 'removeAamcResourceType');
     }
 
-    /**
-     * @covers \App\Entity\AamcResourceType::getTerms
-     */
     public function testGetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term', false, false, 'addAamcResourceType');

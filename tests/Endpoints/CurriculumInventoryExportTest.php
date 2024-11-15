@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadApplicationConfigData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
@@ -16,8 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * CurriculumInventoryExport API endpoint Test.
  * This is a POST only endpoint so that is all we will test
- * @group api_1
  */
+#[Group('api_1')]
 class CurriculumInventoryExportTest extends AbstractEndpoint
 {
     protected string $testName =  'curriculumInventoryExports';

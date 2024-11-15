@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Command\InstallFirstUserCommand;
 use App\Command\AuditLogExportCommand;
 use App\Repository\AuditLogRepository;
 use DateTime;
@@ -22,8 +25,9 @@ use Symfony\Component\Console\Tester\CommandTester;
  * @link http://symfony.com/doc/current/components/console/introduction.html#testing-commands
  * @link http://symfony.com/doc/current/cookbook/console/console_command.html#testing-commands
  * @link http://www.ardianys.com/2013/04/symfony2-test-console-command-which-use.html
- * @group cli
  */
+#[Group('cli')]
+#[CoversClass(InstallFirstUserCommand::class)]
 class AuditLogExportCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -53,9 +57,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         unset($this->logger);
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteWithDefaultRange(): void
     {
         $this->auditLogRepository
@@ -75,9 +76,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteWithCustomRange(): void
     {
         $this->auditLogRepository
@@ -100,9 +98,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteCheckTableOutput(): void
     {
         $now = new DateTime();
@@ -133,9 +128,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
     public function testExecuteCheckLogging(): void
     {
         $from = (new DateTime('midnight yesterday', new DateTimeZone('UTC')))->format('c');
@@ -177,10 +169,6 @@ class AuditLogExportCommandTest extends KernelTestCase
         $this->commandTester->execute(['--delete' => 'true']);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
-
-    /**
-     * @covers \App\Command\InstallFirstUserCommand::execute
-     */
 
     public function testExecuteWithDeletion(): void
     {

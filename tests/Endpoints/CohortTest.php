@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\ProgramYearData;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadCourseData;
@@ -15,8 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Cohort API endpoint Test.
- * @group api_2
  */
+#[Group('api_2')]
 class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterface
 {
     use PutEndpointTestable;

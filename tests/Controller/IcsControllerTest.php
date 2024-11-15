@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\IcsController;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
@@ -20,10 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Traits\TestableJsonController;
 
-/**
- * @covers \App\Controller\IcsController
- * @group controller
- */
+#[Group('controller')]
+#[CoversClass(IcsController::class)]
 class IcsControllerTest extends WebTestCase
 {
     use TestableJsonController;

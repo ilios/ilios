@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadProgramData;
@@ -14,8 +15,8 @@ use App\Tests\Fixture\LoadTermData;
 
 /**
  * Program API endpoint Test.
- * @group api_1
  */
+#[Group('api_1')]
 class ProgramTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'programs';

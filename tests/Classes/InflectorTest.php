@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Service\InflectorFactory;
 use PHPUnit\Framework\TestCase;
 
 class InflectorTest extends TestCase
 {
-    /**
-     * @group twice
-     */
+    #[Group('twice')]
     public function testInstanceInflection(): void
     {
         $singular = 'aamcPcrs';
@@ -36,9 +35,7 @@ class InflectorTest extends TestCase
         $this->assertSame($camelSingular, 'aamcPcrs');
     }
 
-    /**
-     * @group twice
-     */
+    #[Group('twice')]
     public function testLowerCaseInstanceInflection(): void
     {
         $singular = 'aamcpcrs';

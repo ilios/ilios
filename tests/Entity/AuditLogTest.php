@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AuditLog;
 
 use function method_exists;
 
 /**
  * Tests for Entity AuditLog
- * @group model
- * @covers \App\Entity\AuditLog
  */
+#[Group('model')]
+#[CoversClass(AuditLog::class)]
 class AuditLogTest extends EntityBase
 {
     protected AuditLog $object;

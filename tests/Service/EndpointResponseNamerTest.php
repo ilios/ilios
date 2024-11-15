@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\AamcMethod;
 use App\Service\EndpointResponseNamer;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * @covers \App\Service\EndpointResponseNamer
- */
+#[CoversClass(EndpointResponseNamer::class)]
 class EndpointResponseNamerTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -31,9 +31,7 @@ class EndpointResponseNamerTest extends KernelTestCase
         unset($this->service);
     }
 
-    /**
-     * @dataProvider getSingularNameProvider
-     */
+    #[DataProvider('getSingularNameProvider')]
     public function testGetSingularName(string $endpointKey, string $expected): void
     {
         $this->assertEquals(
@@ -42,9 +40,7 @@ class EndpointResponseNamerTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getPluralNameProvider
-     */
+    #[DataProvider('getPluralNameProvider')]
     public function testGetPluralName(string $endpointKey, string $expected): void
     {
         $this->assertEquals(

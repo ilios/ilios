@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\WaitForDatabaseCommand;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ConnectionException;
@@ -16,10 +17,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-/**
- * @group cli
- *
- */
+#[Group('cli')]
 class WaitForDatabaseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

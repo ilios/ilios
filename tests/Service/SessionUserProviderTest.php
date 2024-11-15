@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Classes\SessionUser;
 use App\Entity\AuthenticationInterface;
@@ -18,9 +20,7 @@ use DateTime;
 use Mockery as m;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
-/**
- * @covers \App\Service\SessionUserProvider
- */
+#[CoversClass(SessionUserProvider::class)]
 class SessionUserProviderTest extends TestCase
 {
     protected SessionUserProvider $provider;
@@ -48,9 +48,7 @@ class SessionUserProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider supportsClassProvider
-     */
+    #[DataProvider('supportsClassProvider')]
     public function testSupportsClass(string $className, bool $expected): void
     {
         $this->assertEquals($expected, $this->provider->supportsClass($className));

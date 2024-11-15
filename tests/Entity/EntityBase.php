@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
 use DateTime;
 use Exception;
 use Mockery as m;
@@ -13,8 +14,8 @@ use App\Tests\TestCase;
 
 /**
  * Class EntityBase
- * @group model
  */
+#[Group('model')]
 abstract class EntityBase extends TestCase
 {
     /**

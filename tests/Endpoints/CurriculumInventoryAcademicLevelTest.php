@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
@@ -12,8 +13,8 @@ use App\Tests\Fixture\LoadProgramData;
 
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.
- * @group api_4
  */
+#[Group('api_4')]
 class CurriculumInventoryAcademicLevelTest extends AbstractReadEndpoint
 {
     protected string $testName =  'curriculumInventoryAcademicLevels';

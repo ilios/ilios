@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadAamcMethodData;
 use App\Tests\Fixture\LoadAssessmentOptionData;
@@ -26,8 +27,8 @@ use App\Tests\Fixture\LoadVocabularyData;
 
 /**
  * SessionType API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
 class SessionTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'sessionTypes';

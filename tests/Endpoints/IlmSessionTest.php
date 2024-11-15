@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadSessionData;
@@ -12,8 +13,8 @@ use DateTimeZone;
 
 /**
  * IlmSession API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
 class IlmSessionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'ilmSessions';

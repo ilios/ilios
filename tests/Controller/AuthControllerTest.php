@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
+use App\Controller\AuthController;
 use App\Service\JsonWebTokenManager;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
@@ -21,10 +24,8 @@ use function array_key_exists;
 use function json_decode;
 use function var_export;
 
-/**
- * @covers \App\Controller\AuthController
- * @group controller
- */
+#[Group('controller')]
+#[CoversClass(AuthController::class)]
 class AuthControllerTest extends WebTestCase
 {
     use TestableJsonController;

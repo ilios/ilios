@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Service\Config;
 use App\Service\LdapManager;
 use Mockery as m;
 use App\Service\Directory;
 use App\Tests\TestCase;
 
+#[CoversClass(Directory::class)]
 class DirectoryTest extends TestCase
 {
     protected m\MockInterface $ldapManager;
@@ -35,9 +37,6 @@ class DirectoryTest extends TestCase
         unset($this->config);
     }
 
-    /**
-     * @covers \App\Service\Directory::findByCampusId
-     */
     public function testFindByCampusId(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
@@ -47,9 +46,6 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, ['id' => 1]);
     }
 
-    /**
-     * @covers \App\Service\Directory::findByCampusId
-     */
     public function testFindByCampusIds(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
@@ -60,9 +56,6 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, [['id' => 1], ['id' => 2]]);
     }
 
-    /**
-     * @covers \App\Service\Directory::findByCampusId
-     */
     public function testFindByCampusIdsOnlyUseUnique(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
@@ -73,9 +66,6 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, [1]);
     }
 
-    /**
-     * @covers \App\Service\Directory::findByCampusId
-     */
     public function testFindByCampusIdsInChunks(): void
     {
         $this->config->shouldReceive('get')->once()->with('ldap_directory_campus_id_property')->andReturn('campusId');
@@ -103,9 +93,6 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, [1, 2]);
     }
 
-    /**
-     * @covers \App\Service\Directory::find
-     */
     public function testFind(): void
     {
         $this->setupConfigForSearch();
@@ -119,9 +106,6 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, [1,2]);
     }
 
-    /**
-     * @covers \App\Service\Directory::find
-     */
     public function testFindOutputEscaping(): void
     {
         $this->setupConfigForSearch();
@@ -160,9 +144,6 @@ class DirectoryTest extends TestCase
         $this->assertSame($result, [1,2]);
     }
 
-    /**
-     * @covers \App\Service\Directory::findByLdapFilter
-     */
     public function testFindByLdapFilter(): void
     {
         $filter = '(one)(two)';

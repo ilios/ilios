@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\ServiceTokenVoter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Tests\TestCase;
@@ -24,9 +25,7 @@ abstract class AbstractBase extends TestCase
 
     abstract public static function supportsTypeProvider(): array;
 
-    /**
-     * @dataProvider supportsTypeProvider
-     */
+    #[DataProvider('supportsTypeProvider')]
     public function testSupportType(string $className, bool $isSupported): void
     {
         $this->assertEquals($this->voter->supportsType($className), $isSupported);
@@ -34,9 +33,7 @@ abstract class AbstractBase extends TestCase
 
     abstract public static function supportsAttributesProvider(): array;
 
-    /**
-     * @dataProvider supportsAttributesProvider
-     */
+    #[DataProvider('supportsAttributesProvider')]
     public function testSupportAttributes(string $attribute, bool $isSupported): void
     {
         $this->assertEquals($this->voter->supportsAttribute($attribute), $isSupported);

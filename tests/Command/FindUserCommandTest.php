@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\FindUserCommand;
 use App\Service\Directory;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -16,8 +17,8 @@ use Mockery as m;
 /**
  * Class FindUserCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
 class FindUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\EventListener;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\UserInterface;
 use App\EventListener\IndexEntityChanges;
 use App\Message\UserIndexRequest;
@@ -20,9 +21,7 @@ use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-/**
- * @covers \App\EventListener\IndexEntityChanges
- */
+#[CoversClass(IndexEntityChanges::class)]
 class IndexEntityChangesTest extends TestCase
 {
     protected m\MockInterface $curriculumIndex;

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadMeshQualifierData;
 
 /**
  * MeshQualifier API endpoint Test.
- * @group api_1
  */
+#[Group('api_1')]
 class MeshQualifierTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshQualifiers';

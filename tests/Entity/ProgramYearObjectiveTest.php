@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Competency;
 use App\Entity\CourseObjective;
 use App\Entity\MeshDescriptor;
@@ -13,8 +15,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tests for Entity ProgramYearObjective
- * @group model
  */
+#[Group('model')]
+#[CoversClass(ProgramYearObjective::class)]
 class ProgramYearObjectiveTest extends EntityBase
 {
     protected ProgramYearObjective $object;
@@ -31,9 +34,6 @@ class ProgramYearObjectiveTest extends EntityBase
         unset($this->object);
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertEquals(0, $this->object->getPosition());
@@ -67,10 +67,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::setTitle
-     * @covers \App\Entity\ProgramYearObjective::getTitle
-     */
     public function testSetTitle(): void
     {
         $title = 'foo';
@@ -78,53 +74,32 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEquals($title, $this->object->getTitle());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::setProgramYear
-     * @covers \App\Entity\ProgramYearObjective::getProgramYear
-     */
     public function testSetProgramYear(): void
     {
         $this->entitySetTest('programYear', 'ProgramYear');
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::setPosition
-     * @covers \App\Entity\ProgramYearObjective::getPosition
-     */
     public function testSetPosition(): void
     {
         $position = 5;
         $this->object->setPosition(5);
         $this->assertEquals($position, $this->object->getPosition());
     }
-    /**
-     * @covers \App\Entity\ProgramYearObjective::addTerm
-     */
     public function testAddTerm(): void
     {
         $this->entityCollectionAddTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::removeTerm
-     */
     public function testRemoveTerm(): void
     {
         $this->entityCollectionRemoveTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::getTerms
-     * @covers \App\Entity\ProgramYearObjective::setTerms
-     */
     public function testSetTerms(): void
     {
         $this->entityCollectionSetTest('term', 'Term');
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::addMeshDescriptor
-     */
     public function testAddMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
@@ -133,9 +108,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEquals($meshDescriptor, $this->object->getMeshDescriptors()->first());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::removeMeshDescriptor
-     */
     public function testRemoveMeshDescriptor(): void
     {
         $meshDescriptor = new MeshDescriptor();
@@ -146,9 +118,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertCount(0, $this->object->getMeshDescriptors());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::getMeshDescriptors
-     */
     public function testGetMeshDescriptors(): void
     {
         $meshDescriptors = [];
@@ -162,9 +131,6 @@ class ProgramYearObjectiveTest extends EntityBase
         }
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::addCourseObjective
-     */
     public function testAddCourseObjective(): void
     {
         $courseObjective = new CourseObjective();
@@ -174,9 +140,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEquals($courseObjective, $this->object->getCourseObjectives()->first());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::removeCourseObjective
-     */
     public function testRemoveCourseObjective(): void
     {
         $courseObjective = new CourseObjective();
@@ -187,10 +150,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertCount(0, $this->object->getCourseObjectives());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::getCourseObjectives
-     * @covers \App\Entity\ProgramYearObjective::setCourseObjectives
-     */
     public function testGetCourseObjectives(): void
     {
         $courseObjectives = [];
@@ -204,10 +163,6 @@ class ProgramYearObjectiveTest extends EntityBase
         }
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::setCompetency
-     * @covers \App\Entity\ProgramYearObjective::getCompetency
-     */
     public function testSetCompetency(): void
     {
         $competency = new Competency();
@@ -216,10 +171,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEquals($competency, $this->object->getCompetency());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::setAncestor
-     * @covers \App\Entity\ProgramYearObjective::getAncestor
-     */
     public function testSetAncestor(): void
     {
         $ancestor = new ProgramYearObjective();
@@ -227,9 +178,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEquals($ancestor, $this->object->getAncestor());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::getAncestorOrSelf
-     */
     public function testGetAncestorOrSelfWithAncestor(): void
     {
         $ancestor = new ProgramYearObjective();
@@ -237,17 +185,11 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertSame($ancestor, $this->object->getAncestorOrSelf());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::getAncestorOrSelf
-     */
     public function testGetAncestorOrSelfWithNoAncestor(): void
     {
         $this->assertSame($this->object, $this->object->getAncestorOrSelf());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::addDescendant
-     */
     public function testAddDescendant(): void
     {
         $descendant = new ProgramYearObjective();
@@ -256,9 +198,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertEquals($descendant, $this->object->getDescendants()->first());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::removeDescendant
-     */
     public function testRemoveDescendant(): void
     {
         $descendant = new ProgramYearObjective();
@@ -269,10 +208,6 @@ class ProgramYearObjectiveTest extends EntityBase
         $this->assertCount(0, $this->object->getDescendants());
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::getDescendants
-     * @covers \App\Entity\ProgramYearObjective::setDescendants
-     */
     public function testGetDescendants(): void
     {
         $descendants = [];
@@ -286,10 +221,6 @@ class ProgramYearObjectiveTest extends EntityBase
         }
     }
 
-    /**
-     * @covers \App\Entity\ProgramYearObjective::setActive
-     * @covers \App\Entity\ProgramYearObjective::isActive
-     */
     public function testSetActive(): void
     {
         $this->assertTrue($this->object->isActive());

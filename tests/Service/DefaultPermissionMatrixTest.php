@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\Capabilities;
 use App\Classes\UserRoles;
 use App\Repository\SchoolRepository;
@@ -15,8 +17,8 @@ use Mockery as m;
 /**
  * Class DefaultPermissionMatrixTest
  * @package App\Tests\Service
- * @covers \App\Service\DefaultPermissionMatrix
  */
+#[CoversClass(DefaultPermissionMatrix::class)]
 class DefaultPermissionMatrixTest extends TestCase
 {
     protected DefaultPermissionMatrix $permissionMatrix;
@@ -1121,9 +1123,7 @@ class DefaultPermissionMatrixTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider hasPermissionProvider
-     */
+    #[DataProvider('hasPermissionProvider')]
     public function testHasPermission(string $capability, array $allowedRoles, array $deniedRoles): void
     {
         $this->assertEquals(count($allowedRoles) +  count($deniedRoles), 10);

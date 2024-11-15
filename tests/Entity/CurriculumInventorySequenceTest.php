@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequence;
 use Mockery as m;
 
 /**
  * Tests for Entity CurriculumInventorySequence
- * @group model
  */
+#[Group('model')]
+#[CoversClass(CurriculumInventorySequence::class)]
 class CurriculumInventorySequenceTest extends EntityBase
 {
     protected CurriculumInventorySequence $object;
@@ -42,19 +45,11 @@ class CurriculumInventorySequenceTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequence::setDescription
-     * @covers \App\Entity\CurriculumInventorySequence::getDescription
-     */
     public function testSetDescription(): void
     {
         $this->basicSetTest('description', 'string');
     }
 
-    /**
-     * @covers \App\Entity\CurriculumInventorySequence::setReport
-     * @covers \App\Entity\CurriculumInventorySequence::getReport
-     */
     public function testSetReport(): void
     {
         $this->entitySetTest('report', 'CurriculumInventoryReport');

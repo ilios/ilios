@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAlertData;
 use App\Tests\Fixture\LoadCompetencyData;
 use App\Tests\Fixture\LoadCourseData;
@@ -16,8 +17,8 @@ use App\Tests\Fixture\LoadSessionTypeData;
 
 /**
  * School API endpoint Test.
- * @group api_5
  */
+#[Group('api_5')]
 class SchoolTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schools';

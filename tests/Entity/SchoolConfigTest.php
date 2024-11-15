@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\School;
 use App\Entity\SchoolConfig;
 
 /**
  * Tests for SchoolConfig entity.
- * @group model
  */
+#[Group('model')]
+#[CoversClass(SchoolConfig::class)]
 class SchoolConfigTest extends EntityBase
 {
     protected SchoolConfig $object;
@@ -54,28 +57,16 @@ class SchoolConfigTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\SchoolConfig::setName
-     * @covers \App\Entity\SchoolConfig::getName
-     */
     public function testSetName(): void
     {
         $this->basicSetTest('name', 'string');
     }
 
-    /**
-     * @covers \App\Entity\SchoolConfig::setValue
-     * @covers \App\Entity\SchoolConfig::getValue
-     */
     public function testSetValue(): void
     {
         $this->basicSetTest('value', 'string');
     }
 
-    /**
-     * @covers \App\Entity\SchoolConfig::setValue
-     * @covers \App\Entity\SchoolConfig::getValue
-     */
     public function testSetSchool(): void
     {
         $this->entitySetTest('school', 'School');

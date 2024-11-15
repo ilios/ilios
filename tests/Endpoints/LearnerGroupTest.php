@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadLearnerGroupData;
@@ -14,8 +15,8 @@ use App\Tests\Fixture\LoadVocabularyData;
 
 /**
  * LearnerGroup API endpoint Test.
- * @group api_2
  */
+#[Group('api_2')]
 class LearnerGroupTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'learnerGroups';

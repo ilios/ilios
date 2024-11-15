@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\ListConfigValuesCommand;
 use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
@@ -18,8 +19,8 @@ use Mockery as m;
 /**
  * Class ListConfigValuesCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
 class ListConfigValuesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

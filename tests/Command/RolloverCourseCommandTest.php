@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\RolloverCourseCommand;
 use App\Entity\Course;
 use App\Service\CourseRollover;
@@ -16,8 +17,8 @@ use Mockery as m;
 
 /**
  * Class RolloverCourseCommandTest
- * @group cli
  */
+#[Group('cli')]
 class RolloverCourseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

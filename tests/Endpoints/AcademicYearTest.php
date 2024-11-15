@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Entity\Course;
 use App\Tests\Fixture\LoadCourseData;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * AamcMethod API endpoint Test.
- * @group api_5
  */
+#[Group('api_5')]
 class AcademicYearTest extends AbstractReadEndpoint
 {
     protected string $testName = 'academicYears';

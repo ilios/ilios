@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -14,8 +15,8 @@ use App\Tests\Traits\TestableJsonController;
 
 /**
  * General API tests.
- * @group controller
  */
+#[Group('controller')]
 class ApiControllerTest extends WebTestCase
 {
     use TestableJsonController;

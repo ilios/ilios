@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CourseObjective;
 use App\Entity\CourseObjectiveInterface;
 use App\Command\SendTeachingRemindersCommand;
@@ -38,8 +40,9 @@ use Symfony\Component\Mailer\MailerInterface;
  * Send Teaching Reminder command test.
  *
  * Class SendTeachingRemindersCommandTest
- * @group cli
  */
+#[Group('cli')]
+#[CoversClass(SendTeachingRemindersCommand::class)]
 class SendTeachingRemindersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -97,9 +100,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         unset($this->timezone);
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecuteDryRun(): void
     {
         $sender = 'foo@bar.edu';
@@ -181,9 +181,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->assertStringContainsString("Sent {$totalMailsSent} teaching reminders.", $output);
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecuteDryRunWithNoResult(): void
     {
         $sender = 'foo@bar.edu';
@@ -204,9 +201,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->assertStringContainsString('No offerings with pending teaching reminders found.', $output);
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecuteDryRunWithSenderName(): void
     {
         $sender = 'foo@bar.edu';
@@ -236,9 +230,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->assertStringContainsString("From: {$name} <{$sender}>", $output);
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecuteDryRunWithPreferredEmail(): void
     {
         $sender = 'foo@bar.edu';
@@ -278,9 +269,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         }
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecuteDryRunWithCustomSubject(): void
     {
         $sender = 'foo@bar.edu';
@@ -308,7 +296,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
     }
 
     /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
      * @link https://github.com/ilios/ilios/issues/1975
      */
     public function testExecuteSchoolTitleEndsWithS(): void
@@ -341,9 +328,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         );
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecute(): void
     {
         $sender = 'foo@bar.edu';
@@ -414,9 +398,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         $this->assertStringContainsString("No offerings with pending teaching reminders found.", $output);
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecuteWithMissingInput(): void
     {
         $this->expectException(RuntimeException::class);
@@ -429,9 +410,6 @@ class SendTeachingRemindersCommandTest extends KernelTestCase
         ]);
     }
 
-    /**
-     * @covers \App\Command\SendTeachingRemindersCommand::execute
-     */
     public function testExecuteWithInvalidInput(): void
     {
         $this->commandTester->execute([

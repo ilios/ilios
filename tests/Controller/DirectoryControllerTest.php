@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Controller\DirectoryController;
@@ -20,10 +22,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @covers \App\Controller\DirectoryController
- * @group controller
- */
+#[Group('controller')]
+#[CoversClass(DirectoryController::class)]
 class DirectoryControllerTest extends TestCase
 {
     protected DirectoryController $directoryController;

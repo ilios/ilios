@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\PermissionMatrix;
 use App\Tests\TestCase;
 
 /**
  * Class PermissionMatrixTest
- * @covers \App\Classes\PermissionMatrix
  */
+#[CoversClass(PermissionMatrix::class)]
 class PermissionMatrixTest extends TestCase
 {
     protected PermissionMatrix $permissionMatrix;

@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\MeshPreviousIndexing;
 
 /**
  * Tests for Entity MeshPreviousIndexing
- * @group model
  */
+#[Group('model')]
+#[CoversClass(MeshPreviousIndexing::class)]
 class MeshPreviousIndexingTest extends EntityBase
 {
     protected MeshPreviousIndexing $object;
@@ -38,19 +41,11 @@ class MeshPreviousIndexingTest extends EntityBase
                 too much for me to imagine');
         $this->validate(0);
     }
-    /**
-     * @covers \App\Entity\MeshPreviousIndexing::setPreviousIndexing
-     * @covers \App\Entity\MeshPreviousIndexing::getPreviousIndexing
-     */
     public function testSetPreviousIndexing(): void
     {
         $this->basicSetTest('previousIndexing', 'string');
     }
 
-    /**
-     * @covers \App\Entity\MeshPreviousIndexing::getDescriptor
-     * @covers \App\Entity\MeshPreviousIndexing::setDescriptor
-     */
     public function testSetDescriptor(): void
     {
         $this->entitySetTest('descriptor', "MeshDescriptor");

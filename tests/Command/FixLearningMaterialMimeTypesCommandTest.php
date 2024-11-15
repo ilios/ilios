@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\FixLearningMaterialMimeTypesCommand;
 use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
@@ -20,8 +21,8 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class FixLearningMaterialMimeTypesCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
 class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

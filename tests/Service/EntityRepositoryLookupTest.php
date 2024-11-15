@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\AamcMethod;
 use App\Entity\DTO\AamcMethodDTO;
 use App\Entity\DTO\VocabularyDTO;
@@ -16,9 +18,7 @@ use App\Service\EntityRepositoryLookup;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * @covers \App\Service\EntityRepositoryLookup
- */
+#[CoversClass(EntityRepositoryLookup::class)]
 class EntityRepositoryLookupTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -38,9 +38,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         unset($this->service);
     }
 
-    /**
-     * @dataProvider getRepositoryForEndpointProvider
-     */
+    #[DataProvider('getRepositoryForEndpointProvider')]
     public function testGetRepositoryForEndpoint(string $endpoint, string $expected): void
     {
         $repository = $this->service->getRepositoryForEndpoint($endpoint);
@@ -50,9 +48,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getManagerForEntityProvider
-     */
+    #[DataProvider('getManagerForEntityProvider')]
     public function testGetManagerForEntity(string $entityClass, string $expected): void
     {
         $repository = $this->service->getManagerForEntity($entityClass);
@@ -62,9 +58,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getDtoClassForEndpointProvider
-     */
+    #[DataProvider('getDtoClassForEndpointProvider')]
     public function testGetDtoClassForEndpoint(string $endpoint, string $expected): void
     {
         $this->assertEquals(
@@ -73,9 +67,7 @@ class EntityRepositoryLookupTest extends KernelTestCase
         );
     }
 
-    /**
-     * @dataProvider getDtoClassForEndpointFailsProvider
-     */
+    #[DataProvider('getDtoClassForEndpointFailsProvider')]
     public function testGetDtoClassForEndpointFails(string $endpoint, string $expected): void
     {
         $this->expectExceptionMessage($expected);

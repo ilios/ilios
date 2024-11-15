@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Tests\DataLoader\DataLoaderInterface;
 use Exception;
 
@@ -20,9 +21,9 @@ trait QEndpointTrait
     abstract public function testFindByQWithOffsetAndLimitJsonApi(): void;
 
     /**
-     * @dataProvider qsToTest
      * @throws Exception
      */
+    #[DataProvider('qsToTest')]
     public function testFindByQ(string $q, array $dataKeys): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
@@ -34,9 +35,9 @@ trait QEndpointTrait
     }
 
     /**
-     * @dataProvider qsToTest
      * @throws Exception
      */
+    #[DataProvider('qsToTest')]
     public function testFindByQJsonApi(string $q, array $dataKeys): void
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);

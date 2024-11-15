@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\UserRole;
 
 /**
  * Tests for Entity UserRole
- * @group model
  */
+#[Group('model')]
+#[CoversClass(UserRole::class)]
 class UserRoleTest extends EntityBase
 {
     protected UserRole $object;
@@ -37,42 +40,26 @@ class UserRoleTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\UserRole::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getUsers());
     }
 
-    /**
-     * @covers \App\Entity\UserRole::setTitle
-     * @covers \App\Entity\UserRole::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\UserRole::addUser
-     */
     public function testAddUser(): void
     {
         $this->entityCollectionAddTest('user', 'User', false, false, 'addRole');
     }
 
-    /**
-     * @covers \App\Entity\UserRole::removeUser
-     */
     public function testRemoveUser(): void
     {
         $this->entityCollectionRemoveTest('user', 'User', false, false, false, 'removeRole');
     }
 
-    /**
-     * @covers \App\Entity\UserRole::getUsers
-     */
     public function testGetUsers(): void
     {
         $this->entityCollectionSetTest('user', 'User', false, false, 'addRole');

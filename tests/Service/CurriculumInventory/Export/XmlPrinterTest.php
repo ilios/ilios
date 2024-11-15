@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory\Export;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\Course;
 use App\Entity\CourseClerkshipType;
 use App\Entity\CourseClerkshipTypeInterface;
@@ -22,6 +24,7 @@ use DateTime;
  * Class AggregatorTest
  * @package App\Tests\Service\CurriculumInventory\Export
  */
+#[CoversClass(XmlPrinter::class)]
 class XmlPrinterTest extends TestCase
 {
     protected XmlPrinter $printer;
@@ -257,10 +260,7 @@ class XmlPrinterTest extends TestCase
         return [ [ $inventory ] ];
     }
 
-    /**
-     * @covers \App\Service\CurriculumInventory\Export\XmlPrinter::print
-     * @dataProvider inventoryDataProvider
-     */
+    #[DataProvider('inventoryDataProvider')]
     public function testPrintReport(array $inventory): void
     {
         $xml = simplexml_load_string($this->printer->print($inventory));

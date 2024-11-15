@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Classes\UserMaterial;
@@ -14,8 +15,8 @@ use DateTime;
 /**
  * Class SchoolEventTest
  * @package App\Tests\Classes
- * @covers \App\Classes\SchoolEvent
  */
+#[CoversClass(SchoolEvent::class)]
 class SchoolEventTest extends TestCase
 {
     protected SchoolEvent $schoolEvent;

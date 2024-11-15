@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\DependencyInjection;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\DependencyInjection\PrefixSeedCompilerPass;
 use App\Tests\TestCase;
 use Composer\InstalledVersions;
@@ -12,9 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-/**
- * @covers \App\DependencyInjection\PrefixSeedCompilerPass
- */
+#[CoversClass(PrefixSeedCompilerPass::class)]
 class PrefixSeedCompilerPassTest extends TestCase
 {
     protected m\MockInterface $config;

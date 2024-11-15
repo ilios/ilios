@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAamcResourceTypeData;
 use App\Tests\Fixture\LoadTermData;
 
 /**
  * AamcResourceType API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
 class AamcResourceTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcResourceTypes';

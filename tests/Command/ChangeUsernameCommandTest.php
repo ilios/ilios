@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\ChangeUsernameCommand;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
@@ -20,8 +21,8 @@ use Mockery as m;
 /**
  * Class ChangeUsernameCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
 class ChangeUsernameCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

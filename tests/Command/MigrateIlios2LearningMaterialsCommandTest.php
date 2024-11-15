@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\MigrateIlios2LearningMaterialsCommand;
 use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
@@ -21,8 +22,8 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class MigrateIlios2LearningMaterialsCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
 class MigrateIlios2LearningMaterialsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

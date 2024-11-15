@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Entity\CourseLearningMaterial;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
@@ -14,8 +15,8 @@ use function is_null;
 
 /**
  * CourseLearningMaterial API endpoint Test.
- * @group api_1
  */
+#[Group('api_1')]
 class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseLearningMaterials';

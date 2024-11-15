@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity\DTO;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Tests\TestCase;
 use DateTime;
@@ -11,8 +13,9 @@ use DateTime;
 /**
  * Class LearningMaterialDTOTest
  * @package App\Tests\Entity\DTO
- * @group model
  */
+#[Group('model')]
+#[CoversClass(LearningMaterialDTO::class)]
 class LearningMaterialDTOTest extends TestCase
 {
     protected LearningMaterialDTO $dto;
@@ -44,9 +47,6 @@ class LearningMaterialDTOTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * @covers \App\Entity\DTO\LearningMaterialDTO::clearMaterial
-     */
     public function testClearMaterial(): void
     {
         $this->dto->absoluteFileUri = 'https://ilios.demo.edu/lm/1234567890';

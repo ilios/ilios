@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\ServiceTokenVoter;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\VoterPermissions;
 use App\ServiceTokenVoter\ReadonlyEntityVoter as Voter;
 use Mockery as m;
@@ -36,9 +37,7 @@ abstract class AbstractReadonlyBase extends AbstractBase
 
     abstract public static function subjectProvider(): array;
 
-    /**
-     * @dataProvider subjectProvider
-     */
+    #[DataProvider('subjectProvider')]
     public function canReadTest(string $className): void
     {
         $subject = m::mock($className);

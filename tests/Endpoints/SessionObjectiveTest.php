@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Tests\DataLoader\SessionData;
 use App\Tests\DataLoader\SessionObjectiveData;
 use App\Tests\DataLoader\TermData;
@@ -19,8 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * SessionObjectiveTest API endpoint Test.
- * @group api_3
  */
+#[Group('api_3')]
 class SessionObjectiveTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'sessionObjectives';
@@ -101,11 +103,11 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
     }
 
     /**
-     * @dataProvider inputSanitationTestProvider
      *
      * @param string $input A given objective title as un-sanitized input.
      * @param string $output The expected sanitized objective title output as returned from the server.
      */
+    #[DataProvider('inputSanitationTestProvider')]
     public function testInputSanitation(string $input, string $output): void
     {
         $postData = self::getContainer()->get(SessionObjectiveData::class)

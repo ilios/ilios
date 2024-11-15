@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Security;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\ServiceTokenUser;
 use App\Classes\SessionUserInterface;
 use App\Security\JsonWebTokenAuthenticator;
@@ -20,9 +21,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use UnexpectedValueException;
 
-/**
- * @covers \App\Security\JsonWebTokenAuthenticator
- */
+#[CoversClass(JsonWebTokenAuthenticator::class)]
 class JsonWebTokenAuthenticatorTest extends TestCase
 {
     protected m\MockInterface $routerMock;

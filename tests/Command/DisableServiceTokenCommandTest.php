@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\DisableServiceTokenCommand;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
@@ -16,9 +18,9 @@ use Mockery as m;
 
 /**
  * @package App\Tests\Command
- * @group cli
- * @covers \App\Command\DisableServiceTokenCommand
  */
+#[Group('cli')]
+#[CoversClass(DisableServiceTokenCommand::class)]
 class DisableServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

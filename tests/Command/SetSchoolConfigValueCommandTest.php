@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\SetSchoolConfigValueCommand;
 use App\Entity\SchoolConfig;
 use App\Entity\SchoolInterface;
@@ -19,8 +20,8 @@ use Mockery as m;
 /**
  * Class SetSchoolConfigValueCommandTest
  * @package App\Tests\Command
- * @group cli
  */
+#[Group('cli')]
 class SetSchoolConfigValueCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\IlmSession;
 use App\Traits\IlmSessionsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
 
-/**
- * @covers \App\Traits\IlmSessionsEntity
- */
-
+#[CoversClass(IlmSessionsEntity::class)]
 class IlmSessionsEntityTest extends TestCase
 {
     private object $traitObject;

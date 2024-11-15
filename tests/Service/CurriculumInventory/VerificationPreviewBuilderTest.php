@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Course;
 use App\Entity\CourseClerkshipType;
 use App\Entity\CurriculumInventoryAcademicLevel;
@@ -23,8 +24,8 @@ use Mockery\MockInterface;
 /**
  * Class VerificationPreviewBuilderTest
  * @package App\Tests\Service\CurriculumInventory
- * @covers \App\Service\CurriculumInventory\VerificationPreviewBuilder
  */
+#[CoversClass(VerificationPreviewBuilder::class)]
 class VerificationPreviewBuilderTest extends TestCase
 {
     protected VerificationPreviewBuilder $builder;

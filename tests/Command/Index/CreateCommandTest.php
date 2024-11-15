@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command\Index;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\Index\CreateCommand;
 use App\Service\Index\Manager;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -12,9 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
-/**
- * @group cli
- */
+#[Group('cli')]
 class CreateCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ListRootUsersCommand;
 use App\Entity\DTO\UserDTO;
 use App\Repository\UserRepository;
@@ -17,8 +19,9 @@ use Mockery as m;
  * Tests the List Root Users command.
  *
  * Class ListRootUsersCommandTest
- * @group cli
  */
+#[Group('cli')]
+#[CoversClass(ListRootUsersCommand::class)]
 class ListRootUsersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -46,9 +49,6 @@ class ListRootUsersCommandTest extends KernelTestCase
         unset($this->commandTester);
     }
 
-    /**
-     * @covers \App\Command\ListRootUsersCommand::execute
-     */
     public function testListRootUsers(): void
     {
         $users = [];
@@ -106,9 +106,6 @@ class ListRootUsersCommandTest extends KernelTestCase
         );
     }
 
-    /**
-     * @covers \App\Command\ListRootUsersCommand::execute
-     */
     public function testListUsersNoResults(): void
     {
         $this->userRepository

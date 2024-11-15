@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\LearningMaterialUserRole;
 
 /**
  * Tests for Entity LearningMaterialUserRole
- * @group model
  */
+#[Group('model')]
+#[CoversClass(LearningMaterialUserRole::class)]
 class LearningMaterialUserRoleTest extends EntityBase
 {
     protected LearningMaterialUserRole $object;
@@ -37,42 +40,26 @@ class LearningMaterialUserRoleTest extends EntityBase
         $this->validate(0);
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialUserRole::__construct
-     */
     public function testConstructor(): void
     {
         $this->assertCount(0, $this->object->getLearningMaterials());
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialUserRole::setTitle
-     * @covers \App\Entity\LearningMaterialUserRole::getTitle
-     */
     public function testSetTitle(): void
     {
         $this->basicSetTest('title', 'string');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialUserRole::addLearningMaterial
-     */
     public function testAddLearningMaterial(): void
     {
         $this->entityCollectionAddTest('learningMaterial', 'LearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialUserRole::removeLearningMaterial
-     */
     public function testRemoveLearningMaterial(): void
     {
         $this->entityCollectionRemoveTest('learningMaterial', 'LearningMaterial');
     }
 
-    /**
-     * @covers \App\Entity\LearningMaterialUserRole::getLearningMaterials
-     */
     public function testGetLearningMaterials(): void
     {
         $this->entityCollectionSetTest('learningMaterial', 'LearningMaterial');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\UserMaterial;
 use App\Tests\TestCase;
 use DateTime;
@@ -11,8 +12,8 @@ use DateTime;
 /**
  * Class UserMaterialTest
  * @package App\Tests\Classes
- * @covers \App\Classes\UserMaterial
  */
+#[CoversClass(UserMaterial::class)]
 class UserMaterialTest extends TestCase
 {
     protected UserMaterial $userMaterial;

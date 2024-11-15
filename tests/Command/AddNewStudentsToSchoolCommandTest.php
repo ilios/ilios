@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Command\AddNewStudentsToSchoolCommand;
 use App\Entity\AuthenticationInterface;
 use App\Entity\SchoolInterface;
@@ -24,8 +25,8 @@ use Mockery as m;
 
 /**
  * Class AddNewStudentsToSchoolCommandTest
- * @group cli
  */
+#[Group('cli')]
 class AddNewStudentsToSchoolCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;

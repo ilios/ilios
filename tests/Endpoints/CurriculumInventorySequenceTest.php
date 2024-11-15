@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\CurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 
 /**
  * CurriculumInventorySequence API endpoint Test.
- * @group api_1
  */
+#[Group('api_1')]
 class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventorySequences';

@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadVocabularyData;
 
 /**
  * Vocabulary API endpoint Test.
- * @group api_2
+ *
  */
+#[Group('api_2')]
 class VocabularyTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'vocabularies';
