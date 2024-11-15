@@ -18,14 +18,15 @@ class CompetenciesEntityTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $traitName = CompetenciesEntity::class;
-        $this->traitObject = $this->getObjectForTrait($traitName);
+        $this->traitObject = new class {
+            use CompetenciesEntity;
+        };
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->object);
+        unset($this->traitObject);
     }
 
     public function testSetCompetencies(): void

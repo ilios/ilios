@@ -18,14 +18,15 @@ class CoursesEntityTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $traitName = CoursesEntity::class;
-        $this->traitObject = $this->getObjectForTrait($traitName);
+        $this->traitObject = new class {
+            use CoursesEntity;
+        };
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->object);
+        unset($this->traitObject);
     }
 
     public function testSetCourses(): void

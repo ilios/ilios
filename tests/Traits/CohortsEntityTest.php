@@ -18,14 +18,15 @@ class CohortsEntityTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $traitName = CohortsEntity::class;
-        $this->traitObject = $this->getObjectForTrait($traitName);
+        $this->traitObject = new class {
+            use CohortsEntity;
+        };
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->object);
+        unset($this->traitObject);
     }
 
     public function testSetCohorts(): void
