@@ -12,7 +12,7 @@ class IndexableCourse
 
     public string $school;
 
-    public string $clerkshipType;
+    public ?string $clerkshipType;
 
     public array $directors = [];
 
