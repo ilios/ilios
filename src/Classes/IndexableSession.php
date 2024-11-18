@@ -16,7 +16,7 @@ class IndexableSession
 
     public string $sessionType;
 
-    public string $description;
+    public ?string $description;
 
     public array $directors = [];
 
