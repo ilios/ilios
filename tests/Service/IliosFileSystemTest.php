@@ -40,7 +40,7 @@ class IliosFileSystemTest extends TestCase
         unset($this->fakeTestFileDir);
     }
 
-    public function testStoreLeaningMaterialFile(): void
+    public function testStoreLearningMaterialFile(): void
     {
         $path = __FILE__;
         $file = m::mock(File::class);
@@ -202,5 +202,24 @@ class IliosFileSystemTest extends TestCase
         $this->fileSystemMock->shouldReceive('delete')->with("tmp/{$hash}");
         $contents = $this->iliosFileSystem->getUploadedTemporaryFileContentsAndRemoveFile($hash);
         $this->assertSame($contents, $testContents);
+    }
+
+    public function testStoreLearningMaterialText(): void
+    {
+        $lmHashPath = '/24/24jonandjen';
+        $lmPath = IliosFileSystem::HASHED_LM_DIRECTORY . $lmHashPath;
+        $textPath = IliosFileSystem::HASHED_LM_TEXT_DIRECTORY . "{$lmHashPath}.txt";
+        $this->fileSystemMock->shouldReceive('write')->with($textPath, 'some text');
+        $newPath = $this->iliosFileSystem->storeLearningMaterialText($lmPath, 'some text');
+        $this->assertEquals($textPath, $newPath);
+    }
+
+    public function testGetLearningMaterialTextPath(): void
+    {
+        $lmHashPath = '/24/24jonandjen';
+        $lmPath = IliosFileSystem::HASHED_LM_DIRECTORY . $lmHashPath;
+        $textPath = IliosFileSystem::HASHED_LM_TEXT_DIRECTORY . "{$lmHashPath}.txt";
+        $newPath = $this->iliosFileSystem->getLearningMaterialTextPath($lmPath);
+        $this->assertEquals($textPath, $newPath);
     }
 }
