@@ -35,6 +35,7 @@ services:
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FEATURE_DTO_CACHING=false
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
+      - ILIOS_TIKA_URL=http://tika:9998
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/srv/app:ro,cached
@@ -55,12 +56,14 @@ services:
       - ILIOS_SEARCH_HOSTS=opensearch:9200
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
+      - ILIOS_TIKA_URL=http://tika:9998
     restart: always
     command: [ "--time-limit", "3600", "-vv"]
     depends_on:
-        - db
-        - opensearch
-        - redis
+      - db
+      - opensearch
+      - redis
+      - tika
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/srv/app:ro,cached
@@ -83,3 +86,9 @@ services:
       target: redis
     ports:
       - "6379:6379"
+  tika:
+    build:
+      context: .
+      target: tika
+    ports:
+      - "9998:9998"

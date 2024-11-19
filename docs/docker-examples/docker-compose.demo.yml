@@ -24,6 +24,7 @@ services:
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_SEARCH_HOSTS=opensearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+      - ILIOS_TIKA_URL=http://tika:9998
     depends_on:
       - db
   messages:
@@ -33,6 +34,7 @@ services:
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_SEARCH_HOSTS=opensearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
+      - ILIOS_TIKA_URL=http://tika:9998
     depends_on:
         - db
   opensearch:
@@ -45,3 +47,7 @@ services:
     image: ilios/redis:v3
     ports:
       - "6379:6379"
+  tika:
+    image: apache/tika:2.9.1.0-full
+    ports:
+      - "9998:9998"

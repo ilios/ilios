@@ -241,6 +241,33 @@ COPY docker/redis/redis.conf /usr/local/etc/redis/redis.conf
 CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
 ###############################################################################
+# Build apache tika ourselves so it's multi platform while we wait
+# for an official release that works on ARM
+# Mostly stolen from https://github.com/apache/tika-docker/blob/e8819e3e2a8d29e803ecdc6b0c6169ed19c5b1c3/minimal/Dockerfile
+###############################################################################
+FROM debian:bookworm-slim as tika
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+ENV TIKA_VERSION=3.0.0
+
+RUN set -eux \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        openjdk-17-jre-headless \
+        wget ca-certificates gnupg2 \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && wget -qO- https://downloads.apache.org/tika/KEYS | gpg --import
+
+RUN wget https://dlcdn.apache.org/tika/${TIKA_VERSION}/tika-server-standard-${TIKA_VERSION}.jar -O /tika-server.jar
+RUN wget https://downloads.apache.org/tika/${TIKA_VERSION}/tika-server-standard-${TIKA_VERSION}.jar.asc -O /tika-server.jar.asc
+
+RUN gpg --verify /tika-server.jar.asc /tika-server.jar
+
+#random user not root, same as official image
+USER 35002:35002
+EXPOSE 9998
+ENTRYPOINT [ "/bin/sh", "-c", "exec java -cp \"/tika-server.jar:/tika-extras/*\" org.apache.tika.server.core.TikaServerCli -h 0.0.0.0 $0 $@"]
+
+###############################################################################
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
