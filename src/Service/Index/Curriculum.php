@@ -6,6 +6,7 @@ namespace App\Service\Index;
 
 use App\Classes\OpenSearchBase;
 use App\Classes\IndexableCourse;
+use DateTime;
 use Exception;
 use InvalidArgumentException;
 
@@ -71,7 +72,7 @@ class Curriculum extends OpenSearchBase
         return $this->parseCurriculumSearchResults($results);
     }
 
-    public function index(array $courses): bool
+    public function index(array $courses, DateTime $requestCreatedAt): bool
     {
         foreach ($courses as $course) {
             if (!$course instanceof IndexableCourse) {
@@ -84,8 +85,17 @@ class Curriculum extends OpenSearchBase
                 );
             }
         }
+        $courseIds = array_map(function (IndexableCourse $idx) {
+            return $idx->courseDTO->id;
+        }, $courses);
 
-        $input = array_reduce($courses, function (array $carry, IndexableCourse $item) {
+        $skipCourseIds = $this->findSkippableCourseIds($courseIds, $requestCreatedAt);
+        $coursesToIndex = array_filter(
+            $courses,
+            fn(IndexableCourse $idx) => !in_array($idx->courseDTO->id, $skipCourseIds)
+        );
+
+        $input = array_reduce($coursesToIndex, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
             $sessionsWithMaterials = $this->attachLearningMaterialsToSession($sessions);
             return array_merge($carry, $sessionsWithMaterials);
@@ -98,6 +108,8 @@ class Curriculum extends OpenSearchBase
                 if (array_key_exists('error', $item['index'])) {
                     return $item['index']['error']['reason'];
                 }
+
+                return null;
             }, $result['items']);
             $clean = array_filter($errors);
             $str = join(';', array_unique($clean));
@@ -106,6 +118,50 @@ class Curriculum extends OpenSearchBase
         }
 
         return true;
+    }
+
+    protected function findSkippableCourseIds(array $ids, DateTime $stamp): array
+    {
+        if (!$this->enabled) {
+            return [];
+        }
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            [
+                                'range' => [
+                                    'ingestTime' => [
+                                        'gte' => $stamp->format('c'),
+                                    ],
+                                ],
+                            ],
+                            [
+                                'terms' => [
+                                    'courseId' => $ids,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'aggs' => [
+                    'courseId' => [
+                        'terms' => [
+                            'field' => 'courseId',
+                            'size' => 10000,
+                        ],
+                    ],
+                ],
+                'size' => 0,
+            ],
+        ];
+        $results = $this->doSearch($params);
+        $courseIds =  array_column($results['aggregations']['courseId']['buckets'], 'key');
+        $coursesModifiedSinceStamp = array_map('intval', $courseIds);
+
+        return array_intersect($ids, $coursesModifiedSinceStamp);
     }
 
     public function deleteCourse(int $id): bool
@@ -418,6 +474,7 @@ class Curriculum extends OpenSearchBase
                 'max_ngram_diff' =>  15,
                 'number_of_shards' => 1,
                 'number_of_replicas' => 0,
+                'default_pipeline' => 'curriculum',
             ],
             'mappings' => [
                 '_meta' => [
@@ -490,6 +547,28 @@ class Curriculum extends OpenSearchBase
                     ],
                     'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
                     'sessionMeshDescriptorAnnotations' => $txtTypeField,
+                    'ingestedTime' => [
+                        'type' => 'date',
+                        'format' => 'date_optional_time||basic_date_time_no_millis||epoch_second||epoch_millis',
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public static function getPipeline(): array
+    {
+        return [
+            'id' => 'curriculum',
+            'body' => [
+                'description' => 'Curriculum Data',
+                'processors' => [
+                    [
+                        'set' => [
+                            'field' => '_source.ingestTime',
+                            'value' => '{{_ingest.timestamp}}',
+                        ],
+                    ],
                 ],
             ],
         ];
