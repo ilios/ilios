@@ -10,6 +10,7 @@ use App\Entity\LearningMaterialInterface;
 use App\Entity\SessionInterface;
 use App\Entity\UserInterface;
 use App\Message\CourseIndexRequest;
+use App\Message\LearningMaterialTextExtractionRequest;
 use App\Message\UserIndexRequest;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
@@ -54,6 +55,7 @@ class IndexEntityChanges
 
         if ($entity instanceof LearningMaterialInterface) {
             $this->indexLearningMaterial($entity);
+            $this->bus->dispatch(new LearningMaterialTextExtractionRequest([$entity->getId()]));
         }
 
         if ($entity instanceof IndexableCoursesEntityInterface) {
