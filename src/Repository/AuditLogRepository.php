@@ -45,12 +45,8 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
                     ':to'
                 )
             )
-            ->setParameters(
-                [
-                    'from' => $from->format('Y-m-d H:i:s'),
-                    'to' => $to->format('Y-m-d H:i:s:'),
-                ]
-            );
+            ->setParameter('from', $from->format('Y-m-d H:i:s'))
+            ->setParameter('to', $to->format('Y-m-d H:i:s'));
 
         $results = $qb->getQuery()->getArrayResult();
         $rhett = [];
@@ -80,12 +76,8 @@ class AuditLogRepository extends ServiceEntityRepository implements DTORepositor
                     ':to'
                 )
             )
-            ->setParameters(
-                [
-                    'from' => $from->format('Y-m-d H:i:s'),
-                    'to' => $to->format('Y-m-d H:i:s:'),
-                ]
-            );
+            ->setParameter('from', $from->format('Y-m-d H:i:s'))
+            ->setParameter('to', $to->format('Y-m-d H:i:s'));
         $qb->getQuery()->execute();
     }
 
