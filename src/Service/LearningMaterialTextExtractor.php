@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\DTO\LearningMaterialDTO;
+use App\Exception\LearningMaterialTextExtractorException;
 use Exception;
 use Vaites\ApacheTika\Client;
 
@@ -47,7 +48,9 @@ class LearningMaterialTextExtractor
         }
 
         if (!$this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath)) {
-            throw new Exception("There is no material on this system at $dto->relativePath");
+            throw new LearningMaterialTextExtractorException(
+                "There is no material on this system at $dto->relativePath"
+            );
         }
 
         $contents = $this->fileSystem->getFileContents($dto->relativePath);
