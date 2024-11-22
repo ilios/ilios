@@ -102,6 +102,15 @@ class IliosFileSystem
     }
 
     /**
+     * Get if a learning material file path is valid
+     */
+    public function checkIfLearningMaterialTextFileExists(string $lmRelativePath): bool
+    {
+        $path = $this->getLearningMaterialTextPath($lmRelativePath);
+        return $this->fileSystem->fileExists($path);
+    }
+
+    /**
      * Remove a file from the filesystem by hash
      */
     public function removeFile(string $relativePath): void
