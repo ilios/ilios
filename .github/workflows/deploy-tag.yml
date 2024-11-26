@@ -46,6 +46,7 @@ jobs:
           - mysql-demo
           - opensearch
           - redis
+          - tika
     steps:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3

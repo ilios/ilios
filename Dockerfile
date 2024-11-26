@@ -241,6 +241,12 @@ COPY docker/redis/redis.conf /usr/local/etc/redis/redis.conf
 CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 
 ###############################################################################
+# Create our own tika, so we can customize it if needed
+###############################################################################
+FROM apache/tika as tika
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+
+###############################################################################
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################

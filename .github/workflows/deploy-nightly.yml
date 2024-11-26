@@ -54,6 +54,7 @@ jobs:
           - mysql-demo
           - opensearch
           - redis
+          - tika
     steps:
     - uses: actions/checkout@v4
       with:

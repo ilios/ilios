@@ -181,6 +181,10 @@ services:
       factory: ['App\Service\OpenSearchFactory', 'getClient']
       arguments: ['@App\Service\Config']
 
+    Vaites\ApacheTika\Client:
+      factory: ['App\Service\TikaFactory', 'getClient']
+      arguments: ['@App\Service\Config']
+
     http_client:
       class: Symfony\Component\HttpClient\NativeHttpClient
 

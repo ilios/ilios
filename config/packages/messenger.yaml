@@ -12,6 +12,7 @@ framework:
        'App\Message\UserIndexRequest': async
        'App\Message\MeshDescriptorIndexRequest': async
        'App\Message\LearningMaterialIndexRequest': async
+       'App\Message\LearningMaterialTextExtractionRequest': async
 
     default_bus: messenger.bus.default
     buses:

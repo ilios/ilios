@@ -32,6 +32,13 @@ class IliosFileSystem
     public const string HASHED_LM_DIRECTORY = 'learning_materials/lm';
 
     /**
+     * Extracted test from uploaded materials are stored here
+     * based on the hashed file name of the LM they were
+     * extracted from
+     */
+    public const string HASHED_LM_TEXT_DIRECTORY = 'learning_materials/text';
+
+    /**
      * Lock files are stored in this directory
      */
     public const string LOCK_FILE_DIRECTORY = 'locks';
@@ -64,13 +71,43 @@ class IliosFileSystem
     }
 
     /**
-     * Store a learning material file and return the relativePath
+     * Get the path to a learning material file
      */
     public function getLearningMaterialFilePath(File $file): string
     {
         $hash = md5_file($file->getPathname());
 
         return self::HASHED_LM_DIRECTORY . '/' . substr($hash, 0, 2) . '/' . $hash;
+    }
+
+    /**
+     * Store the extracted text from a learning material
+     */
+    public function storeLearningMaterialText(string $lmRelativePath, string $contents): string
+    {
+        $relativePath = $this->getLearningMaterialTextPath($lmRelativePath);
+        $this->fileSystem->write($relativePath, $contents);
+
+        return $relativePath;
+    }
+
+    /**
+     * Get the path to a learning material extracted text file
+     */
+    public function getLearningMaterialTextPath(string $lmRelativePath): string
+    {
+        $arr = explode('/', $lmRelativePath);
+        $hash = $arr[3];
+        return self::HASHED_LM_TEXT_DIRECTORY . '/' . substr($hash, 0, 2) . '/' . $hash . '.txt';
+    }
+
+    /**
+     * Get if a learning material file path is valid
+     */
+    public function checkIfLearningMaterialTextFileExists(string $lmRelativePath): bool
+    {
+        $path = $this->getLearningMaterialTextPath($lmRelativePath);
+        return $this->fileSystem->fileExists($path);
     }
 
     /**

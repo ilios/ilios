@@ -156,6 +156,7 @@ jobs:
           - mysql-demo
           - opensearch
           - redis
+          - tika
     steps:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -191,6 +192,7 @@ jobs:
           - mysql-demo
           - opensearch
           - redis
+          - tika
      steps:
      - name: Set up QEMU
        uses: docker/setup-qemu-action@v3
@@ -320,7 +322,7 @@ jobs:
         docker stop ilios-opensearch
         docker rm --volumes ilios-opensearch
         docker image rm opensearch:testing
-    - name: REdis
+    - name: Redis
       if: ${{ always() }}
       run: |
         docker image load --input /tmp/redis.tar
@@ -330,6 +332,16 @@ jobs:
         docker stop ilios-redis
         docker rm --volumes ilios-redis
         docker image rm redis:testing
+    - name: Tika
+      if: ${{ always() }}
+      run: |
+        docker image load --input /tmp/tika.tar
+        docker run -d --name ilios-tika tika:testing
+        docker ps
+        docker ps | grep -q ilios-tika
+        docker stop ilios-tika
+        docker rm --volumes ilios-tika
+        docker image rm tika:testing
     - name: Output Docker Logs
       if: failure()
       run: |
@@ -343,6 +355,7 @@ jobs:
         docker logs ilios-mysql-demo
         docker logs ilios-opensearch
         docker logs ilios-redis
+        docker logs ilios-tika
   check_setup_command:
     name: Setup Command
     needs: code_style

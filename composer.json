@@ -8,12 +8,14 @@
     "php": ">= 8.3",
     "ext-apcu": "*",
     "ext-ctype": "*",
+    "ext-curl": "*",
     "ext-dom": "*",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-pdo": "*",
     "ext-simplexml": "*",
+    "ext-sodium": "*",
     "ext-xmlwriter": "*",
     "ext-zlib": "*",
     "composer/composer": "^2.1",
@@ -68,8 +70,8 @@
     "symfony/validator": "@stable",
     "symfony/web-link": "@stable",
     "symfony/yaml": "@stable",
-    "webonyx/graphql-php": "^15.0",
-    "ext-sodium": "*"
+    "vaites/php-apache-tika": "^1.3",
+    "webonyx/graphql-php": "^15.0"
   },
   "require-dev": {
     "infection/infection": "^0.29.0",
