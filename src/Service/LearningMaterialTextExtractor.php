@@ -11,7 +11,6 @@ use Vaites\ApacheTika\Client;
 
 class LearningMaterialTextExtractor
 {
-    private bool $enabled = false;
     private Client $client;
 
     public function __construct(
@@ -21,14 +20,13 @@ class LearningMaterialTextExtractor
         ?Client $client = null,
     ) {
         if ($client) {
-            $this->enabled = true;
             $this->client = $client;
         }
     }
 
     public function extract(LearningMaterialDTO $dto): void
     {
-        if (!$this->enabled) {
+        if (!$this->isEnabled()) {
             return;
         }
 
@@ -73,5 +71,10 @@ class LearningMaterialTextExtractor
                 unlink($tmpFile->getRealPath());
             }
         }
+    }
+
+    private function isEnabled(): bool
+    {
+        return !empty($this->client);
     }
 }
