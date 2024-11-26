@@ -15,7 +15,7 @@ env:
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
   MESSENGER_TRANSPORT_DSN: doctrine://default
-  latest_php: 8.3
+  minimum_php_version: 8.3
   DOCKER_BUILDKIT: 1
   UCSF_SQ_TK: sqp_d0279fe2dd0d948f8366350841b7ac5d0682e0c9
 
@@ -25,11 +25,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Use PHP ${{ env.latest_php }}
+    - name: Use PHP ${{ env.minimum_php_version }}
       uses: shivammathur/setup-php@v2
       with:
         coverage: none
-        php-version: ${{ env.latest_php }}
+        php-version: ${{ env.minimum_php_version }}
         extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
@@ -96,11 +96,11 @@ jobs:
       ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
     steps:
       - uses: actions/checkout@v4
-      - name: Use PHP ${{ env.latest_php }}
+      - name: Use PHP ${{ env.minimum_php_version }}
         uses: shivammathur/setup-php@v2
         with:
           coverage: none
-          php-version: ${{ env.latest_php }}
+          php-version: ${{ env.minimum_php_version }}
           extensions: apcu
       - name: install dependencies
         run: composer install --no-interaction --prefer-dist

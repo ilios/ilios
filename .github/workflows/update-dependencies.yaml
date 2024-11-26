@@ -7,6 +7,7 @@ on:
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
+  minimum_php_version: 8.3
 
 jobs:
   update:
@@ -15,11 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use PHP 8.3
+    - name: Use PHP ${{ env.minimum_php_version }}
       uses: shivammathur/setup-php@v2
       with:
         coverage: none
-        php-version: 8.3
+        php-version: ${{ env.minimum_php_version }}
         extensions: apcu
     - name: install composer-lock-diff
       run: composer global require davidrjonas/composer-lock-diff
