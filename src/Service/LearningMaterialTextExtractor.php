@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Exception\LearningMaterialTextExtractorException;
 use Exception;
+use Symfony\Component\HttpFoundation\Response;
 use Vaites\ApacheTika\Client;
 
 class LearningMaterialTextExtractor
@@ -59,7 +60,9 @@ class LearningMaterialTextExtractor
             $this->iliosFileSystem->storeLearningMaterialText($dto->relativePath, $text);
         } catch (Exception $exception) {
             if (
-                $exception->getCode() === 422 &&
+                // error code from php-tika library (422)
+                // https://github.com/vaites/php-apache-tika/blob/792dc1254b4ccd92c6964ab477a1626dca6784ee/src/Clients/WebClient.php#L620
+                $exception->getCode() === Response::HTTP_UNPROCESSABLE_ENTITY &&
                 $exception->getMessage() === 'Unprocessable document'
             ) {
                 //this document can't be processed by tika
