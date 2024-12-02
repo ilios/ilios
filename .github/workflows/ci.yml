@@ -33,6 +33,8 @@ jobs:
         extensions: apcu
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
+    - name: Check Composer Lock
+      run: composer validate --no-check-all --no-check-version --strict
     - name: lint PHP
       run: vendor/bin/phpcs
     - name: lint twig
