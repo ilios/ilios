@@ -7,6 +7,9 @@ updates:
     time: "02:30"
     timezone: America/Los_Angeles
   open-pull-requests-limit: 10
+  ignore:
+      - dependency-name: "symfony/*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
   groups:
     symfony:
       patterns:
