@@ -159,7 +159,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": true,
-      "require": "7.1.*",
+      "require": "7.2.*",
       "docker": false
     }
   }
