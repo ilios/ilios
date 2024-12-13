@@ -900,9 +900,6 @@
     "symfony/yaml": {
         "version": "v5.2.0"
     },
-    "thecodingmachine/safe": {
-        "version": "v2.1.4"
-    },
     "theseer/tokenizer": {
         "version": "1.2.0"
     },
