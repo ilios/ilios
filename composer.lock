@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b93a597012e156fea48b6863a7e8c01",
+    "content-hash": "50c46f23be070f4102a676ef934a596c",
     "packages": [
         {
             "name": "async-aws/core",
@@ -3337,16 +3337,16 @@
         },
         {
             "name": "ilios/mesh-parser",
-            "version": "v3.0.0",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ilios/mesh-parser.git",
-                "reference": "051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c"
+                "reference": "398e1c18c96467ef33b97896206ebc60f17a90d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c",
-                "reference": "051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c",
+                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/398e1c18c96467ef33b97896206ebc60f17a90d3",
+                "reference": "398e1c18c96467ef33b97896206ebc60f17a90d3",
                 "shasum": ""
             },
             "require": {
@@ -3357,7 +3357,7 @@
             "require-dev": {
                 "fakerphp/faker": "@stable",
                 "mockery/mockery": "@stable",
-                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "@stable",
                 "squizlabs/php_codesniffer": "@stable"
             },
@@ -3386,9 +3386,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ilios/mesh-parser/issues",
-                "source": "https://github.com/ilios/mesh-parser/tree/v3.0.0"
+                "source": "https://github.com/ilios/mesh-parser/tree/v4.0.0"
             },
-            "time": "2024-02-14T00:04:40+00:00"
+            "time": "2024-12-13T19:23:31+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
