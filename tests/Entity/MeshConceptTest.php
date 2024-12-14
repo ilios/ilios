@@ -40,11 +40,9 @@ class MeshConceptTest extends EntityBase
         $this->object->setName('test_name');
         $this->object->setScopeNote('');
         $this->object->setCasn1Name('');
-        $this->object->setRegistryNumber('');
         $this->validate(0);
         $this->object->setScopeNote('test');
         $this->object->setCasn1Name('test');
-        $this->object->setRegistryNumber('test');
         $this->validate(0);
     }
 
@@ -74,11 +72,6 @@ class MeshConceptTest extends EntityBase
     public function testSetCasn1Name(): void
     {
         $this->basicSetTest('casn1Name', 'string');
-    }
-
-    public function testSetRegistryNumber(): void
-    {
-        $this->basicSetTest('registryNumber', 'string');
     }
 
     public function testAddTerm(): void

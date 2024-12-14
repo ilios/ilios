@@ -41,7 +41,6 @@ class MeshConceptRepository extends ServiceEntityRepository implements DTOReposi
                 $arr['preferred'],
                 $arr['scopeNote'],
                 $arr['casn1Name'],
-                $arr['registryNumber'],
                 $arr['createdAt'],
                 $arr['updatedAt']
             );
