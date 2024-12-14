@@ -31,8 +31,8 @@ class ImportMeshUniverseCommand extends Command
     use LockableTrait;
 
     private const array YEARS = [
-        '2023' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/2023/xmlmesh/desc2023.xml',
-        '2024' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml',
+        '2024' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/2024/xmlmesh/desc2024.xml',
+        '2025' => 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2025.xml',
     ];
 
     public function __construct(
