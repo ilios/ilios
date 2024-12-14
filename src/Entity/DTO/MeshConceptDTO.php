@@ -39,11 +39,6 @@ use OpenApi\Attributes as OA;
             type: "string"
         ),
         new OA\Property(
-            "registryNumber",
-            description: "Registry number",
-            type: "string"
-        ),
-        new OA\Property(
             "createdAt",
             description: "Created at",
             type: "string",
@@ -93,10 +88,6 @@ class MeshConceptDTO
     public ?string $casn1Name;
 
     #[IA\Expose]
-    #[IA\Type('string')]
-    public ?string $registryNumber;
-
-    #[IA\Expose]
     #[IA\Type('dateTime')]
     public DateTime $createdAt;
 
@@ -126,7 +117,6 @@ class MeshConceptDTO
         bool $preferred,
         ?string $scopeNote,
         ?string $casn1Name,
-        ?string $registryNumber,
         DateTime $createdAt,
         DateTime $updatedAt
     ) {
@@ -135,7 +125,6 @@ class MeshConceptDTO
         $this->preferred = $preferred;
         $this->scopeNote = $scopeNote;
         $this->casn1Name = $casn1Name;
-        $this->registryNumber = $registryNumber;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
