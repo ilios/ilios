@@ -502,14 +502,12 @@ EOL;
                     'preferred' => $concept->isPreferred(),
                     'scope_note' => $concept->getScopeNote(),
                     'casn_1_name' => $concept->getCasn1Name(),
-                    'registry_number' => $concept->getRegistryNumber(),
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
                     PDO::PARAM_STR,
                     PDO::PARAM_STR,
                     PDO::PARAM_BOOL,
-                    PDO::PARAM_STR,
                     PDO::PARAM_STR,
                     PDO::PARAM_STR,
                     'datetime',
@@ -710,7 +708,7 @@ EOL;
     public function exportMeshConcepts(): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('c.id, c.name, c.preferred, c.scopeNote, c.casn1Name, c.registryNumber')
+        $qb->select('c.id, c.name, c.preferred, c.scopeNote, c.casn1Name')
             ->from(MeshConcept::class, 'c')
             ->orderBy('c.id');
         return $qb->getQuery()->getScalarResult();
