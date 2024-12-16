@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bfcd875844341ee15758d9f919c9cab",
+    "content-hash": "7ce60ee7a8f1a6fb975e8e709765a7a6",
     "packages": [
         {
             "name": "async-aws/core",
@@ -3338,16 +3338,16 @@
         },
         {
             "name": "ilios/mesh-parser",
-            "version": "v3.0.0",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ilios/mesh-parser.git",
-                "reference": "051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c"
+                "reference": "398e1c18c96467ef33b97896206ebc60f17a90d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c",
-                "reference": "051a015cf6a90d7edd9ae6e3c1d70964f1cfa30c",
+                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/398e1c18c96467ef33b97896206ebc60f17a90d3",
+                "reference": "398e1c18c96467ef33b97896206ebc60f17a90d3",
                 "shasum": ""
             },
             "require": {
@@ -3358,7 +3358,7 @@
             "require-dev": {
                 "fakerphp/faker": "@stable",
                 "mockery/mockery": "@stable",
-                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "@stable",
                 "squizlabs/php_codesniffer": "@stable"
             },
@@ -3387,9 +3387,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ilios/mesh-parser/issues",
-                "source": "https://github.com/ilios/mesh-parser/tree/v3.0.0"
+                "source": "https://github.com/ilios/mesh-parser/tree/v4.0.0"
             },
-            "time": "2024-02-14T00:04:40+00:00"
+            "time": "2024-12-13T19:23:31+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
@@ -15353,6 +15353,7 @@
         "symfony/requirements-checker": 0,
         "symfony/runtime": 0,
         "symfony/security-bundle": 0,
+        "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
