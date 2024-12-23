@@ -17,7 +17,8 @@ env:
   MESSENGER_TRANSPORT_DSN: doctrine://default
   minimum_php_version: 8.3
   DOCKER_BUILDKIT: 1
-  UCSF_SQ_TK: sqp_d0279fe2dd0d948f8366350841b7ac5d0682e0c9
+  #token is tied to Stefan's account on UCSF's SonarQube (type: project, name: ilios)
+  UCSF_SQ_TK: sqp_1bc2f290cf463f3042d8092c6b25897749ae8b99
 
 jobs:
   code_style:
