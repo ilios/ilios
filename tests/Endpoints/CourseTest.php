@@ -260,7 +260,7 @@ class CourseTest extends AbstractReadWriteEndpoint
 
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
-            'year' => 2023,
+            'year' => 2024,
             'newStartDate' => 'false',
             'skipOfferings' => 'false',
         ]);
@@ -268,9 +268,9 @@ class CourseTest extends AbstractReadWriteEndpoint
         $this->assertSame($course['title'], $newCourse['title']);
         $this->assertSame($course['level'], $newCourse['level']);
         $this->assertSame($course['externalId'], $newCourse['externalId']);
-        $this->assertSame(2023, $newCourse['year']);
-        $this->assertSame('2023-09-03T00:00:00+00:00', $newCourse['startDate']);
-        $this->assertSame('2023-12-31T00:00:00+00:00', $newCourse['endDate']);
+        $this->assertSame(2024, $newCourse['year']);
+        $this->assertSame('2024-09-01T00:00:00+00:00', $newCourse['startDate']);
+        $this->assertSame('2024-12-29T00:00:00+00:00', $newCourse['endDate']);
         $this->assertFalse($newCourse['locked']);
         $this->assertFalse($newCourse['archived']);
         $this->assertFalse($newCourse['published']);
@@ -313,13 +313,13 @@ class CourseTest extends AbstractReadWriteEndpoint
 
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
-            'year' => 2023,
-            'newStartDate' => '2023-02-05',
+            'year' => 2024,
+            'newStartDate' => '2024-02-04',
         ]);
 
-        $this->assertSame(2023, $newCourse['year']);
-        $this->assertSame('2023-02-05T00:00:00+00:00', $newCourse['startDate'], 'start date is correct');
-        $this->assertSame('2023-06-04T00:00:00+00:00', $newCourse['endDate'], 'end date is correct');
+        $this->assertSame(2024, $newCourse['year']);
+        $this->assertSame('2024-02-04T00:00:00+00:00', $newCourse['startDate'], 'start date is correct');
+        $this->assertSame('2024-06-02T00:00:00+00:00', $newCourse['endDate'], 'end date is correct');
 
         $newSessions = $newCourse['sessions'];
         $this->assertEquals(2, count($newSessions));
@@ -335,7 +335,7 @@ class CourseTest extends AbstractReadWriteEndpoint
         );
 
         usort($session1OfferingData, fn($a, $b) => strtotime($a['startDate']) - strtotime($b['startDate']));
-        $this->assertEquals('2023-02-09T15:00:00+00:00', $session1OfferingData[0]['startDate']);
+        $this->assertEquals('2024-02-08T15:00:00+00:00', $session1OfferingData[0]['startDate']);
     }
 
     public function testRolloverCourseWithNoOfferings(): void
@@ -428,7 +428,7 @@ class CourseTest extends AbstractReadWriteEndpoint
 
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
-            'year' => 2023,
+            'year' => 2024,
         ]);
 
         $newSessionIds = $newCourse['sessions'];
@@ -464,7 +464,7 @@ class CourseTest extends AbstractReadWriteEndpoint
 
         $newCourse = $this->rolloverCourse([
             'id' => $course['id'],
-            'year' => 2023,
+            'year' => 2024,
             'newStartDate' => 'false',
             'skipOfferings' => 'true',
             'newCohorts' => [5],
