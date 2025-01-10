@@ -3657,16 +3657,16 @@
         },
         {
             "name": "league/csv",
-            "version": "9.20.1",
+            "version": "9.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "491d1e79e973a7370c7571dc0fe4a7241f4936ee"
+                "reference": "72196d11ebba22d868954cb39c0c7346207430cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/491d1e79e973a7370c7571dc0fe4a7241f4936ee",
-                "reference": "491d1e79e973a7370c7571dc0fe4a7241f4936ee",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/72196d11ebba22d868954cb39c0c7346207430cc",
+                "reference": "72196d11ebba22d868954cb39c0c7346207430cc",
                 "shasum": ""
             },
             "require": {
@@ -3740,7 +3740,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-18T10:11:15+00:00"
+            "time": "2025-01-08T19:27:58+00:00"
         },
         {
             "name": "league/flysystem",
@@ -15345,15 +15345,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
-        "symfony/browser-kit": 0,
         "symfony/console": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15366,7 +15361,6 @@
         "symfony/mailgun-mailer": 0,
         "symfony/messenger": 0,
         "symfony/monolog-bundle": 0,
-        "symfony/phpunit-bridge": 0,
         "symfony/postmark-mailer": 0,
         "symfony/property-access": 0,
         "symfony/property-info": 0,
@@ -15375,12 +15369,18 @@
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
-        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/web-profiler-bundle": 0,
-        "symfony/yaml": 0
+        "symfony/yaml": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
+        "symfony/browser-kit": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
+        "symfony/phpunit-bridge": 0,
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15399,7 +15399,7 @@
         "ext-xmlwriter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.3"
     },
