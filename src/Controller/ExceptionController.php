@@ -29,7 +29,7 @@ class ExceptionController
         }
         $response->setStatusCode($code);
 
-        $safeMessage = isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '';
+        $safeMessage = Response::$statusTexts[$code] ?? '';
         if ($exception instanceof InvalidInputWithSafeUserMessageException) {
             $safeMessage = $exception->getMessage();
         }
