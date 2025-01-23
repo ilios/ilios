@@ -142,8 +142,8 @@ jobs:
     - name: Second Run
       run: vendor/bin/phpunit --group twice
 
-  build_amd_containers:
-    name: Build Containers (amd64)
+  build_containers:
+    name: Build Containers
     needs: code_style
     runs-on: ubuntu-latest
     strategy:
@@ -162,6 +162,11 @@ jobs:
           - redis
           - tika
     steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+      with:
+        image: tonistiigi/binfmt:latest
+        platforms: linux/amd64,linux/arm64
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     - name: Build ${{ matrix.image }}
@@ -169,8 +174,9 @@ jobs:
       with:
         target: ${{ matrix.image }}
         push: false
-        outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar,compression=gzip
+        outputs: type=oci,dest=/tmp/${{ matrix.image }}.tar,compression=gzip
         tags: ${{ matrix.image }}:testing
+        platforms: linux/amd64,linux/arm64
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
@@ -178,42 +184,9 @@ jobs:
         path: /tmp/${{ matrix.image }}.tar
         retention-days: 1
 
-  build_arm_containers:
-     name: Build Containers (arm64)
-     needs: code_style
-     runs-on: ubuntu-latest
-     strategy:
-       matrix:
-         image:
-          - php-apache
-          - nginx
-          - fpm
-          - fpm-dev
-          - admin
-          - update-frontend
-          - consume-messages
-          - mysql
-          - mysql-demo
-          - opensearch
-          - redis
-          - tika
-     steps:
-     - name: Set up QEMU
-       uses: docker/setup-qemu-action@v3
-       with:
-         image: tonistiigi/binfmt:latest
-         platforms: linux/arm64
-     - name: Set up Docker Buildx
-       uses: docker/setup-buildx-action@v3
-     - name: Build ${{ matrix.image }}
-       uses: docker/build-push-action@v6
-       with:
-         target: ${{ matrix.image }}
-         push: false
-
   run_containers:
     name: Run and Test Containers
-    needs: build_amd_containers
+    needs: build_containers
     runs-on: ubuntu-latest
     env:
       ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
