@@ -164,6 +164,8 @@ jobs:
     steps:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+      with:
+        version: v0.19.3
     - name: Build ${{ matrix.image }}
       uses: docker/build-push-action@v6
       with:
@@ -179,37 +181,39 @@ jobs:
         retention-days: 1
 
   build_arm_containers:
-     name: Build Containers (arm64)
-     needs: code_style
-     runs-on: ubuntu-latest
-     strategy:
-       matrix:
-         image:
-          - php-apache
-          - nginx
-          - fpm
-          - fpm-dev
-          - admin
-          - update-frontend
-          - consume-messages
-          - mysql
-          - mysql-demo
-          - opensearch
-          - redis
-          - tika
-     steps:
-     - name: Set up QEMU
-       uses: docker/setup-qemu-action@v3
-       with:
-         image: tonistiigi/binfmt:latest
-         platforms: linux/arm64
-     - name: Set up Docker Buildx
-       uses: docker/setup-buildx-action@v3
-     - name: Build ${{ matrix.image }}
-       uses: docker/build-push-action@v6
-       with:
-         target: ${{ matrix.image }}
-         push: false
+    name: Build Containers (arm64)
+    needs: code_style
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+        - php-apache
+        - nginx
+        - fpm
+        - fpm-dev
+        - admin
+        - update-frontend
+        - consume-messages
+        - mysql
+        - mysql-demo
+        - opensearch
+        - redis
+        - tika
+    steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+      with:
+        image: tonistiigi/binfmt:latest
+        platforms: linux/arm64
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      with:
+        version: v0.19.3
+    - name: Build ${{ matrix.image }}
+      uses: docker/build-push-action@v6
+      with:
+        target: ${{ matrix.image }}
+        push: false
 
   run_containers:
     name: Run and Test Containers
