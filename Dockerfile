@@ -31,7 +31,7 @@ HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 127.0.0.1 80
 # Dependencies we need in all PHP containers
 # Production ready composer pacakges installed
 ###############################################################################
-FROM php:8.3-fpm AS php-base
+FROM php:8.4-fpm AS php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /srv/app/
@@ -250,7 +250,7 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
-FROM php:8.3-apache AS php-apache
+FROM php:8.4-apache AS php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /var/www/ilios
