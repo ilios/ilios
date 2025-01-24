@@ -145,7 +145,7 @@ jobs:
   build_containers:
     name: Build Containers
     needs: code_style
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         image:
