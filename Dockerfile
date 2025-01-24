@@ -37,7 +37,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /srv/app/
 
 # configure PHP extensions required for Ilios and delete the source files after install
-RUN set -eu; \
+RUN set -eux; \
     apt-get update; \
     apt-get install -y \
         libldap2-dev \
