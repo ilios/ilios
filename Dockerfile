@@ -37,7 +37,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /srv/app/
 
 # configure PHP extensions required for Ilios and delete the source files after install
-RUN set -eux; \
+RUN set -eu; \
     apt-get update; \
     apt-get install -y \
         libldap2-dev \
@@ -48,25 +48,20 @@ RUN set -eux; \
         libzip4 \
         unzip \
         acl \
-        libfcgi-bin;
-
-RUN docker-php-ext-configure ldap;
-RUN docker-php-ext-install ldap;
-RUN docker-php-ext-install zip;
-RUN docker-php-ext-install pdo_mysql;
-RUN docker-php-ext-install intl;
-    
-RUN mkdir -p /usr/src/php/ext/apcu; \
+        libfcgi-bin; \
+    docker-php-ext-configure ldap; \
+    docker-php-ext-install ldap; \
+    docker-php-ext-install zip; \
+    docker-php-ext-install pdo_mysql; \
+    docker-php-ext-install intl; \
+    mkdir -p /usr/src/php/ext/apcu; \
     curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1; \
     docker-php-ext-install apcu; \
-    docker-php-ext-enable apcu;
-    
-RUN pecl install redis \
-    && docker-php-ext-enable redis;
-    
-RUN docker-php-ext-enable opcache;
-    
-RUN rm -rf /var/lib/apt/lists/*; \
+    docker-php-ext-enable apcu; \
+    pecl install redis \
+    && docker-php-ext-enable redis; \
+    docker-php-ext-enable opcache; \
+    rm -rf /var/lib/apt/lists/*; \
     rm -rf /tmp/pear; \
     # remove the apt source files to save space
     apt-get purge libldap2-dev zlib1g-dev libicu-dev -y; \
