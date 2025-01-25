@@ -187,7 +187,7 @@ jobs:
       with:
         target: ${{ matrix.image }}
         push: false
-        outputs: type=oci,dest=/tmp/${{ matrix.image }}.tar,compression=gzip
+        outputs: type=tar,dest=/tmp/${{ matrix.image }}.tar,compression=gzip
         tags: ${{ matrix.image }}:testing
         platforms: linux/amd64,linux/arm64
     - name: Upload artifact
