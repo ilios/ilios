@@ -458,7 +458,7 @@ class CurriculumInventorySequenceBlocks extends AbstractApiController
 
         switch ($newValue) {
             case CurriculumInventorySequenceBlockInterface::ORDERED:
-                usort($children, [CurriculumInventorySequenceBlock::class, 'compareSequenceBlocksWithDefaultStrategy']);
+                usort($children, CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy(...));
                 for ($i = 0, $n = count($children); $i < $n; $i++) {
                     $children[$i]->setOrderInSequence($i + 1);
                     $this->repository->update($children[$i], false);

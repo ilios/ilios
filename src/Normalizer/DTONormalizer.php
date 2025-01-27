@@ -71,7 +71,7 @@ class DTONormalizer implements NormalizerInterface
         }
 
         if ($type === IA\Type::DTOS) {
-            return array_map([$this, 'normalize'], $value);
+            return array_map($this->normalize(...), $value);
         }
 
         return $value;
