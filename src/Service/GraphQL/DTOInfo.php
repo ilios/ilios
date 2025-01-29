@@ -60,7 +60,7 @@ class DTOInfo
     {
         $ref = $this->getRefForType($type);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($ref);
-        $relatedProperties = array_filter($exposedProperties, [$this, 'isRelated']);
+        $relatedProperties = array_filter($exposedProperties, $this->isRelated(...));
         $regularProperties = array_diff($exposedProperties, $relatedProperties);
 
         $graphQlRelated = array_filter($relatedProperties, [$this, 'isGraphQlRelated']);

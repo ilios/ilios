@@ -328,10 +328,7 @@ class XmlPrinter
         })->toArray();
         usort(
             $topLevelSequenceBlocks,
-            [
-                CurriculumInventorySequenceBlock::class,
-                'compareSequenceBlocksWithDefaultStrategy',
-            ]
+            CurriculumInventorySequenceBlock::compareSequenceBlocksWithDefaultStrategy(...)
         );
         foreach ($topLevelSequenceBlocks as $block) {
             $this->writeSequenceBlockNode(
