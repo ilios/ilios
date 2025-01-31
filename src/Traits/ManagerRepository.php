@@ -9,6 +9,10 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Id\AssignedGenerator;
+use Doctrine\ORM\Mapping\AssociationMapping;
+use Doctrine\ORM\Mapping\ManyToManyAssociationMapping;
+use Doctrine\ORM\Mapping\ManyToManyInverseSideMapping;
+use Doctrine\ORM\Mapping\ManyToManyOwningSideMapping;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
 
@@ -197,32 +201,34 @@ trait ManagerRepository
             return $dtos;
         }
         $ids = array_keys($dtos);
-        // KLUDGE!
-        // Doctrine 3.x changes the internal data structure from nested assoc arrays to an all-object representation.
-        // Here, we convert the mapping objects into arrays,
-        // so we don't have to rewrite this entire process at this point.
-        // @todo Refactor this to use the objects that Doctrine gives us now [ST 2024/02/27]
-        $maps = array_map(
-            fn (object $obj) => $obj->toArray(),
-            $this->getClassMetadata()->associationMappings
-        );
-        $relatedMetadata = array_filter(
-            $maps,
-            fn (array $arr) => array_key_exists('joinTable', $arr) && in_array($arr['fieldName'], $related)
-        );
-        $owningSideSets = $this->extractSetsFromOwningSideMetadata(
-            array_filter($relatedMetadata, fn(array $arr) => $arr['isOwningSide'])
-        );
-        $inverseSideSets = $this->extractSetsFromInverseSideMetadata(
-            array_filter($relatedMetadata, fn(array $arr) => !$arr['isOwningSide'])
-        );
-        $remainingRelated = array_diff($related, array_keys($owningSideSets), array_keys($inverseSideSets));
-        $sets = [
-            ...array_values($owningSideSets),
-            ...array_values($inverseSideSets),
-        ];
+        $mappings = $this->getClassMetadata()->getAssociationMappings();
 
-        $dtos = $this->attachManySetsToDtos($dtos, $sets);
+        $manyToManyOwningSideMappings = array_filter(
+            $mappings,
+            fn(AssociationMapping $mapping)
+                => in_array($mapping->fieldName, $related) && $mapping instanceof ManyToManyOwningSideMapping
+        );
+
+        $manyToManyInverseSideMapping = array_filter(
+            $mappings,
+            fn(AssociationMapping $mapping)
+            => in_array($mapping->fieldName, $related) && $mapping instanceof ManyToManyInverseSideMapping
+        );
+
+        $inverseSideMetadata = $this->extractMetadataFromInverseSideMappings($manyToManyInverseSideMapping);
+
+        $owningSideMetadata = $this->extractMetadataFromOwningSideMappings($manyToManyOwningSideMappings);
+
+        $dtos = $this->attachDataFromManyToManyRelationshipsToDtos(
+            $dtos,
+            [...array_values($inverseSideMetadata), ...array_values($owningSideMetadata)],
+        );
+
+        $remainingRelated =  array_diff(
+            $related,
+            array_keys($manyToManyInverseSideMapping),
+            array_keys($manyToManyOwningSideMappings),
+        );
 
         foreach ($remainingRelated as $rel) {
             $qb = $this->getEntityManager()->createQueryBuilder();
@@ -239,48 +245,55 @@ trait ManagerRepository
         return $dtos;
     }
 
-    protected function attachManySetsToDtos(array $dtos, array $sets): array
+    protected function attachDataFromManyToManyRelationshipsToDtos(array $dtos, array $relationships): array
     {
         $ids = array_keys($dtos);
         $conn = $this->getEntityManager()->getConnection();
-        foreach ($sets as $arr) {
+        foreach ($relationships as $rel) {
             $qb = $conn->createQueryBuilder();
-            $qb->select($arr['relatedIdColumn'], $arr['dtoIdColumn'])
-                ->from($arr['tableName'])
-                ->where("{$arr['dtoIdColumn']} IN(:ids)")
+            $qb->select($rel['relatedIdColumn'], $rel['dtoIdColumn'])
+                ->from($rel['tableName'])
+                ->where("{$rel['dtoIdColumn']} IN(:ids)")
                 ->setParameter('ids', $ids, ArrayParameterType::STRING);
             $result = $qb->executeQuery()->fetchAllAssociative();
             foreach ($result as $row) {
-                $dtos[$row[$arr['dtoIdColumn']]]->{$arr['fieldName']}[] = $row[$arr['relatedIdColumn']];
+                $dtos[$row[$rel['dtoIdColumn']]]->{$rel['fieldName']}[] = $row[$rel['relatedIdColumn']];
             }
         }
 
         return $dtos;
     }
 
-    protected function extractSetsFromOwningSideMetadata(array $arr): array
+    /**
+     * @param ManyToManyOwningSideMapping[] $mappings
+     */
+    public function extractMetadataFromOwningSideMappings(array $mappings): array
     {
-        return array_map(fn(array $arr) => [
-            'fieldName' => $arr['fieldName'],
-            'tableName'  => $arr['joinTable']['name'],
-            'dtoIdColumn'  => $arr['joinTable']['joinColumns'][0]['name'],
-            'relatedIdColumn'  => $arr['joinTable']['inverseJoinColumns'][0]['name'],
-        ], $arr);
+        return array_map(fn(ManyToManyOwningSideMapping $mapping) => [
+            'fieldName' => $mapping->fieldName,
+            'tableName'  => $mapping->joinTable->name,
+            'dtoIdColumn'  => $mapping->joinTable->joinColumns[0]->name,
+            'relatedIdColumn'  => $mapping->joinTable->inverseJoinColumns[0]->name,
+        ], $mappings);
     }
 
-    protected function extractSetsFromInverseSideMetadata(array $arr): array
+    /**
+     * @param ManyToManyInverseSideMapping[] $mappings
+     */
+    public function extractMetadataFromInverseSideMappings(array $mappings): array
     {
         $em = $this->getEntityManager();
-        return array_map(function ($rel) use ($em) {
-            $metadata = $em->getClassMetadata($rel['targetEntity']);
-            $mapping = $metadata->associationMappings[$rel['mappedBy']];
+        return array_map(function (ManyToManyInverseSideMapping $mapping) use ($em) {
+            $metadata = $em->getClassMetadata($mapping->targetEntity);
+            /** @var ManyToManyOwningSideMapping $owningSideMapping */
+            $owningSideMapping = $metadata->getAssociationMapping($mapping->mappedBy);
             return [
-                'fieldName' => $rel['fieldName'],
-                'tableName'  => $mapping['joinTable']['name'],
-                'dtoIdColumn'  => $mapping['joinTable']['inverseJoinColumns'][0]['name'],
-                'relatedIdColumn'  => $mapping['joinTable']['joinColumns'][0]['name'],
+                'fieldName' => $mapping->fieldName,
+                'tableName'  => $owningSideMapping->joinTable->name,
+                'dtoIdColumn'  => $owningSideMapping->joinTable->inverseJoinColumns[0]->name,
+                'relatedIdColumn'  => $owningSideMapping->joinTable->joinColumns[0]->name,
             ];
-        }, $arr);
+        }, $mappings);
     }
 
     protected function attachClosingCriteriaToQueryBuilder(
