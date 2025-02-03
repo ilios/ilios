@@ -143,7 +143,7 @@ jobs:
       run: vendor/bin/phpunit --group twice
 
   build_containers:
-    name: Build Containers (${{ matrix.os }})
+    name: Build Containers (${{ matrix.arch }})
     needs: code_style
     runs-on: ${{ matrix.os }}
     strategy:
@@ -185,7 +185,7 @@ jobs:
         retention-days: 1
 
   run_containers:
-    name: Run and Test Containers (${{ matrix.os }})
+    name: Run and Test Containers (${{ matrix.arch }})
     needs: build_containers
     runs-on: ${{ matrix.os }}
     env:
