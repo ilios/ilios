@@ -147,6 +147,7 @@ jobs:
     needs: code_style
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         image:
           - php-apache
@@ -193,6 +194,7 @@ jobs:
       ILIOS_SECRET: DifferentSecret
       ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-22.04
