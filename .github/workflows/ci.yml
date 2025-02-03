@@ -216,12 +216,12 @@ jobs:
       if: ${{ always() }}
       run: |
         docker image load --input /tmp/consume-messages-${{ matrix.arch }}.tar
-        docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH consume-messages:testing
+        docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH consume-messages:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-consume-messages
         docker stop ilios-consume-messages
         docker rm --volumes ilios-consume-messages
-        docker image rm consume-messages:testing
+        docker image rm consume-messages:${{ matrix.arch }}-testing
     - name: Apache PHP
       if: ${{ always() }}
       run: |
