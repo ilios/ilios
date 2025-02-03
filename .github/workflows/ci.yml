@@ -174,7 +174,7 @@ jobs:
       with:
         target: ${{ matrix.image }}
         push: false
-        outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar,compression=gzip
+        outputs: type=docker,dest=/tmp/${{ matrix.image }}-${{ matrix.arch }}.tar,compression=gzip
         tags: ${{ matrix.image }}:${{ matrix.arch }}-testing
         platforms: linux/${{ matrix.arch }}
     - name: Upload artifact
