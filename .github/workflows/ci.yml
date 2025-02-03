@@ -178,6 +178,8 @@ jobs:
         outputs: type=docker,dest=/tmp/${{ matrix.image }}-${{ matrix.arch }}.tar,compression=gzip
         tags: ${{ matrix.image }}:${{ matrix.arch }}-testing
         platforms: linux/${{ matrix.arch }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
