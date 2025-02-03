@@ -145,10 +145,13 @@ jobs:
   build_containers:
     name: Build ${{ matrix.image }} (${{ matrix.arch }})
     needs: code_style
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     strategy:
       fail-fast: false
       matrix:
+        arch:
+          - amd64
+          - arm64
         image:
           - php-apache
           - nginx
@@ -162,11 +165,6 @@ jobs:
           - opensearch
           - redis
           - tika
-        include:
-          - os: ubuntu-22.04
-            arch: amd64
-          - os: ubuntu-22.04-arm
-            arch: arm64
     steps:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -190,7 +188,7 @@ jobs:
   run_containers:
     name: Run and Test Containers (${{ matrix.arch }})
     needs: build_containers
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     env:
       ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
       ILIOS_SECRET: DifferentSecret
@@ -198,11 +196,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - os: ubuntu-22.04
-            arch: amd64
-          - os: ubuntu-22.04-arm
-            arch: arm64
+        arch:
+          - amd64
+          - arm64
     steps:
     - uses: actions/checkout@v4
     - name: Drop, Create Database to use everywhere else
