@@ -94,6 +94,8 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 2], ['id' => [1, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[2], ['title' => 'thirdlm']],
             'description' => [[0], ['description' => 'desc1']],
             'originalAuthor' => [[0], ['originalAuthor' => 'author1']],
@@ -131,6 +133,7 @@ class LearningMaterialTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
         unset($filters['school']);
 
         return $filters;

@@ -54,6 +54,8 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
         return [
             'id' => [[0], ['id' => 'abc1']],
             'ids' => [[1, 2], ['id' => ['abc2', 'abc3']]],
+            'missingId' => [[], ['id' => 'nothing']],
+            'missingIds' => [[], ['id' => ['nothing']]],
             'name' => [[2], ['name' => 'desc3']],
             'annotation' => [[0], ['annotation' => 'annotation1']],
             'courses' => [[0, 1], ['courses' => [2, 3]]],
@@ -77,6 +79,7 @@ class MeshDescriptorTest extends AbstractMeshEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => ['abc2', 'abc3']]];
+        $filters['missingIds'] = [[], ['ids' => ['nothing']]];
         unset($filters['school']);
 
         return $filters;

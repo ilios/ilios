@@ -81,6 +81,8 @@ class TermTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[1], ['title' => 'second term']],
             'courses' => [[0, 1, 3, 4], ['courses' => [1]]],
             'description' => [[2], ['description' => 'third description']],
@@ -112,6 +114,7 @@ class TermTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

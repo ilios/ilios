@@ -47,6 +47,9 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
     {
         return [
             'id' => [[0], ['id' => 'aamc-pcrs-comp-c0101']],
+            'ids' => [[0], ['id' => ['aamc-pcrs-comp-c0101']]],
+            'missingId' => [[], ['id' => 'nothing']],
+            'missingIds' => [[], ['id' => ['nothing']]],
             'description' => [[1], ['description' => 'second description']],
             'competencies' => [[0], ['competencies' => [1]]],
         ];
@@ -54,7 +57,11 @@ class AamcPcrsTest extends AbstractReadWriteEndpoint
 
     public static function graphQLFiltersToTest(): array
     {
-        return self::filtersToTest();
+        $filters = self::filtersToTest();
+        $filters['ids'] = [[0], ['ids' => ['aamc-pcrs-comp-c0101']]];
+        $filters['missingIds'] = [[], ['ids' => ['nothing']]];
+
+        return $filters;
     }
 
     public function testPostTermAamcResourceType(): void

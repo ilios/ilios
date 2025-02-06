@@ -54,6 +54,8 @@ class ReportTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[1], ['title' => 'second report']],
             'school' => [[2], ['school' => 1]],
             'subject' => [[2], ['subject' => 'subject3']],
@@ -68,6 +70,7 @@ class ReportTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
         unset($filters['prepositionalObjectTableRowId']);
 
         return $filters;

@@ -58,6 +58,8 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[1], ['title' => 'Class of 2018']],
             'programYear' => [[1], ['programYear' => 2]],
             'courses' => [[2], ['courses' => [4]]],
@@ -72,6 +74,7 @@ class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterfac
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

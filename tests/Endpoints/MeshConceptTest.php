@@ -29,6 +29,8 @@ class MeshConceptTest extends AbstractMeshEndpoint
         return [
             'id' => [[0], ['id' => '1']],
             'ids' => [[0, 1], ['id' => ['1', '2']]],
+            'missingId' => [[], ['id' => '99']],
+            'missingIds' => [[], ['id' => ['99']]],
             'name' => [[1], ['name' => 'second concept']],
             'preferred' => [[0], ['preferred' => true]],
             'notPreferred' => [[1], ['preferred' => false]],
@@ -44,6 +46,7 @@ class MeshConceptTest extends AbstractMeshEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => ['1', '2']]];
+        $filters['missingIds'] = [[], ['ids' => ['99']]];
 
         return $filters;
     }

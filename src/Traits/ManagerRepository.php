@@ -91,7 +91,10 @@ trait ManagerRepository
         }
         $rhett = [];
         foreach ($ids as $id) {
-            $rhett[] = $dtosById[$id];
+            //Protect against request with ids that are not in the DB
+            if (array_key_exists($id, $dtosById)) {
+                $rhett[] = $dtosById[$id];
+            }
         }
 
         return $rhett;

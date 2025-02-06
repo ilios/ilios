@@ -27,6 +27,8 @@ class MeshTreeTest extends AbstractMeshEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'treeNumber' => [[1], ['treeNumber' => 'tree2']],
             'descriptor' => [[0, 1], ['descriptor' => 'abc1']],
         ];
@@ -36,6 +38,7 @@ class MeshTreeTest extends AbstractMeshEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

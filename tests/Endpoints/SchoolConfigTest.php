@@ -46,6 +46,8 @@ class SchoolConfigTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'name' => [[1], ['name' => 'second config']],
             'value' => [[2], ['value' => 'third value']],
             'school' => [[2], ['school' => 2]],

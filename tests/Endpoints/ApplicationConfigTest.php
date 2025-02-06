@@ -48,6 +48,7 @@ class ApplicationConfigTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingIds' => [[], ['id' => [99]]],
             'name' => [[1], ['name' => 'second name']],
             'value' => [[2], ['value' => 'third value']],
         ];

@@ -72,6 +72,8 @@ class SchoolTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[2], ['title' => 'third school']],
             'iliosAdministratorEmail' => [[1], ['iliosAdministratorEmail' => 'info@example.com']],
             'changeAlertRecipients' => [[2], ['changeAlertRecipients' => 'info@example.com']],
@@ -92,6 +94,7 @@ class SchoolTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

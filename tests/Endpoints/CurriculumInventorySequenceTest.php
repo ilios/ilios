@@ -44,6 +44,8 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'report' => [[1], ['report' => 2]],
             'description' => [[1], ['description' => 'second description']],
         ];
@@ -53,6 +55,7 @@ class CurriculumInventorySequenceTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }
