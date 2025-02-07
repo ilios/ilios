@@ -60,7 +60,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
     public function testNoArgs(): void
     {
         $this->mockHappyPath();
-        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml';
+        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2025.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -114,12 +114,12 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
-    public function testYear2023(): void
+    public function testYear2024(): void
     {
         $this->mockHappyPath();
 
-        $year = '2023';
-        $url = "https://nlmpubs.nlm.nih.gov/projects/mesh/2023/xmlmesh/desc2023.xml";
+        $year = '2024';
+        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/2024/xmlmesh/desc2024.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -134,12 +134,12 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         $this->assertStringContainsString("1/4: Parsing MeSH XML retrieved from {$url}.", $output);
     }
 
-    public function testYear2024(): void
+    public function testYear2025(): void
     {
         $this->mockHappyPath();
 
-        $year = '2024';
-        $url = "https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml";
+        $year = '2025';
+        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2025.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])
@@ -166,7 +166,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
         );
 
         $output = $this->commandTester->getDisplay();
-        $this->assertStringContainsString('Given year must be one of: 2023, 2024.', $output);
+        $this->assertStringContainsString('Given year must be one of: 2024, 2025.', $output);
 
         $this->descriptorRepository->shouldNotHaveReceived('clearExistingData');
         $this->descriptorRepository->shouldNotHaveReceived('findDTOsBy');
@@ -190,7 +190,7 @@ class ImportMeshUniverseCommandTest extends KernelTestCase
             ->shouldReceive('index')->with([$descriptor])
             ->once()->andReturn(true);
 
-        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.xml';
+        $url = 'https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2025.xml';
         $this->meshParser
             ->shouldReceive('parse')
             ->withArgs([$url])

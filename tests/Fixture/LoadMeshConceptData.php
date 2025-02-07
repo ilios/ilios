@@ -28,7 +28,6 @@ class LoadMeshConceptData extends AbstractFixture implements ORMFixtureInterface
             $entity->setPreferred($arr['preferred']);
             $entity->setScopeNote($arr['scopeNote']);
             $entity->setCasn1Name($arr['casn1Name']);
-            $entity->setRegistryNumber($arr['registryNumber']);
             foreach ($arr['descriptors'] as $id) {
                 $entity->addDescriptor($this->getReference('meshDescriptors' . $id, MeshDescriptor::class));
             }

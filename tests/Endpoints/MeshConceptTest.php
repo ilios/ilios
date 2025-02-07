@@ -34,7 +34,6 @@ class MeshConceptTest extends AbstractMeshEndpoint
             'notPreferred' => [[1], ['preferred' => false]],
             'scopeNote' => [[0], ['scopeNote' => 'first scopeNote']],
             'casn1Name' => [[1], ['casn1Name' => 'second casn']],
-            'registryNumber' => [[1], ['registryNumber' => 'abcd']],
             'terms' => [[0], ['terms' => [1]]],
             'descriptors' => [[0, 1], ['descriptors' => ['abc1']]],
         ];

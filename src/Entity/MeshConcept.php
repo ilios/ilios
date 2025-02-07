@@ -63,13 +63,6 @@ class MeshConcept implements MeshConceptInterface
     #[Assert\Length(max: 512)]
     protected ?string $casn1Name = null;
 
-    #[ORM\Column(name: 'registry_number', type: 'string', length: 30, nullable: true)]
-    #[IA\Expose]
-    #[IA\Type('string')]
-    #[Assert\Type(type: 'string')]
-    #[Assert\Length(max: 30)]
-    protected ?string $registryNumber = null;
-
     #[ORM\ManyToMany(targetEntity: 'MeshTerm', mappedBy: 'concepts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
@@ -134,16 +127,6 @@ class MeshConcept implements MeshConceptInterface
     public function getCasn1Name(): string
     {
         return $this->casn1Name;
-    }
-
-    public function setRegistryNumber(?string $registryNumber): void
-    {
-        $this->registryNumber = $registryNumber;
-    }
-
-    public function getRegistryNumber(): string
-    {
-        return $this->registryNumber;
     }
 
     public function setTerms(Collection $terms): void
