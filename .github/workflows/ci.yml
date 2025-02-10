@@ -142,12 +142,16 @@ jobs:
     - name: Second Run
       run: vendor/bin/phpunit --group twice
 
-  build_amd_containers:
-    name: Build Containers (amd64)
+  build_containers:
+    name: Build ${{ matrix.image }} (${{ matrix.arch }})
     needs: code_style
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     strategy:
+      fail-fast: false
       matrix:
+        arch:
+          - amd64
+          - arm64
         image:
           - php-apache
           - nginx
@@ -162,11 +166,6 @@ jobs:
           - redis
           - tika
     steps:
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-      with:
-        image: tonistiigi/binfmt:qemu-v8.1.5
-        platforms: linux/amd64
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     - name: Build ${{ matrix.image }}
@@ -174,58 +173,30 @@ jobs:
       with:
         target: ${{ matrix.image }}
         push: false
-        outputs: type=docker,dest=/tmp/${{ matrix.image }}.tar,compression=gzip
-        tags: ${{ matrix.image }}:testing
-        platforms: linux/amd64
+        outputs: type=docker,dest=/tmp/${{ matrix.image }}-${{ matrix.arch }}.tar,compression=gzip
+        tags: ${{ matrix.image }}:${{ matrix.arch }}-testing
+        platforms: linux/${{ matrix.arch }}
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.image }}-image
-        path: /tmp/${{ matrix.image }}.tar
+        name: ${{ matrix.image }}-${{ matrix.arch }}-image
+        path: /tmp/${{ matrix.image }}-${{ matrix.arch }}.tar
         retention-days: 1
 
-  build_arm_containers:
-    name: Build Containers (arm64)
-    needs: code_style
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image:
-        - php-apache
-        - nginx
-        - fpm
-        - fpm-dev
-        - admin
-        - update-frontend
-        - consume-messages
-        - mysql
-        - mysql-demo
-        - opensearch
-        - redis
-        - tika
-    steps:
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-      with:
-        image: tonistiigi/binfmt:qemu-v8.1.5
-        platforms: linux/arm64
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Build ${{ matrix.image }}
-      uses: docker/build-push-action@v6
-      with:
-        target: ${{ matrix.image }}
-        push: false
-        platforms: linux/arm64
-
   run_containers:
-    name: Run and Test Containers
-    needs: build_amd_containers
-    runs-on: ubuntu-latest
+    name: Run and Test Containers (${{ matrix.arch }})
+    needs: build_containers
+    runs-on: ${{ matrix.arch == 'arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     env:
       ILIOS_DATABASE_URL: mysql://root:root@127.0.0.1:3306/ilios?serverVersion=8.0.40
       ILIOS_SECRET: DifferentSecret
       ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - amd64
+          - arm64
     steps:
     - uses: actions/checkout@v4
     - name: Drop, Create Database to use everywhere else
@@ -237,122 +208,122 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         path: /tmp/
-        pattern: "*-image"
+        pattern: "*${{ matrix.arch }}-image"
         merge-multiple: true
     - name: Consume Messages
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/consume-messages.tar
-        docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH consume-messages:testing
+        docker image load --input /tmp/consume-messages-${{ matrix.arch }}.tar
+        docker run -d --name ilios-consume-messages -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH consume-messages:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-consume-messages
         docker stop ilios-consume-messages
         docker rm --volumes ilios-consume-messages
-        docker image rm consume-messages:testing
+        docker image rm consume-messages:${{ matrix.arch }}-testing
     - name: Apache PHP
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/php-apache.tar
-        docker run -d --name ilios-php-apache -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH php-apache:testing
+        docker image load --input /tmp/php-apache-${{ matrix.arch }}.tar
+        docker run -d --name ilios-php-apache -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH php-apache:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-php-apache
         docker exec ilios-php-apache php /var/www/ilios/bin/console monitor:health
         docker stop ilios-php-apache
         docker rm --volumes ilios-php-apache
-        docker image rm php-apache:testing
+        docker image rm php-apache:${{ matrix.arch }}-testing
     - name: Nginx
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/nginx.tar
-        docker run -d --name ilios-nginx nginx:testing
+        docker image load --input /tmp/nginx-${{ matrix.arch }}.tar
+        docker run -d --name ilios-nginx nginx:${{ matrix.arch }}-testing
         sleep 15
         docker ps
         docker ps --filter "health=healthy" | grep -q ilios-nginx
         docker stop ilios-nginx
         docker rm --volumes ilios-nginx
-        docker image rm nginx:testing
+        docker image rm nginx:${{ matrix.arch }}-testing
     - name: FPM
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/fpm.tar
-        docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm:testing
+        docker image load --input /tmp/fpm-${{ matrix.arch }}.tar
+        docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-fpm
         docker exec ilios-fpm php bin/console monitor:health
         docker stop ilios-fpm
         docker rm --volumes ilios-fpm
-        docker image rm fpm:testing
+        docker image rm fpm:${{ matrix.arch }}-testing
     - name: FPM Dev
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/fpm-dev.tar
-        docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm-dev:testing
+        docker image load --input /tmp/fpm-dev-${{ matrix.arch }}.tar
+        docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm-dev:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-fpm-dev
         docker exec ilios-fpm-dev php bin/console monitor:health
         docker stop ilios-fpm-dev
         docker rm --volumes ilios-fpm-dev
-        docker image rm fpm-dev:testing
+        docker image rm fpm-dev:${{ matrix.arch }}-testing
     - name: Admin
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/admin.tar
-        docker run -d --name ilios-admin admin:testing
+        docker image load --input /tmp/admin-${{ matrix.arch }}.tar
+        docker run -d --name ilios-admin admin:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-admin
         docker stop ilios-admin
         docker rm --volumes ilios-admin
-        docker image rm admin:testing
+        docker image rm admin:${{ matrix.arch }}-testing
     - name: MySQL
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/mysql.tar
-        docker run -d --name ilios-mysql mysql:testing
+        docker image load --input /tmp/mysql-${{ matrix.arch }}.tar
+        docker run -d --name ilios-mysql mysql:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-mysql
         docker stop ilios-mysql
         docker rm --volumes ilios-mysql
-        docker image rm mysql:testing
+        docker image rm mysql:${{ matrix.arch }}-testing
     - name: MySQL Demo
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/mysql-demo.tar
-        docker run -d --name ilios-mysql-demo mysql-demo:testing
+        docker image load --input /tmp/mysql-demo-${{ matrix.arch }}.tar
+        docker run -d --name ilios-mysql-demo mysql-demo:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-mysql-demo
         docker stop ilios-mysql-demo
         docker rm --volumes ilios-mysql-demo
-        docker image rm mysql-demo:testing
+        docker image rm mysql-demo:${{ matrix.arch }}-testing
     - name: OpenSearch
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/opensearch.tar
-        docker run -d --name ilios-opensearch opensearch:testing
+        docker image load --input /tmp/opensearch-${{ matrix.arch }}.tar
+        docker run -d --name ilios-opensearch opensearch:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-opensearch
         docker stop ilios-opensearch
         docker rm --volumes ilios-opensearch
-        docker image rm opensearch:testing
+        docker image rm opensearch:${{ matrix.arch }}-testing
     - name: Redis
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/redis.tar
-        docker run -d --name ilios-redis redis:testing
+        docker image load --input /tmp/redis-${{ matrix.arch }}.tar
+        docker run -d --name ilios-redis redis:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-redis
         docker stop ilios-redis
         docker rm --volumes ilios-redis
-        docker image rm redis:testing
+        docker image rm redis:${{ matrix.arch }}-testing
     - name: Tika
       if: ${{ always() }}
       run: |
-        docker image load --input /tmp/tika.tar
-        docker run -d --name ilios-tika tika:testing
+        docker image load --input /tmp/tika-${{ matrix.arch }}.tar
+        docker run -d --name ilios-tika tika:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-tika
         docker stop ilios-tika
         docker rm --volumes ilios-tika
-        docker image rm tika:testing
+        docker image rm tika:${{ matrix.arch }}-testing
     - name: Output Docker Logs
       if: failure()
       run: |
@@ -367,6 +338,7 @@ jobs:
         docker logs ilios-opensearch
         docker logs ilios-redis
         docker logs ilios-tika
+
   check_setup_command:
     name: Setup Command
     needs: code_style
