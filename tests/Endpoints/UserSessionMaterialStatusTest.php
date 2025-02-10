@@ -50,6 +50,8 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 2], ['id' => [1, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'status' => [[0], ['status' => UserSessionMaterialStatusInterface::NONE]],
             'statuses' => [[0, 1], ['status' => [
                 UserSessionMaterialStatusInterface::NONE,
@@ -66,6 +68,7 @@ class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
         $filters['materials'] = [[0, 2], ['materials' => [1, 5]]];
         $filters['users'] = [[0, 1, 2], ['users' => [2]]];
         $filters['statuses'] = [[0, 1], ['statuses' => [

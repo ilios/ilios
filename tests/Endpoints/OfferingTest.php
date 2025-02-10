@@ -99,6 +99,8 @@ class OfferingTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[3, 4], ['id' => [4, 5]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'room' => [[2], ['room' => 'room 3']],
             'site' => [[3], ['site' => 'site 4']],
             'url' => [[4], ['url' => 'https://example.com']],
@@ -117,6 +119,7 @@ class OfferingTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[3, 4], ['ids' => [4, 5]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

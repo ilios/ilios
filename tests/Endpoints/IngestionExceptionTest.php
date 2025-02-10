@@ -29,6 +29,8 @@ class IngestionExceptionTest extends AbstractReadEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'uid' => [[1], ['uid' => 'second exception']],
             'user' => [[1], ['user' => 2]],
         ];

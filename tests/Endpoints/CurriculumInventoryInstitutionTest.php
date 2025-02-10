@@ -51,6 +51,8 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'name' => [[1], ['name' => 'second institution']],
             'aamcCode' => [[1], ['aamcCode' => '14']],
             'addressStreet' => [[1], ['addressStreet' => '221 East']],
@@ -66,6 +68,7 @@ class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

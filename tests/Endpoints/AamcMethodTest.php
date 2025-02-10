@@ -48,6 +48,8 @@ class AamcMethodTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 'AM001']],
             'ids' => [[0, 1], ['id' => ['AM001', 'AM002']]],
+            'missingId' => [[], ['id' => 'nothing']],
+            'missingIds' => [[], ['id' => ['nothing']]],
             'description' => [[1], ['description' => 'filterable description']],
             'sessionTypes' => [[0], ['sessionTypes' => [1]]],
             'active' => [[0], ['active' => true]],
@@ -59,6 +61,7 @@ class AamcMethodTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => ['AM001', 'AM002']]];
+        $filters['missingIds'] = [[], ['ids' => ['nothing']]];
 
         return $filters;
     }

@@ -47,6 +47,9 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
     {
         return [
             'id' => [[2], ['id' => 'RE003']],
+            'ids' => [[2], ['id' => ['RE003']]],
+            'missingId' => [[], ['id' => 'nothing']],
+            'missingIds' => [[], ['id' => ['nothing']]],
             'title' => [[0], ['title' => 'first title']],
             'description' => [[1], ['description' => 'second description']],
             'terms' => [[0], ['terms' => [1]]],
@@ -55,7 +58,10 @@ class AamcResourceTypeTest extends AbstractReadWriteEndpoint
 
     public static function graphQLFiltersToTest(): array
     {
-        return self::filtersToTest();
+        $filters = self::filtersToTest();
+        $filters['ids'] = [[2], ['ids' => ['RE003']]];
+        $filters['missingIds'] = [[], ['ids' => ['nothing']]];
+        return $filters;
     }
 
     public function testPostTermAamcResourceType(): void

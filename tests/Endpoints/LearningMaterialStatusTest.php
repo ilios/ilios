@@ -29,6 +29,8 @@ class LearningMaterialStatusTest extends AbstractReadEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[1], ['title' => 'Final']],
         ];
     }
@@ -37,6 +39,7 @@ class LearningMaterialStatusTest extends AbstractReadEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

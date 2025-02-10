@@ -110,6 +110,8 @@ class SessionTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 2], ['id' => [1, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[0], ['title' => 'session1Title']],
             'attireRequired' => [[1], ['attireRequired' => true]],
             'equipmentRequired' => [[1], ['equipmentRequired' => true]],
@@ -147,6 +149,7 @@ class SessionTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 2], ['ids' => [1, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
         $filters['multipleCourse'] = [[0, 1, 3], ['courses' => [1, 4]]];
         $filters['multipleSessionTypes'] = [[1, 2, 3], ['sessionTypes' => [2]]];
 

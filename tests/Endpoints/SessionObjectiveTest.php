@@ -66,6 +66,8 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'session' => [[1, 2], ['session' => 4]],
             'sessions' => [[1, 2], ['sessions' => [4]]],
             'terms' => [[0, 1], ['terms' => [3]]],
@@ -84,6 +86,7 @@ class SessionObjectiveTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

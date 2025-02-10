@@ -51,6 +51,8 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'session' => [[1], ['session' => 6]],
             'sessions' => [[1, 2], ['sessions' => [6, 7]]],
             'hours' => [[1], ['hours' => 21.2]],
@@ -66,6 +68,7 @@ class IlmSessionTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

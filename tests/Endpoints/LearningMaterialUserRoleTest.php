@@ -29,6 +29,8 @@ class LearningMaterialUserRoleTest extends AbstractReadEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[1], ['title' => 'second lm user role']],
         ];
     }
@@ -37,6 +39,7 @@ class LearningMaterialUserRoleTest extends AbstractReadEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

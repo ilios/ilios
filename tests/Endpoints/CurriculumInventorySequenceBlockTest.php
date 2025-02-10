@@ -63,6 +63,8 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[1, 2], ['id' => [2, 3]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'title' => [[1], ['title' => 'Nested Sequence Block 1']],
             'description' => [[0], ['description' => 'first description']],
             'required' => [[0], ['required' => CurriculumInventorySequenceBlockInterface::REQUIRED]],
@@ -91,6 +93,7 @@ class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

@@ -68,6 +68,8 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'programYear' => [[0], ['programYear' => 1]],
             'terms' => [[0, 1], ['terms' => [2]]],
             'position' => [[0, 1], ['position' => 0]],
@@ -83,6 +85,7 @@ class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }

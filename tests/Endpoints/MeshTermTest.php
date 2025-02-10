@@ -29,6 +29,8 @@ class MeshTermTest extends AbstractMeshEndpoint
         return [
             'id' => [[0], ['id' => 1]],
             'ids' => [[0, 1], ['id' => [1, 2]]],
+            'missingId' => [[], ['id' => 99]],
+            'missingIds' => [[], ['id' => [99]]],
             'meshTermUid' => [[1], ['meshTermUid' => 'uid2']],
             'name' => [[1], ['name' => 'second term']],
             'lexicalTag' => [[0], ['lexicalTag' => 'first tag']],
@@ -46,6 +48,7 @@ class MeshTermTest extends AbstractMeshEndpoint
     {
         $filters = self::filtersToTest();
         $filters['ids'] = [[0, 1], ['ids' => [1, 2]]];
+        $filters['missingIds'] = [[], ['ids' => [99]]];
 
         return $filters;
     }
