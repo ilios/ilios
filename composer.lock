@@ -12218,16 +12218,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.29.10",
+            "version": "0.29.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "cac7d20e5d286a37488527e477f5a695a9d7a44c"
+                "reference": "e241c8f58cf4121818c5a20a74ebb321dd94bb25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/cac7d20e5d286a37488527e477f5a695a9d7a44c",
-                "reference": "cac7d20e5d286a37488527e477f5a695a9d7a44c",
+                "url": "https://api.github.com/repos/infection/infection/zipball/e241c8f58cf4121818c5a20a74ebb321dd94bb25",
+                "reference": "e241c8f58cf4121818c5a20a74ebb321dd94bb25",
                 "shasum": ""
             },
             "require": {
@@ -12249,7 +12249,7 @@
                 "php": "^8.2",
                 "sanmai/later": "^0.1.1",
                 "sanmai/pipeline": "^5.1 || ^6",
-                "sebastian/diff": "^3.0.2 || ^4.0 || ^5.0 || ^6.0",
+                "sebastian/diff": "^3.0.2 || ^4.0 || ^5.0 || ^6.0 || ^7.0",
                 "shish/safe": "^2.6",
                 "symfony/console": "^5.4 || ^6.0 || ^7.0",
                 "symfony/filesystem": "^5.4 || ^6.0 || ^7.0",
@@ -12330,7 +12330,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.29.10"
+                "source": "https://github.com/infection/infection/tree/0.29.11"
             },
             "funding": [
                 {
@@ -12342,7 +12342,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-12-17T19:11:10+00:00"
+            "time": "2025-02-11T10:05:15+00:00"
         },
         {
             "name": "infection/mutator",
@@ -15441,15 +15441,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
-        "symfony/browser-kit": 0,
         "symfony/console": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15462,7 +15457,6 @@
         "symfony/mailgun-mailer": 0,
         "symfony/messenger": 0,
         "symfony/monolog-bundle": 0,
-        "symfony/phpunit-bridge": 0,
         "symfony/postmark-mailer": 0,
         "symfony/property-access": 0,
         "symfony/property-info": 0,
@@ -15471,12 +15465,18 @@
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
-        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/web-profiler-bundle": 0,
-        "symfony/yaml": 0
+        "symfony/yaml": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
+        "symfony/browser-kit": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
+        "symfony/phpunit-bridge": 0,
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15495,9 +15495,9 @@
         "ext-xmlwriter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.3"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
