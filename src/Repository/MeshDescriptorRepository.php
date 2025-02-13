@@ -14,6 +14,7 @@ use App\Service\DTOCacheManager;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Traits\ManagerRepository;
 use DateTime;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -26,7 +27,6 @@ use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
-use PDO;
 
 use function array_values;
 use function array_keys;
@@ -458,10 +458,10 @@ EOL;
                         'created_at' => $now,
                         'updated_at' => $now,
                     ], [
-                        PDO::PARAM_STR,
-                        PDO::PARAM_STR,
-                        PDO::PARAM_STR,
-                        PDO::PARAM_BOOL,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::STRING,
+                        ParameterType::BOOLEAN,
                         'datetime',
                         'datetime',
                     ]);
@@ -475,8 +475,8 @@ EOL;
                 ], [
                     'mesh_descriptor_uid' => $descriptor->getUi(),
                 ], [
-                    PDO::PARAM_STR,
-                    PDO::PARAM_STR,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
                     'datetime',
                 ]);
             }
@@ -488,8 +488,8 @@ EOL;
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
-                    PDO::PARAM_STR,
-                    PDO::PARAM_STR,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
                     'datetime',
                     'datetime',
                 ]);
@@ -505,11 +505,11 @@ EOL;
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
-                    PDO::PARAM_STR,
-                    PDO::PARAM_STR,
-                    PDO::PARAM_BOOL,
-                    PDO::PARAM_STR,
-                    PDO::PARAM_STR,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ParameterType::BOOLEAN,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
                     'datetime',
                     'datetime',
                 ]);
@@ -528,13 +528,13 @@ EOL;
                     'created_at' => $now,
                     'updated_at' => $now,
                 ], [
-                    PDO::PARAM_INT,
-                    PDO::PARAM_STR,
-                    PDO::PARAM_STR,
-                    PDO::PARAM_STR,
-                    PDO::PARAM_BOOL,
-                    PDO::PARAM_BOOL,
-                    PDO::PARAM_BOOL,
+                    ParameterType::INTEGER,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ParameterType::STRING,
+                    ParameterType::BOOLEAN,
+                    ParameterType::BOOLEAN,
+                    ParameterType::BOOLEAN,
                     'datetime',
                     'datetime',
                 ]);
