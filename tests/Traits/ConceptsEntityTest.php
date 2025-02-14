@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\MeshConcept;
 use App\Traits\ConceptsEntity;
 use Mockery as m;
 use App\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversTrait;
 
-#[CoversClass(ConceptsEntity::class)]
+#[CoversTrait(ConceptsEntity::class)]
 class ConceptsEntityTest extends TestCase
 {
     private object $traitObject;
