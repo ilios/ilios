@@ -30,7 +30,6 @@
     "flagception/flagception-bundle": "^5.0",
     "ilios/mesh-parser": "^4.0",
     "jaybizzle/crawler-detect": "^1.2",
-    "league/csv": "^9.5",
     "league/flysystem": "^3.0",
     "league/flysystem-aws-s3-v3": "^3.0",
     "liip/monitor-bundle": "^2.6",
