@@ -207,9 +207,6 @@
     "laminas/laminas-diagnostics": {
         "version": "1.6.0"
     },
-    "league/csv": {
-        "version": "9.6.2"
-    },
     "league/flysystem": {
         "version": "1.1.3"
     },
