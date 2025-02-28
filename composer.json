@@ -27,7 +27,7 @@
     "eluceo/ical": "^2.5.1",
     "exercise/htmlpurifier-bundle": "^5.0",
     "firebase/php-jwt": "@stable",
-    "flagception/flagception-bundle": "^5.0",
+    "flagception/flagception-bundle": "^6.0",
     "ilios/mesh-parser": "^4.0",
     "jaybizzle/crawler-detect": "^1.2",
     "league/flysystem": "^3.0",
