@@ -3813,16 +3813,16 @@
         },
         {
             "name": "liip/monitor-bundle",
-            "version": "2.23.0",
+            "version": "2.23.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipMonitorBundle.git",
-                "reference": "3e1a695c6759d5e6e2cdbd3db0ef3796b223089c"
+                "reference": "f0a398b572d603cda499d7dc547da8ee09efb3cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/3e1a695c6759d5e6e2cdbd3db0ef3796b223089c",
-                "reference": "3e1a695c6759d5e6e2cdbd3db0ef3796b223089c",
+                "url": "https://api.github.com/repos/liip/LiipMonitorBundle/zipball/f0a398b572d603cda499d7dc547da8ee09efb3cf",
+                "reference": "f0a398b572d603cda499d7dc547da8ee09efb3cf",
                 "shasum": ""
             },
             "require": {
@@ -3894,9 +3894,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipMonitorBundle/issues",
-                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.23.0"
+                "source": "https://github.com/liip/LiipMonitorBundle/tree/2.23.2"
             },
-            "time": "2024-03-05T16:29:20+00:00"
+            "time": "2025-02-26T14:57:13+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7405,16 +7405,16 @@
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v7.2.3",
+            "version": "v7.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "d37a43dd0b2079605fcab3056dac71934f06dc0f"
+                "reference": "6d6614378cd8128eed0a037ce6ac51a26c5aaed5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/d37a43dd0b2079605fcab3056dac71934f06dc0f",
-                "reference": "d37a43dd0b2079605fcab3056dac71934f06dc0f",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/6d6614378cd8128eed0a037ce6ac51a26c5aaed5",
+                "reference": "6d6614378cd8128eed0a037ce6ac51a26c5aaed5",
                 "shasum": ""
             },
             "require": {
@@ -7535,7 +7535,7 @@
             "description": "Provides a tight integration between Symfony components and the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/framework-bundle/tree/v7.2.3"
+                "source": "https://github.com/symfony/framework-bundle/tree/v7.2.4"
             },
             "funding": [
                 {
@@ -7551,7 +7551,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-29T07:13:55+00:00"
+            "time": "2025-02-26T08:19:39+00:00"
         },
         {
             "name": "symfony/http-client",
