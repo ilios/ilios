@@ -1394,28 +1394,43 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      */
     public function getLearnerIlmAndOfferingIds(int $userId): array
     {
-        $rhett['offeringIds'] = [];
-        $rhett['ilmIds'] = [];
+        $rhett = $this->getLearnerLearnerGroupOfferingsAndIlmSessions($userId);
 
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('offering.id as o1Id, ilm.id as i1id, offering2.id as o2Id, ilm2.id as i2id')->distinct();
+        $qb->select('offering.id as oId, ilm.id as ilmId')->distinct();
         $qb->from(User::class, 'u');
         $qb->leftJoin('u.offerings', 'offering');
         $qb->leftJoin('u.learnerIlmSessions', 'ilm');
-        $qb->leftJoin('u.learnerGroups', 'learnerGroup');
-        $qb->leftJoin('learnerGroup.offerings', 'offering2');
-        $qb->leftJoin('learnerGroup.ilmSessions', 'ilm2');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
+        $qb->where($qb->expr()->eq('u.id', ':userId'));
         $qb->setParameter(':userId', $userId);
 
         foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            $rhett['offeringIds'][] = $arr['o1Id'];
-            $rhett['ilmIds'][] = $arr['i1id'];
-            $rhett['offeringIds'][] = $arr['o2Id'];
-            $rhett['ilmIds'][] = $arr['i2id'];
+            $rhett['offeringIds'][] = $arr['oId'];
+            $rhett['ilmIds'][] = $arr['ilmId'];
         }
 
         return $this->dedupeSubArrays($rhett);
+    }
+
+    protected function getLearnerLearnerGroupOfferingsAndIlmSessions(int $userId): array
+    {
+        $rhett['offeringIds'] = [];
+        $rhett['ilmIds'] = [];
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('offering.id as oId, ilm.id as ilmId')->distinct();
+        $qb->from(User::class, 'u');
+        $qb->leftJoin('u.learnerGroups', 'learnerGroup');
+        $qb->leftJoin('learnerGroup.offerings', 'offering');
+        $qb->leftJoin('learnerGroup.ilmSessions', 'ilm');
+        $qb->where($qb->expr()->eq('u.id', ':userId'));
+        $qb->setParameter(':userId', $userId);
+
+        foreach ($qb->getQuery()->getArrayResult() as $arr) {
+            $rhett['offeringIds'][] = $arr['oId'];
+            $rhett['ilmIds'][] = $arr['ilmId'];
+        }
+
+        return $rhett;
     }
 
     /*
