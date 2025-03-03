@@ -12054,16 +12054,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.29.13",
+            "version": "0.29.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "ef0a68da9fb566fbfc53415312858f847956f4d2"
+                "reference": "feea2a48a8aeedd3a4d2105167b41a46f0e568a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/ef0a68da9fb566fbfc53415312858f847956f4d2",
-                "reference": "ef0a68da9fb566fbfc53415312858f847956f4d2",
+                "url": "https://api.github.com/repos/infection/infection/zipball/feea2a48a8aeedd3a4d2105167b41a46f0e568a3",
+                "reference": "feea2a48a8aeedd3a4d2105167b41a46f0e568a3",
                 "shasum": ""
             },
             "require": {
@@ -12166,7 +12166,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.29.13"
+                "source": "https://github.com/infection/infection/tree/0.29.14"
             },
             "funding": [
                 {
@@ -12178,7 +12178,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-02-27T16:57:01+00:00"
+            "time": "2025-03-02T18:49:12+00:00"
         },
         {
             "name": "infection/mutator",
@@ -15181,7 +15181,8 @@
         "symfony/css-selector": 0,
         "symfony/debug-bundle": 0,
         "symfony/phpunit-bridge": 0,
-        "symfony/stopwatch": 0
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
