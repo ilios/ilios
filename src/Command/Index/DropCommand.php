@@ -59,7 +59,7 @@ class DropCommand extends Command
         return Command::SUCCESS;
     }
 
-    protected function clearIndexQueue(OutputInterface $output)
+    protected function clearIndexQueue(OutputInterface $output): void
     {
         $sql = 'DELETE FROM messenger_messages WHERE queue_name="default"';
         $conn = $this->entityManager->getConnection();
