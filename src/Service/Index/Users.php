@@ -150,7 +150,7 @@ class Users extends OpenSearchBase
                 'default_pipeline' => 'users',
                 'max_ngram_diff' =>  15,
                 'number_of_shards' => 1,
-                'number_of_replicas' => 0,
+                'number_of_replicas' => 1,
             ],
             'mappings' => [
                 '_meta' => [

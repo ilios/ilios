@@ -459,8 +459,8 @@ class Curriculum extends OpenSearchBase
 
         return [
             'settings' => [
-                'number_of_shards' => 2,
-                'number_of_replicas' => 0,
+                'number_of_shards' => 1,
+                'number_of_replicas' => 1,
                 'default_pipeline' => 'curriculum',
             ],
             'mappings' => [
