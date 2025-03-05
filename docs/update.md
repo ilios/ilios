@@ -51,6 +51,10 @@ _NOTE:_ The steps below assume that file ownership of the deployed codebase belo
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.123.0
+
+The `ILIOS_SEARCH_HOSTS` has been renamed `ILIOS_SEARCH_HOSTS` and will no longer accept a semi-colon seeperated list of hosts. Replace this is your configuration with a single host if you have search and indexing enabled.
+
 ### Upgrading to Ilios 3.105.0
 
 The `ILIOS_ELASTICSEARCH_HOSTS` and `ILIOS_ELASTICSEARCH_UPLOAD_LIMIT` parameters have been renamed to `ILIOS_SEARCH_HOSTS` and `ILIOS_SEARCH_UPLOAD_LIMIT` to be more vendor neutral. They will need to be replaced in your configuration if you have search and indexing enabled.

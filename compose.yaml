@@ -31,7 +31,7 @@ services:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_SEARCH_HOSTS=opensearch:9200
+      - ILIOS_SEARCH_HOST=http://opensearch:9200
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FEATURE_DTO_CACHING=false
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
@@ -53,7 +53,7 @@ services:
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_SEARCH_HOSTS=opensearch:9200
+      - ILIOS_SEARCH_HOST=http://opensearch:9200
       - ILIOS_REDIS_URL=redis://redis
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
       - ILIOS_TIKA_URL=http://tika:9998

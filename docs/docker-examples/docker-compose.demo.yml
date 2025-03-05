@@ -22,7 +22,7 @@ services:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_SEARCH_HOSTS=opensearch
+      - ILIOS_SEARCH_HOST=http://opensearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
       - ILIOS_TIKA_URL=http://tika:9998
     depends_on:
@@ -32,7 +32,7 @@ services:
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
       - ILIOS_ERROR_CAPTURE_ENABLED=false
-      - ILIOS_SEARCH_HOSTS=opensearch
+      - ILIOS_SEARCH_HOST=http://opensearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
       - ILIOS_TIKA_URL=http://tika:9998
     depends_on:
