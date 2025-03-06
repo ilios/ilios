@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use Exception;
 use PHPUnit\Framework\Attributes\Group;
 use App\Command\WaitForIndexCommand;
 use App\Service\Index\Manager;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use OpenSearch\Client;
-use OpenSearch\Common\Exceptions\NoNodesAvailableException;
 use OpenSearch\Namespaces\NodesNamespace;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 #[Group('cli')]
@@ -59,10 +60,28 @@ class WaitForIndexCommandTest extends KernelTestCase
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
-    public function testWaitsForConnection(): void
+    public function testWaitsForConnectionTransportException(): void
     {
         $nodes = m::mock(NodesNamespace::class);
-        $nodes->shouldReceive('info')->times(2)->andThrow(NoNodesAvailableException::class);
+        $nodes->shouldReceive('info')->times(2)->andThrow(TransportException::class);
+        $this->client->shouldReceive('nodes')->andReturn($nodes);
+        $this->indexManager->shouldReceive('hasBeenCreated')->andReturn(true);
+        $nodes->shouldReceive('info')->once()->andReturn();
+
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('test');
+        $this->commandTester->execute([]);
+        $duration = $stopwatch->stop('test')->getDuration();
+        $this->assertGreaterThan(2000, $duration);
+
+        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
+    }
+
+    public function testWaitsForConnectionException(): void
+    {
+        $nodes = m::mock(NodesNamespace::class);
+        $e = new Exception(previous: new TransportException());
+        $nodes->shouldReceive('info')->times(2)->andThrow($e);
         $this->client->shouldReceive('nodes')->andReturn($nodes);
         $this->indexManager->shouldReceive('hasBeenCreated')->andReturn(true);
         $nodes->shouldReceive('info')->once()->andReturn();
@@ -90,5 +109,14 @@ class WaitForIndexCommandTest extends KernelTestCase
         $this->assertGreaterThan(2000, $duration);
 
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
+    }
+
+    public function testThrowsOtherException(): void
+    {
+        $nodes = m::mock(NodesNamespace::class);
+        $nodes->shouldReceive('info')->andThrow(Exception::class);
+        $this->client->shouldReceive('nodes')->andReturn($nodes);
+        $this->expectException(Exception::class);
+        $this->commandTester->execute([]);
     }
 }

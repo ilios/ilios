@@ -7,11 +7,11 @@ namespace App\Command;
 use App\Service\Index\Manager;
 use Exception;
 use OpenSearch\Client;
-use OpenSearch\Common\Exceptions\NoNodesAvailableException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpClient\Exception\TransportException;
 
 use function sleep;
 
@@ -47,7 +47,10 @@ class WaitForIndexCommand extends Command
                 if ($this->indexManager->hasBeenCreated()) {
                     return Command::SUCCESS;
                 }
-            } catch (NoNodesAvailableException) {
+            } catch (Exception $e) {
+                if (!$e instanceof TransportException && !$e->getPrevious() instanceof TransportException) {
+                    throw $e;
+                }
                 // try again;
             }
         }

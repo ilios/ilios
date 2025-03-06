@@ -23,6 +23,7 @@ class DeprecatedConfigurationOption implements CheckInterface
         'tracking_code' => false,
         'elasticsearch_hosts' => true,
         'elasticsearch_upload_limit' => true,
+        'search_hosts' => false,
     ];
     private const string INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
     private const string UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
