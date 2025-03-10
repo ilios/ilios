@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "async-aws/core",
-            "version": "1.24.1",
+            "version": "1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/async-aws/core.git",
-                "reference": "241c8ab0e4cd4f47b2226a31a5132fb36a73a57b"
+                "reference": "19e1ac6978730a59bf71ad3fa584bc588df11ae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/async-aws/core/zipball/241c8ab0e4cd4f47b2226a31a5132fb36a73a57b",
-                "reference": "241c8ab0e4cd4f47b2226a31a5132fb36a73a57b",
+                "url": "https://api.github.com/repos/async-aws/core/zipball/19e1ac6978730a59bf71ad3fa584bc588df11ae2",
+                "reference": "19e1ac6978730a59bf71ad3fa584bc588df11ae2",
                 "shasum": ""
             },
             "require": {
@@ -39,7 +39,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.24-dev"
+                    "dev-master": "1.25-dev"
                 }
             },
             "autoload": {
@@ -60,7 +60,7 @@
                 "sts"
             ],
             "support": {
-                "source": "https://github.com/async-aws/core/tree/1.24.1"
+                "source": "https://github.com/async-aws/core/tree/1.25.0"
             },
             "funding": [
                 {
@@ -72,20 +72,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-15T14:38:08+00:00"
+            "time": "2025-03-05T20:41:02+00:00"
         },
         {
             "name": "async-aws/ses",
-            "version": "1.10.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/async-aws/ses.git",
-                "reference": "53b605b2cfd914faa7bc25b017a36b498aeb017b"
+                "reference": "d3518fc1180b05bc257a3e2581c50307272a978c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/async-aws/ses/zipball/53b605b2cfd914faa7bc25b017a36b498aeb017b",
-                "reference": "53b605b2cfd914faa7bc25b017a36b498aeb017b",
+                "url": "https://api.github.com/repos/async-aws/ses/zipball/d3518fc1180b05bc257a3e2581c50307272a978c",
+                "reference": "d3518fc1180b05bc257a3e2581c50307272a978c",
                 "shasum": ""
             },
             "require": {
@@ -96,7 +96,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -117,7 +117,7 @@
                 "ses"
             ],
             "support": {
-                "source": "https://github.com/async-aws/ses/tree/1.10.0"
+                "source": "https://github.com/async-aws/ses/tree/1.11.0"
             },
             "funding": [
                 {
@@ -129,7 +129,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-15T09:28:33+00:00"
+            "time": "2025-03-05T20:41:02+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -187,16 +187,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.340.4",
+            "version": "3.342.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "2896cfb3f6b2bd06757b16e99e1cab93c9598af3"
+                "reference": "ef66e0fdba9e7f786a7b1e522f847d76d0320e89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2896cfb3f6b2bd06757b16e99e1cab93c9598af3",
-                "reference": "2896cfb3f6b2bd06757b16e99e1cab93c9598af3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ef66e0fdba9e7f786a7b1e522f847d76d0320e89",
+                "reference": "ef66e0fdba9e7f786a7b1e522f847d76d0320e89",
                 "shasum": ""
             },
             "require": {
@@ -278,22 +278,22 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.340.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.2"
             },
-            "time": "2025-02-28T19:13:38+00:00"
+            "time": "2025-03-07T19:12:43+00:00"
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.5.5",
+            "version": "1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "08c50d5ec4c6ced7d0271d2862dec8c1033283e6"
+                "reference": "f65c239c970e7f072f067ab78646e9f0b2935175"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/08c50d5ec4c6ced7d0271d2862dec8c1033283e6",
-                "reference": "08c50d5ec4c6ced7d0271d2862dec8c1033283e6",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/f65c239c970e7f072f067ab78646e9f0b2935175",
+                "reference": "f65c239c970e7f072f067ab78646e9f0b2935175",
                 "shasum": ""
             },
             "require": {
@@ -340,7 +340,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.5.5"
+                "source": "https://github.com/composer/ca-bundle/tree/1.5.6"
             },
             "funding": [
                 {
@@ -356,7 +356,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-08T16:17:16+00:00"
+            "time": "2025-03-06T14:30:56+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -1184,16 +1184,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "4.2.2",
+            "version": "4.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "19a2b7deb5fe8c2df0ff817ecea305e50acb62ec"
+                "reference": "33d2d7fe1269b2301640c44cf2896ea607b30e3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/19a2b7deb5fe8c2df0ff817ecea305e50acb62ec",
-                "reference": "19a2b7deb5fe8c2df0ff817ecea305e50acb62ec",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/33d2d7fe1269b2301640c44cf2896ea607b30e3e",
+                "reference": "33d2d7fe1269b2301640c44cf2896ea607b30e3e",
                 "shasum": ""
             },
             "require": {
@@ -1270,7 +1270,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.2.2"
+                "source": "https://github.com/doctrine/dbal/tree/4.2.3"
             },
             "funding": [
                 {
@@ -1286,7 +1286,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-16T08:40:56+00:00"
+            "time": "2025-03-07T18:29:05+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -4069,16 +4069,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.37.1",
+            "version": "v4.38.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "1497977f82d396f1dda8120434c6d29f3de683e6"
+                "reference": "fe4247aa059e8c703f57bd10827a8f2de951a5af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/1497977f82d396f1dda8120434c6d29f3de683e6",
-                "reference": "1497977f82d396f1dda8120434c6d29f3de683e6",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/fe4247aa059e8c703f57bd10827a8f2de951a5af",
+                "reference": "fe4247aa059e8c703f57bd10827a8f2de951a5af",
                 "shasum": ""
             },
             "require": {
@@ -4152,7 +4152,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.x-dev"
+                    "dev-4.x": "4.x-dev"
                 }
             },
             "autoload": {
@@ -4179,7 +4179,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.37.1"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.38.1"
             },
             "funding": [
                 {
@@ -4187,7 +4187,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-14T12:47:20+00:00"
+            "time": "2025-03-07T18:57:31+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -4311,16 +4311,16 @@
         },
         {
             "name": "opensearch-project/opensearch-php",
-            "version": "2.4.2",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opensearch-project/opensearch-php.git",
-                "reference": "59302e519538d98644caf4441e7dc09b4c3da11a"
+                "reference": "db138f27996e18b1ef8f915dba5e2ecc0caeb357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opensearch-project/opensearch-php/zipball/59302e519538d98644caf4441e7dc09b4c3da11a",
-                "reference": "59302e519538d98644caf4441e7dc09b4c3da11a",
+                "url": "https://api.github.com/repos/opensearch-project/opensearch-php/zipball/db138f27996e18b1ef8f915dba5e2ecc0caeb357",
+                "reference": "db138f27996e18b1ef8f915dba5e2ecc0caeb357",
                 "shasum": ""
             },
             "require": {
@@ -4389,9 +4389,9 @@
             ],
             "support": {
                 "issues": "https://github.com/opensearch-project/opensearch-php/issues",
-                "source": "https://github.com/opensearch-project/opensearch-php/tree/2.4.2"
+                "source": "https://github.com/opensearch-project/opensearch-php/tree/2.4.3"
             },
-            "time": "2025-02-20T07:13:07+00:00"
+            "time": "2025-03-10T06:56:21+00:00"
         },
         {
             "name": "pear/archive_tar",
@@ -5872,16 +5872,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.20.0",
+            "version": "v5.20.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "d9887d6320c73a534edc4bc26242ec33d5f2657d"
+                "reference": "e3043f9380a62022e7249890ea918096578c4d78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/d9887d6320c73a534edc4bc26242ec33d5f2657d",
-                "reference": "d9887d6320c73a534edc4bc26242ec33d5f2657d",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/e3043f9380a62022e7249890ea918096578c4d78",
+                "reference": "e3043f9380a62022e7249890ea918096578c4d78",
                 "shasum": ""
             },
             "type": "library",
@@ -5927,9 +5927,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.20.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.20.1"
             },
-            "time": "2025-02-27T10:36:24+00:00"
+            "time": "2025-03-10T10:57:35+00:00"
         },
         {
             "name": "symfony/amazon-mailer",
@@ -11420,16 +11420,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "5.0.5",
+            "version": "5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "2eb4005840058d8844a0bcc14403932331331068"
+                "reference": "ea60f1439aa4fefba230a4386a403eeb1ee52f08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/2eb4005840058d8844a0bcc14403932331331068",
-                "reference": "2eb4005840058d8844a0bcc14403932331331068",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/ea60f1439aa4fefba230a4386a403eeb1ee52f08",
+                "reference": "ea60f1439aa4fefba230a4386a403eeb1ee52f08",
                 "shasum": ""
             },
             "require": {
@@ -11500,9 +11500,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/5.0.5"
+                "source": "https://github.com/zircote/swagger-php/tree/5.0.6"
             },
-            "time": "2025-02-24T00:48:00+00:00"
+            "time": "2025-03-05T19:40:05+00:00"
         }
     ],
     "packages-dev": [
@@ -15147,10 +15147,15 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
+        "symfony/browser-kit": 0,
         "symfony/console": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15163,6 +15168,7 @@
         "symfony/mailgun-mailer": 0,
         "symfony/messenger": 0,
         "symfony/monolog-bundle": 0,
+        "symfony/phpunit-bridge": 0,
         "symfony/postmark-mailer": 0,
         "symfony/property-access": 0,
         "symfony/property-info": 0,
@@ -15171,18 +15177,12 @@
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
+        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/yaml": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
-        "symfony/browser-kit": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
-        "symfony/phpunit-bridge": 0,
-        "symfony/stopwatch": 0,
-        "symfony/web-profiler-bundle": 0
+        "symfony/web-profiler-bundle": 0,
+        "symfony/yaml": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15201,9 +15201,9 @@
         "ext-xmlwriter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.3"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
