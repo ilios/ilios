@@ -33,7 +33,7 @@
     "league/flysystem": "^3.0",
     "league/flysystem-aws-s3-v3": "^3.0",
     "liip/monitor-bundle": "^2.6",
-    "nelmio/api-doc-bundle": "^4.9",
+    "nelmio/api-doc-bundle": "^5.0",
     "nelmio/cors-bundle": "^2.0",
     "opensearch-project/opensearch-php": "^2.0",
     "pear/archive_tar": "^1.4",
