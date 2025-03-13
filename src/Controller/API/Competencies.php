@@ -8,7 +8,7 @@ use App\Entity\DTO\CompetencyDTO;
 use App\Repository\CompetencyRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

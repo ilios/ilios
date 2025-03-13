@@ -10,7 +10,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
