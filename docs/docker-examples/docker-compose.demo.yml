@@ -19,7 +19,7 @@ services:
     volumes:
       - public:/srv/app/public
     environment:
-      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_SEARCH_HOST=http://opensearch
@@ -30,7 +30,7 @@ services:
   messages:
     image: ilios/consume-messages:v3
     environment:
-      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios?serverVersion=8.0
+      - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
       - ILIOS_ERROR_CAPTURE_ENABLED=false
       - ILIOS_SEARCH_HOST=http://opensearch
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp

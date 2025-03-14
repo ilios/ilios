@@ -204,7 +204,7 @@ HEALTHCHECK NONE
 ###############################################################################
 # MySQL configured as needed for Ilios
 ###############################################################################
-FROM mysql:8.0-oracle AS mysql
+FROM mysql:8-oracle AS mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_RANDOM_ROOT_PASSWORD=yes
 COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf
