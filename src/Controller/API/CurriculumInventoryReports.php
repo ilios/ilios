@@ -20,7 +20,7 @@ use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use Exception;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

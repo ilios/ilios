@@ -7,7 +7,7 @@ namespace App\Controller\API;
 use App\Entity\DTO\MeshQualifierDTO;
 use App\Repository\MeshQualifierRepository;
 use App\Service\ApiResponseBuilder;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -13,7 +13,7 @@ use App\Repository\SchoolRepository;
 use App\Repository\SessionRepository;
 use App\Traits\ApiAccessValidation;
 use DateTime;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

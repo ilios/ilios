@@ -12,7 +12,7 @@ use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use OutOfRangeException;
 use Symfony\Component\HttpFoundation\Request;

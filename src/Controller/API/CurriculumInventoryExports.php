@@ -16,7 +16,7 @@ use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\Exporter;
 use App\Traits\ApiAccessValidation;
 use App\Traits\ApiEntityValidation;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
