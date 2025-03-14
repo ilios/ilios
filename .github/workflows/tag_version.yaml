@@ -36,6 +36,7 @@ jobs:
     - name: Increment version
       run: |
         composer config version ${{ env.new_tag }}
+        composer update --lock
         git commit -a -m "Bump Ilios version to ${{ env.new_tag }}"
     - name: Tag Version
       run: git tag v${{ env.new_tag }} -m "Tagging the ${{ env.new_tag }} ${{ github.event.inputs.releaseType }} release"
