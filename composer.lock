@@ -11186,21 +11186,22 @@
         },
         {
             "name": "vaites/php-apache-tika",
-            "version": "v1.3.2",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vaites/php-apache-tika.git",
-                "reference": "9d7d13aad7df5789b765977f57f2c1d000c4cfa4"
+                "reference": "a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vaites/php-apache-tika/zipball/9d7d13aad7df5789b765977f57f2c1d000c4cfa4",
-                "reference": "9d7d13aad7df5789b765977f57f2c1d000c4cfa4",
+                "url": "https://api.github.com/repos/vaites/php-apache-tika/zipball/a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5",
+                "reference": "a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": ">=7.3.0"
+                "ext-json": "*",
+                "php": ">=7.4.0"
             },
             "require-dev": {
                 "filp/whoops": "^2.7",
@@ -11247,7 +11248,10 @@
                     "2.8.0",
                     "2.9.0",
                     "2.9.1",
-                    "2.9.2"
+                    "2.9.2",
+                    "2.9.3",
+                    "3.0.0",
+                    "3.1.0"
                 ]
             },
             "autoload": {
@@ -11281,9 +11285,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vaites/php-apache-tika/issues",
-                "source": "https://github.com/vaites/php-apache-tika/tree/v1.3.2"
+                "source": "https://github.com/vaites/php-apache-tika/tree/v1.4.0"
             },
-            "time": "2024-05-28T22:00:22+00:00"
+            "time": "2025-03-16T10:35:49+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -15054,15 +15058,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
-        "symfony/browser-kit": 0,
         "symfony/console": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15075,7 +15074,6 @@
         "symfony/mailgun-mailer": 0,
         "symfony/messenger": 0,
         "symfony/monolog-bundle": 0,
-        "symfony/phpunit-bridge": 0,
         "symfony/postmark-mailer": 0,
         "symfony/property-access": 0,
         "symfony/property-info": 0,
@@ -15084,12 +15082,18 @@
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
-        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/web-profiler-bundle": 0,
-        "symfony/yaml": 0
+        "symfony/yaml": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
+        "symfony/browser-kit": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
+        "symfony/phpunit-bridge": 0,
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15108,9 +15112,9 @@
         "ext-xmlwriter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.3"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
