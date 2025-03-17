@@ -187,16 +187,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.342.5",
+            "version": "3.342.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "00523323c202121d2cc2e893a1bb7ff14928a5bb"
+                "reference": "2ad93ef447289da27892707efa683c1ae7ced85f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/00523323c202121d2cc2e893a1bb7ff14928a5bb",
-                "reference": "00523323c202121d2cc2e893a1bb7ff14928a5bb",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2ad93ef447289da27892707efa683c1ae7ced85f",
+                "reference": "2ad93ef447289da27892707efa683c1ae7ced85f",
                 "shasum": ""
             },
             "require": {
@@ -278,9 +278,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.6"
             },
-            "time": "2025-03-13T18:04:13+00:00"
+            "time": "2025-03-14T18:01:18+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -11186,21 +11186,22 @@
         },
         {
             "name": "vaites/php-apache-tika",
-            "version": "v1.3.2",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vaites/php-apache-tika.git",
-                "reference": "9d7d13aad7df5789b765977f57f2c1d000c4cfa4"
+                "reference": "a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vaites/php-apache-tika/zipball/9d7d13aad7df5789b765977f57f2c1d000c4cfa4",
-                "reference": "9d7d13aad7df5789b765977f57f2c1d000c4cfa4",
+                "url": "https://api.github.com/repos/vaites/php-apache-tika/zipball/a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5",
+                "reference": "a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "php": ">=7.3.0"
+                "ext-json": "*",
+                "php": ">=7.4.0"
             },
             "require-dev": {
                 "filp/whoops": "^2.7",
@@ -11247,7 +11248,10 @@
                     "2.8.0",
                     "2.9.0",
                     "2.9.1",
-                    "2.9.2"
+                    "2.9.2",
+                    "2.9.3",
+                    "3.0.0",
+                    "3.1.0"
                 ]
             },
             "autoload": {
@@ -11281,9 +11285,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vaites/php-apache-tika/issues",
-                "source": "https://github.com/vaites/php-apache-tika/tree/v1.3.2"
+                "source": "https://github.com/vaites/php-apache-tika/tree/v1.4.0"
             },
-            "time": "2024-05-28T22:00:22+00:00"
+            "time": "2025-03-16T10:35:49+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -12862,16 +12866,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "12.0.4",
+            "version": "12.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "79e5ef5897068689c7c325554d6df905480ce942"
+                "reference": "d331a5ced3d9a2b917baa9841b2211e72f9e780d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/79e5ef5897068689c7c325554d6df905480ce942",
-                "reference": "79e5ef5897068689c7c325554d6df905480ce942",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d331a5ced3d9a2b917baa9841b2211e72f9e780d",
+                "reference": "d331a5ced3d9a2b917baa9841b2211e72f9e780d",
                 "shasum": ""
             },
             "require": {
@@ -12898,7 +12902,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "12.0.x-dev"
+                    "dev-main": "12.1.x-dev"
                 }
             },
             "autoload": {
@@ -12927,7 +12931,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.0.4"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.1.0"
             },
             "funding": [
                 {
@@ -12935,7 +12939,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-25T13:27:48+00:00"
+            "time": "2025-03-17T13:56:07+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
