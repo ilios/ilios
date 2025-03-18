@@ -19,7 +19,7 @@ env:
   DOCKER_BUILDKIT: 1
 
   #token is tied to Jon's account on UCSF's SonarQube (type: project, name: ilios)
-  UCSF_SQ_TK: sqp_f1c6cec75ab2410b04f89bf8f5183234959eda2d
+  UCSF_SQ_TK: sqp_144d0f53089a18cd6733f79dc29ff98221662d1a
 
 jobs:
   code_style:
