@@ -7,7 +7,7 @@ namespace App\Classes;
 use App\Service\Config;
 use Exception;
 use OpenSearch\Client;
-use OpenSearch\Common\Exceptions\Missing404Exception;
+use OpenSearch\Exception\NotFoundHttpException;
 
 class OpenSearchBase
 {
@@ -69,7 +69,7 @@ class OpenSearchBase
         }
         try {
             return $this->client->delete($params);
-        } catch (Missing404Exception) {
+        } catch (NotFoundHttpException) {
             return ['result' => 'deleted'];
         }
     }
@@ -81,7 +81,7 @@ class OpenSearchBase
         }
         try {
             return $this->client->deleteByQuery($params);
-        } catch (Missing404Exception) {
+        } catch (NotFoundHttpException) {
             return ['failures' => []];
         }
     }
