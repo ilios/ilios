@@ -13,6 +13,9 @@ framework:
        'App\Message\MeshDescriptorIndexRequest': async
        'App\Message\LearningMaterialIndexRequest': async
        'App\Message\LearningMaterialTextExtractionRequest': async
+       'App\Message\CourseDeleteRequest': async
+       'App\Message\SessionDeleteRequest': async
+       'App\Message\LearningMaterialDeleteRequest': async
 
     default_bus: messenger.bus.default
     buses:

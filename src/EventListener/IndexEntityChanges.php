@@ -9,8 +9,11 @@ use App\Entity\CourseInterface;
 use App\Entity\LearningMaterialInterface;
 use App\Entity\SessionInterface;
 use App\Entity\UserInterface;
+use App\Message\CourseDeleteRequest;
 use App\Message\CourseIndexRequest;
+use App\Message\LearningMaterialDeleteRequest;
 use App\Message\LearningMaterialTextExtractionRequest;
+use App\Message\SessionDeleteRequest;
 use App\Message\UserIndexRequest;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
@@ -105,16 +108,16 @@ class IndexEntityChanges
         }
 
         if ($entity instanceof CourseInterface) {
-            $this->curriculumIndex->deleteCourse($entity->getId());
+            $this->bus->dispatch(new CourseDeleteRequest($entity->getId()));
         }
 
         if ($entity instanceof SessionInterface) {
-            $this->curriculumIndex->deleteSession($entity->getId());
-            return; //don't re-index our just removed session
+            $this->bus->dispatch(new SessionDeleteRequest($entity->getId()));
+            return; //don't re-index our just removed session as an IndexableCoursesEntity
         }
 
         if ($entity instanceof LearningMaterialInterface) {
-            $this->learningMaterialsIndex->delete($entity->getId());
+            $this->bus->dispatch(new LearningMaterialDeleteRequest($entity->getId()));
         }
 
         if ($entity instanceof IndexableCoursesEntityInterface) {
