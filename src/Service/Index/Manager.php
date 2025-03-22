@@ -45,6 +45,7 @@ class Manager extends OpenSearchBase
             'body' => Curriculum::getMapping(),
         ]);
 
+        $this->client->ingest()->putPipeline(Users::getPipeline());
         $this->client->ingest()->putPipeline(Curriculum::getPipeline());
         $this->client->ingest()->putPipeline(LearningMaterials::getPipeline());
         $this->client->indices()->create([
