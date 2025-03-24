@@ -8,9 +8,10 @@ use App\Classes\OpenSearchBase;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
+use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
-use SplFileInfo;
+use Psr\Log\LoggerInterface;
 
 class LearningMaterials extends OpenSearchBase
 {
@@ -18,6 +19,7 @@ class LearningMaterials extends OpenSearchBase
 
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
+        protected LoggerInterface $logger,
         Config $config,
         ?Client $client = null
     ) {
@@ -26,6 +28,9 @@ class LearningMaterials extends OpenSearchBase
 
     public function index(array $materials): bool
     {
+        if (!$this->enabled) {
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
         foreach ($materials as $material) {
             if (!$material instanceof LearningMaterialDTO) {
                 throw new InvalidArgumentException(
@@ -38,31 +43,16 @@ class LearningMaterials extends OpenSearchBase
             }
         }
 
-        $extractedMaterials = array_reduce($materials, function ($materials, LearningMaterialDTO $lm) {
-            foreach ($this->extractLearningMaterialData($lm) as $data) {
-                $materials[] = [
-                    'id' => $lm->id,
-                    'data' => $data,
-                ];
-            }
-            return $materials;
-        }, []);
-
-        $results = array_map(function (array $arr) {
-            $params = [
-                'index' => self::INDEX,
-                'pipeline' => 'learning_materials',
-                'body' => [
-                    'learningMaterialId' => $arr['id'],
-                    'data' => $arr['data'],
-                ],
+        $input = array_map(function (LearningMaterialDTO $lm) {
+            $path =  $this->nonCachingIliosFileSystem->getLearningMaterialTextPath($lm->relativePath);
+            return [
+                'id' => 'lm_' . $lm->id,
+                'learningMaterialId' => $lm->id,
+                'data' => $this->nonCachingIliosFileSystem->getFileContents($path),
             ];
-            return $this->client->index($params);
-        }, $extractedMaterials);
+        }, $materials);
 
-        $errors = array_filter($results, fn($result) => $result['result'] === 'error');
-
-        return empty($errors);
+        return $this->doBulkIndex(self::INDEX, $input);
     }
 
     public function delete(int $id): bool
@@ -77,34 +67,6 @@ class LearningMaterials extends OpenSearchBase
         ]);
 
         return !count($result['failures']);
-    }
-
-    /**
-     * Base64 encodes learning material contents for indexing
-     * Files larger than the upload limit are ignored
-     *
-     */
-    protected function extractLearningMaterialData(LearningMaterialDTO $dto): array
-    {
-        //skip files without useful text content
-        if ($dto->mimetype && preg_match('/image|video|audio/', $dto->mimetype)) {
-            return [];
-        }
-        $info = new SplFileInfo($dto->filename);
-        $extension = $info->getExtension();
-        if (in_array($extension, ['mp3', 'mov'])) {
-            return [];
-        }
-
-        $data = $this->nonCachingIliosFileSystem->getFileContents($dto->relativePath);
-        $encodedData = base64_encode($data);
-        if (strlen($encodedData) < $this->uploadLimit) {
-            return [
-                $encodedData,
-            ];
-        }
-
-        return [];
     }
 
     public static function getMapping(): array
@@ -136,17 +98,6 @@ class LearningMaterials extends OpenSearchBase
             'id' => 'learning_materials',
             'body' => [
                 'description' => 'Learning Material Data',
-                'processors' => [
-                    [
-                        'attachment' => [
-                            'field' => 'data',
-                            'target_field' => 'material',
-                        ],
-                        'remove' => [
-                            'field' => 'data',
-                        ],
-                    ],
-                ],
             ],
         ];
     }
