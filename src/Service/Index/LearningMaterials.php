@@ -43,6 +43,15 @@ class LearningMaterials extends OpenSearchBase
             }
         }
 
+        $ids = array_map(fn (LearningMaterialDTO $dto) => $dto->id, $materials);
+
+        $skipIds = $this->alreadyIndexedMaterials($ids);
+
+        $materialToIndex = array_filter(
+            $materials,
+            fn(LearningMaterialDTO $dto) => !in_array($dto->id, $skipIds)
+        );
+
         $input = array_map(function (LearningMaterialDTO $lm) {
             $path =  $this->nonCachingIliosFileSystem->getLearningMaterialTextPath($lm->relativePath);
             return [
@@ -50,9 +59,41 @@ class LearningMaterials extends OpenSearchBase
                 'learningMaterialId' => $lm->id,
                 'data' => $this->nonCachingIliosFileSystem->getFileContents($path),
             ];
-        }, $materials);
+        }, $materialToIndex);
 
         return $this->doBulkIndex(self::INDEX, $input);
+    }
+
+    protected function alreadyIndexedMaterials(array $ids): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            [
+                                'terms' => [
+                                    'learningMaterialId' => $ids,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'aggs' => [
+                    'learningMaterialId' => [
+                        'terms' => [
+                            'field' => 'learningMaterialId',
+                            'size' => 10000,
+                        ],
+                    ],
+                ],
+                'size' => 0,
+            ],
+        ];
+        $results = $this->doSearch($params);
+
+        return  array_column($results['aggregations']['learningMaterialId']['buckets'], 'key');
     }
 
     public function delete(int $id): bool
@@ -88,16 +129,6 @@ class LearningMaterials extends OpenSearchBase
                         'type' => 'object',
                     ],
                 ],
-            ],
-        ];
-    }
-
-    public static function getPipeline(): array
-    {
-        return [
-            'id' => 'learning_materials',
-            'body' => [
-                'description' => 'Learning Material Data',
             ],
         ];
     }
