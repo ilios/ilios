@@ -23,13 +23,13 @@ class LearningMaterialIndexHandler
 
     public function __invoke(LearningMaterialIndexRequest $message): void
     {
-        $dtos = $this->repository->findDTOsBy(['id' => $message->getId()]);
-        $filteredDtos = array_filter(
+        $dtos = $this->repository->findDTOsBy(['id' => $message->getIds()]);
+        $materialsWithText = array_filter(
             $dtos,
-            fn(LearningMaterialDTO $dto) => $this->fileSystem->checkLearningMaterialRelativePath($dto->relativePath)
+            fn(LearningMaterialDTO $dto) => $this->fileSystem->checkIfLearningMaterialTextFileExists($dto->relativePath)
         );
-        if ($filteredDtos !== []) {
-            $this->learningMaterialsIndex->index($filteredDtos);
+        if ($materialsWithText !== []) {
+            $this->learningMaterialsIndex->index($materialsWithText);
         }
     }
 }
