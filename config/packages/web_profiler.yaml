@@ -1,18 +1,11 @@
 when@dev:
     web_profiler:
         toolbar: true
-        intercept_redirects: false
 
     framework:
         profiler:
-            only_exceptions: false
-            # disabled, see https://github.com/symfony/symfony/issues/46471 breaks our SerializerFactory service
-            collect_serializer_data: false
+            collect_serializer_data: true
 
 when@test:
-    web_profiler:
-        toolbar: false
-        intercept_redirects: false
-
     framework:
         profiler: { collect: false }
