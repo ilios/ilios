@@ -50,6 +50,7 @@ services:
         $cacheEnabled: true
 
     Ilios\MeSH\Parser:
+      public: true
 
     Alchemy\Zippy\Zippy:
         factory: ['Alchemy\Zippy\Zippy', 'load']
@@ -95,6 +96,9 @@ services:
         $container: '@service_container'
 
     App\Service\Filesystem:
+      public: true
+
+    App\Service\Index\Mesh:
       public: true
 
     App\Service\Directory:
