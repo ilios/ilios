@@ -24,3 +24,7 @@ services:
   App\Repository\ApplicationConfigRepository:
     arguments:
       $cacheEnabled: false
+
+  # public in tests only for ImportMeshUniverseCommandAcceptanceTest access
+  Ilios\MeSH\Parser:
+    public: true
