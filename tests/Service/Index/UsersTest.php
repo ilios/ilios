@@ -73,49 +73,35 @@ class UsersTest extends TestCase
         $user1 = $this->createUserDto(13);
         $user2 = $this->createUserDto(11);
 
-        $this->client->shouldReceive('bulk')->once()->with([
-            'body' => [
-                [
-                    'index' => [
-                        '_index' => Users::INDEX,
-                        '_id' => $user1->id,
-                    ],
-                ],
-                [
-                    'id' => $user1->id,
-                    'firstName' => $user1->firstName,
-                    'lastName' => $user1->lastName,
-                    'middleName' => $user1->middleName,
-                    'displayName' => $user1->displayName,
-                    'email' => $user1->email,
-                    'campusId' => $user1->campusId,
-                    'username' => $user1->username,
-                    'enabled' => $user1->enabled,
-                    'fullName' => '13 first 13 middle 13 last',
-                    'fullNameLastFirst' => '13 last, 13 first 13 middle',
-                ],
-                [
-                    'index' => [
-                        '_index' => Users::INDEX,
-                        '_id' => $user2->id,
-                    ],
-                ],
-                [
-                    'id' => $user2->id,
-                    'firstName' => $user2->firstName,
-                    'lastName' => $user2->lastName,
-                    'middleName' => $user2->middleName,
-                    'displayName' => $user2->displayName,
-                    'email' => $user2->email,
-                    'campusId' => $user2->campusId,
-                    'username' => $user2->username,
-                    'enabled' => $user2->enabled,
-                    'fullName' => '11 first 11 middle 11 last',
-                    'fullNameLastFirst' => '11 last, 11 first 11 middle',
-                ],
-            ],
-        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+        $this->client->shouldReceive('bulk')->once()
+            ->with(m::capture($args))
+        ->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$user1, $user2]);
+
+        $this->assertArrayHasKey('body', $args);
+        $this->assertEquals($args['body'][1]['id'], $user1->id);
+        $this->assertEquals($args['body'][1]['firstName'], $user1->firstName);
+        $this->assertEquals($args['body'][1]['lastName'], $user1->lastName);
+        $this->assertEquals($args['body'][1]['middleName'], $user1->middleName);
+        $this->assertEquals($args['body'][1]['displayName'], $user1->displayName);
+        $this->assertEquals($args['body'][1]['email'], $user1->email);
+        $this->assertEquals($args['body'][1]['campusId'], $user1->campusId);
+        $this->assertEquals($args['body'][1]['username'], $user1->username);
+        $this->assertEquals($args['body'][1]['enabled'], $user1->enabled);
+        $this->assertEquals($args['body'][1]['fullName'], '13 first 13 middle 13 last');
+        $this->assertEquals($args['body'][1]['fullNameLastFirst'], '13 last, 13 first 13 middle');
+
+        $this->assertEquals($args['body'][3]['id'], $user2->id);
+        $this->assertEquals($args['body'][3]['firstName'], $user2->firstName);
+        $this->assertEquals($args['body'][3]['lastName'], $user2->lastName);
+        $this->assertEquals($args['body'][3]['middleName'], $user2->middleName);
+        $this->assertEquals($args['body'][3]['displayName'], $user2->displayName);
+        $this->assertEquals($args['body'][3]['email'], $user2->email);
+        $this->assertEquals($args['body'][3]['campusId'], $user2->campusId);
+        $this->assertEquals($args['body'][3]['username'], $user2->username);
+        $this->assertEquals($args['body'][3]['enabled'], $user2->enabled);
+        $this->assertEquals($args['body'][3]['fullName'], '11 first 11 middle 11 last');
+        $this->assertEquals($args['body'][3]['fullNameLastFirst'], '11 last, 11 first 11 middle');
     }
 
     public function testSearchThrowsExceptionWhenNotConfigured(): void
