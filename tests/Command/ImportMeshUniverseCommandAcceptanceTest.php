@@ -49,9 +49,7 @@ class ImportMeshUniverseCommandAcceptanceTest extends KernelTestCase
         $em = $container->get('doctrine')->getManager();
         $this->entityManager = $em;
 
-        // 🧀🧀🧀
         // Invoke the test fixtures data loader, but without fixtures, to force schema creation in the test db.
-        // @todo Find a solution for this that doesn't involve 🧀. [ST 2025/03/26]
         $databaseTool = $container->get(DatabaseToolCollection::class)->get();
         $databaseTool->loadFixtures([]);
 
