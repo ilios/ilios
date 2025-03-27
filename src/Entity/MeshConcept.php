@@ -114,7 +114,7 @@ class MeshConcept implements MeshConceptInterface
         $this->scopeNote = $scopeNote;
     }
 
-    public function getScopeNote(): string
+    public function getScopeNote(): ?string
     {
         return $this->scopeNote;
     }
@@ -124,7 +124,7 @@ class MeshConcept implements MeshConceptInterface
         $this->casn1Name = $casn1Name;
     }
 
-    public function getCasn1Name(): string
+    public function getCasn1Name(): ?string
     {
         return $this->casn1Name;
     }
