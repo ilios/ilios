@@ -49,9 +49,6 @@ services:
       arguments:
         $cacheEnabled: true
 
-    Ilios\MeSH\Parser:
-      public: true
-
     Alchemy\Zippy\Zippy:
         factory: ['Alchemy\Zippy\Zippy', 'load']
 
