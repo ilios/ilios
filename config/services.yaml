@@ -97,6 +97,9 @@ services:
     App\Service\Filesystem:
       public: true
 
+    App\Service\Index\Mesh:
+      public: true
+
     App\Service\Directory:
       public: true
 
