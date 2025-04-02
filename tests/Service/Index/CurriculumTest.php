@@ -88,7 +88,6 @@ class CurriculumTest extends TestCase
             ['id' => 2, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
             ['id' => 3, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
         ]);
-        $stamp = new DateTime();
 
         $stamp = new DateTime();
         $this->setupSkippable($stamp, [1, 2], []);
