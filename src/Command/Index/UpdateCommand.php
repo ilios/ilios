@@ -32,7 +32,7 @@ class UpdateCommand extends Command
         protected CourseRepository $courseRepository,
         protected MeshDescriptorRepository $descriptorRepository,
         protected LearningMaterialRepository $learningMaterialRepository,
-        protected MessageBusInterface $bus
+        protected MessageBusInterface $bus,
     ) {
         parent::__construct();
     }

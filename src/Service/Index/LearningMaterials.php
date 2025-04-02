@@ -9,9 +9,6 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
 use OpenSearch\Client;
-use setasign\Fpdi\Fpdi;
-use setasign\Fpdi\FpdiException;
-use setasign\Fpdi\PdfParser\StreamReader;
 use InvalidArgumentException;
 use SplFileInfo;
 
@@ -115,7 +112,7 @@ class LearningMaterials extends OpenSearchBase
         return [
             'settings' => [
                 'number_of_shards' => 1,
-                'number_of_replicas' => 0,
+                'number_of_replicas' => 1,
             ],
             'mappings' => [
                 '_meta' => [
@@ -144,6 +141,9 @@ class LearningMaterials extends OpenSearchBase
                         'attachment' => [
                             'field' => 'data',
                             'target_field' => 'material',
+                        ],
+                        'remove' => [
+                            'field' => 'data',
                         ],
                     ],
                 ],
