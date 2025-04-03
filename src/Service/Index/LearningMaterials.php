@@ -26,7 +26,7 @@ class LearningMaterials extends OpenSearchBase
         parent::__construct($config, $client);
     }
 
-    public function index(array $materials): bool
+    public function index(array $materials, bool $force = false): bool
     {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
@@ -45,7 +45,11 @@ class LearningMaterials extends OpenSearchBase
 
         $ids = array_map(fn (LearningMaterialDTO $dto) => $dto->id, $materials);
 
-        $skipIds = $this->alreadyIndexedMaterials($ids);
+        if ($force) {
+            $skipIds = [];
+        } else {
+            $skipIds = $this->alreadyIndexedMaterials($ids);
+        }
 
         $materialToIndex = array_filter(
             $materials,
