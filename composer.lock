@@ -5780,16 +5780,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.20.2",
+            "version": "v5.20.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "25daec9ce963151f6c6a44ac7485fe8d96cbad3f"
+                "reference": "dfc0c2b786bb7ef66c714fc0779f17fe437faaae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/25daec9ce963151f6c6a44ac7485fe8d96cbad3f",
-                "reference": "25daec9ce963151f6c6a44ac7485fe8d96cbad3f",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/dfc0c2b786bb7ef66c714fc0779f17fe437faaae",
+                "reference": "dfc0c2b786bb7ef66c714fc0779f17fe437faaae",
                 "shasum": ""
             },
             "type": "library",
@@ -5835,9 +5835,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.20.2"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.20.4"
             },
-            "time": "2025-03-27T14:13:32+00:00"
+            "time": "2025-04-03T09:03:00+00:00"
         },
         {
             "name": "symfony/amazon-mailer",
@@ -15068,6 +15068,7 @@
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
         "symfony/twig-bundle": 0,
+        "symfony/validator": 0,
         "symfony/web-link": 0,
         "symfony/yaml": 0,
         "mockery/mockery": 0,
