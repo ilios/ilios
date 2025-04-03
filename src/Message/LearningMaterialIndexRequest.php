@@ -4,14 +4,30 @@ declare(strict_types=1);
 
 namespace App\Message;
 
+use InvalidArgumentException;
+
 class LearningMaterialIndexRequest
 {
-    public function __construct(private int $id)
+    private array $ids;
+    public const int MAX_MATERIALS = 10;
+
+    public function __construct(array $ids)
     {
+        $count = count($ids);
+        if ($count > self::MAX_MATERIALS) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'A maximum of %d materials can be indexed at the same time, you sent %d',
+                    self::MAX_MATERIALS,
+                    $count
+                )
+            );
+        }
+        $this->ids = $ids;
     }
 
-    public function getId(): int
+    public function getIds(): array
     {
-        return $this->id;
+        return $this->ids;
     }
 }
