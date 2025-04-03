@@ -61,7 +61,10 @@ class LearningMaterials extends OpenSearchBase
             return [
                 'id' => 'lm_' . $lm->id,
                 'learningMaterialId' => $lm->id,
-                'data' => $this->nonCachingIliosFileSystem->getFileContents($path),
+                'title' => $lm->title,
+                'description' => $lm->description,
+                'filename' => $lm->filename,
+                'contents' => $this->nonCachingIliosFileSystem->getFileContents($path),
             ];
         }, $materialToIndex);
 
@@ -116,6 +119,24 @@ class LearningMaterials extends OpenSearchBase
 
     public static function getMapping(): array
     {
+        $txtTypeField = [
+            'type' => 'text',
+            'analyzer' => 'standard',
+            'fields' => [
+                'english' => [
+                    'type' => 'text',
+                    'analyzer' => 'english',
+                ],
+                'french' => [
+                    'type' => 'text',
+                    'analyzer' => 'french',
+                ],
+                'spanish' => [
+                    'type' => 'text',
+                    'analyzer' => 'spanish',
+                ],
+            ],
+        ];
         return [
             'settings' => [
                 'number_of_shards' => 1,
@@ -123,15 +144,19 @@ class LearningMaterials extends OpenSearchBase
             ],
             'mappings' => [
                 '_meta' => [
-                    'version' => '1',
+                    'version' => '2',
                 ],
                 'properties' => [
                     'learningMaterialId' => [
                         'type' => 'integer',
                     ],
-                    'material' => [
-                        'type' => 'object',
+                    'title' => $txtTypeField,
+                    'description' => $txtTypeField,
+                    'filename' => [
+                        'type' => 'text',
+                        'analyzer' => 'keyword',
                     ],
+                    'contents' => $txtTypeField,
                 ],
             ],
         ];
