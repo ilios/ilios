@@ -49,7 +49,7 @@ services:
   messages:
     build:
       context: .
-      target: consume-messages
+      target: consume-messages-dev
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
       - ILIOS_ERROR_CAPTURE_ENABLED=false
@@ -58,7 +58,7 @@ services:
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
       - ILIOS_TIKA_URL=http://tika:9998
     restart: always
-    command: [ "--time-limit", "3600", "-vv"]
+    command: [ "--time-limit", "3600", "-vv" ]
     depends_on:
       - db
       - opensearch
