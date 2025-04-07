@@ -202,6 +202,27 @@ ENTRYPOINT ["/entrypoint"]
 HEALTHCHECK NONE
 
 ###############################################################################
+# Development message consumer
+###############################################################################
+FROM consume-messages AS consume-messages-dev
+
+ENV APP_ENV=dev
+ENV APP_DEBUG=true
+
+COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
+
+RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN set -eux; \
+    pecl install xdebug \
+    && docker-php-ext-enable xdebug; \
+    composer install --prefer-dist --no-progress --no-interaction; \
+    rm -f .env.local.php; \
+    composer run-script post-install-cmd; \
+    bin/console cache:warmup; \
+    sync
+
+###############################################################################
 # MySQL configured as needed for Ilios
 ###############################################################################
 FROM mysql:8-oracle AS mysql
