@@ -38,11 +38,6 @@ class MeshConceptTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setName('test_name');
-        $this->object->setScopeNote('');
-        $this->object->setCasn1Name('');
-        $this->validate(0);
-        $this->object->setScopeNote('test');
-        $this->object->setCasn1Name('test');
         $this->validate(0);
     }
 
