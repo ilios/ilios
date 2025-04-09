@@ -11,7 +11,6 @@ use App\Service\NonCachingIliosFileSystem;
 use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
 
 class LearningMaterials extends OpenSearchBase
 {
@@ -19,7 +18,6 @@ class LearningMaterials extends OpenSearchBase
 
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
-        protected LoggerInterface $logger,
         Config $config,
         ?Client $client = null
     ) {
@@ -66,7 +64,7 @@ class LearningMaterials extends OpenSearchBase
                 'filename' => $lm->filename,
                 'contents' => $this->nonCachingIliosFileSystem->getFileContents($path),
             ];
-        }, $materialToIndex);
+        }, array_values($materialToIndex));
 
         return $this->doBulkIndex(self::INDEX, $input);
     }
