@@ -298,4 +298,12 @@ class LearningMaterialsTest extends TestCase
             "learningMaterialId" => ["buckets" => $ids],
         ]]);
     }
+
+    public function testGetMapping(): void
+    {
+        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $mapping = $obj->getMapping();
+        $this->assertArrayHasKey('settings', $mapping);
+        $this->assertArrayHasKey('mappings', $mapping);
+    }
 }
