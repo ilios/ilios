@@ -27,6 +27,6 @@ class LearningMaterialTextExtractionHandler
         foreach ($dtos as $dto) {
             $this->extractor->extract($dto);
         }
-        $this->bus->dispatch(new LearningMaterialIndexRequest([$message->getLearningMaterialIds()]));
+        $this->bus->dispatch(new LearningMaterialIndexRequest($message->getLearningMaterialIds()));
     }
 }
