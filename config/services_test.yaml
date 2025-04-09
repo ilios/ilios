@@ -28,3 +28,7 @@ services:
   # public in tests only for ImportMeshUniverseCommandAcceptanceTest access
   Ilios\MeSH\Parser:
     public: true
+
+  # public in tests only for ImportMeshUniverseCommandAcceptanceTest access
+  App\Service\Index\Mesh:
+    public: true
