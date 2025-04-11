@@ -79,6 +79,8 @@ class LearningMaterialIndexHandlerTest extends TestCase
                 $this->assertNotContains($dto2, $materials);
                 $this->assertContains($dto3, $materials);
 
+                $this->assertEquals([$dto1, $dto3], $materials);
+
                 return true;
             });
 

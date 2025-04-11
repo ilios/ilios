@@ -79,7 +79,7 @@ class LearningMaterials extends OpenSearchBase
                         'filter' => [
                             [
                                 'terms' => [
-                                    'learningMaterialId' => $ids,
+                                    'learningMaterialId' => array_values($ids),
                                 ],
                             ],
                         ],

@@ -29,7 +29,7 @@ class LearningMaterialIndexHandler
             fn(LearningMaterialDTO $dto) => $this->fileSystem->checkIfLearningMaterialTextFileExists($dto->relativePath)
         );
         if ($materialsWithText !== []) {
-            $this->learningMaterialsIndex->index($materialsWithText);
+            $this->learningMaterialsIndex->index(array_values($materialsWithText));
         }
     }
 }
