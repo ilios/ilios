@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\EventListener;
 
+use App\Entity\CourseInterface;
+use App\Entity\LearningMaterialInterface;
+use App\Message\CourseIndexRequest;
+use App\Message\LearningMaterialIndexRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\UserInterface;
 use App\EventListener\IndexEntityChanges;
@@ -114,6 +118,53 @@ class IndexEntityChangesTest extends TestCase
         $this->bus
             ->shouldReceive('dispatch')
             ->withArgs(fn (UserIndexRequest $request) => in_array($userId, $request->getUserIds()))
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+        $this->logger->shouldReceive('debug')->once();
+        $this->indexEntityChanges->postUpdate($args);
+    }
+
+    public function testPostUpdateMaterialDispatch(): void
+    {
+        $objectManager = m::mock(EntityManagerInterface::class);
+        $unitOfWork = m::mock(UnitOfWork::class);
+        $entity = m::mock(LearningMaterialInterface::class);
+        $changed = ['nyuk' => 'nuyk nyuk'];
+        $args = new PostUpdateEventArgs($entity, $objectManager);
+        $materialId = 12;
+
+        $objectManager->shouldReceive('getUnitOfWork')->andReturn($unitOfWork);
+        $unitOfWork->shouldReceive('getEntityChangeSet')->with($entity)->andReturn($changed);
+        $this->learningMaterialIndex->shouldReceive('isEnabled')->andReturn(true);
+        $this->curriculumIndex->shouldReceive('isEnabled')->andReturn(false);
+        $entity->shouldReceive('getId')->andReturn($materialId);
+        $entity->shouldReceive('getIndexableCourses')->andReturn([]);
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(fn (LearningMaterialIndexRequest $request) => in_array($materialId, $request->getIds()))
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+        $this->logger->shouldReceive('debug')->once();
+        $this->indexEntityChanges->postUpdate($args);
+    }
+
+    public function testPostUpdateCourseDispatch(): void
+    {
+        $objectManager = m::mock(EntityManagerInterface::class);
+        $unitOfWork = m::mock(UnitOfWork::class);
+        $entity = m::mock(CourseInterface::class);
+        $changed = ['nyuk' => 'nuyk nyuk'];
+        $args = new PostUpdateEventArgs($entity, $objectManager);
+        $courseId = 12;
+
+        $objectManager->shouldReceive('getUnitOfWork')->andReturn($unitOfWork);
+        $unitOfWork->shouldReceive('getEntityChangeSet')->with($entity)->andReturn($changed);
+        $this->curriculumIndex->shouldReceive('isEnabled')->andReturn(true);
+        $entity->shouldReceive('getId')->andReturn($courseId);
+        $entity->shouldReceive('getIndexableCourses')->andReturn([$entity]);
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(fn (CourseIndexRequest $request) => in_array($courseId, $request->getCourseIds()))
             ->andReturn(new Envelope(new stdClass()))
             ->once();
         $this->logger->shouldReceive('debug')->once();
