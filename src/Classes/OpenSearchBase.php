@@ -164,7 +164,7 @@ class OpenSearchBase
             }
             $results['items'] = array_merge($results['items'], $rhett['items']);
             //allow search time to catch up https://github.com/opensearch-project/opensearch-php/blob/9457c505e9bce68ca81932a461159517635aeba1/USER_GUIDE.md?plain=1#L139-L140
-            sleep(10);
+            sleep(2);
         }
 
         if ($results['errors']) {
