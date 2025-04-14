@@ -12,6 +12,7 @@ use App\Entity\UserInterface;
 use App\Message\CourseDeleteRequest;
 use App\Message\CourseIndexRequest;
 use App\Message\LearningMaterialDeleteRequest;
+use App\Message\LearningMaterialIndexRequest;
 use App\Message\LearningMaterialTextExtractionRequest;
 use App\Message\SessionDeleteRequest;
 use App\Message\UserIndexRequest;
@@ -59,7 +60,6 @@ class IndexEntityChanges
         }
 
         if ($entity instanceof LearningMaterialInterface) {
-            $this->indexLearningMaterial($entity);
             $this->bus->dispatch(new LearningMaterialTextExtractionRequest([$entity->getId()]));
         }
 
@@ -153,10 +153,9 @@ class IndexEntityChanges
 
     protected function indexLearningMaterial(LearningMaterialInterface $lm): void
     {
-        //temporarily disable indexing learning materials while we figure out performance
-        // if ($this->learningMaterialsIndex->isEnabled()) {
-        //     $this->logger->debug('Indexing Material ' . $lm->getId());
-        //     $this->bus->dispatch(new LearningMaterialIndexRequest($lm->getId()));
-        // }
+        if ($this->learningMaterialsIndex->isEnabled()) {
+            $this->logger->debug('Indexing Material ' . $lm->getId());
+            $this->bus->dispatch(new LearningMaterialIndexRequest([$lm->getId()]));
+        }
     }
 }
