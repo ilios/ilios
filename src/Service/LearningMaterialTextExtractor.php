@@ -56,7 +56,8 @@ class LearningMaterialTextExtractor
         $tmpFile = $this->temporaryFileSystem->createFile($contents);
 
         try {
-            $text = $this->client->getText($tmpFile->getRealPath());
+            $raw = $this->client->getText($tmpFile->getRealPath());
+            $text = $this->cleanText($raw);
             $this->iliosFileSystem->storeLearningMaterialText($dto->relativePath, $text);
         } catch (Exception $exception) {
             if (
@@ -79,5 +80,39 @@ class LearningMaterialTextExtractor
     private function isEnabled(): bool
     {
         return !empty($this->client);
+    }
+
+    /**
+     * Attempt to remove the garbage from the text returned by Tika.
+     * Each step gets a little bit closer
+     */
+    private function cleanText(string $text): string
+    {
+        //split into lines, it's easier to work with each line and filter it in or out
+        $arr = preg_split('/\r\n|\r|\n/', $text);
+
+        //remove any lines that container a single word with 100 or more characters
+        //as it is probably binary data
+        $arr = preg_grep('/\b\w{101,}\b/', $arr, PREG_GREP_INVERT);
+
+        //convert it to JSON because we can sub invalid UTF-8 characters
+        $json = json_encode($arr, JSON_INVALID_UTF8_SUBSTITUTE);
+
+        //Remove the replaced invalid UTF-8 characters
+        $text = str_replace("\\ufffd", "", $json);
+
+        //back to an array, that is cleaner now and can be filtered some more
+        $arr = json_decode($text, true);
+
+        //keep lines that have a letter, number, or space in them
+        $arr = preg_grep('/[a-z0-9\s]+/', $arr);
+
+        //remove any lines that contain *only* quotes, exclamation points, or double quotes
+        $arr = preg_grep('/[\'"!]+/', $arr, PREG_GREP_INVERT);
+
+        //remove any lines that only have whitespace
+        $arr = array_filter($arr, fn($v) => trim($v) !== '');
+
+        return implode("\n", $arr);
     }
 }
