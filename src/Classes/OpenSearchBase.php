@@ -113,7 +113,7 @@ class OpenSearchBase
         // Keep adding items until we run out of space and then start over
         while ($i < $totalItems) {
             $item = $items[$i];
-            $itemSize = strlen(json_encode($item));
+            $itemSize = strlen(json_encode($item, JSON_INVALID_UTF8_SUBSTITUTE));
             if (($chunkSize + $itemSize) < $this->uploadLimit) {
                 //add the item and move on to the next one
                 $chunk[] = $item;
