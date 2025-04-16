@@ -113,11 +113,11 @@ class LearningMaterialsTest extends TestCase
                 [
                     'index' => [
                         '_index' => LearningMaterials::INDEX,
-                        '_id' => 'lm_1',
+                        '_id' => 'lm_0_1',
                     ],
                 ],
                 [
-                    'id' => 'lm_1',
+                    'id' => 'lm_0_1',
                     'learningMaterialId' => 1,
                     'title' => 'first title',
                     'description' => 'first description',
@@ -127,11 +127,11 @@ class LearningMaterialsTest extends TestCase
                 [
                     'index' => [
                         '_index' => LearningMaterials::INDEX,
-                        '_id' => 'lm_2',
+                        '_id' => 'lm_0_2',
                     ],
                 ],
                 [
-                    'id' => 'lm_2',
+                    'id' => 'lm_0_2',
                     'learningMaterialId' => 2,
                     'title' => 'second title',
                     'description' => 'second description',
@@ -177,11 +177,11 @@ class LearningMaterialsTest extends TestCase
                 [
                     'index' => [
                         '_index' => LearningMaterials::INDEX,
-                        '_id' => 'lm_2',
+                        '_id' => 'lm_0_2',
                     ],
                 ],
                 [
-                    'id' => 'lm_2',
+                    'id' => 'lm_0_2',
                     'learningMaterialId' => 2,
                     'title' => 'second title',
                     'description' => 'second description',
@@ -237,11 +237,11 @@ class LearningMaterialsTest extends TestCase
                 [
                     'index' => [
                         '_index' => LearningMaterials::INDEX,
-                        '_id' => 'lm_1',
+                        '_id' => 'lm_0_1',
                     ],
                 ],
                 [
-                    'id' => 'lm_1',
+                    'id' => 'lm_0_1',
                     'learningMaterialId' => 1,
                     'title' => 'first title',
                     'description' => 'first description',
@@ -251,11 +251,11 @@ class LearningMaterialsTest extends TestCase
                 [
                     'index' => [
                         '_index' => LearningMaterials::INDEX,
-                        '_id' => 'lm_2',
+                        '_id' => 'lm_0_2',
                     ],
                 ],
                 [
-                    'id' => 'lm_2',
+                    'id' => 'lm_0_2',
                     'learningMaterialId' => 2,
                     'title' => 'second title',
                     'description' => 'second description',

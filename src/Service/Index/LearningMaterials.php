@@ -53,18 +53,30 @@ class LearningMaterials extends OpenSearchBase
             $materials,
             fn(LearningMaterialDTO $dto) => !in_array($dto->id, $skipIds)
         );
+        $singleMaterialMaximumSize = (int) ($this->uploadLimit * 0.6);
 
-        $input = array_map(function (LearningMaterialDTO $lm) {
-            $path =  $this->nonCachingIliosFileSystem->getLearningMaterialTextPath($lm->relativePath);
-            return [
-                'id' => 'lm_' . $lm->id,
-                'learningMaterialId' => $lm->id,
-                'title' => $lm->title,
-                'description' => $lm->description,
-                'filename' => $lm->filename,
-                'contents' => $this->nonCachingIliosFileSystem->getFileContents($path),
-            ];
-        }, array_values($materialToIndex));
+        $input = array_reduce(
+            $materialToIndex,
+            function (array $carry, LearningMaterialDTO $lm) use ($singleMaterialMaximumSize) {
+                $path =  $this->nonCachingIliosFileSystem->getLearningMaterialTextPath($lm->relativePath);
+                $contents = $this->nonCachingIliosFileSystem->getFileContents($path);
+
+                $strings = str_split($contents, $singleMaterialMaximumSize);
+                foreach ($strings as $key => $string) {
+                    $carry[] = [
+                        'id' => 'lm_' . $key . '_' . $lm->id,
+                        'learningMaterialId' => $lm->id,
+                        'title' => $lm->title,
+                        'description' => $lm->description,
+                        'filename' => $lm->filename,
+                        'contents' => $string,
+                    ];
+                }
+
+                return $carry;
+            },
+            []
+        );
 
         return $this->doBulkIndex(self::INDEX, $input);
     }
