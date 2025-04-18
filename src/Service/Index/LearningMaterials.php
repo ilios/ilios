@@ -69,7 +69,7 @@ class LearningMaterials extends OpenSearchBase
                         'title' => $lm->title,
                         'description' => $lm->description,
                         'filename' => $lm->filename,
-                        'contents' => $string,
+                        'contents' => $this->cleanMaterialText($string),
                     ];
                 }
 
@@ -79,6 +79,20 @@ class LearningMaterials extends OpenSearchBase
         );
 
         return $this->doBulkIndex(self::INDEX, $input);
+    }
+
+    protected function cleanMaterialText(string $str): string
+    {
+        //remove punctuation
+        $str = preg_replace('/[\p{P}]/u', '', $str);
+
+        //remove symbols, keeping letters, numbers, and spaces
+        $str = preg_replace('/[^\p{L}\p{N}\s]/u', '', $str);
+
+        //remove extra spaces
+        $str = preg_replace('/\s+/u', ' ', $str);
+
+        return trim($str);
     }
 
     protected function alreadyIndexedMaterials(array $ids): array
