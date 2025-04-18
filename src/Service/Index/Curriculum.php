@@ -184,6 +184,7 @@ class Curriculum extends OpenSearchBase
         if (!empty($learningMaterialIds)) {
             $params = [
                 'index' => LearningMaterials::INDEX,
+                'size' => 10000,
                 'body' => [
                     'query' => [
                         'terms' => [
@@ -191,8 +192,9 @@ class Curriculum extends OpenSearchBase
                         ],
                     ],
                     "_source" => [
+                        'id',
                         'learningMaterialId',
-                        'material.content',
+                        'contents',
                     ],
                 ],
             ];
@@ -201,10 +203,7 @@ class Curriculum extends OpenSearchBase
             $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
                 $result = $hit['_source'];
                 $id = $result['learningMaterialId'];
-
-                if (array_key_exists('material', $result)) {
-                    $carry[$id][] = $result['material']['content'];
-                }
+                $carry[$id][] = $result['contents'];
 
                 return $carry;
             }, []);
@@ -447,10 +446,6 @@ class Curriculum extends OpenSearchBase
                 'spanish' => [
                     'type' => 'text',
                     'analyzer' => 'spanish',
-                ],
-                'raw' => [
-                    'type' => 'text',
-                    'analyzer' => 'keyword',
                 ],
             ],
         ];

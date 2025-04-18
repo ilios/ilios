@@ -9,6 +9,7 @@ use App\Exception\LearningMaterialTextExtractorException;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Vaites\ApacheTika\Client;
+use Normalizer;
 
 class LearningMaterialTextExtractor
 {
@@ -88,6 +89,11 @@ class LearningMaterialTextExtractor
      */
     private function cleanText(string $text): string
     {
+        if (class_exists(Normalizer::class)) {
+            //clean up the text a bit making it easier to parse later
+            $text = Normalizer::normalize($text, Normalizer::FORM_C);
+        }
+
         //split into lines, it's easier to work with each line and filter it in or out
         $arr = preg_split('/\r\n|\r|\n/', $text);
 
@@ -103,9 +109,6 @@ class LearningMaterialTextExtractor
 
         //back to an array, that is cleaner now and can be filtered some more
         $arr = json_decode($text, true);
-
-        //keep lines that have a letter, number, or space in them
-        $arr = preg_grep('/[a-z0-9\s]+/', $arr);
 
         //remove any lines that contain *only* quotes, exclamation points, or double quotes
         $arr = preg_grep('/[\'"!]+/', $arr, PREG_GREP_INVERT);
