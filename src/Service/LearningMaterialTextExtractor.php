@@ -9,6 +9,7 @@ use App\Exception\LearningMaterialTextExtractorException;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Vaites\ApacheTika\Client;
+use Normalizer;
 
 class LearningMaterialTextExtractor
 {
@@ -88,6 +89,11 @@ class LearningMaterialTextExtractor
      */
     private function cleanText(string $text): string
     {
+        if (class_exists(Normalizer::class)) {
+            //clean up the text a bit making it easier to parse later
+            $text = Normalizer::normalize($text, Normalizer::FORM_C);
+        }
+
         //split into lines, it's easier to work with each line and filter it in or out
         $arr = preg_split('/\r\n|\r|\n/', $text);
 
