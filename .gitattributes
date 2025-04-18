@@ -2,7 +2,7 @@
 * text=auto
 
 #enforce unix line-endings for EVERYTHING
-*sh text eol=lf
-*php text eol=lf
-*sql text eol=lf
+*.sh text eol=lf
+*.php text eol=lf
+*.sql text eol=lf
 
