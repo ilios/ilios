@@ -447,10 +447,6 @@ class Curriculum extends OpenSearchBase
                     'type' => 'text',
                     'analyzer' => 'spanish',
                 ],
-                'raw' => [
-                    'type' => 'text',
-                    'analyzer' => 'keyword',
-                ],
             ],
         ];
         $txtTypeFieldWithCompletion = $txtTypeField;
