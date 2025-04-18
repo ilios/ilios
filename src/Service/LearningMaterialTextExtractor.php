@@ -110,9 +110,6 @@ class LearningMaterialTextExtractor
         //back to an array, that is cleaner now and can be filtered some more
         $arr = json_decode($text, true);
 
-        //keep lines that have a letter, number, or space in them
-        $arr = preg_grep('/[a-z0-9\s]+/', $arr);
-
         //remove any lines that contain *only* quotes, exclamation points, or double quotes
         $arr = preg_grep('/[\'"!]+/', $arr, PREG_GREP_INVERT);
 
