@@ -192,8 +192,9 @@ class Curriculum extends OpenSearchBase
                         ],
                     ],
                     "_source" => [
+                        'id',
                         'learningMaterialId',
-                        'material.content',
+                        'contents',
                     ],
                 ],
             ];
@@ -202,10 +203,7 @@ class Curriculum extends OpenSearchBase
             $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
                 $result = $hit['_source'];
                 $id = $result['learningMaterialId'];
-
-                if (array_key_exists('material', $result)) {
-                    $carry[$id][] = $result['material']['content'];
-                }
+                $carry[$id][] = $result['contents'];
 
                 return $carry;
             }, []);
