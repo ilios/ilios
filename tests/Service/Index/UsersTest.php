@@ -73,35 +73,45 @@ class UsersTest extends TestCase
         $user1 = $this->createUserDto(13);
         $user2 = $this->createUserDto(11);
 
-        $this->client->shouldReceive('bulk')->once()
-            ->with(m::capture($args))
+        $this->client->shouldReceive('request')->withArgs(function ($method, $uri, $data) use ($user1, $user2) {
+            $this->assertEquals('POST', $method);
+            $this->assertEquals('/_bulk', $uri);
+            $this->assertArrayHasKey('body', $data);
+            $this->assertArrayHasKey('options', $data);
+            $this->assertEquals(['headers' => ['Content-Encoding' => 'gzip']], $data['options']);
+            $body = gzdecode($data['body']);
+            $arr = array_map(fn ($item) => json_decode($item, true), explode("\n", $body));
+            $filtered = array_filter($arr, 'is_array');
+            $this->assertCount(4, $filtered);
+
+            $this->assertEquals($filtered[1]['id'], $user1->id);
+            $this->assertEquals($filtered[1]['firstName'], $user1->firstName);
+            $this->assertEquals($filtered[1]['lastName'], $user1->lastName);
+            $this->assertEquals($filtered[1]['middleName'], $user1->middleName);
+            $this->assertEquals($filtered[1]['displayName'], $user1->displayName);
+            $this->assertEquals($filtered[1]['email'], $user1->email);
+            $this->assertEquals($filtered[1]['campusId'], $user1->campusId);
+            $this->assertEquals($filtered[1]['username'], $user1->username);
+            $this->assertEquals($filtered[1]['enabled'], $user1->enabled);
+            $this->assertEquals($filtered[1]['fullName'], '13 first 13 middle 13 last');
+            $this->assertEquals($filtered[1]['fullNameLastFirst'], '13 last, 13 first 13 middle');
+
+            $this->assertEquals($filtered[3]['id'], $user2->id);
+            $this->assertEquals($filtered[3]['firstName'], $user2->firstName);
+            $this->assertEquals($filtered[3]['lastName'], $user2->lastName);
+            $this->assertEquals($filtered[3]['middleName'], $user2->middleName);
+            $this->assertEquals($filtered[3]['displayName'], $user2->displayName);
+            $this->assertEquals($filtered[3]['email'], $user2->email);
+            $this->assertEquals($filtered[3]['campusId'], $user2->campusId);
+            $this->assertEquals($filtered[3]['username'], $user2->username);
+            $this->assertEquals($filtered[3]['enabled'], $user2->enabled);
+            $this->assertEquals($filtered[3]['fullName'], '11 first 11 middle 11 last');
+            $this->assertEquals($filtered[3]['fullNameLastFirst'], '11 last, 11 first 11 middle');
+
+            return true;
+        })
         ->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$user1, $user2]);
-
-        $this->assertArrayHasKey('body', $args);
-        $this->assertEquals($args['body'][1]['id'], $user1->id);
-        $this->assertEquals($args['body'][1]['firstName'], $user1->firstName);
-        $this->assertEquals($args['body'][1]['lastName'], $user1->lastName);
-        $this->assertEquals($args['body'][1]['middleName'], $user1->middleName);
-        $this->assertEquals($args['body'][1]['displayName'], $user1->displayName);
-        $this->assertEquals($args['body'][1]['email'], $user1->email);
-        $this->assertEquals($args['body'][1]['campusId'], $user1->campusId);
-        $this->assertEquals($args['body'][1]['username'], $user1->username);
-        $this->assertEquals($args['body'][1]['enabled'], $user1->enabled);
-        $this->assertEquals($args['body'][1]['fullName'], '13 first 13 middle 13 last');
-        $this->assertEquals($args['body'][1]['fullNameLastFirst'], '13 last, 13 first 13 middle');
-
-        $this->assertEquals($args['body'][3]['id'], $user2->id);
-        $this->assertEquals($args['body'][3]['firstName'], $user2->firstName);
-        $this->assertEquals($args['body'][3]['lastName'], $user2->lastName);
-        $this->assertEquals($args['body'][3]['middleName'], $user2->middleName);
-        $this->assertEquals($args['body'][3]['displayName'], $user2->displayName);
-        $this->assertEquals($args['body'][3]['email'], $user2->email);
-        $this->assertEquals($args['body'][3]['campusId'], $user2->campusId);
-        $this->assertEquals($args['body'][3]['username'], $user2->username);
-        $this->assertEquals($args['body'][3]['enabled'], $user2->enabled);
-        $this->assertEquals($args['body'][3]['fullName'], '11 first 11 middle 11 last');
-        $this->assertEquals($args['body'][3]['fullNameLastFirst'], '11 last, 11 first 11 middle');
     }
 
     public function testSearchThrowsExceptionWhenNotConfigured(): void

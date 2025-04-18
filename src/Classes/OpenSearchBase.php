@@ -91,7 +91,24 @@ class OpenSearchBase
         if (!$this->enabled) {
             return ['errors' => false];
         }
-        return $this->client->bulk($params);
+
+        $uri = "/_bulk";
+        $body = '';
+        foreach ($params['body'] ?? [] as $item) {
+            $body .= json_encode($item, JSON_PRESERVE_ZERO_FRACTION + JSON_INVALID_UTF8_SUBSTITUTE) . "\n";
+        }
+        $compressedBody = gzencode($body);
+        $rhett =  $this->client->request('POST', $uri, [
+            'body' => $compressedBody,
+            'options' => [
+                'headers' => [
+                    'Content-Encoding' => 'gzip',
+                ],
+            ],
+        ]);
+
+        //have to force the type, it comes back as iterable
+        return (array) $rhett;
     }
 
     /**
@@ -114,7 +131,8 @@ class OpenSearchBase
         while ($i < $totalItems) {
             $item = $items[$i];
             $itemSize = strlen(json_encode($item, JSON_INVALID_UTF8_SUBSTITUTE));
-            if (($chunkSize + $itemSize) < $this->uploadLimit) {
+            //upload limit multiplied for compression
+            if (($chunkSize + $itemSize) < $this->uploadLimit * 3) {
                 //add the item and move on to the next one
                 $chunk[] = $item;
                 $i++;

@@ -91,37 +91,40 @@ class CurriculumTest extends TestCase
 
         $stamp = new DateTime();
         $this->setupSkippable($stamp, [1, 2], []);
-        $this->client->shouldReceive('bulk')->once()->with([
-            'body' => [
-                [
-                    'index' => [
-                        '_index' => Curriculum::INDEX,
-                        '_id' => 1,
+        $this->client
+            ->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
+                $this->validateRequest($method, $uri, $data, [
+                    [
+                        'index' => [
+                            '_index' => Curriculum::INDEX,
+                            '_id' => 1,
+                        ],
                     ],
-                ],
-                [
-                    'id' => 1,
-                ],
-                [
-                    'index' => [
-                        '_index' => Curriculum::INDEX,
-                        '_id' => 2,
+                    [
+                        'id' => 1,
                     ],
-                ],
-                [
-                    'id' => 2,
-                ],
-                [
-                    'index' => [
-                        '_index' => Curriculum::INDEX,
-                        '_id' => 3,
+                    [
+                        'index' => [
+                            '_index' => Curriculum::INDEX,
+                            '_id' => 2,
+                        ],
                     ],
-                ],
-                [
-                    'id' => 3,
-                ],
-            ],
-        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+                    [
+                        'id' => 2,
+                    ],
+                    [
+                        'index' => [
+                            '_index' => Curriculum::INDEX,
+                            '_id' => 3,
+                        ],
+                    ],
+                    [
+                        'id' => 3,
+                    ],
+                ]);
+                return true;
+            })
+            ->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$course1, $course2], $stamp);
     }
 
@@ -144,8 +147,8 @@ class CurriculumTest extends TestCase
 
         $stamp = new DateTime();
         $this->setupSkippable($stamp, [1, 2], [1]);
-        $this->client->shouldReceive('bulk')->once()->with([
-            'body' => [
+        $this->client->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
+            $this->validateRequest($method, $uri, $data, [
                 [
                     'index' => [
                         '_index' => Curriculum::INDEX,
@@ -155,8 +158,9 @@ class CurriculumTest extends TestCase
                 [
                     'id' => 2,
                 ],
-            ],
-        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+            ]);
+            return true;
+        })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$course1, $course2], $stamp);
     }
 
@@ -211,5 +215,23 @@ class CurriculumTest extends TestCase
                 'size' => 0,
             ],
         ])->andReturn(['errors' => false, 'took' => 1, "aggregations" => ["courseId" => ["buckets" => $ids]]]);
+    }
+
+    protected function validateRequest(
+        string $method,
+        string $uri,
+        array $data,
+        array $expected,
+    ): void {
+        $this->assertEquals('POST', $method);
+        $this->assertEquals('/_bulk', $uri);
+        $this->assertArrayHasKey('body', $data);
+        $this->assertArrayHasKey('options', $data);
+        $this->assertEquals(['headers' => ['Content-Encoding' => 'gzip']], $data['options']);
+        $body = gzdecode($data['body']);
+        $arr = array_map(fn ($item) => json_decode($item, true), explode("\n", $body));
+        $filtered = array_filter($arr, 'is_array');
+        $this->assertCount(count($expected), $filtered);
+        $this->assertEquals($expected, $filtered);
     }
 }
