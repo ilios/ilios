@@ -184,6 +184,7 @@ class Curriculum extends OpenSearchBase
         if (!empty($learningMaterialIds)) {
             $params = [
                 'index' => LearningMaterials::INDEX,
+                'size' => 10000,
                 'body' => [
                     'query' => [
                         'terms' => [
