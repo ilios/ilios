@@ -69,7 +69,7 @@ class LearningMaterials extends OpenSearchBase
                         'title' => $lm->title,
                         'description' => $lm->description,
                         'filename' => $lm->filename,
-                        'contents' => $this->cleanMaterialText($string),
+                        'contents' => $this->cleanMaterialText($lm->id, $string),
                     ];
                 }
 
@@ -81,16 +81,34 @@ class LearningMaterials extends OpenSearchBase
         return $this->doBulkIndex(self::INDEX, $input);
     }
 
-    protected function cleanMaterialText(string $str): string
+    protected function cleanMaterialText(int $id, string $str): string
     {
         //remove punctuation
         $str = preg_replace('/[\p{P}]/u', '', $str);
+        if ($str === null) {
+            throw new Exception(
+                "Unable to clean material #{$id}, error: " .
+                preg_last_error_msg()
+            );
+        }
 
         //remove symbols, keeping letters, numbers, and spaces
         $str = preg_replace('/[^\p{L}\p{N}\s]/u', '', $str);
+        if ($str === null) {
+            throw new Exception(
+                "Unable to clean material #{$id}, error: " .
+                preg_last_error_msg()
+            );
+        }
 
         //remove extra spaces
         $str = preg_replace('/\s+/u', ' ', $str);
+        if ($str === null) {
+            throw new Exception(
+                "Unable to clean material #{$id}, error: " .
+                preg_last_error_msg()
+            );
+        }
 
         return trim($str);
     }
