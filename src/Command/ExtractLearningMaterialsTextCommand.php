@@ -31,6 +31,12 @@ class ExtractLearningMaterialsTextCommand extends Command
 
         $this
             ->addOption(
+                'materials',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Comma-separated list list of materials to extract.',
+            )
+            ->addOption(
                 'overwrite',
                 null,
                 InputOption::VALUE_NONE,
@@ -42,6 +48,10 @@ class ExtractLearningMaterialsTextCommand extends Command
     {
         $overwrite = $input->getOption('overwrite');
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
+        if ($input->getOption('materials')) {
+            $ids = explode(',', $input->getOption('materials'));
+            $allIds = array_intersect($allIds, $ids);
+        }
         $count = count($allIds);
         $chunks = array_chunk($allIds, LearningMaterialTextExtractionRequest::MAX_MATERIALS);
         foreach ($chunks as $ids) {

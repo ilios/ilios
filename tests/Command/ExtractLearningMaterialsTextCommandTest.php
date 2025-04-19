@@ -96,4 +96,25 @@ class ExtractLearningMaterialsTextCommandTest extends KernelTestCase
             $output
         );
     }
+
+    public function testExtractWithMaterialFilter(): void
+    {
+        $this->repository->shouldReceive('getFileLearningMaterialIds')->andReturn([1, 4, 99]);
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(
+                fn (LearningMaterialTextExtractionRequest $r) =>
+                    $r->getLearningMaterialIds() === [4] &&
+                    $r->getOverwrite() === false
+            )
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+        $this->commandTester->execute(['--materials' => '3,4,81']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/1 learning materials have been queued for text extraction/',
+            $output
+        );
+    }
 }
