@@ -8,12 +8,11 @@ use InvalidArgumentException;
 
 class LearningMaterialTextExtractionRequest
 {
-    private array $learningMaterialIds;
     public const int MAX_MATERIALS = 50;
 
-    public function __construct(array $learningMaterialIds)
+    public function __construct(private readonly array $learningMaterialIds, private readonly bool $overwrite = false)
     {
-        $count = count($learningMaterialIds);
+        $count = count($this->learningMaterialIds);
         if ($count > self::MAX_MATERIALS) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -23,11 +22,15 @@ class LearningMaterialTextExtractionRequest
                 )
             );
         }
-        $this->learningMaterialIds = $learningMaterialIds;
     }
 
     public function getLearningMaterialIds(): array
     {
         return $this->learningMaterialIds;
+    }
+
+    public function getOverwrite(): bool
+    {
+        return $this->overwrite;
     }
 }

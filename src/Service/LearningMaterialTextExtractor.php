@@ -26,7 +26,7 @@ class LearningMaterialTextExtractor
         }
     }
 
-    public function extract(LearningMaterialDTO $dto): void
+    public function extract(LearningMaterialDTO $dto, bool $overwrite): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -42,7 +42,7 @@ class LearningMaterialTextExtractor
             return;
         }
 
-        if ($this->iliosFileSystem->checkIfLearningMaterialTextFileExists($dto->relativePath)) {
+        if (!$overwrite && $this->iliosFileSystem->checkIfLearningMaterialTextFileExists($dto->relativePath)) {
             //this LM has already been extracted
             return;
         }

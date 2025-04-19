@@ -51,7 +51,7 @@ class LearningMaterialTextExtractionHandlerTest extends TestCase
 
         $this->extractor
             ->shouldReceive('extract')
-            ->with($dto1);
+            ->with($dto1, false);
 
         $this->bus
             ->shouldReceive('dispatch')

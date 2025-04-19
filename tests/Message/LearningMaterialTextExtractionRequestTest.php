@@ -16,4 +16,12 @@ class LearningMaterialTextExtractionRequestTest extends TestCase
         $arr = array_fill(0, 100, '');
         new LearningMaterialTextExtractionRequest($arr);
     }
+
+    public function testConstructor(): void
+    {
+        $arr = [1, 2, 3];
+        $request = new LearningMaterialTextExtractionRequest($arr);
+        $this->assertEquals($arr, $request->getLearningMaterialIds());
+        $this->assertFalse($request->getOverwrite());
+    }
 }

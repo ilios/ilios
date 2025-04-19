@@ -24,8 +24,9 @@ class LearningMaterialTextExtractionHandler
     public function __invoke(LearningMaterialTextExtractionRequest $message): void
     {
         $dtos = $this->repository->findDTOsBy(['id' => $message->getLearningMaterialIds()]);
+        $overwrite = $message->getOverwrite();
         foreach ($dtos as $dto) {
-            $this->extractor->extract($dto);
+            $this->extractor->extract($dto, $overwrite);
         }
         $this->bus->dispatch(new LearningMaterialIndexRequest($message->getLearningMaterialIds()));
     }
