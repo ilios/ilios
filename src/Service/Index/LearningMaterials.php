@@ -61,7 +61,11 @@ class LearningMaterials extends OpenSearchBase
                 $path =  $this->nonCachingIliosFileSystem->getLearningMaterialTextPath($lm->relativePath);
                 $contents = $this->nonCachingIliosFileSystem->getFileContents($path);
 
-                $strings = str_split($contents, $singleMaterialMaximumSize);
+                if ($contents) {
+                    $strings = str_split($contents, $singleMaterialMaximumSize);
+                } else {
+                    $strings = [''];
+                }
                 foreach ($strings as $key => $string) {
                     $carry[] = [
                         'id' => 'lm_' . $key . '_' . $lm->id,
