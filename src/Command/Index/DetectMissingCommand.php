@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command\Index;
 
+use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
+use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +21,9 @@ class DetectMissingCommand extends Command
 {
     public function __construct(
         protected LearningMaterialRepository $learningMaterialRepository,
+        protected CourseRepository $courseRepository,
         protected LearningMaterials $materialIndex,
+        protected Curriculum $curriculumIndex,
     ) {
         parent::__construct();
     }
@@ -30,6 +34,20 @@ class DetectMissingCommand extends Command
             $output->writeln("<comment>Indexing is not currently configured.</comment>");
             return Command::FAILURE;
         }
+        $materialsResult = $this->checkMaterials($output);
+        $coursesResult = $this->checkCourses($output);
+        if (
+            !$materialsResult ||
+            !$coursesResult
+        ) {
+            return Command::FAILURE;
+        }
+
+        return Command::SUCCESS;
+    }
+
+    protected function checkMaterials(OutputInterface $output): bool
+    {
         $materialsInIndex = $this->materialIndex->getAllIds();
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
         $missing = array_diff($allIds, $materialsInIndex);
@@ -38,11 +56,27 @@ class DetectMissingCommand extends Command
             $list = implode(', ', $missing);
             $output->writeln("<error>{$count} materials are missing from the index.</error>");
             $output->writeln("<comment>Materials: {$list}</comment>");
-            return Command::FAILURE;
+            return false;
         }
 
         $output->writeln("<info>All materials are indexed.</info>");
+        return true;
+    }
 
-        return Command::SUCCESS;
+    protected function checkCourses(OutputInterface $output): bool
+    {
+        $coursesInIndex = $this->curriculumIndex->getAllCourseIds();
+        $allIds = $this->courseRepository->getIdsForCoursesWithSessions();
+        $missing = array_diff($allIds, $coursesInIndex);
+        $count = count($missing);
+        if ($count) {
+            $list = implode(', ', $missing);
+            $output->writeln("<error>{$count} courses are missing from the index.</error>");
+            $output->writeln("<comment>Courses: {$list}</comment>");
+            return false;
+        }
+
+        $output->writeln("<info>All courses are indexed.</info>");
+        return true;
     }
 }

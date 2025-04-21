@@ -9,6 +9,7 @@ use App\Classes\IndexableCourse;
 use DateTime;
 use Exception;
 use InvalidArgumentException;
+use stdClass;
 
 class Curriculum extends OpenSearchBase
 {
@@ -427,6 +428,24 @@ class Curriculum extends OpenSearchBase
             'autocomplete' => $autocompleteSuggestions,
             'courses' => $courses,
         ];
+    }
+
+    public function getAllCourseIds(): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'match_all' => new stdClass(),
+                ],
+                '_source' => ['courseId'],
+            ],
+            'size' => 5000,
+        ];
+
+        $results = $this->doScrollSearch($params);
+        $ids = array_map(fn ($item) => $item['_source']['courseId'], $results);
+        return array_unique($ids);
     }
 
     public static function getMapping(): array
