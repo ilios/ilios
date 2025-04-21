@@ -17,19 +17,12 @@ class LearningMaterialIndexHandler
     public function __construct(
         private LearningMaterials $learningMaterialsIndex,
         private LearningMaterialRepository $repository,
-        private NonCachingIliosFileSystem $fileSystem
     ) {
     }
 
     public function __invoke(LearningMaterialIndexRequest $message): void
     {
         $dtos = $this->repository->findDTOsBy(['id' => $message->getIds()]);
-        $materialsWithText = array_filter(
-            $dtos,
-            fn(LearningMaterialDTO $dto) => $this->fileSystem->checkIfLearningMaterialTextFileExists($dto->relativePath)
-        );
-        if ($materialsWithText !== []) {
-            $this->learningMaterialsIndex->index(array_values($materialsWithText));
-        }
+        $this->learningMaterialsIndex->index($dtos);
     }
 }
