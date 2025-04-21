@@ -448,6 +448,24 @@ class Curriculum extends OpenSearchBase
         return array_unique($ids);
     }
 
+    public function getAllSessionIds(): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'match_all' => new stdClass(),
+                ],
+                '_source' => ['sessionId'],
+            ],
+            'size' => 5000,
+        ];
+
+        $results = $this->doScrollSearch($params);
+        $ids = array_map(fn ($item) => $item['_source']['sessionId'], $results);
+        return array_unique($ids);
+    }
+
     public static function getMapping(): array
     {
         $txtTypeField = [

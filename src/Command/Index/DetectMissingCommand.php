@@ -6,6 +6,7 @@ namespace App\Command\Index;
 
 use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
+use App\Repository\SessionRepository;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -24,6 +25,7 @@ class DetectMissingCommand extends Command
         protected CourseRepository $courseRepository,
         protected LearningMaterials $materialIndex,
         protected Curriculum $curriculumIndex,
+        protected SessionRepository $sessionRepository,
     ) {
         parent::__construct();
     }
@@ -36,9 +38,11 @@ class DetectMissingCommand extends Command
         }
         $materialsResult = $this->checkMaterials($output);
         $coursesResult = $this->checkCourses($output);
+        $sessionsResult = $this->checkSessions($output);
         if (
             !$materialsResult ||
-            !$coursesResult
+            !$coursesResult ||
+            !$sessionsResult
         ) {
             return Command::FAILURE;
         }
@@ -77,6 +81,23 @@ class DetectMissingCommand extends Command
         }
 
         $output->writeln("<info>All courses are indexed.</info>");
+        return true;
+    }
+
+    protected function checkSessions(OutputInterface $output): bool
+    {
+        $sessionsInIndex = $this->curriculumIndex->getAllSessionIds();
+        $allIds = $this->sessionRepository->getIds();
+        $missing = array_diff($allIds, $sessionsInIndex);
+        $count = count($missing);
+        if ($count) {
+            $list = implode(', ', $missing);
+            $output->writeln("<error>{$count} sessions are missing from the index.</error>");
+            $output->writeln("<comment>Sessions: {$list}</comment>");
+            return false;
+        }
+
+        $output->writeln("<info>All sessions are indexed.</info>");
         return true;
     }
 }
