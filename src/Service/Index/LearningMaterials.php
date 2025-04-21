@@ -11,6 +11,7 @@ use App\Service\NonCachingIliosFileSystem;
 use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
+use stdClass;
 
 class LearningMaterials extends OpenSearchBase
 {
@@ -147,6 +148,23 @@ class LearningMaterials extends OpenSearchBase
         $results = $this->doSearch($params);
 
         return  array_column($results['aggregations']['learningMaterialId']['buckets'], 'key');
+    }
+
+    public function getAllIds(): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'match_all' => new stdClass(),
+                ],
+                '_source' => ['learningMaterialId'],
+            ],
+            'size' => 5000,
+        ];
+
+        $results = $this->doScrollSearch($params);
+        return array_map(fn ($item) => $item['_source']['learningMaterialId'], $results);
     }
 
     public function delete(int $id): bool

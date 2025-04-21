@@ -201,4 +201,29 @@ class OpenSearchBase
 
         return true;
     }
+
+    protected function doScrollSearch(array $params): array
+    {
+        if (!$this->enabled) {
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
+        $scroll = '10s';
+        $params['scroll'] = $scroll;
+        $response = $this->doSearch($params);
+        $scrollId = $response['_scroll_id'];
+        $hits = [];
+        do {
+            $hits = [...$hits, ...$response['hits']['hits']];
+            $response = $this->client->scroll([
+                'scroll_id' => $scrollId,
+                'scroll' => $scroll,
+            ]);
+            $scrollId = $response['_scroll_id'] ?? $scrollId;
+        } while ($response['hits']['hits']);
+        $this->client->clearScroll([
+            'scroll_id' => $scrollId,
+        ]);
+
+        return $hits;
+    }
 }
