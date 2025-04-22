@@ -185,7 +185,7 @@ class Curriculum extends OpenSearchBase
         if (!empty($learningMaterialIds)) {
             $params = [
                 'index' => LearningMaterials::INDEX,
-                'size' => 10000,
+                'size' => 25,
                 'body' => [
                     'query' => [
                         'terms' => [
@@ -199,9 +199,9 @@ class Curriculum extends OpenSearchBase
                     ],
                 ],
             ];
-            $results = $this->doSearch($params);
+            $results = $this->doScrollSearch($params);
 
-            $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
+            $materialsById = array_reduce($results, function (array $carry, array $hit) {
                 $result = $hit['_source'];
                 $id = $result['learningMaterialId'];
                 $carry[$id][] = $result['contents'];
