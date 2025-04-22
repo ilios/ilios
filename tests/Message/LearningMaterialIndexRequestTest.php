@@ -23,4 +23,16 @@ class LearningMaterialIndexRequestTest extends TestCase
         $request = new LearningMaterialIndexRequest($arr);
         $this->assertEquals($arr, $request->getIds());
     }
+
+    public function testGetForce(): void
+    {
+        $request = new LearningMaterialIndexRequest([1]);
+        $this->assertFalse($request->getForce());
+
+        $request = new LearningMaterialIndexRequest([1], true);
+        $this->assertTrue($request->getForce());
+
+        $request = new LearningMaterialIndexRequest([1], false);
+        $this->assertFalse($request->getForce());
+    }
 }

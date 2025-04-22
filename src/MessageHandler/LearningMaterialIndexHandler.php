@@ -23,6 +23,6 @@ class LearningMaterialIndexHandler
     public function __invoke(LearningMaterialIndexRequest $message): void
     {
         $dtos = $this->repository->findDTOsBy(['id' => $message->getIds()]);
-        $this->learningMaterialsIndex->index($dtos);
+        $this->learningMaterialsIndex->index($dtos, $message->getForce());
     }
 }

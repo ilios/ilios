@@ -30,7 +30,7 @@ class LearningMaterialTextExtractionHandler
         }
         $chunks = array_chunk($message->getLearningMaterialIds(), LearningMaterialIndexRequest::MAX_MATERIALS);
         foreach ($chunks as $ids) {
-            $this->bus->dispatch(new LearningMaterialIndexRequest($ids));
+            $this->bus->dispatch(new LearningMaterialIndexRequest($ids, true));
         }
     }
 }
