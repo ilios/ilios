@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Index;
 
+use App\Classes\OpenSearchBase;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
@@ -291,11 +292,11 @@ class LearningMaterialsTest extends TestCase
                     'learningMaterialId' => [
                         'terms' => [
                             'field' => 'learningMaterialId',
-                            'size' => 10000,
+                            'size' => OpenSearchBase::SIZE_LIMIT,
                         ],
                     ],
                 ],
-                'size' => 0,
+                'size' => OpenSearchBase::SIZE_LIMIT,
             ],
         ])->andReturn(['errors' => false, 'took' => 1, "aggregations" => [
             "learningMaterialId" => ["buckets" => $ids],

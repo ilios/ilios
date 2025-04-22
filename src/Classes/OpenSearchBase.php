@@ -16,6 +16,10 @@ class OpenSearchBase
 
     protected int|string|null $uploadLimit = null;
 
+    protected const int COMPRESSION_FACTOR = 3;
+    public const int SIZE_LIMIT = 5000;
+    protected const string SCROLL_TIME = '10s';
+
     /**
      * Search constructor.
      */
@@ -132,7 +136,7 @@ class OpenSearchBase
             $item = $items[$i];
             $itemSize = strlen(json_encode($item, JSON_INVALID_UTF8_SUBSTITUTE));
             //upload limit multiplied for compression
-            if (($chunkSize + $itemSize) < $this->uploadLimit * 3) {
+            if (($chunkSize + $itemSize) < $this->uploadLimit * self::COMPRESSION_FACTOR) {
                 //add the item and move on to the next one
                 $chunk[] = $item;
                 $i++;
@@ -207,7 +211,7 @@ class OpenSearchBase
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
-        $scroll = '10s';
+        $scroll = self::SCROLL_TIME;
         $params['scroll'] = $scroll;
         $response = $this->doSearch($params);
         $scrollId = $response['_scroll_id'];

@@ -138,11 +138,11 @@ class LearningMaterials extends OpenSearchBase
                     'learningMaterialId' => [
                         'terms' => [
                             'field' => 'learningMaterialId',
-                            'size' => 10000,
+                            'size' => self::SIZE_LIMIT,
                         ],
                     ],
                 ],
-                'size' => 0,
+                'size' => self::SIZE_LIMIT,
             ],
         ];
         $results = $this->doSearch($params);
@@ -160,7 +160,7 @@ class LearningMaterials extends OpenSearchBase
                 ],
                 '_source' => ['learningMaterialId'],
             ],
-            'size' => 5000,
+            'size' => self::SIZE_LIMIT,
         ];
 
         $results = $this->doScrollSearch($params);

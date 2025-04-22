@@ -440,7 +440,7 @@ class Curriculum extends OpenSearchBase
                 ],
                 '_source' => ['courseId'],
             ],
-            'size' => 5000,
+            'size' => self::SIZE_LIMIT,
         ];
 
         $results = $this->doScrollSearch($params);
@@ -458,7 +458,7 @@ class Curriculum extends OpenSearchBase
                 ],
                 '_source' => ['sessionId'],
             ],
-            'size' => 5000,
+            'size' => self::SIZE_LIMIT,
         ];
 
         $results = $this->doScrollSearch($params);
