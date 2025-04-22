@@ -217,6 +217,61 @@ class CurriculumTest extends TestCase
         ])->andReturn(['errors' => false, 'took' => 1, "aggregations" => ["courseId" => ["buckets" => $ids]]]);
     }
 
+    public function testGetAllCourseIds(): void
+    {
+        $obj = new Curriculum($this->config, $this->client);
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'hits' => [
+                'hits' => [
+                    ['_source' => ['courseId' => 1]],
+                    ['_source' => ['courseId' => 2]],
+                ],
+            ],
+            '_scroll_id' => '123',
+        ]);
+        $this->client->shouldReceive('scroll')->once()->andReturn(['hits' => ['hits' => []]]);
+        $this->client->shouldReceive('clearScroll')->once();
+        $courseIds = $obj->getAllCourseIds();
+        $this->assertCount(2, $courseIds);
+        $this->assertEquals([1, 2], $courseIds);
+    }
+
+    public function testGetAllSessionIds(): void
+    {
+        $obj = new Curriculum($this->config, $this->client);
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'hits' => [
+                'hits' => [
+                    ['_source' => ['sessionId' => 1]],
+                    ['_source' => ['sessionId' => 2]],
+                ],
+            ],
+            '_scroll_id' => '123',
+        ]);
+        $this->client->shouldReceive('scroll')->once()->andReturn(['hits' => ['hits' => []]]);
+        $this->client->shouldReceive('clearScroll')->once();
+        $ids = $obj->getAllSessionIds();
+        $this->assertCount(2, $ids);
+        $this->assertEquals([1, 2], $ids);
+    }
+
+    public function testGetMapping(): void
+    {
+        $obj = new Curriculum($this->config, $this->client);
+        $mapping = $obj->getMapping();
+        $this->assertArrayHasKey('settings', $mapping);
+        $this->assertArrayHasKey('mappings', $mapping);
+    }
+
+    public function testGetPipeline(): void
+    {
+        $obj = new Curriculum($this->config, $this->client);
+        $pipeline = $obj->getPipeline();
+        $this->assertArrayHasKey('id', $pipeline);
+        $this->assertArrayHasKey('body', $pipeline);
+        $this->assertEquals('curriculum', $pipeline['id']);
+    }
+
     protected function validateRequest(
         string $method,
         string $uri,

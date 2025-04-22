@@ -302,6 +302,26 @@ class LearningMaterialsTest extends TestCase
         ]]);
     }
 
+
+    public function testGetAllIds(): void
+    {
+        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'hits' => [
+                'hits' => [
+                    ['_source' => ['learningMaterialId' => 1]],
+                    ['_source' => ['learningMaterialId' => 2]],
+                ],
+            ],
+            '_scroll_id' => '123',
+        ]);
+        $this->client->shouldReceive('scroll')->once()->andReturn(['hits' => ['hits' => []]]);
+        $this->client->shouldReceive('clearScroll')->once();
+        $ids = $obj->getAllIds();
+        $this->assertCount(2, $ids);
+        $this->assertEquals([1, 2], $ids);
+    }
+
     public function testGetMapping(): void
     {
         $obj = new LearningMaterials($this->fs, $this->config, $this->client);
