@@ -28,6 +28,9 @@ class LearningMaterialTextExtractionHandler
         foreach ($dtos as $dto) {
             $this->extractor->extract($dto, $overwrite);
         }
-        $this->bus->dispatch(new LearningMaterialIndexRequest($message->getLearningMaterialIds()));
+        $chunks = array_chunk($message->getLearningMaterialIds(), LearningMaterialIndexRequest::MAX_MATERIALS);
+        foreach ($chunks as $ids) {
+            $this->bus->dispatch(new LearningMaterialIndexRequest($ids));
+        }
     }
 }
