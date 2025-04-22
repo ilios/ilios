@@ -51,18 +51,6 @@ class LearningMaterialTextExtractor
         $contents = $this->fileSystem->getFileContents($dto->relativePath);
         $tmpFile = $this->temporaryFileSystem->createFile($contents);
 
-        if (!$this->client->isMIMETypeSupported($dto->mimetype)) {
-            if (!function_exists('mime_content_type')) {
-                return;
-            }
-            //re-check the mime type of the file using PHP, sometimes we have a bad mime type
-            $mimeType = mime_content_type($tmpFile->getRealPath());
-            if (!$this->client->isMIMETypeSupported($mimeType)) {
-                //not the type of file tika can extract
-                return;
-            }
-        }
-
         try {
             $raw = $this->client->getText($tmpFile->getRealPath());
             $text = $this->cleanText($raw);
