@@ -16,7 +16,6 @@ class OpenSearchBase
 
     protected int|string|null $uploadLimit = null;
 
-    protected const int COMPRESSION_FACTOR = 3;
     public const int SIZE_LIMIT = 5000;
     protected const string SCROLL_TIME = '10s';
 
@@ -136,7 +135,7 @@ class OpenSearchBase
             $item = $items[$i];
             $itemSize = strlen(json_encode($item, JSON_INVALID_UTF8_SUBSTITUTE));
             //upload limit multiplied for compression
-            if (($chunkSize + $itemSize) < $this->uploadLimit * self::COMPRESSION_FACTOR) {
+            if (($chunkSize + $itemSize) < $this->uploadLimit) {
                 //add the item and move on to the next one
                 $chunk[] = $item;
                 $i++;
