@@ -65,7 +65,7 @@ class LearningMaterialTextExtractorTest extends TestCase
             null,
         );
         $dto = m::mock(LearningMaterialDTO::class);
-        $extractor->extract($dto);
+        $extractor->extract($dto, false);
     }
 
     public function testExtract(): void
@@ -95,12 +95,6 @@ class LearningMaterialTextExtractorTest extends TestCase
             ->once()
             ->with(self::TEST_FILE_PATH)
             ->andReturn('lm-text');
-        $this->tikaClient
-            ->shouldReceive('isMimeTypeSupported')
-            ->once()
-            ->with('test/pdf')
-            ->andReturn(true);
-
         $this->fileSystem
             ->shouldReceive('checkIfLearningMaterialTextFileExists')
             ->once()
@@ -112,7 +106,7 @@ class LearningMaterialTextExtractorTest extends TestCase
             ->with($dto->relativePath, 'lm-text')
             ->andReturn('lm-text-path');
         $this->assertTrue(file_exists(self::TEST_FILE_PATH));
-        $this->extractor->extract($dto);
+        $this->extractor->extract($dto, false);
         $this->assertFalse(file_exists(self::TEST_FILE_PATH));
     }
 
@@ -121,20 +115,7 @@ class LearningMaterialTextExtractorTest extends TestCase
         self::expectNotToPerformAssertions();
         $dto = m::mock(LearningMaterialDTO::class);
         $dto->filename = null;
-        $this->extractor->extract($dto);
-    }
-
-    public function testNonFileLm(): void
-    {
-        $dto = m::mock(LearningMaterialDTO::class);
-        $dto->filename = 't.txt';
-        $dto->mimetype = 'test/pdf';
-        $this->tikaClient
-            ->shouldReceive('isMimeTypeSupported')
-            ->once()
-            ->with('test/pdf')
-            ->andReturn(false);
-        $this->extractor->extract($dto);
+        $this->extractor->extract($dto, false);
     }
 
     public function testFileAlreadyExists(): void
@@ -143,21 +124,13 @@ class LearningMaterialTextExtractorTest extends TestCase
         $dto->relativePath = 'dir/lm/24/24jj';
         $dto->filename = 'jayden.pdf';
         $dto->mimetype = 'test/pdf';
-        $this->tikaClient
-            ->shouldReceive('isMimeTypeSupported')
-            ->once()
-            ->with('test/pdf')
-            ->andReturn(true);
-
         $this->fileSystem
             ->shouldReceive('checkIfLearningMaterialTextFileExists')
             ->once()
             ->with($dto->relativePath)
             ->andReturn(true);
-        $this->extractor->extract($dto);
+        $this->extractor->extract($dto, false);
     }
-
-
 
     public function testMissingFileThrowsException(): void
     {
@@ -172,21 +145,13 @@ class LearningMaterialTextExtractorTest extends TestCase
             ->once()
             ->andReturn(false);
         $tmpFile = new File(self::TEST_FILE_PATH);
-        $this->tikaClient
-            ->shouldReceive('isMimeTypeSupported')
-            ->once()
-            ->with('test/pdf')
-            ->andReturn(true);
-
         $this->fileSystem
             ->shouldReceive('checkIfLearningMaterialTextFileExists')
             ->once()
             ->with($dto->relativePath)
             ->andReturn(false);
-        $this->extractor->extract($dto);
+        $this->extractor->extract($dto, false);
     }
-
-
 
     public function testCatchTikaExtractionProblem(): void
     {
@@ -215,12 +180,6 @@ class LearningMaterialTextExtractorTest extends TestCase
             ->once()
             ->with(self::TEST_FILE_PATH)
             ->andThrow(Exception::class, 'Unprocessable document', 422);
-        $this->tikaClient
-            ->shouldReceive('isMimeTypeSupported')
-            ->once()
-            ->with('test/pdf')
-            ->andReturn(true);
-
         $this->fileSystem
             ->shouldReceive('checkIfLearningMaterialTextFileExists')
             ->once()
@@ -232,7 +191,45 @@ class LearningMaterialTextExtractorTest extends TestCase
             ->with($dto->relativePath, 'jayden.pdf')
             ->andReturn('lm-text-path');
         $this->assertTrue(file_exists(self::TEST_FILE_PATH));
-        $this->extractor->extract($dto);
+        $this->extractor->extract($dto, false);
+        $this->assertFalse(file_exists(self::TEST_FILE_PATH));
+    }
+
+    public function testFileExistsButOverwriteIsTrue(): void
+    {
+        $dto = m::mock(LearningMaterialDTO::class);
+        $dto->relativePath = 'dir/lm/24/24jj';
+        $dto->filename = 'jayden.pdf';
+        $dto->mimetype = 'test/pdf';
+        $this->nonCachingFileSystem
+            ->shouldReceive('checkLearningMaterialRelativePath')
+            ->with($dto->relativePath)
+            ->once()
+            ->andReturn(true);
+        $this->nonCachingFileSystem
+            ->shouldReceive('getFileContents')
+            ->with($dto->relativePath)
+            ->once()
+            ->andReturn('lm-contents');
+        $tmpFile = new File(self::TEST_FILE_PATH);
+        $this->temporaryFileSystem
+            ->shouldReceive('createFile')
+            ->with('lm-contents')
+            ->once()
+            ->andReturn($tmpFile);
+        $this->tikaClient
+            ->shouldReceive('getText')
+            ->once()
+            ->with(self::TEST_FILE_PATH)
+            ->andReturn('lm-text');
+        $this->fileSystem->shouldNotReceive('checkIfLearningMaterialTextFileExists');
+        $this->fileSystem
+            ->shouldReceive('storeLearningMaterialText')
+            ->once()
+            ->with($dto->relativePath, 'lm-text')
+            ->andReturn('lm-text-path');
+        $this->assertTrue(file_exists(self::TEST_FILE_PATH));
+        $this->extractor->extract($dto, true);
         $this->assertFalse(file_exists(self::TEST_FILE_PATH));
     }
 }

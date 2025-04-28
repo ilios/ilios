@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\Index;
 
+use App\Classes\OpenSearchBase;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
@@ -108,8 +109,8 @@ class LearningMaterialsTest extends TestCase
             ->once()
             ->andReturn('second content');
 
-        $this->client->shouldReceive('bulk')->once()->with([
-            'body' => [
+        $this->client->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
+            $this->validateRequest($method, $uri, $data, [
                 [
                     'index' => [
                         '_index' => LearningMaterials::INDEX,
@@ -138,8 +139,9 @@ class LearningMaterialsTest extends TestCase
                     'filename' => 'second filename',
                     'contents' => 'second content',
                 ],
-            ],
-        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+            ]);
+            return true;
+        })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$mockDto, $mockDto2]);
     }
 
@@ -172,8 +174,8 @@ class LearningMaterialsTest extends TestCase
             ->once()
             ->andReturn('second content');
 
-        $this->client->shouldReceive('bulk')->once()->with([
-            'body' => [
+        $this->client->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
+            $this->validateRequest($method, $uri, $data, [
                 [
                     'index' => [
                         '_index' => LearningMaterials::INDEX,
@@ -188,8 +190,9 @@ class LearningMaterialsTest extends TestCase
                     'filename' => 'second filename',
                     'contents' => 'second content',
                 ],
-            ],
-        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+            ]);
+            return true;
+        })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$mockDto, $mockDto2]);
     }
 
@@ -232,38 +235,39 @@ class LearningMaterialsTest extends TestCase
             ->once()
             ->andReturn('second content');
 
-        $this->client->shouldReceive('bulk')->once()->with([
-            'body' => [
-                [
-                    'index' => [
-                        '_index' => LearningMaterials::INDEX,
-                        '_id' => 'lm_0_1',
+        $this->client->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
+                $this->validateRequest($method, $uri, $data, [
+                    [
+                        'index' => [
+                            '_index' => LearningMaterials::INDEX,
+                            '_id' => 'lm_0_1',
+                        ],
                     ],
-                ],
-                [
-                    'id' => 'lm_0_1',
-                    'learningMaterialId' => 1,
-                    'title' => 'first title',
-                    'description' => 'first description',
-                    'filename' => 'first filename',
-                    'contents' => 'first content',
-                ],
-                [
-                    'index' => [
-                        '_index' => LearningMaterials::INDEX,
-                        '_id' => 'lm_0_2',
+                    [
+                        'id' => 'lm_0_1',
+                        'learningMaterialId' => 1,
+                        'title' => 'first title',
+                        'description' => 'first description',
+                        'filename' => 'first filename',
+                        'contents' => 'first content',
                     ],
-                ],
-                [
-                    'id' => 'lm_0_2',
-                    'learningMaterialId' => 2,
-                    'title' => 'second title',
-                    'description' => 'second description',
-                    'filename' => 'second filename',
-                    'contents' => 'second content',
-                ],
-            ],
-        ])->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+                    [
+                        'index' => [
+                            '_index' => LearningMaterials::INDEX,
+                            '_id' => 'lm_0_2',
+                        ],
+                    ],
+                    [
+                        'id' => 'lm_0_2',
+                        'learningMaterialId' => 2,
+                        'title' => 'second title',
+                        'description' => 'second description',
+                        'filename' => 'second filename',
+                        'contents' => 'second content',
+                    ],
+                ]);
+                return true;
+        })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
         $obj->index([$mockDto, $mockDto2], true);
     }
 
@@ -288,15 +292,35 @@ class LearningMaterialsTest extends TestCase
                     'learningMaterialId' => [
                         'terms' => [
                             'field' => 'learningMaterialId',
-                            'size' => 10000,
+                            'size' => OpenSearchBase::SIZE_LIMIT,
                         ],
                     ],
                 ],
-                'size' => 0,
+                'size' => OpenSearchBase::SIZE_LIMIT,
             ],
         ])->andReturn(['errors' => false, 'took' => 1, "aggregations" => [
             "learningMaterialId" => ["buckets" => $ids],
         ]]);
+    }
+
+
+    public function testGetAllIds(): void
+    {
+        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'hits' => [
+                'hits' => [
+                    ['_source' => ['learningMaterialId' => 1]],
+                    ['_source' => ['learningMaterialId' => 2]],
+                ],
+            ],
+            '_scroll_id' => '123',
+        ]);
+        $this->client->shouldReceive('scroll')->once()->andReturn(['hits' => ['hits' => []]]);
+        $this->client->shouldReceive('clearScroll')->once();
+        $ids = $obj->getAllIds();
+        $this->assertCount(2, $ids);
+        $this->assertEquals([1, 2], $ids);
     }
 
     public function testGetMapping(): void
@@ -305,5 +329,23 @@ class LearningMaterialsTest extends TestCase
         $mapping = $obj->getMapping();
         $this->assertArrayHasKey('settings', $mapping);
         $this->assertArrayHasKey('mappings', $mapping);
+    }
+
+    protected function validateRequest(
+        string $method,
+        string $uri,
+        array $data,
+        array $expected,
+    ): void {
+        $this->assertEquals('POST', $method);
+        $this->assertEquals('/_bulk', $uri);
+        $this->assertArrayHasKey('body', $data);
+        $this->assertArrayHasKey('options', $data);
+        $this->assertEquals(['headers' => ['Content-Encoding' => 'gzip']], $data['options']);
+        $body = gzdecode($data['body']);
+        $arr = array_map(fn ($item) => json_decode($item, true), explode("\n", $body));
+        $filtered = array_filter($arr, 'is_array');
+        $this->assertCount(count($expected), $filtered);
+        $this->assertEquals($expected, $filtered);
     }
 }

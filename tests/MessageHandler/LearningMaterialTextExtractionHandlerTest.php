@@ -51,13 +51,47 @@ class LearningMaterialTextExtractionHandlerTest extends TestCase
 
         $this->extractor
             ->shouldReceive('extract')
-            ->with($dto1);
+            ->with($dto1, false);
 
         $this->bus
             ->shouldReceive('dispatch')
             ->withArgs(fn (LearningMaterialIndexRequest $request) => in_array(6, $request->getIds()))
             ->andReturn(new Envelope(new stdClass()))
             ->once();
+
+        $handler->__invoke($request);
+    }
+
+    public function testInvokeWithMaximumMaterials(): void
+    {
+        $lotsOfMaterials = LearningMaterialIndexRequest::MAX_MATERIALS * 3;
+        $dtos = [];
+        for ($i = 0; $i < $lotsOfMaterials; $i++) {
+            $dto = m::mock(LearningMaterialDTO::class);
+            $dto->id = $i + 1;
+            $dtos[] = $dto;
+            $this->extractor
+                ->shouldReceive('extract')
+                ->with($dto, false)
+                ->once();
+        }
+        $ids = array_column($dtos, 'id');
+        $handler = new LearningMaterialTextExtractionHandler($this->extractor, $this->repository, $this->bus);
+        $request = new LearningMaterialTextExtractionRequest($ids);
+
+        $this->repository->shouldReceive(('findDTOsBy'))
+            ->once()
+            ->with(['id' => $ids])
+            ->andReturn($dtos);
+
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(
+                fn (LearningMaterialIndexRequest $request) =>
+                array_diff($request->getIds(), $ids) === [] && $request->getForce()
+            )
+            ->andReturn(new Envelope(new stdClass()))
+        ->times(3);
 
         $handler->__invoke($request);
     }

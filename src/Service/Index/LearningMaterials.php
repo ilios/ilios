@@ -11,6 +11,7 @@ use App\Service\NonCachingIliosFileSystem;
 use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
+use stdClass;
 
 class LearningMaterials extends OpenSearchBase
 {
@@ -61,7 +62,11 @@ class LearningMaterials extends OpenSearchBase
                 $path =  $this->nonCachingIliosFileSystem->getLearningMaterialTextPath($lm->relativePath);
                 $contents = $this->nonCachingIliosFileSystem->getFileContents($path);
 
-                $strings = str_split($contents, $singleMaterialMaximumSize);
+                if ($contents) {
+                    $strings = str_split($contents, $singleMaterialMaximumSize);
+                } else {
+                    $strings = [''];
+                }
                 foreach ($strings as $key => $string) {
                     $carry[] = [
                         'id' => 'lm_' . $key . '_' . $lm->id,
@@ -69,7 +74,7 @@ class LearningMaterials extends OpenSearchBase
                         'title' => $lm->title,
                         'description' => $lm->description,
                         'filename' => $lm->filename,
-                        'contents' => $string,
+                        'contents' => $this->cleanMaterialText($lm->id, $string),
                     ];
                 }
 
@@ -79,6 +84,38 @@ class LearningMaterials extends OpenSearchBase
         );
 
         return $this->doBulkIndex(self::INDEX, $input);
+    }
+
+    protected function cleanMaterialText(int $id, string $str): string
+    {
+        //remove punctuation
+        $str = preg_replace('/[\p{P}]/u', '', $str);
+        if ($str === null) {
+            throw new Exception(
+                "Unable to clean material #{$id}, error: " .
+                preg_last_error_msg()
+            );
+        }
+
+        //remove symbols, keeping letters, numbers, and spaces
+        $str = preg_replace('/[^\p{L}\p{N}\s]/u', '', $str);
+        if ($str === null) {
+            throw new Exception(
+                "Unable to clean material #{$id}, error: " .
+                preg_last_error_msg()
+            );
+        }
+
+        //remove extra spaces
+        $str = preg_replace('/\s+/u', ' ', $str);
+        if ($str === null) {
+            throw new Exception(
+                "Unable to clean material #{$id}, error: " .
+                preg_last_error_msg()
+            );
+        }
+
+        return trim($str);
     }
 
     protected function alreadyIndexedMaterials(array $ids): array
@@ -101,16 +138,33 @@ class LearningMaterials extends OpenSearchBase
                     'learningMaterialId' => [
                         'terms' => [
                             'field' => 'learningMaterialId',
-                            'size' => 10000,
+                            'size' => self::SIZE_LIMIT,
                         ],
                     ],
                 ],
-                'size' => 0,
+                'size' => self::SIZE_LIMIT,
             ],
         ];
         $results = $this->doSearch($params);
 
         return  array_column($results['aggregations']['learningMaterialId']['buckets'], 'key');
+    }
+
+    public function getAllIds(): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'match_all' => new stdClass(),
+                ],
+                '_source' => ['learningMaterialId'],
+            ],
+            'size' => self::SIZE_LIMIT,
+        ];
+
+        $results = $this->doScrollSearch($params);
+        return array_map(fn ($item) => $item['_source']['learningMaterialId'], $results);
     }
 
     public function delete(int $id): bool

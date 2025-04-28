@@ -9,6 +9,7 @@ use App\Classes\IndexableCourse;
 use DateTime;
 use Exception;
 use InvalidArgumentException;
+use stdClass;
 
 class Curriculum extends OpenSearchBase
 {
@@ -184,6 +185,7 @@ class Curriculum extends OpenSearchBase
         if (!empty($learningMaterialIds)) {
             $params = [
                 'index' => LearningMaterials::INDEX,
+                'size' => 25,
                 'body' => [
                     'query' => [
                         'terms' => [
@@ -191,20 +193,18 @@ class Curriculum extends OpenSearchBase
                         ],
                     ],
                     "_source" => [
+                        'id',
                         'learningMaterialId',
-                        'material.content',
+                        'contents',
                     ],
                 ],
             ];
-            $results = $this->doSearch($params);
+            $results = $this->doScrollSearch($params);
 
-            $materialsById = array_reduce($results['hits']['hits'], function (array $carry, array $hit) {
+            $materialsById = array_reduce($results, function (array $carry, array $hit) {
                 $result = $hit['_source'];
                 $id = $result['learningMaterialId'];
-
-                if (array_key_exists('material', $result)) {
-                    $carry[$id][] = $result['material']['content'];
-                }
+                $carry[$id][] = $result['contents'];
 
                 return $carry;
             }, []);
@@ -430,6 +430,42 @@ class Curriculum extends OpenSearchBase
         ];
     }
 
+    public function getAllCourseIds(): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'match_all' => new stdClass(),
+                ],
+                '_source' => ['courseId'],
+            ],
+            'size' => self::SIZE_LIMIT,
+        ];
+
+        $results = $this->doScrollSearch($params);
+        $ids = array_map(fn ($item) => $item['_source']['courseId'], $results);
+        return array_unique($ids);
+    }
+
+    public function getAllSessionIds(): array
+    {
+        $params = [
+            'index' => self::INDEX,
+            'body' => [
+                'query' => [
+                    'match_all' => new stdClass(),
+                ],
+                '_source' => ['sessionId'],
+            ],
+            'size' => self::SIZE_LIMIT,
+        ];
+
+        $results = $this->doScrollSearch($params);
+        $ids = array_map(fn ($item) => $item['_source']['sessionId'], $results);
+        return array_unique($ids);
+    }
+
     public static function getMapping(): array
     {
         $txtTypeField = [
@@ -447,10 +483,6 @@ class Curriculum extends OpenSearchBase
                 'spanish' => [
                     'type' => 'text',
                     'analyzer' => 'spanish',
-                ],
-                'raw' => [
-                    'type' => 'text',
-                    'analyzer' => 'keyword',
                 ],
             ],
         ];

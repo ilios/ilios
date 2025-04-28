@@ -79,6 +79,18 @@ class SessionRepository extends ServiceEntityRepository implements
         return $this->createSessionDTOs($qb->getQuery());
     }
 
+
+    /**
+     * Get all the IDs
+     */
+    public function getIds(): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->addSelect('x.id')->from(Session::class, 'x');
+
+        return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
+    }
+
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,

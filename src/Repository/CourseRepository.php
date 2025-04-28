@@ -152,6 +152,19 @@ class CourseRepository extends ServiceEntityRepository implements
     }
 
     /**
+     * Get Ids for all courses with at least one session
+     */
+    public function getIdsForCoursesWithSessions(): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('c.id')->from(Session::class, 'x')
+            ->join('x.course', 'c')
+            ->distinct();
+
+        return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
+    }
+
+    /**
      * Finds all courses associated with a given user.
      * A user can be associated as either course director, learner or instructor with a given course.
      *

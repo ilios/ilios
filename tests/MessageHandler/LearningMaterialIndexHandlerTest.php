@@ -17,14 +17,12 @@ class LearningMaterialIndexHandlerTest extends TestCase
 {
     protected m\MockInterface|LearningMaterials $index;
     protected m\MockInterface|LearningMaterialRepository $repository;
-    protected m\MockInterface|NonCachingIliosFileSystem $fs;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->index = m::mock(LearningMaterials::class);
         $this->repository = m::mock(LearningMaterialRepository::class);
-        $this->fs = m::mock(NonCachingIliosFileSystem::class);
     }
 
     public function tearDown(): void
@@ -32,7 +30,6 @@ class LearningMaterialIndexHandlerTest extends TestCase
         parent::tearDown();
         unset($this->index);
         unset($this->repository);
-        unset($this->fs);
     }
 
     public function testInvoke(): void
@@ -41,45 +38,26 @@ class LearningMaterialIndexHandlerTest extends TestCase
         $dto1->relativePath = 'one';
         $dto2 = m::mock(LearningMaterialDTO::class);
         $dto2->relativePath = 'two';
-        $dto3 = m::mock(LearningMaterialDTO::class);
-        $dto3->relativePath = 'three';
-        $handler = new LearningMaterialIndexHandler($this->index, $this->repository, $this->fs);
-        $request = new LearningMaterialIndexRequest([6, 24, 2005]);
+        $handler = new LearningMaterialIndexHandler($this->index, $this->repository);
+        $request = new LearningMaterialIndexRequest([6, 24]);
 
         $this->repository->shouldReceive(('findDTOsBy'))
             ->once()
-            ->with(['id' => [6, 24, 2005]])
+            ->with(['id' => [6, 24]])
             ->andReturn([
                 $dto1,
                 $dto2,
-                $dto3,
             ]);
-
-        $this->fs
-            ->shouldReceive('checkIfLearningMaterialTextFileExists')
-            ->with('one')
-            ->andReturn(true);
-
-        $this->fs
-            ->shouldReceive('checkIfLearningMaterialTextFileExists')
-            ->with('two')
-            ->andReturn(false);
-
-        $this->fs
-            ->shouldReceive('checkIfLearningMaterialTextFileExists')
-            ->with('three')
-            ->andReturn(true);
 
         $this->index
             ->shouldReceive('index')
             ->once()
-            ->withArgs(function (array $materials) use ($dto1, $dto2, $dto3) {
+            ->withArgs(function (array $materials) use ($dto1, $dto2) {
                 $this->assertCount(2, $materials);
                 $this->assertContains($dto1, $materials);
-                $this->assertNotContains($dto2, $materials);
-                $this->assertContains($dto3, $materials);
+                $this->assertContains($dto2, $materials);
 
-                $this->assertEquals([$dto1, $dto3], $materials);
+                $this->assertEquals([$dto1, $dto2], $materials);
 
                 return true;
             });

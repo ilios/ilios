@@ -11,7 +11,7 @@ class LearningMaterialIndexRequest
     private array $ids;
     public const int MAX_MATERIALS = 10;
 
-    public function __construct(array $ids)
+    public function __construct(array $ids, protected bool $force = false)
     {
         $count = count($ids);
         if ($count > self::MAX_MATERIALS) {
@@ -29,5 +29,10 @@ class LearningMaterialIndexRequest
     public function getIds(): array
     {
         return $this->ids;
+    }
+
+    public function getForce(): bool
+    {
+        return $this->force;
     }
 }

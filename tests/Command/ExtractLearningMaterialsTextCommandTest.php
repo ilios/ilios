@@ -56,14 +56,64 @@ class ExtractLearningMaterialsTextCommandTest extends KernelTestCase
         $this->repository->shouldReceive('getFileLearningMaterialIds')->andReturn([1, 4]);
         $this->bus
             ->shouldReceive('dispatch')
-            ->withArgs(fn (LearningMaterialTextExtractionRequest $r) => $r->getLearningMaterialIds() === [1, 4])
+            ->withArgs(
+                fn (LearningMaterialTextExtractionRequest $r) =>
+                    $r->getLearningMaterialIds() === [1, 4] &&
+                    $r->getOverwrite() === false
+            )
             ->andReturn(new Envelope(new stdClass()))
             ->once();
         $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
-            '/2 learning materials have been queued for text extraction./',
+            '/2 learning materials have been queued for text extraction/',
+            $output
+        );
+    }
+
+    public function testExtractWithOverwrite(): void
+    {
+        $this->repository->shouldReceive('getFileLearningMaterialIds')->andReturn([1, 4]);
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(
+                fn (LearningMaterialTextExtractionRequest $r) =>
+                    $r->getLearningMaterialIds() === [1, 4] &&
+                    $r->getOverwrite() === true
+            )
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+        $this->commandTester->execute(['--overwrite' => true]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/2 learning materials have been queued for text extraction/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            '/Existing text extractions for these materials will be overwritten/',
+            $output
+        );
+    }
+
+    public function testExtractWithMaterialFilter(): void
+    {
+        $this->repository->shouldReceive('getFileLearningMaterialIds')->andReturn([1, 4, 99]);
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(
+                fn (LearningMaterialTextExtractionRequest $r) =>
+                    $r->getLearningMaterialIds() === [4] &&
+                    $r->getOverwrite() === false
+            )
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+        $this->commandTester->execute(['--materials' => '3,4,81']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/1 learning materials have been queued for text extraction/',
             $output
         );
     }
