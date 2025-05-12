@@ -4,6 +4,9 @@ when@prod:
     sentry:
         dsn: '%env(SENTRY_DSN)%'
         options:
+            # Add request headers, cookies, IP address and the authenticated user
+            # see https://docs.sentry.io/platforms/php/data-management/data-collected/ for more info
+            # send_default_pii: true
             before_send: 'App\Service\SentryBeforeSend'
             send_default_pii: true
             traces_sampler: 'sentry.callback.traces_sampler'
@@ -26,9 +29,5 @@ when@prod:
 #                type: sentry
 #                level: !php/const Monolog\Logger::ERROR
 #                hub_id: Sentry\State\HubInterface
-
-#    Uncomment these lines to register a log message processor that resolves PSR-3 placeholders
-#    https://docs.sentry.io/platforms/php/guides/symfony/#monolog-integration
-#    services:
-#        Monolog\Processor\PsrLogMessageProcessor:
-#            tags: { name: monolog.processor, handler: sentry }
+#                fill_extra_context: true # Enables sending monolog context to Sentry
+#                process_psr_3_messages: false # Disables the resolution of PSR-3 placeholders
