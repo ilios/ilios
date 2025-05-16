@@ -6,7 +6,7 @@ If you want to work on a development instance of Ilios using a copy of your scho
 
 2. Verify the version of Ilios that you should be running with the copy of the database you plan to use. You should note this version when you create your database backup file, and you can always migrate to the latest version once it is loaded, but will want to know which version you are working with when you get started.
 
-3. Set up a LAMP web application server (comprised of Linux, Apache, MySQL, PHP) to run the web/database services required for your development Ilios application. This is a fairly common requirement for web applications, see [here](https://github.com/ilios/ilios/blob/master/docs/install.md#pre-requisitesrequirements) for more info. RECOMMENDED: We recommend using Docker and Docker Composer! (See [below](https://github.com/ilios/ilios/edit/quickstart-docs/docs/ilios_quick_setup_for_admins.md#Using-Docker-and-Docker-Compose-to-set-up-a-Development-System-for-Ilios)!)
+3. Set up a LAMP web application server (comprised of Linux, Apache, MySQL, PHP) to run the web/database services required for your development Ilios application. This is a fairly common requirement for web applications, please see the full list of [requisite requirements](https://github.com/ilios/ilios/blob/master/docs/install.md#pre-requisitesrequirements) for more info. RECOMMENDED: We recommend using Docker and Docker Composer! (See [below](https://github.com/ilios/ilios/edit/quickstart-docs/docs/ilios_quick_setup_for_admins.md#Using-Docker-and-Docker-Compose-to-set-up-a-Development-System-for-Ilios)!)
 
 4. Make sure that the getcomposer.org PHP dependency manager is installed on your LAMP system.
 
