@@ -59,8 +59,17 @@ class Curriculum extends OpenSearchBase
                     'sessionTitle',
                     'school',
                 ],
+                'collapse' => [
+                    'field' => 'courseId',
+                    'inner_hits' => [
+                        'name' => 'sessions',
+                        'size' => 5,
+                        'sort' => ['_score'],
+                    ],
+                ],
                 'sort' => '_score',
-                'size' => 1000,
+                'size' => 25,
+                'min_score' => 25,
             ],
         ];
 
@@ -352,6 +361,14 @@ class Curriculum extends OpenSearchBase
             []
         );
 
+        $allHits = array_reduce($results['hits']['hits'], function (array $carry, array $item): array {
+            $innerHits = $item['inner_hits']['sessions']['hits']['hits'];
+            unset($item['inner_hits']);
+
+            $carry[] = $item;
+            return array_merge($carry, $innerHits);
+        }, []);
+
         $mappedResults = array_map(function (array $arr) {
             $courseMatches = array_filter(
                 $arr['matched_queries'],
@@ -367,7 +384,7 @@ class Curriculum extends OpenSearchBase
             $rhett['sessionMatches'] = $sessionMatches;
 
             return $rhett;
-        }, $results['hits']['hits']);
+        }, $allHits);
 
         $courses = array_reduce($mappedResults, function (array $carry, array $item) {
             $id = $item['courseId'];
