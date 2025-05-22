@@ -74,7 +74,23 @@ class Curriculum extends OpenSearchBase
             $params['body']['sort'] = '_score';
             $params['body']['size'] = 25;
             $params['body']['min_score'] = 25;
-            $params['body']['query'] = $this->buildCurriculumSearch($query);
+
+            //the closer a course is to this year the higher it will be ranked
+            $params['body']['query']['function_score'] = [
+                'query' => $this->buildCurriculumSearch($query),
+                'functions' => [
+                    [
+                        'gauss' => [
+                            'courseYear.year' => [
+                                'origin' => (new DateTime())->format("Y"),
+                                'scale' => 2, //starts taking points off when two years before or after today
+                                'decay' => 0.8, //multiplies score by this, 80% for every 'scale' away from today
+                            ],
+                        ],
+                    ],
+                ],
+                'score_mode' => 'multiply',
+            ];
         }
 
         $results = $this->doSearch($params);
@@ -530,6 +546,11 @@ class Curriculum extends OpenSearchBase
                     ],
                     'courseYear' => [
                         'type' => 'keyword',
+                        'fields' => [
+                            'year' => [
+                                'type' => 'integer',
+                            ],
+                        ],
                     ],
                     'courseTitle' => $txtTypeFieldWithCompletion,
                     'courseTerms' => $txtTypeFieldWithCompletion,
