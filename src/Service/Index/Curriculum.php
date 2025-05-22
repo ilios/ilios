@@ -73,7 +73,6 @@ class Curriculum extends OpenSearchBase
             ];
             $params['body']['sort'] = '_score';
             $params['body']['size'] = 25;
-            $params['body']['min_score'] = 25;
 
             //the closer a course is to this year the higher it will be ranked
             $params['body']['query']['function_score'] = [
