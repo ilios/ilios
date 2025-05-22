@@ -51,21 +51,45 @@ class Curriculum extends OpenSearchBase
             'index' => self::INDEX,
             'body' => [
                 'suggest' => $suggest,
-                "_source" => [
-                    'courseId',
-                    'courseTitle',
-                    'courseYear',
-                    'sessionId',
-                    'sessionTitle',
-                    'school',
-                ],
-                'sort' => '_score',
-                'size' => 1000,
             ],
         ];
 
         if (!$onlySuggest) {
-            $params['body']['query'] = $this->buildCurriculumSearch($query);
+            $params['body']['_source'] = [
+                'courseId',
+                'courseTitle',
+                'courseYear',
+                'sessionId',
+                'sessionTitle',
+                'school',
+            ];
+            $params['body']['collapse'] = [
+                'field' => 'courseId',
+                'inner_hits' => [
+                    'name' => 'sessions',
+                    'size' => 5,
+                    'sort' => ['_score'],
+                ],
+            ];
+            $params['body']['sort'] = '_score';
+            $params['body']['size'] = 25;
+
+            //the closer a course is to this year the higher it will be ranked
+            $params['body']['query']['function_score'] = [
+                'query' => $this->buildCurriculumSearch($query),
+                'functions' => [
+                    [
+                        'gauss' => [
+                            'courseYear.year' => [
+                                'origin' => (new DateTime())->format("Y"),
+                                'scale' => 2, //starts taking points off when two years before or after today
+                                'decay' => 0.8, //multiplies score by this, 80% for every 'scale' away from today
+                            ],
+                        ],
+                    ],
+                ],
+                'score_mode' => 'multiply',
+            ];
         }
 
         $results = $this->doSearch($params);
@@ -352,6 +376,14 @@ class Curriculum extends OpenSearchBase
             []
         );
 
+        $allHits = array_reduce($results['hits']['hits'], function (array $carry, array $item): array {
+            $innerHits = $item['inner_hits']['sessions']['hits']['hits'];
+            unset($item['inner_hits']);
+
+            $carry[] = $item;
+            return array_merge($carry, $innerHits);
+        }, []);
+
         $mappedResults = array_map(function (array $arr) {
             $courseMatches = array_filter(
                 $arr['matched_queries'],
@@ -367,7 +399,7 @@ class Curriculum extends OpenSearchBase
             $rhett['sessionMatches'] = $sessionMatches;
 
             return $rhett;
-        }, $results['hits']['hits']);
+        }, $allHits);
 
         $courses = array_reduce($mappedResults, function (array $carry, array $item) {
             $id = $item['courseId'];
@@ -513,6 +545,11 @@ class Curriculum extends OpenSearchBase
                     ],
                     'courseYear' => [
                         'type' => 'keyword',
+                        'fields' => [
+                            'year' => [
+                                'type' => 'integer',
+                            ],
+                        ],
                     ],
                     'courseTitle' => $txtTypeFieldWithCompletion,
                     'courseTerms' => $txtTypeFieldWithCompletion,
