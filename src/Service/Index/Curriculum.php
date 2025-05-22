@@ -51,29 +51,29 @@ class Curriculum extends OpenSearchBase
             'index' => self::INDEX,
             'body' => [
                 'suggest' => $suggest,
-                "_source" => [
-                    'courseId',
-                    'courseTitle',
-                    'courseYear',
-                    'sessionId',
-                    'sessionTitle',
-                    'school',
-                ],
-                'collapse' => [
-                    'field' => 'courseId',
-                    'inner_hits' => [
-                        'name' => 'sessions',
-                        'size' => 5,
-                        'sort' => ['_score'],
-                    ],
-                ],
-                'sort' => '_score',
-                'size' => 25,
-                'min_score' => 25,
             ],
         ];
 
         if (!$onlySuggest) {
+            $params['body']['_source'] = [
+                'courseId',
+                'courseTitle',
+                'courseYear',
+                'sessionId',
+                'sessionTitle',
+                'school',
+            ];
+            $params['body']['collapse'] = [
+                'field' => 'courseId',
+                'inner_hits' => [
+                    'name' => 'sessions',
+                    'size' => 5,
+                    'sort' => ['_score'],
+                ],
+            ];
+            $params['body']['sort'] = '_score';
+            $params['body']['size'] = 25;
+            $params['body']['min_score'] = 25;
             $params['body']['query'] = $this->buildCurriculumSearch($query);
         }
 
