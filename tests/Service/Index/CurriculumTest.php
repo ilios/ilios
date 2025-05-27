@@ -272,6 +272,62 @@ class CurriculumTest extends TestCase
         $this->assertEquals('curriculum', $pipeline['id']);
     }
 
+    public function testSearchSortOf(): void
+    {
+        $obj = new Curriculum($this->config, $this->client);
+        $this->client->shouldReceive('search')->once()->withArgs(function ($params) {
+            $this->assertArrayHasKey('index', $params);
+            $this->assertEquals(Curriculum::INDEX, $params['index']);
+            $this->assertArrayHasKey('body', $params);
+            $b =  $params['body'];
+            $this->assertArrayHasKey('_source', $b);
+            $this->assertEquals([
+                'courseId', 'courseTitle', 'courseYear', 'sessionId', 'sessionTitle', 'school',
+            ], $b['_source']);
+
+            $this->assertArrayHasKey('sort', $b);
+            $this->assertEquals('_score', $b['sort']);
+            $this->assertArrayHasKey('size', $b);
+            $this->assertEquals(25, $b['size']);
+            $this->assertArrayHasKey('query', $b);
+            $this->assertArrayHasKey('function_score', $b['query']);
+
+            return true;
+        })->andReturn(['hits' => ['hits' => []], 'suggest' => []]);
+        $results = $obj->search('test', false);
+        $this->assertArrayHasKey('autocomplete', $results);
+        $this->assertCount(0, $results['autocomplete']);
+        $this->assertArrayHasKey('courses', $results);
+        $this->assertCount(0, $results['courses']);
+    }
+
+    public function testSearchOnlySuggest(): void
+    {
+        $obj = new Curriculum($this->config, $this->client);
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'hits' => [
+                'hits' => [],
+            ],
+            'suggest' => [
+                [[
+                    'options' => [
+                        [
+                            'text' => 'suggested',
+                        ],
+                        [
+                            'text' => 'suggester',
+                        ],
+                    ],
+                ]],
+            ],
+        ]);
+        $results = $obj->search('test', true);
+        $this->assertArrayHasKey('autocomplete', $results);
+        $this->assertEquals(['suggested', 'suggester'], $results['autocomplete']);
+        $this->assertArrayHasKey('courses', $results);
+        $this->assertCount(0, $results['courses']);
+    }
+
     protected function validateRequest(
         string $method,
         string $uri,
