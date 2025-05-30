@@ -54,36 +54,26 @@ class LearningMaterials extends OpenSearchBase
             $materials,
             fn(LearningMaterialDTO $dto) => !in_array($dto->id, $skipIds)
         );
-        $singleMaterialMaximumSize = (int) ($this->uploadLimit * 0.6);
 
-        $input = array_reduce(
-            $materialToIndex,
-            function (array $carry, LearningMaterialDTO $lm) use ($singleMaterialMaximumSize) {
+        $input = array_map(
+            function (LearningMaterialDTO $lm) {
                 $path =  $this->nonCachingIliosFileSystem->getLearningMaterialTextPath($lm->relativePath);
                 $contents = $this->nonCachingIliosFileSystem->getFileContents($path);
 
-                if ($contents) {
-                    $strings = str_split($contents, $singleMaterialMaximumSize);
-                } else {
-                    $strings = [''];
-                }
-                foreach ($strings as $key => $string) {
-                    $carry[] = [
-                        'id' => 'lm_' . $key . '_' . $lm->id,
-                        'learningMaterialId' => $lm->id,
-                        'title' => $lm->title,
-                        'description' => $lm->description,
-                        'filename' => $lm->filename,
-                        'contents' => $this->cleanMaterialText($lm->id, $string),
-                    ];
-                }
-
-                return $carry;
+                $clean = $contents ? $this->cleanMaterialText($lm->id, $contents) : '';
+                return [
+                    'id' => 'lm_' . $lm->id,
+                    'learningMaterialId' => $lm->id,
+                    'title' => $lm->title,
+                    'description' => $lm->description,
+                    'filename' => $lm->filename,
+                    'contents' => $clean,
+                ];
             },
-            []
+            $materialToIndex,
         );
 
-        return $this->doBulkIndex(self::INDEX, $input);
+        return $this->doBulkIndex(self::INDEX, array_values($input));
     }
 
     protected function cleanMaterialText(int $id, string $str): string
