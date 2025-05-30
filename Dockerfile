@@ -251,7 +251,6 @@ RUN /bin/bash /fetch-demo-database.sh
 ###############################################################################
 FROM opensearchproject/opensearch:2 AS opensearch
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-RUN bin/opensearch-plugin install -b ingest-attachment
 
 ###############################################################################
 # Setup redis with needed config
