@@ -60,6 +60,9 @@ services:
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
       - ILIOS_TIKA_URL=http://tika:9998
     restart: always
+    deploy:
+      mode: replicated
+      replicas: 3
     command: [ "--time-limit", "3600", "-vv" ]
     depends_on:
       - db
