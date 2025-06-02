@@ -87,6 +87,7 @@ services:
       - node.name=opensearch
       - cluster.initial_cluster_manager_nodes=opensearch,opensearch-node2
       - discovery.seed_hosts=opensearch,opensearch-node2
+      - "OPENSEARCH_JAVA_OPTS=-Xms1600m -Xmx1600m"
     ports:
       - "9200:9200"
 
@@ -100,6 +101,7 @@ services:
       - node.name=opensearch-node2
       - cluster.initial_cluster_manager_nodes=opensearch,opensearch-node2
       - discovery.seed_hosts=opensearch,opensearch-node2
+      - "OPENSEARCH_JAVA_OPTS=-Xms1600m -Xmx1600m"
 
   redis:
     build:
