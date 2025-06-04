@@ -6,7 +6,7 @@ liip_monitor:
       default:
         php_extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib, ctype, iconv]
         php_version:
-            "8.3": ">="
+            "8.4": ">="
         readable_directory: ["%kernel.cache_dir%"]
         writable_directory: ["%kernel.cache_dir%"]
       production:

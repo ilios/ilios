@@ -7,7 +7,7 @@ on:
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
-  minimum_php_version: 8.3
+  minimum_php_version: 8.4
 
 jobs:
   update:
