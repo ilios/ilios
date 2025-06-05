@@ -8,7 +8,6 @@ use App\Classes\VoterPermissions;
 use App\Entity\CohortInterface;
 use App\Entity\DTO\ProgramYearDTO;
 use App\Entity\ProgramYearInterface;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CohortRepository;
 use App\Repository\ProgramYearRepository;
 use App\Service\ApiRequestParser;
@@ -416,7 +415,29 @@ class ProgramYears extends AbstractApiController
             $row['matriculation_year'] = $row['matriculation_year'] . ' - ' . ($row['matriculation_year'] + 1);
         });
 
-        $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
+
+        $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder([
+            CsvEncoder::NO_HEADERS_KEY =>  true, // Omit the header, we'll bolt our own in the lines below.
+        ])]);
+
+        // KLUDGE
+        // Add our own header row.
+        // The CSV encoder class takes header data as input, but it doesn't work as intended... or is it?
+        // This is awkward.
+        // @see https://github.com/symfony/symfony/issues/55048
+        // [ST 2025/06/05]
+        array_unshift(
+            $data,
+            [
+                            'program_title' => 'Program Title',
+                            'matriculation_year' => 'Matriculation Year',
+                            'program_year_objective' => 'Program Year Objective',
+                            'competency' => 'Competency',
+                            'course_title' => 'Course Title',
+                            'course_shortname' => 'Course Shortname',
+                            'mapped_course_objective' => 'Mapped Course Objective',
+            ]
+        );
         return new Response(
             $serializer->serialize($data, 'csv'),
             Response::HTTP_OK,
