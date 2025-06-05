@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\DTO\UserSessionMaterialStatusDTO;
 use App\Entity\UserSessionMaterialStatusInterface;
 
-class UserSessionMaterialStatusData extends AbstractDataLoader
+final class UserSessionMaterialStatusData extends AbstractDataLoader
 {
     protected function getData(): array
     {

@@ -16,7 +16,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadCourseObjectiveData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadCourseObjectiveData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public function __construct(protected CourseObjectiveData $data)
     {

@@ -10,7 +10,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\Competency as Voter;
 use Mockery as m;
 
-class CompetencyTest extends AbstractReadWriteBase
+final class CompetencyTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

@@ -23,7 +23,7 @@ use Mockery as m;
  * @package App\Tests\Command
  */
 #[Group('cli')]
-class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
+final class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

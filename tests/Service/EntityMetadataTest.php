@@ -28,7 +28,7 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\Cache\CacheInterface;
 
 #[CoversClass(EntityMetadata::class)]
-class EntityMetadataTest extends KernelTestCase
+final class EntityMetadataTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

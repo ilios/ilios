@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  * @package App\Tests\RelationshipVoter
  */
 #[CoversClass(UserDTOVoter::class)]
-class UserDTOVoterTest extends AbstractBase
+final class UserDTOVoterTest extends AbstractBase
 {
     protected UserDTOVoter $dto;
 

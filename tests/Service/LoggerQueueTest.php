@@ -13,7 +13,7 @@ use App\Tests\TestCase;
 /**
  * Class LoggerQueueTest
  */
-class LoggerQueueTest extends TestCase
+final class LoggerQueueTest extends TestCase
 {
     public function testFlush(): void
     {

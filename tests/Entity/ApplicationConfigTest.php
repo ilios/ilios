@@ -13,7 +13,7 @@ use App\Entity\ApplicationConfig;
  */
 #[Group('model')]
 #[CoversClass(ApplicationConfig::class)]
-class ApplicationConfigTest extends EntityBase
+final class ApplicationConfigTest extends EntityBase
 {
     protected ApplicationConfig $object;
 

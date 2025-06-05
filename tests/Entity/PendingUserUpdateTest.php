@@ -14,7 +14,7 @@ use App\Entity\User;
  */
 #[Group('model')]
 #[CoversClass(PendingUserUpdate::class)]
-class PendingUserUpdateTest extends EntityBase
+final class PendingUserUpdateTest extends EntityBase
 {
     protected PendingUserUpdate $object;
 

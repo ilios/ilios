@@ -16,7 +16,7 @@ use DateTime;
  */
 #[Group('model')]
 #[CoversClass(CurriculumInventoryReport::class)]
-class CurriculumInventoryReportTest extends EntityBase
+final class CurriculumInventoryReportTest extends EntityBase
 {
     protected CurriculumInventoryReport $object;
 

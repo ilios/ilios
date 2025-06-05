@@ -17,7 +17,7 @@ use App\Tests\Fixture\LoadTermData;
  * Program API endpoint Test.
  */
 #[Group('api_1')]
-class ProgramTest extends AbstractReadWriteEndpoint
+final class ProgramTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'programs';
 

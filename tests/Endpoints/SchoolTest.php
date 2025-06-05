@@ -19,7 +19,7 @@ use App\Tests\Fixture\LoadSessionTypeData;
  * School API endpoint Test.
  */
 #[Group('api_5')]
-class SchoolTest extends AbstractReadWriteEndpoint
+final class SchoolTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schools';
 

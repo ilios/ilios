@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[CoversClass(PrefixSeedCompilerPass::class)]
-class PrefixSeedCompilerPassTest extends TestCase
+final class PrefixSeedCompilerPassTest extends TestCase
 {
     protected m\MockInterface $config;
     protected PrefixSeedCompilerPass $pass;

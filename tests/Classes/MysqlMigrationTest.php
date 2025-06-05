@@ -18,7 +18,7 @@ use function iterator_to_array;
 use function str_starts_with;
 use function var_export;
 
-class MysqlMigrationTest extends WebTestCase
+final class MysqlMigrationTest extends WebTestCase
 {
     public function testConstructor(): void
     {

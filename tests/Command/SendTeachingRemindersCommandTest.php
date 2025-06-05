@@ -43,7 +43,7 @@ use Symfony\Component\Mailer\MailerInterface;
  */
 #[Group('cli')]
 #[CoversClass(SendTeachingRemindersCommand::class)]
-class SendTeachingRemindersCommandTest extends KernelTestCase
+final class SendTeachingRemindersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

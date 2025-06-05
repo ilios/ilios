@@ -15,7 +15,7 @@ use App\Tests\Fixture\LoadProgramData;
  * CurriculumInventoryAcademicLevel API endpoint Test.
  */
 #[Group('api_4')]
-class CurriculumInventoryAcademicLevelTest extends AbstractReadEndpoint
+final class CurriculumInventoryAcademicLevelTest extends AbstractReadEndpoint
 {
     protected string $testName =  'curriculumInventoryAcademicLevels';
 

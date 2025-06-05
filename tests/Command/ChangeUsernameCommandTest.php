@@ -23,7 +23,7 @@ use Mockery as m;
  * @package App\Tests\Command
  */
 #[Group('cli')]
-class ChangeUsernameCommandTest extends KernelTestCase
+final class ChangeUsernameCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

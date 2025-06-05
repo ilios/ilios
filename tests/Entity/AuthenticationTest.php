@@ -15,7 +15,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(Authentication::class)]
-class AuthenticationTest extends EntityBase
+final class AuthenticationTest extends EntityBase
 {
     protected Authentication $object;
 

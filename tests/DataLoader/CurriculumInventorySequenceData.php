@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\CurriculumInventorySequenceDTO;
 
-class CurriculumInventorySequenceData extends AbstractDataLoader
+final class CurriculumInventorySequenceData extends AbstractDataLoader
 {
     protected function getData(): array
     {

@@ -26,7 +26,7 @@ use Mockery\MockInterface;
  * @package App\Tests\Service\CurriculumInventory
  */
 #[CoversClass(VerificationPreviewBuilder::class)]
-class VerificationPreviewBuilderTest extends TestCase
+final class VerificationPreviewBuilderTest extends TestCase
 {
     protected VerificationPreviewBuilder $builder;
     protected MockInterface $methodRepository;

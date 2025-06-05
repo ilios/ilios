@@ -23,7 +23,7 @@ use App\Tests\QEndpointTrait;
  * Session API endpoint Test.
  */
 #[Group('api_2')]
-class SessionTest extends AbstractReadWriteEndpoint
+final class SessionTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
 

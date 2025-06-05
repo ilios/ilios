@@ -11,7 +11,7 @@ use App\Tests\Fixture\LoadApplicationConfigData;
  * ApplicationConfig API endpoint Test.
  */
 #[Group('api_3')]
-class ApplicationConfigTest extends AbstractReadWriteEndpoint
+final class ApplicationConfigTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'applicationConfigs';
     protected bool $isGraphQLTestable = false;

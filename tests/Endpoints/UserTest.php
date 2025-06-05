@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
  * User API endpoint Test.
  */
 #[Group('api_1')]
-class UserTest extends AbstractReadWriteEndpoint
+final class UserTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
 

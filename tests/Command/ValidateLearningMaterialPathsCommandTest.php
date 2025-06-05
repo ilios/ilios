@@ -20,7 +20,7 @@ use Mockery as m;
  * @package App\Tests\Command
  */
 #[Group('cli')]
-class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
+final class ValidateLearningMaterialPathsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

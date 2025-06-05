@@ -8,7 +8,7 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 use DateTime;
 
-class CurriculumInventorySequenceBlockData extends AbstractDataLoader
+final class CurriculumInventorySequenceBlockData extends AbstractDataLoader
 {
     protected function getData(): array
     {

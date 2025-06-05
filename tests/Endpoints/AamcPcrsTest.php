@@ -13,7 +13,7 @@ use App\Tests\Fixture\LoadCompetencyData;
  * AamcPcrses API endpoint Test.
  */
 #[Group('api_5')]
-class AamcPcrsTest extends AbstractReadWriteEndpoint
+final class AamcPcrsTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcPcrses';
     protected bool $enableDeleteTestsWithServiceToken = false;

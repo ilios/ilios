@@ -29,7 +29,7 @@ use App\Tests\Fixture\LoadVocabularyData;
  * SessionType API endpoint Test.
  */
 #[Group('api_3')]
-class SessionTypeTest extends AbstractReadWriteEndpoint
+final class SessionTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'sessionTypes';
 

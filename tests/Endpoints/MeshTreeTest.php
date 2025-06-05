@@ -11,7 +11,7 @@ use App\Tests\Fixture\LoadMeshTreeData;
  * MeshTree API endpoint Test.
  */
 #[Group('api_4')]
-class MeshTreeTest extends AbstractMeshEndpoint
+final class MeshTreeTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshTrees';
 

@@ -40,10 +40,10 @@ abstract class AbstractEndpoint extends WebTestCase
 
     protected string $apiVersion = 'v3';
     protected string $testName;
-    protected KernelBrowser $kernelBrowser;
-    protected AbstractDatabaseTool $databaseTool;
+    final protected KernelBrowser $kernelBrowser;
+    final protected AbstractDatabaseTool $databaseTool;
     private Inflector $inflector;
-    protected ReferenceRepository $fixtures;
+    final protected ReferenceRepository $fixtures;
 
     public function setUp(): void
     {

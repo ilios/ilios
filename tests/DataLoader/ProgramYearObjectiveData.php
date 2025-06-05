@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\ProgramYearObjectiveDTO;
 
-class ProgramYearObjectiveData extends AbstractDataLoader
+final class ProgramYearObjectiveData extends AbstractDataLoader
 {
     protected function getData(): array
     {

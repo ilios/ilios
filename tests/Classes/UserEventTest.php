@@ -18,7 +18,7 @@ use DateTime;
  */
 #[CoversClass(CalendarEvent::class)]
 #[CoversClass(UserEvent::class)]
-class UserEventTest extends TestCase
+final class UserEventTest extends TestCase
 {
     protected UserEvent $userEvent;
 

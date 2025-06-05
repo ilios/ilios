@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\File\File;
  * @package App\Tests\Command
  */
 #[Group('cli')]
-class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
+final class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

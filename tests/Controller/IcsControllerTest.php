@@ -25,7 +25,7 @@ use App\Tests\Traits\TestableJsonController;
 
 #[Group('controller')]
 #[CoversClass(IcsController::class)]
-class IcsControllerTest extends WebTestCase
+final class IcsControllerTest extends WebTestCase
 {
     use TestableJsonController;
     use GetUrlTrait;

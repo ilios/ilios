@@ -18,7 +18,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[Group('cli')]
-class ExtractLearningMaterialsTextCommandTest extends KernelTestCase
+final class ExtractLearningMaterialsTextCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

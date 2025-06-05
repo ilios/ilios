@@ -12,7 +12,7 @@ use App\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversTrait;
 
 #[CoversTrait(IlmSessionsEntity::class)]
-class IlmSessionsEntityTest extends TestCase
+final class IlmSessionsEntityTest extends TestCase
 {
     private object $traitObject;
     public function setUp(): void

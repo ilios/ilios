@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\DTO\SessionLearningMaterialDTO;
 use DateTime;
 
-class SessionLearningMaterialData extends AbstractDataLoader
+final class SessionLearningMaterialData extends AbstractDataLoader
 {
     protected function getData(): array
     {

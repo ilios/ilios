@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
  * UserSessionMaterialStatusTest API endpoint Test.
  */
 #[Group('api_1')]
-class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
+final class UserSessionMaterialStatusTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'userSessionMaterialStatuses';
     protected bool $enableGetTestsWithServiceToken = false;

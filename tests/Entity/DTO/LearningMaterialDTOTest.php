@@ -16,7 +16,7 @@ use DateTime;
  */
 #[Group('model')]
 #[CoversClass(LearningMaterialDTO::class)]
-class LearningMaterialDTOTest extends TestCase
+final class LearningMaterialDTOTest extends TestCase
 {
     protected LearningMaterialDTO $dto;
 

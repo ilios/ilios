@@ -28,7 +28,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 #[Group('cli')]
 #[CoversClass(InstallFirstUserCommand::class)]
-class AuditLogExportCommandTest extends KernelTestCase
+final class AuditLogExportCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

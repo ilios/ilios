@@ -8,7 +8,7 @@ use App\Message\LearningMaterialIndexRequest;
 use App\Tests\TestCase;
 use Exception;
 
-class LearningMaterialIndexRequestTest extends TestCase
+final class LearningMaterialIndexRequestTest extends TestCase
 {
     public function testMaximumValues(): void
     {

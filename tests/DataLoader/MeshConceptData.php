@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\MeshConceptDTO;
 
-class MeshConceptData extends AbstractDataLoader
+final class MeshConceptData extends AbstractDataLoader
 {
     protected function getData(): array
     {

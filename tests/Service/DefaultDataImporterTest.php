@@ -15,7 +15,7 @@ use Mockery as m;
  * @package App\Tests\Service
  */
 #[CoversClass(DefaultDataImporter::class)]
-class DefaultDataImporterTest extends TestCase
+final class DefaultDataImporterTest extends TestCase
 {
     protected m\MockInterface $repository;
     protected m\MockInterface $loader;

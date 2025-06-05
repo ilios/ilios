@@ -11,7 +11,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\CourseObjective as Voter;
 use Mockery as m;
 
-class CourseObjectiveTest extends AbstractReadWriteBase
+final class CourseObjectiveTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

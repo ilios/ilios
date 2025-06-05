@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class FormAuthenticationTest extends TestCase
+final class FormAuthenticationTest extends TestCase
 {
     protected m\MockInterface $authenticationRepository;
     protected m\MockInterface $userRepository;

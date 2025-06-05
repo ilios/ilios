@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use App\Service\InflectorFactory;
 use PHPUnit\Framework\TestCase;
 
-class InflectorTest extends TestCase
+final class InflectorTest extends TestCase
 {
     #[Group('twice')]
     public function testInstanceInflection(): void

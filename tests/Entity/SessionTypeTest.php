@@ -16,7 +16,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(SessionType::class)]
-class SessionTypeTest extends EntityBase
+final class SessionTypeTest extends EntityBase
 {
     protected SessionType $object;
 

@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadSchoolData;
  * SchoolConfig API endpoint Test.
  */
 #[Group('api_5')]
-class SchoolConfigTest extends AbstractReadWriteEndpoint
+final class SchoolConfigTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'schoolConfigs';
     protected bool $isGraphQLTestable = false;

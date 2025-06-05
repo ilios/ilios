@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 #[Group('api_3')]
 #[CoversClass(ProgramYears::class)]
-class ProgramYearTest extends AbstractReadWriteEndpoint
+final class ProgramYearTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'programYears';
 

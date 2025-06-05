@@ -14,7 +14,7 @@ use Exception;
 use Mockery as m;
 use App\Service\AuthenticationFactory;
 
-class AuthenticationFactoryTest extends TestCase
+final class AuthenticationFactoryTest extends TestCase
 {
     protected m\MockInterface $config;
     protected m\MockInterface $cas;

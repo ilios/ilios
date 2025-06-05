@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Vaites\ApacheTika\Client;
 
-class LearningMaterialTextExtractorTest extends TestCase
+final class LearningMaterialTextExtractorTest extends TestCase
 {
     public const string TEST_FILE_PATH = __DIR__ . '/FakeTestFiles/LearningMaterialTextExtractor_TEST.txt';
     private LearningMaterialTextExtractor $extractor;

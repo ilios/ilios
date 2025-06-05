@@ -10,7 +10,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\Vocabulary as Voter;
 use Mockery as m;
 
-class VocabularyTest extends AbstractReadWriteBase
+final class VocabularyTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

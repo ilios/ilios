@@ -17,7 +17,7 @@ use App\Tests\Traits\TestableJsonController;
  * General API tests.
  */
 #[Group('controller')]
-class ApiControllerTest extends WebTestCase
+final class ApiControllerTest extends WebTestCase
 {
     use TestableJsonController;
 

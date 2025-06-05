@@ -13,7 +13,7 @@ use App\Tests\TestCase;
  * Class LoggerQueueTest
  * @package App\Tests\Classes
  */
-class ConfigTest extends TestCase
+final class ConfigTest extends TestCase
 {
     public function testPullsFromENVFirst(): void
     {

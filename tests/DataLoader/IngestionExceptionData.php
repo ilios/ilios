@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\DTO\IngestionExceptionDTO;
 use Exception;
 
-class IngestionExceptionData extends AbstractDataLoader
+final class IngestionExceptionData extends AbstractDataLoader
 {
     protected function getData(): array
     {

@@ -8,7 +8,7 @@ use App\Message\LearningMaterialTextExtractionRequest;
 use App\Tests\TestCase;
 use Exception;
 
-class LearningMaterialTextExtractionRequestTest extends TestCase
+final class LearningMaterialTextExtractionRequestTest extends TestCase
 {
     public function testMaximumValues(): void
     {

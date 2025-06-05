@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\MeshTreeDTO;
 
-class MeshTreeData extends AbstractDataLoader
+final class MeshTreeData extends AbstractDataLoader
 {
     protected function getData(): array
     {

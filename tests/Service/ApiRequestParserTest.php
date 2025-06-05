@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 #[CoversClass(ApiRequestParser::class)]
-class ApiRequestParserTest extends KernelTestCase
+final class ApiRequestParserTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

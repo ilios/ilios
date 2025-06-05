@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Authentication API endpoint Test.
  */
 #[Group('api_5')]
-class AuthenticationTest extends AbstractReadWriteEndpoint
+final class AuthenticationTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'authentications';
     protected bool $isGraphQLTestable = false;

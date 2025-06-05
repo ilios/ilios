@@ -17,7 +17,7 @@ use function is_null;
  * CourseLearningMaterial API endpoint Test.
  */
 #[Group('api_1')]
-class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
+final class CourseLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseLearningMaterials';
 

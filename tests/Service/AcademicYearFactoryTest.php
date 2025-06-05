@@ -9,7 +9,7 @@ use App\Service\Config;
 use App\Tests\TestCase;
 use Mockery as m;
 
-class AcademicYearFactoryTest extends TestCase
+final class AcademicYearFactoryTest extends TestCase
 {
     protected m\MockInterface $config;
     protected AcademicYearFactory $factory;

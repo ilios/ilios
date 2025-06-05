@@ -14,7 +14,7 @@ use DateTime;
  */
 #[Group('model')]
 #[CoversClass(MeshTerm::class)]
-class MeshTermTest extends EntityBase
+final class MeshTermTest extends EntityBase
 {
     protected MeshTerm $object;
 

@@ -12,7 +12,7 @@ use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class ProgramTest extends AbstractBase
+final class ProgramTest extends AbstractBase
 {
     public function setUp(): void
     {

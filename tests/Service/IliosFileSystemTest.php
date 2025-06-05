@@ -13,7 +13,7 @@ use App\Service\IliosFileSystem;
 use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class IliosFileSystemTest extends TestCase
+final class IliosFileSystemTest extends TestCase
 {
     private IliosFileSystem $iliosFileSystem;
     private m\MockInterface $fileSystemMock;

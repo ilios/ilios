@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 
-class CourseClerkshipTypeData extends AbstractDataLoader
+final class CourseClerkshipTypeData extends AbstractDataLoader
 {
     protected function getData(): array
     {

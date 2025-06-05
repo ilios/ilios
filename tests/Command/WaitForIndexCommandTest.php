@@ -20,7 +20,7 @@ use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 #[Group('cli')]
-class WaitForIndexCommandTest extends KernelTestCase
+final class WaitForIndexCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

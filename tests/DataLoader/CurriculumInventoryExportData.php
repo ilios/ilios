@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
 use Exception;
 
-class CurriculumInventoryExportData extends AbstractDataLoader
+final class CurriculumInventoryExportData extends AbstractDataLoader
 {
     protected function getData(): array
     {

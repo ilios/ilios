@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
 
 #[Group('api_3')]
-class CurrentSessionTest extends WebTestCase
+final class CurrentSessionTest extends WebTestCase
 {
     use TestableJsonController;
     use GetUrlTrait;

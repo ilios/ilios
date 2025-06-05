@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Group('controller')]
 #[CoversClass(SearchController::class)]
-class SearchControllerTest extends TestCase
+final class SearchControllerTest extends TestCase
 {
     protected SearchController $controller;
     protected m\MockInterface $mockCurriculumSearch;

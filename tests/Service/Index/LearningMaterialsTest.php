@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Service\Index;
 
 use App\Classes\OpenSearchBase;
+use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
@@ -15,7 +16,7 @@ use Exception;
 use InvalidArgumentException;
 use Mockery as m;
 
-class LearningMaterialsTest extends TestCase
+final class LearningMaterialsTest extends TestCase
 {
     private m\MockInterface | Client $client;
     private m\MockInterface | Config $config;
@@ -54,7 +55,7 @@ class LearningMaterialsTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $courses = [
             m::mock(LearningMaterialDTO::class),
-            m::mock(self::class),
+            m::mock(CourseDTO::class),
             m::mock(LearningMaterialDTO::class),
         ];
         $obj->index($courses);

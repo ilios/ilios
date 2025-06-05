@@ -12,7 +12,7 @@ use App\Entity\SessionInterface;
 use App\ServiceTokenVoter\Offering as Voter;
 use Mockery as m;
 
-class OfferingTest extends AbstractReadWriteBase
+final class OfferingTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

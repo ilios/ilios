@@ -21,7 +21,7 @@ use Mockery as m;
  * @package App\Tests\Command
  */
 #[Group('cli')]
-class ListConfigValuesCommandTest extends KernelTestCase
+final class ListConfigValuesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

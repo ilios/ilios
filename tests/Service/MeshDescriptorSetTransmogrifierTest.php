@@ -19,7 +19,7 @@ use Ilios\MeSH\Model\Term;
  * Class MeshDescriptorSetTransmogrifierTest
  */
 #[CoversClass(MeshDescriptorSetTransmogrifier::class)]
-class MeshDescriptorSetTransmogrifierTest extends TestCase
+final class MeshDescriptorSetTransmogrifierTest extends TestCase
 {
     protected MeshDescriptorSetTransmogrifier $transmogrifier;
 

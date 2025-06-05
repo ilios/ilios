@@ -24,7 +24,7 @@ use App\Entity\UserInterface;
 use App\Entity\UserRoleInterface;
 use App\ServiceTokenVoter\ReadonlyEntityVoter as Voter;
 
-class ReadonlyEntityVoterTest extends AbstractReadonlyBase
+final class ReadonlyEntityVoterTest extends AbstractReadonlyBase
 {
     public function setUp(): void
     {

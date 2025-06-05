@@ -11,7 +11,7 @@ use App\Entity\VocabularyInterface;
 use App\ServiceTokenVoter\Term as Voter;
 use Mockery as m;
 
-class TermTest extends AbstractReadWriteBase
+final class TermTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

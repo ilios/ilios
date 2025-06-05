@@ -17,7 +17,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(ProgramYear::class)]
-class ProgramYearTest extends EntityBase
+final class ProgramYearTest extends EntityBase
 {
     protected ProgramYear $object;
 

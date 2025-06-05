@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\AssessmentOptionDTO;
 
-class AssessmentOptionData extends AbstractDataLoader
+final class AssessmentOptionData extends AbstractDataLoader
 {
     protected function getData(): array
     {

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  * IngestionException API endpoint Test.
  */
 #[Group('api_4')]
-class IngestionExceptionTest extends AbstractReadEndpoint
+final class IngestionExceptionTest extends AbstractReadEndpoint
 {
     protected string $testName =  'ingestionExceptions';
     protected bool $isGraphQLTestable = false;

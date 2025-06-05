@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  * CurriculumInventorySequenceBlock API endpoint Test.
  */
 #[Group('api_4')]
-class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
+final class CurriculumInventorySequenceBlockTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventorySequenceBlocks';
 

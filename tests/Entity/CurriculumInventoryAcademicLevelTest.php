@@ -13,7 +13,7 @@ use App\Entity\CurriculumInventoryAcademicLevel;
  */
 #[Group('model')]
 #[CoversClass(CurriculumInventoryAcademicLevel::class)]
-class CurriculumInventoryAcademicLevelTest extends EntityBase
+final class CurriculumInventoryAcademicLevelTest extends EntityBase
 {
     protected CurriculumInventoryAcademicLevel $object;
 

@@ -12,7 +12,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\Cohort as Voter;
 use Mockery as m;
 
-class CohortTest extends AbstractReadWriteBase
+final class CohortTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
 use DateTime;
 
-class CurriculumInventoryReportData extends AbstractDataLoader
+final class CurriculumInventoryReportData extends AbstractDataLoader
 {
     protected function getData(): array
     {

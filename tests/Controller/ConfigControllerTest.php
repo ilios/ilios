@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[Group('controller')]
 #[CoversClass(ConfigController::class)]
-class ConfigControllerTest extends WebTestCase
+final class ConfigControllerTest extends WebTestCase
 {
     use TestableJsonController;
 

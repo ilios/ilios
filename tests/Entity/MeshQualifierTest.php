@@ -14,7 +14,7 @@ use DateTime;
  */
 #[Group('model')]
 #[CoversClass(MeshQualifier::class)]
-class MeshQualifierTest extends EntityBase
+final class MeshQualifierTest extends EntityBase
 {
     protected MeshQualifier $object;
 

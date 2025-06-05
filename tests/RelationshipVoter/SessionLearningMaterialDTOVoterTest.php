@@ -13,7 +13,7 @@ use DateTime;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class SessionLearningMaterialDTOVoterTest extends AbstractBase
+final class SessionLearningMaterialDTOVoterTest extends AbstractBase
 {
     public function setUp(): void
     {

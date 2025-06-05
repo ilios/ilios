@@ -26,7 +26,7 @@ use App\Tests\Traits\TestableJsonController;
 
 #[Group('controller')]
 #[CoversClass(CurriculumInventoryDownloadController::class)]
-class CurriculumInventoryDownloadControllerTest extends WebTestCase
+final class CurriculumInventoryDownloadControllerTest extends WebTestCase
 {
     use TestableJsonController;
     use GetUrlTrait;

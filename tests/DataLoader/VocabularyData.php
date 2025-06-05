@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\VocabularyDTO;
 
-class VocabularyData extends AbstractDataLoader
+final class VocabularyData extends AbstractDataLoader
 {
     protected function getData(): array
     {

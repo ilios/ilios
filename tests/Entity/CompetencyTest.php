@@ -15,7 +15,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(Competency::class)]
-class CompetencyTest extends EntityBase
+final class CompetencyTest extends EntityBase
 {
     protected Competency $object;
 

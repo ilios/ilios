@@ -14,7 +14,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class LoadAuthenticationData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadAuthenticationData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public function __construct(
         protected UserPasswordHasherInterface $passwordHasher,

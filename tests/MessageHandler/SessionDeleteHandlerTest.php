@@ -10,7 +10,7 @@ use App\Service\Index\Curriculum;
 use App\Tests\TestCase;
 use Mockery as m;
 
-class SessionDeleteHandlerTest extends TestCase
+final class SessionDeleteHandlerTest extends TestCase
 {
     protected m\MockInterface|Curriculum $curriculum;
 

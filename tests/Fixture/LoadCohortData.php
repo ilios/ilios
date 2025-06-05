@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadCohortData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadCohortData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public function __construct(protected CohortData $data)
     {

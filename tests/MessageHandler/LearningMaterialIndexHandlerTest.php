@@ -13,7 +13,7 @@ use App\Service\NonCachingIliosFileSystem;
 use App\Tests\TestCase;
 use Mockery as m;
 
-class LearningMaterialIndexHandlerTest extends TestCase
+final class LearningMaterialIndexHandlerTest extends TestCase
 {
     protected m\MockInterface|LearningMaterials $index;
     protected m\MockInterface|LearningMaterialRepository $repository;

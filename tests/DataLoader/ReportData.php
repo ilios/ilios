@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\ReportDTO;
 
-class ReportData extends AbstractDataLoader
+final class ReportData extends AbstractDataLoader
 {
     protected function getData(): array
     {

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Question\Question;
  * Solution from https://github.com/symfony/symfony/issues/19463#issuecomment-322782602
  *
  */
-class TestQuestionHelper extends QuestionHelper
+final class TestQuestionHelper extends QuestionHelper
 {
     public function ask(InputInterface $input, OutputInterface $output, Question $question): mixed
     {

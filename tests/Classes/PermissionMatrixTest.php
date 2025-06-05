@@ -12,7 +12,7 @@ use App\Tests\TestCase;
  * Class PermissionMatrixTest
  */
 #[CoversClass(PermissionMatrix::class)]
-class PermissionMatrixTest extends TestCase
+final class PermissionMatrixTest extends TestCase
 {
     protected PermissionMatrix $permissionMatrix;
 

@@ -14,7 +14,7 @@ use Exception;
 use InvalidArgumentException;
 use Mockery as m;
 
-class UsersTest extends TestCase
+final class UsersTest extends TestCase
 {
     private m\MockInterface $client;
     private m\MockInterface $config;

@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadSessionTypeData;
  * AssessmentOption API endpoint Test.
  */
 #[Group('api_4')]
-class AssessmentOptionTest extends AbstractReadWriteEndpoint
+final class AssessmentOptionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'assessmentOptions';
     protected bool $enableDeleteTestsWithServiceToken = false;

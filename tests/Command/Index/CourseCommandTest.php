@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Command\Index;
 
+use App\Classes\IndexableCourse;
 use App\Command\Index\CourseCommand;
 use App\Repository\CourseRepository;
 use App\Service\Index\Curriculum;
-use App\Tests\Classes\IndexableCourseTest;
 use DateTime;
 use PHPUnit\Framework\Attributes\Group;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
 #[Group('cli')]
-class CourseCommandTest extends KernelTestCase
+final class CourseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
@@ -53,7 +53,7 @@ class CourseCommandTest extends KernelTestCase
     public function testExecute(): void
     {
         $this->index->shouldReceive('isEnabled')->once()->andReturn(true);
-        $c = m::mock(IndexableCourseTest::class);
+        $c = m::mock(IndexableCourse::class);
         $this->repository->shouldReceive('getCourseIndexesFor')->once()->with([13])->andReturn([$c]);
         $this->index->shouldReceive('index')
             ->once()

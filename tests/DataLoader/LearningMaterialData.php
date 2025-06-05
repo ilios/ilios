@@ -8,7 +8,7 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialStatusInterface;
 use Exception;
 
-class LearningMaterialData extends AbstractDataLoader
+final class LearningMaterialData extends AbstractDataLoader
 {
     protected function getData(): array
     {

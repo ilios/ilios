@@ -16,7 +16,7 @@ use Mockery as m;
  * Class ExporterTest
  */
 #[CoversClass(Exporter::class)]
-class ExporterTest extends TestCase
+final class ExporterTest extends TestCase
 {
     public function testPrint(): void
     {

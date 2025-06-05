@@ -38,7 +38,7 @@ use Mockery as m;
  */
 #[Group('cli')]
 #[CoversClass(ImportDefaultDataCommand::class)]
-class ImportDefaultDataCommandTest extends KernelTestCase
+final class ImportDefaultDataCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

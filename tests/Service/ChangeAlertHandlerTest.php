@@ -26,7 +26,7 @@ use App\Tests\TestCase;
  * @package App\Tests\Service
  */
 #[CoversClass(ChangeAlertHandler::class)]
-class ChangeAlertHandlerTest extends TestCase
+final class ChangeAlertHandlerTest extends TestCase
 {
     protected m\MockInterface $mockAlertRepository;
     protected m\MockInterface $mockAlertChangeTypeRepository;

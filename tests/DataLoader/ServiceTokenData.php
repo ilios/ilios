@@ -8,7 +8,7 @@ use DateInterval;
 use DateTime;
 use Exception;
 
-class ServiceTokenData extends AbstractDataLoader
+final class ServiceTokenData extends AbstractDataLoader
 {
     public const int ENABLED_SERVICE_TOKEN_ID = 1;
     public const int EXPIRED_SERVICE_TOKEN_ID = 2;

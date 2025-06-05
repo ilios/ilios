@@ -16,7 +16,7 @@ use stdClass;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class LearningMaterialTextExtractionHandlerTest extends TestCase
+final class LearningMaterialTextExtractionHandlerTest extends TestCase
 {
     protected m\MockInterface|LearningMaterialTextExtractor $extractor;
     protected m\MockInterface|LearningMaterialRepository $repository;

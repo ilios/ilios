@@ -17,7 +17,7 @@ use DateTime;
  * @package App\Tests\Classes
  */
 #[CoversClass(SchoolEvent::class)]
-class SchoolEventTest extends TestCase
+final class SchoolEventTest extends TestCase
 {
     protected SchoolEvent $schoolEvent;
 

@@ -14,7 +14,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadLearnerGroupData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadLearnerGroupData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public function __construct(protected LearnerGroupData $data)
     {

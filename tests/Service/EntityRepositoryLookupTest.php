@@ -19,7 +19,7 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 #[CoversClass(EntityRepositoryLookup::class)]
-class EntityRepositoryLookupTest extends KernelTestCase
+final class EntityRepositoryLookupTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

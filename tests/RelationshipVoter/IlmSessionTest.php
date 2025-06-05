@@ -14,7 +14,7 @@ use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class IlmSessionTest extends AbstractBase
+final class IlmSessionTest extends AbstractBase
 {
     public function setUp(): void
     {

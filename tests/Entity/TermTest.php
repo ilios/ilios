@@ -17,7 +17,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(Term::class)]
-class TermTest extends EntityBase
+final class TermTest extends EntityBase
 {
     protected Term $object;
 

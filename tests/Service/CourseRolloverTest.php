@@ -54,7 +54,7 @@ use Mockery as m;
 /**
  * Class CourseRolloverTest
  */
-class CourseRolloverTest extends TestCase
+final class CourseRolloverTest extends TestCase
 {
     protected m\MockInterface $courseRepository;
     protected m\MockInterface $learningMaterialRepository;

@@ -13,7 +13,7 @@ use App\Entity\CurriculumInventoryExport;
  */
 #[Group('model')]
 #[CoversClass(CurriculumInventoryExport::class)]
-class CurriculumInventoryExportTest extends EntityBase
+final class CurriculumInventoryExportTest extends EntityBase
 {
     protected CurriculumInventoryExport $object;
 

@@ -11,7 +11,7 @@ use Exception;
 /**
  * Class AuditLogData
  */
-class AuditLogData extends AbstractDataLoader
+final class AuditLogData extends AbstractDataLoader
 {
     protected function getData(): array
     {

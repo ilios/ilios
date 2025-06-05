@@ -19,7 +19,7 @@ use App\Tests\Traits\TestableJsonController;
 
 #[Group('controller')]
 #[CoversClass(UploadController::class)]
-class UploadControllerTest extends WebTestCase
+final class UploadControllerTest extends WebTestCase
 {
     use TestableJsonController;
 

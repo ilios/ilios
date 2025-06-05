@@ -15,7 +15,9 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadSessionLearningMaterialData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadSessionLearningMaterialData extends AbstractFixture implements
+    ORMFixtureInterface,
+    DependentFixtureInterface
 {
     public function __construct(protected SessionLearningMaterialData $data)
     {

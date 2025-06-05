@@ -21,7 +21,7 @@ use Mockery as m;
  * Class RolloverCurriculumInventoryReportCommandTest
  */
 #[Group('cli')]
-class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
+final class RolloverCurriculumInventoryReportCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

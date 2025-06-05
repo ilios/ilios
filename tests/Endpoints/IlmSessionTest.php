@@ -15,7 +15,7 @@ use DateTimeZone;
  * IlmSession API endpoint Test.
  */
 #[Group('api_3')]
-class IlmSessionTest extends AbstractReadWriteEndpoint
+final class IlmSessionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'ilmSessions';
 

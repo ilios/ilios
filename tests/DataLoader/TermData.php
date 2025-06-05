@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\TermDTO;
 
-class TermData extends AbstractDataLoader
+final class TermData extends AbstractDataLoader
 {
     protected function getData(): array
     {

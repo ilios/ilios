@@ -12,7 +12,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\ProgramYearObjective as Voter;
 use Mockery as m;
 
-class ProgramYearObjectiveTest extends AbstractReadWriteBase
+final class ProgramYearObjectiveTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

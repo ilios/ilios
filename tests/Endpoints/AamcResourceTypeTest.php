@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadTermData;
  * AamcResourceType API endpoint Test.
  */
 #[Group('api_3')]
-class AamcResourceTypeTest extends AbstractReadWriteEndpoint
+final class AamcResourceTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcResourceTypes';
     protected bool $enableDeleteTestsWithServiceToken = false;

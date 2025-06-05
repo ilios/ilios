@@ -18,7 +18,7 @@ use Mockery as m;
  * Class SetupAuthenticationCommandTest
  */
 #[Group('cli')]
-class SetupAuthenticationCommandTest extends KernelTestCase
+final class SetupAuthenticationCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

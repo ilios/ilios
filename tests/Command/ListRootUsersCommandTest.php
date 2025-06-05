@@ -22,7 +22,7 @@ use Mockery as m;
  */
 #[Group('cli')]
 #[CoversClass(ListRootUsersCommand::class)]
-class ListRootUsersCommandTest extends KernelTestCase
+final class ListRootUsersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

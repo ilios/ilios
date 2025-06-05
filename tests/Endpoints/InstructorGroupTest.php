@@ -19,7 +19,7 @@ use App\Tests\Fixture\LoadUserData;
  * InstructorGroup API endpoint Test.
  */
 #[Group('api_1')]
-class InstructorGroupTest extends AbstractReadWriteEndpoint
+final class InstructorGroupTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'instructorGroups';
 

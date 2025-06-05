@@ -12,7 +12,7 @@ use Exception;
 use Ilios\MeSH\Model\Descriptor;
 use Mockery as m;
 
-class MeshTest extends TestCase
+final class MeshTest extends TestCase
 {
     private m\MockInterface $client;
     private m\MockInterface $config;

@@ -13,7 +13,7 @@ use App\Entity\AamcResourceType;
  */
 #[Group('model')]
 #[CoversClass(AamcResourceType::class)]
-class AamcResourceTypeTest extends EntityBase
+final class AamcResourceTypeTest extends EntityBase
 {
     protected AamcResourceType $object;
 

@@ -15,7 +15,7 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
  * MeshPreviousIndexing API endpoint Test.
  */
 #[Group('api_4')]
-class MeshPreviousIndexingTest extends AbstractMeshEndpoint
+final class MeshPreviousIndexingTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshPreviousIndexings';
 

@@ -27,7 +27,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[CoversClass(IndexEntityChanges::class)]
-class IndexEntityChangesTest extends TestCase
+final class IndexEntityChangesTest extends TestCase
 {
     protected m\MockInterface $curriculumIndex;
     protected m\MockInterface $learningMaterialIndex;

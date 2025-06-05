@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\UserDTO;
 
-class UserData extends AbstractDataLoader
+final class UserData extends AbstractDataLoader
 {
     public const int ROOT_USER_ID = 2;
 

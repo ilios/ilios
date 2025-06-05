@@ -12,7 +12,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class LoadMeshTreeData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadMeshTreeData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public function __construct(protected MeshTreeData $data)
     {

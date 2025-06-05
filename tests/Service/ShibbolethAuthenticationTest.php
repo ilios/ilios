@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ServerBag;
 
-class ShibbolethAuthenticationTest extends TestCase
+final class ShibbolethAuthenticationTest extends TestCase
 {
     protected m\MockInterface $authenticationRepository;
     protected m\MockInterface $jwtManager;

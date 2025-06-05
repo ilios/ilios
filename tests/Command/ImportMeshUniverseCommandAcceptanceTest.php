@@ -31,7 +31,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 #[Group('cli')]
 #[CoversClass(ImportMeshUniverseCommand::class)]
-class ImportMeshUniverseCommandAcceptanceTest extends KernelTestCase
+final class ImportMeshUniverseCommandAcceptanceTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

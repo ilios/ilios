@@ -24,7 +24,7 @@ use Mockery as m;
  * Class SyncAllUsersCommandTest
  */
 #[Group('cli')]
-class SyncAllUsersCommandTest extends KernelTestCase
+final class SyncAllUsersCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

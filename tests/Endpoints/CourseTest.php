@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Course API endpoint Test.
  */
 #[Group('api_2')]
-class CourseTest extends AbstractReadWriteEndpoint
+final class CourseTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
 

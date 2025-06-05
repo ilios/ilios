@@ -10,7 +10,7 @@ use App\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class ApiResponseBuilderTest extends TestCase
+final class ApiResponseBuilderTest extends TestCase
 {
     private ApiResponseBuilder $obj;
 

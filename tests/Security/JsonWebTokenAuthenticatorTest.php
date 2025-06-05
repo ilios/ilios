@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use UnexpectedValueException;
 
 #[CoversClass(JsonWebTokenAuthenticator::class)]
-class JsonWebTokenAuthenticatorTest extends TestCase
+final class JsonWebTokenAuthenticatorTest extends TestCase
 {
     protected m\MockInterface $routerMock;
     protected m\MockInterface $jsonWebTokenManagerMock;

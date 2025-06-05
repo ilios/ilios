@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 #[Group('model')]
 #[CoversClass(SessionObjective::class)]
-class SessionObjectiveTest extends EntityBase
+final class SessionObjectiveTest extends EntityBase
 {
     protected SessionObjective $object;
 

@@ -20,7 +20,7 @@ use function is_null;
  * SessionLearningMaterial API endpoint Test.
  */
 #[Group('api_1')]
-class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
+final class SessionLearningMaterialTest extends AbstractReadWriteEndpoint
 {
     protected string $testName = 'sessionLearningMaterials';
 

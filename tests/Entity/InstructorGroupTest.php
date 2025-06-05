@@ -15,7 +15,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(InstructorGroup::class)]
-class InstructorGroupTest extends EntityBase
+final class InstructorGroupTest extends EntityBase
 {
     protected InstructorGroup $object;
 

@@ -26,7 +26,7 @@ use Doctrine\ORM\EntityManager;
  * Offering API endpoint Test.
  */
 #[Group('api_1')]
-class OfferingTest extends AbstractReadWriteEndpoint
+final class OfferingTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'offerings';
     protected bool $skipDates = false;

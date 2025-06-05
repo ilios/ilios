@@ -24,7 +24,7 @@ use Mockery as m;
  */
 #[Group('cli')]
 #[CoversClass(ImportMeshUniverseCommand::class)]
-class ImportMeshUniverseCommandTest extends KernelTestCase
+final class ImportMeshUniverseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

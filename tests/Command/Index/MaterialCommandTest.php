@@ -16,7 +16,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
 #[Group('cli')]
-class MaterialCommandTest extends KernelTestCase
+final class MaterialCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

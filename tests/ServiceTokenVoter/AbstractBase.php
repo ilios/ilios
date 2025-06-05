@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 abstract class AbstractBase extends TestCase
 {
-    protected Voter $voter;
+    final protected Voter $voter;
 
     public function tearDown(): void
     {

@@ -12,7 +12,7 @@ use App\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversTrait;
 
 #[CoversTrait(CohortsEntity::class)]
-class CohortsEntityTest extends TestCase
+final class CohortsEntityTest extends TestCase
 {
     private object $traitObject;
     public function setUp(): void

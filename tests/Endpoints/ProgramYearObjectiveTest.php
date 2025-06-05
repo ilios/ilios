@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  * ProgramYearObjectiveTest API endpoint Test.
  */
 #[Group('api_2')]
-class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
+final class ProgramYearObjectiveTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'programYearObjectives';
 

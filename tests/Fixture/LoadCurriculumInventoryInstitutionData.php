@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
+final class LoadCurriculumInventoryInstitutionData extends AbstractFixture implements
     ORMFixtureInterface,
     DependentFixtureInterface
 {

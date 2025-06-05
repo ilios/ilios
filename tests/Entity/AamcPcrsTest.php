@@ -13,7 +13,7 @@ use App\Entity\AamcPcrs;
  */
 #[Group('model')]
 #[CoversClass(AamcPcrs::class)]
-class AamcPcrsTest extends EntityBase
+final class AamcPcrsTest extends EntityBase
 {
     protected AamcPcrs $object;
 

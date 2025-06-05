@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  * CourseObjectiveTest API endpoint Test.
  */
 #[Group('api_1')]
-class CourseObjectiveTest extends AbstractReadWriteEndpoint
+final class CourseObjectiveTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseObjectives';
 

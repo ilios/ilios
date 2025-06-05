@@ -15,7 +15,7 @@ use DateTime;
  */
 #[Group('model')]
 #[CoversClass(IlmSession::class)]
-class IlmSessionTest extends EntityBase
+final class IlmSessionTest extends EntityBase
 {
     protected IlmSession $object;
 

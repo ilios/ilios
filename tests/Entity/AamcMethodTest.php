@@ -13,7 +13,7 @@ use App\Entity\AamcMethod;
  */
 #[Group('model')]
 #[CoversClass(AamcMethod::class)]
-class AamcMethodTest extends EntityBase
+final class AamcMethodTest extends EntityBase
 {
     protected AamcMethod $object;
 

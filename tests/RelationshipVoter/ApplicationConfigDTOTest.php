@@ -11,7 +11,7 @@ use App\Entity\DTO\ApplicationConfigDTO;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class ApplicationConfigDTOTest extends AbstractBase
+final class ApplicationConfigDTOTest extends AbstractBase
 {
     public function setUp(): void
     {

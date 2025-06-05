@@ -48,7 +48,7 @@ use Twig\Environment;
  */
 #[Group('cli')]
 #[CoversClass(Command::class)]
-class SendChangeAlertsCommandTest extends KernelTestCase
+final class SendChangeAlertsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

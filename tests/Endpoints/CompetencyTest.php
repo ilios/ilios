@@ -21,7 +21,7 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
  * Competency API endpoint Test.
  */
 #[Group('api_5')]
-class CompetencyTest extends AbstractReadWriteEndpoint
+final class CompetencyTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'competencies';
 

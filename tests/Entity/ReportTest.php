@@ -15,7 +15,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(Report::class)]
-class ReportTest extends EntityBase
+final class ReportTest extends EntityBase
 {
     protected Report $object;
 

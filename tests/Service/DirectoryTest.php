@@ -12,7 +12,7 @@ use App\Service\Directory;
 use App\Tests\TestCase;
 
 #[CoversClass(Directory::class)]
-class DirectoryTest extends TestCase
+final class DirectoryTest extends TestCase
 {
     protected m\MockInterface $ldapManager;
     protected m\MockInterface $config;
