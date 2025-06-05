@@ -26,7 +26,7 @@ use App\Tests\Traits\TestableJsonController;
 
 #[Group('controller')]
 #[CoversClass(DownloadController::class)]
-class DownloadControllerTest extends WebTestCase
+final class DownloadControllerTest extends WebTestCase
 {
     use TestableJsonController;
     use GetUrlTrait;

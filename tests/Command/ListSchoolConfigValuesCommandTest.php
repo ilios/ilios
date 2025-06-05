@@ -22,7 +22,7 @@ use Mockery as m;
  * @package App\Tests\Command
  */
 #[Group('cli')]
-class ListSchoolConfigValuesCommandTest extends KernelTestCase
+final class ListSchoolConfigValuesCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

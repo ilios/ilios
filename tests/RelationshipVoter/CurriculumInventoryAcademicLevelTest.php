@@ -11,7 +11,7 @@ use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class CurriculumInventoryAcademicLevelTest extends AbstractBase
+final class CurriculumInventoryAcademicLevelTest extends AbstractBase
 {
     public function setUp(): void
     {

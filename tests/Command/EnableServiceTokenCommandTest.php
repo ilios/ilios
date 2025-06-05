@@ -21,7 +21,7 @@ use Mockery as m;
  */
 #[Group('cli')]
 #[CoversClass(EnableServiceTokenCommand::class)]
-class EnableServiceTokenCommandTest extends KernelTestCase
+final class EnableServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

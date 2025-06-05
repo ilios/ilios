@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use App\Service\IliosFileSystem;
 use App\Tests\TestCase;
 
-class NonCachingIliosFileSystemTest extends TestCase
+final class NonCachingIliosFileSystemTest extends TestCase
 {
     private NonCachingIliosFileSystem $iliosFileSystem;
     private m\MockInterface $fileSystem;

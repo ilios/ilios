@@ -9,7 +9,7 @@ use App\Entity\DTO\AamcResourceTypeDTO;
 /**
  * Class AamcResourceTypeData
  */
-class AamcResourceTypeData extends AbstractDataLoader
+final class AamcResourceTypeData extends AbstractDataLoader
 {
     protected function getData(): array
     {

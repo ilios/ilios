@@ -15,7 +15,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(CurriculumInventorySequence::class)]
-class CurriculumInventorySequenceTest extends EntityBase
+final class CurriculumInventorySequenceTest extends EntityBase
 {
     protected CurriculumInventorySequence $object;
 

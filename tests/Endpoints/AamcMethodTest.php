@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadSessionTypeData;
  * AamcMethod API endpoint Test.
  */
 #[Group('api_1')]
-class AamcMethodTest extends AbstractReadWriteEndpoint
+final class AamcMethodTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'aamcMethods';
     protected bool $enableDeleteTestsWithServiceToken = false;

@@ -19,7 +19,7 @@ use Mockery as m;
  * @package App\Tests\Service\CurriculumInventory\Export
  */
 #[CoversClass(Aggregator::class)]
-class AggregatorTest extends TestCase
+final class AggregatorTest extends TestCase
 {
     protected m\MockInterface $manager;
     protected m\MockInterface $institutionRepository;

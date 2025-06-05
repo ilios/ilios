@@ -14,7 +14,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadSessionObjectiveData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadSessionObjectiveData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public function __construct(protected SessionObjectiveData $data)
     {

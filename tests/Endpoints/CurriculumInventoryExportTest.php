@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  * This is a POST only endpoint so that is all we will test
  */
 #[Group('api_1')]
-class CurriculumInventoryExportTest extends AbstractEndpoint
+final class CurriculumInventoryExportTest extends AbstractEndpoint
 {
     protected string $testName =  'curriculumInventoryExports';
 

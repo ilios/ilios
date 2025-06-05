@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\PendingUserUpdateDTO;
 
-class PendingUserUpdateData extends AbstractDataLoader
+final class PendingUserUpdateData extends AbstractDataLoader
 {
     protected function getData(): array
     {

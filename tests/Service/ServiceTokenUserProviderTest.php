@@ -17,7 +17,7 @@ use Mockery as m;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 #[CoversClass(ServiceTokenUserProvider::class)]
-class ServiceTokenUserProviderTest extends TestCase
+final class ServiceTokenUserProviderTest extends TestCase
 {
     protected ServiceTokenUserProvider $provider;
     protected m\MockInterface $repositoryMock;

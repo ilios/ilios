@@ -12,7 +12,9 @@ use App\Tests\Endpoints\PutEndpointTestInterface as PutEndpointInterface;
  * PendingUserUpdate API endpoint Test.
  */
 #[Group('api_3')]
-class PendingUserUpdateTest extends AbstractReadEndpoint implements PutEndpointInterface, DeleteEndpointTestInterface
+final class PendingUserUpdateTest extends AbstractReadEndpoint implements
+    PutEndpointInterface,
+    DeleteEndpointTestInterface
 {
     use PutEndpointTestable;
     use DeleteEndpointTestable;

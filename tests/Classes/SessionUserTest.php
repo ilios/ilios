@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  * Class SessionUserTest
  */
 #[CoversClass(SessionUser::class)]
-class SessionUserTest extends TestCase
+final class SessionUserTest extends TestCase
 {
     protected m\MockInterface $iliosUser;
 

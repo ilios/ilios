@@ -18,7 +18,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
 #[Group('cli')]
-class DetectMissingCommandTest extends KernelTestCase
+final class DetectMissingCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

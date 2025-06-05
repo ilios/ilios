@@ -17,7 +17,7 @@ use App\Tests\Traits\TestableJsonController;
 
 #[Group('controller')]
 #[CoversClass(ErrorController::class)]
-class ErrorControllerTest extends WebTestCase
+final class ErrorControllerTest extends WebTestCase
 {
     use TestableJsonController;
 

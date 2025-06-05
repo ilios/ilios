@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 #[Group('model')]
 #[CoversClass(ProgramYearObjective::class)]
-class ProgramYearObjectiveTest extends EntityBase
+final class ProgramYearObjectiveTest extends EntityBase
 {
     protected ProgramYearObjective $object;
 

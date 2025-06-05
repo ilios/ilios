@@ -10,7 +10,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\ApplicationConfig;
 
-class LoadApplicationConfigData extends AbstractFixture implements ORMFixtureInterface
+final class LoadApplicationConfigData extends AbstractFixture implements ORMFixtureInterface
 {
     public function __construct(protected ApplicationConfigData $data)
     {

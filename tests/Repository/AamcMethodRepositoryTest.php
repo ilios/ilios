@@ -12,7 +12,7 @@ use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AamcMethodRepositoryTest extends KernelTestCase
+final class AamcMethodRepositoryTest extends KernelTestCase
 {
     protected ReferenceRepository $fixtures;
     protected AamcMethodRepository $repository;

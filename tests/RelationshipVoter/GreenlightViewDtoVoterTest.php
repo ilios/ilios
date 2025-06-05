@@ -53,7 +53,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  * @package App\Tests\RelationshipVoter
  */
 #[CoversClass(Voter::class)]
-class GreenlightViewDtoVoterTest extends AbstractBase
+final class GreenlightViewDtoVoterTest extends AbstractBase
 {
     public function setUp(): void
     {

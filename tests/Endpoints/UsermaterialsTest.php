@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  * UsermaterialsTest API endpoint Test.
  */
 #[Group('api_3')]
-class UsermaterialsTest extends AbstractEndpoint
+final class UsermaterialsTest extends AbstractEndpoint
 {
     protected function getFixtures(): array
     {

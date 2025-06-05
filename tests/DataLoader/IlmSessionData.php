@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\DTO\IlmSessionDTO;
 use DateTime;
 
-class IlmSessionData extends AbstractDataLoader
+final class IlmSessionData extends AbstractDataLoader
 {
     protected function getData(): array
     {

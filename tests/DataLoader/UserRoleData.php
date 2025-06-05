@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\UserRoleDTO;
 
-class UserRoleData extends AbstractDataLoader
+final class UserRoleData extends AbstractDataLoader
 {
     protected function getData(): array
     {

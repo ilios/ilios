@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 #[Group('model')]
 #[CoversClass(User::class)]
-class UserTest extends EntityBase
+final class UserTest extends EntityBase
 {
     protected User $object;
 

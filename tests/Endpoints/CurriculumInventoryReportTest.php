@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  * CurriculumInventoryReport API endpoint Test.
  */
 #[Group('api_5')]
-class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
+final class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventoryReports';
 

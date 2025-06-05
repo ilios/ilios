@@ -19,7 +19,7 @@ use Mockery as m;
  * @package App\Tests\Service
  */
 #[CoversClass(DefaultPermissionMatrix::class)]
-class DefaultPermissionMatrixTest extends TestCase
+final class DefaultPermissionMatrixTest extends TestCase
 {
     protected DefaultPermissionMatrix $permissionMatrix;
     protected SchoolDTO $schoolDTO;

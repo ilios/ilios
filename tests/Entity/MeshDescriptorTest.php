@@ -20,7 +20,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(MeshDescriptor::class)]
-class MeshDescriptorTest extends EntityBase
+final class MeshDescriptorTest extends EntityBase
 {
     protected MeshDescriptor $object;
 

@@ -13,7 +13,7 @@ use App\Entity\UserRole;
  */
 #[Group('model')]
 #[CoversClass(UserRole::class)]
-class UserRoleTest extends EntityBase
+final class UserRoleTest extends EntityBase
 {
     protected UserRole $object;
 

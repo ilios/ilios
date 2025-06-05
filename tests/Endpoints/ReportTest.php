@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadUserData;
  * Report API endpoint Test.
  */
 #[Group('api_4')]
-class ReportTest extends AbstractReadWriteEndpoint
+final class ReportTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'reports';
     protected bool $enableGetTestsWithServiceToken = false;

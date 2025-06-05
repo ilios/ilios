@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\MeshDescriptorDTO;
 
-class MeshDescriptorData extends AbstractDataLoader
+final class MeshDescriptorData extends AbstractDataLoader
 {
     protected function getData(): array
     {

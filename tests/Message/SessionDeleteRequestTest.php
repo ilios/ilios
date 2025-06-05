@@ -7,7 +7,7 @@ namespace App\Tests\Message;
 use App\Message\SessionDeleteRequest;
 use App\Tests\TestCase;
 
-class SessionDeleteRequestTest extends TestCase
+final class SessionDeleteRequestTest extends TestCase
 {
     public function testItWorks(): void
     {

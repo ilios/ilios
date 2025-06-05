@@ -7,7 +7,7 @@ namespace App\Tests\Classes;
 use App\Classes\AcademicYear;
 use App\Tests\TestCase;
 
-class AcademicYearTest extends TestCase
+final class AcademicYearTest extends TestCase
 {
     public function testConstructor(): void
     {

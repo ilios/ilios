@@ -7,7 +7,7 @@ namespace App\Tests\Message;
 use App\Message\CourseDeleteRequest;
 use App\Tests\TestCase;
 
-class CourseDeleteRequestTest extends TestCase
+final class CourseDeleteRequestTest extends TestCase
 {
     public function testItWorks(): void
     {

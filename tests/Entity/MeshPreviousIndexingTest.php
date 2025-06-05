@@ -13,7 +13,7 @@ use App\Entity\MeshPreviousIndexing;
  */
 #[Group('model')]
 #[CoversClass(MeshPreviousIndexing::class)]
-class MeshPreviousIndexingTest extends EntityBase
+final class MeshPreviousIndexingTest extends EntityBase
 {
     protected MeshPreviousIndexing $object;
 

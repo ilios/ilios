@@ -12,7 +12,7 @@ use App\Tests\RelationshipVoter\AbstractBase;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class AamcResourceTypeTest extends AbstractBase
+final class AamcResourceTypeTest extends AbstractBase
 {
     public function setUp(): void
     {

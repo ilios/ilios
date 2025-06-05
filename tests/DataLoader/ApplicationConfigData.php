@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\ApplicationConfigDTO;
 
-class ApplicationConfigData extends AbstractDataLoader
+final class ApplicationConfigData extends AbstractDataLoader
 {
     protected function getData(): array
     {

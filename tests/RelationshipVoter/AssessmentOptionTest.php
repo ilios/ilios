@@ -11,7 +11,7 @@ use App\Entity\AssessmentOptionInterface;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class AssessmentOptionTest extends AbstractBase
+final class AssessmentOptionTest extends AbstractBase
 {
     public function setUp(): void
     {

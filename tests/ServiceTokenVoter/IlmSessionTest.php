@@ -12,7 +12,7 @@ use App\Entity\SessionInterface;
 use App\ServiceTokenVoter\IlmSession as Voter;
 use Mockery as m;
 
-class IlmSessionTest extends AbstractReadWriteBase
+final class IlmSessionTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

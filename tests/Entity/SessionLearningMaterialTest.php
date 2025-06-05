@@ -16,7 +16,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(SessionLearningMaterial::class)]
-class SessionLearningMaterialTest extends EntityBase
+final class SessionLearningMaterialTest extends EntityBase
 {
     protected SessionLearningMaterial $object;
 

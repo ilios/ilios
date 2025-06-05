@@ -13,7 +13,7 @@ use App\Entity\LearningMaterialStatus;
  */
 #[Group('model')]
 #[CoversClass(LearningMaterialStatus::class)]
-class LearningMaterialStatusTest extends EntityBase
+final class LearningMaterialStatusTest extends EntityBase
 {
     protected LearningMaterialStatus $object;
 

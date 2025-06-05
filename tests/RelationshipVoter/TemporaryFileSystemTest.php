@@ -11,7 +11,7 @@ use App\Service\TemporaryFileSystem;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class TemporaryFileSystemTest extends AbstractBase
+final class TemporaryFileSystemTest extends AbstractBase
 {
     public function setUp(): void
     {

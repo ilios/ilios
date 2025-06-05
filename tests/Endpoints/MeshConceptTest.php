@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadMeshTermData;
  * MeshConcept API endpoint Test.
  */
 #[Group('api_5')]
-class MeshConceptTest extends AbstractMeshEndpoint
+final class MeshConceptTest extends AbstractMeshEndpoint
 {
     protected string $testName =  'meshConcepts';
 

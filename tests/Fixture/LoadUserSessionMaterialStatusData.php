@@ -13,7 +13,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadUserSessionMaterialStatusData extends AbstractFixture implements
+final class LoadUserSessionMaterialStatusData extends AbstractFixture implements
     ORMFixtureInterface,
     DependentFixtureInterface
 {

@@ -19,7 +19,7 @@ use Mockery as m;
 use App\Service\JsonWebTokenManager;
 
 #[CoversClass(JsonWebTokenManager::class)]
-class JsonWebTokenManagerTest extends TestCase
+final class JsonWebTokenManagerTest extends TestCase
 {
     protected JsonWebTokenManager $obj;
     protected m\MockInterface $permissionChecker;

@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Cohort API endpoint Test.
  */
 #[Group('api_2')]
-class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterface
+final class CohortTest extends AbstractReadEndpoint implements PutEndpointTestInterface
 {
     use PutEndpointTestable;
 

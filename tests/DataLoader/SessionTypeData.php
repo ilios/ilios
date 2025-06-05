@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\SessionTypeDTO;
 
-class SessionTypeData extends AbstractDataLoader
+final class SessionTypeData extends AbstractDataLoader
 {
     protected function getData(): array
     {

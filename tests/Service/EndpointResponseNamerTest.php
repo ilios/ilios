@@ -12,7 +12,7 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 #[CoversClass(EndpointResponseNamer::class)]
-class EndpointResponseNamerTest extends KernelTestCase
+final class EndpointResponseNamerTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

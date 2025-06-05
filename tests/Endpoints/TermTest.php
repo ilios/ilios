@@ -26,7 +26,7 @@ use App\Tests\Fixture\LoadVocabularyData;
  * Term API endpoint Test.
  */
 #[Group('api_4')]
-class TermTest extends AbstractReadWriteEndpoint
+final class TermTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'terms';
 

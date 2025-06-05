@@ -17,7 +17,7 @@ use Mockery as m;
 use App\Service\LdapAuthentication;
 use Symfony\Component\HttpFoundation\Request;
 
-class LdapAuthenticationTest extends TestCase
+final class LdapAuthenticationTest extends TestCase
 {
     protected m\MockInterface $authRepository;
     protected m\MockInterface $jwtManager;

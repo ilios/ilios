@@ -15,8 +15,8 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 abstract class AbstractBase extends TestCase
 {
-    protected m\MockInterface $permissionChecker;
-    protected Voter $voter;
+    final protected m\MockInterface $permissionChecker;
+    final protected Voter $voter;
 
     /**
      * Remove all mock objects

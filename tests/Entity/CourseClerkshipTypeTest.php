@@ -13,7 +13,7 @@ use App\Entity\CourseClerkshipType;
  */
 #[Group('model')]
 #[CoversClass(CourseClerkshipType::class)]
-class CourseClerkshipTypeTest extends EntityBase
+final class CourseClerkshipTypeTest extends EntityBase
 {
     protected CourseClerkshipType $object;
 

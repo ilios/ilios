@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadLearningMaterialStatusData;
  * LearningMaterialStatus API endpoint Test.
  */
 #[Group('api_3')]
-class LearningMaterialStatusTest extends AbstractReadEndpoint
+final class LearningMaterialStatusTest extends AbstractReadEndpoint
 {
     protected string $testName =  'learningMaterialStatuses';
 

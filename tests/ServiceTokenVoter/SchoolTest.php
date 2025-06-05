@@ -9,7 +9,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\School as Voter;
 use Mockery as m;
 
-class SchoolTest extends AbstractReadWriteBase
+final class SchoolTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

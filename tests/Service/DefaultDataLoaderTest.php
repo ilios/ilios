@@ -15,7 +15,7 @@ use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
  * @package App\Tests\Service
  */
 #[CoversClass(DefaultDataLoader::class)]
-class DefaultDataLoaderTest extends KernelTestCase
+final class DefaultDataLoaderTest extends KernelTestCase
 {
     protected string $projectRootDir;
 

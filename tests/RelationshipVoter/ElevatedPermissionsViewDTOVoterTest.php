@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  * @package App\Tests\RelationshipVoter
  */
 #[CoversClass(Voter::class)]
-class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
+final class ElevatedPermissionsViewDTOVoterTest extends AbstractBase
 {
     public function setUp(): void
     {

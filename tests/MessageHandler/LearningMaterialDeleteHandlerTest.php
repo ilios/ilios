@@ -10,7 +10,7 @@ use App\Service\Index\LearningMaterials;
 use App\Tests\TestCase;
 use Mockery as m;
 
-class LearningMaterialDeleteHandlerTest extends TestCase
+final class LearningMaterialDeleteHandlerTest extends TestCase
 {
     protected m\MockInterface|LearningMaterials $index;
 

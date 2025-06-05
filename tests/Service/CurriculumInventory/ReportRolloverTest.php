@@ -31,7 +31,7 @@ use function count;
  * Class ReportRolloverTest
  */
 #[CoversClass(ReportRollover::class)]
-class ReportRolloverTest extends TestCase
+final class ReportRolloverTest extends TestCase
 {
     protected MockInterface $reportRepository;
     protected MockInterface $academicLevelRepository;

@@ -15,7 +15,7 @@ use Mockery as m;
 
 #[Group('model')]
 #[CoversClass(UserSessionMaterialStatus::class)]
-class UserSessionMaterialStatusTest extends EntityBase
+final class UserSessionMaterialStatusTest extends EntityBase
 {
     protected UserSessionMaterialStatus $object;
 

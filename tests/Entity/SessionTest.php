@@ -19,7 +19,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(Session::class)]
-class SessionTest extends EntityBase
+final class SessionTest extends EntityBase
 {
     protected Session $object;
 

@@ -19,7 +19,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(CurriculumInventorySequenceBlock::class)]
-class CurriculumInventorySequenceBlockTest extends EntityBase
+final class CurriculumInventorySequenceBlockTest extends EntityBase
 {
     protected CurriculumInventorySequenceBlock $object;
 

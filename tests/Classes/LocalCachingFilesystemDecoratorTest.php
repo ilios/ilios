@@ -14,7 +14,7 @@ use Mockery as m;
  * Class LocalCachingFilesystemDecoratorTest
  * @package App\Tests\Classes
  */
-class LocalCachingFilesystemDecoratorTest extends TestCase
+final class LocalCachingFilesystemDecoratorTest extends TestCase
 {
     private FilesystemOperator|m\MockInterface $cacheFileSystem;
     private FilesystemOperator|m\MockInterface $remoteFileSystem;

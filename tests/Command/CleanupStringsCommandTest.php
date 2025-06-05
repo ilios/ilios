@@ -39,7 +39,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 #[Group('cli')]
 #[CoversClass(CleanupStringsCommand::class)]
-class CleanupStringsCommandTest extends KernelTestCase
+final class CleanupStringsCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\DTO\LearningMaterialStatusDTO;
 use App\Entity\LearningMaterialStatusInterface;
 
-class LearningMaterialStatusData extends AbstractDataLoader
+final class LearningMaterialStatusData extends AbstractDataLoader
 {
     protected function getData(): array
     {

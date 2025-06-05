@@ -21,7 +21,7 @@ use Mockery as m;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 #[CoversClass(SessionUserProvider::class)]
-class SessionUserProviderTest extends TestCase
+final class SessionUserProviderTest extends TestCase
 {
     protected SessionUserProvider $provider;
     protected m\MockInterface $repositoryMock;

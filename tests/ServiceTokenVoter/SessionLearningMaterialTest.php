@@ -12,7 +12,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\SessionLearningMaterial as Voter;
 use Mockery as m;
 
-class SessionLearningMaterialTest extends AbstractReadWriteBase
+final class SessionLearningMaterialTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

@@ -17,7 +17,7 @@ use App\Tests\TestCase;
  * @package App\Tests\Service\CurriculumInventory
  */
 #[CoversClass(Manager::class)]
-class ManagerTest extends TestCase
+final class ManagerTest extends TestCase
 {
     protected m\MockInterface $repository;
     protected Manager $manager;

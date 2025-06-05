@@ -16,7 +16,7 @@ use Mockery as m;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[CoversClass(ServiceTokenUser::class)]
-class ServiceTokenUserTest extends TestCase
+final class ServiceTokenUserTest extends TestCase
 {
     protected m\MockInterface $mockServiceToken;
     protected ServiceTokenUser $serviceTokenUser;

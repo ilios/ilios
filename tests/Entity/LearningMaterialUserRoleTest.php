@@ -13,7 +13,7 @@ use App\Entity\LearningMaterialUserRole;
  */
 #[Group('model')]
 #[CoversClass(LearningMaterialUserRole::class)]
-class LearningMaterialUserRoleTest extends EntityBase
+final class LearningMaterialUserRoleTest extends EntityBase
 {
     protected LearningMaterialUserRole $object;
 

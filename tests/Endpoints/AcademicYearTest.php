@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  * AamcMethod API endpoint Test.
  */
 #[Group('api_5')]
-class AcademicYearTest extends AbstractReadEndpoint
+final class AcademicYearTest extends AbstractReadEndpoint
 {
     protected string $testName = 'academicYears';
 

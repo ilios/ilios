@@ -7,7 +7,7 @@ namespace App\Tests\DataLoader;
 use App\Entity\AlertChangeTypeInterface;
 use App\Entity\DTO\AlertChangeTypeDTO;
 
-class AlertChangeTypeData extends AbstractDataLoader
+final class AlertChangeTypeData extends AbstractDataLoader
 {
     protected function getData(): array
     {

@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\SchoolConfigDTO;
 
-class SchoolConfigData extends AbstractDataLoader
+final class SchoolConfigData extends AbstractDataLoader
 {
     protected function getData(): array
     {

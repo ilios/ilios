@@ -25,7 +25,7 @@ use Mockery as m;
  * Class AddDirectoryUserCommandTest
  */
 #[Group('cli')]
-class AddDirectoryUserCommandTest extends KernelTestCase
+final class AddDirectoryUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Group('controller')]
 #[CoversClass(DirectoryController::class)]
-class DirectoryControllerTest extends TestCase
+final class DirectoryControllerTest extends TestCase
 {
     protected DirectoryController $directoryController;
     protected m\MockInterface $mockTokenStorage;

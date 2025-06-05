@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadCourseClerkshipTypeData extends AbstractFixture implements ORMFixtureInterface
+final class LoadCourseClerkshipTypeData extends AbstractFixture implements ORMFixtureInterface
 {
     public function __construct(protected CourseClerkshipTypeData $data)
     {

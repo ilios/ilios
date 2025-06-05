@@ -14,7 +14,7 @@ use App\Entity\SchoolConfig;
  */
 #[Group('model')]
 #[CoversClass(SchoolConfig::class)]
-class SchoolConfigTest extends EntityBase
+final class SchoolConfigTest extends EntityBase
 {
     protected SchoolConfig $object;
 

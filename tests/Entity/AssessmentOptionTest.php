@@ -13,7 +13,7 @@ use App\Entity\AssessmentOption;
  */
 #[Group('model')]
 #[CoversClass(AssessmentOption::class)]
-class AssessmentOptionTest extends EntityBase
+final class AssessmentOptionTest extends EntityBase
 {
     protected AssessmentOption $object;
 

@@ -10,7 +10,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\SessionType as Voter;
 use Mockery as m;
 
-class SessionTypeTest extends AbstractReadWriteBase
+final class SessionTypeTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

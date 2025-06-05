@@ -28,7 +28,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  * Class AddUserCommandTest
  */
 #[Group('cli')]
-class AddUserCommandTest extends KernelTestCase
+final class AddUserCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

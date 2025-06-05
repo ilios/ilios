@@ -13,7 +13,7 @@ use App\Entity\IngestionException;
  */
 #[Group('model')]
 #[CoversClass(IngestionException::class)]
-class IngestionExceptionTest extends EntityBase
+final class IngestionExceptionTest extends EntityBase
 {
     protected IngestionException $object;
 

@@ -10,7 +10,7 @@ use App\Service\TemporaryFileSystem;
 use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class TemporaryFileSystemTest extends TestCase
+final class TemporaryFileSystemTest extends TestCase
 {
     private TemporaryFileSystem $tempFileSystem;
     private m\MockInterface $mockFileSystem;
@@ -42,7 +42,7 @@ class TemporaryFileSystemTest extends TestCase
     {
         parent::tearDown();
         unset($this->mockFileSystem);
-        unset($this->iliosFileSystem);
+        unset($this->tempFileSystem);
 
         $fs = new SymfonyFileSystem();
         $fs->remove($this->fakeTestFileDir);

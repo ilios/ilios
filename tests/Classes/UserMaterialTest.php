@@ -14,7 +14,7 @@ use DateTime;
  * @package App\Tests\Classes
  */
 #[CoversClass(UserMaterial::class)]
-class UserMaterialTest extends TestCase
+final class UserMaterialTest extends TestCase
 {
     protected UserMaterial $userMaterial;
 

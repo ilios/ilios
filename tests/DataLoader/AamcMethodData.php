@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\AamcMethodDTO;
 
-class AamcMethodData extends AbstractDataLoader
+final class AamcMethodData extends AbstractDataLoader
 {
     protected function getData(): array
     {

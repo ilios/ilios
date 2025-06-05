@@ -13,7 +13,7 @@ use App\Entity\MeshTree;
  */
 #[Group('model')]
 #[CoversClass(MeshTree::class)]
-class MeshTreeTest extends EntityBase
+final class MeshTreeTest extends EntityBase
 {
     protected MeshTree $object;
 

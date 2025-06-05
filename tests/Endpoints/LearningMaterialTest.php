@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 #[Group('api_4')]
 #[CoversClass(LearningMaterials::class)]
-class LearningMaterialTest extends AbstractReadWriteEndpoint
+final class LearningMaterialTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
 

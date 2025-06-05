@@ -8,7 +8,7 @@ use App\Entity\DTO\AuthenticationDTO;
 use DateTime;
 use Exception;
 
-class AuthenticationData extends AbstractDataLoader
+final class AuthenticationData extends AbstractDataLoader
 {
     protected function getData(): array
     {

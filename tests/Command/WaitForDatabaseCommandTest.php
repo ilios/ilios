@@ -18,7 +18,7 @@ use Mockery as m;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 #[Group('cli')]
-class WaitForDatabaseCommandTest extends KernelTestCase
+final class WaitForDatabaseCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

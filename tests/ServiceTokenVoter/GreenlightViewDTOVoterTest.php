@@ -50,7 +50,7 @@ use App\Entity\DTO\UserRoleDTO;
 use App\Entity\DTO\VocabularyDTO;
 use App\ServiceTokenVoter\GreenlightViewDTOVoter;
 
-class GreenlightViewDTOVoterTest extends AbstractReadonlyBase
+final class GreenlightViewDTOVoterTest extends AbstractReadonlyBase
 {
     public function setUp(): void
     {

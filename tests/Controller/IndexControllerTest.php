@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 #[Group('controller')]
 #[CoversClass(IndexController::class)]
-class IndexControllerTest extends WebTestCase
+final class IndexControllerTest extends WebTestCase
 {
     use MockeryPHPUnitIntegration;
 
@@ -46,8 +46,8 @@ class IndexControllerTest extends WebTestCase
         foreach ($this->testFiles as $path) {
             $this->fileSystem->remove($path);
         }
-        unset($this->fs);
         unset($this->fileSystem);
+        unset($this->testFiles);
     }
 
     public function testIndex(): void

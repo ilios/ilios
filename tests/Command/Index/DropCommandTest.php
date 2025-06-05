@@ -16,7 +16,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
 #[Group('cli')]
-class DropCommandTest extends KernelTestCase
+final class DropCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

@@ -30,7 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  * SchooleventsTest API endpoint Test.
  */
 #[Group('api_2')]
-class SchooleventsTest extends AbstractEndpoint
+final class SchooleventsTest extends AbstractEndpoint
 {
     protected function getFixtures(): array
     {

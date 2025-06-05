@@ -23,7 +23,7 @@ use Mockery as m;
  */
 #[Group('cli')]
 #[CoversClass(ListServiceTokensCommand::class)]
-class ListServiceTokensCommandTest extends KernelTestCase
+final class ListServiceTokensCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

@@ -12,7 +12,7 @@ use App\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversTrait;
 
 #[CoversTrait(LearningMaterialsEntity::class)]
-class LearningMaterialsEntityTest extends TestCase
+final class LearningMaterialsEntityTest extends TestCase
 {
     private object $traitObject;
     public function setUp(): void

@@ -16,7 +16,7 @@ use App\Entity\School;
  */
 #[Group('model')]
 #[CoversClass(Cohort::class)]
-class CohortTest extends EntityBase
+final class CohortTest extends EntityBase
 {
     protected Cohort $object;
 

@@ -11,7 +11,7 @@ use Mockery as m;
 use Vaites\ApacheTika\Client;
 use Vaites\ApacheTika\Clients\WebClient;
 
-class TikaFactoryTest extends TestCase
+final class TikaFactoryTest extends TestCase
 {
     protected m\MockInterface|Config $config;
 

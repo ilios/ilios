@@ -15,7 +15,7 @@ use Mockery as m;
  */
 #[Group('model')]
 #[CoversClass(Program::class)]
-class ProgramTest extends EntityBase
+final class ProgramTest extends EntityBase
 {
     protected Program $object;
 

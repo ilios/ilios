@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 #[Group('model')]
 #[CoversClass(CourseObjective::class)]
-class CourseObjectiveTest extends EntityBase
+final class CourseObjectiveTest extends EntityBase
 {
     protected CourseObjective $object;
 

@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(IndexableSession::class)]
-class IndexableSessionTest extends TestCase
+final class IndexableSessionTest extends TestCase
 {
     public function testCreateIndexObjects(): void
     {

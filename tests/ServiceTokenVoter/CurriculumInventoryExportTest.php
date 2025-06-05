@@ -11,7 +11,7 @@ use App\Entity\SchoolInterface;
 use App\ServiceTokenVoter\CurriculumInventoryExport as Voter;
 use Mockery as m;
 
-class CurriculumInventoryExportTest extends AbstractReadWriteBase
+final class CurriculumInventoryExportTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

@@ -15,7 +15,7 @@ use function method_exists;
  */
 #[Group('model')]
 #[CoversClass(AuditLog::class)]
-class AuditLogTest extends EntityBase
+final class AuditLogTest extends EntityBase
 {
     protected AuditLog $object;
 

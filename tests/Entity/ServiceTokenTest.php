@@ -11,7 +11,7 @@ use DateTime;
 
 #[Group('model')]
 #[CoversClass(ServiceToken::class)]
-class ServiceTokenTest extends EntityBase
+final class ServiceTokenTest extends EntityBase
 {
     protected ServiceToken $object;
 

@@ -13,7 +13,7 @@ use App\Entity\Alert;
  */
 #[Group('model')]
 #[CoversClass(Alert::class)]
-class AlertTest extends EntityBase
+final class AlertTest extends EntityBase
 {
     protected Alert $object;
 

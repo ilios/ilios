@@ -12,7 +12,7 @@ use App\Tests\Fixture\LoadCourseData;
  * CourseClerkshipType API endpoint Test.
  */
 #[Group('api_4')]
-class CourseClerkshipTypeTest extends AbstractReadWriteEndpoint
+final class CourseClerkshipTypeTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'courseClerkshipTypes';
     protected bool $enableDeleteTestsWithServiceToken = false;

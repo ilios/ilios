@@ -13,7 +13,7 @@ use App\Tests\Fixture\LoadVocabularyData;
  *
  */
 #[Group('api_2')]
-class VocabularyTest extends AbstractReadWriteEndpoint
+final class VocabularyTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'vocabularies';
 

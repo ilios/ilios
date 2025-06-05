@@ -13,7 +13,7 @@ use App\Entity\AlertChangeType;
  */
 #[Group('model')]
 #[CoversClass(AlertChangeType::class)]
-class AlertChangeTypeTest extends EntityBase
+final class AlertChangeTypeTest extends EntityBase
 {
     protected AlertChangeType $object;
 

@@ -26,7 +26,7 @@ use function var_export;
 
 #[Group('controller')]
 #[CoversClass(AuthController::class)]
-class AuthControllerTest extends WebTestCase
+final class AuthControllerTest extends WebTestCase
 {
     use TestableJsonController;
     use GetUrlTrait;

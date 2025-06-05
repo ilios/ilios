@@ -22,7 +22,7 @@ use Mockery as m;
  * @package App\Tests\Service
  */
 #[CoversClass(SessionUserPermissionChecker::class)]
-class SessionUserPermissionCheckerTest extends TestCase
+final class SessionUserPermissionCheckerTest extends TestCase
 {
     protected SessionUserPermissionChecker $permissionChecker;
     protected m\MockInterface $permissionMatrix;

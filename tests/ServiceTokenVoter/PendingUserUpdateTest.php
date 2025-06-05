@@ -11,7 +11,7 @@ use App\Entity\UserInterface;
 use App\ServiceTokenVoter\PendingUserUpdate as Voter;
 use Mockery as m;
 
-class PendingUserUpdateTest extends AbstractReadWriteBase
+final class PendingUserUpdateTest extends AbstractReadWriteBase
 {
     public function setUp(): void
     {

@@ -12,7 +12,7 @@ use Exception;
 use League\Flysystem\FilesystemOperator;
 use Mockery as m;
 
-class FilesystemFactoryTest extends TestCase
+final class FilesystemFactoryTest extends TestCase
 {
     private m\MockInterface|Config $config;
     private FilesystemFactory $filesystemFactory;

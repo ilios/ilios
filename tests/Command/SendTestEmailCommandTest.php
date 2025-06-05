@@ -24,7 +24,7 @@ use Symfony\Component\Mime\Email;
  */
 #[Group('cli')]
 #[CoversClass(SendChangeAlertsCommand::class)]
-class SendTestEmailCommandTest extends KernelTestCase
+final class SendTestEmailCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 

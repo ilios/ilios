@@ -25,7 +25,7 @@ use DateTime;
  * @package App\Tests\Service\CurriculumInventory\Export
  */
 #[CoversClass(XmlPrinter::class)]
-class XmlPrinterTest extends TestCase
+final class XmlPrinterTest extends TestCase
 {
     protected XmlPrinter $printer;
 

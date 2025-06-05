@@ -12,7 +12,7 @@ use App\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversTrait;
 
 #[CoversTrait(CompetenciesEntity::class)]
-class CompetenciesEntityTest extends TestCase
+final class CompetenciesEntityTest extends TestCase
 {
     private object $traitObject;
     public function setUp(): void

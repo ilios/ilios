@@ -13,7 +13,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class LoadReportData extends AbstractFixture implements
+final class LoadReportData extends AbstractFixture implements
     ORMFixtureInterface,
     DependentFixtureInterface
 {

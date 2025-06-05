@@ -14,7 +14,7 @@ use App\Entity\School;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class CurriculumInventorySequenceTest extends AbstractBase
+final class CurriculumInventorySequenceTest extends AbstractBase
 {
     public function setUp(): void
     {

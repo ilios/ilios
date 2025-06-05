@@ -12,7 +12,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\SchoolConfig;
 
-class LoadSchoolConfigData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadSchoolConfigData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public function __construct(protected SchoolConfigData $data)
     {

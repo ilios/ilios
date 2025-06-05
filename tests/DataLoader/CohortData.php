@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\CohortDTO;
 
-class CohortData extends AbstractDataLoader
+final class CohortData extends AbstractDataLoader
 {
     protected function getData(): array
     {

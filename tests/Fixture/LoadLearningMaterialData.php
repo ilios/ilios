@@ -16,7 +16,7 @@ use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 
-class LoadLearningMaterialData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
+final class LoadLearningMaterialData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {
     public const string TEST_FILE_PATH = __DIR__ . '/FakeTestFiles/TESTFILE.txt';
 

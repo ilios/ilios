@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\AamcPcrsDTO;
 
-class AamcPcrsData extends AbstractDataLoader
+final class AamcPcrsData extends AbstractDataLoader
 {
     protected function getData(): array
     {

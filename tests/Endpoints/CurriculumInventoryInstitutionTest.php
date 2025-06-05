@@ -13,7 +13,7 @@ use App\Tests\Fixture\LoadSchoolData;
  * CurriculumInventoryInstitution API endpoint Test.
  */
 #[Group('api_2')]
-class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
+final class CurriculumInventoryInstitutionTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'curriculumInventoryInstitutions';
 

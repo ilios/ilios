@@ -6,7 +6,7 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\InstructorGroupDTO;
 
-class InstructorGroupData extends AbstractDataLoader
+final class InstructorGroupData extends AbstractDataLoader
 {
     protected function getData(): array
     {
