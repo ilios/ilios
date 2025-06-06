@@ -203,13 +203,13 @@ final class ProgramYearTest extends AbstractReadWriteEndpoint
 
         $expected = [
             [
-                'program_title',
-                'matriculation_year',
-                'program_year_objective',
-                'competency',
-                'course_title',
-                'course_shortname',
-                'mapped_course_objective',
+                'Program Title',
+                'Matriculation Year',
+                'Program Year Objective',
+                'Competency',
+                'Course Title',
+                'Course Shortname',
+                'Mapped Course Objective',
             ],
             [
                 'first program',
