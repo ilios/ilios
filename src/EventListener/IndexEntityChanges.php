@@ -59,7 +59,7 @@ class IndexEntityChanges
             $this->indexUser($entity->getUser());
         }
 
-        if ($entity instanceof LearningMaterialInterface) {
+        if ($entity instanceof LearningMaterialInterface && $entity->getFilename()) {
             $this->bus->dispatch(new LearningMaterialTextExtractionRequest([$entity->getId()]));
         }
 
@@ -84,7 +84,7 @@ class IndexEntityChanges
             $this->indexUser($entity->getUser());
         }
 
-        if ($entity instanceof LearningMaterialInterface) {
+        if ($entity instanceof LearningMaterialInterface && $entity->getFilename()) {
             $this->indexLearningMaterial($entity);
         }
 
@@ -155,7 +155,9 @@ class IndexEntityChanges
     {
         if ($this->learningMaterialsIndex->isEnabled()) {
             $this->logger->debug('Indexing Material ' . $lm->getId());
-            $this->bus->dispatch(new LearningMaterialIndexRequest([$lm->getId()]));
+            if ($lm->getFilename()) {
+                $this->bus->dispatch(new LearningMaterialIndexRequest([$lm->getId()]));
+            }
         }
     }
 }

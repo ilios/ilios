@@ -40,6 +40,14 @@ class LearningMaterials extends OpenSearchBase
                     )
                 );
             }
+            if (!$material->relativePath) {
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Material %d has no relative path and cannot be indexed, probably not a file type material.',
+                        $material->id,
+                    )
+                );
+            }
         }
 
         $ids = array_map(fn (LearningMaterialDTO $dto) => $dto->id, $materials);

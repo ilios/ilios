@@ -53,12 +53,32 @@ final class LearningMaterialsTest extends TestCase
     {
         $obj = new LearningMaterials($this->fs, $this->config, $this->client);
         $this->expectException(InvalidArgumentException::class);
-        $courses = [
-            m::mock(LearningMaterialDTO::class),
+        $goodMock1 = m::mock(LearningMaterialDTO::class);
+        $goodMock1->relativePath = 'trouble';
+        $goodMock2 = m::mock(LearningMaterialDTO::class);
+        $goodMock2->relativePath = 'skiziks';
+        $materials = [
+            $goodMock1,
             m::mock(CourseDTO::class),
-            m::mock(LearningMaterialDTO::class),
+            $goodMock2,
         ];
-        $obj->index($courses);
+        $obj->index($materials);
+    }
+
+    public function testIndexThrowsWhenNotAFileTypeMaterial(): void
+    {
+        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Material 56 has no relative path and cannot be indexed, probably not a file type material.'
+        );
+        $goodMock =  m::mock(LearningMaterialDTO::class);
+        $goodMock->relativePath = 'foo';
+        $badMock = m::mock(LearningMaterialDTO::class);
+        $badMock->relativePath = null;
+        $badMock->id = 56;
+        $materials = [$goodMock, $badMock,];
+        $obj->index($materials);
     }
 
     public function testIndexThrowsWithoutSearch(): void

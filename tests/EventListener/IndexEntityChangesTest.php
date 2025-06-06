@@ -8,6 +8,8 @@ use App\Entity\CourseInterface;
 use App\Entity\LearningMaterialInterface;
 use App\Message\CourseIndexRequest;
 use App\Message\LearningMaterialIndexRequest;
+use App\Message\LearningMaterialTextExtractionRequest;
+use Doctrine\ORM\Event\PostPersistEventArgs;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\UserInterface;
 use App\EventListener\IndexEntityChanges;
@@ -138,6 +140,7 @@ final class IndexEntityChangesTest extends TestCase
         $this->learningMaterialIndex->shouldReceive('isEnabled')->andReturn(true);
         $this->curriculumIndex->shouldReceive('isEnabled')->andReturn(false);
         $entity->shouldReceive('getId')->andReturn($materialId);
+        $entity->shouldReceive('getFilename')->andReturn('skiziks.pdf');
         $entity->shouldReceive('getIndexableCourses')->andReturn([]);
         $this->bus
             ->shouldReceive('dispatch')
@@ -145,6 +148,25 @@ final class IndexEntityChangesTest extends TestCase
             ->andReturn(new Envelope(new stdClass()))
             ->once();
         $this->logger->shouldReceive('debug')->once();
+        $this->indexEntityChanges->postUpdate($args);
+    }
+
+    public function testPostUpdateMaterialDispatchSkipsNonFileLms(): void
+    {
+        $objectManager = m::mock(EntityManagerInterface::class);
+        $unitOfWork = m::mock(UnitOfWork::class);
+        $entity = m::mock(LearningMaterialInterface::class);
+        $changed = ['nyuk' => 'nuyk nyuk'];
+        $args = new PostUpdateEventArgs($entity, $objectManager);
+
+        $objectManager->shouldReceive('getUnitOfWork')->andReturn($unitOfWork);
+        $unitOfWork->shouldReceive('getEntityChangeSet')->with($entity)->andReturn($changed);
+        $this->learningMaterialIndex->shouldReceive('isEnabled')->andReturn(true);
+        $this->curriculumIndex->shouldReceive('isEnabled')->andReturn(false);
+        $entity->shouldReceive('getFilename')->andReturn(null);
+        $entity->shouldReceive('getIndexableCourses')->andReturn([]);
+        $this->bus->shouldNotReceive('dispatch');
+        $this->logger->shouldNotReceive('debug');
         $this->indexEntityChanges->postUpdate($args);
     }
 
@@ -169,5 +191,50 @@ final class IndexEntityChangesTest extends TestCase
             ->once();
         $this->logger->shouldReceive('debug')->once();
         $this->indexEntityChanges->postUpdate($args);
+    }
+
+    public function testPostPersistMaterialDispatch(): void
+    {
+        $objectManager = m::mock(EntityManagerInterface::class);
+        $unitOfWork = m::mock(UnitOfWork::class);
+        $entity = m::mock(LearningMaterialInterface::class);
+        $changed = ['nyuk' => 'nuyk nyuk'];
+        $args = new PostPersistEventArgs($entity, $objectManager);
+        $materialId = 12;
+
+        $objectManager->shouldReceive('getUnitOfWork')->andReturn($unitOfWork);
+        $unitOfWork->shouldReceive('getEntityChangeSet')->with($entity)->andReturn($changed);
+        $this->learningMaterialIndex->shouldReceive('isEnabled')->andReturn(true);
+        $this->curriculumIndex->shouldReceive('isEnabled')->andReturn(false);
+        $entity->shouldReceive('getId')->andReturn($materialId);
+        $entity->shouldReceive('getFilename')->andReturn('skiziks.pdf');
+        $entity->shouldReceive('getIndexableCourses')->andReturn([]);
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(fn (LearningMaterialTextExtractionRequest $request) => in_array(
+                $materialId,
+                $request->getLearningMaterialIds()
+            ))
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+        $this->indexEntityChanges->postPersist($args);
+    }
+
+    public function testPostPersistMaterialDispatchSkipsNonFileMaterials(): void
+    {
+        $objectManager = m::mock(EntityManagerInterface::class);
+        $unitOfWork = m::mock(UnitOfWork::class);
+        $entity = m::mock(LearningMaterialInterface::class);
+        $changed = ['nyuk' => 'nuyk nyuk'];
+        $args = new PostPersistEventArgs($entity, $objectManager);
+
+        $objectManager->shouldReceive('getUnitOfWork')->andReturn($unitOfWork);
+        $unitOfWork->shouldReceive('getEntityChangeSet')->with($entity)->andReturn($changed);
+        $this->learningMaterialIndex->shouldReceive('isEnabled')->andReturn(true);
+        $this->curriculumIndex->shouldReceive('isEnabled')->andReturn(false);
+        $entity->shouldReceive('getFilename')->andReturn(null);
+        $entity->shouldReceive('getIndexableCourses')->andReturn([]);
+        $this->bus->shouldNotReceive('dispatch');
+        $this->indexEntityChanges->postPersist($args);
     }
 }
