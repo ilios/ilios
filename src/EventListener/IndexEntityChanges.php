@@ -34,9 +34,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 class IndexEntityChanges
 {
-    /**
-     * ACHTUNG!!! Do NOT change the name of $bus it tells the dependency injection system what bus to inject!!!
-     */
     public function __construct(
         protected Curriculum $curriculumIndex,
         protected LearningMaterials $learningMaterialsIndex,
