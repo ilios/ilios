@@ -26,15 +26,6 @@ framework:
           - doctrine_ping_connection
           # After handling, the Doctrine connection is closed
           - doctrine_close_connection
-      dispatch.bus:
-        default_middleware: false
-        middleware:
-            - validation
-            - add_bus_name_stamp_middleware: ['messenger.bus.default']
-            - dispatch_after_current_bus
-            - failed_message_processing_middleware
-            - send_message
-            - handle_message
 
 when@test:
    framework:
