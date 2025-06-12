@@ -6,12 +6,15 @@ namespace App\Service\Index;
 
 use App\Classes\OpenSearchBase;
 use App\Entity\DTO\LearningMaterialDTO;
+use App\Message\CourseIndexRequest;
+use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\NonCachingIliosFileSystem;
 use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
 use stdClass;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class LearningMaterials extends OpenSearchBase
 {
@@ -19,6 +22,8 @@ class LearningMaterials extends OpenSearchBase
 
     public function __construct(
         private NonCachingIliosFileSystem $nonCachingIliosFileSystem,
+        private MessageBusInterface $bus,
+        private LearningMaterialRepository $learningMaterialRepository,
         Config $config,
         ?Client $client = null
     ) {
@@ -81,7 +86,19 @@ class LearningMaterials extends OpenSearchBase
             $materialToIndex,
         );
 
-        return $this->doBulkIndex(self::INDEX, array_values($input));
+        if (!$this->doBulkIndex(self::INDEX, array_values($input))) {
+            return false;
+        }
+
+        //re-index the courses for every newly indexed material
+        $ids = array_column($materialToIndex, 'id');
+        $associatedCourses = $this->learningMaterialRepository->getCourseIdsForMaterials($ids);
+        $chunks = array_chunk($associatedCourses, CourseIndexRequest::MAX_COURSES);
+        foreach ($chunks as $ids) {
+            $this->bus->dispatch(new CourseIndexRequest($ids));
+        }
+
+        return true;
     }
 
     protected function cleanMaterialText(int $id, string $str): string
