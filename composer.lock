@@ -2407,16 +2407,16 @@
         },
         {
             "name": "exercise/htmlpurifier-bundle",
-            "version": "5.0",
+            "version": "5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Exercise/HTMLPurifierBundle.git",
-                "reference": "3a6420410366933841589552c680f42b8481b1e4"
+                "reference": "a5399a26512e66bb8ccedc3278f34258ae05eabd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/3a6420410366933841589552c680f42b8481b1e4",
-                "reference": "3a6420410366933841589552c680f42b8481b1e4",
+                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/a5399a26512e66bb8ccedc3278f34258ae05eabd",
+                "reference": "a5399a26512e66bb8ccedc3278f34258ae05eabd",
                 "shasum": ""
             },
             "require": {
@@ -2428,7 +2428,7 @@
             },
             "require-dev": {
                 "symfony/form": "^5.4 || ^6.0 || ^7.0",
-                "symfony/phpunit-bridge": "^7.0",
+                "symfony/phpunit-bridge": "^7.0.1",
                 "twig/twig": "^2.4.4 || ^3.0"
             },
             "type": "symfony-bundle",
@@ -2462,9 +2462,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Exercise/HTMLPurifierBundle/issues",
-                "source": "https://github.com/Exercise/HTMLPurifierBundle/tree/v5.0-BETA1"
+                "source": "https://github.com/Exercise/HTMLPurifierBundle/tree/5.1"
             },
-            "time": "2023-11-16T11:41:23+00:00"
+            "time": "2025-06-04T09:23:15+00:00"
         },
         {
             "name": "ezimuel/guzzlestreams",
@@ -15180,15 +15180,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
-        "symfony/browser-kit": 0,
         "symfony/console": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15201,7 +15196,6 @@
         "symfony/mailgun-mailer": 0,
         "symfony/messenger": 0,
         "symfony/monolog-bundle": 0,
-        "symfony/phpunit-bridge": 0,
         "symfony/postmark-mailer": 0,
         "symfony/property-access": 0,
         "symfony/property-info": 0,
@@ -15210,12 +15204,18 @@
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
-        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/web-profiler-bundle": 0,
-        "symfony/yaml": 0
+        "symfony/yaml": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
+        "symfony/browser-kit": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
+        "symfony/phpunit-bridge": 0,
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15234,9 +15234,9 @@
         "ext-xmlwriter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.4"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
