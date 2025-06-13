@@ -8,6 +8,7 @@ use App\Classes\IndexableCourse;
 use App\Entity\DTO\CourseDTO;
 use App\Service\Config;
 use App\Service\Index\Curriculum;
+use App\Service\Index\LearningMaterials;
 use App\Tests\TestCase;
 use OpenSearch\Client;
 use DateTime;
@@ -77,7 +78,7 @@ final class CurriculumTest extends TestCase
         $mockDto->id = 1;
         $course1->courseDTO = $mockDto;
         $course1->shouldReceive('createIndexObjects')->once()->andReturn([
-            ['id' => 1, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
+            ['id' => 1, 'courseFileLearningMaterialIds' => [1, 3], 'sessionFileLearningMaterialIds' => []],
         ]);
 
         $course2 = m::mock(IndexableCourse::class);
@@ -85,8 +86,8 @@ final class CurriculumTest extends TestCase
         $mockDto2->id = 2;
         $course2->courseDTO = $mockDto2;
         $course2->shouldReceive('createIndexObjects')->once()->andReturn([
-            ['id' => 2, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
-            ['id' => 3, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => []],
+            ['id' => 2, 'courseFileLearningMaterialIds' => [1], 'sessionFileLearningMaterialIds' => []],
+            ['id' => 3, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => [2]],
         ]);
 
         $stamp = new DateTime();
@@ -102,6 +103,7 @@ final class CurriculumTest extends TestCase
                     ],
                     [
                         'id' => 1,
+                        'courseLearningMaterialAttachments' => ['first', 'third'],
                     ],
                     [
                         'index' => [
@@ -111,6 +113,7 @@ final class CurriculumTest extends TestCase
                     ],
                     [
                         'id' => 2,
+                        'courseLearningMaterialAttachments' => ['first'],
                     ],
                     [
                         'index' => [
@@ -120,11 +123,98 @@ final class CurriculumTest extends TestCase
                     ],
                     [
                         'id' => 3,
+                        'sessionLearningMaterialAttachments' => ['second'],
                     ],
                 ]);
                 return true;
             })
             ->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+
+        $this->client->shouldReceive('count')->times(2)->andReturn([
+            'count' => 2,
+        ]);
+        $this->client
+            ->shouldReceive('search')->once()
+            ->with([
+                'index' => LearningMaterials::INDEX,
+                'body' => [
+                    'query' => [
+                        'terms' => [
+                            'learningMaterialId' => [1, 3],
+                        ],
+                    ],
+                    '_source' => [
+                        'id',
+                        'learningMaterialId',
+                        'contents',
+                    ],
+                    'sort' => ['learningMaterialId'],
+                    'size' => 25,
+                ],
+            ])
+            ->andReturn([
+                'hits' => [
+                    'hits' => [
+                        [
+                            '_source' => [
+                                'contents' => 'first',
+                                'learningMaterialId' => 1,
+                                'id' => 'lm_1',
+                            ],
+                            'sort' => [1],
+                        ],
+                        [
+                            '_source' => [
+                                'contents' => 'third',
+                                'learningMaterialId' => 3,
+                                'id' => 'lm_3',
+                            ],
+                            'sort' => [3],
+                        ],
+                    ],
+                ],
+            ]);
+        $this->client
+            ->shouldReceive('search')->once()
+            ->with([
+                'index' => LearningMaterials::INDEX,
+                'body' => [
+                    'query' => [
+                        'terms' => [
+                            'learningMaterialId' => [1, 2],
+                        ],
+                    ],
+                    '_source' => [
+                        'id',
+                        'learningMaterialId',
+                        'contents',
+                    ],
+                    'sort' => ['learningMaterialId'],
+                    'size' => 25,
+                ],
+            ])
+            ->andReturn([
+                'hits' => [
+                    'hits' => [
+                        [
+                            '_source' => [
+                                'contents' => 'first',
+                                'learningMaterialId' => 1,
+                                'id' => 'lm_1',
+                            ],
+                            'sort' => [1],
+                        ],
+                        [
+                            '_source' => [
+                                'contents' => 'second',
+                                'learningMaterialId' => 2,
+                                'id' => 'lm_2',
+                            ],
+                            'sort' => [2],
+                        ],
+                    ],
+                ],
+            ]);
         $obj->index([$course1, $course2], $stamp);
     }
 
