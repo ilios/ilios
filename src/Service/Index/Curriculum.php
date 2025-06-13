@@ -200,11 +200,43 @@ class Curriculum extends OpenSearchBase
         return $result['result'] === 'deleted';
     }
 
+    /**
+     * Attach learning materials to a list of sessions
+     */
     protected function attachLearningMaterialsToSession(array $sessions): array
     {
         $courseIds = array_column($sessions, 'courseFileLearningMaterialIds');
         $sessionIds = array_column($sessions, 'sessionFileLearningMaterialIds');
         $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
+        $materialsById = $this->getMaterialContentsByIds($learningMaterialIds);
+
+        return array_map(function (array $session) use ($materialsById) {
+            foreach ($session['sessionFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    foreach ($materialsById[$id] as $value) {
+                        $session['sessionLearningMaterialAttachments'][] = $value;
+                    }
+                }
+            }
+            unset($session['sessionFileLearningMaterialIds']);
+            foreach ($session['courseFileLearningMaterialIds'] as $id) {
+                if (array_key_exists($id, $materialsById)) {
+                    foreach ($materialsById[$id] as $value) {
+                        $session['courseLearningMaterialAttachments'][] = $value;
+                    }
+                }
+            }
+            unset($session['courseFileLearningMaterialIds']);
+
+            return $session;
+        }, $sessions);
+    }
+
+    /**
+     * Fetch all the materials contents by ID
+     */
+    protected function getMaterialContentsByIds(array $learningMaterialIds): array
+    {
         sort($learningMaterialIds);
         $materialsById = [];
         if (!empty($learningMaterialIds)) {
@@ -237,26 +269,7 @@ class Curriculum extends OpenSearchBase
             }
         }
 
-        return array_map(function (array $session) use ($materialsById) {
-            foreach ($session['sessionFileLearningMaterialIds'] as $id) {
-                if (array_key_exists($id, $materialsById)) {
-                    foreach ($materialsById[$id] as $value) {
-                        $session['sessionLearningMaterialAttachments'][] = $value;
-                    }
-                }
-            }
-            unset($session['sessionFileLearningMaterialIds']);
-            foreach ($session['courseFileLearningMaterialIds'] as $id) {
-                if (array_key_exists($id, $materialsById)) {
-                    foreach ($materialsById[$id] as $value) {
-                        $session['courseLearningMaterialAttachments'][] = $value;
-                    }
-                }
-            }
-            unset($session['courseFileLearningMaterialIds']);
-
-            return $session;
-        }, $sessions);
+        return $materialsById;
     }
 
     /**
