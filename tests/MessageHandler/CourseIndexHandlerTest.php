@@ -10,7 +10,10 @@ use App\MessageHandler\CourseIndexHandler;
 use App\Repository\CourseRepository;
 use App\Service\Index\Curriculum;
 use App\Tests\TestCase;
+use Exception;
 use Mockery as m;
+use stdClass;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CourseIndexHandlerTest extends TestCase
@@ -62,6 +65,60 @@ final class CourseIndexHandlerTest extends TestCase
 
                 return true;
             });
+
+        $handler->__invoke($request);
+    }
+    public function testExceptionSplittingForMultipleCourses(): void
+    {
+        $firstCourse = m::mock(IndexableCourse::class);
+        $secondCourse = m::mock(IndexableCourse::class);
+        $handler = new CourseIndexHandler($this->index, $this->repository, $this->bus);
+        $request = new CourseIndexRequest([6, 24]);
+
+        $this->repository->shouldReceive(('getCourseIndexesFor'))
+            ->once()
+            ->with([6, 24])
+            ->andReturn([
+                $firstCourse,
+                $secondCourse,
+            ]);
+
+        $this->index
+            ->shouldReceive('index')
+            ->once()
+            ->andThrow(Exception::class);
+
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(fn (CourseIndexRequest $request) => $request->getCourseIds() === [6])
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(fn (CourseIndexRequest $request) => $request->getCourseIds() === [24])
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+
+        $handler->__invoke($request);
+    }
+    public function testExceptionThrowsForSingleCourse(): void
+    {
+        $course = m::mock(IndexableCourse::class);
+        $handler = new CourseIndexHandler($this->index, $this->repository, $this->bus);
+        $request = new CourseIndexRequest([13]);
+
+        $this->repository->shouldReceive(('getCourseIndexesFor'))
+            ->once()
+            ->with([13])
+            ->andReturn([$course]);
+
+        $this->index
+            ->shouldReceive('index')
+            ->once()
+            ->andThrow(Exception::class);
+
+        $this->expectException(Exception::class);
 
         $handler->__invoke($request);
     }
