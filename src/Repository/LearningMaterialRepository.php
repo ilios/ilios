@@ -335,4 +335,37 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         $ids = array_column($results, 'id');
         return array_map('intval', $ids);
     }
+
+    /**
+     * Get the IDs for all courses attached to materials
+     * @return int[]
+     */
+    public function getCourseIdsForMaterials(array $ids): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('c.id')->from(LearningMaterial::class, 'x')
+            ->leftJoin('x.courseLearningMaterials', 'cm')
+            ->leftJoin('cm.course', 'c')
+            ->where('x.id IN (:ids)')
+            ->setParameter(':ids', $ids);
+        $courseIds = array_column($qb->getQuery()->getScalarResult(), 'id');
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('c.id')->from(LearningMaterial::class, 'x')
+            ->leftJoin('x.sessionLearningMaterials', 'sm')
+            ->leftJoin('sm.session', 's')
+            ->leftJoin('s.course', 'c')
+            ->where('x.id IN (:ids)')
+            ->setParameter(':ids', $ids);
+        $sessionCourseIds = array_column($qb->getQuery()->getScalarResult(), 'id');
+
+        //re-index the array of unique course ids, with all nulls removed
+        return array_values(
+            array_unique(
+                array_filter(
+                    array_merge($courseIds, $sessionCourseIds)
+                )
+            )
+        );
+    }
 }

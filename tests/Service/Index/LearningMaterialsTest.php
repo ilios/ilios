@@ -7,6 +7,8 @@ namespace App\Tests\Service\Index;
 use App\Classes\OpenSearchBase;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\LearningMaterialDTO;
+use App\Message\CourseIndexRequest;
+use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
 use App\Service\NonCachingIliosFileSystem;
@@ -15,12 +17,17 @@ use OpenSearch\Client;
 use Exception;
 use InvalidArgumentException;
 use Mockery as m;
+use stdClass;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class LearningMaterialsTest extends TestCase
 {
     private m\MockInterface | Client $client;
     private m\MockInterface | Config $config;
     private m\MockInterface | NonCachingIliosFileSystem $fs;
+    private m\MockInterface | MessageBusInterface $bus;
+    private m\MockInterface | LearningMaterialRepository $repository;
 
     public function setUp(): void
     {
@@ -31,6 +38,8 @@ final class LearningMaterialsTest extends TestCase
         $this->config->shouldReceive('get')
             ->with('search_upload_limit')
             ->andReturn(8000000);
+        $this->bus = m::mock(MessageBusInterface::class);
+        $this->repository = m::mock(LearningMaterialRepository::class);
     }
     public function tearDown(): void
     {
@@ -38,20 +47,22 @@ final class LearningMaterialsTest extends TestCase
         unset($this->client);
         unset($this->config);
         unset($this->fs);
+        unset($this->bus);
+        unset($this->repository);
     }
 
     public function testSetup(): void
     {
-        $obj1 = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj1 = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $this->assertTrue($obj1->isEnabled());
 
-        $obj2 = new LearningMaterials($this->fs, $this->config, null);
+        $obj2 = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, null);
         $this->assertFalse($obj2->isEnabled());
     }
 
     public function testIndexThrowsWhenNotLearningMaterialDTO(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $this->expectException(InvalidArgumentException::class);
         $goodMock1 = m::mock(LearningMaterialDTO::class);
         $goodMock1->relativePath = 'trouble';
@@ -67,7 +78,7 @@ final class LearningMaterialsTest extends TestCase
 
     public function testIndexThrowsWhenNotAFileTypeMaterial(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'Material 56 has no relative path and cannot be indexed, probably not a file type material.'
@@ -83,7 +94,7 @@ final class LearningMaterialsTest extends TestCase
 
     public function testIndexThrowsWithoutSearch(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, null);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, null);
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             'Search is not configured, isEnabled() should be called before calling this method'
@@ -93,7 +104,7 @@ final class LearningMaterialsTest extends TestCase
 
     public function testIndex(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $mockDto = m::mock(LearningMaterialDTO::class);
         $mockDto->id = 1;
         $mockDto->relativePath = 'first';
@@ -163,12 +174,21 @@ final class LearningMaterialsTest extends TestCase
             ]);
             return true;
         })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+
+        $this->repository
+            ->shouldReceive('getCourseIdsForMaterials')
+            ->once()->with([1, 2])->andReturn([6, 24, 2005]);
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(fn (CourseIndexRequest $request) => $request->getCourseIds() === [6, 24, 2005])
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
         $obj->index([$mockDto, $mockDto2]);
     }
 
     public function testSkipsPreviouslyIndexed(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $mockDto = m::mock(LearningMaterialDTO::class);
         $mockDto->id = 1;
         $mockDto->relativePath = 'first';
@@ -214,12 +234,15 @@ final class LearningMaterialsTest extends TestCase
             ]);
             return true;
         })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+        $this->repository
+            ->shouldReceive('getCourseIdsForMaterials')
+            ->once()->with([2])->andReturn([]);
         $obj->index([$mockDto, $mockDto2]);
     }
 
     public function testIndexDoesNotSkipIfForced(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $mockDto = m::mock(LearningMaterialDTO::class);
         $mockDto->id = 1;
         $mockDto->relativePath = 'first';
@@ -289,6 +312,9 @@ final class LearningMaterialsTest extends TestCase
                 ]);
                 return true;
         })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+        $this->repository
+            ->shouldReceive('getCourseIdsForMaterials')
+            ->once()->with([1, 2])->andReturn([]);
         $obj->index([$mockDto, $mockDto2], true);
     }
 
@@ -327,7 +353,7 @@ final class LearningMaterialsTest extends TestCase
 
     public function testGetAllIds(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->andReturn([
             'hits' => [
                 'hits' => [
@@ -346,7 +372,7 @@ final class LearningMaterialsTest extends TestCase
 
     public function testGetMapping(): void
     {
-        $obj = new LearningMaterials($this->fs, $this->config, $this->client);
+        $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
         $mapping = $obj->getMapping();
         $this->assertArrayHasKey('settings', $mapping);
         $this->assertArrayHasKey('mappings', $mapping);
