@@ -227,4 +227,12 @@ class OpenSearchBase
 
         return $hits;
     }
+
+    protected function doCount(array $params): array
+    {
+        if (!$this->enabled) {
+            throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
+        }
+        return $this->client->count($params);
+    }
 }

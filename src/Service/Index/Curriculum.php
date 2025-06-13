@@ -200,39 +200,15 @@ class Curriculum extends OpenSearchBase
         return $result['result'] === 'deleted';
     }
 
+    /**
+     * Attach learning materials to a list of sessions
+     */
     protected function attachLearningMaterialsToSession(array $sessions): array
     {
         $courseIds = array_column($sessions, 'courseFileLearningMaterialIds');
         $sessionIds = array_column($sessions, 'sessionFileLearningMaterialIds');
         $learningMaterialIds = array_values(array_unique(array_merge([], ...$courseIds, ...$sessionIds)));
-        $materialsById = [];
-        if (!empty($learningMaterialIds)) {
-            $params = [
-                'index' => LearningMaterials::INDEX,
-                'size' => 25,
-                'body' => [
-                    'query' => [
-                        'terms' => [
-                            'learningMaterialId' => $learningMaterialIds,
-                        ],
-                    ],
-                    "_source" => [
-                        'id',
-                        'learningMaterialId',
-                        'contents',
-                    ],
-                ],
-            ];
-            $results = $this->doScrollSearch($params);
-
-            $materialsById = array_reduce($results, function (array $carry, array $hit) {
-                $result = $hit['_source'];
-                $id = $result['learningMaterialId'];
-                $carry[$id][] = $result['contents'];
-
-                return $carry;
-            }, []);
-        }
+        $materialsById = $this->getMaterialContentsByIds($learningMaterialIds);
 
         return array_map(function (array $session) use ($materialsById) {
             foreach ($session['sessionFileLearningMaterialIds'] as $id) {
@@ -254,6 +230,46 @@ class Curriculum extends OpenSearchBase
 
             return $session;
         }, $sessions);
+    }
+
+    /**
+     * Fetch all the materials contents by ID
+     */
+    protected function getMaterialContentsByIds(array $learningMaterialIds): array
+    {
+        sort($learningMaterialIds);
+        $materialsById = [];
+        if (!empty($learningMaterialIds)) {
+            $query = [
+                'index' => LearningMaterials::INDEX,
+                'body' => [
+                    'query' => [
+                        'terms' => [
+                            'learningMaterialId' => $learningMaterialIds,
+                        ],
+                    ],
+                ],
+            ];
+            ["count" => $count ] = $this->doCount($query);
+            $query['body']['_source'] = [
+                'id',
+                'learningMaterialId',
+                'contents',
+            ];
+            $query['body']['sort'] = ['learningMaterialId'];
+            $query['body']['size'] = 25;
+            while ($count > 0) {
+                $results = $this->doSearch($query);
+                foreach ($results['hits']['hits'] as ["_source" => $s, 'sort' => $sort]) {
+                    $id = $s['learningMaterialId'];
+                    $materialsById[$id][] = $s['contents'];
+                    $query['body']['search_after'] = $sort;
+                    $count--;
+                }
+            }
+        }
+
+        return $materialsById;
     }
 
     /**
