@@ -1,6 +1,11 @@
 #!/bin/bash
 set -m -euf -o pipefail
 
+# set the PS1 prompt and colorization
+cat << EOF >> /etc/skel/.bashrc
+export PS1='[\[\e[33m\]\u\[\e[0m\]@\[\e[31m\]\h\[\e[33m\]\[\e[0m\]:\w]% '
+EOF
+
 /bin/echo "Entrypoint ssh-admin container"
 
 if [[ $GITHUB_ACCOUNT_SSH_USERS ]]; then
@@ -23,16 +28,6 @@ if [[ $GITHUB_ACCOUNT_SSH_USERS ]]; then
 
 	IFS=$ORIGINAL_IFS
 fi
-
-# set the PS1 prompt and colorization
-cat << EOF > /etc/profile.d/color_prompt.sh 
-export TERM=xterm-256color
-# set the CLI color
-export CLICOLOR=1
-# set colors for the 'ls' listing
-export LSCOLORS=gafacadabaegedabagacad
-export PS1='[\[\e[33m\]\u\[\e[0m\]@\[\e[31m\]\h\[\e[33m\]\[\e[0m\]:\w]% '
-EOF
 
 # export the ENV vars globally so they can be available for ssh users at login
 printenv | grep -E 'ILIOS_|TRUSTED_PROXIES|DSN' | sed 's/^/export /g' > /etc/profile.d/ecs_env.sh
