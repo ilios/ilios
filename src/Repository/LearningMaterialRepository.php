@@ -359,6 +359,13 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
             ->setParameter(':ids', $ids);
         $sessionCourseIds = array_column($qb->getQuery()->getScalarResult(), 'id');
 
-        return array_unique(array_merge($courseIds, $sessionCourseIds));
+        //re-index the array of unique course ids, with all nulls removed
+        return array_values(
+            array_unique(
+                array_filter(
+                    array_merge($courseIds, $sessionCourseIds)
+                )
+            )
+        );
     }
 }
