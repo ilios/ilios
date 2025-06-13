@@ -3,7 +3,11 @@ framework:
     failure_transport: failed
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
-      async: '%env(MESSENGER_TRANSPORT_DSN)%'
+      async:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        retry_strategy:
+          # milliseconds delay, 30 seconds
+          delay: 30000
       failed: '%env(MESSENGER_TRANSPORT_DSN)%?queue_name=failed'
 
     routing:
