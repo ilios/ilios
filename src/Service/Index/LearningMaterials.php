@@ -13,7 +13,6 @@ use App\Service\NonCachingIliosFileSystem;
 use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
-use stdClass;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class LearningMaterials extends OpenSearchBase
@@ -170,24 +169,30 @@ class LearningMaterials extends OpenSearchBase
         $query = [
             'index' => self::INDEX,
             'body' => [
-                'query' => [
-                    'match_all' => new stdClass(),
+                'aggs' => [
+                    'learningMaterialId' => [
+                        'terms' => [
+                            'field' => 'learningMaterialId',
+                            'size' => self::SIZE_LIMIT,
+                        ],
+                    ],
                 ],
+                'size' => 0,
             ],
         ];
-        ["count" => $count ] = $this->doCount($query);
-        $query['body']['_source'] = false;
-        $query['body']['sort'] = ['learningMaterialId'];
-        $query['body']['size'] = 10000;
+        $gte = 0;
+        $lt = self::SIZE_LIMIT;
         $materialIds = [];
-        while ($count > 0) {
+        do {
+            $query['body']['query']['bool']['filter'][0]['range']['learningMaterialId']['gte'] = $gte;
+            $query['body']['query']['bool']['filter'][0]['range']['learningMaterialId']['lt'] = $lt;
             $results = $this->doSearch($query);
-            foreach ($results['hits']['hits'] as ["_id" => $id, 'sort' => $sort]) {
-                $materialIds[] = (int) ltrim($id, 'lm_');
-                $query['body']['search_after'] = $sort;
-                $count--;
+            foreach ($results['aggregations']['learningMaterialId']['buckets'] as ['key' => $key]) {
+                $materialIds[] = $key;
             }
-        }
+            $gte = $lt;
+            $lt += self::SIZE_LIMIT;
+        } while ($results['hits']['total']['value']);
 
         return $materialIds;
     }
