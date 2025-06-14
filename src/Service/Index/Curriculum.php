@@ -486,14 +486,21 @@ class Curriculum extends OpenSearchBase
                 'query' => [
                     'match_all' => new stdClass(),
                 ],
-                '_source' => ['courseId'],
+                'aggs' => [
+                    'courseId' => [
+                        'terms' => [
+                            'field' => 'courseId',
+                            'size' => 10000,
+                        ],
+                    ],
+                ],
+                'size' => 0,
             ],
-            'size' => self::SIZE_LIMIT,
         ];
+        $results = $this->doSearch($params);
+        $courseIds = array_column($results['aggregations']['courseId']['buckets'], 'key');
 
-        $results = $this->doScrollSearch($params);
-        $ids = array_map(fn ($item) => $item['_source']['courseId'], $results);
-        return array_unique($ids);
+        return array_map('intval', $courseIds);
     }
 
     public function getAllSessionIds(): array
