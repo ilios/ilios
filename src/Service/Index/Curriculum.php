@@ -505,20 +505,35 @@ class Curriculum extends OpenSearchBase
 
     public function getAllSessionIds(): array
     {
-        $params = [
+        $query = [
             'index' => self::INDEX,
             'body' => [
-                'query' => [
-                    'match_all' => new stdClass(),
+                'aggs' => [
+                    'sessionId' => [
+                        'terms' => [
+                            'field' => 'sessionId',
+                            'size' => self::SIZE_LIMIT,
+                        ],
+                    ],
                 ],
-                '_source' => ['sessionId'],
+                'size' => 0,
             ],
-            'size' => self::SIZE_LIMIT,
         ];
+        $gte = 0;
+        $lt = self::SIZE_LIMIT;
+        $sessionIds = [];
+        do {
+            $query['body']['query']['bool']['filter'][0]['range']['sessionId']['gte'] = $gte;
+            $query['body']['query']['bool']['filter'][0]['range']['sessionId']['lt'] = $lt;
+            $results = $this->doSearch($query);
+            foreach ($results['aggregations']['sessionId']['buckets'] as ['key' => $key]) {
+                $sessionIds[] = (int) $key;
+            }
+            $gte = $lt;
+            $lt += self::SIZE_LIMIT;
+        } while ($results['hits']['total']['value']);
 
-        $results = $this->doScrollSearch($params);
-        $ids = array_map(fn ($item) => $item['_source']['sessionId'], $results);
-        return array_unique($ids);
+        return $sessionIds;
     }
 
     public static function getMapping(): array
@@ -556,7 +571,7 @@ class Curriculum extends OpenSearchBase
                 ],
                 'properties' => [
                     'courseId' => [
-                        'type' => 'keyword',
+                        'type' => 'integer',
                     ],
                     'school' => [
                         'type' => 'keyword',
@@ -595,7 +610,7 @@ class Curriculum extends OpenSearchBase
                     'courseMeshDescriptorNames' => $txtTypeFieldWithCompletion,
                     'courseMeshDescriptorAnnotations' => $txtTypeField,
                     'sessionId' => [
-                        'type' => 'keyword',
+                        'type' => 'integer',
                     ],
                     'sessionTitle' => $txtTypeFieldWithCompletion,
                     'sessionDescription' => $txtTypeField,
