@@ -167,19 +167,29 @@ class LearningMaterials extends OpenSearchBase
 
     public function getAllIds(): array
     {
-        $params = [
+        $query = [
             'index' => self::INDEX,
             'body' => [
                 'query' => [
                     'match_all' => new stdClass(),
                 ],
-                '_source' => ['learningMaterialId'],
             ],
-            'size' => self::SIZE_LIMIT,
         ];
+        ["count" => $count ] = $this->doCount($query);
+        $query['body']['_source'] = false;
+        $query['body']['sort'] = ['learningMaterialId'];
+        $query['body']['size'] = 10000;
+        $materialIds = [];
+        while ($count > 0) {
+            $results = $this->doSearch($query);
+            foreach ($results['hits']['hits'] as ["_id" => $id, 'sort' => $sort]) {
+                $materialIds[] = (int) ltrim($id, 'lm_');
+                $query['body']['search_after'] = $sort;
+                $count--;
+            }
+        }
 
-        $results = $this->doScrollSearch($params);
-        return array_map(fn ($item) => $item['_source']['learningMaterialId'], $results);
+        return $materialIds;
     }
 
     public function delete(int $id): bool
