@@ -9,8 +9,10 @@ use App\Repository\LearningMaterialRepository;
 use App\Repository\SessionRepository;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
+use DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressIndicator;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -86,6 +88,35 @@ class DetectMissingCommand extends Command
             $table->setHeaders(['Course', 'Missing Sessions']);
             $table->setRows($tableRows);
             $table->render();
+        }
+
+        $io->newLine();
+        $reIndex = $io->confirm('Would you like to index these missing items again?', true);
+
+        if ($reIndex) {
+            $progressIndicator = new ProgressIndicator($output);
+            $progressIndicator->start('Indexing...');
+            if ($missingMaterials) {
+                $dtos = $this->learningMaterialRepository->findDTOsBy(['id' => $missingMaterials]);
+                $progressIndicator->advance();
+                foreach ($dtos as $dto) {
+                    $this->materialIndex->index([$dto]);
+                    $progressIndicator->advance();
+                }
+            }
+            $progressIndicator->advance();
+            if ($missingSessions) {
+                $indexObjects = $this->courseRepository->getCourseIndexesFor(
+                    array_column($coursesWithMissingSessions, 'courseId')
+                );
+                $progressIndicator->advance();
+                foreach ($indexObjects as $indexObject) {
+                    $this->curriculumIndex->index([$indexObject], new DateTime());
+                    $progressIndicator->advance();
+                }
+            }
+            $progressIndicator->finish('Finished');
+            return Command::SUCCESS;
         }
 
         return Command::FAILURE;
