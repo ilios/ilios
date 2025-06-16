@@ -41,9 +41,9 @@ final class DetectMissingCommandTest extends KernelTestCase
         $command = new DetectMissingCommand(
             $this->learningMaterialRepository,
             $this->courseRepository,
+            $this->sessionRepository,
             $this->materialIndex,
             $this->curriculumIndex,
-            $this->sessionRepository,
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -84,45 +84,45 @@ final class DetectMissingCommandTest extends KernelTestCase
             $output
         );
     }
-    public function testExecuteWithIndexEnabled(): void
+    public function testExecuteWithIndexEnabledNotReindexing(): void
     {
         $this->materialIndex->shouldReceive('isEnabled')->once()->andReturn(true);
 
         $this->materialIndex->shouldReceive('getAllIds')->once()->andReturn([13]);
         $this->learningMaterialRepository->shouldReceive('getFileLearningMaterialIds')->once()->andReturn([13, 14]);
 
-        $this->curriculumIndex->shouldReceive('getAllCourseIds')->once()->andReturn([11]);
-        $this->courseRepository->shouldReceive('getIdsForCoursesWithSessions')->once()->andReturn([11, 33]);
-
         $this->curriculumIndex->shouldReceive('getAllSessionIds')->once()->andReturn([22]);
         $this->sessionRepository->shouldReceive('getIds')->once()->andReturn([1, 22]);
 
+        $this->sessionRepository
+            ->shouldReceive('getCoursesForSessionIds')->once()
+            ->with([1])
+            ->andReturn([
+                [
+                    'courseId' => 33,
+                    'courseTitle' => 'Our Missing Course',
+                    'sessionId' => 1,
+                ],
+            ]);
 
+        $this->commandTester->setInputs(['no']);
         $this->commandTester->execute([]);
 
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
-            '/1 materials are missing from the index/',
+            '/Missing Materials \(1\)/',
             $output
         );
         $this->assertMatchesRegularExpression(
-            '/Materials: 14/',
+            '/14/',
             $output
         );
         $this->assertMatchesRegularExpression(
-            '/1 courses are missing from the index/',
+            '/Missing Sessions \(1\)/',
             $output
         );
         $this->assertMatchesRegularExpression(
-            '/Courses: 33/',
-            $output
-        );
-        $this->assertMatchesRegularExpression(
-            '/1 sessions are missing from the index/',
-            $output
-        );
-        $this->assertMatchesRegularExpression(
-            '/Sessions: 1/',
+            '/Our Missing Course \(33\) 1 /',
             $output
         );
     }

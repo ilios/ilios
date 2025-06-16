@@ -27,7 +27,7 @@ class DetectMissingCommand extends Command
 {
     public function __construct(
         protected readonly LearningMaterialRepository $learningMaterialRepository,
-        protected readonly CourseREpository $courseRepository,
+        protected readonly CourseRepository $courseRepository,
         protected readonly SessionRepository $sessionRepository,
         protected readonly LearningMaterials $materialIndex,
         protected readonly Curriculum $curriculumIndex,
