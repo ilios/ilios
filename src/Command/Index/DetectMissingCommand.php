@@ -12,10 +12,11 @@ use App\Service\Index\LearningMaterials;
 use DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\ProgressIndicator;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
@@ -49,6 +50,29 @@ class DetectMissingCommand extends Command
             return Command::SUCCESS;
         }
 
+        return $this->displayResults($io, $output, $missingMaterials, $missingSessions);
+    }
+
+    protected function checkMaterials(): array
+    {
+        $materialsInIndex = $this->materialIndex->getAllIds();
+        $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
+        return array_diff($allIds, $materialsInIndex);
+    }
+
+    protected function checkSessions(): array
+    {
+        $sessionsInIndex = $this->curriculumIndex->getAllSessionIds();
+        $allIds = $this->sessionRepository->getIds();
+        return array_diff($allIds, $sessionsInIndex);
+    }
+
+    protected function displayResults(
+        StyleInterface $io,
+        OutputInterface $output,
+        array $missingMaterials,
+        array $missingSessions
+    ): int {
         if ($missingMaterials) {
             $io->title('Missing Materials (' . count($missingMaterials) . ')');
             $count = count($missingMaterials);
@@ -100,48 +124,40 @@ class DetectMissingCommand extends Command
         }
 
         $io->newLine();
-        $reIndex = $io->confirm('Would you like to index these missing items again?', true);
+
+        $reIndex =  $io->confirm('Would you like to index these missing items again?', true);
 
         if ($reIndex) {
-            $progressIndicator = new ProgressIndicator($output);
-            $progressIndicator->start('Indexing...');
-            if ($missingMaterials) {
-                $dtos = $this->learningMaterialRepository->findDTOsBy(['id' => $missingMaterials]);
-                $progressIndicator->advance();
-                foreach ($dtos as $dto) {
-                    $this->materialIndex->index([$dto]);
-                    $progressIndicator->advance();
-                }
-            }
-            $progressIndicator->advance();
-            if ($missingSessions) {
-                $indexObjects = $this->courseRepository->getCourseIndexesFor(
-                    array_column($coursesWithMissingSessions, 'courseId')
-                );
-                $progressIndicator->advance();
-                foreach ($indexObjects as $indexObject) {
-                    $this->curriculumIndex->index([$indexObject], new DateTime());
-                    $progressIndicator->advance();
-                }
-            }
-            $progressIndicator->finish('Finished');
+            $this->reIndex($output, $missingMaterials, $coursesWithMissingSessions);
             return Command::SUCCESS;
         }
 
         return Command::FAILURE;
     }
 
-    protected function checkMaterials(): array
+    protected function reIndex(OutputInterface $output, array $materials, array $courses): void
     {
-        $materialsInIndex = $this->materialIndex->getAllIds();
-        $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
-        return array_diff($allIds, $materialsInIndex);
-    }
-
-    protected function checkSessions(): array
-    {
-        $sessionsInIndex = $this->curriculumIndex->getAllSessionIds();
-        $allIds = $this->sessionRepository->getIds();
-        return array_diff($allIds, $sessionsInIndex);
+        $progressBar = new ProgressBar($output, count($materials) + count($courses));
+        $progressBar->start();
+        if ($materials) {
+            $dtos = $this->learningMaterialRepository->findDTOsBy(['id' => $materials]);
+            $progressBar->advance();
+            foreach ($dtos as $dto) {
+                $this->materialIndex->index([$dto]);
+                $progressBar->advance();
+            }
+        }
+        $progressBar->advance();
+        if ($courses) {
+            $indexObjects = $this->courseRepository->getCourseIndexesFor(
+                array_column($courses, 'courseId')
+            );
+            $progressBar->advance();
+            foreach ($indexObjects as $indexObject) {
+                $this->curriculumIndex->index([$indexObject], new DateTime());
+                $progressBar->advance();
+            }
+        }
+        $progressBar->finish();
     }
 }
