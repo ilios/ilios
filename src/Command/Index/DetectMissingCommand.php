@@ -57,14 +57,18 @@ class DetectMissingCommand extends Command
     {
         $materialsInIndex = $this->materialIndex->getAllIds();
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
-        return array_diff($allIds, $materialsInIndex);
+        return array_values(
+            array_diff($allIds, $materialsInIndex)
+        );
     }
 
     protected function checkSessions(): array
     {
         $sessionsInIndex = $this->curriculumIndex->getAllSessionIds();
         $allIds = $this->sessionRepository->getIds();
-        return array_diff($allIds, $sessionsInIndex);
+        return array_values(
+            array_diff($allIds, $sessionsInIndex)
+        );
     }
 
     protected function displayResults(
