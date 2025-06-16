@@ -51,7 +51,11 @@ class DetectMissingCommand extends Command
 
         if ($missingMaterials) {
             $io->title('Missing Materials (' . count($missingMaterials) . ')');
-            $io->listing($missingMaterials);
+            $count = count($missingMaterials);
+            $io->listing(array_slice($missingMaterials, 0, 10));
+            if ($count > 10) {
+                $io->warning('and ' . $count - 10 . ' additional materials.');
+            }
         }
 
         $coursesWithMissingSessions = [];
@@ -82,12 +86,17 @@ class DetectMissingCommand extends Command
 
                 return ["{$item['title']} ({$item['courseId']})", $sessions];
             }, $coursesWithMissingSessions);
+
+            $count = count($tableRows);
             $io->title('Missing Sessions (' . count($missingSessions) . ')');
             $table = new Table($output);
             $table->setStyle('compact');
             $table->setHeaders(['Course', 'Missing Sessions']);
-            $table->setRows($tableRows);
+            $table->setRows(array_slice($tableRows, 0, 10));
             $table->render();
+            if ($count > 10) {
+                $io->warning('and ' . $count - 10 . ' additional courses.');
+            }
         }
 
         $io->newLine();
