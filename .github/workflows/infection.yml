@@ -31,7 +31,7 @@ jobs:
       - name: install dependencies
         run: composer install --no-interaction --prefer-dist
       - name: create coverage
-        run: vendor/bin/phpunit --coverage-xml=build/coverage --log-junit=build/coverage/phpunit.junit.xml
+        run: bin/phpunit --coverage-xml=build/coverage --log-junit=build/coverage/phpunit.junit.xml
       - name: infection
         run: vendor/bin/infection --coverage=build/coverage
       - name: Upload artifact

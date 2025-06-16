@@ -83,7 +83,7 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: Run Tests
-      run: vendor/bin/phpunit --coverage-clover build/coverage.xml
+      run: bin/phpunit --coverage-clover build/coverage.xml
     - name: Archive Coverage Report
       uses: actions/upload-artifact@v4
       with:
@@ -138,9 +138,9 @@ jobs:
     - name: install dependencies
       run: composer install --no-interaction --prefer-dist
     - name: First Run
-      run: vendor/bin/phpunit --group twice
+      run: bin/phpunit --group twice
     - name: Second Run
-      run: vendor/bin/phpunit --group twice
+      run: bin/phpunit --group twice
 
   build_containers:
     name: Build ${{ matrix.image }} (${{ matrix.arch }})
