@@ -19,6 +19,8 @@ doctrine:
         report_fields_where_declared: true
         validate_xml_mapping: true
         auto_mapping: true
+        # Opt-in to PHP native lazy objects
+        enable_native_lazy_objects: true
         mappings:
             App:
                 type: attribute
