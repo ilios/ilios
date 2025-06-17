@@ -40,8 +40,11 @@ class UpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->queueUsers($output);
+        sleep(2);
         $this->queueLearningMaterials($output);
+        sleep(2);
         $this->queueCourses($output);
+        sleep(2);
         $this->queueMesh($output);
 
         return Command::SUCCESS;
