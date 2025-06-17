@@ -86,7 +86,6 @@
     "symfony/browser-kit": "@stable",
     "symfony/css-selector": "@stable",
     "symfony/debug-bundle": "@stable",
-    "symfony/phpunit-bridge": "@stable",
     "symfony/stopwatch": "@stable",
     "symfony/web-profiler-bundle": "@stable"
   },
