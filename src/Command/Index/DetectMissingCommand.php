@@ -9,10 +9,15 @@ use App\Repository\LearningMaterialRepository;
 use App\Repository\SessionRepository;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
+use DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\StyleInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'ilios:index:detect-missing',
@@ -21,11 +26,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DetectMissingCommand extends Command
 {
     public function __construct(
-        protected LearningMaterialRepository $learningMaterialRepository,
-        protected CourseRepository $courseRepository,
-        protected LearningMaterials $materialIndex,
-        protected Curriculum $curriculumIndex,
-        protected SessionRepository $sessionRepository,
+        protected readonly LearningMaterialRepository $learningMaterialRepository,
+        protected readonly CourseRepository $courseRepository,
+        protected readonly SessionRepository $sessionRepository,
+        protected readonly LearningMaterials $materialIndex,
+        protected readonly Curriculum $curriculumIndex,
     ) {
         parent::__construct();
     }
@@ -36,68 +41,127 @@ class DetectMissingCommand extends Command
             $output->writeln("<comment>Indexing is not currently configured.</comment>");
             return Command::FAILURE;
         }
-        $materialsResult = $this->checkMaterials($output);
-        $coursesResult = $this->checkCourses($output);
-        $sessionsResult = $this->checkSessions($output);
-        if (
-            !$materialsResult ||
-            !$coursesResult ||
-            !$sessionsResult
-        ) {
-            return Command::FAILURE;
+        $io = new SymfonyStyle($input, $output);
+        $missingMaterials = $this->checkMaterials();
+        $missingSessions = $this->checkSessions();
+
+        if (!$missingMaterials && !$missingSessions) {
+            $io->success("All Items Indexed.");
+            return Command::SUCCESS;
         }
 
-        return Command::SUCCESS;
+        return $this->displayResults($io, $output, $missingMaterials, $missingSessions);
     }
 
-    protected function checkMaterials(OutputInterface $output): bool
+    protected function checkMaterials(): array
     {
         $materialsInIndex = $this->materialIndex->getAllIds();
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
-        $missing = array_diff($allIds, $materialsInIndex);
-        $count = count($missing);
-        if ($count) {
-            $list = implode(', ', $missing);
-            $output->writeln("<error>{$count} materials are missing from the index.</error>");
-            $output->writeln("<comment>Materials: {$list}</comment>");
-            return false;
-        }
-
-        $output->writeln("<info>All materials are indexed.</info>");
-        return true;
+        return array_values(
+            array_diff($allIds, $materialsInIndex)
+        );
     }
 
-    protected function checkCourses(OutputInterface $output): bool
-    {
-        $coursesInIndex = $this->curriculumIndex->getAllCourseIds();
-        $allIds = $this->courseRepository->getIdsForCoursesWithSessions();
-        $missing = array_diff($allIds, $coursesInIndex);
-        $count = count($missing);
-        if ($count) {
-            $list = implode(', ', $missing);
-            $output->writeln("<error>{$count} courses are missing from the index.</error>");
-            $output->writeln("<comment>Courses: {$list}</comment>");
-            return false;
-        }
-
-        $output->writeln("<info>All courses are indexed.</info>");
-        return true;
-    }
-
-    protected function checkSessions(OutputInterface $output): bool
+    protected function checkSessions(): array
     {
         $sessionsInIndex = $this->curriculumIndex->getAllSessionIds();
         $allIds = $this->sessionRepository->getIds();
-        $missing = array_diff($allIds, $sessionsInIndex);
-        $count = count($missing);
-        if ($count) {
-            $list = implode(', ', $missing);
-            $output->writeln("<error>{$count} sessions are missing from the index.</error>");
-            $output->writeln("<comment>Sessions: {$list}</comment>");
-            return false;
+        return array_values(
+            array_diff($allIds, $sessionsInIndex)
+        );
+    }
+
+    protected function displayResults(
+        StyleInterface $io,
+        OutputInterface $output,
+        array $missingMaterials,
+        array $missingSessions
+    ): int {
+        if ($missingMaterials) {
+            $io->title('Missing Materials (' . count($missingMaterials) . ')');
+            $count = count($missingMaterials);
+            $io->listing(array_slice($missingMaterials, 0, 10));
+            if ($count > 10) {
+                $io->warning('and ' . $count - 10 . ' additional materials.');
+            }
         }
 
-        $output->writeln("<info>All sessions are indexed.</info>");
-        return true;
+        $coursesWithMissingSessions = [];
+
+        if ($missingSessions) {
+            $coursesWithMissingSessions = array_reduce(
+                $this->sessionRepository->getCoursesForSessionIds($missingSessions),
+                function (array $carry, array $arr): array {
+                    if (!array_key_exists($arr['courseId'], $carry)) {
+                        $carry[$arr['courseId']] = [
+                            'title' => $arr['courseTitle'],
+                            'courseId' => $arr['courseId'],
+                            'sessions' => [],
+                        ];
+                    }
+                    $carry[$arr['courseId']]['sessions'][] = $arr['sessionId'];
+
+                    return $carry;
+                },
+                []
+            );
+            $tableRows = array_map(function (array $item) {
+                $count = count($item['sessions']);
+                $sessions = implode(', ', array_slice($item['sessions'], 0, 10));
+                if ($count > 10) {
+                    $sessions .= ' and ' . $count - 10 . ' additional sessions';
+                }
+
+                return ["{$item['title']} ({$item['courseId']})", $sessions];
+            }, $coursesWithMissingSessions);
+
+            $count = count($tableRows);
+            $io->title('Missing Sessions (' . count($missingSessions) . ')');
+            $table = new Table($output);
+            $table->setStyle('compact');
+            $table->setHeaders(['Course', 'Missing Sessions']);
+            $table->setRows(array_slice($tableRows, 0, 10));
+            $table->render();
+            if ($count > 10) {
+                $io->warning('and ' . $count - 10 . ' additional courses.');
+            }
+        }
+
+        $io->newLine();
+
+        $reIndex =  $io->confirm('Would you like to index these missing items again?', true);
+
+        if ($reIndex) {
+            $this->reIndex($output, $missingMaterials, $coursesWithMissingSessions);
+            return Command::SUCCESS;
+        }
+
+        return Command::FAILURE;
+    }
+
+    protected function reIndex(OutputInterface $output, array $materials, array $courses): void
+    {
+        $progressBar = new ProgressBar($output, count($materials) + count($courses));
+        $progressBar->start();
+        if ($materials) {
+            $dtos = $this->learningMaterialRepository->findDTOsBy(['id' => $materials]);
+            $progressBar->advance();
+            foreach ($dtos as $dto) {
+                $this->materialIndex->index([$dto]);
+                $progressBar->advance();
+            }
+        }
+        $progressBar->advance();
+        if ($courses) {
+            $indexObjects = $this->courseRepository->getCourseIndexesFor(
+                array_column($courses, 'courseId')
+            );
+            $progressBar->advance();
+            foreach ($indexObjects as $indexObject) {
+                $this->curriculumIndex->index([$indexObject], new DateTime());
+                $progressBar->advance();
+            }
+        }
+        $progressBar->finish();
     }
 }

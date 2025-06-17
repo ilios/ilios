@@ -340,4 +340,16 @@ class SessionRepository extends ServiceEntityRepository implements
         return (int) $this->getEntityManager()->createQuery('SELECT COUNT(s.id) FROM App\Entity\Session s')
             ->getSingleScalarResult();
     }
+
+    public function getCoursesForSessionIds(array $ids): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('s.id as sessionId, c.id as courseId, c.title as courseTitle')
+            ->from(Session::class, 's')
+            ->leftJoin('s.course', 'c')
+            ->where('s.id in (:ids)')
+            ->setParameter(':ids', $ids);
+
+        return $qb->getQuery()->getResult();
+    }
 }

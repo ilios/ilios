@@ -13,7 +13,6 @@ use App\Service\NonCachingIliosFileSystem;
 use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
-use stdClass;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class LearningMaterials extends OpenSearchBase
@@ -167,19 +166,35 @@ class LearningMaterials extends OpenSearchBase
 
     public function getAllIds(): array
     {
-        $params = [
+        $query = [
             'index' => self::INDEX,
             'body' => [
-                'query' => [
-                    'match_all' => new stdClass(),
+                'aggs' => [
+                    'learningMaterialId' => [
+                        'terms' => [
+                            'field' => 'learningMaterialId',
+                            'size' => self::SIZE_LIMIT,
+                        ],
+                    ],
                 ],
-                '_source' => ['learningMaterialId'],
+                'size' => 0,
             ],
-            'size' => self::SIZE_LIMIT,
         ];
+        $gte = 0;
+        $lt = self::SIZE_LIMIT;
+        $materialIds = [];
+        do {
+            $query['body']['query']['bool']['filter'][0]['range']['learningMaterialId']['gte'] = $gte;
+            $query['body']['query']['bool']['filter'][0]['range']['learningMaterialId']['lt'] = $lt;
+            $results = $this->doSearch($query);
+            foreach ($results['aggregations']['learningMaterialId']['buckets'] as ['key' => $key]) {
+                $materialIds[] = $key;
+            }
+            $gte = $lt;
+            $lt += self::SIZE_LIMIT;
+        } while ($results['hits']['total']['value']);
 
-        $results = $this->doScrollSearch($params);
-        return array_map(fn ($item) => $item['_source']['learningMaterialId'], $results);
+        return $materialIds;
     }
 
     public function delete(int $id): bool

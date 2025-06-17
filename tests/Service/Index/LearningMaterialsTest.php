@@ -354,17 +354,35 @@ final class LearningMaterialsTest extends TestCase
     public function testGetAllIds(): void
     {
         $obj = new LearningMaterials($this->fs, $this->bus, $this->repository, $this->config, $this->client);
+
         $this->client->shouldReceive('search')->once()->andReturn([
-            'hits' => [
-                'hits' => [
-                    ['_source' => ['learningMaterialId' => 1]],
-                    ['_source' => ['learningMaterialId' => 2]],
+            'aggregations' => [
+                'learningMaterialId' => [
+                    'buckets' => [
+                        ['key' => 1],
+                        ['key' => 2],
+                    ],
                 ],
             ],
-            '_scroll_id' => '123',
+            'hits' => [
+                'total' => [
+                    'value' => 2,
+                ],
+            ],
         ]);
-        $this->client->shouldReceive('scroll')->once()->andReturn(['hits' => ['hits' => []]]);
-        $this->client->shouldReceive('clearScroll')->once();
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'aggregations' => [
+                'learningMaterialId' => [
+                    'buckets' => [
+                    ],
+                ],
+            ],
+            'hits' => [
+                'total' => [
+                    'value' => 0,
+                ],
+            ],
+        ]);
         $ids = $obj->getAllIds();
         $this->assertCount(2, $ids);
         $this->assertEquals([1, 2], $ids);

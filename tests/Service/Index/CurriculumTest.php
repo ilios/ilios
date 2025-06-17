@@ -310,17 +310,17 @@ final class CurriculumTest extends TestCase
     public function testGetAllCourseIds(): void
     {
         $obj = new Curriculum($this->config, $this->client);
+        //$results['aggregations']['courseId']['buckets']
         $this->client->shouldReceive('search')->once()->andReturn([
-            'hits' => [
-                'hits' => [
-                    ['_source' => ['courseId' => 1]],
-                    ['_source' => ['courseId' => 2]],
+            'aggregations' => [
+                'courseId' => [
+                    'buckets' => [
+                        ['key' => 1],
+                        ['key' => 2],
+                    ],
                 ],
             ],
-            '_scroll_id' => '123',
         ]);
-        $this->client->shouldReceive('scroll')->once()->andReturn(['hits' => ['hits' => []]]);
-        $this->client->shouldReceive('clearScroll')->once();
         $courseIds = $obj->getAllCourseIds();
         $this->assertCount(2, $courseIds);
         $this->assertEquals([1, 2], $courseIds);
@@ -330,16 +330,33 @@ final class CurriculumTest extends TestCase
     {
         $obj = new Curriculum($this->config, $this->client);
         $this->client->shouldReceive('search')->once()->andReturn([
-            'hits' => [
-                'hits' => [
-                    ['_source' => ['sessionId' => 1]],
-                    ['_source' => ['sessionId' => 2]],
+            'aggregations' => [
+                'sessionId' => [
+                    'buckets' => [
+                        ['key' => 1],
+                        ['key' => 2],
+                    ],
                 ],
             ],
-            '_scroll_id' => '123',
+            'hits' => [
+                'total' => [
+                    'value' => 2,
+                ],
+            ],
         ]);
-        $this->client->shouldReceive('scroll')->once()->andReturn(['hits' => ['hits' => []]]);
-        $this->client->shouldReceive('clearScroll')->once();
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'aggregations' => [
+                'sessionId' => [
+                    'buckets' => [
+                    ],
+                ],
+            ],
+            'hits' => [
+                'total' => [
+                    'value' => 0,
+                ],
+            ],
+        ]);
         $ids = $obj->getAllSessionIds();
         $this->assertCount(2, $ids);
         $this->assertEquals([1, 2], $ids);
