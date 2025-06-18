@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command\Index;
 
-use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
 use App\Repository\SessionRepository;
 use App\Service\Index\Curriculum;
@@ -27,7 +26,6 @@ class DetectMissingCommand extends Command
 {
     public function __construct(
         protected readonly LearningMaterialRepository $learningMaterialRepository,
-        protected readonly CourseRepository $courseRepository,
         protected readonly SessionRepository $sessionRepository,
         protected readonly LearningMaterials $materialIndex,
         protected readonly Curriculum $curriculumIndex,
@@ -153,12 +151,10 @@ class DetectMissingCommand extends Command
         }
         $progressBar->advance();
         if ($courses) {
-            $indexObjects = $this->courseRepository->getCourseIndexesFor(
-                array_column($courses, 'courseId')
-            );
             $progressBar->advance();
-            foreach ($indexObjects as $indexObject) {
-                $this->curriculumIndex->index([$indexObject], new DateTime());
+            $ids = array_column($courses, 'courseId');
+            foreach ($ids as $id) {
+                $this->curriculumIndex->index([$id], new DateTime());
                 $progressBar->advance();
             }
         }
