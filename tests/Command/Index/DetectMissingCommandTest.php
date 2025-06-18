@@ -12,6 +12,7 @@ use App\Repository\LearningMaterialRepository;
 use App\Repository\SessionRepository;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
+use DateTime;
 use PHPUnit\Framework\Attributes\Group;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -27,7 +28,6 @@ final class DetectMissingCommandTest extends KernelTestCase
     protected CommandTester $commandTester;
     protected m\MockInterface | LearningMaterialRepository $learningMaterialRepository;
     protected m\MockInterface | LearningMaterials $materialIndex;
-    protected m\MockInterface | CourseRepository $courseRepository;
     protected m\MockInterface | Curriculum $curriculumIndex;
     protected m\MockInterface | SessionRepository $sessionRepository;
 
@@ -36,13 +36,11 @@ final class DetectMissingCommandTest extends KernelTestCase
         parent::setUp();
         $this->learningMaterialRepository = m::mock(LearningMaterialRepository::class);
         $this->materialIndex = m::mock(LearningMaterials::class);
-        $this->courseRepository = m::mock(CourseRepository::class);
         $this->curriculumIndex = m::mock(Curriculum::class);
         $this->sessionRepository = m::mock(SessionRepository::class);
 
         $command = new DetectMissingCommand(
             $this->learningMaterialRepository,
-            $this->courseRepository,
             $this->sessionRepository,
             $this->materialIndex,
             $this->curriculumIndex,
@@ -62,7 +60,6 @@ final class DetectMissingCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->learningMaterialRepository);
         unset($this->materialIndex);
-        unset($this->courseRepository);
         unset($this->curriculumIndex);
         unset($this->sessionRepository);
         unset($this->commandTester);
@@ -75,7 +72,6 @@ final class DetectMissingCommandTest extends KernelTestCase
         $this->curriculumIndex->shouldNotReceive('getAllCourseIds');
         $this->curriculumIndex->shouldNotReceive('getAllSessionIds');
         $this->learningMaterialRepository->shouldNotReceive('getFileLearningMaterialIds');
-        $this->courseRepository->shouldNotReceive('getIdsForCoursesWithSessions');
         $this->sessionRepository->shouldNotReceive('getIds');
 
         $this->commandTester->execute([]);
@@ -171,12 +167,11 @@ final class DetectMissingCommandTest extends KernelTestCase
                 ],
             ]);
 
-        $c = m::mock(IndexableCourse::class);
-        $this->courseRepository->shouldReceive('getCourseIndexesFor')->once()
-            ->with([33])
-            ->andReturn([$c]);
-
-        $this->curriculumIndex->shouldReceive('index')->once()->andReturn(true);
+        $this->curriculumIndex->shouldReceive('index')
+            ->once()
+            ->withArgs(
+                fn (array $ids, DateTime $dateTime) => $ids === [33] && $dateTime->diff(new DateTime())->days === 0
+            );
 
         $this->commandTester->setInputs(['yes']);
         $this->commandTester->execute([]);

@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command\Index;
 
-use App\Repository\CourseRepository;
-use App\Repository\LearningMaterialRepository;
 use App\Service\Index\Curriculum;
-use App\Service\Index\LearningMaterials;
 use Composer\Console\Input\InputArgument;
 use DateTime;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -22,7 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CourseCommand extends Command
 {
     public function __construct(
-        protected CourseRepository $courseRepository,
         protected Curriculum $index,
     ) {
         parent::__construct();
@@ -45,8 +41,7 @@ class CourseCommand extends Command
             return Command::FAILURE;
         }
         $id = $input->getArgument('courseId');
-        $indexes = $this->courseRepository->getCourseIndexesFor([$id]);
-        $this->index->index($indexes, new DateTime());
+        $this->index->index([$id], new DateTime());
 
         return Command::SUCCESS;
     }

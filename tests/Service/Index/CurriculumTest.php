@@ -6,6 +6,7 @@ namespace App\Tests\Service\Index;
 
 use App\Classes\IndexableCourse;
 use App\Entity\DTO\CourseDTO;
+use App\Repository\CourseRepository;
 use App\Service\Config;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
@@ -13,17 +14,18 @@ use App\Tests\TestCase;
 use OpenSearch\Client;
 use DateTime;
 use Exception;
-use InvalidArgumentException;
 use Mockery as m;
 
 final class CurriculumTest extends TestCase
 {
     private m\MockInterface $client;
     private m\MockInterface $config;
+    protected m\MockInterface | CourseRepository $repository;
 
     public function setUp(): void
     {
         parent::setUp();
+        $this->repository = m::mock(CourseRepository::class);
         $this->client = m::mock(Client::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')
@@ -33,46 +35,33 @@ final class CurriculumTest extends TestCase
     public function tearDown(): void
     {
         parent::tearDown();
+        unset($this->repository);
         unset($this->client);
         unset($this->config);
     }
 
     public function testSetup(): void
     {
-        $obj1 = new Curriculum($this->config, $this->client);
+        $obj1 = new Curriculum($this->repository, $this->config, $this->client);
         $this->assertTrue($obj1->isEnabled());
 
-        $obj2 = new Curriculum($this->config, null);
+        $obj2 = new Curriculum($this->repository, $this->config, null);
         $this->assertFalse($obj2->isEnabled());
-    }
-
-
-    public function testIndexCoursesThrowsWhenNotIndexableCourse(): void
-    {
-        $obj = new Curriculum($this->config, null);
-        $this->expectException(InvalidArgumentException::class);
-        $courses = [
-            m::mock(IndexableCourse::class),
-            m::mock(CourseDTO::class),
-            m::mock(IndexableCourse::class),
-        ];
-        $obj->index($courses, new DateTime());
     }
 
     public function testIndexCoursesWorksWithoutSearch(): void
     {
-        $obj = new Curriculum($this->config, null);
-        $mockCourse = m::mock(IndexableCourse::class);
+        $obj = new Curriculum($this->repository, $this->config, null);
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             'Search is not configured, isEnabled() should be called before calling this method'
         );
-        $obj->index([$mockCourse], new DateTime());
+        $obj->index([13], new DateTime());
     }
 
     public function testIndexCourses(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
         $mockDto->id = 1;
@@ -92,6 +81,12 @@ final class CurriculumTest extends TestCase
 
         $stamp = new DateTime();
         $this->setupSkippable($stamp, [1, 2], []);
+
+        $this->repository
+            ->shouldReceive('getCourseIndexesFor')->once()
+            ->with([1, 2])
+            ->andReturn([$course1, $course2]);
+
         $this->client
             ->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
                 $this->validateRequest($method, $uri, $data, [
@@ -215,12 +210,12 @@ final class CurriculumTest extends TestCase
                     ],
                 ],
             ]);
-        $obj->index([$course1, $course2], $stamp);
+        $obj->index([1, 2], $stamp);
     }
 
     public function testSkipsPreviouslyIndexedCourses(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
         $mockDto->id = 1;
@@ -237,6 +232,12 @@ final class CurriculumTest extends TestCase
 
         $stamp = new DateTime();
         $this->setupSkippable($stamp, [1, 2], [1]);
+
+        $this->repository
+            ->shouldReceive('getCourseIndexesFor')->once()
+            ->with([2])
+            ->andReturn([$course2]);
+
         $this->client->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
             $this->validateRequest($method, $uri, $data, [
                 [
@@ -251,12 +252,12 @@ final class CurriculumTest extends TestCase
             ]);
             return true;
         })->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
-        $obj->index([$course1, $course2], $stamp);
+        $obj->index([1, 2], $stamp);
     }
 
     public function testIndexCourseWithNoSessions(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $course1 = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
         $mockDto->id = 1;
@@ -265,9 +266,13 @@ final class CurriculumTest extends TestCase
 
         $stamp = new DateTime();
         $this->setupSkippable($stamp, [1], []);
+        $this->repository
+            ->shouldReceive('getCourseIndexesFor')->once()
+            ->with([1])
+            ->andReturn([$course1]);
 
         $this->client->shouldNotReceive('bulk');
-        $obj->index([$course1], new DateTime());
+        $obj->index([1], new DateTime());
     }
 
     protected function setupSkippable(DateTime $stamp, array $courseIds, array $skippableCourses): void
@@ -309,7 +314,7 @@ final class CurriculumTest extends TestCase
 
     public function testGetAllCourseIds(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         //$results['aggregations']['courseId']['buckets']
         $this->client->shouldReceive('search')->once()->andReturn([
             'aggregations' => [
@@ -328,7 +333,7 @@ final class CurriculumTest extends TestCase
 
     public function testGetAllSessionIds(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->andReturn([
             'aggregations' => [
                 'sessionId' => [
@@ -364,7 +369,7 @@ final class CurriculumTest extends TestCase
 
     public function testGetMapping(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $mapping = $obj->getMapping();
         $this->assertArrayHasKey('settings', $mapping);
         $this->assertArrayHasKey('mappings', $mapping);
@@ -372,7 +377,7 @@ final class CurriculumTest extends TestCase
 
     public function testGetPipeline(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $pipeline = $obj->getPipeline();
         $this->assertArrayHasKey('id', $pipeline);
         $this->assertArrayHasKey('body', $pipeline);
@@ -381,7 +386,7 @@ final class CurriculumTest extends TestCase
 
     public function testSearchSortOf(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->withArgs(function ($params) {
             $this->assertArrayHasKey('index', $params);
             $this->assertEquals(Curriculum::INDEX, $params['index']);
@@ -410,7 +415,7 @@ final class CurriculumTest extends TestCase
 
     public function testSearchOnlySuggest(): void
     {
-        $obj = new Curriculum($this->config, $this->client);
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->andReturn([
             'hits' => [
                 'hits' => [],

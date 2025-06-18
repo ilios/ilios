@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command\Index;
 
-use App\Classes\IndexableCourse;
 use App\Command\Index\CourseCommand;
-use App\Repository\CourseRepository;
 use App\Service\Index\Curriculum;
 use DateTime;
 use PHPUnit\Framework\Attributes\Group;
@@ -22,16 +20,14 @@ final class CourseCommandTest extends KernelTestCase
     use MockeryPHPUnitIntegration;
 
     protected CommandTester $commandTester;
-    protected m\MockInterface | CourseRepository $repository;
     protected m\MockInterface | Curriculum $index;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->repository = m::mock(CourseRepository::class);
         $this->index = m::mock(Curriculum::class);
 
-        $command = new CourseCommand($this->repository, $this->index);
+        $command = new CourseCommand($this->index);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -45,7 +41,6 @@ final class CourseCommandTest extends KernelTestCase
     public function tearDown(): void
     {
         parent::tearDown();
-        unset($this->repository);
         unset($this->index);
         unset($this->commandTester);
     }
@@ -53,12 +48,10 @@ final class CourseCommandTest extends KernelTestCase
     public function testExecute(): void
     {
         $this->index->shouldReceive('isEnabled')->once()->andReturn(true);
-        $c = m::mock(IndexableCourse::class);
-        $this->repository->shouldReceive('getCourseIndexesFor')->once()->with([13])->andReturn([$c]);
         $this->index->shouldReceive('index')
             ->once()
             ->withArgs(
-                fn (array $a, DateTime $dateTime) => $c === $a[0] && $dateTime->diff(new DateTime())->days === 0
+                fn (array $ids, DateTime $dateTime) => $ids === [13] && $dateTime->diff(new DateTime())->days === 0
             );
         $this->commandTester->execute(['courseId' => 13]);
 

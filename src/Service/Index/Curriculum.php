@@ -6,15 +6,25 @@ namespace App\Service\Index;
 
 use App\Classes\OpenSearchBase;
 use App\Classes\IndexableCourse;
+use App\Repository\CourseRepository;
+use App\Service\Config;
 use DateTime;
 use Exception;
-use InvalidArgumentException;
+use OpenSearch\Client;
 use stdClass;
 
 class Curriculum extends OpenSearchBase
 {
     public const string INDEX = 'ilios-curriculum';
     public const string SESSION_ID_PREFIX = 'session_';
+
+    public function __construct(
+        private readonly CourseRepository $courseRepository,
+        Config $config,
+        ?Client $client = null
+    ) {
+        parent::__construct($config, $client);
+    }
 
     public function search(string $query, bool $onlySuggest): array
     {
@@ -97,31 +107,20 @@ class Curriculum extends OpenSearchBase
         return $this->parseCurriculumSearchResults($results);
     }
 
-    public function index(array $courses, DateTime $requestCreatedAt): bool
+    public function index(array $courseIds, DateTime $requestCreatedAt): bool
     {
-        foreach ($courses as $course) {
-            if (!$course instanceof IndexableCourse) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        '$courses must be an array of %s. %s found',
-                        IndexableCourse::class,
-                        $course::class
-                    )
-                );
-            }
-        }
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
-        $courseIds = array_map(function (IndexableCourse $idx) {
-            return $idx->courseDTO->id;
-        }, $courses);
+        array_walk($courseIds, 'intval');
 
         $skipCourseIds = $this->findSkippableCourseIds($courseIds, $requestCreatedAt);
-        $coursesToIndex = array_filter(
-            $courses,
-            fn(IndexableCourse $idx) => !in_array($idx->courseDTO->id, $skipCourseIds)
+        $idsToIndex = array_filter(
+            $courseIds,
+            fn(int $courseId) => !in_array($courseId, $skipCourseIds)
         );
+
+        $coursesToIndex = $this->courseRepository->getCourseIndexesFor(array_values($idsToIndex));
 
         $input = array_reduce($coursesToIndex, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
