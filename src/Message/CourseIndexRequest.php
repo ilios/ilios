@@ -6,7 +6,9 @@ namespace App\Message;
 
 use DateTime;
 use InvalidArgumentException;
+use Symfony\Component\Messenger\Attribute\AsMessage;
 
+#[AsMessage('async')]
 class CourseIndexRequest
 {
     private array $courseIds;
