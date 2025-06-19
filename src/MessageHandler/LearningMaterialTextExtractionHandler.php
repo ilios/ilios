@@ -9,7 +9,9 @@ use App\Message\LearningMaterialTextExtractionRequest;
 use App\Repository\LearningMaterialRepository;
 use App\Service\LearningMaterialTextExtractor;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
 
 #[AsMessageHandler]
 class LearningMaterialTextExtractionHandler
@@ -30,7 +32,10 @@ class LearningMaterialTextExtractionHandler
         }
         $chunks = array_chunk($message->getLearningMaterialIds(), LearningMaterialIndexRequest::MAX_MATERIALS);
         foreach ($chunks as $ids) {
-            $this->bus->dispatch(new LearningMaterialIndexRequest($ids, true));
+            $this->bus->dispatch(
+                new Envelope(new LearningMaterialIndexRequest($ids, true))
+                    ->with(new DispatchAfterCurrentBusStamp()),
+            );
         }
     }
 }

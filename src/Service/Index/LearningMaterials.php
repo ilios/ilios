@@ -13,7 +13,9 @@ use App\Service\NonCachingIliosFileSystem;
 use Exception;
 use OpenSearch\Client;
 use InvalidArgumentException;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
 
 class LearningMaterials extends OpenSearchBase
 {
@@ -94,7 +96,10 @@ class LearningMaterials extends OpenSearchBase
         $associatedCourses = $this->learningMaterialRepository->getCourseIdsForMaterials($ids);
         $chunks = array_chunk($associatedCourses, CourseIndexRequest::MAX_COURSES);
         foreach ($chunks as $ids) {
-            $this->bus->dispatch(new CourseIndexRequest($ids));
+            $this->bus->dispatch(
+                new Envelope(new CourseIndexRequest($ids))
+                    ->with(new DispatchAfterCurrentBusStamp()),
+            );
         }
 
         return true;
