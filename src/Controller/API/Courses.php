@@ -379,12 +379,28 @@ class Courses extends AbstractApiController
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
+        $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
+
+        if (!$entity->isArchived() && $data->archived) {
+            $entity = $this->archiveCourse($entity, $authorizationChecker);
+            $dtos = $this->fetchDtosForEntities([$entity]);
+            return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
+        }
+        if ($entity->isLocked() && !$data->locked) {
+            $entity = $this->unlockCourse($entity, $authorizationChecker);
+            $dtos = $this->fetchDtosForEntities([$entity]);
+            return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
+        }
+        if (!$entity->isLocked() && $data->locked) {
+            $entity = $this->lockCourse($entity, $authorizationChecker);
+            $dtos = $this->fetchDtosForEntities([$entity]);
+            return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
+        }
+
         $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
         $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
         $this->repository->update($entity);
-
         $dtos = $this->fetchDtosForEntities([$entity]);
-
         return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
     }
 
