@@ -143,15 +143,12 @@ class DetectMissingCommand extends Command
         $progressBar->start();
         if ($materials) {
             $dtos = $this->learningMaterialRepository->findDTOsBy(['id' => $materials]);
-            $progressBar->advance();
             foreach ($dtos as $dto) {
                 $this->materialIndex->index([$dto]);
                 $progressBar->advance();
             }
         }
-        $progressBar->advance();
         if ($courses) {
-            $progressBar->advance();
             $ids = array_column($courses, 'courseId');
             foreach ($ids as $id) {
                 $this->curriculumIndex->index([$id], new DateTime());
