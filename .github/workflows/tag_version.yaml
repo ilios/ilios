@@ -7,6 +7,9 @@ on:
         description: 'Semver Release Type (minor,patch)'
         required: true
 
+env:
+  minimum_php_version: 8.4
+
 jobs:
   tag:
     runs-on: ubuntu-latest
@@ -33,6 +36,12 @@ jobs:
       run: |
         git config user.name Zorgbort
         git config user.email info@iliosproject.org
+    - name: Use PHP ${{ env.minimum_php_version }}
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: none
+        php-version: ${{ env.minimum_php_version }}
+        extensions: apcu
     - name: Increment version
       run: |
         composer config version ${{ env.new_tag }}
