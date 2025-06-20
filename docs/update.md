@@ -51,6 +51,14 @@ _NOTE:_ The steps below assume that file ownership of the deployed codebase belo
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.126.0
+
+Async messages (for indexing and extracting) have been split into priority queues. When consuming these messages you should do so in priority order:
+
+```bash
+bin/console messenger:consume async_priority_high async_priority_normal async_priority_low
+```
+
 ### Upgrading to Ilios 3.123.0
 
 The `ILIOS_SEARCH_HOSTS` has been renamed to `ILIOS_SEARCH_HOST` and will no longer accept a semi-colon seeperated list of hosts. Replace this is your configuration with a single host if you have search and indexing enabled.

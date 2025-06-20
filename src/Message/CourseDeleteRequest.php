@@ -6,7 +6,7 @@ namespace App\Message;
 
 use Symfony\Component\Messenger\Attribute\AsMessage;
 
-#[AsMessage('async')]
+#[AsMessage('async_priority_normal')]
 class CourseDeleteRequest
 {
     public function __construct(private readonly int $courseId)

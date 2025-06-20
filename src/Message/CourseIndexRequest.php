@@ -8,7 +8,7 @@ use DateTime;
 use InvalidArgumentException;
 use Symfony\Component\Messenger\Attribute\AsMessage;
 
-#[AsMessage('async')]
+#[AsMessage('async_priority_low')]
 class CourseIndexRequest
 {
     private array $courseIds;

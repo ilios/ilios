@@ -7,7 +7,7 @@ namespace App\Message;
 use InvalidArgumentException;
 use Symfony\Component\Messenger\Attribute\AsMessage;
 
-#[AsMessage('async')]
+#[AsMessage('async_priority_high')]
 class LearningMaterialTextExtractionRequest
 {
     public const int MAX_MATERIALS = 50;

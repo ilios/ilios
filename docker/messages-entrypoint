@@ -12,4 +12,4 @@ echo "The search index is now ready and reachable"
 # use exec so the process is the container's PID 1 which will allow
 # signals (Kill, Quit, Term) to be passed to the process.
 # Also pass all arguments into it
-exec /srv/app/bin/console messenger:consume async "$@"
+exec /srv/app/bin/console messenger:consume async_priority_high async_priority_normal async_priority_low "$@"

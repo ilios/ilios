@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command\Index;
 
+use App\Message\CourseIndexRequest;
+use App\Message\LearningMaterialIndexRequest;
+use App\Message\MeshDescriptorIndexRequest;
+use App\Message\UserIndexRequest;
 use App\Service\Index\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -59,9 +63,23 @@ class DropCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * Clear the indexing related messages from the queue
+     */
     protected function clearIndexQueue(OutputInterface $output): void
     {
-        $sql = 'DELETE FROM messenger_messages WHERE queue_name="default"';
+        $shortNames = array_map(
+            fn(string $class) => new \ReflectionClass($class)->getShortName(),
+            [
+                CourseIndexRequest::class,
+                LearningMaterialIndexRequest::class,
+                UserIndexRequest::class,
+                MeshDescriptorIndexRequest::class,
+            ]
+        );
+        $regex = implode('|', $shortNames);
+        $str = "DELETE FROM messenger_messages WHERE body REGEXP '{$regex}'";
+        $sql = vsprintf($str, $shortNames);
         $conn = $this->entityManager->getConnection();
         $removed = $conn->executeStatement($sql);
 
