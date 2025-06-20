@@ -18,6 +18,7 @@ use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -338,13 +339,16 @@ class Courses extends AbstractApiController
         if ($entity) {
             $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
             if (!$entity->isArchived() && $data->archived) {
-                return $this->archiveCourse($entity, $builder, $authorizationChecker, $request);
+                $entity = $this->archiveCourse($entity, $authorizationChecker);
+                return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
             }
             if ($entity->isLocked() && !$data->locked) {
-                return $this->unlockCourse($entity, $builder, $authorizationChecker, $request);
+                $entity = $this->unlockCourse($entity, $authorizationChecker);
+                return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
             }
             if (!$entity->isLocked() && $data->locked) {
-                return $this->lockCourse($entity, $builder, $authorizationChecker, $request);
+                $entity = $this->lockCourse($entity, $authorizationChecker);
+                return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
             }
         }
 
@@ -364,7 +368,40 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+
+        $entity = $this->repository->findOneBy(['id' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
+
+        if (!$entity->isArchived() && $data->archived) {
+            $entity = $this->archiveCourse($entity, $authorizationChecker);
+            $dtos = $this->fetchDtosForEntities([$entity]);
+            return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
+        }
+        if ($entity->isLocked() && !$data->locked) {
+            $entity = $this->unlockCourse($entity, $authorizationChecker);
+            $dtos = $this->fetchDtosForEntities([$entity]);
+            return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
+        }
+        if (!$entity->isLocked() && $data->locked) {
+            $entity = $this->lockCourse($entity, $authorizationChecker);
+            $dtos = $this->fetchDtosForEntities([$entity]);
+            return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
+        }
+
+        $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
+        $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
+        $this->repository->update($entity);
+        $dtos = $this->fetchDtosForEntities([$entity]);
+        return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
     }
 
     #[Route(
@@ -530,46 +567,37 @@ class Courses extends AbstractApiController
 
     protected function archiveCourse(
         CourseInterface $entity,
-        ApiResponseBuilder $builder,
         AuthorizationCheckerInterface $authorizationChecker,
-        Request $request
-    ): Response {
+    ): CourseInterface {
         if (!$authorizationChecker->isGranted(VoterPermissions::ARCHIVE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setArchived(true);
         $this->repository->update($entity, true, false);
-
-        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
+        return $entity;
     }
 
     protected function lockCourse(
         CourseInterface $entity,
-        ApiResponseBuilder $builder,
         AuthorizationCheckerInterface $authorizationChecker,
-        Request $request
-    ): Response {
+    ): CourseInterface {
         if (!$authorizationChecker->isGranted(VoterPermissions::LOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(true);
         $this->repository->update($entity, true, false);
-
-        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
+        return $entity;
     }
 
     protected function unlockCourse(
         CourseInterface $entity,
-        ApiResponseBuilder $builder,
         AuthorizationCheckerInterface $authorizationChecker,
-        Request $request
-    ): Response {
+    ): CourseInterface {
         if (!$authorizationChecker->isGranted(VoterPermissions::UNLOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(false);
         $this->repository->update($entity, true, false);
-
-        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
+        return $entity;
     }
 }
