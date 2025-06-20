@@ -339,13 +339,16 @@ class Courses extends AbstractApiController
         if ($entity) {
             $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
             if (!$entity->isArchived() && $data->archived) {
-                return $this->archiveCourse($entity, $builder, $authorizationChecker, $request);
+                $entity = $this->archiveCourse($entity, $authorizationChecker);
+                return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
             }
             if ($entity->isLocked() && !$data->locked) {
-                return $this->unlockCourse($entity, $builder, $authorizationChecker, $request);
+                $entity = $this->unlockCourse($entity, $authorizationChecker);
+                return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
             }
             if (!$entity->isLocked() && $data->locked) {
-                return $this->lockCourse($entity, $builder, $authorizationChecker, $request);
+                $entity = $this->lockCourse($entity, $authorizationChecker);
+                return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
             }
         }
 
@@ -548,46 +551,37 @@ class Courses extends AbstractApiController
 
     protected function archiveCourse(
         CourseInterface $entity,
-        ApiResponseBuilder $builder,
         AuthorizationCheckerInterface $authorizationChecker,
-        Request $request
-    ): Response {
+    ): CourseInterface {
         if (!$authorizationChecker->isGranted(VoterPermissions::ARCHIVE, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setArchived(true);
         $this->repository->update($entity, true, false);
-
-        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
+        return $entity;
     }
 
     protected function lockCourse(
         CourseInterface $entity,
-        ApiResponseBuilder $builder,
         AuthorizationCheckerInterface $authorizationChecker,
-        Request $request
-    ): Response {
+    ): CourseInterface {
         if (!$authorizationChecker->isGranted(VoterPermissions::LOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(true);
         $this->repository->update($entity, true, false);
-
-        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
+        return $entity;
     }
 
     protected function unlockCourse(
         CourseInterface $entity,
-        ApiResponseBuilder $builder,
         AuthorizationCheckerInterface $authorizationChecker,
-        Request $request
-    ): Response {
+    ): CourseInterface {
         if (!$authorizationChecker->isGranted(VoterPermissions::UNLOCK, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
         $entity->setLocked(false);
         $this->repository->update($entity, true, false);
-
-        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
+        return $entity;
     }
 }
