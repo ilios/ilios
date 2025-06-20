@@ -18,6 +18,7 @@ use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -364,7 +365,24 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        return $this->handlePatch($version, $id, $request, $requestParser, $validator, $authorizationChecker, $builder);
+        $type = $request->getAcceptableContentTypes();
+        if (!in_array("application/vnd.api+json", $type)) {
+            throw new BadRequestHttpException("PATCH is only allowed for JSON:API requests, use PUT instead");
+        }
+
+        $entity = $this->repository->findOneBy(['id' => $id]);
+
+        if (!$entity) {
+            throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);
+        $this->validateAndAuthorizeEntity($entity, VoterPermissions::EDIT, $validator, $authorizationChecker);
+        $this->repository->update($entity);
+
+        $dtos = $this->fetchDtosForEntities([$entity]);
+
+        return $builder->buildResponseForPatchRequest($this->endpoint, $dtos[0], Response::HTTP_OK, $request);
     }
 
     #[Route(
