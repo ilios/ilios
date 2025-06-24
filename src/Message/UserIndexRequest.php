@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Message;
 
 use InvalidArgumentException;
+use Symfony\Component\Messenger\Attribute\AsMessage;
 
+#[AsMessage('async_priority_normal')]
 class UserIndexRequest
 {
     private array $userIds;

@@ -180,7 +180,7 @@ final class LearningMaterialsTest extends TestCase
             ->once()->with([1, 2])->andReturn([6, 24, 2005]);
         $this->bus
             ->shouldReceive('dispatch')
-            ->withArgs(fn (CourseIndexRequest $request) => $request->getCourseIds() === [6, 24, 2005])
+            ->withArgs(fn (Envelope $env) => $env->getMessage()->getCourseIds() === [6, 24, 2005])
             ->andReturn(new Envelope(new stdClass()))
             ->once();
         $obj->index([$mockDto, $mockDto2]);

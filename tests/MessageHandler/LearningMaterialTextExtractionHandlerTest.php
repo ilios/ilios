@@ -55,7 +55,7 @@ final class LearningMaterialTextExtractionHandlerTest extends TestCase
 
         $this->bus
             ->shouldReceive('dispatch')
-            ->withArgs(fn (LearningMaterialIndexRequest $request) => in_array(6, $request->getIds()))
+            ->withArgs(fn (Envelope $env) => in_array(6, $env->getMessage()->getIds()))
             ->andReturn(new Envelope(new stdClass()))
             ->once();
 
@@ -87,8 +87,8 @@ final class LearningMaterialTextExtractionHandlerTest extends TestCase
         $this->bus
             ->shouldReceive('dispatch')
             ->withArgs(
-                fn (LearningMaterialIndexRequest $request) =>
-                array_diff($request->getIds(), $ids) === [] && $request->getForce()
+                fn (Envelope $env) =>
+                array_diff($env->getMessage()->getIds(), $ids) === [] && $env->getMessage()->getForce()
             )
             ->andReturn(new Envelope(new stdClass()))
         ->times(3);

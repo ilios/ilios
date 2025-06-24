@@ -3,23 +3,31 @@ framework:
     failure_transport: failed
     transports:
       # https://symfony.com/doc/current/messenger.html#transport-configuration
-      async:
+      async_priority_high:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         retry_strategy:
           # milliseconds delay, 30 seconds
           delay: 30000
-      failed: '%env(MESSENGER_TRANSPORT_DSN)%?queue_name=failed'
+        options:
+          queue_name: high
 
-    routing:
-       # Route your messages to the transports
-       'App\Message\CourseIndexRequest': async
-       'App\Message\UserIndexRequest': async
-       'App\Message\MeshDescriptorIndexRequest': async
-       'App\Message\LearningMaterialIndexRequest': async
-       'App\Message\LearningMaterialTextExtractionRequest': async
-       'App\Message\CourseDeleteRequest': async
-       'App\Message\SessionDeleteRequest': async
-       'App\Message\LearningMaterialDeleteRequest': async
+      async_priority_normal:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        retry_strategy:
+          # milliseconds delay, 30 seconds
+          delay: 30000
+        options:
+          queue_name: normal
+
+      async_priority_low:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        retry_strategy:
+          # milliseconds delay, 30 seconds
+          delay: 30000
+        options:
+          queue_name: low
+
+      failed: '%env(MESSENGER_TRANSPORT_DSN)%?queue_name=failed'
 
     default_bus: messenger.bus.default
     buses:

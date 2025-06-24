@@ -66,7 +66,10 @@ final class DropCommandTest extends KernelTestCase
         $connection = m::mock(Connection::class);
         $connection
             ->shouldReceive('executeStatement')
-            ->with('DELETE FROM messenger_messages WHERE queue_name="default"');
+            ->with(
+                'DELETE FROM messenger_messages WHERE body REGEXP ' .
+                "'CourseIndexRequest|LearningMaterialIndexRequest|UserIndexRequest|MeshDescriptorIndexRequest'"
+            );
         $this->entityManager->shouldReceive('getConnection')->andReturn($connection);
 
         $this->commandTester->execute([
