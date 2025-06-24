@@ -298,10 +298,8 @@ class Curriculum extends OpenSearchBase
             'sessionLearningMaterialAttachments',
         ];
         $keywordFields = [
-            'courseId',
             'courseYear',
             'courseMeshDescriptorIds',
-            'sessionId',
             'sessionType',
             'sessionMeshDescriptorIds',
         ];
