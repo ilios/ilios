@@ -76,6 +76,7 @@ MAILER_DSN=null://null \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
+LOCK_DSN=flock \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
@@ -317,6 +318,7 @@ ILIOS_DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
+LOCK_DSN=flock \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
 WORKDIR /var/www/ilios
