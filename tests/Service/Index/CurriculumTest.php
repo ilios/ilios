@@ -420,37 +420,8 @@ final class CurriculumTest extends TestCase
 
 
             return true;
-        })->andReturn(['hits' => ['hits' => []], 'suggest' => []]);
-        $results = $obj->search('test', false, 10, 0, [6, 24], [2005, 2013]);
-        $this->assertArrayHasKey('autocomplete', $results);
-        $this->assertCount(0, $results['autocomplete']);
-        $this->assertArrayHasKey('courses', $results);
-        $this->assertCount(0, $results['courses']);
-    }
-
-    public function testSearchOnlySuggest(): void
-    {
-        $obj = new Curriculum($this->repository, $this->config, $this->client);
-        $this->client->shouldReceive('search')->once()->andReturn([
-            'hits' => [
-                'hits' => [],
-            ],
-            'suggest' => [
-                [[
-                    'options' => [
-                        [
-                            'text' => 'suggested',
-                        ],
-                        [
-                            'text' => 'suggester',
-                        ],
-                    ],
-                ]],
-            ],
-        ]);
-        $results = $obj->search('test', true, 10, 0, [], []);
-        $this->assertArrayHasKey('autocomplete', $results);
-        $this->assertEquals(['suggested', 'suggester'], $results['autocomplete']);
+        })->andReturn(['hits' => ['hits' => []]]);
+        $results = $obj->search('test', 10, 0, [6, 24], [2005, 2013]);
         $this->assertArrayHasKey('courses', $results);
         $this->assertCount(0, $results['courses']);
     }

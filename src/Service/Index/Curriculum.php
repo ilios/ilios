@@ -28,7 +28,6 @@ class Curriculum extends OpenSearchBase
 
     public function search(
         string $query,
-        bool $onlySuggest,
         int $size,
         int $from,
         array $schools,
@@ -38,65 +37,35 @@ class Curriculum extends OpenSearchBase
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
 
-        $suggestFields = [
-            'courseTitle',
-            'courseTerms',
-            'courseMeshDescriptorIds',
-            'courseMeshDescriptorNames',
-            'courseLearningMaterialTitles',
-            'sessionTitle',
-            'sessionType',
-            'sessionTerms',
-            'sessionMeshDescriptorIds',
-            'sessionMeshDescriptorNames',
-            'sessionLearningMaterialTitles',
-        ];
-        $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
-            $carry[$field] = [
-                'prefix' => $query,
-                'completion' => [
-                    'field' => "{$field}.cmp",
-                    'skip_duplicates' => true,
-                ],
-            ];
-
-            return $carry;
-        }, []);
-
         $params = [
             'index' => self::INDEX,
             'body' => [
-                'suggest' => $suggest,
+                '_source' => [
+                    'courseId',
+                    'courseTitle',
+                    'courseYear',
+                    'sessionId',
+                    'sessionTitle',
+                    'school',
+                ],
+                'collapse' => [
+                    'field' => 'courseId',
+                    'inner_hits' => [
+                        'name' => 'sessions',
+                        'size' => 10,
+                        'sort' => ['_score'],
+                    ],
+                ],
+                'sort' => '_score',
+                'from' => $from,
+                'size' => $size,
             ],
         ];
 
-        if (!$onlySuggest) {
-            $params['body']['_source'] = [
-                'courseId',
-                'courseTitle',
-                'courseYear',
-                'sessionId',
-                'sessionTitle',
-                'school',
-            ];
-            $params['body']['collapse'] = [
-                'field' => 'courseId',
-                'inner_hits' => [
-                    'name' => 'sessions',
-                    'size' => 10,
-                    'sort' => ['_score'],
-                ],
-            ];
-            $params['body']['sort'] = '_score';
-            $params['body']['size'] = $size;
-            $params['body']['from'] = $from;
-
-            $params['body']['query']['function_score'] = [
-                'query' => $this->buildCurriculumSearch($query, $schools, $years),
-                'min_score' => 50,
-            ];
-            $params['body']['aggs']['courses']['cardinality']['field'] = 'courseId';
-        }
+        $params['body']['query']['function_score'] = [
+            'query' => $this->buildCurriculumSearch($query, $schools, $years),
+            'min_score' => 50,
+        ];
 
         $results = $this->doSearch($params);
 
@@ -383,16 +352,6 @@ class Curriculum extends OpenSearchBase
 
     protected function parseCurriculumSearchResults(array $results): array
     {
-        $autocompleteSuggestions = array_reduce(
-            $results['suggest'],
-            function (array $carry, array $item) {
-                $options = array_map(fn(array $arr) => $arr['text'], $item[0]['options']);
-
-                return array_unique(array_merge($carry, $options));
-            },
-            []
-        );
-
         $allHits = array_reduce($results['hits']['hits'], function (array $carry, array $item): array {
             $innerHits = $item['inner_hits']['sessions']['hits']['hits'];
             unset($item['inner_hits']);
@@ -474,7 +433,6 @@ class Curriculum extends OpenSearchBase
         usort($courses, fn($a, $b) => $b['bestScore'] <=> $a['bestScore']);
 
         return [
-            'autocomplete' => $autocompleteSuggestions,
             'courses' => $courses,
         ];
     }
@@ -557,8 +515,6 @@ class Curriculum extends OpenSearchBase
                 ],
             ],
         ];
-        $txtTypeFieldWithCompletion = $txtTypeField;
-        $txtTypeFieldWithCompletion['fields']['cmp'] = ['type' => 'completion'];
 
         return [
             'settings' => [
@@ -593,10 +549,10 @@ class Curriculum extends OpenSearchBase
                             ],
                         ],
                     ],
-                    'courseTitle' => $txtTypeFieldWithCompletion,
-                    'courseTerms' => $txtTypeFieldWithCompletion,
+                    'courseTitle' => $txtTypeField,
+                    'courseTerms' => $txtTypeField,
                     'courseObjectives'  => $txtTypeField,
-                    'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                    'courseLearningMaterialTitles'  => $txtTypeField,
                     'courseLearningMaterialDescriptions'  => $txtTypeField,
                     'courseLearningMaterialCitation'  => $txtTypeField,
                     'courseLearningMaterialAttachments'  => $txtTypeField,
@@ -611,12 +567,12 @@ class Curriculum extends OpenSearchBase
                             ],
                         ],
                     ],
-                    'courseMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                    'courseMeshDescriptorNames' => $txtTypeField,
                     'courseMeshDescriptorAnnotations' => $txtTypeField,
                     'sessionId' => [
                         'type' => 'integer',
                     ],
-                    'sessionTitle' => $txtTypeFieldWithCompletion,
+                    'sessionTitle' => $txtTypeField,
                     'sessionDescription' => $txtTypeField,
                     'sessionType' => [
                         'type' => 'keyword',
@@ -626,9 +582,9 @@ class Curriculum extends OpenSearchBase
                             ],
                         ],
                     ],
-                    'sessionTerms' => $txtTypeFieldWithCompletion,
+                    'sessionTerms' => $txtTypeField,
                     'sessionObjectives'  => $txtTypeField,
-                    'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
+                    'sessionLearningMaterialTitles'  => $txtTypeField,
                     'sessionLearningMaterialDescriptions'  => $txtTypeField,
                     'sessionLearningMaterialCitation'  => $txtTypeField,
                     'sessionLearningMaterialAttachments'  => $txtTypeField,
@@ -643,7 +599,7 @@ class Curriculum extends OpenSearchBase
                             ],
                         ],
                     ],
-                    'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                    'sessionMeshDescriptorNames' => $txtTypeField,
                     'sessionMeshDescriptorAnnotations' => $txtTypeField,
                     'ingestTime' => [
                         'type' => 'date',
