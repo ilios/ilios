@@ -578,6 +578,9 @@ class Curriculum extends OpenSearchBase
                             ],
                         ],
                     ],
+                    'schoolId' => [
+                        'type' => 'integer',
+                    ],
                     'courseYear' => [
                         'type' => 'keyword',
                         'fields' => [
