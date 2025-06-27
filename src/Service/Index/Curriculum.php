@@ -26,8 +26,14 @@ class Curriculum extends OpenSearchBase
         parent::__construct($config, $client);
     }
 
-    public function search(string $query, bool $onlySuggest): array
-    {
+    public function search(
+        string $query,
+        bool $onlySuggest,
+        int $size,
+        int $from,
+        array $schools,
+        array $years,
+    ): array {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
@@ -77,29 +83,19 @@ class Curriculum extends OpenSearchBase
                 'field' => 'courseId',
                 'inner_hits' => [
                     'name' => 'sessions',
-                    'size' => 5,
+                    'size' => 10,
                     'sort' => ['_score'],
                 ],
             ];
             $params['body']['sort'] = '_score';
-            $params['body']['size'] = 25;
+            $params['body']['size'] = $size;
+            $params['body']['from'] = $from;
 
-            //the closer a course is to this year the higher it will be ranked
             $params['body']['query']['function_score'] = [
-                'query' => $this->buildCurriculumSearch($query),
-                'functions' => [
-                    [
-                        'gauss' => [
-                            'courseYear.year' => [
-                                'origin' => (new DateTime())->format("Y"),
-                                'scale' => 2, //starts taking points off when two years before or after today
-                                'decay' => 0.8, //multiplies score by this, 80% for every 'scale' away from today
-                            ],
-                        ],
-                    ],
-                ],
-                'score_mode' => 'multiply',
+                'query' => $this->buildCurriculumSearch($query, $schools, $years),
+                'min_score' => 50,
             ];
+            $params['body']['aggs']['courses']['cardinality']['field'] = 'courseId';
         }
 
         $results = $this->doSearch($params);
@@ -274,7 +270,7 @@ class Curriculum extends OpenSearchBase
     /**
      * Construct the query to search the curriculum
      */
-    protected function buildCurriculumSearch(string $query): array
+    protected function buildCurriculumSearch(string $query, array $schools, array $years): array
     {
         $mustFields = [
             'courseTitle',
@@ -352,9 +348,17 @@ class Curriculum extends OpenSearchBase
          * At least one of the mustMatch queries has to be a match
          * but we wrap it in a should block so they don't all have to match
          */
-        $must = ['bool' => [
-            'should' => $mustMatch,
-        ]];
+        $must = [
+            ['bool' => [
+                'should' => $mustMatch,
+            ]],
+            ['terms' => [
+                'courseYear.year' => $years,
+            ]],
+            ['terms' => [
+                'schoolId' => $schools,
+            ]],
+        ];
 
         /**
          * The should queries are designed to boost the total score of

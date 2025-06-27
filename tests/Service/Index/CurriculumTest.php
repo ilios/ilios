@@ -400,13 +400,28 @@ final class CurriculumTest extends TestCase
             $this->assertArrayHasKey('sort', $b);
             $this->assertEquals('_score', $b['sort']);
             $this->assertArrayHasKey('size', $b);
-            $this->assertEquals(25, $b['size']);
+            $this->assertEquals(10, $b['size']);
+            $this->assertEquals(0, $b['offset']);
             $this->assertArrayHasKey('query', $b);
             $this->assertArrayHasKey('function_score', $b['query']);
+            $this->assertArrayHasKey('query', $b['query']['function_score']);
+            $this->assertArrayHasKey('bool', $b['query']['function_score']['query']);
+            $this->assertCount(2, $b['query']['function_score']['query']['bool']);
+            $this->assertArrayHasKey('must', $b['query']['function_score']['query']['bool']);
+            $this->assertArrayHasKey('should', $b['query']['function_score']['query']['bool']);
+            $this->assertCount(3, $b['query']['function_score']['query']['bool']['must']);
+
+            [ $fields, $years, $schools ] =  $b['query']['function_score']['query']['bool']['must'];
+
+            $this->assertArrayHasKey('bool', $fields);
+            $this->assertArrayHasKey('should', $fields['bool']);
+            $this->assertSame(['terms' => ['courseYear.year' => [2005, 2013]]], $years);
+            $this->assertSame(['terms' => ['schoolId' => [6, 24]]], $schools);
+
 
             return true;
         })->andReturn(['hits' => ['hits' => []], 'suggest' => []]);
-        $results = $obj->search('test', false);
+        $results = $obj->search('test', false, 10, 0, [6, 24], [2005, 2013]);
         $this->assertArrayHasKey('autocomplete', $results);
         $this->assertCount(0, $results['autocomplete']);
         $this->assertArrayHasKey('courses', $results);
@@ -433,7 +448,7 @@ final class CurriculumTest extends TestCase
                 ]],
             ],
         ]);
-        $results = $obj->search('test', true);
+        $results = $obj->search('test', true, 10, 0, [], []);
         $this->assertArrayHasKey('autocomplete', $results);
         $this->assertEquals(['suggested', 'suggester'], $results['autocomplete']);
         $this->assertArrayHasKey('courses', $results);
