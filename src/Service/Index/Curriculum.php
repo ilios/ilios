@@ -66,6 +66,7 @@ class Curriculum extends OpenSearchBase
             'query' => $this->buildCurriculumSearch($query, $schools, $years),
             'min_score' => 50,
         ];
+        $params['body']['aggs']['courses']['cardinality']['field'] = 'courseId';
 
         $results = $this->doSearch($params);
 
@@ -434,6 +435,7 @@ class Curriculum extends OpenSearchBase
 
         return [
             'courses' => $courses,
+            'totalCourses' => $results['aggregations']['courses']['value'] ?? 0,
         ];
     }
 

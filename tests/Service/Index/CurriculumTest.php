@@ -420,10 +420,12 @@ final class CurriculumTest extends TestCase
 
 
             return true;
-        })->andReturn(['hits' => ['hits' => []]]);
+        })->andReturn(['hits' => ['hits' => []], 'aggregations' => ['courses' => ['value' => 11]]]);
         $results = $obj->search('test', 10, 0, [6, 24], [2005, 2013]);
         $this->assertArrayHasKey('courses', $results);
         $this->assertCount(0, $results['courses']);
+        $this->assertArrayHasKey('totalCourses', $results);
+        $this->assertEquals(11, $results['totalCourses']);
     }
 
     protected function validateRequest(
