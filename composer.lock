@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1109b94add6cf2bece23e64bf57434df",
+    "content-hash": "7d00bc1b83aedc299573170a550fcab8",
     "packages": [
         {
             "name": "async-aws/core",
@@ -12237,16 +12237,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "3.4.0",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "c21f1b65da157077db809bb4a9587d59a696bcd6"
+                "reference": "3ebebefffac05ae349e42364daf80e7ce5fd7a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/c21f1b65da157077db809bb4a9587d59a696bcd6",
-                "reference": "c21f1b65da157077db809bb4a9587d59a696bcd6",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/3ebebefffac05ae349e42364daf80e7ce5fd7a38",
+                "reference": "3ebebefffac05ae349e42364daf80e7ce5fd7a38",
                 "shasum": ""
             },
             "require": {
@@ -12270,7 +12270,7 @@
                 "doctrine/doctrine-fixtures-bundle": "^3.5.1 || ^4.0",
                 "doctrine/mongodb-odm": "^2.5",
                 "doctrine/mongodb-odm-bundle": "^4.4 || ^5.0",
-                "doctrine/orm": "^2.14 || ^3.0",
+                "doctrine/orm": "^2.14 || ^3.1.0",
                 "monolog/monolog": "^1.25.1 || ^2.0 || ^3.0",
                 "phpunit/phpunit": "^10.5.11 || ^11.0.4",
                 "symfony/doctrine-bridge": "^5.4 || ^6.3 || ^7.0",
@@ -12318,9 +12318,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.4.0"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.4.1"
             },
-            "time": "2025-06-05T20:12:18+00:00"
+            "time": "2025-06-26T15:09:22+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -15110,15 +15110,10 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
-        "symfony/browser-kit": 0,
         "symfony/console": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15139,12 +15134,17 @@
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
-        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/web-profiler-bundle": 0,
-        "symfony/yaml": 0
+        "symfony/yaml": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
+        "symfony/browser-kit": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
+        "symfony/stopwatch": 0,
+        "symfony/web-profiler-bundle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15163,9 +15163,9 @@
         "ext-xmlwriter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.4"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
