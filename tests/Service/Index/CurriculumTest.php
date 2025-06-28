@@ -420,12 +420,47 @@ final class CurriculumTest extends TestCase
 
 
             return true;
-        })->andReturn(['hits' => ['hits' => []], 'aggregations' => ['courses' => ['value' => 11]]]);
+        })->andReturn(['hits' => ['hits' => []], 'aggregations' => ['courses' => ['value' => 11]], 'suggest' => []]);
         $results = $obj->search('test', 10, 0, [6, 24], [2005, 2013]);
         $this->assertArrayHasKey('courses', $results);
         $this->assertCount(0, $results['courses']);
         $this->assertArrayHasKey('totalCourses', $results);
         $this->assertEquals(11, $results['totalCourses']);
+        $this->assertArrayHasKey('didYouMean', $results);
+    }
+
+    public function testSearchDidYouMean(): void
+    {
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
+        $this->client->shouldReceive('search')->once()->andReturn([
+            'hits' => ['hits' => []],
+            'aggregations' => ['courses' => ['value' => 0]],
+            'suggest' => [
+                [
+                    [
+                        'options' => [
+                            [
+                                'score' => 0.62405,
+                                'text' => 'jayden',
+                            ],
+                            [
+                                'score' => 0.2007,
+                                'text' => 'jasper',
+                            ],
+                            [
+                                'score' => 1.0,
+                                'text' => 'jayden',
+                            ],
+                        ],
+                    ],
+                ],
+            ]]);
+        $results = $obj->search('test', 10, 0, [6, 24], [2005, 2013]);
+        $this->assertArrayHasKey('didYouMean', $results);
+        $this->assertEquals([
+            'score' => 0.62405,
+            'didYouMean' => 'jayden',
+        ], $results['didYouMean']);
     }
 
     protected function validateRequest(
