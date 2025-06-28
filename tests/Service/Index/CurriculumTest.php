@@ -442,14 +442,17 @@ final class CurriculumTest extends TestCase
                             [
                                 'score' => 0.62405,
                                 'text' => 'jayden',
+                                'highlighted' => '<span class="highlight">jayden</span>"',
                             ],
                             [
                                 'score' => 0.2007,
                                 'text' => 'jasper',
+                                'highlighted' => '<span class="highlight">jasper</span>"',
                             ],
                             [
                                 'score' => 1.0,
                                 'text' => 'jayden',
+                                'highlighted' => '<span class="highlight">jayden</span>"',
                             ],
                         ],
                     ],
@@ -460,6 +463,7 @@ final class CurriculumTest extends TestCase
         $this->assertEquals([
             'score' => 0.62405,
             'didYouMean' => 'jayden',
+            'highlighted' => '<span class="highlight">jayden</span>"',
         ], $results['didYouMean']);
     }
 

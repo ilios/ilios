@@ -42,6 +42,10 @@ class Curriculum extends OpenSearchBase
             $carry[$field] = [
                 'phrase' => [
                     'field' => "{$field}.trigram",
+                    'highlight' => [
+                        'pre_tag' => '<span class="highlight">',
+                        'post_tag' => '</span>',
+                    ],
                 ],
             ];
 
@@ -371,16 +375,17 @@ class Curriculum extends OpenSearchBase
         $didYouMean = array_reduce(
             $results['suggest'],
             function (array $carry, array $item) {
-                foreach ($item[0]['options'] as [ 'text' => $text, 'score' => $score ]) {
+                foreach ($item[0]['options'] as [ 'text' => $text, 'score' => $score, 'highlighted' => $highlighted ]) {
                     if ($score > $carry['score']) {
                         $carry['score'] = $score;
                         $carry['didYouMean'] = $text;
+                        $carry['highlighted'] = $highlighted;
                     }
                 }
 
                 return $carry;
             },
-            ['score' => 0, 'didYouMean' => '']
+            ['score' => 0, 'didYouMean' => '',  'highlighted' => '']
         );
 
         $allHits = array_reduce($results['hits']['hits'], function (array $carry, array $item): array {
