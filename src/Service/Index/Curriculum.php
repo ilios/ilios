@@ -26,81 +26,48 @@ class Curriculum extends OpenSearchBase
         parent::__construct($config, $client);
     }
 
-    public function search(string $query, bool $onlySuggest): array
-    {
+    public function search(
+        string $query,
+        int $size,
+        int $from,
+        array $schools,
+        array $years,
+    ): array {
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
 
-        $suggestFields = [
-            'courseTitle',
-            'courseTerms',
-            'courseMeshDescriptorIds',
-            'courseMeshDescriptorNames',
-            'courseLearningMaterialTitles',
-            'sessionTitle',
-            'sessionType',
-            'sessionTerms',
-            'sessionMeshDescriptorIds',
-            'sessionMeshDescriptorNames',
-            'sessionLearningMaterialTitles',
-        ];
-        $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
-            $carry[$field] = [
-                'prefix' => $query,
-                'completion' => [
-                    'field' => "{$field}.cmp",
-                    'skip_duplicates' => true,
-                ],
-            ];
-
-            return $carry;
-        }, []);
-
         $params = [
             'index' => self::INDEX,
             'body' => [
-                'suggest' => $suggest,
+                '_source' => [
+                    'courseId',
+                    'courseTitle',
+                    'courseYear',
+                    'sessionId',
+                    'sessionTitle',
+                    'school',
+                ],
+                'collapse' => [
+                    'field' => 'courseId',
+                    'inner_hits' => [
+                        'name' => 'sessions',
+                        'size' => 10,
+                        'sort' => ['_score'],
+                    ],
+                ],
+                'sort' => '_score',
+                'from' => $from,
+                'size' => $size,
+                'suggest' => $this->buildSearchSuggest($query),
             ],
         ];
 
-        if (!$onlySuggest) {
-            $params['body']['_source'] = [
-                'courseId',
-                'courseTitle',
-                'courseYear',
-                'sessionId',
-                'sessionTitle',
-                'school',
-            ];
-            $params['body']['collapse'] = [
-                'field' => 'courseId',
-                'inner_hits' => [
-                    'name' => 'sessions',
-                    'size' => 5,
-                    'sort' => ['_score'],
-                ],
-            ];
-            $params['body']['sort'] = '_score';
-            $params['body']['size'] = 25;
-
-            //the closer a course is to this year the higher it will be ranked
-            $params['body']['query']['function_score'] = [
-                'query' => $this->buildCurriculumSearch($query),
-                'functions' => [
-                    [
-                        'gauss' => [
-                            'courseYear.year' => [
-                                'origin' => (new DateTime())->format("Y"),
-                                'scale' => 2, //starts taking points off when two years before or after today
-                                'decay' => 0.8, //multiplies score by this, 80% for every 'scale' away from today
-                            ],
-                        ],
-                    ],
-                ],
-                'score_mode' => 'multiply',
-            ];
-        }
+        $params['body']['query']['function_score'] = [
+            'query' => $this->buildCurriculumSearch($query, $schools, $years),
+            'min_score' => 50,
+        ];
+        $params['body']['aggs']['courses']['cardinality']['field'] = 'courseId';
 
         $results = $this->doSearch($params);
 
@@ -274,7 +241,7 @@ class Curriculum extends OpenSearchBase
     /**
      * Construct the query to search the curriculum
      */
-    protected function buildCurriculumSearch(string $query): array
+    protected function buildCurriculumSearch(string $query, array $schools, array $years): array
     {
         $mustFields = [
             'courseTitle',
@@ -324,7 +291,7 @@ class Curriculum extends OpenSearchBase
         $mustMatch = [];
 
         /**
-         * Keyword index types cannot user the match_phrase_prefix query
+         * Keyword index types cannot user the match_bool_prefix query
          * So they have to be added using the match query
          */
         foreach ($keywordFields as $field) {
@@ -339,7 +306,7 @@ class Curriculum extends OpenSearchBase
             function (array $carry, string $field) use ($query) {
                 $matches = array_map(function (string $type) use ($field, $query) {
                     $fullField = "{$field}.{$type}";
-                    return [ 'match_phrase_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
+                    return [ 'match_bool_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
                 }, ['english', 'french', 'spanish']);
 
                 return array_merge($carry, $matches);
@@ -352,9 +319,17 @@ class Curriculum extends OpenSearchBase
          * At least one of the mustMatch queries has to be a match
          * but we wrap it in a should block so they don't all have to match
          */
-        $must = ['bool' => [
-            'should' => $mustMatch,
-        ]];
+        $must = [
+            ['bool' => [
+                'should' => $mustMatch,
+            ]],
+            ['terms' => [
+                'courseYear.year' => $years,
+            ]],
+            ['terms' => [
+                'schoolId' => $schools,
+            ]],
+        ];
 
         /**
          * The should queries are designed to boost the total score of
@@ -377,23 +352,73 @@ class Curriculum extends OpenSearchBase
         ];
     }
 
+    /**
+     * Extract the creation of the suggest portion of curriculum search for readability
+     */
+    protected function buildSearchSuggest(string $query): array
+    {
+        $mapping = $this->getMapping();
+        $properties = $mapping['mappings']['properties'];
+
+        $trigramFields = array_filter($properties, function (array $field): bool {
+            $types = array_keys($field['fields'] ?? []);
+            return in_array('trigram', $types);
+        });
+
+        $fields = array_keys($trigramFields);
+        $suggest = array_reduce($fields, function ($carry, $field) {
+            $carry[$field] = [
+                'phrase' => [
+                    'field' => "{$field}.trigram",
+                    'collate' => [
+                        'query' => [
+                            'source' => [
+                                'match_phrase' => [
+                                    $field => '{{suggestion}}',
+                                ],
+                            ],
+                        ],
+                        'prune' => true,
+                    ],
+                    'highlight' => [
+                        'pre_tag' => '<span class="highlight">',
+                        'post_tag' => '</span>',
+                    ],
+                ],
+            ];
+
+            return $carry;
+        }, []);
+
+        return [
+            'text' => $query,
+            ...$suggest,
+        ];
+    }
+
     protected function parseCurriculumSearchResults(array $results): array
     {
-        $autocompleteSuggestions = array_reduce(
+        $didYouMean = array_reduce(
             $results['suggest'],
             function (array $carry, array $item) {
-                $options = array_map(fn(array $arr) => $arr['text'], $item[0]['options']);
+                $optionsWithMatch = array_filter($item[0]['options'], fn (array $i) => $i['collate_match']);
+                foreach ($optionsWithMatch as [ 'text' => $text, 'score' => $score, 'highlighted' => $highlighted ]) {
+                    if ($score > $carry['score']) {
+                        $carry['score'] = $score;
+                        $carry['didYouMean'] = $text;
+                        $carry['highlighted'] = $highlighted;
+                    }
+                }
 
-                return array_unique(array_merge($carry, $options));
+                return $carry;
             },
-            []
+            ['score' => 0, 'didYouMean' => '',  'highlighted' => '']
         );
 
         $allHits = array_reduce($results['hits']['hits'], function (array $carry, array $item): array {
             $innerHits = $item['inner_hits']['sessions']['hits']['hits'];
             unset($item['inner_hits']);
 
-            $carry[] = $item;
             return array_merge($carry, $innerHits);
         }, []);
 
@@ -457,7 +482,7 @@ class Curriculum extends OpenSearchBase
             if ($item['score'] > $carry[$id]['bestScore']) {
                 $carry[$id]['bestScore'] = $item['score'];
             }
-            $carry[$id]['sessions'][] = [
+            $carry[$id]['sessions'][$item['sessionId']] = [
                 'id' => $item['sessionId'],
                 'title' => $item['sessionTitle'],
                 'score' => $item['score'],
@@ -469,9 +494,16 @@ class Curriculum extends OpenSearchBase
 
         usort($courses, fn($a, $b) => $b['bestScore'] <=> $a['bestScore']);
 
+        $coursesWithoutSessionIds = array_map(function (array $c): array {
+            $c['sessions'] = array_values($c['sessions']);
+
+            return $c;
+        }, $courses);
+
         return [
-            'autocomplete' => $autocompleteSuggestions,
-            'courses' => $courses,
+            'courses' => $coursesWithoutSessionIds,
+            'totalCourses' => $results['aggregations']['courses']['value'] ?? 0,
+            'didYouMean' => $didYouMean,
         ];
     }
 
@@ -553,30 +585,61 @@ class Curriculum extends OpenSearchBase
                 ],
             ],
         ];
-        $txtTypeFieldWithCompletion = $txtTypeField;
-        $txtTypeFieldWithCompletion['fields']['cmp'] = ['type' => 'completion'];
+        $txtTypeFieldWithDidYouMean = $txtTypeField;
+        $txtTypeFieldWithDidYouMean['fields']['trigram'] = ['type' => 'text', 'analyzer' => 'trigram'];
+
+        $keywordFieldWithDidYouMean = [
+            'type' => 'keyword',
+            'fields' => [
+                'trigram' => [
+                    'type' => 'text',
+                    'analyzer' => 'trigram',
+                ],
+            ],
+        ];
+
+        $trigramAnalyzer = [
+            "type" => "custom",
+            "tokenizer" => "standard",
+            "filter" => [
+                "lowercase",
+                "shingle",
+            ],
+        ];
+
+        $shingleFilter = [
+            "type" => "shingle",
+            "min_shingle_length" => 2,
+            "max_shingle_size" => 3,
+        ];
 
         return [
             'settings' => [
                 'number_of_shards' => 1,
                 'number_of_replicas' => 1,
                 'default_pipeline' => 'curriculum',
+                'index' => [
+                    'analysis' => [
+                        'analyzer' => [
+                            'trigram' => $trigramAnalyzer,
+                        ],
+                        'filter' => [
+                            'shingle' => $shingleFilter,
+                        ],
+                    ],
+                ],
             ],
             'mappings' => [
                 '_meta' => [
-                    'version' => '1',
+                    'version' => '2',
                 ],
                 'properties' => [
                     'courseId' => [
                         'type' => 'integer',
                     ],
-                    'school' => [
-                        'type' => 'keyword',
-                        'fields' => [
-                            'cmp' => [
-                                'type' => 'completion',
-                            ],
-                        ],
+                    'school' => $keywordFieldWithDidYouMean,
+                    'schoolId' => [
+                        'type' => 'integer',
                     ],
                     'courseYear' => [
                         'type' => 'keyword',
@@ -586,57 +649,30 @@ class Curriculum extends OpenSearchBase
                             ],
                         ],
                     ],
-                    'courseTitle' => $txtTypeFieldWithCompletion,
-                    'courseTerms' => $txtTypeFieldWithCompletion,
-                    'courseObjectives'  => $txtTypeField,
-                    'courseLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
-                    'courseLearningMaterialDescriptions'  => $txtTypeField,
+                    'courseTitle' => $txtTypeFieldWithDidYouMean,
+                    'courseTerms' => $txtTypeFieldWithDidYouMean,
+                    'courseObjectives'  => $txtTypeFieldWithDidYouMean,
+                    'courseLearningMaterialTitles'  => $txtTypeFieldWithDidYouMean,
+                    'courseLearningMaterialDescriptions'  => $txtTypeFieldWithDidYouMean,
                     'courseLearningMaterialCitation'  => $txtTypeField,
-                    'courseLearningMaterialAttachments'  => $txtTypeField,
-                    'courseMeshDescriptorIds' => [
-                        'type' => 'keyword',
-                        'fields' => [
-                            'cmp' => [
-                                'type' => 'completion',
-                                // we have to override the analyzer here because the default strips
-                                // out numbers and mesh ids are mostly numbers
-                                'analyzer' => 'standard',
-                            ],
-                        ],
-                    ],
-                    'courseMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                    'courseLearningMaterialAttachments'  => $txtTypeFieldWithDidYouMean,
+                    'courseMeshDescriptorIds' => $keywordFieldWithDidYouMean,
+                    'courseMeshDescriptorNames' => $txtTypeFieldWithDidYouMean,
                     'courseMeshDescriptorAnnotations' => $txtTypeField,
                     'sessionId' => [
                         'type' => 'integer',
                     ],
-                    'sessionTitle' => $txtTypeFieldWithCompletion,
-                    'sessionDescription' => $txtTypeField,
-                    'sessionType' => [
-                        'type' => 'keyword',
-                        'fields' => [
-                            'cmp' => [
-                                'type' => 'completion',
-                            ],
-                        ],
-                    ],
-                    'sessionTerms' => $txtTypeFieldWithCompletion,
-                    'sessionObjectives'  => $txtTypeField,
-                    'sessionLearningMaterialTitles'  => $txtTypeFieldWithCompletion,
-                    'sessionLearningMaterialDescriptions'  => $txtTypeField,
+                    'sessionTitle' => $txtTypeFieldWithDidYouMean,
+                    'sessionDescription' => $txtTypeFieldWithDidYouMean,
+                    'sessionType' => $keywordFieldWithDidYouMean,
+                    'sessionTerms' => $txtTypeFieldWithDidYouMean,
+                    'sessionObjectives'  => $txtTypeFieldWithDidYouMean,
+                    'sessionLearningMaterialTitles'  => $txtTypeFieldWithDidYouMean,
+                    'sessionLearningMaterialDescriptions'  => $txtTypeFieldWithDidYouMean,
                     'sessionLearningMaterialCitation'  => $txtTypeField,
-                    'sessionLearningMaterialAttachments'  => $txtTypeField,
-                    'sessionMeshDescriptorIds' => [
-                        'type' => 'keyword',
-                        'fields' => [
-                            'cmp' => [
-                                'type' => 'completion',
-                                // we have to override the analyzer here because the default strips
-                                // out numbers and mesh ids are mostly numbers
-                                'analyzer' => 'standard',
-                            ],
-                        ],
-                    ],
-                    'sessionMeshDescriptorNames' => $txtTypeFieldWithCompletion,
+                    'sessionLearningMaterialAttachments'  => $txtTypeFieldWithDidYouMean,
+                    'sessionMeshDescriptorIds' => $keywordFieldWithDidYouMean,
+                    'sessionMeshDescriptorNames' => $txtTypeFieldWithDidYouMean,
                     'sessionMeshDescriptorAnnotations' => $txtTypeField,
                     'ingestTime' => [
                         'type' => 'date',
