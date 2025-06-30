@@ -396,49 +396,14 @@ class Curriculum extends OpenSearchBase
         ];
     }
 
+    /**
+     * Transform our seach results from the messy array opensearch returns into something usable on the
+     * frontend organized by course and sessions and including a list of places we matched the search phrase.
+     * We sort this by the most relevant score and remove any duplicate sessions.
+     */
     protected function parseCurriculumSearchResults(array $results): array
     {
-        $didYouMean = array_reduce(
-            $results['suggest'],
-            function (array $carry, array $item) {
-                $optionsWithMatch = array_filter($item[0]['options'], fn (array $i) => $i['collate_match']);
-                foreach ($optionsWithMatch as [ 'text' => $text, 'score' => $score, 'highlighted' => $highlighted ]) {
-                    if ($score > $carry['score']) {
-                        $carry['score'] = $score;
-                        $carry['didYouMean'] = $text;
-                        $carry['highlighted'] = $highlighted;
-                    }
-                }
-
-                return $carry;
-            },
-            ['score' => 0, 'didYouMean' => '',  'highlighted' => '']
-        );
-
-        $allHits = array_reduce($results['hits']['hits'], function (array $carry, array $item): array {
-            $innerHits = $item['inner_hits']['sessions']['hits']['hits'];
-            unset($item['inner_hits']);
-
-            return array_merge($carry, $innerHits);
-        }, []);
-
-        $mappedResults = array_map(function (array $arr) {
-            $courseMatches = array_filter(
-                $arr['matched_queries'],
-                fn(string $match) => str_starts_with($match, 'course')
-            );
-            $sessionMatches = array_filter(
-                $arr['matched_queries'],
-                fn(string $match) => str_starts_with($match, 'session')
-            );
-            $rhett = $arr['_source'];
-            $rhett['score'] = $arr['_score'];
-            $rhett['courseMatches'] = $courseMatches;
-            $rhett['sessionMatches'] = $sessionMatches;
-
-            return $rhett;
-        }, $allHits);
-
+        $mappedResults = $this->mapSearchResults($results);
         $courses = array_reduce($mappedResults, function (array $carry, array $item) {
             $id = $item['courseId'];
             if (!array_key_exists($id, $carry)) {
@@ -503,8 +468,66 @@ class Curriculum extends OpenSearchBase
         return [
             'courses' => $coursesWithoutSessionIds,
             'totalCourses' => $results['aggregations']['courses']['value'] ?? 0,
-            'didYouMean' => $didYouMean,
+            'didYouMean' => $this->parseDidYouMean($results),
         ];
+    }
+
+    /**
+     * Transform search results into a better format
+     * We get each result as a top level course and the first N sessions that have high scores as inner_hits
+     * we need to turn these into a single level array so we can work with it more easily. Then we take that array
+     * and extract the fields on which we had a match for either the course or the sessions and return an array
+     * with all of that data organized.
+     */
+    protected function mapSearchResults(array $results): array
+    {
+        $allHits = array_reduce($results['hits']['hits'], function (array $carry, array $item): array {
+            $innerHits = $item['inner_hits']['sessions']['hits']['hits'];
+            unset($item['inner_hits']);
+
+            return array_merge($carry, $innerHits);
+        }, []);
+
+        return array_map(function (array $arr) {
+            $courseMatches = array_filter(
+                $arr['matched_queries'],
+                fn(string $match) => str_starts_with($match, 'course')
+            );
+            $sessionMatches = array_filter(
+                $arr['matched_queries'],
+                fn(string $match) => str_starts_with($match, 'session')
+            );
+            $rhett = $arr['_source'];
+            $rhett['score'] = $arr['_score'];
+            $rhett['courseMatches'] = $courseMatches;
+            $rhett['sessionMatches'] = $sessionMatches;
+
+            return $rhett;
+        }, $allHits);
+    }
+
+    /**
+     * Extract the suggestions from search results and then find the single most relevant
+     * suggestion to return by filtering out any that wouldn't return any results and then ranking them by score
+     */
+    protected function parseDidYouMean(array $results): array
+    {
+        return array_reduce(
+            $results['suggest'],
+            function (array $carry, array $item) {
+                $optionsWithMatch = array_filter($item[0]['options'], fn (array $i) => $i['collate_match']);
+                foreach ($optionsWithMatch as [ 'text' => $text, 'score' => $score, 'highlighted' => $highlighted ]) {
+                    if ($score > $carry['score']) {
+                        $carry['score'] = $score;
+                        $carry['didYouMean'] = $text;
+                        $carry['highlighted'] = $highlighted;
+                    }
+                }
+
+                return $carry;
+            },
+            ['score' => 0, 'didYouMean' => '',  'highlighted' => '']
+        );
     }
 
     public function getAllCourseIds(): array
