@@ -291,7 +291,7 @@ class Curriculum extends OpenSearchBase
         $mustMatch = [];
 
         /**
-         * Keyword index types cannot user the match_phrase_prefix query
+         * Keyword index types cannot user the match_bool_prefix query
          * So they have to be added using the match query
          */
         foreach ($keywordFields as $field) {
@@ -306,7 +306,7 @@ class Curriculum extends OpenSearchBase
             function (array $carry, string $field) use ($query) {
                 $matches = array_map(function (string $type) use ($field, $query) {
                     $fullField = "{$field}.{$type}";
-                    return [ 'match_phrase_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
+                    return [ 'match_bool_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
                 }, ['english', 'french', 'spanish']);
 
                 return array_merge($carry, $matches);
