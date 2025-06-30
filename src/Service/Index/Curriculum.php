@@ -42,6 +42,16 @@ class Curriculum extends OpenSearchBase
             $carry[$field] = [
                 'phrase' => [
                     'field' => "{$field}.trigram",
+                    'collate' => [
+                        'query' => [
+                            'source' => [
+                                'match_phrase' => [
+                                    $field => '{{suggestion}}',
+                                ],
+                            ],
+                        ],
+                        'prune' => true,
+                    ],
                     'highlight' => [
                         'pre_tag' => '<span class="highlight">',
                         'post_tag' => '</span>',
@@ -375,7 +385,8 @@ class Curriculum extends OpenSearchBase
         $didYouMean = array_reduce(
             $results['suggest'],
             function (array $carry, array $item) {
-                foreach ($item[0]['options'] as [ 'text' => $text, 'score' => $score, 'highlighted' => $highlighted ]) {
+                $optionsWithMatch = array_filter($item[0]['options'], fn (array $i) => $i['collate_match']);
+                foreach ($optionsWithMatch as [ 'text' => $text, 'score' => $score, 'highlighted' => $highlighted ]) {
                     if ($score > $carry['score']) {
                         $carry['score'] = $score;
                         $carry['didYouMean'] = $text;
