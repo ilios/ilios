@@ -37,31 +37,6 @@ class Curriculum extends OpenSearchBase
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
 
-        $suggestFields = $this->getSuggestFields();
-        $suggest = array_reduce($suggestFields, function ($carry, $field) use ($query) {
-            $carry[$field] = [
-                'phrase' => [
-                    'field' => "{$field}.trigram",
-                    'collate' => [
-                        'query' => [
-                            'source' => [
-                                'match_phrase' => [
-                                    $field => '{{suggestion}}',
-                                ],
-                            ],
-                        ],
-                        'prune' => true,
-                    ],
-                    'highlight' => [
-                        'pre_tag' => '<span class="highlight">',
-                        'post_tag' => '</span>',
-                    ],
-                ],
-            ];
-
-            return $carry;
-        }, []);
-
         $params = [
             'index' => self::INDEX,
             'body' => [
@@ -84,10 +59,7 @@ class Curriculum extends OpenSearchBase
                 'sort' => '_score',
                 'from' => $from,
                 'size' => $size,
-                'suggest' => [
-                    'text' => $query,
-                    ...$suggest,
-                ],
+                'suggest' => $this->buildSearchSuggest($query),
             ],
         ];
 
@@ -377,6 +349,50 @@ class Curriculum extends OpenSearchBase
                 'must' => $must,
                 'should' => $should,
             ],
+        ];
+    }
+
+    /**
+     * Extract the creation of the suggest portion of curriculum search for readability
+     */
+    protected function buildSearchSuggest(string $query): array
+    {
+        $mapping = $this->getMapping();
+        $properties = $mapping['mappings']['properties'];
+
+        $trigramFields = array_filter($properties, function (array $field): bool {
+            $types = array_keys($field['fields'] ?? []);
+            return in_array('trigram', $types);
+        });
+
+        $fields = array_keys($trigramFields);
+        $suggest = array_reduce($fields, function ($carry, $field) {
+            $carry[$field] = [
+                'phrase' => [
+                    'field' => "{$field}.trigram",
+                    'collate' => [
+                        'query' => [
+                            'source' => [
+                                'match_phrase' => [
+                                    $field => '{{suggestion}}',
+                                ],
+                            ],
+                        ],
+                        'prune' => true,
+                    ],
+                    'highlight' => [
+                        'pre_tag' => '<span class="highlight">',
+                        'post_tag' => '</span>',
+                    ],
+                ],
+            ];
+
+            return $carry;
+        }, []);
+
+        return [
+            'text' => $query,
+            ...$suggest,
         ];
     }
 
@@ -678,18 +694,5 @@ class Curriculum extends OpenSearchBase
                 ],
             ],
         ];
-    }
-
-    protected function getSuggestFields(): array
-    {
-        $mapping = $this->getMapping();
-        $properties = $mapping['mappings']['properties'];
-
-        $trigramFields = array_filter($properties, function (array $field): bool {
-            $types = array_keys($field['fields'] ?? []);
-            return in_array('trigram', $types);
-        });
-
-        return array_keys($trigramFields);
     }
 }
