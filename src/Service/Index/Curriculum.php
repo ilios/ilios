@@ -419,7 +419,6 @@ class Curriculum extends OpenSearchBase
             $innerHits = $item['inner_hits']['sessions']['hits']['hits'];
             unset($item['inner_hits']);
 
-            $carry[] = $item;
             return array_merge($carry, $innerHits);
         }, []);
 
@@ -483,7 +482,7 @@ class Curriculum extends OpenSearchBase
             if ($item['score'] > $carry[$id]['bestScore']) {
                 $carry[$id]['bestScore'] = $item['score'];
             }
-            $carry[$id]['sessions'][] = [
+            $carry[$id]['sessions'][$item['sessionId']] = [
                 'id' => $item['sessionId'],
                 'title' => $item['sessionTitle'],
                 'score' => $item['score'],
@@ -495,8 +494,14 @@ class Curriculum extends OpenSearchBase
 
         usort($courses, fn($a, $b) => $b['bestScore'] <=> $a['bestScore']);
 
+        $coursesWithoutSessionIds = array_map(function (array $c): array {
+            $c['sessions'] = array_values($c['sessions']);
+
+            return $c;
+        }, $courses);
+
         return [
-            'courses' => $courses,
+            'courses' => $coursesWithoutSessionIds,
             'totalCourses' => $results['aggregations']['courses']['value'] ?? 0,
             'didYouMean' => $didYouMean,
         ];
