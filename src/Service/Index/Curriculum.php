@@ -291,7 +291,7 @@ class Curriculum extends OpenSearchBase
         $mustMatch = [];
 
         /**
-         * Keyword index types cannot user the match_bool_prefix query
+         * Keyword index types cannot user the match_phrase_prefix query
          * So they have to be added using the match query
          */
         foreach ($keywordFields as $field) {
@@ -306,7 +306,7 @@ class Curriculum extends OpenSearchBase
             function (array $carry, string $field) use ($query) {
                 $matches = array_map(function (string $type) use ($field, $query) {
                     $fullField = "{$field}.{$type}";
-                    return [ 'match_bool_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
+                    return [ 'match_phrase_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
                 }, ['english', 'french', 'spanish']);
 
                 return array_merge($carry, $matches);
@@ -335,7 +335,7 @@ class Curriculum extends OpenSearchBase
          * The should queries are designed to boost the total score of
          * results that match more closely than the MUST set above so when
          * users enter a complete word like move it will score higher than
-         * than a partial match on movement
+         * a partial match on movement
          */
         $should = array_map(function ($field) use ($query) {
             return [ 'match' => [ "{$field}" => [
