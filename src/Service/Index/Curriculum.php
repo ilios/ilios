@@ -611,13 +611,15 @@ class Curriculum extends OpenSearchBase
         $txtTypeFieldWithDidYouMean = $txtTypeField;
         $txtTypeFieldWithDidYouMean['fields']['trigram'] = ['type' => 'text', 'analyzer' => 'trigram'];
 
-        $keywordFieldWithDidYouMean = [
+        $keywordField = [
             'type' => 'keyword',
-            'fields' => [
-                'trigram' => [
-                    'type' => 'text',
-                    'analyzer' => 'trigram',
-                ],
+        ];
+
+        $keywordFieldWithDidYouMean = $keywordField;
+        $keywordFieldWithDidYouMean['fields'] = [
+            'trigram' => [
+                'type' => 'text',
+                'analyzer' => 'trigram',
             ],
         ];
 
@@ -660,7 +662,7 @@ class Curriculum extends OpenSearchBase
                     'courseId' => [
                         'type' => 'integer',
                     ],
-                    'school' => $keywordFieldWithDidYouMean,
+                    'school' => $keywordField,
                     'schoolId' => [
                         'type' => 'integer',
                     ],
@@ -678,9 +680,9 @@ class Curriculum extends OpenSearchBase
                     'courseLearningMaterialTitles'  => $txtTypeFieldWithDidYouMean,
                     'courseLearningMaterialDescriptions'  => $txtTypeFieldWithDidYouMean,
                     'courseLearningMaterialCitation'  => $txtTypeField,
-                    'courseLearningMaterialAttachments'  => $txtTypeFieldWithDidYouMean,
-                    'courseMeshDescriptorIds' => $keywordFieldWithDidYouMean,
-                    'courseMeshDescriptorNames' => $txtTypeFieldWithDidYouMean,
+                    'courseLearningMaterialAttachments'  => $txtTypeField,
+                    'courseMeshDescriptorIds' => $keywordField,
+                    'courseMeshDescriptorNames' => $txtTypeField,
                     'courseMeshDescriptorAnnotations' => $txtTypeField,
                     'sessionId' => [
                         'type' => 'integer',
@@ -693,9 +695,9 @@ class Curriculum extends OpenSearchBase
                     'sessionLearningMaterialTitles'  => $txtTypeFieldWithDidYouMean,
                     'sessionLearningMaterialDescriptions'  => $txtTypeFieldWithDidYouMean,
                     'sessionLearningMaterialCitation'  => $txtTypeField,
-                    'sessionLearningMaterialAttachments'  => $txtTypeFieldWithDidYouMean,
-                    'sessionMeshDescriptorIds' => $keywordFieldWithDidYouMean,
-                    'sessionMeshDescriptorNames' => $txtTypeFieldWithDidYouMean,
+                    'sessionLearningMaterialAttachments'  => $txtTypeField,
+                    'sessionMeshDescriptorIds' => $keywordField,
+                    'sessionMeshDescriptorNames' => $txtTypeField,
                     'sessionMeshDescriptorAnnotations' => $txtTypeField,
                     'ingestTime' => [
                         'type' => 'date',
