@@ -60,10 +60,6 @@ final class SearchControllerTest extends TestCase
     {
         $searchTerm = 'jasper & jackson';
         $result = [
-            'autocomplete' => [
-              'one',
-              'two',
-            ],
             'courses' => [
                 [
                     'id' => 1,
@@ -79,6 +75,7 @@ final class SearchControllerTest extends TestCase
                     ],
                 ],
             ],
+            'totalCourses' => 13,
         ];
         $this->mockTokenStorage
             ->shouldReceive('getToken')
@@ -86,7 +83,7 @@ final class SearchControllerTest extends TestCase
 
         $this->mockCurriculumSearch
             ->shouldReceive('search')
-            ->with($searchTerm, false)
+            ->with($searchTerm, 1, 2, [3, 4], [2005, 2006])
             ->once()
             ->andReturn([$result]);
 
@@ -94,10 +91,7 @@ final class SearchControllerTest extends TestCase
             ->shouldReceive('canSearchCurriculum')
             ->andReturn(true);
 
-        $request = new Request();
-        $request->query->add(['q' => $searchTerm]);
-
-        $response = $this->controller->curriculumSearch($request);
+        $response = $this->controller->curriculumSearch($searchTerm, 1, 2, '3-4', '2005-2006');
         $content = $response->getContent();
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
 
@@ -108,78 +102,19 @@ final class SearchControllerTest extends TestCase
         );
     }
 
-    public function testCurriculumSearchWithServiceToken(): void
+    public function test404CurriculumSearchV1API(): void
     {
-        $searchTerm = 'rocket surgery 101';
-        $result = [
-            'autocomplete' => [
-            ],
-            'courses' => [
-                [
-                ],
-            ],
-        ];
         $this->mockTokenStorage
             ->shouldReceive('getToken')
             ->andReturn($this->getServiceTokenUserBasedMockToken());
 
-        $this->mockCurriculumSearch
-            ->shouldReceive('search')
-            ->with($searchTerm, false)
-            ->once()
-            ->andReturn([$result]);
+        $this->mockCurriculumSearch->shouldNotReceive('search');
 
         $request = new Request();
-        $request->query->add(['q' => $searchTerm]);
+        $request->query->add(['q' => '']);
 
-        $response = $this->controller->curriculumSearch($request);
-        $content = $response->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
-
-        $this->assertEquals(
-            ['results' => [$result]],
-            json_decode($content, true),
-            var_export($content, true)
-        );
-    }
-
-    public function testCurriculumSearchSuggestionsOnly(): void
-    {
-        $searchTerm = 'jasper & jackson';
-        $result = [
-            'autocomplete' => [
-              'one',
-              'two',
-            ],
-            'courses' => [],
-        ];
-
-        $this->mockTokenStorage
-            ->shouldReceive('getToken')
-            ->andReturn($this->getSessionUserBasedMockToken());
-
-        $this->mockCurriculumSearch
-            ->shouldReceive('search')
-            ->with($searchTerm, true)
-            ->once()
-            ->andReturn([$result]);
-
-        $this->mockPermissionChecker
-            ->shouldReceive('canSearchCurriculum')
-            ->andReturn(true);
-
-        $request = new Request();
-        $request->query->add(['q' => $searchTerm, 'onlySuggest' => true]);
-
-        $response = $this->controller->curriculumSearch($request);
-        $content = $response->getContent();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), var_export($content, true));
-
-        $this->assertEquals(
-            ['results' => [$result]],
-            json_decode($content, true),
-            var_export($content, true)
-        );
+        $response = $this->controller->curriculumSearchV1($request);
+        $this->assertEquals(Response::HTTP_GONE, $response->getStatusCode());
     }
 
     public function testCurriculumSearchFailsIfUserDoesntHaveProperPermissions(): void
@@ -192,7 +127,7 @@ final class SearchControllerTest extends TestCase
             ->shouldReceive('canSearchCurriculum')
             ->andReturn(false);
         $this->expectException(AccessDeniedException::class);
-        $this->controller->curriculumSearch(new Request());
+        $this->controller->curriculumSearch('q', 10, 0, '', '');
     }
 
     public function testUserSearch(): void

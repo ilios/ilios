@@ -581,7 +581,7 @@ EOL;
             'c.id AS id, c.title AS title, c.level AS level, c.year AS year, ' .
             'c.startDate AS startDate, c.endDate AS endDate, c.externalId AS externalId, ' .
             'c.locked AS locked, c.archived AS archived, c.publishedAsTbd AS publishedAsTbd, ' .
-            'c.published AS published, s.title as school, cl.title as clerkshipType'
+            'c.published AS published, s.title as school, s.id as schoolId, cl.title as clerkshipType'
         )
             ->from(Course::class, 'c')
             ->join('c.school', 's')
@@ -607,6 +607,7 @@ EOL;
                 $arr['published']
             );
             $index->school = $arr['school'];
+            $index->schoolId = $arr['schoolId'];
             $index->clerkshipType = $arr['clerkshipType'] ?: null;
 
             $indexableCourses[$arr['id']] = $index;
