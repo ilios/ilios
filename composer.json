@@ -59,7 +59,6 @@
     "symfony/monolog-bundle": "@stable",
     "symfony/postmark-mailer": "@stable",
     "symfony/property-access": "@stable",
-    "symfony/property-info": "@stable",
     "symfony/requirements-checker": "@stable",
     "symfony/runtime": "@stable",
     "symfony/security-bundle": "@stable",
