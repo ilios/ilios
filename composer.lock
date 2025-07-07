@@ -187,16 +187,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.348.1",
+            "version": "3.349.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c384263bebbfcdd0f59b459e630851f59080955f"
+                "reference": "63cc727845f077d17cb94791deb327249e1626ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c384263bebbfcdd0f59b459e630851f59080955f",
-                "reference": "c384263bebbfcdd0f59b459e630851f59080955f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/63cc727845f077d17cb94791deb327249e1626ce",
+                "reference": "63cc727845f077d17cb94791deb327249e1626ce",
                 "shasum": ""
             },
             "require": {
@@ -278,9 +278,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.348.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.349.2"
             },
-            "time": "2025-06-27T19:02:10+00:00"
+            "time": "2025-07-03T18:08:27+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -5861,16 +5861,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v5.26.0",
+            "version": "v5.26.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "690b0407ecd8d7dca8fcf1de231f324cc374ec8c"
+                "reference": "2ab53f4f501e5a4a9e6cb031f49732be9ae28678"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/690b0407ecd8d7dca8fcf1de231f324cc374ec8c",
-                "reference": "690b0407ecd8d7dca8fcf1de231f324cc374ec8c",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/2ab53f4f501e5a4a9e6cb031f49732be9ae28678",
+                "reference": "2ab53f4f501e5a4a9e6cb031f49732be9ae28678",
                 "shasum": ""
             },
             "type": "library",
@@ -5916,9 +5916,9 @@
             ],
             "support": {
                 "issues": "https://github.com/swagger-api/swagger-ui/issues",
-                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.26.0"
+                "source": "https://github.com/swagger-api/swagger-ui/tree/v5.26.2"
             },
-            "time": "2025-07-02T06:30:58+00:00"
+            "time": "2025-07-07T09:53:06+00:00"
         },
         {
             "name": "symfony/amazon-mailer",
@@ -7329,16 +7329,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.7.1",
+            "version": "v2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "4ae50d368415a06820739e54d38a4a29d6df9155"
+                "reference": "423c36e369361003dc31ef11c5f15fb589e52c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/4ae50d368415a06820739e54d38a4a29d6df9155",
-                "reference": "4ae50d368415a06820739e54d38a4a29d6df9155",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/423c36e369361003dc31ef11c5f15fb589e52c01",
+                "reference": "423c36e369361003dc31ef11c5f15fb589e52c01",
                 "shasum": ""
             },
             "require": {
@@ -7377,7 +7377,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.7.1"
+                "source": "https://github.com/symfony/flex/tree/v2.8.1"
             },
             "funding": [
                 {
@@ -7393,7 +7393,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-28T14:22:54+00:00"
+            "time": "2025-07-05T07:45:19+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -11433,16 +11433,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.20.0",
+            "version": "v15.20.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "60feb7ad5023c0ef411efbdf9792d3df5812e28f"
+                "reference": "10fc7f1b4a87a39f68579f6dee55ccd8e39a75e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/60feb7ad5023c0ef411efbdf9792d3df5812e28f",
-                "reference": "60feb7ad5023c0ef411efbdf9792d3df5812e28f",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/10fc7f1b4a87a39f68579f6dee55ccd8e39a75e4",
+                "reference": "10fc7f1b4a87a39f68579f6dee55ccd8e39a75e4",
                 "shasum": ""
             },
             "require": {
@@ -11455,13 +11455,13 @@
                 "amphp/http-server": "^2.1",
                 "dms/phpunit-arraysubset-asserts": "dev-master",
                 "ergebnis/composer-normalize": "^2.28",
-                "friendsofphp/php-cs-fixer": "3.73.1",
+                "friendsofphp/php-cs-fixer": "3.76.0",
                 "mll-lab/php-cs-fixer-config": "5.11.0",
                 "nyholm/psr7": "^1.5",
                 "phpbench/phpbench": "^1.2",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "2.1.8",
-                "phpstan/phpstan-phpunit": "2.0.4",
+                "phpstan/phpstan": "2.1.17",
+                "phpstan/phpstan-phpunit": "2.0.6",
                 "phpstan/phpstan-strict-rules": "2.0.4",
                 "phpunit/phpunit": "^9.5 || ^10.5.21 || ^11",
                 "psr/http-message": "^1 || ^2",
@@ -11495,7 +11495,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.20.0"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.20.1"
             },
             "funding": [
                 {
@@ -11503,7 +11503,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-03-21T08:45:04+00:00"
+            "time": "2025-07-04T07:47:56+00:00"
         },
         {
             "name": "zircote/swagger-php",
@@ -12488,16 +12488,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.13.1",
+            "version": "1.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c"
+                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/1720ddd719e16cf0db4eb1c6eca108031636d46c",
-                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/faed855a7b5f4d4637717c2b3863e277116beb36",
+                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36",
                 "shasum": ""
             },
             "require": {
@@ -12536,7 +12536,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.1"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.3"
             },
             "funding": [
                 {
@@ -12544,7 +12544,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-29T12:36:36+00:00"
+            "time": "2025-07-05T12:25:42+00:00"
         },
         {
             "name": "ondram/ci-detector",
@@ -13473,16 +13473,16 @@
         },
         {
             "name": "sanmai/pipeline",
-            "version": "6.18",
+            "version": "6.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sanmai/pipeline.git",
-                "reference": "d9fbdf2a4a363f44f4d8155f71766f35d49b8fb2"
+                "reference": "3707180c66dd6b3b9c4b5f9fe26155325812037d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/d9fbdf2a4a363f44f4d8155f71766f35d49b8fb2",
-                "reference": "d9fbdf2a4a363f44f4d8155f71766f35d49b8fb2",
+                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/3707180c66dd6b3b9c4b5f9fe26155325812037d",
+                "reference": "3707180c66dd6b3b9c4b5f9fe26155325812037d",
                 "shasum": ""
             },
             "require": {
@@ -13493,10 +13493,10 @@
                 "friendsofphp/php-cs-fixer": "^3.17",
                 "infection/infection": ">=0.10.5",
                 "league/pipeline": "^0.3 || ^1.0",
-                "phan/phan": ">=1.1",
                 "php-coveralls/php-coveralls": "^2.4.1",
-                "phpstan/phpstan": ">=0.10 <2",
+                "phpstan/phpstan": "^2",
                 "phpunit/phpunit": ">=9.4 <12",
+                "sanmai/phpstan-rules": "^0.3.0",
                 "vimeo/psalm": ">=2"
             },
             "type": "library",
@@ -13526,7 +13526,7 @@
             "description": "General-purpose collections pipeline",
             "support": {
                 "issues": "https://github.com/sanmai/pipeline/issues",
-                "source": "https://github.com/sanmai/pipeline/tree/v6.12"
+                "source": "https://github.com/sanmai/pipeline/tree/6.19"
             },
             "funding": [
                 {
@@ -13534,7 +13534,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-06-30T23:36:16+00:00"
+            "time": "2025-07-05T14:39:33+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -15124,10 +15124,15 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "firebase/php-jwt": 0,
+        "mockery/mockery": 0,
+        "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
         "symfony/apache-pack": 0,
         "symfony/asset": 0,
+        "symfony/browser-kit": 0,
         "symfony/console": 0,
+        "symfony/css-selector": 0,
+        "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
         "symfony/flex": 0,
@@ -15147,17 +15152,12 @@
         "symfony/security-bundle": 0,
         "symfony/sendgrid-mailer": 0,
         "symfony/serializer": 0,
+        "symfony/stopwatch": 0,
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/yaml": 0,
-        "mockery/mockery": 0,
-        "squizlabs/php_codesniffer": 0,
-        "symfony/browser-kit": 0,
-        "symfony/css-selector": 0,
-        "symfony/debug-bundle": 0,
-        "symfony/stopwatch": 0,
-        "symfony/web-profiler-bundle": 0
+        "symfony/web-profiler-bundle": 0,
+        "symfony/yaml": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -15176,9 +15176,9 @@
         "ext-xmlwriter": "*",
         "ext-zlib": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.4"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
