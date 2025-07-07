@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a64334c4652b9dce82e2f5f0b5f7ef5b",
+    "content-hash": "96431b0396d0bce9be604b35d70a9c47",
     "packages": [
         {
             "name": "async-aws/core",
@@ -12251,16 +12251,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "3.4.1",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "3ebebefffac05ae349e42364daf80e7ce5fd7a38"
+                "reference": "f385458e47026b7bf5e73efe2a96c6b74805edc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/3ebebefffac05ae349e42364daf80e7ce5fd7a38",
-                "reference": "3ebebefffac05ae349e42364daf80e7ce5fd7a38",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/f385458e47026b7bf5e73efe2a96c6b74805edc5",
+                "reference": "f385458e47026b7bf5e73efe2a96c6b74805edc5",
                 "shasum": ""
             },
             "require": {
@@ -12286,7 +12286,7 @@
                 "doctrine/mongodb-odm-bundle": "^4.4 || ^5.0",
                 "doctrine/orm": "^2.14 || ^3.1.0",
                 "monolog/monolog": "^1.25.1 || ^2.0 || ^3.0",
-                "phpunit/phpunit": "^10.5.11 || ^11.0.4",
+                "phpunit/phpunit": "^10.5.11 || ^11.0.4 || ^12.0.0",
                 "symfony/doctrine-bridge": "^5.4 || ^6.3 || ^7.0",
                 "symfony/monolog-bridge": "^5.4 || ^6.3 || ^7.0",
                 "symfony/monolog-bundle": "^3.2",
@@ -12332,9 +12332,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.4.1"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.5.0"
             },
-            "time": "2025-06-26T15:09:22+00:00"
+            "time": "2025-07-06T19:52:28+00:00"
         },
         {
             "name": "masterminds/html5",
