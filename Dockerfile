@@ -150,8 +150,6 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 
 # semi-colon seperates list of github users that can SSH in
 ENV GITHUB_ACCOUNT_SSH_USERS=''
-# set default LOCK_DSN for opensearch
-ENV LOCK_DSN="flock"
 
 RUN apt-get update && \
     apt-get install -y wget openssh-server sudo netcat-traditional default-mysql-client vim telnet git lynx screen && \
