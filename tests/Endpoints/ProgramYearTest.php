@@ -222,7 +222,10 @@ final class ProgramYearTest extends AbstractReadWriteEndpoint
             ],
         ];
 
-        $actual = array_map('str_getcsv', explode(PHP_EOL, trim($response->getContent())));
+        $actual = array_map(
+            fn ($content) => str_getcsv($content, escape: "\\"),
+            explode(PHP_EOL, trim($response->getContent()))
+        );
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertStringStartsWith('text/csv', $response->headers->get('Content-Type'));
         $this->assertEquals($expected, $actual);
