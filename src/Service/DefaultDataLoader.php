@@ -26,7 +26,7 @@ class DefaultDataLoader
         $i = 0;
         $rhett = [];
         if (($handle = fopen($path, 'r')) !== false) {
-            while (($data = fgetcsv($handle)) !== false) {
+            while (($data = fgetcsv($handle, escape: "\\")) !== false) {
                 $i++;
                 // step over the first row
                 // since it contains the field names
