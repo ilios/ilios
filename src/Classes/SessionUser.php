@@ -145,9 +145,13 @@ class SessionUser implements SessionUserInterface
         return (string) $this->userId;
     }
 
+    /**
+     * This method is deprecated. See __serialize() instead.
+     */
+    #[\Deprecated]
     public function eraseCredentials(): void
     {
-        $this->password = null;
+        // not implemented.
     }
 
     public function isRoot(): bool
