@@ -972,4 +972,17 @@ class SessionUser implements SessionUserInterface
         }
         return $this->instructorGroupIds;
     }
+
+    /**
+     * As of Symfony 7.3, CRC32 hashed passwords can be stored in the session.
+     * Symfony will hash the password of the refreshed user and compare it to the session value.
+     * This avoids storing real hashes and allows you to invalidate sessions when a password changes.
+     * @link https://symfony.com/blog/new-in-symfony-7-3-security-improvements#support-hashed-passwords-in-the-session
+     */
+    public function __serialize(): array
+    {
+        $data = (array) $this;
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
+        return $data;
+    }
 }
