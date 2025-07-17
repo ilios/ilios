@@ -28,6 +28,7 @@ class ServiceTokenUser implements ServiceTokenUserInterface
         return [];
     }
 
+    #[\Deprecated]
     /**
      * @codeCoverageIgnore
      */

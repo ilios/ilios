@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
+use App\Entity\Authentication;
+use App\Entity\User;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\SessionUser;
@@ -1179,6 +1181,22 @@ final class SessionUserTest extends TestCase
         $sessionUser = new SessionUser($this->createMockUser(1, $this->school), $this->userRepository);
         $this->assertTrue($sessionUser->isThePrimarySchool($this->school));
         $this->assertFalse($sessionUser->isThePrimarySchool($otherSchool));
+    }
+
+    public function testSerialize(): void
+    {
+        $hash = 'whatever';
+        $school = new School();
+        $school->setId(1);
+        $authentication = new Authentication();
+        $authentication->setPasswordHash($hash);
+        $user = new User();
+        $user->setId(1);
+        $user->setSchool($school);
+        $user->setAuthentication($authentication);
+        $sessionUser = new SessionUser($user, $this->userRepository);
+        $serialized = $sessionUser->__serialize();
+        $this->assertEquals('db5997c0', $serialized["\0App\Classes\SessionUser\0password"]);
     }
 
     public static function rolesInSessionProvider(): array
