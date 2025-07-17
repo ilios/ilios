@@ -12,6 +12,8 @@ class IndexableCourse
 
     public string $school;
 
+    public int $schoolId;
+
     public ?string $clerkshipType;
 
     public array $directors = [];
@@ -44,6 +46,7 @@ class IndexableCourse
         $courseData = [
             'courseId' => $this->courseDTO->id,
             'school' => $this->school,
+            'schoolId' => $this->schoolId,
             'courseYear' => $this->courseDTO->year,
             'courseTitle' => $this->courseDTO->title,
             'courseExternalId' => $this->courseDTO->externalId,

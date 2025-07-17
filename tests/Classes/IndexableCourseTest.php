@@ -31,6 +31,7 @@ final class IndexableCourseTest extends TestCase
             true,
         );
         $indexableCourse->school = 'School of Medicine';
+        $indexableCourse->schoolId = 13;
         $indexableCourse->clerkshipType = 'Longitudinal';
         $indexableCourse->directors = ['Danny Director', 'Deidre Sr. Director'];
         $indexableCourse->administrators = ['Anna Administator', 'Alfonse Admin'];
@@ -87,9 +88,10 @@ final class IndexableCourseTest extends TestCase
 
         foreach ($indexObjects as $i => $indexObject) {
             $indexableSession = $indexableSessions[$i];
-            $this->assertCount(34, array_keys($indexObject));
+            $this->assertCount(35, array_keys($indexObject));
             $this->assertEquals($indexableCourse->courseDTO->id, $indexObject['courseId']);
             $this->assertEquals($indexableCourse->school, $indexObject['school']);
+            $this->assertEquals($indexableCourse->schoolId, $indexObject['schoolId']);
             $this->assertEquals($indexableCourse->courseDTO->year, $indexObject['courseYear']);
             $this->assertEquals($indexableCourse->courseDTO->title, $indexObject['courseTitle']);
             $this->assertEquals($indexableCourse->courseDTO->externalId, $indexObject['courseExternalId']);
@@ -172,6 +174,7 @@ final class IndexableCourseTest extends TestCase
             true,
         );
         $indexableCourse->school = 'school of whatever';
+        $indexableCourse->schoolId = 11;
         $indexableCourse->clerkshipType = null;
         $this->assertEmpty($indexableCourse->createIndexObjects());
     }
