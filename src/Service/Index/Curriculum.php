@@ -10,6 +10,7 @@ use App\Repository\CourseRepository;
 use App\Service\Config;
 use DateTime;
 use Exception;
+use LanguageDetection\Language;
 use OpenSearch\Client;
 use stdClass;
 
@@ -93,7 +94,8 @@ class Curriculum extends OpenSearchBase
         $input = array_reduce($coursesToIndex, function (array $carry, IndexableCourse $item) {
             $sessions = $item->createIndexObjects();
             $sessionsWithMaterials = $this->attachLearningMaterialsToSession($sessions);
-            return array_merge($carry, $sessionsWithMaterials);
+            $sessionsSplitByLanguage = $this->splitIntoLanguages($sessionsWithMaterials);
+            return array_merge($carry, $sessionsSplitByLanguage);
         }, []);
 
         return $this->doBulkIndex(self::INDEX, $input);
@@ -197,6 +199,69 @@ class Curriculum extends OpenSearchBase
 
             return $session;
         }, $sessions);
+    }
+
+    /**
+     * Split text fields into language fields
+     * For each string calculate the most likely languages and only store the data in that subfield.
+     * If the string is short or the language uncertain, store it in the main field and let opensearch sort it out
+     */
+    protected function splitIntoLanguages(array $sessions): array
+    {
+        $ld = new Language(['en', 'fr', 'es']);
+        $mapping = $this->getMapping();
+        $properties = $mapping['mappings']['properties'];
+
+        $languageFields = array_filter($properties, function (array $field): bool {
+            $types = array_keys($field['fields'] ?? []);
+            return in_array('english', $types);
+        });
+
+        $fields = array_keys($languageFields);
+
+        return array_map(function (array $session) use ($ld, $fields) {
+            foreach ($fields as $k) {
+                $value = $session[$k] ?? null;
+                if (is_array($value)) {
+                    $nonEmptyValues = array_filter($value, fn($v) => !empty($v));
+                    foreach ($nonEmptyValues as $position => $s) {
+                        $languages = $this->detectLanguages($ld, $s);
+                        if ($languages) {
+                            foreach ($languages as $locale) {
+                                $session["{$k}.{$locale}"][] = $s;
+                            }
+                            unset($session[$k][$position]);
+                        }
+                    }
+                    $session[$k] = array_values($session[$k]);
+                } else {
+                    $languages = $this->detectLanguages($ld, $value);
+                    if ($languages) {
+                        foreach ($languages as $locale) {
+                            $session["{$k}.{$locale}"] = $value;
+                        }
+                        unset($session[$k]);
+                    }
+                }
+            }
+            return $session;
+        }, $sessions);
+    }
+
+    /**
+     * Detect the language for a string, returning something only if it's pretty sure that's the right one
+     */
+    protected function detectLanguages(Language $ld, ?string $string): ?array
+    {
+        if (empty($string)) {
+            return null;
+        }
+        $languages = $ld->detect($string)->close();
+        $goodMatches = array_keys(
+            array_filter($languages, fn(float $n) => $n > 0.5)
+        );
+
+        return count($goodMatches) ? $goodMatches : null;
     }
 
     /**
@@ -598,15 +663,15 @@ class Curriculum extends OpenSearchBase
             'type' => 'text',
             'analyzer' => 'standard',
             'fields' => [
-                'english' => [
+                'en' => [
                     'type' => 'text',
                     'analyzer' => 'english',
                 ],
-                'french' => [
+                'fr' => [
                     'type' => 'text',
                     'analyzer' => 'french',
                 ],
-                'spanish' => [
+                'es' => [
                     'type' => 'text',
                     'analyzer' => 'spanish',
                 ],
