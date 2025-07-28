@@ -36,6 +36,7 @@
     "nelmio/api-doc-bundle": "^5.0",
     "nelmio/cors-bundle": "^2.0",
     "opensearch-project/opensearch-php": "^2.0",
+    "patrickschur/language-detection": "^5.3",
     "pear/archive_tar": "^1.4",
     "phpdocumentor/reflection-docblock": "^5.2",
     "psr/log": "^3.0.0",
