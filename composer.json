@@ -72,7 +72,7 @@
     "webonyx/graphql-php": "^15.0"
   },
   "require-dev": {
-    "infection/infection": "^0.30.0",
+    "infection/infection": "^0.31.0",
     "liip/test-fixtures-bundle": "3.5.0",
     "mockery/mockery": "@stable",
     "phpstan/extension-installer": "^1.0",
