@@ -480,6 +480,8 @@ final class VerificationPreviewBuilderTest extends TestCase
             6 => ['event_id' => 6, 'method_id' => 'AM003', 'assessment_option_name' => 'summative'],
             7 => ['event_id' => 7, 'method_id' => 'AM019', 'assessment_option_name' => 'formative'],
             8 => ['event_id' => 8, 'method_id' => 'AM016', 'assessment_option_name' => 'summative'],
+            9 => ['event_id' => 9, 'method_id' => null, 'assessment_option_name' => 'formative'],
+
         ];
         $data['sequence_block_references']['events'] = [
             1 => [
@@ -495,6 +497,7 @@ final class VerificationPreviewBuilderTest extends TestCase
                 ['id' => 3, 'event_id' => 6],
                 ['id' => 3, 'event_id' => 7],
                 ['id' => 3, 'event_id' => 8],
+                ['id' => 3, 'event_id' => 9],
             ],
         ];
 
@@ -792,6 +795,8 @@ final class VerificationPreviewBuilderTest extends TestCase
             6 => ['event_id' => 6, 'method_id' => 'AM003', 'assessment_option_name' => 'summative'],
             7 => ['event_id' => 7, 'method_id' => 'AM019', 'assessment_option_name' => 'formative'],
             8 => ['event_id' => 8, 'method_id' => 'AM016', 'assessment_option_name' => 'summative'],
+            9 => ['event_id' => 9, 'method_id' => null, 'assessment_option_name' => 'summative'],
+
         ];
         $data['sequence_block_references']['events'] = [
             1 => [
@@ -807,6 +812,7 @@ final class VerificationPreviewBuilderTest extends TestCase
                 ['id' => 3, 'event_id' => 6],
                 ['id' => 3, 'event_id' => 7],
                 ['id' => 3, 'event_id' => 8],
+                ['id' => 3, 'event_id' => 9],
             ],
         ];
 
@@ -1077,12 +1083,14 @@ final class VerificationPreviewBuilderTest extends TestCase
                 4 => ['method_id' => 'IM004', 'duration' => 240],
                 5 => ['method_id' => 'IM010', 'duration' => 30],
                 6 => ['method_id' => 'AM001'],
+                7 => ['method_id' => null, 'duration' => 60],
             ],
             'sequence_block_references' => [
                 'events' => [
                     1 => [
                         ['event_id' => 1],
                         ['event_id' => 2],
+                        ['event_id' => 7],
                     ],
                     2 => [
                         ['event_id' => 3],
