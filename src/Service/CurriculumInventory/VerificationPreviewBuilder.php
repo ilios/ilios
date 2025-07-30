@@ -234,6 +234,9 @@ class VerificationPreviewBuilder
             foreach ($eventRefs[$blockId] as $eventRef) {
                 $event = $events[$eventRef['event_id']];
                 $methodId = $event['method_id'];
+                if (! $methodId) {
+                    continue;
+                }
                 if (str_starts_with($methodId, 'IM')) {
                     $groups = $methodsToGroups[$methodId];
                     foreach ($groups as $group) {
@@ -526,6 +529,9 @@ class VerificationPreviewBuilder
                 foreach ($eventRefs[$blockId] as $eventRef) {
                     $event = $events[$eventRef['event_id']];
                     $methodId = $event['method_id'];
+                    if (!$methodId) {
+                        continue;
+                    }
                     if (str_starts_with($methodId, 'AM')) {
                         $hasAssessmentMethods = true;
 
