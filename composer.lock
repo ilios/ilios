@@ -5759,16 +5759,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "5.3.0",
+            "version": "5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "5081e7d842424ec09a96e3c79c5b48b89d1195b2"
+                "reference": "f98f641adec07f0d6ef9a63f2e84a97f533a4466"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/5081e7d842424ec09a96e3c79c5b48b89d1195b2",
-                "reference": "5081e7d842424ec09a96e3c79c5b48b89d1195b2",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/f98f641adec07f0d6ef9a63f2e84a97f533a4466",
+                "reference": "f98f641adec07f0d6ef9a63f2e84a97f533a4466",
                 "shasum": ""
             },
             "require": {
@@ -5845,7 +5845,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/5.3.0"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/5.3.1"
             },
             "funding": [
                 {
@@ -5857,7 +5857,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-07-07T14:14:08+00:00"
+            "time": "2025-07-30T19:30:27+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
