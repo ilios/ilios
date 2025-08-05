@@ -30,7 +30,7 @@ if [[ $GITHUB_ACCOUNT_SSH_USERS ]]; then
 fi
 
 # export the ENV vars globally so they can be available for ssh users at login
-printenv | grep -E 'ILIOS_|TRUSTED_PROXIES|DSN' | sed 's/^/export /g' > /etc/profile.d/ecs_env.sh
+printenv | grep -E 'ILIOS_|TRUSTED_PROXIES|APP_ENV|DSN' | sed 's/^/export /g' > /etc/environment
 
 /bin/echo "Starting ssh server"
 /usr/sbin/sshd -D &

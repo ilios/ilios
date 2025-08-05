@@ -10,31 +10,30 @@ rm -Rf vendor
 rm -Rf var/cache/*
 
 # rebuild/install via composer
-composer install --no-dev --prefer-dist
+/usr/bin/composer install --no-dev --prefer-dist
 echo "composer install has run"
-composer dump-autoload  --optimize
+/usr/bin/composer dump-autoload  --optimize
 echo "composer dump-autoload has run"
 
-bin/console cache:clear --no-warmup
-bin/console cache:warmup
+$APP_DIR/bin/console cache:clear --no-warmup
+$APP_DIR/bin/console cache:warmup
 echo "Cache warmed up"
 
 # migrate the db
-bin/console doctrine:migrations:migrate -n
+$APP_DIR/bin/console doctrine:migrations:migrate -n
 echo "migrations run!"
 
 # sync the metadata storage
-bin/console doctrine:migrations:sync-metadata-storage
+$APP_DIR/bin/console doctrine:migrations:sync-metadata-storage
 echo "metadata storage synced!"
 
-# update the frontend
-#bin/console ilios:maintenance:update-frontend
+# update the frontend if container is web-facing
+#$APP_DIR/bin/console ilios:maintenance:update-frontend
 
 # uncomment to completely rebuild opensearch index
-#sudo -u www-data bin/console doctrine:query:sql "TRUNCATE TABLE messenger_messages;"
-#bin/console dbal:run-sql "TRUNCATE TABLE messenger_messages;"
-#bin/console ilios:index:drop --force
-#bin/console ilios:index:create
-#bin/console ilios:extract-material-text --overwrite
-#bin/console ilios:index:update
+#$APP_DIR/bin/console dbal:run-sql "TRUNCATE TABLE messenger_messages;"
+#$APP_DIR/bin/console ilios:index:drop --force
+#$APP_DIR/bin/console ilios:index:create
+#$APP_DIR/bin/console ilios:extract-material-text --overwrite
+#$APP_DIR/bin/console ilios:index:update
 

@@ -76,8 +76,6 @@ MAILER_DSN=null://null \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
-ILIOS_SEARCH_HOSTS=http://opensearch:9200 \
-ILIOS_TIKA_URL=http://tika:9999 \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
