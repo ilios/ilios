@@ -76,6 +76,7 @@ MAILER_DSN=null://null \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
+LOCK_DSN=flock \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
@@ -166,15 +167,11 @@ RUN sed -i 's/#PermitUserEnvironment no/PermitUserEnvironment yes/' /etc/ssh/ssh
 # allow users in the sudo group to do wo without a password
 RUN /bin/echo "%sudo ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/no-password-group
 
-COPY docker/admin/rebuild-ilios.sh \
-     docker/admin/rebuild-opensearch-index.sh \
-     docker/admin/messenger-consume.sh \
-     /root/
-COPY docker/admin/entrypoint.sh /entrypoint.sh
+COPY docker/admin-entrypoint /entrypoint
 
 # expose the ssh port
 EXPOSE 22
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint"]
 
 HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 
@@ -321,6 +318,7 @@ ILIOS_DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" \
 ILIOS_LOCALE=en \
 ILIOS_SECRET=ThisTokenIsNotSoSecretChangeIt \
 ILIOS_REQUIRE_SECURE_CONNECTION=false \
+LOCK_DSN=flock \
 MESSENGER_TRANSPORT_DSN=doctrine://default
 
 WORKDIR /var/www/ilios
