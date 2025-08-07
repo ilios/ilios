@@ -7,6 +7,7 @@ namespace App\Tests\Command\Index;
 use App\Command\Index\MaterialCommand;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Repository\LearningMaterialRepository;
+use App\Service\Config;
 use App\Service\Index\LearningMaterials;
 use PHPUnit\Framework\Attributes\Group;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -23,14 +24,16 @@ final class MaterialCommandTest extends KernelTestCase
     protected CommandTester $commandTester;
     protected m\MockInterface | LearningMaterialRepository $repository;
     protected m\MockInterface | LearningMaterials $index;
+    protected m\MockInterface | Config $config;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->repository = m::mock(LearningMaterialRepository::class);
         $this->index = m::mock(LearningMaterials::class);
+        $this->config = m::mock(Config::class);
 
-        $command = new MaterialCommand($this->repository, $this->index);
+        $command = new MaterialCommand($this->repository, $this->index, $this->config);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $application->add($command);
@@ -46,12 +49,14 @@ final class MaterialCommandTest extends KernelTestCase
         parent::tearDown();
         unset($this->repository);
         unset($this->index);
+        unset($this->config);
         unset($this->commandTester);
     }
 
     public function testExecute(): void
     {
         $this->index->shouldReceive('isEnabled')->once()->andReturn(true);
+        $this->config->shouldReceive('get')->once()->with('learningMaterialsDisabled')->andReturn(false);
         $dto = m::mock(LearningMaterialDTO::class);
         $this->repository->shouldReceive('findDTOBy')->once()->with(['id' => 13])->andReturn($dto);
         $this->index->shouldReceive('index')->once()->with([$dto], true);
@@ -70,6 +75,21 @@ final class MaterialCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
         $this->assertMatchesRegularExpression(
             '/Indexing is not currently configured./',
+            $output
+        );
+    }
+
+    public function testExecuteWithMaterialsDisabled(): void
+    {
+        $this->index->shouldReceive('isEnabled')->once()->andReturn(true);
+        $this->config->shouldReceive('get')->once()->with('learningMaterialsDisabled')->andReturn(true);
+        $this->index->shouldNotReceive('index');
+
+        $this->commandTester->execute(['materialId' => 1]);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Learning Materials are disabled on this instance./',
             $output
         );
     }

@@ -20,7 +20,7 @@ class Curriculum extends OpenSearchBase
 
     public function __construct(
         private readonly CourseRepository $courseRepository,
-        Config $config,
+        protected readonly Config $config,
         ?Client $client = null
     ) {
         parent::__construct($config, $client);
@@ -203,6 +203,9 @@ class Curriculum extends OpenSearchBase
      */
     protected function getMaterialContentsByIds(array $learningMaterialIds): array
     {
+        if ($this->config->get('learningMaterialsDisabled')) {
+            return [];
+        }
         sort($learningMaterialIds);
         $materialsById = [];
         if (!empty($learningMaterialIds)) {

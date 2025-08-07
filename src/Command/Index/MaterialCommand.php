@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Command\Index;
 
 use App\Repository\LearningMaterialRepository;
+use App\Service\Config;
 use App\Service\Index\LearningMaterials;
 use Composer\Console\Input\InputArgument;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -21,6 +22,7 @@ class MaterialCommand extends Command
     public function __construct(
         protected LearningMaterialRepository $learningMaterialRepository,
         protected LearningMaterials $index,
+        protected readonly Config $config,
     ) {
         parent::__construct();
     }
@@ -39,6 +41,10 @@ class MaterialCommand extends Command
     {
         if (!$this->index->isEnabled()) {
             $output->writeln("<comment>Indexing is not currently configured.</comment>");
+            return Command::FAILURE;
+        }
+        if ($this->config->get('learningMaterialsDisabled')) {
+            $output->writeln("<comment>Learning Materials are disabled on this instance.</comment>");
             return Command::FAILURE;
         }
         $id = $input->getArgument('materialId');

@@ -12,6 +12,7 @@ use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
 use App\Repository\MeshDescriptorRepository;
 use App\Repository\UserRepository;
+use App\Service\Config;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,6 +34,7 @@ class UpdateCommand extends Command
         protected MeshDescriptorRepository $descriptorRepository,
         protected LearningMaterialRepository $learningMaterialRepository,
         protected MessageBusInterface $bus,
+        protected readonly Config $config,
     ) {
         parent::__construct();
     }
@@ -71,6 +73,10 @@ class UpdateCommand extends Command
 
     protected function queueLearningMaterials(OutputInterface $output): void
     {
+        if ($this->config->get('learningMaterialsDisabled')) {
+            $output->writeln("<info>Learning Materials are disabled on this instance.</info>");
+            return;
+        }
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
         $count = count($allIds);
         $chunks = array_chunk($allIds, LearningMaterialIndexRequest::MAX_MATERIALS);

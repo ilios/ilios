@@ -62,6 +62,7 @@ final class CurriculumTest extends TestCase
     public function testIndexCourses(): void
     {
         $obj = new Curriculum($this->repository, $this->config, $this->client);
+        $this->config->shouldReceive('get')->times(2)->with('learningMaterialsDisabled')->andReturn(false);
         $course1 = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
         $mockDto->id = 1;
@@ -216,6 +217,7 @@ final class CurriculumTest extends TestCase
     public function testSkipsPreviouslyIndexedCourses(): void
     {
         $obj = new Curriculum($this->repository, $this->config, $this->client);
+        $this->config->shouldReceive('get')->once()->with('learningMaterialsDisabled')->andReturn(false);
         $course1 = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
         $mockDto->id = 1;
@@ -258,6 +260,7 @@ final class CurriculumTest extends TestCase
     public function testIndexCourseWithNoSessions(): void
     {
         $obj = new Curriculum($this->repository, $this->config, $this->client);
+        $this->config->shouldReceive('get')->once()->with('learningMaterialsDisabled')->andReturn(false);
         $course1 = m::mock(IndexableCourse::class);
         $mockDto = m::mock(CourseDTO::class);
         $mockDto->id = 1;
@@ -312,10 +315,78 @@ final class CurriculumTest extends TestCase
         ])->andReturn(['errors' => false, 'took' => 1, "aggregations" => ["courseId" => ["buckets" => $ids]]]);
     }
 
+    public function testIndexCoursesWithMaterialsDisabled(): void
+    {
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
+        $this->config->shouldReceive('get')->times(2)->with('learningMaterialsDisabled')->andReturn(true);
+        $course1 = m::mock(IndexableCourse::class);
+        $mockDto = m::mock(CourseDTO::class);
+        $mockDto->id = 1;
+        $course1->courseDTO = $mockDto;
+        $course1->shouldReceive('createIndexObjects')->once()->andReturn([
+            ['id' => 1, 'courseFileLearningMaterialIds' => [1, 3], 'sessionFileLearningMaterialIds' => []],
+        ]);
+
+        $course2 = m::mock(IndexableCourse::class);
+        $mockDto2 = m::mock(CourseDTO::class);
+        $mockDto2->id = 2;
+        $course2->courseDTO = $mockDto2;
+        $course2->shouldReceive('createIndexObjects')->once()->andReturn([
+            ['id' => 2, 'courseFileLearningMaterialIds' => [1], 'sessionFileLearningMaterialIds' => []],
+            ['id' => 3, 'courseFileLearningMaterialIds' => [], 'sessionFileLearningMaterialIds' => [2]],
+        ]);
+
+        $stamp = new DateTime();
+        $this->setupSkippable($stamp, [1, 2], []);
+
+        $this->repository
+            ->shouldReceive('getCourseIndexesFor')->once()
+            ->with([1, 2])
+            ->andReturn([$course1, $course2]);
+
+        $this->client
+            ->shouldReceive('request')->once()->withArgs(function ($method, $uri, $data) {
+                $this->validateRequest($method, $uri, $data, [
+                    [
+                        'index' => [
+                            '_index' => Curriculum::INDEX,
+                            '_id' => 1,
+                        ],
+                    ],
+                    [
+                        'id' => 1,
+                    ],
+                    [
+                        'index' => [
+                            '_index' => Curriculum::INDEX,
+                            '_id' => 2,
+                        ],
+                    ],
+                    [
+                        'id' => 2,
+                    ],
+                    [
+                        'index' => [
+                            '_index' => Curriculum::INDEX,
+                            '_id' => 3,
+                        ],
+                    ],
+                    [
+                        'id' => 3,
+                    ],
+                ]);
+                return true;
+            })
+            ->andReturn(['errors' => false, 'took' => 1, 'items' => []]);
+
+        $this->client->shouldNotReceive('count');
+        $this->client->shouldNotReceive('search');
+        $obj->index([1, 2], $stamp);
+    }
+
     public function testGetAllCourseIds(): void
     {
         $obj = new Curriculum($this->repository, $this->config, $this->client);
-        //$results['aggregations']['courseId']['buckets']
         $this->client->shouldReceive('search')->once()->andReturn([
             'aggregations' => [
                 'courseId' => [
