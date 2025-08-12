@@ -42,6 +42,9 @@ final class CurriculumTest extends TestCase
 
     public function testSetup(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj1 = new Curriculum($this->repository, $this->config, $this->client);
         $this->assertTrue($obj1->isEnabled());
 
@@ -51,6 +54,9 @@ final class CurriculumTest extends TestCase
 
     public function testIndexCoursesWorksWithoutSearch(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, null);
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(
@@ -61,6 +67,9 @@ final class CurriculumTest extends TestCase
 
     public function testIndexCourses(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->config->shouldReceive('get')->times(2)->with('learningMaterialsDisabled')->andReturn(false);
         $course1 = m::mock(IndexableCourse::class);
@@ -216,6 +225,9 @@ final class CurriculumTest extends TestCase
 
     public function testSkipsPreviouslyIndexedCourses(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->config->shouldReceive('get')->once()->with('learningMaterialsDisabled')->andReturn(false);
         $course1 = m::mock(IndexableCourse::class);
@@ -259,6 +271,9 @@ final class CurriculumTest extends TestCase
 
     public function testIndexCourseWithNoSessions(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->config->shouldReceive('get')->once()->with('learningMaterialsDisabled')->andReturn(false);
         $course1 = m::mock(IndexableCourse::class);
@@ -317,6 +332,9 @@ final class CurriculumTest extends TestCase
 
     public function testIndexCoursesWithMaterialsDisabled(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->config->shouldReceive('get')->times(2)->with('learningMaterialsDisabled')->andReturn(true);
         $course1 = m::mock(IndexableCourse::class);
@@ -386,6 +404,9 @@ final class CurriculumTest extends TestCase
 
     public function testGetAllCourseIds(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->andReturn([
             'aggregations' => [
@@ -404,6 +425,9 @@ final class CurriculumTest extends TestCase
 
     public function testGetAllSessionIds(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->andReturn([
             'aggregations' => [
@@ -440,14 +464,55 @@ final class CurriculumTest extends TestCase
 
     public function testGetMapping(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $mapping = $obj->getMapping();
         $this->assertArrayHasKey('settings', $mapping);
         $this->assertArrayHasKey('mappings', $mapping);
+        $this->assertArrayHasKey('properties', $mapping['mappings']);
+        $this->assertArrayHasKey('courseTitle', $mapping['mappings']['properties']);
+        $this->assertEquals([
+            'type' => 'text',
+            'analyzer' => 'standard',
+            'fields' => [
+                'trigram' => [
+                    'type' => 'text',
+                    'analyzer' => 'trigram',
+                ],
+            ],
+        ], $mapping['mappings']['properties']['courseTitle']);
+    }
+
+    public function testGetMappingWithPrimaryLanguageOfInstruction(): void
+    {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn('english');
+        $obj = new Curriculum($this->repository, $this->config, $this->client);
+        $mapping = $obj->getMapping();
+        $this->assertArrayHasKey('settings', $mapping);
+        $this->assertArrayHasKey('mappings', $mapping);
+        $this->assertArrayHasKey('properties', $mapping['mappings']);
+        $this->assertArrayHasKey('courseTitle', $mapping['mappings']['properties']);
+        $this->assertEquals([
+            'type' => 'text',
+            'analyzer' => 'english',
+            'fields' => [
+                'trigram' => [
+                    'type' => 'text',
+                    'analyzer' => 'trigram',
+                ],
+            ],
+        ], $mapping['mappings']['properties']['courseTitle']);
     }
 
     public function testGetPipeline(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $pipeline = $obj->getPipeline();
         $this->assertArrayHasKey('id', $pipeline);
@@ -457,6 +522,9 @@ final class CurriculumTest extends TestCase
 
     public function testSearchSortOf(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->withArgs(function ($params) {
             $this->assertArrayHasKey('index', $params);
@@ -502,6 +570,9 @@ final class CurriculumTest extends TestCase
 
     public function testSearchDidYouMean(): void
     {
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $obj = new Curriculum($this->repository, $this->config, $this->client);
         $this->client->shouldReceive('search')->once()->andReturn([
             'hits' => ['hits' => []],

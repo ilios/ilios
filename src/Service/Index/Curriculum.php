@@ -586,11 +586,11 @@ class Curriculum extends OpenSearchBase
         return $sessionIds;
     }
 
-    public static function getMapping(): array
+    public function getMapping(): array
     {
         $txtTypeField = [
             'type' => 'text',
-            'analyzer' => 'standard',
+            'analyzer' => $this->languageAnalyzer,
         ];
         $txtTypeFieldWithDidYouMean = $txtTypeField;
         $txtTypeFieldWithDidYouMean['fields']['trigram'] = ['type' => 'text', 'analyzer' => 'trigram'];
