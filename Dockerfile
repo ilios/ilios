@@ -64,7 +64,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*; \
     rm -rf /tmp/pear; \
     # remove the apt source files to save space
-    apt-get purge libldap2-dev zlib1g-dev libicu-dev -y; \
+    apt-get purge libldap2-dev zlib1g-dev  -y; \
     apt-get autoremove -y;
 
 ENV \
@@ -296,7 +296,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*; \
     rm -rf /tmp/pear; \
     # remove the apt source files to save space
-    apt-get purge libldap2-dev zlib1g-dev libicu-dev -y; \
+    apt-get purge libldap2-dev zlib1g-dev  -y; \
     apt-get autoremove -y;
 
 COPY ./docker/php.ini $PHP_INI_DIR
