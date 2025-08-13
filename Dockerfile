@@ -45,7 +45,7 @@ RUN set -eux; \
         zlib1g-dev \
         libicu-dev \
         libzip-dev \
-        libzip4 \
+        libzip5 \
         unzip \
         acl \
         libfcgi-bin; \
@@ -154,9 +154,6 @@ RUN apt-get update && \
     apt-get install -y wget openssh-server sudo netcat-traditional default-mysql-client vim telnet && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y
-
-# This doesn't get created automatically, don't know why
-RUN mkdir /run/sshd
 
 # Remove password based authentication for SSH
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -282,7 +279,7 @@ COPY ./src/.htaccess /var/www/ilios/src
 # configure Apache and the PHP extensions required for Ilios and delete the source files after install
 RUN set -eux; \
     apt-get update; \
-    apt-get install acl libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip4 unzip -y; \
+    apt-get install acl libldap2-dev libldap-common zlib1g-dev libicu-dev libzip-dev libzip5 unzip -y; \
     docker-php-ext-configure ldap; \
     docker-php-ext-install ldap; \
     docker-php-ext-install zip; \
