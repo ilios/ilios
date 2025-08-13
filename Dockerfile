@@ -155,9 +155,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y
 
-# This doesn't get created automatically, don't know why
-RUN mkdir /run/sshd
-
 # Remove password based authentication for SSH
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
