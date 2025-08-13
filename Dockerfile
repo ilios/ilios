@@ -261,7 +261,7 @@ CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
 ###############################################################################
 # Create our own tika, so we can customize it if needed
 ###############################################################################
-FROM apache/tika AS tika
+FROM apache/tika:latest-full AS tika
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 
 ###############################################################################
