@@ -54,6 +54,12 @@ class LearningMaterialTextExtractor
         try {
             $raw = $this->client->getText($tmpFile->getRealPath());
             $text = $this->cleanText($raw);
+
+            //when extraction is successful, but no data is returned we store the filename as the text
+            //this prevents re-extracting or having errors during indexing
+            if (empty($text)) {
+                $text = $dto->filename;
+            }
             $this->iliosFileSystem->storeLearningMaterialText($dto->relativePath, $text);
         } catch (Exception $exception) {
             if (
