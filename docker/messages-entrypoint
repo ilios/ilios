@@ -1,15 +1,47 @@
 #!/bin/sh
 set -e
 
+WAIT_PID=""
+
+# Kill our waiters if they're running
+cleanup() {
+    if [ -z "$WAIT_PID" ]; then
+        exit 0
+    fi
+
+    # Check if the process exists and we can signal it
+    if ! kill -0 "$WAIT_PID"; then
+        exit 0
+    fi
+
+    kill -TERM "$WAIT_PID"
+
+    exit 0
+}
+
+# trap signals and send them to our cleanup function
+trap cleanup TERM INT QUIT
+
 echo "Waiting for db to be ready..."
-/srv/app/bin/console ilios:wait-for-database
+/srv/app/bin/console ilios:wait-for-database &
+WAIT_PID=$!
+# Wait for the background process to complete, preserving its exit status
+wait $WAIT_PID || exit $?
+WAIT_PID=""
+
 echo "The db is now ready and reachable"
 
 echo "Waiting for search index to be ready..."
-/srv/app/bin/console ilios:wait-for-index
+# Run the search index wait command in the background so it can receive signals directly
+/srv/app/bin/console ilios:wait-for-index &
+WAIT_PID=$!
+# Wait for the background process to complete, preserving its exit status
+wait $WAIT_PID || exit $?
+WAIT_PID=""
+
 echo "The search index is now ready and reachable"
 
-# use exec so the process is the container's PID 1 which will allow
-# signals (Kill, Quit, Term) to be passed to the process.
+# Use exec so the messenger process becomes the container's PID 1, which will allow
+# signals (Kill, Quit, Term) to be passed directly to the process for proper shutdown.
 # Also pass all arguments into it
 exec /srv/app/bin/console messenger:consume async_priority_high async_priority_normal async_priority_low "$@"
