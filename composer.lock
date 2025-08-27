@@ -2744,16 +2744,16 @@
         },
         {
             "name": "flagception/flagception-bundle",
-            "version": "6.0.0",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/playox/flagception-bundle.git",
-                "reference": "4a38e99bb998331dbbd7321a7dbca1aaa852a5b1"
+                "reference": "8d2134cdededb196cc0c27999ea96892921eefe8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/playox/flagception-bundle/zipball/4a38e99bb998331dbbd7321a7dbca1aaa852a5b1",
-                "reference": "4a38e99bb998331dbbd7321a7dbca1aaa852a5b1",
+                "url": "https://api.github.com/repos/playox/flagception-bundle/zipball/8d2134cdededb196cc0c27999ea96892921eefe8",
+                "reference": "8d2134cdededb196cc0c27999ea96892921eefe8",
                 "shasum": ""
             },
             "require": {
@@ -2811,9 +2811,9 @@
             ],
             "support": {
                 "issues": "https://github.com/playox/flagception-bundle/issues",
-                "source": "https://github.com/playox/flagception-bundle/tree/6.0.0"
+                "source": "https://github.com/playox/flagception-bundle/tree/6.0.1"
             },
-            "time": "2025-02-27T13:45:44+00:00"
+            "time": "2025-08-26T11:34:23+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
