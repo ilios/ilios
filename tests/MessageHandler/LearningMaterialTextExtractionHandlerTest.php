@@ -11,6 +11,7 @@ use App\MessageHandler\LearningMaterialTextExtractionHandler;
 use App\Repository\LearningMaterialRepository;
 use App\Service\LearningMaterialTextExtractor;
 use App\Tests\TestCase;
+use Exception;
 use Mockery as m;
 use stdClass;
 use Symfony\Component\Messenger\Envelope;
@@ -93,6 +94,72 @@ final class LearningMaterialTextExtractionHandlerTest extends TestCase
             ->andReturn(new Envelope(new stdClass()))
         ->times(3);
 
+        $handler->__invoke($request);
+    }
+
+    public function testExceptionSplittingForMultipleMaterials(): void
+    {
+        $ids = range(1, 3);
+        $dtos = array_map(function ($id) {
+            $dto = m::mock(LearningMaterialDTO::class);
+            $dto->id = $id;
+            return $dto;
+        }, $ids);
+        $handler = new LearningMaterialTextExtractionHandler($this->extractor, $this->repository, $this->bus);
+        $request = new LearningMaterialTextExtractionRequest($ids);
+
+        $this->repository->shouldReceive(('findDTOsBy'))
+            ->once()
+            ->with(['id' => $ids])
+            ->andReturn($dtos);
+
+        $this->extractor
+            ->shouldReceive('extract')
+            ->with($dtos[0], false);
+        $this->extractor
+            ->shouldReceive('extract')
+            ->with($dtos[1], false)
+            ->andThrow(Exception::class);
+        $this->extractor
+            ->shouldReceive('extract')
+            ->with($dtos[2], false);
+
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(
+                fn (object $request) =>
+                    $request instanceof LearningMaterialTextExtractionRequest &&
+                    $request->getLearningMaterialIds() === [2]
+            )
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+
+        $this->bus
+            ->shouldReceive('dispatch')
+            ->withArgs(fn (Envelope $env) => $env->getMessage()->getIds() === [1, 3])
+            ->andReturn(new Envelope(new stdClass()))
+            ->once();
+
+        $handler->__invoke($request);
+    }
+    public function testExceptionThrowsForSingleMaterial(): void
+    {
+        $dto1 = m::mock(LearningMaterialDTO::class);
+        $handler = new LearningMaterialTextExtractionHandler($this->extractor, $this->repository, $this->bus);
+        $request = new LearningMaterialTextExtractionRequest([6]);
+
+        $this->repository->shouldReceive(('findDTOsBy'))
+            ->once()
+            ->with(['id' => [6]])
+            ->andReturn([$dto1]);
+
+        $this->extractor
+            ->shouldReceive('extract')
+            ->with($dto1, false)
+        ->andThrow(Exception::class);
+
+        $this->bus->shouldNotHaveReceived('dispatch');
+        $this->expectException(Exception::class);
         $handler->__invoke($request);
     }
 }
