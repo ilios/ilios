@@ -646,6 +646,7 @@ class Curriculum extends OpenSearchBase
                 'number_of_replicas' => 1,
                 'default_pipeline' => 'curriculum',
                 'index' => [
+                    'codec' => 'zstd',
                     'analysis' => [
                         'analyzer' => [
                             'trigram' => $trigramAnalyzer,
