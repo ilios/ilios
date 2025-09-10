@@ -18,6 +18,15 @@ class Curriculum extends OpenSearchBase
     public const string INDEX = 'ilios-curriculum';
     public const string SESSION_ID_PREFIX = 'session_';
 
+    public const array SOURCE_FIELDS = [
+        'courseId',
+        'courseTitle',
+        'courseYear',
+        'sessionId',
+        'sessionTitle',
+        'school',
+    ];
+
     public function __construct(
         private readonly CourseRepository $courseRepository,
         protected readonly Config $config,
@@ -40,14 +49,7 @@ class Curriculum extends OpenSearchBase
         $params = [
             'index' => self::INDEX,
             'body' => [
-                '_source' => [
-                    'courseId',
-                    'courseTitle',
-                    'courseYear',
-                    'sessionId',
-                    'sessionTitle',
-                    'school',
-                ],
+                '_source' => self::SOURCE_FIELDS,
                 'collapse' => [
                     'field' => 'courseId',
                     'inner_hits' => [
@@ -658,7 +660,10 @@ class Curriculum extends OpenSearchBase
             ],
             'mappings' => [
                 '_meta' => [
-                    'version' => '2',
+                    'version' => '3',
+                ],
+                '_source' => [
+                  'includes' => self::SOURCE_FIELDS,
                 ],
                 'properties' => [
                     'courseId' => [
