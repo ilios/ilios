@@ -151,7 +151,7 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV GITHUB_ACCOUNT_SSH_USERS=''
 
 RUN apt-get update && \
-    apt-get install -y wget openssh-server sudo netcat-traditional default-mysql-client vim telnet && \
+    apt-get install -y wget openssh-server sudo netcat-traditional default-mysql-client vim telnet git lynx screen && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y
 
@@ -164,11 +164,15 @@ RUN sed -i 's/#PermitUserEnvironment no/PermitUserEnvironment yes/' /etc/ssh/ssh
 # allow users in the sudo group to do wo without a password
 RUN /bin/echo "%sudo ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/no-password-group
 
-COPY docker/admin-entrypoint /entrypoint
+# add utility script for dropping/recreating opensearch indexes
+COPY docker/admin-rebuild-opensearch-index.sh /root/rebuild-opensearch-index.sh
+
+# add the admin-specific entrypoint
+COPY docker/admin-entrypoint.sh /entrypoint.sh
 
 # expose the ssh port
 EXPOSE 22
-ENTRYPOINT ["/entrypoint"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 HEALTHCHECK CMD nc -vz 127.0.0.1 22 || exit 1
 

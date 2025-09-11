@@ -3,6 +3,11 @@ set -m -euf -o pipefail
 
 /bin/echo "Entrypoint ssh-admin container"
 
+# set the PS1 prompt and colorization
+cat << EOF >> /etc/skel/.bashrc
+export PS1='[\[\e[33m\]\u\[\e[0m\]@\[\e[31m\]\h\[\e[33m\]\[\e[0m\]:\w]% '
+EOF
+
 if [[ $GITHUB_ACCOUNT_SSH_USERS ]]; then
 	# keep a copy of the default file separator
 	ORIGINAL_IFS=$IFS
@@ -23,6 +28,9 @@ if [[ $GITHUB_ACCOUNT_SSH_USERS ]]; then
 
 	IFS=$ORIGINAL_IFS
 fi
+
+# export the ENV vars globally so they can be available for ssh users at login
+printenv | grep -E 'ILIOS_|TRUSTED_PROXIES|APP_|DSN' | sed 's/^/export /g' >> /etc/environment
 
 /bin/echo "Starting ssh server"
 /usr/sbin/sshd -D &
