@@ -151,6 +151,7 @@ class Users extends OpenSearchBase
                 'max_ngram_diff' =>  15,
                 'number_of_shards' => 1,
                 'number_of_replicas' => 1,
+                'codec' => 'zstd',
             ],
             'mappings' => [
                 '_meta' => [

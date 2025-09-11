@@ -240,6 +240,9 @@ class LearningMaterials extends OpenSearchBase
             'settings' => [
                 'number_of_shards' => 1,
                 'number_of_replicas' => 1,
+                'codec' => 'zstd',
+                // maximum compression as we don't search this index by anything other than id
+                'codec.compression_level' => 6,
             ],
             'mappings' => [
                 '_meta' => [
