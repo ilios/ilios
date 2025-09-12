@@ -251,7 +251,7 @@ RUN /bin/bash /fetch-demo-database.sh
 ###############################################################################
 # Setup opensearch with the plugins we needed
 ###############################################################################
-FROM opensearchproject/opensearch:2 AS opensearch
+FROM opensearchproject/opensearch:3 AS opensearch
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 
 ###############################################################################
