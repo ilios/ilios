@@ -18,8 +18,8 @@ env:
   minimum_php_version: 8.4
   DOCKER_BUILDKIT: 1
 
-  #token is tied to Jon's account on UCSF's SonarQube (type: project, name: ilios)
-  UCSF_SQ_TK: sqp_8cc847301624990a845efadf6f030cae064e6c81
+  #token is tied to Stefan's account on UCSF's SonarQube (type: project, name: ilios)
+  UCSF_SQ_TK: sqp_be6c2b78580ab9bd6ba6bc51e66b47e82780ea4e
 
 jobs:
   code_style:
