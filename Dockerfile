@@ -151,7 +151,7 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV GITHUB_ACCOUNT_SSH_USERS=''
 
 RUN apt-get update && \
-    apt-get install -y wget openssh-server sudo netcat-traditional default-mysql-client vim telnet git lynx screen && \
+    apt-get install -y wget openssh-server sudo netcat-traditional default-mysql-client vim bind9-dnsutils ldap-utils telnet git lynx screen && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get autoremove -y
 
