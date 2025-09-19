@@ -12,7 +12,7 @@ class TikaFactory
     {
         $url = $config->get('tika_url');
         if ($url) {
-            return Client::prepare($url, null, [CURLOPT_TIMEOUT => 30]);
+            return Client::prepare($url, null, [CURLOPT_TIMEOUT => 120]);
         }
 
         return null;

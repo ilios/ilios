@@ -71,6 +71,8 @@ class LearningMaterialTextExtractor
                 //this document can't be processed by tika
                 //we don't want to keep trying, so we store the filename as the text
                 $this->iliosFileSystem->storeLearningMaterialText($dto->relativePath, $dto->filename);
+            } else {
+                throw $exception;
             }
         } finally {
             if (file_exists($tmpFile->getRealPath())) {
