@@ -26,6 +26,9 @@ final class LearningMaterialDTOTest extends TestCase
         $this->dto = new LearningMaterialDTO(
             1,
             'title',
+            1,
+            1,
+            1,
             null,
             new DateTime(),
             null,

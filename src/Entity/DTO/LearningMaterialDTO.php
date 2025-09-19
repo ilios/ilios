@@ -219,6 +219,9 @@ class LearningMaterialDTO
     public function __construct(
         int $id,
         string $title,
+        int $userRole,
+        int $status,
+        int $owningUser,
         ?string $description,
         DateTime $uploadDate,
         ?string $originalAuthor,
@@ -234,6 +237,9 @@ class LearningMaterialDTO
     ) {
         $this->id = $id;
         $this->title = $title;
+        $this->userRole = $userRole;
+        $this->status = $status;
+        $this->owningUser = $owningUser;
         $this->description = $description;
         $this->uploadDate = $uploadDate;
         $this->originalAuthor = $originalAuthor;
