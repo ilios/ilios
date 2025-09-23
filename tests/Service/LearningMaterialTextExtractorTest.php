@@ -274,4 +274,44 @@ final class LearningMaterialTextExtractorTest extends TestCase
         $this->extractor->extract($dto, false);
         $this->assertFalse(file_exists(self::TEST_FILE_PATH));
     }
+
+    public function testCatchThrowsForOtherExtractionIssues(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Time Out');
+        $this->expectExceptionCode(28);
+        $dto = m::mock(LearningMaterialDTO::class);
+        $dto->relativePath = 'dir/lm/24/24jj';
+        $dto->filename = 'jayden.pdf';
+        $dto->mimetype = 'test/pdf';
+        $this->nonCachingFileSystem
+            ->shouldReceive('checkLearningMaterialRelativePath')
+            ->with($dto->relativePath)
+            ->once()
+            ->andReturn(true);
+        $this->nonCachingFileSystem
+            ->shouldReceive('getFileContents')
+            ->with($dto->relativePath)
+            ->once()
+            ->andReturn('lm-contents');
+        $tmpFile = new File(self::TEST_FILE_PATH);
+        $this->temporaryFileSystem
+            ->shouldReceive('createFile')
+            ->with('lm-contents')
+            ->once()
+            ->andReturn($tmpFile);
+        $this->tikaClient
+            ->shouldReceive('getText')
+            ->once()
+            ->with(self::TEST_FILE_PATH)
+            ->andThrow(Exception::class, 'Time Out', 28);
+        $this->fileSystem
+            ->shouldReceive('checkIfLearningMaterialTextFileExists')
+            ->once()
+            ->with($dto->relativePath)
+            ->andReturn(false);
+        $this->assertTrue(file_exists(self::TEST_FILE_PATH));
+        $this->extractor->extract($dto, false);
+        $this->assertFalse(file_exists(self::TEST_FILE_PATH));
+    }
 }

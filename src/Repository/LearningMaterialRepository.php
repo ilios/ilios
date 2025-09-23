@@ -94,41 +94,40 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
 
     protected function queryForDTOs(QueryBuilder $qb): array
     {
+        $qb->select('x as lm')
+            ->addSelect('IDENTITY(x.userRole) AS userRoleId')
+            ->addSelect('IDENTITY(x.owningUser) AS owningUserId')
+            ->addSelect('IDENTITY(x.status) AS statusId');
+
         $dtos = [];
-        foreach ($qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as $arr) {
-            $dtos[$arr['id']] = new LearningMaterialDTO(
-                $arr['id'],
-                $arr['title'],
-                $arr['description'],
-                $arr['uploadDate'],
-                $arr['originalAuthor'],
-                $arr['citation'],
-                $arr['copyrightPermission'],
-                $arr['copyrightRationale'],
-                $arr['filename'],
-                $arr['mimetype'],
-                $arr['filesize'],
-                $arr['link'],
-                $arr['token'],
-                $arr['relativePath']
+        foreach (
+            $qb->getQuery()->getResult(AbstractQuery::HYDRATE_ARRAY) as [
+            'lm' => $lm,
+            'userRoleId' => $userRoleId,
+            'owningUserId' => $owningUserId,
+            'statusId' => $statusId,
+            ]
+        ) {
+            $dto = new LearningMaterialDTO(
+                $lm['id'],
+                $lm['title'],
+                $userRoleId,
+                $statusId,
+                $owningUserId,
+                $lm['description'],
+                $lm['uploadDate'],
+                $lm['originalAuthor'],
+                $lm['citation'],
+                $lm['copyrightPermission'],
+                $lm['copyrightRationale'],
+                $lm['filename'],
+                $lm['mimetype'],
+                $lm['filesize'],
+                $lm['link'],
+                $lm['token'],
+                $lm['relativePath']
             );
-        }
-
-        $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select(
-                'x.id as xId, userRole.id as userRoleId, owningUser.id as owningUserId, status.id as statusId'
-            )
-            ->from(LearningMaterial::class, 'x')
-            ->join('x.userRole', 'userRole')
-            ->join('x.owningUser', 'owningUser')
-            ->join('x.status', 'status')
-            ->where($qb->expr()->in('x.id', ':ids'))
-            ->setParameter('ids', array_keys($dtos));
-
-        foreach ($qb->getQuery()->getResult() as $arr) {
-            $dtos[$arr['xId']]->userRole = (int) $arr['userRoleId'];
-            $dtos[$arr['xId']]->owningUser = (int) $arr['owningUserId'];
-            $dtos[$arr['xId']]->status = (int) $arr['statusId'];
+            $dtos[$lm['id']] = $dto;
         }
 
         $dtos = $this->attachRelatedToDtos(

@@ -36,6 +36,9 @@ class LearningMaterialDecoratorFactory
         $dto = new LearningMaterialDTO(
             $learningMaterial->getId(),
             $learningMaterial->getTitle(),
+            $learningMaterial->getUserRole()->getId(),
+            $learningMaterial->getStatus()->getId(),
+            $learningMaterial->getOwningUser()->getId(),
             $learningMaterial->getDescription(),
             $learningMaterial->getUploadDate(),
             $learningMaterial->getOriginalAuthor(),
@@ -49,9 +52,6 @@ class LearningMaterialDecoratorFactory
             $learningMaterial->getToken(),
             $learningMaterial->getRelativePath()
         );
-        $dto->userRole = $learningMaterial->getUserRole()->getId();
-        $dto->owningUser = $learningMaterial->getOwningUser()->getId();
-        $dto->status = $learningMaterial->getStatus()->getId();
         $dto->courseLearningMaterials = $learningMaterial->getCourseLearningMaterials()->map(
             fn(Stringable $courseLearningMaterial) => (string) $courseLearningMaterial
         )->toArray();
