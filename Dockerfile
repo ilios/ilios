@@ -339,3 +339,10 @@ USER root
 ENTRYPOINT ["php-apache-entrypoint"]
 CMD ["apache2-foreground"]
 EXPOSE 80
+
+###############################################################################
+# Multi-purpose container to run a single Ilios console command and then exit
+###############################################################################
+FROM php-base AS console-command
+ENTRYPOINT ["bin/console"]
+CMD ["list"]
