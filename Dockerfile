@@ -344,5 +344,7 @@ EXPOSE 80
 # Multi-purpose container to run a single Ilios console command and then exit
 ###############################################################################
 FROM php-base AS console-command
+# remove memory_limit for cli command execution
+RUN sed -i "s/memory_limit = 128M/memory_limit = -1/g" /usr/local/etc/php/php.ini
 ENTRYPOINT ["bin/console"]
 CMD ["list"]
