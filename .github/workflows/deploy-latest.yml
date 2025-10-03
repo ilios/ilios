@@ -19,6 +19,7 @@ jobs:
           - admin
           - update-frontend
           - consume-messages
+          - console-command
           - mysql
           - mysql-demo
           - opensearch
