@@ -11436,16 +11436,16 @@
         },
         {
             "name": "vaites/php-apache-tika",
-            "version": "v1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vaites/php-apache-tika.git",
-                "reference": "a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5"
+                "reference": "1ca1f69356c61227f7bd7d4b15d9d46f751a5106"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vaites/php-apache-tika/zipball/a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5",
-                "reference": "a115fa0790c17e97a94fdd3e7ff55e2fc2b810e5",
+                "url": "https://api.github.com/repos/vaites/php-apache-tika/zipball/1ca1f69356c61227f7bd7d4b15d9d46f751a5106",
+                "reference": "1ca1f69356c61227f7bd7d4b15d9d46f751a5106",
                 "shasum": ""
             },
             "require": {
@@ -11501,7 +11501,10 @@
                     "2.9.2",
                     "2.9.3",
                     "3.0.0",
-                    "3.1.0"
+                    "3.1.0",
+                    "3.2.0",
+                    "3.2.1",
+                    "3.2.2"
                 ]
             },
             "autoload": {
@@ -11535,9 +11538,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vaites/php-apache-tika/issues",
-                "source": "https://github.com/vaites/php-apache-tika/tree/v1.4.0"
+                "source": "https://github.com/vaites/php-apache-tika/tree/v1.4.1"
             },
-            "time": "2025-03-16T10:35:49+00:00"
+            "time": "2025-10-04T07:41:10+00:00"
         },
         {
             "name": "webmozart/assert",
