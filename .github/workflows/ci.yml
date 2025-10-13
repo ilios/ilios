@@ -160,6 +160,7 @@ jobs:
           - admin
           - update-frontend
           - consume-messages
+          - console-command
           - mysql
           - mysql-demo
           - opensearch
@@ -220,6 +221,16 @@ jobs:
         docker stop ilios-consume-messages
         docker rm --volumes ilios-consume-messages
         docker image rm consume-messages:${{ matrix.arch }}-testing
+    - name: Console Command
+      if: ${{ always() }}
+      run: |
+        docker image load --input /tmp/console-command-${{ matrix.arch }}.tar
+        docker run -d --name ilios-console-command -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH -e MAILER_DSN console-command:${{ matrix.arch }}-testing
+        docker ps
+        docker ps | grep -q ilios-console-command
+        docker stop ilios-console-command
+        docker rm --volumes ilios-console-command
+        docker image rm console-command:${{ matrix.arch }}-testing
     - name: Apache PHP
       if: ${{ always() }}
       run: |
@@ -333,6 +344,7 @@ jobs:
         docker logs ilios-fpm-dev
         docker logs ilios-admin
         docker logs ilios-consume-messages
+        docker logs ilios-console-command
         docker logs ilios-mysql
         docker logs ilios-mysql-demo
         docker logs ilios-opensearch

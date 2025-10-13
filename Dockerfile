@@ -339,3 +339,12 @@ USER root
 ENTRYPOINT ["php-apache-entrypoint"]
 CMD ["apache2-foreground"]
 EXPOSE 80
+
+###############################################################################
+# Multi-purpose container to run a single Ilios console command and then exit
+###############################################################################
+FROM php-base AS console-command
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
+ENTRYPOINT ["bin/console"]
+CMD ["list"]
