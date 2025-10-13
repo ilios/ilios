@@ -99,8 +99,6 @@ VOLUME /srv/app/var
 COPY docker/fpm/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/ilios.ini $PHP_INI_DIR/conf.d/ilios.ini
 
-COPY docker/cli/php.ini-cli $PHP_INI_DIR/
-
 RUN ln -sf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY docker/fpm/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
@@ -347,6 +345,6 @@ EXPOSE 80
 ###############################################################################
 FROM php-base AS console-command
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-RUN ln -sf "$PHP_INI_DIR/php.ini-cli" "$PHP_INI_DIR/php.ini"
+COPY docker/cli/php.ini-cli $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
 ENTRYPOINT ["bin/console"]
 CMD ["list"]
