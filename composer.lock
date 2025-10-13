@@ -3308,16 +3308,16 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.5.2",
+            "version": "6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "ac0d369c09653cf7af561f6d91a705bc617a87b8"
+                "reference": "68ba7677532803cc0c5900dd5a4d730537f2b2f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/ac0d369c09653cf7af561f6d91a705bc617a87b8",
-                "reference": "ac0d369c09653cf7af561f6d91a705bc617a87b8",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/68ba7677532803cc0c5900dd5a4d730537f2b2f3",
+                "reference": "68ba7677532803cc0c5900dd5a4d730537f2b2f3",
                 "shasum": ""
             },
             "require": {
@@ -3377,9 +3377,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.5.2"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.6.0"
             },
-            "time": "2025-09-09T09:42:27+00:00"
+            "time": "2025-10-10T11:34:09+00:00"
         },
         {
             "name": "laminas/laminas-diagnostics",
@@ -12237,16 +12237,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.31.5",
+            "version": "0.31.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "8d77ed5b481dbaef85234b2863047324bdadd787"
+                "reference": "a66e38972304f5c742d4ee19adec132c45bb5a46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/8d77ed5b481dbaef85234b2863047324bdadd787",
-                "reference": "8d77ed5b481dbaef85234b2863047324bdadd787",
+                "url": "https://api.github.com/repos/infection/infection/zipball/a66e38972304f5c742d4ee19adec132c45bb5a46",
+                "reference": "a66e38972304f5c742d4ee19adec132c45bb5a46",
                 "shasum": ""
             },
             "require": {
@@ -12352,7 +12352,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.31.5"
+                "source": "https://github.com/infection/infection/tree/0.31.7"
             },
             "funding": [
                 {
@@ -12364,7 +12364,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-10-10T06:39:18+00:00"
+            "time": "2025-10-12T08:32:39+00:00"
         },
         {
             "name": "infection/mutator",
@@ -13777,16 +13777,16 @@
         },
         {
             "name": "sanmai/pipeline",
-            "version": "7.3",
+            "version": "7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sanmai/pipeline.git",
-                "reference": "98b114341fa65d1aefe37e83597fe4b2f2140784"
+                "reference": "6a73545f09b9b475a3735ecdee5e98476a063179"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/98b114341fa65d1aefe37e83597fe4b2f2140784",
-                "reference": "98b114341fa65d1aefe37e83597fe4b2f2140784",
+                "url": "https://api.github.com/repos/sanmai/pipeline/zipball/6a73545f09b9b475a3735ecdee5e98476a063179",
+                "reference": "6a73545f09b9b475a3735ecdee5e98476a063179",
                 "shasum": ""
             },
             "require": {
@@ -13833,7 +13833,7 @@
             "description": "General-purpose collections pipeline",
             "support": {
                 "issues": "https://github.com/sanmai/pipeline/issues",
-                "source": "https://github.com/sanmai/pipeline/tree/7.3"
+                "source": "https://github.com/sanmai/pipeline/tree/7.4"
             },
             "funding": [
                 {
@@ -13841,7 +13841,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-08T02:23:30+00:00"
+            "time": "2025-10-11T07:22:29+00:00"
         },
         {
             "name": "sebastian/cli-parser",
