@@ -345,6 +345,6 @@ EXPOSE 80
 ###############################################################################
 FROM php-base AS console-command
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-COPY docker/cli/php.ini-cli $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
+COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
 ENTRYPOINT ["bin/console"]
 CMD ["list"]
