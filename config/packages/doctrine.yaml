@@ -11,12 +11,9 @@ doctrine:
 
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
-        auto_generate_proxy_classes: true
         controller_resolver:
             auto_mapping: false
         naming_strategy: doctrine.orm.naming_strategy.default
-        enable_lazy_ghost_objects: true
-        report_fields_where_declared: true
         validate_xml_mapping: true
         auto_mapping: true
         # Opt-in to PHP native lazy objects
@@ -53,8 +50,6 @@ when@prod:
             url: '%env(resolve:ILIOS_DATABASE_URL)%'
             driver: pdo_mysql
         orm:
-            auto_generate_proxy_classes: false
-            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
             query_cache_driver:
                 type: pool
                 pool: doctrine.system_cache_pool
