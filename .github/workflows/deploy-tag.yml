@@ -29,7 +29,7 @@ jobs:
         echo "patch=${PATCH_VERSION}" >> "$GITHUB_OUTPUT"
   deploy-docker-containers:
     needs: tags
-    name: Docker Registry (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
+    name: ${{ matrix.image }} docker (${{needs.tags.outputs.major}},${{needs.tags.outputs.minor}},${{needs.tags.outputs.patch}})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

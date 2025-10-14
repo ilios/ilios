@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy-docker-containers:
-    name: Deploy Docker (preview-pr-${{github.event.number}})
+    name: ${{ matrix.image }} docker (preview-pr-${{github.event.number}})
     if: contains(github.event.pull_request.labels.*.name, 'safe to deploy')
     runs-on: ubuntu-latest
     strategy:

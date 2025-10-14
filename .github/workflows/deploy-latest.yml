@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy-containers:
-    name: Deploy Containers
+    name: ${{ matrix.image }} docker deploy
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
