@@ -19,7 +19,7 @@
     "ext-xmlwriter": "*",
     "ext-zlib": "*",
     "composer/composer": "^2.1",
-    "doctrine/doctrine-bundle": "^2.15",
+    "doctrine/doctrine-bundle": "^3.0",
     "doctrine/doctrine-fixtures-bundle": "^4.0",
     "doctrine/doctrine-migrations-bundle": "3.5.0",
     "doctrine/inflector": "^2.0",
