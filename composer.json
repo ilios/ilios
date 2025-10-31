@@ -3,7 +3,7 @@
   "license": "MIT",
   "type": "project",
   "description": "The \"Ilios Standard Edition\" distribution",
-  "version": "3.130.1",
+  "version": "3.131.0",
   "require": {
     "php": ">= 8.4",
     "ext-apcu": "*",
