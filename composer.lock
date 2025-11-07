@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "709c04ac810071dcea072425fc88b50e",
+    "content-hash": "29041c3a576e440823e566202fec99f1",
     "packages": [
         {
             "name": "async-aws/core",
@@ -15519,6 +15519,7 @@
         "symfony/asset": 0,
         "symfony/browser-kit": 0,
         "symfony/console": 0,
+        "symfony/css-selector": 0,
         "symfony/debug-bundle": 0,
         "symfony/doctrine-messenger": 0,
         "symfony/dotenv": 0,
