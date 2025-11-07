@@ -12,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -35,21 +36,36 @@ class RotateFileAccessTokensCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->addOption(
+                'sparse-output',
+                null,
+                InputOption::VALUE_NONE,
+                'Output a plain text sparse output, useful for building a redirect map.'
+            );
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->rotateReportTokens($output);
-        $this->rotateMaterialTokens($output);
+        $sparseOutput = $input->getOption('sparse-output');
+        $this->rotateReportTokens($output, $sparseOutput);
+        $this->rotateMaterialTokens($output, $sparseOutput);
 
         return Command::SUCCESS;
     }
 
-    protected function rotateMaterialTokens(OutputInterface $output): void
+    protected function rotateMaterialTokens(OutputInterface $output, bool $sparseOutput): void
     {
         $ids = $this->learningMaterialRepository->getFileLearningMaterialIds();
-        $progress = new ProgressBar($output, count($ids));
-        $progress->setRedrawFrequency(208);
-        $output->writeln("<info>Rotating Learning Material Tokens...</info>");
-        $progress->start();
+        $progress = null;
+        if (!$sparseOutput) {
+            $progress = new ProgressBar($output, count($ids));
+            $progress->setRedrawFrequency(208);
+            $output->writeln("<info>Rotating Learning Material Tokens...</info>");
+            $progress->start();
+        }
 
         $chunks = array_chunk($ids, self::QUERY_LIMIT);
         $modifiedMaterials = [];
@@ -60,7 +76,7 @@ class RotateFileAccessTokensCommand extends Command
                 $lm->generateToken();
                 $newToken = $lm->getToken();
                 $this->learningMaterialRepository->update($lm, false);
-                $progress->advance();
+                $progress?->advance();
                 $modifiedMaterials[] = [
                     $lm->getId(),
                     $originalToken,
@@ -72,20 +88,26 @@ class RotateFileAccessTokensCommand extends Command
             $this->em->clear();
         }
 
-        $progress->finish();
-        $table = new Table($output);
-        $table
-            ->setHeaders(['Material ID', 'Original Token', 'New Token'])
-            ->setRows($modifiedMaterials)
-        ;
-        $table->render();
+        $progress?->finish();
+        if ($sparseOutput) {
+            foreach ($modifiedMaterials as $row) {
+                $output->writeln("lm/{$row[1]} lm/{$row[2]}");
+            }
+        } else {
+            $table = new Table($output);
+            $table
+                ->setHeaders(['Material ID', 'Original Token', 'New Token'])
+                ->setRows($modifiedMaterials)
+            ;
+            $table->render();
+        }
     }
 
-    protected function rotateReportTokens(OutputInterface $output): void
+    protected function rotateReportTokens(OutputInterface $output, bool $sparseOutput): void
     {
-
-        $output->writeln("<info>Rotating CI Report Tokens...</info>");
-
+        if (!$sparseOutput) {
+            $output->writeln("<info>Rotating CI Report Tokens...</info>");
+        }
         $modifiedReports = [];
         $reports = $this->reportRepository->findAll();
         foreach ($reports as $report) {
@@ -103,11 +125,17 @@ class RotateFileAccessTokensCommand extends Command
         $this->em->flush();
         $this->em->clear();
 
-        $table = new Table($output);
-        $table
-            ->setHeaders(['Report ID', 'Original Token', 'New Token'])
-            ->setRows($modifiedReports)
-        ;
-        $table->render();
+        if ($sparseOutput) {
+            foreach ($modifiedReports as $row) {
+                $output->writeln("ci-report-dl/{$row[1]} ci-report-dl/{$row[2]}");
+            }
+        } else {
+            $table = new Table($output);
+            $table
+                ->setHeaders(['Report ID', 'Original Token', 'New Token'])
+                ->setRows($modifiedReports)
+            ;
+            $table->render();
+        }
     }
 }
