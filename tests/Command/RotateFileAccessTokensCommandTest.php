@@ -61,6 +61,31 @@ final class RotateFileAccessTokensCommandTest extends KernelTestCase
 
     public function testRun(): void
     {
+        $this->setupSharedTest();
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString('11        | original report token | new report token', $output);
+        $this->assertStringContainsString('22          | original material token | new material token', $output);
+    }
+
+    public function testSparseOutput(): void
+    {
+        $this->setupSharedTest();
+
+        $this->commandTester->execute([
+            '--sparse-output' => true,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $lines = explode("\n", $output);
+        $lines = array_filter($lines); //remove empty lines
+        $this->assertCount(2, $lines);
+        $this->assertEquals('ci-report-dl/original report token ci-report-dl/new report token', $lines[0]);
+        $this->assertEquals('lm/original material token lm/new material token', $lines[1]);
+    }
+
+    protected function setupSharedTest(): void
+    {
         $report = m::mock(CurriculumInventoryReportInterface::class);
         $report->shouldReceive('getId')->andReturn(11);
         $report->shouldReceive('getToken')->once()->andReturn('original report token');
@@ -79,14 +104,7 @@ final class RotateFileAccessTokensCommandTest extends KernelTestCase
         $this->reportRepository->shouldReceive('update')->with($report, false);
         $this->learningMaterialRepository->shouldReceive('update')->with($lm, false);
 
-
         $this->em->shouldReceive('flush')->times(2);
         $this->em->shouldReceive('clear')->times(2);
-        $this->commandTester->execute([]);
-
-
-        $output = $this->commandTester->getDisplay();
-        $this->assertStringContainsString('11        | original report token | new report token', $output);
-        $this->assertStringContainsString('22          | original material token | new material token', $output);
     }
 }
