@@ -21,7 +21,7 @@
     "composer/composer": "^2.1",
     "doctrine/doctrine-bundle": "^3.0",
     "doctrine/doctrine-fixtures-bundle": "^4.0",
-    "doctrine/doctrine-migrations-bundle": "3.5.0",
+    "doctrine/doctrine-migrations-bundle": "3.6.0",
     "doctrine/inflector": "^2.0",
     "doctrine/orm": "^3.4",
     "eluceo/ical": "^2.5.1",
