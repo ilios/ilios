@@ -32,8 +32,8 @@ Second, you will need to set/update the following settings to reflect their prop
 |`name`|`value`||
 |---|---|---|
 |`authentication_type`|`shibboleth`||
-|`shibboleth_authentication_login_path`|`/Shibboleth.sso/Login`| (<-- Default Shibboleth value, your institution's setting may differ)|
-|`shibboleth_authentication_logout_path`|`/Shibboleth.sso/Logout`| (<-- Default Shibboleth value, your institution's setting may differ)|
+|`shibboleth_authentication_login_path`|`/Shibboleth.sso/Login`|(<-- Default Shibboleth value, your institution's setting may differ)|
+|`shibboleth_authentication_logout_path`|`/Shibboleth.sso/Logout`|(<-- Default Shibboleth value, your institution's setting may differ)|
 
 If necessary, these settings can be easily added or updated using the following console commands from within the Ilios application directory, run in the context of your Web-service user (eg, `apache`):
 
