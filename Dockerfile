@@ -242,12 +242,14 @@ ENV MYSQL_USER=ilios
 ENV MYSQL_PASSWORD=ilios
 ENV MYSQL_DATABASE=ilios
 ENV DEMO_DATABASE_LOCATION=https://ilios-demo-db.iliosproject.org/
-ADD --unpack=true $DEMO_DATABASE_LOCATION /tmp/demo.sql
-RUN echo 'done.... copying ilios demo database to by read automatically by docker' \
-	&& echo "USE ilios;" > docker-entrypoint-initdb.d/ilios.sql \
-	&& cat /tmp/demo.sql >> docker-entrypoint-initdb.d/ilios.sql \
-	&& rm /tmp/demo.sql \
-	&& echo 'done'
+ADD $DEMO_DATABASE_LOCATION /tmp/demo.sql.gz
+RUN echo 'Unpacking demo database' \
+    && gunzip /tmp/demo.sql.gz \
+    && echo 'done.... copying ilios demo database to by read automatically by docker' \
+    && echo "USE ilios;" > docker-entrypoint-initdb.d/ilios.sql \
+    && cat /tmp/demo.sql >> docker-entrypoint-initdb.d/ilios.sql \
+    && rm /tmp/demo.sql \
+    && echo 'done'
 
 ###############################################################################
 # Setup opensearch with the plugins we needed
