@@ -17,7 +17,7 @@ jobs:
       minor: ${{ steps.tag.outputs.minor }}
       patch: ${{ steps.tag.outputs.patch }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
           fetch-depth: 0
           token: ${{ secrets.ZORGBORT_TOKEN }}
@@ -57,7 +57,7 @@ jobs:
           - redis
           - tika
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
           ref: ${{needs.tags.outputs.latestTag}}
     - name: Set up QEMU

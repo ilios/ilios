@@ -18,7 +18,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Install PHP ${{ env.future_php }}
       uses: shivammathur/setup-php@v2
       with:

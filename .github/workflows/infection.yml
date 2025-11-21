@@ -21,7 +21,7 @@ jobs:
     name: Infection tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Use PHP ${{ env.minimum_php_version }}
         uses: shivammathur/setup-php@v2
         with:

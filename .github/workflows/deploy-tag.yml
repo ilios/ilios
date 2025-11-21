@@ -80,7 +80,7 @@ jobs:
     needs: tags
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install Sentry CLI
         run: npm install -g @sentry/cli
       - name: Create a Sentry.io release
