@@ -14755,16 +14755,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "8.25.0",
+            "version": "8.25.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "3ce4dafb4fe2493715f397f21772988ef2122e20"
+                "reference": "4caa5ec5a30b84b2305e80159c710d437f40cc40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/3ce4dafb4fe2493715f397f21772988ef2122e20",
-                "reference": "3ce4dafb4fe2493715f397f21772988ef2122e20",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/4caa5ec5a30b84b2305e80159c710d437f40cc40",
+                "reference": "4caa5ec5a30b84b2305e80159c710d437f40cc40",
                 "shasum": ""
             },
             "require": {
@@ -14804,7 +14804,7 @@
             ],
             "support": {
                 "issues": "https://github.com/slevomat/coding-standard/issues",
-                "source": "https://github.com/slevomat/coding-standard/tree/8.25.0"
+                "source": "https://github.com/slevomat/coding-standard/tree/8.25.1"
             },
             "funding": [
                 {
@@ -14816,7 +14816,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-22T10:33:53+00:00"
+            "time": "2025-11-25T18:01:43+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -15575,5 +15575,5 @@
     "platform-overrides": {
         "php": "8.4"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
