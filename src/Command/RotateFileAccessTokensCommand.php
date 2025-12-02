@@ -91,7 +91,7 @@ class RotateFileAccessTokensCommand extends Command
         $progress?->finish();
         if ($sparseOutput) {
             foreach ($modifiedMaterials as $row) {
-                $output->writeln("lm/{$row[1]} lm/{$row[2]}");
+                $output->writeln("/lm/{$row[1]} /lm/{$row[2]}");
             }
         } else {
             $table = new Table($output);
@@ -127,7 +127,7 @@ class RotateFileAccessTokensCommand extends Command
 
         if ($sparseOutput) {
             foreach ($modifiedReports as $row) {
-                $output->writeln("ci-report-dl/{$row[1]} ci-report-dl/{$row[2]}");
+                $output->writeln("/ci-report-dl/{$row[1]} /ci-report-dl/{$row[2]}");
             }
         } else {
             $table = new Table($output);

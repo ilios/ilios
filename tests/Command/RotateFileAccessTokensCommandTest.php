@@ -80,8 +80,8 @@ final class RotateFileAccessTokensCommandTest extends KernelTestCase
         $lines = explode("\n", $output);
         $lines = array_filter($lines); //remove empty lines
         $this->assertCount(2, $lines);
-        $this->assertEquals('ci-report-dl/original report token ci-report-dl/new report token', $lines[0]);
-        $this->assertEquals('lm/original material token lm/new material token', $lines[1]);
+        $this->assertEquals('/ci-report-dl/original report token /ci-report-dl/new report token', $lines[0]);
+        $this->assertEquals('/lm/original material token /lm/new material token', $lines[1]);
     }
 
     protected function setupSharedTest(): void
