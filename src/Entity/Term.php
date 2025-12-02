@@ -58,6 +58,7 @@ class Term implements TermInterface
     #[ORM\Column(name: 'description', type: 'text', nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
+    #[IA\RemoveMarkup]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 65000)]
     protected ?string $description = null;
