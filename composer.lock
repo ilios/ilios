@@ -11697,16 +11697,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.27.0",
+            "version": "v15.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "bc6c24c6dc3877533b029acdf7752f20535638d7"
+                "reference": "2d1f63cdc424473d97729bb97038d6a813223d45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/bc6c24c6dc3877533b029acdf7752f20535638d7",
-                "reference": "bc6c24c6dc3877533b029acdf7752f20535638d7",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/2d1f63cdc424473d97729bb97038d6a813223d45",
+                "reference": "2d1f63cdc424473d97729bb97038d6a813223d45",
                 "shasum": ""
             },
             "require": {
@@ -11725,7 +11725,7 @@
                 "phpbench/phpbench": "^1.2",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "2.1.32",
-                "phpstan/phpstan-phpunit": "2.0.8",
+                "phpstan/phpstan-phpunit": "2.0.9",
                 "phpstan/phpstan-strict-rules": "2.0.7",
                 "phpunit/phpunit": "^9.5 || ^10.5.21 || ^11",
                 "psr/http-message": "^1 || ^2",
@@ -11760,7 +11760,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.27.0"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.27.1"
             },
             "funding": [
                 {
@@ -11768,7 +11768,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-12-03T07:36:39+00:00"
+            "time": "2025-12-05T09:40:56+00:00"
         },
         {
             "name": "zircote/swagger-php",
