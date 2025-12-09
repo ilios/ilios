@@ -11617,16 +11617,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.27.1",
+            "version": "v15.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "2d1f63cdc424473d97729bb97038d6a813223d45"
+                "reference": "7fc996bb201ce3bf1d803b8e0336e8f2beb029e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/2d1f63cdc424473d97729bb97038d6a813223d45",
-                "reference": "2d1f63cdc424473d97729bb97038d6a813223d45",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/7fc996bb201ce3bf1d803b8e0336e8f2beb029e9",
+                "reference": "7fc996bb201ce3bf1d803b8e0336e8f2beb029e9",
                 "shasum": ""
             },
             "require": {
@@ -11639,13 +11639,13 @@
                 "amphp/http-server": "^2.1",
                 "dms/phpunit-arraysubset-asserts": "dev-master",
                 "ergebnis/composer-normalize": "^2.28",
-                "friendsofphp/php-cs-fixer": "3.91.2",
+                "friendsofphp/php-cs-fixer": "3.91.3",
                 "mll-lab/php-cs-fixer-config": "5.11.0",
                 "nyholm/psr7": "^1.5",
                 "phpbench/phpbench": "^1.2",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "2.1.32",
-                "phpstan/phpstan-phpunit": "2.0.9",
+                "phpstan/phpstan": "2.1.33",
+                "phpstan/phpstan-phpunit": "2.0.10",
                 "phpstan/phpstan-strict-rules": "2.0.7",
                 "phpunit/phpunit": "^9.5 || ^10.5.21 || ^11",
                 "psr/http-message": "^1 || ^2",
@@ -11680,7 +11680,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.27.1"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.27.2"
             },
             "funding": [
                 {
@@ -11688,7 +11688,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-12-05T09:40:56+00:00"
+            "time": "2025-12-09T07:30:56+00:00"
         },
         {
             "name": "zircote/swagger-php",
@@ -15580,5 +15580,5 @@
     "platform-overrides": {
         "php": "8.4"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
