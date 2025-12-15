@@ -35,7 +35,7 @@ jobs:
       - name: infection
         run: vendor/bin/infection --coverage=build/coverage
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: infection-html
           path: build/coverage/infection.html
