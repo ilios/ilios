@@ -12,12 +12,8 @@ doctrine:
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
         controller_resolver:
-            auto_mapping: false
         naming_strategy: doctrine.orm.naming_strategy.default
         validate_xml_mapping: true
-        auto_mapping: true
-        # Opt-in to PHP native lazy objects
-        enable_native_lazy_objects: true
         mappings:
             App:
                 type: attribute
