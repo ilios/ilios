@@ -82,7 +82,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $orderBy = ['id' => 'ASC'];
         }
 
-        foreach ($orderBy as $sort => $order) {
+        foreach ($this->validateOrderByFields($orderBy) as $sort => $order) {
             $qb->addOrderBy('x.' . $sort, $order);
         }
 

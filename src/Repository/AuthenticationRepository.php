@@ -130,7 +130,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
             $orderBy = ['user' => 'ASC'];
         }
 
-        foreach ($orderBy as $sort => $order) {
+        foreach ($this->validateOrderByFields($orderBy) as $sort => $order) {
             $qb->addOrderBy('x.' . $sort, $order);
         }
 

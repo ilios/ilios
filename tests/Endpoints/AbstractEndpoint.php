@@ -1534,6 +1534,32 @@ abstract class AbstractEndpoint extends WebTestCase
         }
     }
 
+    /**
+     * Test invalid order by
+     *
+     */
+    protected function badOrderByTest(array $badOderBy, string $jwt): void
+    {
+        $endpoint = $this->getPluralName();
+        $parameters = array_merge([
+            'version' => $this->apiVersion,
+        ], $badOderBy);
+        $this->createJsonRequest(
+            'GET',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_{$endpoint}_getall",
+                $parameters
+            ),
+            null,
+            $jwt
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
     protected function pruneData(array $data): array
     {
         return array_filter($data, fn($v) => ! is_null($v));

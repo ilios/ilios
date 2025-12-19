@@ -163,7 +163,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
             $orderBy = ['name' => 'ASC', 'id' => 'ASC'];
         }
 
-        foreach ($orderBy as $sort => $order) {
+        foreach ($this->validateOrderByFields($orderBy) as $sort => $order) {
             $qb->addOrderBy('d.' . $sort, $order);
         }
 

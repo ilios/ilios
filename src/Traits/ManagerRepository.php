@@ -10,11 +10,11 @@ use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Id\AssignedGenerator;
 use Doctrine\ORM\Mapping\AssociationMapping;
-use Doctrine\ORM\Mapping\ManyToManyAssociationMapping;
 use Doctrine\ORM\Mapping\ManyToManyInverseSideMapping;
 use Doctrine\ORM\Mapping\ManyToManyOwningSideMapping;
 use Doctrine\ORM\QueryBuilder;
 use Exception;
+use InvalidArgumentException;
 
 /**
  * Trait ManagerRepository
@@ -321,7 +321,7 @@ trait ManagerRepository
             $orderBy = ['id' => 'ASC'];
         }
 
-        foreach ($orderBy as $sort => $order) {
+        foreach ($this->validateOrderByFields($orderBy) as $sort => $order) {
             $qb->addOrderBy('x.' . $sort, $order);
         }
 
@@ -349,5 +349,20 @@ trait ManagerRepository
         }
 
         return $this->cacheManager;
+    }
+
+    protected function validateOrderByFields(array $orderBy): array
+    {
+        $fields = array_keys($orderBy);
+        $meta = $this->getClassMetadata();
+        foreach ($fields as $field) {
+            if (!$meta->hasField($field) && !$meta->hasAssociation($field)) {
+                throw new InvalidArgumentException(
+                    "Cannot order by '{$field}' it isn't valid in " . $this->getEntityName()
+                );
+            }
+        }
+
+        return $orderBy;
     }
 }

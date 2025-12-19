@@ -64,7 +64,7 @@ class SessionRepository extends ServiceEntityRepository implements
             $orderBy = ['id' => 'ASC'];
         }
 
-        foreach ($orderBy as $sort => $order) {
+        foreach ($this->validateOrderByFields($orderBy) as $sort => $order) {
             $qb->addOrderBy('x.' . $sort, $order);
         }
 

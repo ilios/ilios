@@ -242,4 +242,9 @@ final class AcademicYearTest extends AbstractReadEndpoint
     {
         $this->markTestSkipped('test not applicable');
     }
+
+    public function testBadOrderBy(): void
+    {
+        $this->markTestSkipped('test not applicable');
+    }
 }

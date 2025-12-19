@@ -76,7 +76,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         }
 
         if (is_array($orderBy)) {
-            foreach ($orderBy as $sort => $order) {
+            foreach ($this->validateOrderByFields($orderBy) as $sort => $order) {
                 $qb->addOrderBy('x.' . $sort, $order);
             }
         }
