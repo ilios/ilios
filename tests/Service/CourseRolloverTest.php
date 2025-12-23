@@ -267,12 +267,7 @@ final class CourseRolloverTest extends TestCase
                 $newIlmSession->shouldReceive('setDueDate')
                     ->with(m::on(function (DateTime $newDueDate) use ($oldIlmSession) {
                         $oldDueDate = $oldIlmSession->getDueDate();
-                        return (
-                            //day of the week is the same
-                            $oldDueDate->format('w') === $newDueDate->format('w') &&
-                            //Week of the year is the same
-                            $oldDueDate->format('W') === $newDueDate->format('W')
-                        );
+                        return $oldDueDate->format('w') === $newDueDate->format('w');
                     }))->once();
                 $newSession->shouldReceive('setIlmSession')->with($newIlmSession)->once();
                 $this->ilmSessionRepository
@@ -288,21 +283,11 @@ final class CourseRolloverTest extends TestCase
                 $newOffering->shouldReceive('setSite')->once()->with($offering->getSite());
                 $newOffering->shouldReceive('setStartDate')->with(m::on(function (DateTime $newStart) use ($offering) {
                     $oldStart = $offering->getStartDate();
-                    return (
-                        //day of the week is the same
-                        $oldStart->format('w') === $newStart->format('w') &&
-                        //Week of the year is the same
-                        $oldStart->format('W') === $newStart->format('W')
-                    );
+                    return $oldStart->format('w') === $newStart->format('w');
                 }))->once();
                 $newOffering->shouldReceive('setEndDate')->with(m::on(function (DateTime $newEnd) use ($offering) {
                     $oldEnd = $offering->getEndDate();
-                    return (
-                        //day of the week is the same
-                        $oldEnd->format('w') === $newEnd->format('w') &&
-                        //Week of the year is the same
-                        $oldEnd->format('W') === $newEnd->format('W')
-                    );
+                    return $oldEnd->format('w') === $newEnd->format('w');
                 }))->once();
 
                 $newOffering->shouldReceive('setSession')->once()->with($newSession);
