@@ -11712,16 +11712,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.29.0",
+            "version": "v15.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "06850357fbee9a34027285a1a987aafb70176a12"
+                "reference": "3f2b7e2ae367c1f19b5189af0a31651e95b69bb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/06850357fbee9a34027285a1a987aafb70176a12",
-                "reference": "06850357fbee9a34027285a1a987aafb70176a12",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/3f2b7e2ae367c1f19b5189af0a31651e95b69bb0",
+                "reference": "3f2b7e2ae367c1f19b5189af0a31651e95b69bb0",
                 "shasum": ""
             },
             "require": {
@@ -11740,7 +11740,7 @@
                 "phpbench/phpbench": "^1.2",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "2.1.33",
-                "phpstan/phpstan-phpunit": "2.0.10",
+                "phpstan/phpstan-phpunit": "2.0.11",
                 "phpstan/phpstan-strict-rules": "2.0.7",
                 "phpunit/phpunit": "^9.5 || ^10.5.21 || ^11",
                 "psr/http-message": "^1 || ^2",
@@ -11775,7 +11775,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.29.0"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.29.1"
             },
             "funding": [
                 {
@@ -11783,7 +11783,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-12-18T16:27:00+00:00"
+            "time": "2025-12-19T11:03:09+00:00"
         },
         {
             "name": "zircote/swagger-php",
