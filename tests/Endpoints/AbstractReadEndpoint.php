@@ -120,6 +120,12 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
         $this->anonymousAccessDeniedAllTest();
     }
 
+    public function testBadOrderBy(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $this->runBadOrderByTest($jwt);
+    }
+
     protected function runGetOneTest(string $jwt): void
     {
         $this->getOneTest($jwt);
@@ -152,5 +158,10 @@ abstract class AbstractReadEndpoint extends AbstractEndpoint implements GetEndpo
             $filters["filters[$key]"] = $value;
         }
         $this->filterTest($filters, $expectedData, $jwt);
+    }
+
+    protected function runBadOrderByTest(string $jwt): void
+    {
+        $this->badOrderByTest(['order_by[glefarknik]' => 'ASC'], $jwt);
     }
 }

@@ -9,6 +9,7 @@ use App\Entity\DTO\AamcMethodDTO;
 use App\Repository\AamcMethodRepository;
 use App\Tests\Fixture\LoadAamcMethodData;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
+use InvalidArgumentException;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -72,6 +73,18 @@ final class AamcMethodRepositoryTest extends KernelTestCase
             $this->assertSame('AM002', $dtos[1]->id);
         }
         putenv("ILIOS_FEATURE_DTO_CACHING={$env}");
+    }
+
+    public function testThrowsExceptionOnOrderByWithInvalidField(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->repository->findBy([], ['invalidField' => 'ASC']);
+    }
+
+    public function testThrowsExceptionOnOrderByWithInvalidFieldDto(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->repository->findDTOsBy([], ['invalidField' => 'ASC']);
     }
 
     protected function tearDown(): void
