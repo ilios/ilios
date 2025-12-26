@@ -51,6 +51,12 @@ _NOTE:_ The steps below assume that file ownership of the deployed codebase belo
 
 ## Version-specific steps
 
+### Upgrading to Ilios 3.133.0
+
+A minimum length of 18 characters is now required for the ILIOS_SECRET_KEY environment variable in order to
+conform to security best practices. Changing this key will invalidate all existing sessions and API tokens.
+To ensure long-term viability of this key, we recommend choosing a random value at least 60 characters long.
+
 ### Upgrading to Ilios 3.126.0
 
 Async messages (for indexing and extracting) have been split into priority queues. When consuming these messages you should do so in priority order:
