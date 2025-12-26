@@ -139,40 +139,25 @@ services:
       calls:
         - [ setNormalizer, ['@Symfony\Component\Serializer\Normalizer\NormalizerInterface'] ]
 
-    App\Monitor\Timezone:
-      autoconfigure: false
-      tags:
-      - { name: liip_monitor.check, group: default }
-
-    App\Monitor\RequiredENV:
-      autoconfigure: false
-      tags:
-      - { name: liip_monitor.check, group: default }
-
     App\Monitor\IliosFileSystem:
-      autoconfigure: false
+      autoconfigure: false #needed to override the default group
       tags:
       - { name: liip_monitor.check, group: production }
 
     App\Monitor\Frontend:
-      autoconfigure: false
+      autoconfigure: false #needed to override the default group
       tags:
       - { name: liip_monitor.check, group: production }
 
     App\Monitor\PhpConfiguration:
-      autoconfigure: false
+      autoconfigure: false #needed to override the default group
       tags:
       - { name: liip_monitor.check, group: production }
 
     App\Monitor\Composer:
-      autoconfigure: false
+      autoconfigure: false #needed to override the default group
       tags:
       - { name: liip_monitor.check, group: production }
-
-    App\Monitor\NoDefaultSecret:
-      autoconfigure: false
-      tags:
-        - { name: liip_monitor.check, group: default }
 
     League\Flysystem\FilesystemOperator:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]
