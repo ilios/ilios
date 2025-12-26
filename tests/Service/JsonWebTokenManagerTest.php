@@ -21,6 +21,8 @@ use App\Service\JsonWebTokenManager;
 #[CoversClass(JsonWebTokenManager::class)]
 final class JsonWebTokenManagerTest extends TestCase
 {
+    protected const string SECRET = 'LongEnoughTestSecret';
+    protected const string DEFAULT_SECRET_KEY = JsonWebTokenManager::PREPEND_KEY . self::SECRET;
     protected JsonWebTokenManager $obj;
     protected m\MockInterface $permissionChecker;
     protected m\MockInterface $sessionUserProvider;
@@ -36,7 +38,7 @@ final class JsonWebTokenManagerTest extends TestCase
             $this->permissionChecker,
             $this->sessionUserProvider,
             $this->serviceTokenUserProvider,
-            'secret'
+            self::SECRET
         );
     }
 
@@ -226,19 +228,19 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->isServiceToken($jwt), $expected);
     }
 
-    protected static function buildUserJwt(array $values = [], string $secretKey = 'ilios.jwt.key.secret'): string
+    protected static function buildUserJwt(array $values = [], string $secretKey = self::DEFAULT_SECRET_KEY): string
     {
         return self::buildJwt(array_merge([JsonWebTokenManager::USER_ID_KEY => 42], $values), $secretKey);
     }
 
     protected static function buildServiceTokenJwt(
         array $values = [],
-        string $secretKey = 'ilios.jwt.key.secret',
+        string $secretKey = self::DEFAULT_SECRET_KEY,
     ): string {
         return self::buildJwt(array_merge([JsonWebTokenManager::TOKEN_ID_KEY => 12], $values), $secretKey);
     }
 
-    protected static function buildJwt(array $values = [], string $secretKey = 'ilios.jwt.key.secret'): string
+    protected static function buildJwt(array $values = [], string $secretKey = self::DEFAULT_SECRET_KEY): string
     {
         $now = new DateTime();
         $default = [
