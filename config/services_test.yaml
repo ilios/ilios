@@ -18,8 +18,6 @@ services:
   # public in tests only for JsonControllerTest access
   App\Service\JsonWebTokenManager:
     public: true
-    arguments:
-      $kernelSecret: '%kernel.secret%'
 
   App\Repository\ApplicationConfigRepository:
     arguments:

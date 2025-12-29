@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Service\SecretManager;
+use Firebase\JWT\SignatureInvalidException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUserInterface;
@@ -27,6 +29,7 @@ final class JsonWebTokenManagerTest extends TestCase
     protected m\MockInterface $permissionChecker;
     protected m\MockInterface $sessionUserProvider;
     protected m\MockInterface $serviceTokenUserProvider;
+    protected m\MockInterface | SecretManager $secretManager;
 
     public function setUp(): void
     {
@@ -34,11 +37,13 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->permissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
         $this->serviceTokenUserProvider = m::mock(ServiceTokenUserProvider::class);
+        $this->secretManager = m::mock(SecretManager::class);
+        $this->secretManager->expects('getSecret')->once()->andReturn(self::SECRET);
         $this->obj = new JsonWebTokenManager(
             $this->permissionChecker,
             $this->sessionUserProvider,
             $this->serviceTokenUserProvider,
-            self::SECRET
+            $this->secretManager,
         );
     }
 
@@ -49,6 +54,7 @@ final class JsonWebTokenManagerTest extends TestCase
         unset($this->permissionChecker);
         unset($this->sessionUserProvider);
         unset($this->serviceTokenUserProvider);
+        unset($this->secretManager);
     }
 
     public function testGetUserIdFromToken(): void
@@ -226,6 +232,29 @@ final class JsonWebTokenManagerTest extends TestCase
     public function testIsServiceToken(string $jwt, bool $expected): void
     {
         $this->assertEquals($this->obj->isServiceToken($jwt), $expected);
+    }
+    public function testGetUserIdFromTokenStringUsingTransitionalSecret(): void
+    {
+        $transitionSecret = self::SECRET . '-transitional';
+        $jwt = $this->buildUserJwt(['user_id' => '123'], JsonWebTokenManager::PREPEND_KEY . $transitionSecret);
+        $this->secretManager->shouldReceive('getTransitionalSecret')->once()->andReturn($transitionSecret);
+        $this->assertSame(123, $this->obj->getUserIdFromToken($jwt));
+    }
+    public function testUnableToDecodeTransitionalSecret(): void
+    {
+        $transitionSecret = self::SECRET . '-transitional';
+        $jwt = $this->buildUserJwt(['user_id' => '123'], JsonWebTokenManager::PREPEND_KEY . $transitionSecret);
+        $this->secretManager->shouldReceive('getTransitionalSecret')->once()->andReturn(null);
+        $this->expectException(SignatureInvalidException::class);
+        $this->obj->getUserIdFromToken($jwt);
+    }
+    public function testUnableToDecodeWrongTransitionalSecret(): void
+    {
+        $transitionSecret = self::SECRET . '-transitional';
+        $jwt = $this->buildUserJwt(['user_id' => '123'], JsonWebTokenManager::PREPEND_KEY . $transitionSecret);
+        $this->secretManager->shouldReceive('getTransitionalSecret')->once()->andReturn('wrong');
+        $this->expectException(SignatureInvalidException::class);
+        $this->obj->getUserIdFromToken($jwt);
     }
 
     protected static function buildUserJwt(array $values = [], string $secretKey = self::DEFAULT_SECRET_KEY): string

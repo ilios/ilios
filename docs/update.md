@@ -55,6 +55,11 @@ _NOTE:_ The steps below assume that file ownership of the deployed codebase belo
 
 A minimum length of 18 characters is now required for the ILIOS_SECRET_KEY environment variable in order to
 conform to security best practices. Changing this key will invalidate all existing sessions and API tokens.
+To help with migration, we have added a `ILIOS_TRANSITIONAL_SECRET` [environment variable](./env_vars_and_config.md)
+that will allow existing sessions and API tokens to continue to function with the old key.
+This variable should be set to the old secret key and removed once you have notified existing API users
+to re-generate their tokens and service tokens.
+
 To ensure long-term viability of this key, we recommend choosing a random value at least 60 characters long.
 
 ### Upgrading to Ilios 3.126.0
