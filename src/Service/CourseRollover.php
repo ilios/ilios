@@ -321,7 +321,7 @@ class CourseRollover
         if (!$newCourseStartDate) {
             $isoWeekOrdinal = (int) $origCourseStartDate->format('W');
             $isoDayOrdinal = (int) $origCourseStartDate->format('N');
-            $yearDiff = (int) $origCourseStartDate->format('Y') - $origAcademicYear;
+            $yearDiff = (int) $origCourseStartDate->format('o') - $origAcademicYear;
 
             $diffedYear = $newAcademicYear + $yearDiff;
             $newCourseStartDate = new DateTime();
