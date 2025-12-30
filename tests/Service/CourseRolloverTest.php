@@ -50,6 +50,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class CourseRolloverTest
@@ -925,10 +926,75 @@ final class CourseRolloverTest extends TestCase
         $this->markTestIncomplete();
     }
 
-    // @todo test the hell out of this. use a data provider here. [ST 2016/06/17]
-    public function testRolloverOffsetCalculation(): void
+    public static function offsetProvider(): array
     {
-        $this->markTestIncomplete();
+        return [
+            [2025, new DateTime('2025-12-30'), new DateTime('2026-1-10'), 2025, 0],
+        ];
+    }
+
+    #[DataProvider('offsetProvider')]
+    public function testRolloverOffsetCalculation(
+        int $courseYear,
+        DateTime $startDate,
+        DateTime $endDate,
+        int $newYear,
+        int $daysOffset,
+    ): void {
+        $course = $this->createTestCourseWithOfferings();
+        $course->setYear($courseYear);
+        $course->setStartDate($startDate);
+        $course->setEndDate($endDate);
+
+        $newCourse = m::mock(CourseInterface::class);
+        $newCourse->shouldIgnoreMissing();
+
+        $this->courseRepository->shouldReceive('findOneBy')
+            ->withArgs([['id' => $course->getId()]])->andReturn($course)->once();
+        $this->courseRepository
+            ->shouldReceive('findBy')
+            ->withArgs([['title' => 'new title', 'year' => $newYear]])
+            ->andReturn([])->once();
+        $this->courseRepository->shouldReceive('update')->withArgs([$newCourse, false, false])->once();
+        $this->courseRepository
+            ->shouldReceive('create')->once()
+            ->andReturn($newCourse);
+        $this->courseRepository->shouldReceive('flushAndClear')->once();
+
+        $newCourse->shouldReceive('setTitle')->with('new title')->once();
+        $newCourse->shouldReceive('setYear')->with($newYear)->once();
+        $newCourse->shouldReceive('setStartDate')->with(m::on(
+            fn (DateTime $newStart) => $newStart->diff($course->getStartDate())->days === $daysOffset
+        ))->once();
+        $newCourse->shouldReceive('setEndDate')->with(m::on(
+            fn (DateTime $newEnd) => $newEnd->diff($course->getEndDate())->days === $daysOffset
+        ))->once();
+
+        /** @var SessionInterface $session */
+        foreach ($course->getSessions() as $session) {
+            $newSession = m::mock(SessionInterface::class);
+            $newSession->shouldIgnoreMissing();
+            $this->sessionRepository
+                ->shouldReceive('create')->once()
+                ->andReturn($newSession);
+            $this->sessionRepository->shouldReceive('update')->withArgs([$newSession, false, false])->once();
+
+            foreach ($session->getOfferings() as $offering) {
+                $newOffering = m::mock(OfferingInterface::class);
+                $newOffering->shouldIgnoreMissing();
+                $newOffering->shouldReceive('setStartDate')->with(m::on(
+                    fn (DateTime $newStart) => $newStart->diff($offering->getStartDate())->days === $daysOffset
+                ))->once();
+                $newOffering->shouldReceive('setEndDate')->with(m::on(
+                    fn (DateTime $newEnd) => $newEnd->diff($offering->getEndDate())->days === $daysOffset
+                ))->once();
+                $this->offeringRepository->shouldReceive('create')->once()->andReturn($newOffering);
+                $this->offeringRepository->shouldReceive('update')->once()->withArgs([$newOffering, false, false]);
+            }
+        }
+
+        $rhett = $this->service->rolloverCourse($course->getId(), $newYear, ['new-course-title' => 'new title']);
+        $this->assertSame($newCourse, $rhett);
     }
 
     public function testRolloverFailsOnDuplicate(): void
