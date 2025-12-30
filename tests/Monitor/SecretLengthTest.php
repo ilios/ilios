@@ -7,6 +7,7 @@ namespace App\Tests\Monitor;
 use App\Monitor\SecretLength;
 use App\Service\JsonWebTokenManager;
 use App\Tests\TestCase;
+use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 
 final class SecretLengthTest extends TestCase
@@ -58,5 +59,14 @@ final class SecretLengthTest extends TestCase
         $result = $this->subject->check();
         $this->assertInstanceOf(Warning::class, $result);
         $this->assertStringContainsString('too short', $result->getMessage());
+    }
+
+    public function testCheckLongEnought(): void
+    {
+        $longEnough = bin2hex(random_bytes(32));
+        putenv("ILIOS_SECRET={$longEnough}");
+        $result = $this->subject->check();
+        $this->assertInstanceOf(Success::class, $result);
+        $this->assertStringContainsString('long enough', $result->getMessage());
     }
 }
