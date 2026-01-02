@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d01421a98f6a0813b336de923bb7292",
+    "content-hash": "d8614b1835629cfa3e9895ebb23ee919",
     "packages": [
         {
             "name": "async-aws/core",
@@ -15615,7 +15615,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "firebase/php-jwt": 0,
         "mockery/mockery": 0,
         "squizlabs/php_codesniffer": 0,
         "symfony/amazon-mailer": 0,
@@ -15672,5 +15671,5 @@
     "platform-overrides": {
         "php": "8.4"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
