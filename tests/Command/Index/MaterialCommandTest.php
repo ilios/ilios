@@ -36,7 +36,7 @@ final class MaterialCommandTest extends KernelTestCase
         $command = new MaterialCommand($this->repository, $this->index, $this->config);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

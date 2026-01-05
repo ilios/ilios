@@ -38,7 +38,7 @@ final class ListSchoolConfigValuesCommandTest extends KernelTestCase
         $command = new ListSchoolConfigValuesCommand($this->schoolRepository, $this->schoolConfigRepository);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

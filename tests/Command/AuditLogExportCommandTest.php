@@ -44,7 +44,7 @@ final class AuditLogExportCommandTest extends KernelTestCase
         $kernel = self::bootKernel();
         $application = new Application($kernel);
         $command = new AuditLogExportCommand($this->logger, $this->auditLogRepository);
-        $application->add($command);
+        $application->addCommands([$command]);
         $command = $application->find($command->getName());
         $this->commandTester = new CommandTester($command);
     }

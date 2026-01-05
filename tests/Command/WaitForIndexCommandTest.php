@@ -36,7 +36,7 @@ final class WaitForIndexCommandTest extends KernelTestCase
         $command = new WaitForIndexCommand($this->client, $this->indexManager);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
