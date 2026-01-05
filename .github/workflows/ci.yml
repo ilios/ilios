@@ -114,9 +114,8 @@ jobs:
           bin/console doctrine:database:drop --if-exists --force
           bin/console doctrine:database:create
           bin/console doctrine:migrations:migrate  --no-interaction
-      - name: Validate Schema Matches Migrations
-        # Workaround from https://github.com/doctrine/migrations/issues/1406#issuecomment-2402548597
-        run: true && ! bin/console doctrine:migrations:diff
+      - name: Validate Schema
+        run:  bin/console doctrine:schema:validate
 
   run_twice:
     name: PHPUnit Run Twice
