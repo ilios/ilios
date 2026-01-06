@@ -1,0 +1,15 @@
+name: Required Labels
+
+on:
+  pull_request:
+    types: [labeled, unlabeled, opened, edited, synchronize]
+jobs:
+  prevent-donotmerge-label:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: mheap/github-action-required-labels@v5
+      with:
+        mode: exactly
+        count: 0
+        labels: "DO NOT MERGE"
+        message: "DO NOT MERGE label is not allowed on this PR"
