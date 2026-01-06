@@ -58,7 +58,7 @@ final class AddUserCommandTest extends KernelTestCase
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
 
         // Override the question helper to fix testing issue with hidden password input

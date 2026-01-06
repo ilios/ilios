@@ -81,7 +81,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
             $this->fs,
             $this->testDir
         );
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

@@ -35,7 +35,7 @@ final class ExtractLearningMaterialsTextCommandTest extends KernelTestCase
         $command = new ExtractLearningMaterialsTextCommand($this->repository, $this->bus);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

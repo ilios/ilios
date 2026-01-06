@@ -34,7 +34,7 @@ final class RolloverCourseCommandTest extends KernelTestCase
         $command = new RolloverCourseCommand($this->service);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

@@ -39,7 +39,7 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         $command = new CreateUserTokenCommand($this->userRepository, $this->jwtManager);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

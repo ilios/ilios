@@ -40,7 +40,7 @@ final class InvalidateUserTokenCommandTest extends KernelTestCase
         $command = new InvalidateUserTokenCommand($this->userRepository, $this->authenticationRepository);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

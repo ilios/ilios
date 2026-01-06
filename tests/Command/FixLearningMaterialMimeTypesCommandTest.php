@@ -46,7 +46,7 @@ final class FixLearningMaterialMimeTypesCommandTest extends KernelTestCase
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }

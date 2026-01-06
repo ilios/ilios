@@ -37,7 +37,7 @@ final class ListRootUsersCommandTest extends KernelTestCase
         $command = new ListRootUsersCommand($this->userRepository);
         $kernel = self::bootKernel();
         $application = new Application($kernel);
-        $application->add($command);
+        $application->addCommands([$command]);
         $commandInApp = $application->find($command->getName());
         $this->commandTester = new CommandTester($commandInApp);
     }
