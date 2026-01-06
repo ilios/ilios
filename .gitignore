@@ -6,6 +6,10 @@ FakeTestFiles
 !/public/theme-overrides
 /infection.html
 
+# Created by symfony https://symfony.com/blog/new-in-symfony-7-4-better-php-configuration
+# But not clearly useful at this time, going to ignore it for now
+config/reference.php
+
 # Created by docker build, shouldn't leak into app
 VERSION
 
