@@ -11,6 +11,7 @@ use DateTimeInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use DateTime;
+use Firebase\JWT\SignatureInvalidException;
 
 use function array_key_exists;
 
@@ -31,9 +32,9 @@ class JsonWebTokenManager
         protected SessionUserPermissionChecker $permissionChecker,
         protected SessionUserProvider $sessionUserProvider,
         protected ServiceTokenUserProvider $serviceAccountUserProvider,
-        string $kernelSecret
+        protected SecretManager $secretManager,
     ) {
-        $this->jwtKey = self::PREPEND_KEY . $kernelSecret;
+        $this->jwtKey = self::PREPEND_KEY . $this->secretManager->getSecret();
         JWT::$leeway = 5;
     }
 
@@ -131,8 +132,14 @@ class JsonWebTokenManager
 
     protected function decode(string $jwt): array
     {
-        $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
-        return (array) $decoded;
+        try {
+            $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
+            return (array) $decoded;
+        } catch (SignatureInvalidException) {
+            $transitionalKey = self::PREPEND_KEY . $this->secretManager->getTransitionalSecret();
+            $decoded = JWT::decode($jwt, new Key($transitionalKey, self::SIGNING_ALGORITHM));
+            return (array) $decoded;
+        }
     }
 
     /**

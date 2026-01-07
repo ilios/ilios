@@ -8,6 +8,7 @@ parameters:
     env(TRUSTED_PROXIES):
     env(ILIOS_REDIS_URL):
     env(ILIOS_CACHE_DECRYPTION_KEY):
+    env(TRANSITIONAL_ILIOS_SECRET):
 
 services:
     # default configuration for services in *this* file
@@ -21,6 +22,7 @@ services:
           $apiVersion: '%ilios_api_version%'
           $kernelProjectDir: '%kernel.project_dir%'
           $kernelSecret: '%kernel.secret%'
+          $transitionalSecret: '%env(TRANSITIONAL_ILIOS_SECRET)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
