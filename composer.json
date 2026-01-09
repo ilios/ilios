@@ -26,7 +26,7 @@
     "doctrine/orm": "^3.4",
     "eluceo/ical": "^2.5.1",
     "exercise/htmlpurifier-bundle": "^5.1",
-    "firebase/php-jwt": "^6.11.1",
+    "firebase/php-jwt": "^7.0.2",
     "flagception/flagception-bundle": "^6.0",
     "ilios/mesh-parser": "^4.0",
     "jaybizzle/crawler-detect": "^1.2",
