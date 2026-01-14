@@ -11,10 +11,10 @@ use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
 use Doctrine\ORM\EntityManager;
-use Doctrine\Persistence\ObjectManager;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Command\ImportMeshUniverseCommand;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
@@ -78,7 +78,8 @@ final class ImportMeshUniverseCommandAcceptanceTest extends KernelTestCase
         unset($this->meshDescriptorRepository);
     }
 
-    public function testImport(): void
+    #[DataProvider('importProvider')]
+    public function testImport(string $testDataFilePath): void
     {
         $meshConceptRepository = $this->entityManager->getRepository(MeshConcept::class);
         $meshPreviousIndexingRepository = $this->entityManager->getRepository(MeshPreviousIndexing::class);
@@ -94,10 +95,9 @@ final class ImportMeshUniverseCommandAcceptanceTest extends KernelTestCase
         $this->assertEquals(0, $meshTermRepository->count());
         $this->assertEquals(0, $meshTreeRepository->count());
 
-        $path = __DIR__ . '/TestFiles/desc.xml';
         $this->commandTester->execute(
             [
-                '--path' => $path,
+                '--path' => $testDataFilePath,
             ]
         );
         // Check data in MeSH tables post-import.
@@ -173,5 +173,13 @@ final class ImportMeshUniverseCommandAcceptanceTest extends KernelTestCase
         $this->assertFalse($terms[1]->isConceptPreferred());
         $this->assertTrue($terms[1]->isRecordPreferred());
         $this->assertTrue($terms[1]->isPermuted());
+    }
+
+    public static function importProvider(): array
+    {
+        return [
+            [__DIR__ . '/TestFiles/desc2025.xml'],
+            [__DIR__ . '/TestFiles/desc2026.xml'],
+        ];
     }
 }

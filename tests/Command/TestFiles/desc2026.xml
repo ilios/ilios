@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!--
+Fake MeSH descriptors set, for testing purposes.
+It contains all possible elements defined by the schema.
+-->
+<!DOCTYPE DescriptorRecordSet SYSTEM "https://www.nlm.nih.gov/databases/dtd/nlmdescriptorrecordset_20260101.dtd">
+<DescriptorRecordSet LanguageCode="eng">
+    <DescriptorRecord DescriptorClass="1">
+        <DescriptorUI>D000000</DescriptorUI>
+        <DescriptorName>
+            <String>a descriptor</String>
+        </DescriptorName>
+        <LastUpdated>
+            <Year>2016</Year>
+            <Month>12</Month>
+            <Day>08</Day>
+        </LastUpdated>
+        <DateIntroduced>
+            <Year>2016</Year>
+            <Month>12</Month>
+            <Day>09</Day>
+        </DateIntroduced>
+        <AllowableQualifiersList>
+            <AllowableQualifier>
+                <QualifierReferredTo>
+                    <QualifierUI>Q000001</QualifierUI>
+                    <QualifierName>
+                        <String>a qualifier</String>
+                    </QualifierName>
+                </QualifierReferredTo>
+                <Abbreviation>TQ</Abbreviation>
+            </AllowableQualifier>
+            <AllowableQualifier>
+                <QualifierReferredTo>
+                    <QualifierUI>Q000002</QualifierUI>
+                    <QualifierName>
+                        <String>another qualifier</String>
+                    </QualifierName>
+                </QualifierReferredTo>
+                <Abbreviation>TQ2</Abbreviation>
+            </AllowableQualifier>
+        </AllowableQualifiersList>
+        <Annotation>an annotation</Annotation>
+        <HistoryNote>a history note</HistoryNote>
+        <NLMClassificationNumber>a nlm classification number</NLMClassificationNumber>
+        <OnlineNote>an online note</OnlineNote>
+        <PublicMeSHNote>a public mesh note</PublicMeSHNote>
+        <PreviousIndexingList>
+            <PreviousIndexing>previously indexed as</PreviousIndexing>
+            <PreviousIndexing>also previously indexed as</PreviousIndexing>
+        </PreviousIndexingList>
+        <EntryCombinationList>
+            <EntryCombination>
+                <ECIN>
+                    <DescriptorReferredTo>
+                        <DescriptorUI>D000004</DescriptorUI>
+                        <DescriptorName>
+                            <String>some descriptor</String>
+                        </DescriptorName>
+                    </DescriptorReferredTo>
+                    <QualifierReferredTo>
+                        <QualifierUI>Q000003</QualifierUI>
+                        <QualifierName>
+                            <String>some qualifier</String>
+                        </QualifierName>
+                    </QualifierReferredTo>
+                </ECIN>
+                <ECOUT>
+                    <DescriptorReferredTo>
+                        <DescriptorUI>D000005</DescriptorUI>
+                        <DescriptorName>
+                            <String>and another descriptor</String>
+                        </DescriptorName>
+                    </DescriptorReferredTo>
+                    <QualifierReferredTo>
+                        <QualifierUI>Q000006</QualifierUI>
+                        <QualifierName>
+                            <String>some other qualifier</String>
+                        </QualifierName>
+                    </QualifierReferredTo>
+                </ECOUT>
+            </EntryCombination>
+        </EntryCombinationList>
+        <SeeRelatedList>
+            <SeeRelatedDescriptor>
+                <DescriptorReferredTo>
+                    <DescriptorUI>D000002</DescriptorUI>
+                    <DescriptorName>
+                        <String>another descriptor</String>
+                    </DescriptorName>
+                </DescriptorReferredTo>
+            </SeeRelatedDescriptor>
+            <SeeRelatedDescriptor>
+                <DescriptorReferredTo>
+                    <DescriptorUI>D000003</DescriptorUI>
+                    <DescriptorName>
+                        <String>yet another descriptor</String>
+                    </DescriptorName>
+                </DescriptorReferredTo>
+            </SeeRelatedDescriptor>
+        </SeeRelatedList>
+        <ConsiderAlso>other considerations</ConsiderAlso>
+        <PharmacologicalActionList>
+            <PharmacologicalAction>
+                <DescriptorReferredTo>
+                    <DescriptorUI>D000002</DescriptorUI>
+                    <DescriptorName>
+                        <String>another descriptor</String>
+                    </DescriptorName>
+                </DescriptorReferredTo>
+            </PharmacologicalAction>
+            <PharmacologicalAction>
+                <DescriptorReferredTo>
+                    <DescriptorUI>D000003</DescriptorUI>
+                    <DescriptorName>
+                        <String>yet another descriptor</String>
+                    </DescriptorName>
+                </DescriptorReferredTo>
+            </PharmacologicalAction>
+        </PharmacologicalActionList>
+        <TreeNumberList>
+            <TreeNumber>D00.000.000.000.001</TreeNumber>
+        </TreeNumberList>
+        <ConceptList>
+            <Concept PreferredConceptYN="Y">
+                <ConceptUI>M0000001</ConceptUI>
+                <ConceptName>
+                    <String>a concept</String>
+                </ConceptName>
+                <CASN1Name>a casn1 name</CASN1Name>
+                <RegistryNumberList>
+                    <RegistryNumber>00000AAAAA</RegistryNumber>
+                    <RegistryNumber>11111BBBBB</RegistryNumber>
+                </RegistryNumberList>
+                <ScopeNote>a scope note</ScopeNote>
+                <TranslatorsEnglishScopeNote>something in English.</TranslatorsEnglishScopeNote>
+                <TranslatorsScopeNote>i got nothing</TranslatorsScopeNote>
+                <RelatedRegistryNumberList>
+                    <RelatedRegistryNumber>a related registry number</RelatedRegistryNumber>
+                </RelatedRegistryNumberList>
+                <ConceptRelationList>
+                    <ConceptRelation RelationName="BRD">
+                        <Concept1UI>M0000001</Concept1UI>
+                        <Concept2UI>M0000002</Concept2UI>
+                    </ConceptRelation>
+                </ConceptRelationList>
+                <TermList>
+                    <Term ConceptPreferredTermYN="Y" IsPermutedTermYN="N" LexicalTag="NON" RecordPreferredTermYN="Y">
+                        <TermUI>T000001</TermUI>
+                        <String>a term</String>
+                        <DateCreated>
+                            <Year>1999</Year>
+                            <Month>01</Month>
+                            <Day>01</Day>
+                        </DateCreated>
+                        <Abbreviation>IDK</Abbreviation>
+                        <SortVersion>lorem ipsum</SortVersion>
+                        <EntryVersion>foo bar</EntryVersion>
+                        <ThesaurusIDlist>
+                            <ThesaurusID>a thesaurus id</ThesaurusID>
+                            <ThesaurusID>another thesaurus id</ThesaurusID>
+                        </ThesaurusIDlist>
+                    </Term>
+                </TermList>
+            </Concept>
+            <Concept PreferredConceptYN="N">
+                <ConceptUI>M0000002</ConceptUI>
+                <ConceptName>
+                    <String>another concept</String>
+                </ConceptName>
+                <ConceptRelationList>
+                    <ConceptRelation RelationName="NRW">
+                        <Concept1UI>M0000002</Concept1UI>
+                        <Concept2UI>M0000003</Concept2UI>
+                    </ConceptRelation>
+                </ConceptRelationList>
+                <TermList>
+                    <Term ConceptPreferredTermYN="Y" IsPermutedTermYN="N" LexicalTag="ABB" RecordPreferredTermYN="N">
+                        <TermUI>T000002</TermUI>
+                        <String>another term</String>
+                        <DateCreated>
+                            <Year>1989</Year>
+                            <Month>11</Month>
+                            <Day>09</Day>
+                        </DateCreated>
+                        <ThesaurusIDlist>
+                            <ThesaurusID>yet another thesaurus id</ThesaurusID>
+                        </ThesaurusIDlist>
+                        <TermNote>a term note</TermNote>
+                    </Term>
+                    <Term ConceptPreferredTermYN="N" IsPermutedTermYN="Y" LexicalTag="TRD" RecordPreferredTermYN="Y">
+                        <TermUI>T000003</TermUI>
+                        <String>yet another term</String>
+                        <DateCreated>
+                            <Year>1999</Year>
+                            <Month>11</Month>
+                            <Day>10</Day>
+                        </DateCreated>
+                    </Term>
+                </TermList>
+            </Concept>
+        </ConceptList>
+    </DescriptorRecord>
+</DescriptorRecordSet>
