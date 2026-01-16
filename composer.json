@@ -37,7 +37,6 @@
     "nelmio/cors-bundle": "^2.0",
     "opensearch-project/opensearch-php": "^2.0",
     "pear/archive_tar": "^1.4",
-    "phpdocumentor/reflection-docblock": "^6.0",
     "psr/log": "^3.0.0",
     "sentry/sentry-symfony": "^5.0",
     "swagger-api/swagger-ui": "^5.1",
