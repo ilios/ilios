@@ -53,9 +53,6 @@ services:
 
     Ilios\MeSH\Parser:
 
-    Alchemy\Zippy\Zippy:
-        factory: ['Alchemy\Zippy\Zippy', 'load']
-
     Doctrine\Inflector\Inflector:
       factory: ['App\Service\InflectorFactory', 'create']
 
