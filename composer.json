@@ -82,7 +82,6 @@
     "slevomat/coding-standard": "~8.0",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/browser-kit": "7.4.*",
-    "symfony/css-selector": "7.4.*",
     "symfony/debug-bundle": "7.4.*",
     "symfony/stopwatch": "7.4.*",
     "symfony/web-profiler-bundle": "7.4.*"
