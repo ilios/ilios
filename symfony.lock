@@ -556,9 +556,6 @@
             "bin/console"
         ]
     },
-    "symfony/css-selector": {
-        "version": "v5.2.0"
-    },
     "symfony/debug-bundle": {
         "version": "5.4",
         "recipe": {
