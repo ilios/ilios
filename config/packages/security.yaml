@@ -33,10 +33,6 @@ security:
         - { path: '^/error', roles: IS_AUTHENTICATED_FULLY }
         - { path: '^/', roles: PUBLIC_ACCESS }
 
-    access_decision_manager:
-        allow_if_all_abstain: false
-        strategy: affirmative
-
 when@test:
     security:
         password_hashers:
