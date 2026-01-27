@@ -191,6 +191,7 @@ CMD ["ilios:update-frontend"]
 # Should be setup to run and restart itself when it shuts down
 ###############################################################################
 FROM php-base AS consume-messages
+COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
 # add the pcntl extension which allows PHP to consume process controll messages
 # and shutdown the message consumer gracefully
 RUN set -eux; \
