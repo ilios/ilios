@@ -187,11 +187,19 @@ ENTRYPOINT ["bin/console"]
 CMD ["ilios:update-frontend"]
 
 ###############################################################################
+# Multi-purpose container to run a single Ilios console command and then exit
+###############################################################################
+FROM php-base AS console-command
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
+ENTRYPOINT ["bin/console"]
+CMD ["list"]
+
+###############################################################################
 # Single purpose container that starts a message consumer
 # Should be setup to run and restart itself when it shuts down
 ###############################################################################
-FROM php-base AS consume-messages
-COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
+FROM console-command AS consume-messages
 # add the pcntl extension which allows PHP to consume process controll messages
 # and shutdown the message consumer gracefully
 RUN set -eux; \
@@ -343,12 +351,3 @@ USER root
 ENTRYPOINT ["php-apache-entrypoint"]
 CMD ["apache2-foreground"]
 EXPOSE 80
-
-###############################################################################
-# Multi-purpose container to run a single Ilios console command and then exit
-###############################################################################
-FROM php-base AS console-command
-LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
-ENTRYPOINT ["bin/console"]
-CMD ["list"]
