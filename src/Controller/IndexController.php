@@ -46,6 +46,7 @@ class IndexController extends AbstractController
             'fileName' => null,
         ],
         methods: ['GET'],
+        priority: -1,
     )]
     public function index(Request $request): Response
     {
