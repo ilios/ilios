@@ -1438,31 +1438,26 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
      */
     public function getLearnerSessionIds(int $userId): array
     {
+        $sessionIds = [];
+        [ 'offeringIds' => $offeringIds, 'ilmIds' => $ilmIds ] = $this->getLearnerIlmAndOfferingIds($userId);
+
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select('s1.id AS s1Id, s2.id AS s2Id, s3.id AS s3Id, s4.id AS s4Id')->distinct();
-        $qb->from(User::class, 'u');
-        $qb->leftJoin('u.offerings', 'offering');
-        $qb->leftJoin('u.learnerIlmSessions', 'ilm');
-        $qb->leftJoin('u.learnerGroups', 'learnerGroup');
-        $qb->leftJoin('learnerGroup.offerings', 'offering2');
-        $qb->leftJoin('learnerGroup.ilmSessions', 'ilm2');
-        $qb->leftJoin('offering.session', 's1');
-        $qb->leftJoin('ilm.session', 's2');
-        $qb->leftJoin('offering2.session', 's3');
-        $qb->leftJoin('ilm2.session', 's4');
-        $qb->andWhere($qb->expr()->eq('u.id', ':userId'));
-        $qb->setParameter(':userId', $userId);
+        $qb->from(Offering::class, 'x');
+        $qb->select('IDENTITY(x.session) AS sessionId')->distinct();
+        $qb->where($qb->expr()->in('x.id', ':offeringIds'));
+        $qb->setParameter(':offeringIds', $offeringIds);
 
-        $rhett = [];
-        foreach ($qb->getQuery()->getArrayResult() as $arr) {
-            foreach ($arr as $id) {
-                if (!is_null($id)) {
-                    $rhett[] = $id;
-                }
-            }
-        }
+        $sessionIds = array_merge($sessionIds, $qb->getQuery()->getSingleColumnResult());
 
-        return array_unique($rhett);
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->from(IlmSession::class, 'x');
+        $qb->select('IDENTITY(x.session) AS sessionId')->distinct();
+        $qb->where($qb->expr()->in('x.id', ':ilmIds'));
+        $qb->setParameter(':ilmIds', $ilmIds);
+
+        $sessionIds = array_merge($sessionIds, $qb->getQuery()->getSingleColumnResult());
+
+        return array_unique($sessionIds);
     }
 
     /**
