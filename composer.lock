@@ -197,16 +197,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.369.29",
+            "version": "3.369.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "068195b2980cf5cf4ade2515850d461186db3310"
+                "reference": "c7bf53dfb09bea3ebfd19b89213625aa134dcc71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/068195b2980cf5cf4ade2515850d461186db3310",
-                "reference": "068195b2980cf5cf4ade2515850d461186db3310",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c7bf53dfb09bea3ebfd19b89213625aa134dcc71",
+                "reference": "c7bf53dfb09bea3ebfd19b89213625aa134dcc71",
                 "shasum": ""
             },
             "require": {
@@ -288,9 +288,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.29"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.369.31"
             },
-            "time": "2026-02-06T19:08:50+00:00"
+            "time": "2026-02-10T19:13:30+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1862,16 +1862,16 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "3.9.5",
+            "version": "3.9.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "1b823afbc40f932dae8272574faee53f2755eac5"
+                "reference": "ffd8355cdd8505fc650d9604f058bf62aedd80a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/1b823afbc40f932dae8272574faee53f2755eac5",
-                "reference": "1b823afbc40f932dae8272574faee53f2755eac5",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/ffd8355cdd8505fc650d9604f058bf62aedd80a1",
+                "reference": "ffd8355cdd8505fc650d9604f058bf62aedd80a1",
                 "shasum": ""
             },
             "require": {
@@ -1945,7 +1945,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/migrations/issues",
-                "source": "https://github.com/doctrine/migrations/tree/3.9.5"
+                "source": "https://github.com/doctrine/migrations/tree/3.9.6"
             },
             "funding": [
                 {
@@ -1961,7 +1961,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-11-20T11:15:36+00:00"
+            "time": "2026-02-11T06:46:11+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -11773,16 +11773,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "5.8.1",
+            "version": "5.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "8adf6bb57561243aca48339e7f39bddf27ae546c"
+                "reference": "18ee6592518238a5a6c9905aae4926d5bbc65754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8adf6bb57561243aca48339e7f39bddf27ae546c",
-                "reference": "8adf6bb57561243aca48339e7f39bddf27ae546c",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/18ee6592518238a5a6c9905aae4926d5bbc65754",
+                "reference": "18ee6592518238a5a6c9905aae4926d5bbc65754",
                 "shasum": ""
             },
             "require": {
@@ -11855,7 +11855,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/5.8.1"
+                "source": "https://github.com/zircote/swagger-php/tree/5.8.2"
             },
             "funding": [
                 {
@@ -11863,7 +11863,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-03T23:48:39+00:00"
+            "time": "2026-02-10T20:10:15+00:00"
         }
     ],
     "packages-dev": [
@@ -13174,16 +13174,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "2.0.13",
+            "version": "2.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "6feadf70de5fa2c8a106c443bd04e16ed0b17d64"
+                "reference": "678136545a552a33b07f1a59a013f76df286cc34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/6feadf70de5fa2c8a106c443bd04e16ed0b17d64",
-                "reference": "6feadf70de5fa2c8a106c443bd04e16ed0b17d64",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/678136545a552a33b07f1a59a013f76df286cc34",
+                "reference": "678136545a552a33b07f1a59a013f76df286cc34",
                 "shasum": ""
             },
             "require": {
@@ -13242,9 +13242,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/2.0.13"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/2.0.14"
             },
-            "time": "2026-02-10T08:55:32+00:00"
+            "time": "2026-02-11T12:27:30+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -13594,16 +13594,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.10",
+            "version": "12.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1686e30f6b32d35592f878a7f56fd0421d7d56c5"
+                "reference": "9b518cb40f9474572c9f0178e96ff3dc1cf02bf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1686e30f6b32d35592f878a7f56fd0421d7d56c5",
-                "reference": "1686e30f6b32d35592f878a7f56fd0421d7d56c5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9b518cb40f9474572c9f0178e96ff3dc1cf02bf1",
+                "reference": "9b518cb40f9474572c9f0178e96ff3dc1cf02bf1",
                 "shasum": ""
             },
             "require": {
@@ -13672,7 +13672,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.10"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.11"
             },
             "funding": [
                 {
@@ -13696,7 +13696,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-08T07:06:48+00:00"
+            "time": "2026-02-10T12:32:02+00:00"
         },
         {
             "name": "sanmai/di-container",
@@ -15665,5 +15665,5 @@
     "platform-overrides": {
         "php": "8.4"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
