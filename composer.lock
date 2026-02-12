@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "edc1369cda82eff3036d425c7058477a",
+    "content-hash": "4cbf71dd30604cb8b9626a7b1c3ada8c",
     "packages": [
         {
             "name": "async-aws/core",
@@ -3082,16 +3082,16 @@
         },
         {
             "name": "ilios/mesh-parser",
-            "version": "v4.0.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ilios/mesh-parser.git",
-                "reference": "398e1c18c96467ef33b97896206ebc60f17a90d3"
+                "reference": "f5ac2c0a025f28997304b1fc8429ed7c404136a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/398e1c18c96467ef33b97896206ebc60f17a90d3",
-                "reference": "398e1c18c96467ef33b97896206ebc60f17a90d3",
+                "url": "https://api.github.com/repos/ilios/mesh-parser/zipball/f5ac2c0a025f28997304b1fc8429ed7c404136a3",
+                "reference": "f5ac2c0a025f28997304b1fc8429ed7c404136a3",
                 "shasum": ""
             },
             "require": {
@@ -3131,9 +3131,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ilios/mesh-parser/issues",
-                "source": "https://github.com/ilios/mesh-parser/tree/v4.0.0"
+                "source": "https://github.com/ilios/mesh-parser/tree/v5.0.0"
             },
-            "time": "2024-12-13T19:23:31+00:00"
+            "time": "2026-02-10T17:20:21+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",
