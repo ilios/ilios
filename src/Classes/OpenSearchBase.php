@@ -18,6 +18,7 @@ class OpenSearchBase
 
     public const int SIZE_LIMIT = 5000;
     protected const string SCROLL_TIME = '10s';
+    protected string $languageAnalyzer = 'standard';
 
     /**
      * Search constructor.
@@ -33,6 +34,11 @@ class OpenSearchBase
         $limit = $config->get('search_upload_limit');
         //10mb AWS hard limit on non-huge ES clusters and we need some overhead for control statements
         $this->uploadLimit = $limit ?? 9000000;
+
+        $primaryLanguageOfInstruction =  $config->get('primaryLanguageOfInstruction');
+        if ($primaryLanguageOfInstruction) {
+            $this->languageAnalyzer = $primaryLanguageOfInstruction;
+        }
     }
 
     public function isEnabled(): bool

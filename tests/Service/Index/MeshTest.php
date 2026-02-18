@@ -25,6 +25,9 @@ final class MeshTest extends TestCase
         $this->config->shouldReceive('get')
             ->with('search_upload_limit')
             ->andReturn(8000000);
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
     }
     public function tearDown(): void
     {

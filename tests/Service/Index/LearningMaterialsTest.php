@@ -38,6 +38,9 @@ final class LearningMaterialsTest extends TestCase
         $this->config->shouldReceive('get')
             ->with('search_upload_limit')
             ->andReturn(8000000);
+        $this->config->shouldReceive('get')
+            ->with('primaryLanguageOfInstruction')
+            ->andReturn(null);
         $this->bus = m::mock(MessageBusInterface::class);
         $this->repository = m::mock(LearningMaterialRepository::class);
     }
