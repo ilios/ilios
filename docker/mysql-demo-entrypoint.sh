@@ -65,4 +65,4 @@ fi
 log "Starting official entrypoint"
 
 # Pass control to the official entrypoint (preserve arguments)
-exec "${OFFICIAL_ENTRYPOINT}" mysqld
+exec "${OFFICIAL_ENTRYPOINT}" "$@"

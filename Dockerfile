@@ -254,6 +254,7 @@ ENV DEMO_DATABASE_LOCATION=https://ilios-demo-db.iliosproject.org/
 COPY docker/mysql-demo-entrypoint.sh /usr/local/bin/mysql-demo-entrypoint.sh
 RUN chmod +x /usr/local/bin/mysql-demo-entrypoint.sh
 ENTRYPOINT [ "/usr/local/bin/mysql-demo-entrypoint.sh" ]
+CMD [ "mysqld" ]
 
 ###############################################################################
 # Setup opensearch with the plugins we needed
