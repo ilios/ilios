@@ -26,7 +26,7 @@ To stop/remove your Ilios application, including all of its containers and data,
 
 `docker compose -f docs/docker-examples/docker-compose.demo.yml down`
 
-Using docker compose again after running the `down` command will re-download the application's data and force a refresh of the database using the latest Ilios mock data from https://ilios-demo-db.iliosproject.org. Be sure to use `docker compose -f docs/docker-examples/docker-compose.demo.yml stop` if you want to stop your running Ilios demo instance without losing your data.
+Using docker compose again after running the `down` command will re-download the application's data and force a refresh of the database using the latest Ilios mock data from [https://ilios-demo-db.iliosproject.org](https://ilios-demo-db.iliosproject.org). Be sure to use `docker compose -f docs/docker-examples/docker-compose.demo.yml stop` if you want to stop your running Ilios demo instance without losing your data.
 
 ## Install and Update Instructions
 
