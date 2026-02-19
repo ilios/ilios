@@ -12,6 +12,22 @@ Ilios leverages the power of your existing online learning. With its comprehensi
 
 More Information and user documentation is available at [iliosproject.org](http://iliosproject.org)
 
+## Quickstart with demo data using Docker compose
+
+If you have Docker installed and would like to launch a container running a local copy of Ilios populated with sample data, run the following command from within this directory:
+
+`docker compose -f docs/docker-examples/docker-compose.demo.yml up`
+
+To stop your demo Ilios application while still retaining the database, including any changes you made to the data, run the following:
+
+`docker compose -f docs/docker-examples/docker-compose.demo.yml stop`
+
+To stop/remove your Ilios application, including all of its containers and data, run the following:
+
+`docker compose -f docs/docker-examples/docker-compose.demo.yml down`
+
+Using docker compose again after running the `down` command will re-download the application's data and force a refresh of the database using the latest Ilios mock data from https://ilios-demo-db.iliosproject.org. Be sure to use `docker compose -f docs/docker-examples/docker-compose.demo.yml stop` if you want to stop your running Ilios demo instance without losing your data.
+
 ## Install and Update Instructions
 
 [Instructions for a new Install](docs/install.md)
