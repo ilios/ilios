@@ -8,9 +8,6 @@ OFFICIAL_ENTRYPOINT="/usr/local/bin/docker-entrypoint.sh"
 : "${DEMO_DATABASE_LOCATION:=}"
 : "${DEMO_DB_TARGET:=/docker-entrypoint-initdb.d/ilios.sql.gz}"
 
-# MySQL datadir used by the image
-DATADIR="${MYSQL_DATADIR:-/var/lib/mysql}"
-
 log() { printf '%s\n' "$*"; }
 
 download_demo_db() {
