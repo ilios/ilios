@@ -155,7 +155,8 @@
     ]
   },
   "conflict": {
-    "symfony/symfony": "*"
+    "symfony/symfony": "*",
+    "symfony/dependency-injection": "^v8.0.0"
   },
   "extra": {
     "symfony": {
