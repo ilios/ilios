@@ -205,7 +205,7 @@ jobs:
         mysql -uroot -proot -e "DROP DATABASE IF EXISTS ilios"
         mysql -uroot -proot -e "CREATE DATABASE ilios"
     - name: Download artifacts
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         path: /tmp/
         pattern: "*${{ matrix.arch }}-image"
@@ -399,7 +399,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0  # disable shallow clone for full access to code
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: coverage-output
       - run: ls -lh coverage.xml
