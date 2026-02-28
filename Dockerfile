@@ -240,7 +240,6 @@ FROM mysql:8-oracle AS mysql
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV MYSQL_RANDOM_ROOT_PASSWORD=yes
 COPY docker/mysql.cnf /etc/mysql/conf.d/ilios.cnf
-RUN chmod 755 /etc/mysql/conf.d/ilios.cnf
 
 ###############################################################################
 # Setup a mysql server running the demo database for use in development
@@ -251,14 +250,11 @@ ENV MYSQL_USER=ilios
 ENV MYSQL_PASSWORD=ilios
 ENV MYSQL_DATABASE=ilios
 ENV DEMO_DATABASE_LOCATION=https://ilios-demo-db.iliosproject.org/
-ADD $DEMO_DATABASE_LOCATION /tmp/demo.sql.gz
-RUN echo 'Unpacking demo database' \
-    && gunzip /tmp/demo.sql.gz \
-    && echo 'done.... copying ilios demo database to by read automatically by docker' \
-    && echo "USE ilios;" > docker-entrypoint-initdb.d/ilios.sql \
-    && cat /tmp/demo.sql >> docker-entrypoint-initdb.d/ilios.sql \
-    && rm /tmp/demo.sql \
-    && echo 'done'
+
+COPY docker/mysql-demo-entrypoint.sh /usr/local/bin/mysql-demo-entrypoint.sh
+RUN chmod +x /usr/local/bin/mysql-demo-entrypoint.sh
+ENTRYPOINT [ "/usr/local/bin/mysql-demo-entrypoint.sh" ]
+CMD [ "mysqld" ]
 
 ###############################################################################
 # Setup opensearch with the plugins we needed
