@@ -167,9 +167,9 @@ jobs:
           - tika
     steps:
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@v4
     - name: Build ${{ matrix.image }}
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         target: ${{ matrix.image }}
         push: false
