@@ -135,10 +135,14 @@ class JsonWebTokenManager
         try {
             $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
             return (array) $decoded;
-        } catch (SignatureInvalidException) {
-            $transitionalKey = self::PREPEND_KEY . $this->secretManager->getTransitionalSecret();
-            $decoded = JWT::decode($jwt, new Key($transitionalKey, self::SIGNING_ALGORITHM));
-            return (array) $decoded;
+        } catch (SignatureInvalidException $e) {
+            $transitionalSecret = $this->secretManager->getTransitionalSecret();
+            if ($transitionalSecret) {
+                $transitionalKey = self::PREPEND_KEY . $transitionalSecret;
+                $decoded = JWT::decode($jwt, new Key($transitionalKey, self::SIGNING_ALGORITHM));
+                return (array) $decoded;
+            }
+            throw $e;
         }
     }
 
