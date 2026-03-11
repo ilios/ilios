@@ -252,7 +252,10 @@ final class JsonWebTokenManagerTest extends TestCase
     {
         $transitionSecret = self::SECRET . '-transitional';
         $jwt = $this->buildUserJwt(['user_id' => '123'], JsonWebTokenManager::PREPEND_KEY . $transitionSecret);
-        $this->secretManager->shouldReceive('getTransitionalSecret')->once()->andReturn('wrong');
+        $this->secretManager
+            ->shouldReceive('getTransitionalSecret')
+            ->once()
+            ->andReturn('wrong-key-but-still-long-enough');
         $this->expectException(SignatureInvalidException::class);
         $this->obj->getUserIdFromToken($jwt);
     }
