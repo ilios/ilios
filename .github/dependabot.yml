@@ -9,7 +9,7 @@ updates:
   open-pull-requests-limit: 10
   ignore:
       - dependency-name: "symfony/*"
-        versions: ["7.4.*"] # Ignore any attempts that would bump Symfony packages off version 7.4.
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
   groups:
     symfony:
       patterns:
