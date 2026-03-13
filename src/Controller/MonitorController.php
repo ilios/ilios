@@ -10,6 +10,7 @@ use App\Monitor\Frontend;
 use App\Monitor\IliosFileSystem;
 use App\Monitor\NoDefaultSecret;
 use App\Monitor\PhpConfiguration;
+use App\Monitor\PhpExtension;
 use App\Monitor\RequiredENV;
 use App\Monitor\SecretLength;
 use App\Monitor\Timezone;
@@ -40,6 +41,7 @@ class MonitorController extends AbstractController
         IliosFileSystem $fileSystemCheck,
         NoDefaultSecret $noDefaultSecretCheck,
         PhpConfiguration $phpConfigCheck,
+        PhpExtension $phpExtensionCheck,
         PhpVersion $phpVersionCheck,
         RequiredENV $requiredEnvCheck,
         SecretLength $secretLengthCheck,
@@ -53,6 +55,7 @@ class MonitorController extends AbstractController
             $fileSystemCheck,
             $frontendCheck,
             $phpConfigCheck,
+            $phpExtensionCheck,
             $phpVersionCheck,
             $noDefaultSecretCheck,
             $requiredEnvCheck,

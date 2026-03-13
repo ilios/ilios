@@ -156,6 +156,10 @@ services:
       tags:
       - { name: liip_monitor.check, group: production }
 
+    App\Monitor\PhpExtension:
+      arguments:
+        $extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib, ctype, iconv]
+
     App\Monitor\Composer:
       autoconfigure: false #needed to override the default group
       tags:
