@@ -161,12 +161,12 @@ services:
       tags:
       - { name: liip_monitor.check, group: production }
 
-    Laminas\Diagnostics\Check\ApcMemory:
+    Laminas\Diagnostics\Check\ApcFragmentation:
       arguments:
         $warningThreshold: 70
         $criticalThreshold: 90
 
-    Laminas\Diagnostics\Check\ApcFragmentation:
+    Laminas\Diagnostics\Check\ApcMemory:
       arguments:
         $warningThreshold: 70
         $criticalThreshold: 90
