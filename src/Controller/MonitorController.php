@@ -15,6 +15,7 @@ use App\Monitor\SecretLength;
 use App\Monitor\Timezone;
 use Laminas\Diagnostics\Check\ApcFragmentation;
 use Laminas\Diagnostics\Check\ApcMemory;
+use Laminas\Diagnostics\Check\PhpVersion;
 use Laminas\Diagnostics\Result\AbstractResult;
 use Laminas\Diagnostics\Result\Collection;
 use Laminas\Diagnostics\Result\Failure;
@@ -39,6 +40,7 @@ class MonitorController extends AbstractController
         IliosFileSystem $fileSystemCheck,
         NoDefaultSecret $noDefaultSecretCheck,
         PhpConfiguration $phpConfigCheck,
+        PhpVersion $phpVersionCheck,
         RequiredENV $requiredEnvCheck,
         SecretLength $secretLengthCheck,
         Timezone $timezoneCheck
@@ -50,6 +52,7 @@ class MonitorController extends AbstractController
             $fileSystemCheck,
             $frontendCheck,
             $phpConfigCheck,
+            $phpVersionCheck,
             $noDefaultSecretCheck,
             $requiredEnvCheck,
             $secretLengthCheck,

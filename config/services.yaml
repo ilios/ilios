@@ -171,6 +171,11 @@ services:
         $warningThreshold: 70
         $criticalThreshold: 90
 
+    Laminas\Diagnostics\Check\PhpVersion:
+      arguments:
+        $expectedVersion: "8.4"
+        $operator: ">="
+
     League\Flysystem\FilesystemOperator:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]
 
