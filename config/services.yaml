@@ -141,29 +141,12 @@ services:
       calls:
         - [ setNormalizer, ['@Symfony\Component\Serializer\Normalizer\NormalizerInterface'] ]
 
-    App\Monitor\IliosFileSystem:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
-
-    App\Monitor\Frontend:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
-
-    App\Monitor\PhpConfiguration:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
+    App\Monitor\:
+      resource: '../src/Monitor'
 
     App\Monitor\PhpExtension:
       arguments:
         $extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib, ctype, iconv]
-
-    App\Monitor\Composer:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
 
     Laminas\Diagnostics\Check\ApcFragmentation:
       arguments:
