@@ -49,6 +49,7 @@ class MonitorController extends AbstractController
             $apcMemoryCheck,
             $apcFragmentationCheck,
             $composerCheck,
+            $deprecatedConfigurationOptionCheck,
             $fileSystemCheck,
             $frontendCheck,
             $phpConfigCheck,
