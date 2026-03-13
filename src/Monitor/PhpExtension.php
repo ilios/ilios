@@ -33,6 +33,6 @@ class PhpExtension implements CheckInterface
 
     public function getLabel(): string
     {
-        return 'Loaded PHP extensions.';
+        return 'PHP extensions';
     }
 }
