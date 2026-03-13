@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38a448ee5abba2f73b3c968116f25835",
+    "content-hash": "2ea305e3e48fba348bfd3570d6227ee0",
     "packages": [
         {
             "name": "async-aws/core",
@@ -3320,6 +3320,95 @@
                 "source": "https://github.com/jsonrainbow/json-schema/tree/v6.7.2"
             },
             "time": "2026-02-15T15:06:22+00:00"
+        },
+        {
+            "name": "laminas/laminas-diagnostics",
+            "version": "1.30.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-diagnostics.git",
+                "reference": "27516020f6d0df11f28ffac6b69b1c37a401b373"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/27516020f6d0df11f28ffac6b69b1c37a401b373",
+                "reference": "27516020f6d0df11f28ffac6b69b1c37a401b373",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
+            },
+            "conflict": {
+                "guzzlehttp/promises": "<2.0.4",
+                "guzzlehttp/ringphp": "<1.1.1",
+                "symfony/finder": "<5.3.7",
+                "symfony/process": "<7.4",
+                "zendframework/zenddiagnostics": "*"
+            },
+            "require-dev": {
+                "doctrine/migrations": "^2.0 || ^3.9.5",
+                "enlightn/security-checker": "^1.10",
+                "guzzlehttp/guzzle": "^7.10.0",
+                "laminas/laminas-coding-standard": "~3.1.0",
+                "mikey179/vfsstream": "^1.6.12",
+                "php-amqplib/php-amqplib": "^2.0 || ^3.7.4",
+                "phpunit/phpunit": "^9.6.31",
+                "predis/predis": "^3.0.0",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "symfony/yaml": "^6.4.26 || ^7.4.1",
+                "vimeo/psalm": "^4.30.0"
+            },
+            "suggest": {
+                "doctrine/migrations": "Required by Check\\DoctrineMigration",
+                "enlightn/security-checker": "Required by Check\\SecurityAdvisory",
+                "ext-bcmath": "Required by Check\\CpuPerformance",
+                "guzzlehttp/guzzle": "Required by Check\\GuzzleHttpService",
+                "php-amqplib/php-amqplib": "Required by Check\\RabbitMQ",
+                "predis/predis": "Required by Check\\Redis",
+                "symfony/yaml": "Required by Check\\YamlFile"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.6.x-dev",
+                    "dev-develop": "1.7.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Laminas\\Diagnostics\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A set of components for performing diagnostic tests in PHP applications",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "diagnostics",
+                "laminas",
+                "php",
+                "test"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-diagnostics/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-diagnostics/issues",
+                "rss": "https://github.com/laminas/laminas-diagnostics/releases.atom",
+                "source": "https://github.com/laminas/laminas-diagnostics"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2026-03-03T11:08:27+00:00"
         },
         {
             "name": "league/flysystem",

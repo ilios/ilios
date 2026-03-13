@@ -161,6 +161,16 @@ services:
       tags:
       - { name: liip_monitor.check, group: production }
 
+    Laminas\Diagnostics\Check\ApcMemory:
+      arguments:
+        $warningThreshold: 70
+        $criticalThreshold: 90
+
+    Laminas\Diagnostics\Check\ApcFragmentation:
+      arguments:
+        $warningThreshold: 70
+        $criticalThreshold: 90
+
     League\Flysystem\FilesystemOperator:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]
 
