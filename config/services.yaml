@@ -144,6 +144,10 @@ services:
     App\Monitor\:
       resource: '../src/Monitor'
 
+    App\Monitor\Migrations:
+      arguments:
+        $dependencyFactory: '@doctrine.migrations.dependency_factory'
+
     App\Monitor\PhpExtension:
       arguments:
         $extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib, ctype, iconv]

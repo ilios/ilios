@@ -9,6 +9,7 @@ use App\Monitor\DatabaseConnection;
 use App\Monitor\DeprecatedConfigurationOption;
 use App\Monitor\Frontend;
 use App\Monitor\IliosFileSystem;
+use App\Monitor\Migrations;
 use App\Monitor\NoDefaultSecret;
 use App\Monitor\PhpConfiguration;
 use App\Monitor\PhpExtension;
@@ -46,6 +47,7 @@ class MonitorController extends AbstractController
         Frontend $frontendCheck,
         IliosFileSystem $fileSystemCheck,
         NoDefaultSecret $noDefaultSecretCheck,
+        Migrations $migrationsCheck,
         PhpConfiguration $phpConfigCheck,
         PhpExtension $phpExtensionCheck,
         PhpVersion $phpVersionCheck,
@@ -63,6 +65,7 @@ class MonitorController extends AbstractController
             $dirWritableCheck,
             $fileSystemCheck,
             $frontendCheck,
+            $migrationsCheck,
             $phpConfigCheck,
             $phpExtensionCheck,
             $phpVersionCheck,
