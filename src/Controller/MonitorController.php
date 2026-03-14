@@ -75,6 +75,35 @@ class MonitorController extends AbstractController
         $data = $this->processResults($checks, $results);
         return new JsonResponse($data);
     }
+
+    #[Route('ilios/health/minimal')]
+    public function minimalHealth(
+        DeprecatedConfigurationOption $deprecatedConfigurationOptionCheck,
+        DirReadable $dirReadableCheck,
+        DirWritable $dirWritableCheck,
+        NoDefaultSecret $noDefaultSecretCheck,
+        PhpExtension $phpExtensionCheck,
+        PhpVersion $phpVersionCheck,
+        RequiredENV $requiredEnvCheck,
+        SecretLength $secretLengthCheck,
+        Timezone $timezoneCheck
+    ): Response {
+        $checks = [
+            $deprecatedConfigurationOptionCheck,
+            $dirReadableCheck,
+            $dirWritableCheck,
+            $phpExtensionCheck,
+            $phpVersionCheck,
+            $noDefaultSecretCheck,
+            $requiredEnvCheck,
+            $secretLengthCheck,
+            $timezoneCheck,
+        ];
+        $results = $this->runChecks($checks);
+        $data = $this->processResults($checks, $results);
+        return new JsonResponse($data);
+    }
+
     protected function processResults(array $checks, Collection $results): array
     {
         $rhett = [];
