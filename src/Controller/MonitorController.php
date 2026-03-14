@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Monitor\Composer;
+use App\Monitor\DatabaseConnection;
 use App\Monitor\DeprecatedConfigurationOption;
 use App\Monitor\Frontend;
 use App\Monitor\IliosFileSystem;
@@ -36,6 +37,7 @@ class MonitorController extends AbstractController
         ApcFragmentation $apcFragmentationCheck,
         ApcMemory $apcMemoryCheck,
         Composer $composerCheck,
+        DatabaseConnection $databaseConnectionCheck,
         DeprecatedConfigurationOption $deprecatedConfigurationOptionCheck,
         Frontend $frontendCheck,
         IliosFileSystem $fileSystemCheck,
@@ -51,6 +53,7 @@ class MonitorController extends AbstractController
             $apcMemoryCheck,
             $apcFragmentationCheck,
             $composerCheck,
+            $databaseConnectionCheck,
             $deprecatedConfigurationOptionCheck,
             $fileSystemCheck,
             $frontendCheck,
