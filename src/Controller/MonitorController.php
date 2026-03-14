@@ -72,7 +72,11 @@ class MonitorController extends AbstractController
             $timezoneCheck,
         ];
         $results = $this->runChecks($checks);
-
+        $data = $this->processResults($checks, $results);
+        return new JsonResponse($data);
+    }
+    protected function processResults(array $checks, Collection $results): array
+    {
         $rhett = [];
         foreach ($checks as $check) {
             $result = $results[$check];
@@ -84,10 +88,9 @@ class MonitorController extends AbstractController
             ];
         }
         $rhett['summary_status'] = $results->getFailureCount() ? 'KO' : 'OK';
-        return new JsonResponse(
-            $rhett
-        );
+        return $rhett;
     }
+
     protected function getStatusText(AbstractResult $result): string
     {
         return match (get_class($result)) {
