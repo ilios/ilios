@@ -158,6 +158,14 @@ services:
         $warningThreshold: 70
         $criticalThreshold: 90
 
+    Laminas\Diagnostics\Check\DirReadable:
+      arguments:
+        $path: "%kernel.cache_dir%"
+
+    Laminas\Diagnostics\Check\DirWritable:
+      arguments:
+        $path: "%kernel.cache_dir%"
+
     Laminas\Diagnostics\Check\PhpVersion:
       arguments:
         $expectedVersion: "8.4"

@@ -17,6 +17,8 @@ use App\Monitor\SecretLength;
 use App\Monitor\Timezone;
 use Laminas\Diagnostics\Check\ApcFragmentation;
 use Laminas\Diagnostics\Check\ApcMemory;
+use Laminas\Diagnostics\Check\DirReadable;
+use Laminas\Diagnostics\Check\DirWritable;
 use Laminas\Diagnostics\Check\PhpVersion;
 use Laminas\Diagnostics\Result\AbstractResult;
 use Laminas\Diagnostics\Result\Collection;
@@ -39,6 +41,8 @@ class MonitorController extends AbstractController
         Composer $composerCheck,
         DatabaseConnection $databaseConnectionCheck,
         DeprecatedConfigurationOption $deprecatedConfigurationOptionCheck,
+        DirReadable $dirReadableCheck,
+        DirWritable $dirWritableCheck,
         Frontend $frontendCheck,
         IliosFileSystem $fileSystemCheck,
         NoDefaultSecret $noDefaultSecretCheck,
@@ -55,6 +59,8 @@ class MonitorController extends AbstractController
             $composerCheck,
             $databaseConnectionCheck,
             $deprecatedConfigurationOptionCheck,
+            $dirReadableCheck,
+            $dirWritableCheck,
             $fileSystemCheck,
             $frontendCheck,
             $phpConfigCheck,
