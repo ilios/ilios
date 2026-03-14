@@ -23,11 +23,8 @@ use Laminas\Diagnostics\Check\DirWritable;
 use Laminas\Diagnostics\Check\PhpVersion;
 use Laminas\Diagnostics\Result\AbstractResult;
 use Laminas\Diagnostics\Result\Collection;
-use Laminas\Diagnostics\Result\Failure;
-use Laminas\Diagnostics\Result\Skip;
-use Laminas\Diagnostics\Result\Success;
-use Laminas\Diagnostics\Result\Warning;
 use Laminas\Diagnostics\Runner\Runner;
+use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -115,7 +112,7 @@ class MonitorController extends AbstractController
             $rhett[] = [
                 'check' => $check::class,
                 'description' => $check->getLabel(),
-                'status' => $this->getStatusText($result),
+                'status' => $this->getStatus($result),
                 'message' => $result->getMessage(),
             ];
         }
@@ -123,14 +120,13 @@ class MonitorController extends AbstractController
         return $rhett;
     }
 
-    protected function getStatusText(AbstractResult $result): string
+    protected function getStatus(AbstractResult $result): string
     {
-        return match (get_class($result)) {
-            Success::class => 'Success',
-            Failure::class => 'Failure',
-            Warning::class => 'Warning',
-            Skip::class => 'Skip',
-        };
+        // Use the class name of the actual result object as its own label.
+        // The four possible values are 'Success', 'Warning', 'Failure', and 'Skip'.
+        // Solution for stripping a FQN down to the basename taken from here:
+        // https://stackoverflow.com/a/25472778/307333
+        return new ReflectionClass($result)->getShortName();
     }
 
     protected function runChecks(array $checks): Collection
