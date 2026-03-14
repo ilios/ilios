@@ -83,6 +83,7 @@ class MonitorController extends AbstractController
                 'message' => $result->getMessage(),
             ];
         }
+        $rhett['summary_status'] = $results->getFailureCount() ? 'KO' : 'OK';
         return new JsonResponse(
             $rhett
         );
