@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\UserDTO;
+use App\Entity\User;
 
 final class UserData extends AbstractDataLoader
 {
@@ -249,7 +250,7 @@ final class UserData extends AbstractDataLoader
             'userSyncIgnore' => false,
             'addedViaIlios' => true,
             'examined' => false,
-            'icsFeedKey' => hash('sha256', microtime()),
+            'icsFeedKey' => User::generateIcsFeedKey(),
             'root' => false,
             'reports' => [],
             'school' => "1",
