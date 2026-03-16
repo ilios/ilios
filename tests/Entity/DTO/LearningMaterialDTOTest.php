@@ -35,6 +35,8 @@ final class LearningMaterialDTOTest extends TestCase
             null,
             true,
             null,
+            true,
+            null,
             null,
             null,
             null,
@@ -56,8 +58,6 @@ final class LearningMaterialDTOTest extends TestCase
         $this->dto->citation = 'Lorem Ipsum';
         $this->dto->copyrightPermission = true;
         $this->dto->copyrightRationale = 'this is mine.';
-        $this->dto->accessibilityPermission = true;
-        $this->dto->accessibilityRationale = 'this is mine.';
         $this->dto->courseLearningMaterials = ['1', '2', '3'];
         $this->dto->description = 'LM Description';
         $this->dto->filesize = 1100000;
