@@ -111,7 +111,6 @@ class MonitorController extends AbstractController
             $result = $results[$check];
             $rhett[] = [
                 'check' => $check::class,
-                'description' => $check->getLabel(),
                 'status' => $this->getStatus($result),
                 'message' => $result->getMessage(),
             ];
