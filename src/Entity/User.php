@@ -370,7 +370,7 @@ class User implements UserInterface
         $this->userSyncIgnore = false;
         $this->root = false;
 
-        $this->generateIcsFeedKey();
+        $this->icsFeedKey = self::generateIcsFeedKey();
     }
 
     public function setLastName(string $lastName): void
@@ -508,7 +508,7 @@ class User implements UserInterface
         return $this->userSyncIgnore;
     }
 
-    public function generateIcsFeedKey(): void
+    public static function generateIcsFeedKey(): string
     {
         $random = random_bytes(128);
 
@@ -516,7 +516,7 @@ class User implements UserInterface
         $key = microtime() . '_' . $random;
 
         // hash the string to give consistent length and URL safe characters
-        $this->icsFeedKey = hash('sha256', $key);
+        return hash('sha256', $key);
     }
 
     public function setIcsFeedKey(string $icsFeedKey): void

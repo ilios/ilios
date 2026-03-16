@@ -76,7 +76,7 @@ interface UserInterface extends
     /**
      * Generate a random string to use as the calendar feed url
      */
-    public function generateIcsFeedKey(): void;
+    public static function generateIcsFeedKey(): string;
 
     public function setIcsFeedKey(string $icsFeedKey): void;
     public function getIcsFeedKey(): string;
