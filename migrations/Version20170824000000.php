@@ -99,7 +99,7 @@ final class Version20170824000000 extends MysqlMigration
 
         $mapped = array_map(function ($name, $value) {
             if (is_bool($value)) {
-                $value = (integer) $value;
+                $value = (int) $value;
             }
             return [
                 'name' => $name,
