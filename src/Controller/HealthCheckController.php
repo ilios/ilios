@@ -27,9 +27,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class MonitorController extends AbstractController
+class HealthCheckController extends AbstractController
 {
-    #[Route('ilios/health')]
+    #[Route('ilios/health-check')]
     public function health(
         HealthCheckRunner $runner,
         ApcFragmentation $apcFragmentationCheck,
@@ -72,7 +72,7 @@ class MonitorController extends AbstractController
         return new JsonResponse($rhett);
     }
 
-    #[Route('ilios/health/minimal')]
+    #[Route('ilios/health-check/minimal')]
     public function minimalHealth(
         HealthCheckRunner $runner,
         DeprecatedConfigurationOption $deprecatedConfigurationOptionCheck,
