@@ -16,15 +16,12 @@ use App\Monitor\PhpExtension;
 use App\Monitor\RequiredENV;
 use App\Monitor\SecretLength;
 use App\Monitor\Timezone;
+use App\Service\HealthCheckRunner;
 use Laminas\Diagnostics\Check\ApcFragmentation;
 use Laminas\Diagnostics\Check\ApcMemory;
 use Laminas\Diagnostics\Check\DirReadable;
 use Laminas\Diagnostics\Check\DirWritable;
 use Laminas\Diagnostics\Check\PhpVersion;
-use Laminas\Diagnostics\Result\AbstractResult;
-use Laminas\Diagnostics\Result\Collection;
-use Laminas\Diagnostics\Runner\Runner;
-use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +31,7 @@ class MonitorController extends AbstractController
 {
     #[Route('ilios/health')]
     public function health(
+        HealthCheckRunner $runner,
         ApcFragmentation $apcFragmentationCheck,
         ApcMemory $apcMemoryCheck,
         Composer $composerCheck,
@@ -52,7 +50,7 @@ class MonitorController extends AbstractController
         SecretLength $secretLengthCheck,
         Timezone $timezoneCheck
     ): Response {
-        $checks = [
+        $rhett = $runner->run([
             $apcMemoryCheck,
             $apcFragmentationCheck,
             $composerCheck,
@@ -70,14 +68,13 @@ class MonitorController extends AbstractController
             $requiredEnvCheck,
             $secretLengthCheck,
             $timezoneCheck,
-        ];
-        $results = $this->runChecks($checks);
-        $data = $this->processResults($checks, $results);
-        return new JsonResponse($data);
+        ]);
+        return new JsonResponse($rhett);
     }
 
     #[Route('ilios/health/minimal')]
     public function minimalHealth(
+        HealthCheckRunner $runner,
         DeprecatedConfigurationOption $deprecatedConfigurationOptionCheck,
         DirReadable $dirReadableCheck,
         DirWritable $dirWritableCheck,
@@ -88,7 +85,7 @@ class MonitorController extends AbstractController
         SecretLength $secretLengthCheck,
         Timezone $timezoneCheck
     ): Response {
-        $checks = [
+        $rhett = $runner->run([
             $deprecatedConfigurationOptionCheck,
             $dirReadableCheck,
             $dirWritableCheck,
@@ -98,40 +95,7 @@ class MonitorController extends AbstractController
             $requiredEnvCheck,
             $secretLengthCheck,
             $timezoneCheck,
-        ];
-        $results = $this->runChecks($checks);
-        $data = $this->processResults($checks, $results);
-        return new JsonResponse($data);
-    }
-
-    protected function processResults(array $checks, Collection $results): array
-    {
-        $rhett = [];
-        foreach ($checks as $check) {
-            $result = $results[$check];
-            $rhett[] = [
-                'check' => $check::class,
-                'status' => $this->getStatus($result),
-                'message' => $result->getMessage(),
-            ];
-        }
-        $rhett['summary_status'] = $results->getFailureCount() ? 'KO' : 'OK';
-        return $rhett;
-    }
-
-    protected function getStatus(AbstractResult $result): string
-    {
-        // Use the class name of the actual result object as its own label.
-        // The four possible values are 'Success', 'Warning', 'Failure', and 'Skip'.
-        // Solution for stripping a FQN down to the basename taken from here:
-        // https://stackoverflow.com/a/25472778/307333
-        return new ReflectionClass($result)->getShortName();
-    }
-
-    protected function runChecks(array $checks): Collection
-    {
-        $runner = new Runner();
-        $runner->addChecks($checks);
-        return $runner->run();
+        ]);
+        return new JsonResponse($rhett);
     }
 }
