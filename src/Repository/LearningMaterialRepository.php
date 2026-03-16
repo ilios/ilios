@@ -120,6 +120,8 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
                 $lm['citation'],
                 $lm['copyrightPermission'],
                 $lm['copyrightRationale'],
+                $lm['accessibilityPermission'],
+                $lm['accessibilityRationale'],
                 $lm['filename'],
                 $lm['mimetype'],
                 $lm['filesize'],

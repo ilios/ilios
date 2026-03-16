@@ -65,6 +65,16 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             type: "string"
         ),
         new OA\Property(
+            "accessibilityPermission",
+            description: "Meets accessibility standards",
+            type: "boolean"
+        ),
+        new OA\Property(
+            "accessibilityRationale",
+            description: "Accessibility rationale",
+            type: "string"
+        ),
+        new OA\Property(
             "filename",
             description: "Filename",
             type: "string"
@@ -164,6 +174,14 @@ class LearningMaterialDTO
     public ?string $copyrightRationale;
 
     #[IA\Expose]
+    #[IA\Type('boolean')]
+    public ?bool $accessibilityPermission;
+
+    #[IA\Expose]
+    #[IA\Type('string')]
+    public ?string $accessibilityRationale;
+
+    #[IA\Expose]
     #[IA\Type('string')]
     public ?string $filename;
 
@@ -228,6 +246,8 @@ class LearningMaterialDTO
         ?string $citation,
         ?bool $copyrightPermission,
         ?string $copyrightRationale,
+        ?bool $accessibilityPermission,
+        ?string $accessibilityRationale,
         ?string $filename,
         ?string $mimetype,
         ?int $filesize,
@@ -246,6 +266,8 @@ class LearningMaterialDTO
         $this->citation = $citation;
         $this->copyrightPermission = $copyrightPermission;
         $this->copyrightRationale = $copyrightRationale;
+        $this->accessibilityPermission = $accessibilityPermission;
+        $this->accessibilityRationale = $accessibilityRationale;
         $this->filename = $filename;
         $this->mimetype = $mimetype;
         $this->filesize = $filesize;
