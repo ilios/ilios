@@ -76,7 +76,6 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
             'copyrightPermission' => ['copyrightPermission', false],
             'copyrightRationale' => ['copyrightRationale', 'fair use'],
             'accessibilityPermission' => ['accessibilityPermission', false],
-            'accessibilityRationale' => ['accessibilityRationale', 'fair use'],
             // 'link' => ['link', 'http://lorem.ipsum'], // skipped
         ];
     }

@@ -58,9 +58,6 @@ interface LearningMaterialInterface extends
 
     public function hasAccessibilityPermission(): ?bool;
 
-    public function setAccessibilityRationale(?string $accessibilityRationale): void;
-    public function getAccessibilityRationale(): ?string;
-
     public function getUploadDate(): DateTime;
 
     public function setMimetype(?string $mimetype): void;
