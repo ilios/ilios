@@ -146,7 +146,8 @@ COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
 ###############################################################################
 FROM php-base AS admin
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-
+# remove memory-limit for cli tasks
+COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
 # semi-colon seperates list of github users that can SSH in
 ENV GITHUB_ACCOUNT_SSH_USERS=''
 
@@ -189,9 +190,8 @@ CMD ["ilios:update-frontend"]
 ###############################################################################
 # Multi-purpose container to run a single Ilios console command and then exit
 ###############################################################################
-FROM php-base AS console-command
+FROM admin AS console-command
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
-COPY docker/cli/php-cli.ini $PHP_INI_DIR/conf.d/99-php-cli-overrides.ini
 ENTRYPOINT ["bin/console"]
 CMD ["list"]
 
