@@ -181,7 +181,7 @@ For more information on Apache Environments, `SetEnv`, and `SetEnvIf`, please re
 If you would like to verify that you have set all of the ENV variables required to install Ilios or use its command-line tools, you can run the following console command to do and Ilios-readiness health check (example shown being run in the context of the `apache` command-line user):
 
 ```bash
-sudo -u apache bin/console monitor:list
+sudo -u apache bin/console ilios:health-check
 ```
 
 If you are missing anything, the output will let you know by returning a message with the missing items and/or system that are incorrectly configured, like this:

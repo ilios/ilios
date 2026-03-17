@@ -120,7 +120,7 @@ This will create your database schema, with all tables and constraints, and will
 There are a number of automated health checks which will ensure that your system is configured optimally and point to any issues. Run them as:
 
 ```bash
-bin/console monitor:health  --group=default --group=production
+bin/console ilios:health-check
 ```
 
 * Finally, you should clear all cached items from the system, including the Symfony Cache (and its store on the filesystem) and the APC cache:
