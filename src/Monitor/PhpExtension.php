@@ -28,7 +28,7 @@ class PhpExtension implements CheckInterface
             return new Success(implode(', ', $this->extensions) . ' PHP extensions loaded.');
         }
 
-        return new Failure(implode(', ', $missingExtensions) . 'PHP extensions not loaded.');
+        return new Failure(implode(', ', $missingExtensions) . ' PHP extensions not loaded.');
     }
 
     public function getLabel(): string
