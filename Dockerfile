@@ -31,7 +31,7 @@ HEALTHCHECK --interval=5s CMD /usr/bin/nc -vz -w1 127.0.0.1 80
 # Dependencies we need in all PHP containers
 # Production ready composer pacakges installed
 ###############################################################################
-FROM php:8.4-fpm AS php-base
+FROM php:8.5-fpm AS php-base
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /srv/app/
@@ -60,7 +60,6 @@ RUN set -eux; \
     docker-php-ext-enable apcu; \
     pecl install redis \
     && docker-php-ext-enable redis; \
-    docker-php-ext-enable opcache; \
     rm -rf /var/lib/apt/lists/*; \
     rm -rf /tmp/pear; \
     # remove the apt source files to save space
@@ -284,7 +283,7 @@ LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 # Our original and still relevant apache based runtime, includes everything in
 # a single container
 ###############################################################################
-FROM php:8.4-apache AS php-apache
+FROM php:8.5-apache AS php-apache
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=src /src/app /var/www/ilios
@@ -304,7 +303,6 @@ RUN set -eux; \
     mkdir -p /usr/src/php/ext/apcu; \
     curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1; \
     docker-php-ext-install apcu; \
-    docker-php-ext-enable opcache; \
     pecl install redis \
     && docker-php-ext-enable redis; \
     # enable modules
