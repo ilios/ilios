@@ -1,0 +1,109 @@
+{#
+    This template will render all given health-check results.
+
+    Context variables in this template:
+
+    "data" - an assoc. array, with two entries:
+      - "results" - a list of health-check results. Each one contains the check's name, its status, and a status message.
+      - "summary_status" - the overall status indicator. OK if all checks passed succesfully, KO otherwise.
+
+    Example "data" value:
+
+    ```json
+    {
+        "results": [
+            {
+                "check": "App\Monitor\Timezone",
+                "status": "Success",
+                "message": "Default timezone is UTC",
+            },
+            {
+                "check": "App\Monitor\DatabaseConnection",
+                "status": "Failure",
+                "message": "Database connection is down."
+            }
+        ],
+        "summary_status": "KO"
+    }
+    ```
+#}
+{% extends 'base.html.twig' %}
+{% block title %}Ilios | Health Checks{% endblock %}
+{% block stylesheets %}
+<style>
+    {{  parent() }}
+
+    table {
+        table-layout: fixed;
+        width: 100%;
+        margin: 10px auto;
+        border-collapse: collapse;
+    }
+
+    caption {
+        padding: 5px;
+        font-weight: bold;
+        font-size: large;
+    }
+    td, th {
+        border: 1px solid #000;
+        padding: 1rem;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    tbody tr:nth-of-type(odd) {
+        background-color: #e6e6e6;
+    }
+    tfoot td {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    td.failure {
+        background-color: #f00;
+        color: #fff;
+    }
+    td.success {
+        background-color: #080;
+        color: #fff;
+    }
+    td.warning {
+        background-color: #ff0;
+    }
+    td.skip {
+        background-color: #000;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+{% block body %}
+    <table>
+        <caption>Health Checks ({{ data.results|length }})</caption>
+        <thead>
+            <tr>
+                <th>Check</th>
+                <th>Status</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for result in data.results %}
+            <tr>
+                <td>{{ result.check }}</td>
+                <td class={{ result.status | lower }}>{{ result.status }}</td>
+                <td>{{ result.message }}</td>
+            </tr>
+        {%  endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">Status Summary: {{ data.summary_status }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div>
+    </div>
+{% endblock %}

@@ -23,7 +23,9 @@ use Laminas\Diagnostics\Check\DirReadable;
 use Laminas\Diagnostics\Check\DirWritable;
 use Laminas\Diagnostics\Check\PhpVersion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -31,6 +33,7 @@ class HealthCheckController extends AbstractController
 {
     #[Route('ilios/health-check')]
     public function health(
+        Request $request,
         HealthCheckRunner $runner,
         ApcFragmentation $apcFragmentationCheck,
         ApcMemory $apcMemoryCheck,
@@ -69,11 +72,16 @@ class HealthCheckController extends AbstractController
             $secretLengthCheck,
             $timezoneCheck,
         ]);
+        $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
+        if ($acceptHeader->has('text/html')) {
+            return $this->render('health-check/index.twig', [ 'data' => $rhett ]);
+        }
         return new JsonResponse($rhett);
     }
 
     #[Route('ilios/health-check/minimal')]
     public function minimalHealth(
+        Request $request,
         HealthCheckRunner $runner,
         DeprecatedConfigurationOption $deprecatedConfigurationOptionCheck,
         DirReadable $dirReadableCheck,
@@ -96,6 +104,10 @@ class HealthCheckController extends AbstractController
             $secretLengthCheck,
             $timezoneCheck,
         ]);
+        $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
+        if ($acceptHeader->has('text/html')) {
+            return $this->render('health-check/index.twig', [ 'data' => $rhett ]);
+        }
         return new JsonResponse($rhett);
     }
 }
