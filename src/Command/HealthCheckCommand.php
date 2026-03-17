@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'app:health-check',
+    name: 'ilios:health-check',
     description: 'Performs the full suite of application health monitoring checks.'
 )]
 class HealthCheckCommand extends Command
