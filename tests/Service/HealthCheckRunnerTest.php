@@ -12,10 +12,9 @@ use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 use Mockery as m;
 use App\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \App\Service\HealthCheckRunner
- */
+#[CoversClass(HealthCheckRunner::class)]
 final class HealthCheckRunnerTest extends TestCase
 {
     protected HealthCheckRunner $runner;

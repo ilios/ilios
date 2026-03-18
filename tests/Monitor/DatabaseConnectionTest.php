@@ -12,10 +12,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \App\Monitor\DatabaseConnection
- */
+#[CoversClass(DatabaseConnection::class)]
 final class DatabaseConnectionTest extends TestCase
 {
     public function testLabel(): void

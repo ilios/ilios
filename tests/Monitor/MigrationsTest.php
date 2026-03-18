@@ -14,10 +14,9 @@ use Doctrine\Migrations\Version\MigrationStatusCalculator;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \App\Monitor\Migrations
- */
+#[CoversClass(Migrations::class)]
 final class MigrationsTest extends TestCase
 {
     public function testLabel(): void

@@ -8,10 +8,9 @@ use App\Monitor\PhpExtension;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use App\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @covers \App\Monitor\PhpExtension
- */
+#[CoversClass(PhpExtension::class)]
 final class PhpExtensionTest extends TestCase
 {
     public function testLabel(): void
