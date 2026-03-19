@@ -16,10 +16,6 @@ ilios_apiinfo:
     template:    'apiinfo.html.twig'
     _format:     'html'
 
-_monitor:
-  resource: "@LiipMonitorBundle/Resources/config/routing.xml"
-  prefix: /ilios/health
-
 ilios_swagger_redirect_docs:
   path: /api/docs/
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController

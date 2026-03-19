@@ -237,7 +237,7 @@ jobs:
         docker run -d --name ilios-php-apache -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH php-apache:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-php-apache
-        docker exec ilios-php-apache php /var/www/ilios/bin/console monitor:health
+        docker exec ilios-php-apache php /var/www/ilios/bin/console ilios:health-check --minimal
         docker stop ilios-php-apache
         docker rm --volumes ilios-php-apache
         docker image rm php-apache:${{ matrix.arch }}-testing
@@ -259,7 +259,7 @@ jobs:
         docker run -d --name ilios-fpm -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-fpm
-        docker exec ilios-fpm php bin/console monitor:health
+        docker exec ilios-fpm php bin/console ilios:health-check --minimal
         docker stop ilios-fpm
         docker rm --volumes ilios-fpm
         docker image rm fpm:${{ matrix.arch }}-testing
@@ -270,7 +270,7 @@ jobs:
         docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm-dev:${{ matrix.arch }}-testing
         docker ps
         docker ps | grep -q ilios-fpm-dev
-        docker exec ilios-fpm-dev php bin/console monitor:health
+        docker exec ilios-fpm-dev php bin/console ilios:health-check --minimal
         docker stop ilios-fpm-dev
         docker rm --volumes ilios-fpm-dev
         docker image rm fpm-dev:${{ matrix.arch }}-testing

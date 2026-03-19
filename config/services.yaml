@@ -141,25 +141,39 @@ services:
       calls:
         - [ setNormalizer, ['@Symfony\Component\Serializer\Normalizer\NormalizerInterface'] ]
 
-    App\Monitor\IliosFileSystem:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
+    App\Monitor\:
+      resource: '../src/Monitor'
 
-    App\Monitor\Frontend:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
+    App\Monitor\Migrations:
+      arguments:
+        $dependencyFactory: '@doctrine.migrations.dependency_factory'
 
-    App\Monitor\PhpConfiguration:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
+    App\Monitor\PhpExtension:
+      arguments:
+        $extensions: [apcu, mbstring, ldap, xml, dom, mysqlnd, pdo, zip, json, zlib, ctype, iconv]
 
-    App\Monitor\Composer:
-      autoconfigure: false #needed to override the default group
-      tags:
-      - { name: liip_monitor.check, group: production }
+    Laminas\Diagnostics\Check\ApcFragmentation:
+      arguments:
+        $warningThreshold: 70
+        $criticalThreshold: 90
+
+    Laminas\Diagnostics\Check\ApcMemory:
+      arguments:
+        $warningThreshold: 70
+        $criticalThreshold: 90
+
+    Laminas\Diagnostics\Check\DirReadable:
+      arguments:
+        $path: "%kernel.cache_dir%"
+
+    Laminas\Diagnostics\Check\DirWritable:
+      arguments:
+        $path: "%kernel.cache_dir%"
+
+    Laminas\Diagnostics\Check\PhpVersion:
+      arguments:
+        $expectedVersion: "8.4"
+        $operator: ">="
 
     League\Flysystem\FilesystemOperator:
       factory: ['@App\Service\FilesystemFactory', getFilesystem]
