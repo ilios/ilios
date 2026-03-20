@@ -256,8 +256,14 @@ class CasAuthentication implements AuthenticationInterface
      */
     protected function generateSignature(string $value): string
     {
+        //Create a key that will fit within SODIUM_CRYPTO_GENERICHASH_KEYBYTES_MAX
+        $key = sodium_crypto_generichash(
+            $this->kernelSecret . self::REDIRECT_COOKIE,
+            '',
+            SODIUM_CRYPTO_GENERICHASH_KEYBYTES_MAX
+        );
         return sodium_bin2hex(
-            sodium_crypto_generichash($value, $this->kernelSecret . self::REDIRECT_COOKIE)
+            sodium_crypto_generichash($value, $key)
         );
     }
 }
