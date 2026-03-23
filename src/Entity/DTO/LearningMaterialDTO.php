@@ -65,8 +65,8 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             type: "string"
         ),
         new OA\Property(
-            "accessibilityPermission",
-            description: "Meets accessibility standards",
+            "markedAccessible",
+            description: "Has been marked accessibile",
             type: "boolean"
         ),
         new OA\Property(
@@ -170,7 +170,7 @@ class LearningMaterialDTO
 
     #[IA\Expose]
     #[IA\Type('boolean')]
-    public ?bool $accessibilityPermission;
+    public ?bool $markedAccessible;
 
     #[IA\Expose]
     #[IA\Type('string')]
@@ -237,7 +237,7 @@ class LearningMaterialDTO
         ?string $citation,
         ?bool $copyrightPermission,
         ?string $copyrightRationale,
-        ?bool $accessibilityPermission,
+        ?bool $markedAccessible,
         ?string $filename,
         ?string $mimetype,
         ?int $filesize,
@@ -256,7 +256,7 @@ class LearningMaterialDTO
         $this->citation = $citation;
         $this->copyrightPermission = $copyrightPermission;
         $this->copyrightRationale = $copyrightRationale;
-        $this->accessibilityPermission = $accessibilityPermission;
+        $this->markedAccessible = $markedAccessible;
         $this->filename = $filename;
         $this->mimetype = $mimetype;
         $this->filesize = $filesize;

@@ -45,7 +45,7 @@ class LearningMaterialDecoratorFactory
             $learningMaterial->getCitation(),
             $learningMaterial->hasCopyrightPermission(),
             $learningMaterial->getCopyrightRationale(),
-            $learningMaterial->hasAccessibilityPermission(),
+            $learningMaterial->hasMarkedAccessible(),
             $learningMaterial->getFilename(),
             $learningMaterial->getMimetype(),
             $learningMaterial->getFilesize(),

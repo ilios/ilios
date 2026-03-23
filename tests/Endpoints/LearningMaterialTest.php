@@ -44,7 +44,7 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
         'sessionLearningMaterials',
         'courseLearningMaterials',
         'copyrightPermission',
-        'accessibilityPermission',
+        'markedAccessible',
     ];
     protected string $testName =  'learningMaterials';
 
@@ -75,7 +75,7 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
             'citation' => ['citation', 'dev/null'],
             'copyrightPermission' => ['copyrightPermission', false],
             'copyrightRationale' => ['copyrightRationale', 'fair use'],
-            'accessibilityPermission' => ['accessibilityPermission', false],
+            'markedAccessible' => ['markedAccessible', false],
             // 'link' => ['link', 'http://lorem.ipsum'], // skipped
         ];
     }

@@ -43,7 +43,7 @@ final class LoadLearningMaterialData extends AbstractFixture implements ORMFixtu
             $entity->setOriginalAuthor($arr['originalAuthor']);
             $entity->setCopyrightRationale($arr['copyrightRationale']);
             $entity->setCopyrightPermission($arr['copyrightPermission']);
-            $entity->setAccessibilityPermission($arr['accessibilityPermission']);
+            $entity->setMarkedAccessible($arr['markedAccessible']);
             $entity->setUserRole(
                 $this->getReference(
                     'learningMaterialUserRoles' . $arr['userRole'],

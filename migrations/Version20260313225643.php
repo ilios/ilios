@@ -38,11 +38,11 @@ final class Version20260313225643 extends AbstractMigration
         }
 
         // add LearningMaterial attribute
-        $this->addSql('ALTER TABLE learning_material ADD accessibility_permission TINYINT DEFAULT false');
+        $this->addSql('ALTER TABLE learning_material ADD marked_accessible TINYINT DEFAULT false');
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE learning_material DROP accessibility_permission');
+        $this->addSql('ALTER TABLE learning_material DROP marked_accessible');
     }
 }
