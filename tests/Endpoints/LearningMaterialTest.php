@@ -114,7 +114,7 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
             'noCopyrightPermission' => [[1], ['copyrightPermission' => false]],
             'copyrightRationale' => [[2, 3, 4, 5, 6, 7, 8, 9], ['copyrightRationale' => 'i own it']],
             'markedAccessible' => [[0, 2, 3, 4, 5, 6 ,7 ,8 ,9], ['markedAccessible' => true]],
-            'markedAccessible' => [[1], ['markedAccessible' => false]],
+            'noMarkedAccessible' => [[1], ['markedAccessible' => false]],
             'filename' => [[2], ['filename' => 'testfile.txt']],
             'mimetype' => [[2], ['mimetype' => 'text/plain']],
             'filesize' => [[2, 3, 4, 5, 6, 7, 8, 9], ['filesize' => 1000]],
