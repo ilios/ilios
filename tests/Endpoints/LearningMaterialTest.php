@@ -113,6 +113,8 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
             'copyrightPermission' => [[0, 2, 3, 4, 5, 6 ,7 ,8 ,9], ['copyrightPermission' => true]],
             'noCopyrightPermission' => [[1], ['copyrightPermission' => false]],
             'copyrightRationale' => [[2, 3, 4, 5, 6, 7, 8, 9], ['copyrightRationale' => 'i own it']],
+            'markedAccessible' => [[0, 2, 3, 4, 5, 6 ,7 ,8 ,9], ['markedAccessible' => true]],
+            'markedAccessible' => [[1], ['markedAccessible' => false]],
             'filename' => [[2], ['filename' => 'testfile.txt']],
             'mimetype' => [[2], ['mimetype' => 'text/plain']],
             'filesize' => [[2, 3, 4, 5, 6, 7, 8, 9], ['filesize' => 1000]],
@@ -225,7 +227,7 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
         $filteredData = $this->getFiltered($endpoint, $responseKey, $filters, $jwt);
         $this->assertEquals(10, count($filteredData));
         foreach ($filteredData as $lm) {
-            $this->assertEquals(9, count($lm));
+            $this->assertEquals(10, count($lm));
             foreach (self::UNBLANKED_ATTRIBUTES as $attr) {
                 $this->assertArrayHasKey($attr, $lm);
             }
@@ -240,7 +242,7 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
         $filteredData = $this->getFiltered($endpoint, $responseKey, [], $jwt);
         $this->assertEquals(10, count($filteredData));
         foreach ($filteredData as $lm) {
-            $this->assertEquals(9, count($lm));
+            $this->assertEquals(10, count($lm));
             foreach (self::UNBLANKED_ATTRIBUTES as $attr) {
                 $this->assertArrayHasKey($attr, $lm);
             }
