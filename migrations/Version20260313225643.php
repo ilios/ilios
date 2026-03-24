@@ -6,9 +6,8 @@ namespace Ilios\Migrations;
 
 use App\Classes\MysqlMigration;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
 
-final class Version20260313225643 extends AbstractMigration
+final class Version20260313225643 extends MysqlMigration
 {
     public function getDescription(): string
     {
