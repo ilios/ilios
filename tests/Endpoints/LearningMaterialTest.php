@@ -75,7 +75,7 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
             'citation' => ['citation', 'dev/null'],
             'copyrightPermission' => ['copyrightPermission', false],
             'copyrightRationale' => ['copyrightRationale', 'fair use'],
-            'markedAccessible' => ['markedAccessible', false],
+            'markedNotAccessible' => ['markedAccessible', false],
             // 'link' => ['link', 'http://lorem.ipsum'], // skipped
         ];
     }
@@ -114,7 +114,7 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
             'noCopyrightPermission' => [[1], ['copyrightPermission' => false]],
             'copyrightRationale' => [[2, 3, 4, 5, 6, 7, 8, 9], ['copyrightRationale' => 'i own it']],
             'markedAccessible' => [[0, 2, 3, 4, 5, 6 ,7 ,8 ,9], ['markedAccessible' => true]],
-            'noMarkedAccessible' => [[1], ['markedAccessible' => false]],
+            'markedNotAccessible' => [[1], ['markedAccessible' => false]],
             'filename' => [[2], ['filename' => 'testfile.txt']],
             'mimetype' => [[2], ['mimetype' => 'text/plain']],
             'filesize' => [[2, 3, 4, 5, 6, 7, 8, 9], ['filesize' => 1000]],
