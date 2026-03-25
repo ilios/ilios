@@ -129,7 +129,6 @@ class TypeRegistry
         $filters[$this->inflector->pluralize($propertyName)] = ['type' => Type::listOf(match ($type) {
             'string' => IDType::string(),
             'integer' => IDType::int(),
-            default => throw new Exception("Unhandled property type $type encountered."),
         }) ];
 
         $notIdProperties = array_diff($exposedProperties, $idProperties);
