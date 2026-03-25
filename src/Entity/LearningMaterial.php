@@ -296,7 +296,7 @@ class LearningMaterial implements LearningMaterialInterface
         $this->markedAccessible = $markedAccessible;
     }
 
-    public function hasMarkedAccessible(): ?bool
+    public function isMarkedAccessible(): ?bool
     {
         return $this->markedAccessible;
     }

@@ -56,7 +56,7 @@ interface LearningMaterialInterface extends
 
     public function setMarkedAccessible(?bool $markedAccessible): void;
 
-    public function hasMarkedAccessible(): ?bool;
+    public function isMarkedAccessible(): ?bool;
 
     public function getUploadDate(): DateTime;
 
