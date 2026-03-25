@@ -25,7 +25,7 @@ final class Version20260313225643 extends MysqlMigration
             foreach ($rows as $arr) {
                 $schoolId = $arr['school_id'];
                 $inserts[] = "({$schoolId}, 'learningMaterialAccessibilityRequired', 'false')";
-                $inserts[] = "({$schoolId}, 'learningMaterialAccessibilityRequiredMessage', '')";
+                $inserts[] = "({$schoolId}, 'learningMaterialAccessibilityRequirementsLink', '')";
             }
             $insertSql .= implode(',', $inserts);
             unset($rows);
