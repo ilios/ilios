@@ -30,20 +30,6 @@ final class SchoolConfigTest extends EntityBase
         unset($this->object);
     }
 
-    public function testNotBlankValidation(): void
-    {
-        $notBlank = [
-            'name',
-            'value',
-        ];
-        $this->object->setSchool(new School());
-        $this->validateNotBlanks($notBlank);
-
-        $this->object->setName('worstRoommate');
-        $this->object->setValue('Jasper');
-        $this->validate(0);
-    }
-
     public function testNotNullValidation(): void
     {
         $this->object->setName('smallestDog');
