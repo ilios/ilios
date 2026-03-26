@@ -228,6 +228,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'citation' => 'dinner is ready',
             'mimetype' => 'citation',
+            'markedAccessible' => false,
         ];
     }
 
@@ -246,6 +247,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'link' => 'https://example.com',
             'mimetype' => 'link',
+            'markedAccessible' => false,
         ];
     }
 

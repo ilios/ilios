@@ -148,7 +148,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\Type(type: 'bool')]
-    protected ?bool $markedAccessible = null;
+    protected bool $markedAccessible = false;
 
     #[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
@@ -291,12 +291,12 @@ class LearningMaterial implements LearningMaterialInterface
         return $this->copyrightRationale;
     }
 
-    public function setMarkedAccessible(?bool $markedAccessible): void
+    public function setMarkedAccessible(bool $markedAccessible): void
     {
         $this->markedAccessible = $markedAccessible;
     }
 
-    public function isMarkedAccessible(): ?bool
+    public function isMarkedAccessible(): bool
     {
         return $this->markedAccessible;
     }
