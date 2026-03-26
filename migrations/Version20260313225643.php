@@ -11,7 +11,7 @@ final class Version20260313225643 extends MysqlMigration
 {
     public function getDescription(): string
     {
-        return 'Adds accessibility attribute columns to learning materials.';
+        return 'Adds accessibility attribute column to learning materials.';
     }
 
     public function up(Schema $schema): void
