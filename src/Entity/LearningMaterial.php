@@ -144,7 +144,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected ?string $copyrightRationale = null;
 
-    #[ORM\Column(name: 'marked_accessible', type: 'boolean', nullable: true)]
+    #[ORM\Column(name: 'marked_accessible', type: 'boolean', nullable: false)]
     #[IA\Expose]
     #[IA\Type('boolean')]
     #[Assert\Type(type: 'bool')]
