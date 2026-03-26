@@ -104,11 +104,11 @@ class UsermaterialController extends AbstractController
         }
 
         $criteria = [];
-        $beforeTimestamp = $request->get('before');
+        $beforeTimestamp = $request->query->get('before');
         if (!is_null($beforeTimestamp)) {
             $criteria['before'] = DateTime::createFromFormat('U', $beforeTimestamp);
         }
-        $afterTimestamp = $request->get('after');
+        $afterTimestamp = $request->query->get('after');
         if (!is_null($afterTimestamp)) {
             $criteria['after'] = DateTime::createFromFormat('U', $afterTimestamp);
         }

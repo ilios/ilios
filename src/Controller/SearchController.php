@@ -111,10 +111,10 @@ class SearchController extends AbstractController
             throw new AccessDeniedException();
         }
 
-        $query = $request->get('q');
+        $query = $request->query->get('q');
 
-        $onlySuggest = (bool) $request->get('onlySuggest');
-        $size = $request->get('size');
+        $onlySuggest = (bool) $request->query->get('onlySuggest');
+        $size = $request->query->get('size');
 
         if ($size === null) {
             $size = 100;

@@ -103,15 +103,15 @@ class SchooleventController extends AbstractController
             throw new NotFoundHttpException(sprintf('The school \'%s\' was not found.', $id));
         }
 
-        if ($sessionId = $request->get('session')) {
+        if ($sessionId = $request->query->get('session')) {
             $session = $sessionRepository->findOneBy(['id' => $sessionId]);
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
             $events = $schoolRepository->findSessionEventsForSchool($school->getId(), $session->getId());
         } else {
-            $fromTimestamp = $request->get('from') ?? '';
-            $toTimestamp = $request->get('to') ?? '';
+            $fromTimestamp = $request->query->get('from') ?? '';
+            $toTimestamp = $request->query->get('to') ?? '';
             $from = DateTime::createFromFormat('U', $fromTimestamp);
             $to = DateTime::createFromFormat('U', $toTimestamp);
 

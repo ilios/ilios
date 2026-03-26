@@ -145,7 +145,7 @@ class Sessions extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $q = $request->get('q');
+        $q = $request->query->get('q');
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $q && '' !== $q) {

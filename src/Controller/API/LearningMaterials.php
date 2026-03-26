@@ -190,7 +190,7 @@ class LearningMaterials
         TokenStorageInterface $tokenStorage
     ): Response {
         $parameters = ApiRequestParser::extractParameters($request);
-        $q = $request->get('q');
+        $q = $request->query->get('q');
         if (null !== $q) {
             $dtos = $this->repository->findDTOsByQ(
                 $q,

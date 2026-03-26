@@ -165,8 +165,8 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $my = $request->get('my');
-        $q = $request->get('q');
+        $my = $request->query->get('my');
+        $q = $request->query->get('q');
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $my) {
