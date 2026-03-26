@@ -16,7 +16,7 @@ final class Version20260313225643 extends MysqlMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE learning_material ADD marked_accessible TINYINT DEFAULT false');
+        $this->addSql('ALTER TABLE learning_material ADD marked_accessible TINYINT NOT NULL');
     }
 
     public function down(Schema $schema): void
