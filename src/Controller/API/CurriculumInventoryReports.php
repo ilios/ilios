@@ -370,7 +370,7 @@ class CurriculumInventoryReports extends AbstractApiController
         methods: ['POST']
     )]
     #[OA\Post(
-        path: '/api/{version}/{id}/rollover',
+        path: '/api/{version}/curriculuminventoryreports/{id}/rollover',
         summary: 'Rollover a report by ID.',
         requestBody: new OA\RequestBody(
             required: true,
