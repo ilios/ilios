@@ -8,6 +8,7 @@ use App\Classes\ServiceTokenUserInterface;
 use App\Classes\VoterPermissions;
 use App\Entity\PendingUserUpdateInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 
 class PendingUserUpdate extends AbstractReadWriteEntityVoter
 {
@@ -23,8 +24,12 @@ class PendingUserUpdate extends AbstractReadWriteEntityVoter
         );
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
-    {
+    protected function voteOnAttribute(
+        string $attribute,
+        mixed $subject,
+        TokenInterface $token,
+        ?Vote $vote = null
+    ): bool {
         $user = $token->getUser();
         if (!$user instanceof ServiceTokenUserInterface) {
             return false;

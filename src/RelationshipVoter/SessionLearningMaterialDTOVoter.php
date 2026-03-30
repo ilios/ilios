@@ -10,6 +10,7 @@ use App\Entity\DTO\SessionLearningMaterialDTO;
 use App\Service\SessionUserPermissionChecker;
 use DateTime;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 
 class SessionLearningMaterialDTOVoter extends AbstractVoter
 {
@@ -24,8 +25,12 @@ class SessionLearningMaterialDTOVoter extends AbstractVoter
         );
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
-    {
+    protected function voteOnAttribute(
+        string $attribute,
+        mixed $subject,
+        TokenInterface $token,
+        ?Vote $vote = null
+    ): bool {
         $user = $token->getUser();
         if (!$user instanceof SessionUserInterface) {
             return false;
