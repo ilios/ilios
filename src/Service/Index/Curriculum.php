@@ -295,8 +295,8 @@ class Curriculum extends OpenSearchBase
         $mustMatch = [];
 
         /**
-         * Keyword index types cannot user the match_phrase_prefix query
-         * So they have to be added using the match query
+         * Keyword index types cannot user the match_phrase_prefix query,
+         * so they have to be added using the match query
          */
         foreach ($keywordFields as $field) {
             $mustMatch[] = [ 'match' => [ $field => [
@@ -305,22 +305,16 @@ class Curriculum extends OpenSearchBase
             ] ] ];
         }
 
-        $mustMatch = array_reduce(
-            $mustFields,
-            function (array $carry, string $field) use ($query) {
-                $matches = array_map(function (string $type) use ($field, $query) {
-                    $fullField = "{$field}.{$type}";
-                    return [ 'match_phrase_prefix' => [ $fullField => ['query' => $query, '_name' => $fullField] ] ];
-                }, ['english', 'french', 'spanish']);
-
-                return array_merge($carry, $matches);
-            },
-            $mustMatch
-        );
+        foreach ($mustFields as $field) {
+            $mustMatch[] = [ 'match_phrase_prefix' => [ $field => [
+                'query' => $query,
+                '_name' => $field,
+            ] ] ];
+        }
 
 
         /**
-         * At least one of the mustMatch queries has to be a match
+         * At least one of the mustMatch queries has to be a match,
          * but we wrap it in a should block so they don't all have to match
          */
         $must = [
@@ -592,25 +586,11 @@ class Curriculum extends OpenSearchBase
         return $sessionIds;
     }
 
-    public static function getMapping(): array
+    public function getMapping(): array
     {
         $txtTypeField = [
             'type' => 'text',
-            'analyzer' => 'standard',
-            'fields' => [
-                'english' => [
-                    'type' => 'text',
-                    'analyzer' => 'english',
-                ],
-                'french' => [
-                    'type' => 'text',
-                    'analyzer' => 'french',
-                ],
-                'spanish' => [
-                    'type' => 'text',
-                    'analyzer' => 'spanish',
-                ],
-            ],
+            'analyzer' => $this->languageAnalyzer,
         ];
         $txtTypeFieldWithDidYouMean = $txtTypeField;
         $txtTypeFieldWithDidYouMean['fields']['trigram'] = ['type' => 'text', 'analyzer' => 'trigram'];
