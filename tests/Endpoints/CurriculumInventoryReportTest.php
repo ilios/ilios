@@ -524,25 +524,23 @@ final class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $newProgramId = json_decode($this->kernelBrowser->getResponse()->getContent(), true)['programs'][0]['id'];
 
 
-        $overrides = [
+        $rolloverDetails = [
             'name' => strrev($report['name']),
             'description' => strrev($report['description']),
             'year' => $report['year'] + 1,
             'program' => $newProgramId,
         ];
-        $parameters = array_merge($overrides, [
+        $parameters = [
             'version' => $this->apiVersion,
-            'object' => 'curriculuminventoryreports',
             'id' => $report['id'],
-        ]);
-        $this->createJsonRequest(
-            'POST',
+        ];
+        $this->createPostRequest(
             $this->getUrl(
                 $this->kernelBrowser,
                 'app_api_curriculuminventoryreports_rollover',
                 $parameters
             ),
-            null,
+            $rolloverDetails,
             $this->createJwtForRootUser($this->kernelBrowser)
         );
         $response = $this->kernelBrowser->getResponse();
@@ -550,13 +548,13 @@ final class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
         $data = json_decode($response->getContent(), true)['curriculumInventoryReports'];
         $newReport = $data[0];
 
-        $this->assertSame($overrides['name'], $newReport['name']);
+        $this->assertSame($rolloverDetails['name'], $newReport['name']);
         $this->assertNotSame($report['name'], $newReport['name']);
-        $this->assertSame($overrides['description'], $newReport['description']);
+        $this->assertSame($rolloverDetails['description'], $newReport['description']);
         $this->assertNotSame($report['description'], $newReport['description']);
-        $this->assertSame((int) $overrides['year'], (int) $newReport['year']);
+        $this->assertSame((int) $rolloverDetails['year'], (int) $newReport['year']);
         $this->assertNotSame((int) $report['year'], (int) $newReport['year']);
-        $this->assertSame($overrides['program'], $newReport['program']);
+        $this->assertSame($rolloverDetails['program'], $newReport['program']);
         $this->assertNotSame($report['program'], $newReport['program']);
     }
 

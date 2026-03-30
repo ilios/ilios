@@ -199,6 +199,30 @@ abstract class AbstractEndpoint extends WebTestCase
         $this->makeJsonRequest($this->kernelBrowser, $method, $url, $content, $jwt, $files);
     }
 
+    protected function createPostRequest(
+        string $url,
+        array $postData = [],
+        ?string $jwt = null,
+        array $files = [],
+    ): void {
+        $headers = [
+            'HTTP_ACCEPT' => 'application/json',
+            'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
+        ];
+
+        if (! empty($jwt)) {
+            $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $jwt;
+        }
+
+        $this->kernelBrowser->request(
+            'POST',
+            $url,
+            $postData,
+            $files,
+            $headers,
+        );
+    }
+
     /**
      * Create a JSON:API request
      */

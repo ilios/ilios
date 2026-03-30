@@ -262,12 +262,14 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
-        $newCourse = $this->rolloverCourse([
-            'id' => $course['id'],
+        $newCourse = $this->rolloverCourse(
+            $course['id'],
+            [
             'year' => 2032,
             'newStartDate' => 'false',
             'skipOfferings' => 'false',
-        ]);
+            ]
+        );
 
         $this->assertSame($course['title'], $newCourse['title']);
         $this->assertSame($course['level'], $newCourse['level']);
@@ -315,11 +317,13 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
-        $newCourse = $this->rolloverCourse([
-            'id' => $course['id'],
+        $newCourse = $this->rolloverCourse(
+            $course['id'],
+            [
             'year' => 2032,
             'newStartDate' => '2032-02-08',
-        ]);
+            ]
+        );
 
         $this->assertSame(2032, $newCourse['year']);
         $this->assertSame('2032-02-08T00:00:00+00:00', $newCourse['startDate'], 'start date is correct');
@@ -348,11 +352,13 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
-        $newCourse = $this->rolloverCourse([
-            'id' => $course['id'],
+        $newCourse = $this->rolloverCourse(
+            $course['id'],
+            [
             'year' => 2030,
             'skipOfferings' => true,
-        ]);
+            ]
+        );
 
         $this->assertSame(2030, $newCourse['year']);
         $newSessions = $newCourse['sessions'];
@@ -382,11 +388,13 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $course['year'] = intval(date('Y')) - 1;
         $newCourseTitle = 'New (very cool) course title';
 
-        $newCourse = $this->rolloverCourse([
-            'id' => $course['id'],
+        $newCourse = $this->rolloverCourse(
+            $course['id'],
+            [
             'year' => $course['year'],
             'newCourseTitle' => $newCourseTitle,
-        ]);
+            ]
+        );
 
         $this->assertSame($course['year'], $newCourse['year']);
         $this->assertSame($newCourseTitle, $newCourse['title']);
@@ -396,24 +404,24 @@ final class CourseTest extends AbstractReadWriteEndpoint
     {
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
-        $course['year'] = 2001; // most definitely yesteryear
-        $newCourseTitle = 'Does not matter';
 
         $parameters = [
             'version' => $this->apiVersion,
             'id' => $course['id'],
-            'year' => $course['year'],
-            'newCourseTitle' => $newCourseTitle,
         ];
 
-        $this->createJsonRequest(
-            'POST',
+        $rolloverDetails = [
+            'year' => 2001, // most definitely yesteryear
+            'newCourseTitle' => 'Does not matter',
+        ];
+
+        $this->createPostRequest(
             $this->getUrl(
                 $this->kernelBrowser,
                 "app_api_courses_rollover",
                 $parameters
             ),
-            null,
+            $rolloverDetails,
             $this->createJwtForRootUser($this->kernelBrowser)
         );
 
@@ -430,10 +438,12 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $all = $dataLoader->getAll();
         $course = $all[1];
 
-        $newCourse = $this->rolloverCourse([
-            'id' => $course['id'],
+        $newCourse = $this->rolloverCourse(
+            $course['id'],
+            [
             'year' => 2032,
-        ]);
+            ]
+        );
 
         $newSessionIds = $newCourse['sessions'];
         $this->assertEquals(5, count($newSessionIds));
@@ -466,13 +476,15 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
 
-        $newCourse = $this->rolloverCourse([
-            'id' => $course['id'],
+        $newCourse = $this->rolloverCourse(
+            $course['id'],
+            [
             'year' => 2032,
             'newStartDate' => 'false',
             'skipOfferings' => 'true',
             'newCohorts' => [5],
-        ]);
+            ]
+        );
 
         $this->assertSame($course['title'], $newCourse['title']);
         $this->assertCount(1, $newCourse['cohorts']);
@@ -496,20 +508,20 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $this->assertEquals('2', $newCourseObjectivesData[0]['programYearObjectives'][0]);
     }
 
-    protected function rolloverCourse(array $rolloverDetails): array
+    protected function rolloverCourse(int $courseId, array $rolloverDetails): array
     {
-        $parameters = array_merge([
+        $parameters = [
             'version' => $this->apiVersion,
-        ], $rolloverDetails);
+            'id' => $courseId,
+        ];
 
-        $this->createJsonRequest(
-            'POST',
+        $this->createPostRequest(
             $this->getUrl(
                 $this->kernelBrowser,
                 "app_api_courses_rollover",
                 $parameters
             ),
-            null,
+            $rolloverDetails,
             $this->createJwtForRootUser($this->kernelBrowser)
         );
 
@@ -606,21 +618,28 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $course = $dataLoader->getOne();
         $jwt = $this->createJwtFromUserId($this->kernelBrowser, 3);
-        $id = $course['id'];
 
-        $rolloverData = [
+        $parameters = [
             'version' => $this->apiVersion,
-            'id' => $id,
+            'id' => $course['id'],
+        ];
+        $rolloverDetails = [
             'year' => 2023,
             'newStartDate' => 'false',
             'skipOfferings' => 'false',
         ];
-        $this->canNot(
-            $this->kernelBrowser,
-            $jwt,
-            'POST',
-            $this->getUrl($this->kernelBrowser, "app_api_courses_rollover", $rolloverData)
+
+        $this->createPostRequest(
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_courses_rollover",
+                $parameters
+            ),
+            $rolloverDetails,
+            $jwt
         );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
     public function testCourseCanBeUnlocked(): void
