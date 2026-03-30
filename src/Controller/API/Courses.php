@@ -530,7 +530,7 @@ class Courses extends AbstractApiController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $year = (int) $request->get('year');
+        $year = (int) $request->request->get('year');
         if (!$year) {
             throw new InvalidInputWithSafeUserMessageException("year is missing");
         }
@@ -538,9 +538,9 @@ class Courses extends AbstractApiController
             throw new InvalidInputWithSafeUserMessageException("year is invalid");
         }
         $options = [];
-        $options['new-start-date'] = $request->get('newStartDate');
-        $options['skip-offerings'] = $request->get('skipOfferings');
-        $options['new-course-title'] = $request->get('newCourseTitle');
+        $options['new-start-date'] = $request->request->get('newStartDate');
+        $options['skip-offerings'] = $request->request->get('skipOfferings');
+        $options['new-course-title'] = $request->request->get('newCourseTitle');
 
         $options = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -550,7 +550,12 @@ class Courses extends AbstractApiController
             return $item;
         }, $options);
 
-        $newCohortIds =  $request->get('newCohorts', []);
+        $newCohortIds = [];
+        // can't use $request->request->get() here since the return value is non-scalar,
+        // and InputBag::get() would throw an exception.
+        if ($request->request->has('newCohorts')) {
+            $newCohortIds = $request->request->all()['newCohorts'];
+        }
 
         $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options, $newCohortIds);
 
