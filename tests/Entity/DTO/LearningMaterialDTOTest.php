@@ -35,6 +35,7 @@ final class LearningMaterialDTOTest extends TestCase
             null,
             true,
             null,
+            true,
             null,
             null,
             null,

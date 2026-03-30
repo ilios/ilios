@@ -24,6 +24,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'lorem ipsum',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => [1],
             'courseLearningMaterials' => ['1', '3'],
             'citation' => 'citation1',
@@ -40,6 +41,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'lorem ipsum',
             'copyrightPermission' => false,
+            'markedAccessible' => false,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [2],
             'link' => 'https://example.com/example-file.txt',
@@ -56,6 +58,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => ['2'],
             'courseLearningMaterials' => ['4'],
             'filename' => 'testfile.txt',
@@ -73,6 +76,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => [],
             'courseLearningMaterials' => [],
             'filename' => 'testfile.pdf',
@@ -90,6 +94,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => ['3'],
             'courseLearningMaterials' => ['5'],
             'filename' => 'testfile.pdf',
@@ -107,6 +112,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => ['4'],
             'courseLearningMaterials' => ['6'],
             'filename' => 'testfile.pdf',
@@ -124,6 +130,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => ['5'],
             'courseLearningMaterials' => ['7'],
             'filename' => 'testfile.pdf',
@@ -141,6 +148,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => ['6'],
             'courseLearningMaterials' => ['8'],
             'filename' => 'testfile.pdf',
@@ -157,6 +165,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => ['7'],
             'courseLearningMaterials' => ['9'],
             'filename' => 'testfile.pdf',
@@ -173,6 +182,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'i own it',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'sessionLearningMaterials' => ['8', '9'],
             'courseLearningMaterials' => ['10'],
             'filename' => 'testfile.pdf',
@@ -197,6 +207,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'copyrightRationale' => 'permissions granted by original author',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
             'citation' => 'lorem ipsum',
             'mimetype' => 'citation',
         ];
@@ -217,6 +228,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'citation' => 'dinner is ready',
             'mimetype' => 'citation',
+            'markedAccessible' => false,
         ];
     }
 
@@ -235,6 +247,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'owningUser' => "1",
             'link' => 'https://example.com',
             'mimetype' => 'link',
+            'markedAccessible' => false,
         ];
     }
 
@@ -252,6 +265,7 @@ final class LearningMaterialData extends AbstractDataLoader
             'courseLearningMaterials' => [],
             'copyrightRationale' => 'i have permission',
             'copyrightPermission' => true,
+            'markedAccessible' => true,
         ];
     }
 

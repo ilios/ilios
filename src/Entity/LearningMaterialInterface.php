@@ -54,6 +54,10 @@ interface LearningMaterialInterface extends
     public function setCopyrightRationale(?string $copyrightRationale): void;
     public function getCopyrightRationale(): ?string;
 
+    public function setMarkedAccessible(bool $markedAccessible): void;
+
+    public function isMarkedAccessible(): bool;
+
     public function getUploadDate(): DateTime;
 
     public function setMimetype(?string $mimetype): void;

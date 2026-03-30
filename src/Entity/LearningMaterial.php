@@ -144,6 +144,12 @@ class LearningMaterial implements LearningMaterialInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected ?string $copyrightRationale = null;
 
+    #[ORM\Column(name: 'marked_accessible', type: 'boolean', nullable: false)]
+    #[IA\Expose]
+    #[IA\Type('boolean')]
+    #[Assert\Type(type: 'bool')]
+    protected bool $markedAccessible = false;
+
     #[ORM\Column(name: 'filename', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]
     #[IA\Type('string')]
@@ -283,6 +289,16 @@ class LearningMaterial implements LearningMaterialInterface
     public function getCopyrightRationale(): ?string
     {
         return $this->copyrightRationale;
+    }
+
+    public function setMarkedAccessible(bool $markedAccessible): void
+    {
+        $this->markedAccessible = $markedAccessible;
+    }
+
+    public function isMarkedAccessible(): bool
+    {
+        return $this->markedAccessible;
     }
 
     public function setFilename(?string $filename): void

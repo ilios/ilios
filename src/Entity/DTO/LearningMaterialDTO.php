@@ -65,6 +65,11 @@ use Symfony\Component\Serializer\Annotation\Ignore;
             type: "string"
         ),
         new OA\Property(
+            "markedAccessible",
+            description: "Has been marked accessibile",
+            type: "boolean"
+        ),
+        new OA\Property(
             "filename",
             description: "Filename",
             type: "string"
@@ -164,6 +169,10 @@ class LearningMaterialDTO
     public ?string $copyrightRationale;
 
     #[IA\Expose]
+    #[IA\Type('boolean')]
+    public ?bool $markedAccessible;
+
+    #[IA\Expose]
     #[IA\Type('string')]
     public ?string $filename;
 
@@ -228,6 +237,7 @@ class LearningMaterialDTO
         ?string $citation,
         ?bool $copyrightPermission,
         ?string $copyrightRationale,
+        ?bool $markedAccessible,
         ?string $filename,
         ?string $mimetype,
         ?int $filesize,
@@ -246,6 +256,7 @@ class LearningMaterialDTO
         $this->citation = $citation;
         $this->copyrightPermission = $copyrightPermission;
         $this->copyrightRationale = $copyrightRationale;
+        $this->markedAccessible = $markedAccessible;
         $this->filename = $filename;
         $this->mimetype = $mimetype;
         $this->filesize = $filesize;

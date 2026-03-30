@@ -45,8 +45,8 @@ class SchoolConfig implements SchoolConfigInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 65000)]
+    #[Assert\NotNull]
+    #[Assert\Length(min: 0, max: 65000)]
     protected string $value;
 
     #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'configurations')]
