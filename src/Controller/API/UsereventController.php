@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -102,15 +102,15 @@ class UsereventController extends AbstractController
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
-        if ($sessionId = $request->get('session')) {
+        if ($sessionId = $request->query->get('session')) {
             $session = $sessionRepository->findOneBy(['id' => $sessionId]);
             if (!$session) {
                 throw new NotFoundHttpException(sprintf('The session \'%s\' was not found.', $id));
             }
             $events = $repository->findSessionEventsForUser($user->getId(), $session->getId());
         } else {
-            $fromTimestamp = $request->get('from') ?? '';
-            $toTimestamp = $request->get('to') ?? '';
+            $fromTimestamp = $request->query->get('from') ?? '';
+            $toTimestamp = $request->query->get('to') ?? '';
             $from = DateTime::createFromFormat('U', $fromTimestamp);
             $to = DateTime::createFromFormat('U', $toTimestamp);
 

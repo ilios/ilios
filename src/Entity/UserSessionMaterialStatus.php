@@ -30,7 +30,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[Assert\NotNull]
-    #[Assert\Choice([
+    #[Assert\Choice(choices: [
         UserSessionMaterialStatusInterface::NONE,
         UserSessionMaterialStatusInterface::STARTED,
         UserSessionMaterialStatusInterface::COMPLETE,

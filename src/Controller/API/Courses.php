@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -165,8 +165,8 @@ class Courses extends AbstractApiController
         AuthorizationCheckerInterface $authorizationChecker,
         ApiResponseBuilder $builder
     ): Response {
-        $my = $request->get('my');
-        $q = $request->get('q');
+        $my = $request->query->get('my');
+        $q = $request->query->get('q');
         $parameters = ApiRequestParser::extractParameters($request);
 
         if (null !== $my) {
@@ -530,7 +530,7 @@ class Courses extends AbstractApiController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $year = (int) $request->get('year');
+        $year = (int) $request->request->get('year');
         if (!$year) {
             throw new InvalidInputWithSafeUserMessageException("year is missing");
         }
@@ -538,9 +538,9 @@ class Courses extends AbstractApiController
             throw new InvalidInputWithSafeUserMessageException("year is invalid");
         }
         $options = [];
-        $options['new-start-date'] = $request->get('newStartDate');
-        $options['skip-offerings'] = $request->get('skipOfferings');
-        $options['new-course-title'] = $request->get('newCourseTitle');
+        $options['new-start-date'] = $request->request->get('newStartDate');
+        $options['skip-offerings'] = $request->request->get('skipOfferings');
+        $options['new-course-title'] = $request->request->get('newCourseTitle');
 
         $options = array_map(function ($item) {
             $item = $item == 'null' ? null : $item;
@@ -550,7 +550,12 @@ class Courses extends AbstractApiController
             return $item;
         }, $options);
 
-        $newCohortIds =  $request->get('newCohorts', []);
+        $newCohortIds = [];
+        // can't use $request->request->get() here since the return value is non-scalar,
+        // and InputBag::get() would throw an exception.
+        if ($request->request->has('newCohorts')) {
+            $newCohortIds = $request->request->all()['newCohorts'];
+        }
 
         $newCourse = $rolloverCourse->rolloverCourse($course->getId(), $year, $options, $newCohortIds);
 

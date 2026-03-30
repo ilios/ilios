@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 use function sleep;
@@ -65,7 +65,7 @@ class AuthController extends AbstractController
             throw new Exception('Attempted to access token with no valid user');
         }
 
-        $ttl = $request->get('ttl') ?: 'PT8H';
+        $ttl = $request->query->get('ttl') ?: 'PT8H';
         $jwt = $jwtManager->refreshToken($token->getAttribute('jwt'), $ttl);
 
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);

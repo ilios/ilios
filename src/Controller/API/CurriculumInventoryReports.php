@@ -25,7 +25,7 @@ use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -446,10 +446,10 @@ class CurriculumInventoryReports extends AbstractApiController
             throw new AccessDeniedException('Unauthorized access!');
         }
 
-        $name = $request->get('name');
-        $description = $request->get('description');
+        $name = $request->request->get('name');
+        $description = $request->request->get('description');
 
-        $year = $request->get('year');
+        $year = $request->request->get('year');
         if ($year) {
             $year = (int) $year;
             if ($year < 2000 || $year > 3000) {
@@ -459,7 +459,7 @@ class CurriculumInventoryReports extends AbstractApiController
 
         $program = $report->getProgram();
         // optional program override
-        $programId = (int) $request->get('program');
+        $programId = (int) $request->request->get('program');
         if ($programId) {
             $program = $this->programRepository->findOneById($programId);
             if (! $program) {
