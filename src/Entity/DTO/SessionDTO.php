@@ -7,7 +7,7 @@ namespace App\Entity\DTO;
 use App\Attributes as IA;
 use DateTime;
 use OpenApi\Attributes as OA;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[IA\DTO('sessions')]
 #[IA\ExposeGraphQL]
