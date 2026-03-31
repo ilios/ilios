@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ebc27d692ceba7c107c3d87cb55cf7f7",
+    "content-hash": "2eb235f76ac1c618392179f603e41544",
     "packages": [
         {
             "name": "async-aws/core",
@@ -12282,16 +12282,16 @@
         },
         {
             "name": "liip/test-fixtures-bundle",
-            "version": "3.8.1",
+            "version": "3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipTestFixturesBundle.git",
-                "reference": "c05c8ffbf57a45a1c9652d8f2aa1f5d9393f4dda"
+                "reference": "dfb7f32ecbbee95af0e086f2b90bfb08c04f28cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/c05c8ffbf57a45a1c9652d8f2aa1f5d9393f4dda",
-                "reference": "c05c8ffbf57a45a1c9652d8f2aa1f5d9393f4dda",
+                "url": "https://api.github.com/repos/liip/LiipTestFixturesBundle/zipball/dfb7f32ecbbee95af0e086f2b90bfb08c04f28cb",
+                "reference": "dfb7f32ecbbee95af0e086f2b90bfb08c04f28cb",
                 "shasum": ""
             },
             "require": {
@@ -12363,9 +12363,9 @@
             ],
             "support": {
                 "issues": "https://github.com/liip/LiipTestFixturesBundle/issues",
-                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.8.1"
+                "source": "https://github.com/liip/LiipTestFixturesBundle/tree/3.9.0"
             },
-            "time": "2026-02-20T19:35:17+00:00"
+            "time": "2026-03-26T18:01:52+00:00"
         },
         {
             "name": "mockery/mockery",
