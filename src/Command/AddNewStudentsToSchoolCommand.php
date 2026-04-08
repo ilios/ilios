@@ -9,10 +9,10 @@ use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -39,26 +39,17 @@ class AddNewStudentsToSchoolCommand extends Command
     ) {
         parent::__construct();
     }
-
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'schoolId',
-                InputArgument::REQUIRED,
-                'Which school ID to add new students to.'
-            )
-            ->addArgument(
-                'filter',
-                InputArgument::REQUIRED,
-                'An LDAP filter to use in finding students who belong to the school in the directory.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $filter = $input->getArgument('filter');
-        $schoolId = $input->getArgument('schoolId');
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Argument(
+            description: 'The ID of the school to which new students will be added.',
+            name: 'schoolId'
+        )] int $schoolId,
+        #[Argument(
+            description: 'An LDAP filter to use in finding students who belong to the school in the directory.'
+        )] string $filter
+    ): int {
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new Exception(

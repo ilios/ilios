@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use App\Service\Directory;
@@ -30,19 +29,13 @@ class FindUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'searchTerms',
-                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
-                'What to search for (separate multiple names with a space).'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $searchTerms = $input->getArgument('searchTerms');
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(
+            description: 'What to search for (separate multiple names with a space).',
+            name: 'searchTerms'
+        )] array $searchTerms
+    ): int {
         $userRecords = $this->directory->find($searchTerms);
         if (!$userRecords) {
             $output->writeln('<error>Unable to find anyone matching those terms in the directory.</error>');
