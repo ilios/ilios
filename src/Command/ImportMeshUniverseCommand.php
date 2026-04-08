@@ -43,13 +43,14 @@ class ImportMeshUniverseCommand extends Command
         parent::__construct();
     }
 
+
     public function __invoke(
         InputInterface $input,
         OutputInterface $output,
         #[Option(description: 'The MeSH descriptors URL.', name: 'url', shortcut: 'u')] ?string $url = null,
         #[Option(description: 'The MeSH descriptors file path.', name: 'path', shortcut: 'p')] ?string $path = null,
         #[Option(
-            description: 'The MeSH descriptors publication year. Acceptable values are 2025, 2026.',
+            description: 'The MeSH descriptors publication year. Acceptable values are 2025 and 2026.',
             name: 'year',
             shortcut: 'y'
         )] ?string $year = null,
