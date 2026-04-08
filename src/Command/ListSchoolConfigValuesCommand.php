@@ -35,9 +35,8 @@ class ListSchoolConfigValuesCommand extends Command
     public function __invoke(
         InputInterface $input,
         OutputInterface $output,
-        #[Argument(description: 'ID of the school.', name: 'school')] string $school,
+        #[Argument(description: 'ID of the school.', name: 'school')] string $schoolId,
     ): int {
-        $schoolId = $school;
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id {$schoolId}.</error>");
