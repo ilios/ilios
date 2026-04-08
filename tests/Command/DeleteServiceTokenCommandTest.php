@@ -55,7 +55,7 @@ final class DeleteServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('delete')->with($serviceTokenMock);
 
         $this->commandTester->execute([
-            DeleteServiceTokenCommand::ID_KEY => (string) $tokenId,
+            'id' => (string) $tokenId,
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -72,7 +72,7 @@ final class DeleteServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('findOneById')->with($tokenId)->andReturn(null);
 
         $this->commandTester->execute([
-            DeleteServiceTokenCommand::ID_KEY => (string) $tokenId,
+            'id' => (string) $tokenId,
         ]);
 
         $output = $this->commandTester->getDisplay();

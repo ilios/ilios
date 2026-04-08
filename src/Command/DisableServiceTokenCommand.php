@@ -21,8 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class DisableServiceTokenCommand extends Command
 {
-    public const string ID_KEY = 'id';
-
     public function __construct(protected ServiceTokenRepository $tokenRepository)
     {
         parent::__construct();
