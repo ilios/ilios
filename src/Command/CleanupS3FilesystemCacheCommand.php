@@ -35,7 +35,7 @@ class CleanupS3FilesystemCacheCommand extends Command
         $this->localCacheDirectory = $filesystemFactory->getLocalS3CacheDirectory();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Checking for available disk space.</info>');
         $percentageFree = $this->getFreeSpace();

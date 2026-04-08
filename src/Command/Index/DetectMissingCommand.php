@@ -33,7 +33,7 @@ class DetectMissingCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->materialIndex->isEnabled()) {
             $output->writeln("<comment>Indexing is not currently configured.</comment>");

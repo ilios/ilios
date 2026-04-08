@@ -25,7 +25,7 @@ class CreateCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("<info>Creating the search index.</info>");
         if (!$this->indexManager->isEnabled()) {

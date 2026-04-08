@@ -14,9 +14,9 @@ use App\Entity\UserInterface;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -39,9 +39,6 @@ class InstallFirstUserCommand extends Command
     private const string FIRST_NAME = 'First';
     private const string LAST_NAME = 'User';
 
-    /**
-     * Constructor.
-     */
     public function __construct(
         protected UserRepository $userRepository,
         protected SchoolRepository $schoolRepository,
@@ -52,29 +49,15 @@ class InstallFirstUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'school',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'A valid school id.'
-            )
-            ->addOption(
-                'email',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'A valid email address.'
-            );
-    }
-
     /**
-     * {@inheritdoc}
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(description: 'A valid school id.', name: 'school')] ?string $school = null,
+        #[Option(description: 'A valid email address.', name: 'email')] ?string $email = null,
+    ): int {
         // prevent this command to run on a non-empty user store.
         $existingUser = $this->userRepository->findOneBy([]);
         if (! empty($existingUser)) {
@@ -91,12 +74,12 @@ class InstallFirstUserCommand extends Command
             throw new Exception('No schools found. Please load schools into this Ilios instance first.');
         }
 
-        $schoolId = $input->getOption('school');
+        $schoolId = $school;
         if (!$schoolId) {
             $schoolTitles = [];
-            /** @var SchoolInterface $school */
-            foreach ($schools as $school) {
-                $schoolTitles[$school->getTitle()] = $school->getId();
+            /** @var SchoolInterface $schoolEntity */
+            foreach ($schools as $schoolEntity) {
+                $schoolTitles[$schoolEntity->getTitle()] = $schoolEntity->getId();
             }
             $helper = $this->getHelper('question');
             $question = new ChoiceQuestion(
@@ -108,14 +91,13 @@ class InstallFirstUserCommand extends Command
             $schoolTitle = $helper->ask($input, $output, $question);
             $schoolId = $schoolTitles[$schoolTitle];
         }
-        $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
-        if (!$school) {
+        $schoolEntity = $this->schoolRepository->findOneBy(['id' => $schoolId]);
+        if (!$schoolEntity) {
             throw new Exception(
                 "School with id {$schoolId} could not be found."
             );
         }
 
-        $email = $input->getOption('email');
         if (! $email) {
             $question = new Question("What is the user's Email Address? ");
             $question->setValidator(function ($answer) {
@@ -140,7 +122,7 @@ class InstallFirstUserCommand extends Command
         $user->setUserSyncIgnore(false);
         $user->setRoot(true);
 
-        $user->setSchool($school);
+        $user->setSchool($schoolEntity);
         $this->userRepository->update($user);
 
         /** @var AuthenticationInterface $authentication */

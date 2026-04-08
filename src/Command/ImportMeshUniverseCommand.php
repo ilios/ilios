@@ -9,11 +9,11 @@ use App\Service\Index\Mesh;
 use Ilios\MeSH\Parser;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -43,32 +43,17 @@ class ImportMeshUniverseCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'url',
-                'u',
-                InputOption::VALUE_REQUIRED,
-                'The MeSH descriptors URL.'
-            )
-            ->addOption(
-                'path',
-                'p',
-                InputOption::VALUE_REQUIRED,
-                'The MeSH descriptors file path.'
-            )
-            ->addOption(
-                'year',
-                'y',
-                InputOption::VALUE_REQUIRED,
-                'The MeSH descriptors publication year. Acceptable values are '
-                . implode(', ', array_keys(self::YEARS)) . '.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(description: 'The MeSH descriptors URL.', name: 'url', shortcut: 'u')] ?string $url = null,
+        #[Option(description: 'The MeSH descriptors file path.', name: 'path', shortcut: 'p')] ?string $path = null,
+        #[Option(
+            description: 'The MeSH descriptors publication year. Acceptable values are 2025, 2026.',
+            name: 'year',
+            shortcut: 'y'
+        )] ?string $year = null,
+    ): int {
         if (!$this->lock()) {
             $output->writeln('The command is already running in another process.');
             return Command::SUCCESS;
@@ -77,7 +62,7 @@ class ImportMeshUniverseCommand extends Command
         $startTime = time();
         $output->writeln('Started MeSH universe import, this will take a while...');
         try {
-            $uri = $this->getUri($input);
+            $uri = $this->getUri($path, $url, $year);
         } catch (RuntimeException $e) {
             $output->writeln("<error>{$e->getMessage()}</error>");
             $this->release();
@@ -121,11 +106,11 @@ class ImportMeshUniverseCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function getUri(InputInterface $input): string
+    private function getUri(?string $path, ?string $url, ?string $year): string
     {
-        $path = trim((string) $input->getOption('path'));
-        $url = trim((string) $input->getOption('url'));
-        $year = trim((string) $input->getOption('year'));
+        $path = trim((string) $path);
+        $url = trim((string) $url);
+        $year = trim((string) $year);
 
         if ('' !== $path) {
             return $path;

@@ -32,7 +32,7 @@ class WaitForIndexCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->client) {
             throw new Exception("Search is not configured.");

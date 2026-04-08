@@ -6,9 +6,9 @@ namespace App\Command;
 
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -28,27 +28,24 @@ class EnableServiceTokenCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument(self::ID_KEY, InputArgument::REQUIRED, "The token ID.");
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $tokenId = $input->getArgument(self::ID_KEY);
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Argument(description: 'The token ID.', name: 'id')] string $id,
+    ): int {
         /** @var ?ServiceTokenInterface $token */
-        $token = $this->tokenRepository->findOneById($input->getArgument(self::ID_KEY));
+        $token = $this->tokenRepository->findOneById($id);
         if (!$token) {
-            $output->writeln("No service token with id #{$tokenId} was found.");
+            $output->writeln("No service token with id #{$id} was found.");
             return self::FAILURE;
         }
         if ($token->isEnabled()) {
-            $output->writeln("Token with id #{$tokenId} is already enabled, no action taken.");
+            $output->writeln("Token with id #{$id} is already enabled, no action taken.");
             return self::INVALID;
         }
         $token->setEnabled(true);
         $this->tokenRepository->update($token);
-        $output->writeln("Success! Token with id #{$tokenId} enabled.");
+        $output->writeln("Success! Token with id #{$id} enabled.");
         return Command::SUCCESS;
     }
 }

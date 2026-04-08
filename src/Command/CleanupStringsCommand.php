@@ -16,11 +16,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use HTMLPurifier;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -61,67 +61,52 @@ class CleanupStringsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'objective-title',
-                null,
-                InputOption::VALUE_NONE,
-                'Should we purify the markup of objective titles?'
-            )
-            ->addOption(
-                'learningmaterial-description',
-                null,
-                InputOption::VALUE_NONE,
-                'Should we purify the markup of learning material descriptions?'
-            )
-            ->addOption(
-                'learningmaterial-note',
-                null,
-                InputOption::VALUE_NONE,
-                'Should we purify the markup of learning materials notes?'
-            )
-            ->addOption(
-                'session-description',
-                null,
-                InputOption::VALUE_NONE,
-                'Should we purify the markup of session descriptions?'
-            )
-            ->addOption(
-                'learningmaterial-links',
-                null,
-                InputOption::VALUE_NONE,
-                'Should we attempt to correct learning material links?'
-            )
-            ->addOption(
-                'objective-title-blankspace',
-                null,
-                InputOption::VALUE_NONE,
-                'Should we remove leading and trailing blank space from objective titles?'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        if ($input->getOption('objective-title')) {
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(
+            description: 'Should we purify the markup of objective titles?',
+            name: 'objective-title'
+        )] bool $objectiveTitle = false,
+        #[Option(
+            description: 'Should we purify the markup of learning material descriptions?',
+            name: 'learningmaterial-description'
+        )] bool $learningmaterialDescription = false,
+        #[Option(
+            description: 'Should we purify the markup of learning materials notes?',
+            name: 'learningmaterial-note'
+        )] bool $learningmaterialNote = false,
+        #[Option(
+            description: 'Should we purify the markup of session descriptions?',
+            name: 'session-description'
+        )] bool $sessionDescription = false,
+        #[Option(
+            description: 'Should we attempt to correct learning material links?',
+            name: 'learningmaterial-links'
+        )] bool $learningmaterialLinks = false,
+        #[Option(
+            description: 'Should we remove leading and trailing blank space from objective titles?',
+            name: 'objective-title-blankspace'
+        )] bool $objectiveTitleBlankspace = false,
+    ): int {
+        if ($objectiveTitle) {
             $this->purifyObjectiveTitle($output);
         }
-        if ($input->getOption('learningmaterial-description')) {
+        if ($learningmaterialDescription) {
             $this->purifyLearningMaterialDescription($output);
         }
-        if ($input->getOption('learningmaterial-note')) {
+        if ($learningmaterialNote) {
             $this->purifyCourseLearningMaterialNote($output);
             $output->writeln('');
             $this->purifySessionLearningMaterialNote($output);
         }
-        if ($input->getOption('session-description')) {
+        if ($sessionDescription) {
             $this->purifySessionDescription($output);
         }
-        if ($input->getOption('learningmaterial-links')) {
+        if ($learningmaterialLinks) {
             $this->correctLearningMaterialLinks($output);
         }
-        if ($input->getOption('objective-title-blankspace')) {
+        if ($objectiveTitleBlankspace) {
             $this->removeObjectiveTitleBlankSpace($output);
         }
 

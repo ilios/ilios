@@ -38,7 +38,7 @@ class SyncAllUsersCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Starting User Sync Process.</info>');
         $this->userRepository->resetExaminedFlagForAllUsers();

@@ -6,10 +6,10 @@ namespace App\Command;
 
 use App\Repository\UserRepository;
 use App\Repository\UserRoleRepository;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -33,20 +33,15 @@ class SyncStudentStatusCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'filter',
-                InputArgument::REQUIRED,
-                'An LDAP filter to use in finding students in the directory.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Argument(
+            description: 'An LDAP filter to use in finding students in the directory.',
+            name: 'filter'
+        )] string $filter,
+    ): int {
         $output->writeln('<info>Starting student synchronization process.</info>');
-        $filter = $input->getArgument('filter');
 
         $students = $this->directory->findByLdapFilter($filter);
 

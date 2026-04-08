@@ -12,9 +12,9 @@ use App\Repository\AuditLogRepository;
 use App\Repository\OfferingRepository;
 use App\Service\Config;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
@@ -48,21 +48,14 @@ class SendChangeAlertsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'dry-run',
-                null,
-                InputOption::VALUE_NONE,
-                'Print out alerts instead of emailing them. Useful for testing/debugging purposes.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $isDryRun = $input->getOption('dry-run');
-
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(
+            description: 'Print out alerts instead of emailing them. Useful for testing/debugging purposes.',
+            name: 'dry-run'
+        )] bool $dryRun = false,
+    ): int {
         $alerts = $this->alertRepository->findBy(['dispatched' => false, 'tableName' => 'offering']);
         if ($alerts === []) {
             $output->writeln("<info>No undispatched offering alerts found.</info>");
@@ -145,7 +138,7 @@ class SendChangeAlertsCommand extends Command
                 ->subject($subject)
                 ->text($messageBody);
 
-            if ($isDryRun) {
+            if ($dryRun) {
                 $output->writeln($message->getHeaders()->toString());
                 $output->writeln($message->getTextBody());
             } else {
@@ -153,7 +146,7 @@ class SendChangeAlertsCommand extends Command
             }
             $sent++;
         }
-        if (! $isDryRun) {
+        if (! $dryRun) {
             // Mark all alerts as dispatched, regardless as to whether an actual email
             // was sent or not.
             // This is consistent with the Ilios v2 implementation of this process.

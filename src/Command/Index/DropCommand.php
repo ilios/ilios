@@ -11,9 +11,9 @@ use App\Message\UserIndexRequest;
 use App\Service\Index\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -32,20 +32,12 @@ class DropCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'force',
-                null,
-                InputOption::VALUE_NONE,
-                'Set this parameter to execute this action'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        if (! $input->getOption('force')) {
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(name: 'force', description: 'Set this parameter to execute this action')] bool $force = false,
+    ): int {
+        if (! $force) {
             $output->writeln(
                 '<error>ATTENTION:</error> This operation will remove all indexed data ' .
                     'and require a period of re-indexing in order to restart search functionality.'

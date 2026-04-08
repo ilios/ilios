@@ -7,9 +7,9 @@ namespace App\Command;
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,14 +30,11 @@ class RemoveRootUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('userId', InputArgument::REQUIRED, "The user's id.");
-    }
-
-    public function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $userId = $input->getArgument('userId');
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Argument(description: "The user's id.", name: 'userId')] string $userId,
+    ): int {
         /** @var ?UserInterface $user */
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {

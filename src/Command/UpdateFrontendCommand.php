@@ -10,10 +10,10 @@ use App\Service\Fetch;
 use DateTime;
 use SimpleXMLElement;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use App\Service\Filesystem;
@@ -71,35 +71,26 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'staging-build',
-                null,
-                InputOption::VALUE_NONE,
-                'Pull a staging build of the frontend'
-            )
-            ->addOption(
-                'at-version',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Request a specific version of the frontend (instead of the default active one)'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $stagingBuild = $input->getOption('staging-build');
-        $versionOverride = $input->getOption('at-version');
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(
+            description: 'Pull a staging build of the frontend',
+            name: 'staging-build'
+        )] bool $stagingBuild = false,
+        #[Option(
+            description: 'Request a specific version of the frontend (instead of the default active one)',
+            name: 'at-version'
+        )] ?string $atVersion = null,
+    ): int {
         $environment = $stagingBuild ? self::STAGING : self::PRODUCTION;
         $this->output = $output;
         $message = '';
         if ($stagingBuild) {
             $message .= ' from staging build';
         }
-        if ($versionOverride) {
-            $message .= ' at version ' . $versionOverride;
+        if ($atVersion) {
+            $message .= ' at version ' . $atVersion;
         }
 
         try {
@@ -108,7 +99,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
             foreach ($distributions as $path) {
                 $this->copyAssetsIntoPublicDirectory($path);
             }
-            $versionToActivate = $versionOverride ?? $currentVersion;
+            $versionToActivate = $atVersion ?? $currentVersion;
             if ($versionToActivate) {
                 $currentDistributionPathArr = array_filter(
                     $distributions,

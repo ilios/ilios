@@ -10,9 +10,9 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use Exception;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
@@ -33,18 +33,14 @@ class ChangeUsernameCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('userId', InputArgument::REQUIRED, 'A valid user id.');
-    }
-
     /**
-     * {@inheritdoc}
      * @throws Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $userId = $input->getArgument('userId');
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Argument(description: 'A valid user id.', name: 'userId')] string $userId,
+    ): int {
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception(

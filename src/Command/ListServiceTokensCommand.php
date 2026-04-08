@@ -10,10 +10,10 @@ use DateInterval;
 use DateTimeImmutable;
 use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -36,39 +36,21 @@ class ListServiceTokensCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                self::EXCLUDE_DISABLED_KEY,
-                null,
-                InputOption::VALUE_NONE,
-                'Exclude disabled tokens.',
-            )
-            ->addOption(
-                self::EXCLUDE_EXPIRED_KEY,
-                null,
-                InputOption::VALUE_NONE,
-                'Exclude expired tokens.',
-            )
-            ->addOption(
-                self::EXPIRES_WITHIN_KEY,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Only list tokes that are expiring within the given date interval from now.',
-                null,
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $excludeDisabledTokens = $input->getOption(self::EXCLUDE_DISABLED_KEY);
-        $excludeExpiredTokens = $input->getOption(self::EXCLUDE_EXPIRED_KEY);
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(description: 'Exclude disabled tokens.', name: 'exclude-disabled')] bool $excludeDisabled = false,
+        #[Option(description: 'Exclude expired tokens.', name: 'exclude-expired')] bool $excludeExpired = false,
+        #[Option(
+            description: 'Only list tokes that are expiring within the given date interval from now.',
+            name: 'expires-within'
+        )] ?string $expiresWithin = null,
+    ): int {
         $now = new DateTimeImmutable();
         $expirationDate = null;
-        if ($input->getOption(self::EXPIRES_WITHIN_KEY)) {
+        if ($expiresWithin) {
             try {
-                $ttl = new DateInterval($input->getOption(self::EXPIRES_WITHIN_KEY));
+                $ttl = new DateInterval($expiresWithin);
                 $expirationDate = $now->add($ttl);
             } catch (Exception $e) {
                 $output->writeln('Unable to parse given TTL value.');
@@ -76,16 +58,16 @@ class ListServiceTokensCommand extends Command
             }
         }
         $criteria = [];
-        if ($excludeDisabledTokens) {
+        if ($excludeDisabled) {
             $criteria['enabled'] = true;
         }
         $tokens = $this->tokenRepository->findBy($criteria);
         $tokens = array_values(
             array_filter(
                 $tokens,
-                function (ServiceTokenInterface $token) use ($excludeExpiredTokens, $now, $expirationDate) {
+                function (ServiceTokenInterface $token) use ($excludeExpired, $now, $expirationDate) {
                     $tokenExpiresAt = $token->getExpiresAt();
-                    if ($excludeExpiredTokens && $tokenExpiresAt < $now) {
+                    if ($excludeExpired && $tokenExpiresAt < $now) {
                         return false;
                     }
                     if ($expirationDate && $tokenExpiresAt > $expirationDate) {
@@ -98,10 +80,10 @@ class ListServiceTokensCommand extends Command
 
         $output->writeln('');
         $output->writeln("<options=bold,underscore>Service Tokens</>");
-        if ($excludeDisabledTokens) {
+        if ($excludeDisabled) {
             $output->writeln('- excludes disabled tokens.');
         }
-        if ($excludeExpiredTokens) {
+        if ($excludeExpired) {
             $output->writeln('- excludes expired tokens.');
         }
         if ($expirationDate) {
