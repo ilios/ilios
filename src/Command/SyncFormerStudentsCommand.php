@@ -40,10 +40,7 @@ class SyncFormerStudentsCommand extends Command
     public function __invoke(
         InputInterface $input,
         OutputInterface $output,
-        #[Argument(
-            description: 'An LDAP filter to use in finding former students in the directory.',
-            name: 'filter'
-        )] string $filter,
+        #[Argument(description: 'An LDAP filter to use in finding former students in the directory.')] string $filter,
     ): int {
         $output->writeln('<info>Starting former student synchronization process.</info>');
 

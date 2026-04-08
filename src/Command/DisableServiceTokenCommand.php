@@ -29,7 +29,7 @@ class DisableServiceTokenCommand extends Command
     public function __invoke(
         InputInterface $input,
         OutputInterface $output,
-        #[Argument(description: 'The token ID.', name: 'id')] string $id,
+        #[Argument(description: 'The token ID.')] string $id,
     ): int {
         /** @var ?ServiceTokenInterface $token */
         $token = $this->tokenRepository->findOneById($id);
