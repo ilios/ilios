@@ -107,7 +107,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $offering = $this->createOffering();
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
 
         $this->fs->shouldReceive('exists')->with(
@@ -209,7 +209,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
         $offering = $this->createOffering();
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
 
 
@@ -238,7 +238,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
         $offering = $this->createOffering();
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
 
         /** @var UserInterface $instructor */
@@ -276,7 +276,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
         $offering = $this->createOffering();
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
 
         $this->fs->shouldReceive('exists')->with(
@@ -302,7 +302,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
     {
         $offering = $this->createOffering();
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
         $schoolTitle = 'Global Health Sciences';
         $offering->getSession()->getCourse()->getSchool()->setTitle($schoolTitle);
@@ -334,7 +334,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
         $offering = $this->createOffering();
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
 
         $this->fs->shouldReceive('exists')->with(
@@ -360,7 +360,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
 
         $offering = $this->createOffering();
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
 
         $this->fs->shouldReceive('exists')->with(
@@ -385,7 +385,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
         $baseUrl = 'https://ilios.bar.edu';
 
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [2])->andReturn([]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [2])->andReturn([]);
 
         $this->commandTester->execute([
             'sender' => $sender,
@@ -438,7 +438,7 @@ final class SendTeachingRemindersCommandTest extends KernelTestCase
         $offering = $this->createOffering();
         $offering->setUrl(null);
         $this->fakeOfferingRepository->shouldReceive('getOfferingsForTeachingReminders')
-            ->with(7, [1])->andReturn([$offering]);
+            ->with(SendTeachingRemindersCommand::DEFAULT_DAYS_IN_ADVANCE, [1])->andReturn([$offering]);
         $this->fakeSchoolRepository->shouldReceive('getIds')->andReturn([1]);
 
         $this->fs->shouldReceive('exists')->with(

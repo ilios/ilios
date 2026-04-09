@@ -33,6 +33,8 @@ use Twig\Environment;
 )]
 class SendTeachingRemindersCommand extends Command
 {
+    public const int DEFAULT_DAYS_IN_ADVANCE = 7;
+
     public const string DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
 
     public const string DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
@@ -61,7 +63,9 @@ class SendTeachingRemindersCommand extends Command
             description: 'Prints out notification instead of emailing it. Useful for testing/debugging purposes.',
             name: 'dry-run'
         )] bool $isDryRun = false,
-        #[Option(description: 'How many days in advance of teaching events reminders should be sent.')] int $days = 7,
+        #[Option(
+            description: 'How many days in advance of teaching events reminders should be sent.'
+        )] int $days = self::DEFAULT_DAYS_IN_ADVANCE,
         #[Option(
             description: 'The subject line of the reminder emails.'
         )] string $subject = self::DEFAULT_MESSAGE_SUBJECT,
