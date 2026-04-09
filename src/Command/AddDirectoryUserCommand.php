@@ -9,6 +9,7 @@ use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Service\Directory;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -38,31 +39,18 @@ class AddDirectoryUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'campusId',
-                InputArgument::REQUIRED,
-                'The campus ID to lookup for adding the new user.'
-            )
-            ->addArgument(
-                'schoolId',
-                InputArgument::REQUIRED,
-                'The primary school of the new user.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $campusId = $input->getArgument('campusId');
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Argument(description: 'The campus ID to lookup for adding the new user.', name: 'campusId')] string $campusId,
+        #[Argument(description: 'The primary school of the new user', name: 'schoolId')] int $schoolId,
+    ): int {
         $user = $this->userRepository->findOneBy(['campusId' => $campusId]);
         if ($user) {
             throw new Exception(
                 'User #' . $user->getId() . " with campus id {$campusId} already exists."
             );
         }
-        $schoolId = $input->getArgument('schoolId');
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             throw new Exception(

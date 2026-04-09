@@ -8,13 +8,13 @@ use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -37,13 +37,10 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     * @throws Exception
-     */
-    public function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $reportId = $input->getArgument('reportId');
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'The ID of the CI report to preview.', name: 'reportId')] int $reportId,
+    ): int {
         /** @var ?CurriculumInventoryReportInterface $report */
         $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
@@ -81,11 +78,6 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $this->printAllResourceTypesTable($output, $preview['all_resource_types']);
 
         return Command::SUCCESS;
-    }
-
-    protected function configure(): void
-    {
-        $this->addArgument('reportId', InputArgument::REQUIRED, 'The ID of the CI report to preview.');
     }
 
     protected function printAllResourceTypesTable(OutputInterface $output, array $data): void

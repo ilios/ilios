@@ -8,11 +8,10 @@ use App\Repository\CurriculumInventoryReportRepository;
 use App\Repository\LearningMaterialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -36,20 +35,13 @@ class RotateFileAccessTokensCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'sparse-output',
-                null,
-                InputOption::VALUE_NONE,
-                'Output a plain text sparse output, useful for building a redirect map.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $sparseOutput = $input->getOption('sparse-output');
+    public function __invoke(
+        OutputInterface $output,
+        #[Option(
+            description: 'Output a plain text sparse output, useful for building a redirect map.',
+            name: 'sparse-output'
+        )] bool $sparseOutput = false,
+    ): int {
         $this->rotateReportTokens($output, $sparseOutput);
         $this->rotateMaterialTokens($output, $sparseOutput);
 

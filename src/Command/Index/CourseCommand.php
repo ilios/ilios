@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Command\Index;
 
 use App\Service\Index\Curriculum;
-use Composer\Console\Input\InputArgument;
 use DateTime;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -24,23 +23,14 @@ class CourseCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'courseId',
-                InputArgument::REQUIRED,
-                'The ID of the course to index.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'The ID of the course to index.', name: 'courseId')] int $id,
+    ): int {
         if (!$this->index->isEnabled()) {
             $output->writeln("<comment>Indexing is not currently configured.</comment>");
             return Command::FAILURE;
         }
-        $id = $input->getArgument('courseId');
         $this->index->index([$id], new DateTime());
 
         return Command::SUCCESS;

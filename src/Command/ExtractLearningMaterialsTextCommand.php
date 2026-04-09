@@ -7,10 +7,8 @@ namespace App\Command;
 use App\Message\LearningMaterialTextExtractionRequest;
 use App\Repository\LearningMaterialRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -28,28 +26,20 @@ class ExtractLearningMaterialsTextCommand extends Command
         protected MessageBusInterface $bus
     ) {
         parent::__construct();
-
-        $this
-            ->addOption(
-                'materials',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Comma-separated list list of materials to extract.',
-            )
-            ->addOption(
-                'overwrite',
-                null,
-                InputOption::VALUE_NONE,
-                'Overwrite existing text.',
-            );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $overwrite = $input->getOption('overwrite');
+    public function __invoke(
+        OutputInterface $output,
+        #[Option(
+            description: 'Comma-separated list list of materials to extract.',
+            name: 'materials'
+        )
+        ] ?string $materials = null,
+        #[Option(description: 'Overwrite existing text.', name: 'overwrite')] bool $overwrite = false,
+    ): int {
         $allIds = $this->learningMaterialRepository->getFileLearningMaterialIds();
-        if ($input->getOption('materials')) {
-            $ids = explode(',', $input->getOption('materials'));
+        if ($materials) {
+            $ids = explode(',', $materials);
             $allIds = array_intersect($allIds, $ids);
         }
         $count = count($allIds);

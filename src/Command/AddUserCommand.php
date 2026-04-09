@@ -12,9 +12,9 @@ use App\Entity\AuthenticationInterface;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -44,43 +44,22 @@ class AddUserCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $userOptions = [
-            'schoolId',
-            'firstName',
-            'lastName',
-            'email',
-            'telephoneNumber',
-            'campusId',
-            'username',
-            'password',
-        ];
-
-        foreach ($userOptions as $option) {
-            $this->addOption(
-                $option,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                "{$option} for new user"
-            );
-        }
-
-        $this->addOption(
-            'isRoot',
-            null,
-            InputOption::VALUE_OPTIONAL,
-            'Grants root privileges to new user.'
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     * @throws Exception
-     */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $schoolId = $input->getOption('schoolId');
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Option(description: 'School ID for new user', name: 'schoolId')] ?int $schoolId = null,
+        #[Option(description: 'First name for new user', name: 'firstName')] ?string $firstName = null,
+        #[Option(description: 'Last name for new user', name: 'lastName')] ?string $lastName = null,
+        #[Option(description: 'Email for new user')] ?string $email = null,
+        #[Option(
+            description: 'Telephone number for new user',
+            name: 'telephoneNumber'
+        )] ?string $telephoneNumber = null,
+        #[Option(description: 'Campus ID for new user', name: 'campusId')] ?string $campusId = null,
+        #[Option(description: 'Username for new user')] ?string $username = null,
+        #[Option(description: 'Password for new user')] ?string $password = null,
+        #[Option(description: 'Grants root privileges to the new user.', name: 'isRoot')] ?string $isRoot = null,
+    ): int {
         if (!$schoolId) {
             $schoolTitles = [];
             foreach ($this->schoolRepository->findBy([], ['title' => 'ASC']) as $school) {
@@ -103,18 +82,18 @@ class AddUserCommand extends Command
             );
         }
         $userRecord = [
-            'firstName'         => $input->getOption('firstName'),
-            'lastName'          => $input->getOption('lastName'),
-            'email'             => $input->getOption('email'),
-            'telephoneNumber'   => $input->getOption('telephoneNumber'),
-            'campusId'          => $input->getOption('campusId'),
-            'username'          => $input->getOption('username'),
-            'password'          => $input->getOption('password'),
-            'isRoot'            => (null !== $input->getOption('isRoot')) ? filter_var(
-                $input->getOption('isRoot'),
-                FILTER_VALIDATE_BOOLEAN,
-                FILTER_NULL_ON_FAILURE
-            ) : null,
+           'firstName'         => $firstName,
+           'lastName'          => $lastName,
+           'email'             => $email,
+           'telephoneNumber'   => $telephoneNumber,
+           'campusId'          => $campusId,
+           'username'          => $username,
+           'password'          => $password,
+           'isRoot'            => (null !== $isRoot ? filter_var(
+               $isRoot,
+               FILTER_VALIDATE_BOOLEAN,
+               FILTER_NULL_ON_FAILURE
+           ) : null),
         ];
 
         $userRecord = $this->fillUserRecord($userRecord, $input, $output);
@@ -134,18 +113,18 @@ class AddUserCommand extends Command
 
         $table = new Table($output);
         $table
-            ->setHeaders(['Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number', 'Is Root?'])
-            ->setRows([
-                [
-                    $userRecord['campusId'],
-                    $userRecord['firstName'],
-                    $userRecord['lastName'],
-                    $userRecord['email'],
-                    $userRecord['username'],
-                    $userRecord['telephoneNumber'],
-                    $userRecord['isRoot'] ? 'yes' : 'no',
-                ],
-            ])
+           ->setHeaders(['Campus ID', 'First', 'Last', 'Email', 'Username', 'Phone Number', 'Is Root?'])
+           ->setRows([
+               [
+                   $userRecord['campusId'],
+                   $userRecord['firstName'],
+                   $userRecord['lastName'],
+                   $userRecord['email'],
+                   $userRecord['username'],
+                   $userRecord['telephoneNumber'],
+                   $userRecord['isRoot'] ? 'yes' : 'no',
+               ],
+           ])
         ;
         $table->render();
 

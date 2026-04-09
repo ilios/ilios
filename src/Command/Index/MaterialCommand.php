@@ -8,9 +8,9 @@ use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
 use Composer\Console\Input\InputArgument;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -27,18 +27,10 @@ class MaterialCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'materialId',
-                InputArgument::REQUIRED,
-                'The ID of the material to index.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'The ID of the material to index.', name: 'materialId')] int $id,
+    ): int {
         if (!$this->index->isEnabled()) {
             $output->writeln("<comment>Indexing is not currently configured.</comment>");
             return Command::FAILURE;
@@ -47,7 +39,6 @@ class MaterialCommand extends Command
             $output->writeln("<comment>Learning Materials are disabled on this instance.</comment>");
             return Command::FAILURE;
         }
-        $id = $input->getArgument('materialId');
         $dto = $this->learningMaterialRepository->findDTOBy(['id' => $id]);
         $this->index->index([$dto], true);
 

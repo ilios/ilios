@@ -10,12 +10,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Command\CreateServiceTokenCommand;
 use App\Entity\ServiceToken;
-use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
 use App\Service\JsonWebTokenManager;
 use App\Service\ServiceTokenUserProvider;
 use DateInterval;
-use DateTime;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -93,8 +91,8 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
             })->andReturn('abcde');
 
         $this->commandTester->execute([
-            CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
-            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
+            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'description' => 'lorem ipsum',
         ]);
         $this->assertEquals('lorem ipsum', $serviceToken->getDescription());
 
@@ -144,9 +142,9 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
             })->andReturn('abcde');
 
         $this->commandTester->execute([
-            CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
-            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
-            '--' . CreateServiceTokenCommand::WRITEABLE_SCHOOLS_KEY => $schoolIdsInput,
+            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'description' => 'lorem ipsum',
+            '--writeable-schools' => $schoolIdsInput,
             ]);
     }
 
@@ -178,8 +176,8 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
             })->andReturn('abcde');
 
         $this->commandTester->execute([
-            CreateServiceTokenCommand::TTL_KEY => $ttl,
-            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
+            'ttl' => $ttl,
+            'description' => 'lorem ipsum',
         ]);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
@@ -188,7 +186,7 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
     {
         $this->expectExceptionMessage('Not enough arguments (missing: "description").');
         $this->commandTester->execute([
-            CreateServiceTokenCommand::TTL_KEY => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
     }
@@ -197,7 +195,7 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
     {
         $this->expectExceptionMessage('Not enough arguments (missing: "ttl").');
         $this->commandTester->execute([
-            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
+            'description' => 'lorem ipsum',
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
     }
@@ -205,8 +203,8 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
     public function testTtlExceedsAllowedMaximum(): void
     {
         $this->commandTester->execute([
-            CreateServiceTokenCommand::TTL_KEY => 'P1000D', // one.thousand.days.
-            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
+            'ttl' => 'P1000D', // one.thousand.days.
+            'description' => 'lorem ipsum',
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
         $this->assertStringStartsWith(
@@ -218,8 +216,8 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
     public function testInvalidTtl(): void
     {
         $this->commandTester->execute([
-            CreateServiceTokenCommand::TTL_KEY => 'nyet',
-            CreateServiceTokenCommand::DESCRIPTION_KEY => 'lorem ipsum',
+            'ttl' => 'nyet',
+            'description' => 'lorem ipsum',
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
         $this->assertStringStartsWith(

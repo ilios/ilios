@@ -8,7 +8,9 @@ use App\Repository\AuditLogRepository;
 use DateTime;
 use DateTimeZone;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,39 +38,16 @@ class AuditLogExportCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'delete',
-                null,
-                InputOption::VALUE_NONE,
-                'Specify this option to delete exported entries from the database.'
-            )
-            ->addArgument(
-                'from',
-                InputArgument::OPTIONAL,
-                'Expression for start-date/time of export range.',
-                'midnight yesterday'
-            )
-            ->addArgument(
-                'to',
-                InputArgument::OPTIONAL,
-                'Expression for end-date/time of export range.',
-                'midnight today'
-            )
-        ;
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $from = $input->getArgument('from');
-        $to = $input->getArgument('to');
-
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'Expression for start-date/time of export range.')] string $from = 'midnight yesterday',
+        #[Argument(description: 'Expression for end-date/time of export range.')] string $to = 'midnight today',
+        #[Option(
+            description: 'Specify this option to delete exported entries from the database.'
+        )] bool $delete = false,
+    ): int {
         $from = new DateTime($from, new DateTimeZone('UTC'));
         $to = new DateTime($to, new DateTimeZone('UTC'));
-
-        $delete = $input->getOption('delete');
 
         $headers = ['id', 'userId', 'action', 'createdAt', 'objectId', 'objectClass', 'valuesChanged'];
 

@@ -57,7 +57,7 @@ final class DisableServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('update')->with($serviceTokenMock);
 
         $this->commandTester->execute([
-            DisableServiceTokenCommand::ID_KEY => (string) $tokenId,
+            'id' => (string) $tokenId,
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -76,7 +76,8 @@ final class DisableServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('findOneById')->with($tokenId)->andReturn($serviceTokenMock);
 
         $this->commandTester->execute([
-            DisableServiceTokenCommand::ID_KEY => (string) $tokenId,
+            'id' => (string) $tokenId,
+
         ]);
 
         $output = $this->commandTester->getDisplay();
@@ -93,7 +94,7 @@ final class DisableServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('findOneById')->with($tokenId)->andReturn(null);
 
         $this->commandTester->execute([
-            DisableServiceTokenCommand::ID_KEY => (string) $tokenId,
+            'id' => (string) $tokenId,
         ]);
 
         $output = $this->commandTester->getDisplay();

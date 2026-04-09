@@ -10,10 +10,9 @@ use Doctrine\Inflector\Inflector;
 use Exception;
 use ReflectionClass;
 use ReflectionProperty;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Twig\Environment;
 
@@ -38,19 +37,17 @@ class GenerateEndpointTestCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('entityShortcut', InputArgument::REQUIRED, 'The name of an entity e.g. App\Entity\Session.');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $shortCut = $input->getArgument('entityShortcut');
-
-        $manager = $this->registry->getManagerForClass($shortCut);
-        $class = $manager->getClassMetadata($shortCut)->getName();
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(
+            description: 'The name of an entity e.g. App\Entity\Session.',
+            name: 'entityShortcut'
+        )] string $entityShortcut,
+    ): int {
+        $manager = $this->registry->getManagerForClass($entityShortcut);
+        $class = $manager->getClassMetadata($entityShortcut)->getName();
         if (!$this->entityMetadata->isAnIliosEntity($class)) {
-            throw new Exception("Sorry. {$shortCut} is not an Ilios entity.");
+            throw new Exception("Sorry. {$entityShortcut} is not an Ilios entity.");
         }
         $reflection = new ReflectionClass($class);
         $entity = $reflection->getShortName();

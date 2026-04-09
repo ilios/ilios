@@ -6,10 +6,10 @@ namespace App\Command;
 
 use App\Repository\LearningMaterialRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
@@ -38,14 +38,11 @@ class MigrateIlios2LearningMaterialsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('pathToIlios2', InputArgument::REQUIRED, 'The path to your Ilios2 installation.');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $pathToIlios2 = $input->getArgument('pathToIlios2');
+    public function __invoke(
+        InputInterface $input,
+        OutputInterface $output,
+        #[Argument(description: 'The path to your Ilios2 installation.', name: 'pathToIlios2')] string $pathToIlios2,
+    ): int {
         if (!$this->symfonyFileSystem->exists($pathToIlios2)) {
             throw new Exception(
                 "'{$pathToIlios2}' does not exist."

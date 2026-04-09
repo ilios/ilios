@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\SchoolConfigInterface;
-use App\Entity\SchoolInterface;
 use App\Repository\SchoolConfigRepository;
 use App\Repository\SchoolRepository;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -32,14 +30,10 @@ class ListSchoolConfigValuesCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('school', InputArgument::REQUIRED, 'ID of the school.');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $schoolId = $input->getArgument('school');
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'ID of the school.', name: 'school')] string $schoolId,
+    ): int {
         $school = $this->schoolRepository->findOneBy(['id' => $schoolId]);
         if (!$school) {
             $output->writeln("<error>There are no schools with id {$schoolId}.</error>");
