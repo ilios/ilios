@@ -9,7 +9,6 @@ use App\Repository\LearningMaterialRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -30,7 +29,6 @@ class ExtractLearningMaterialsTextCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Option(
             description: 'Comma-separated list list of materials to extract.',

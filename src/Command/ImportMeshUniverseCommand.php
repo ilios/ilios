@@ -13,7 +13,6 @@ use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -45,7 +44,6 @@ class ImportMeshUniverseCommand extends Command
 
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Option(description: 'The MeSH descriptors URL.', name: 'url', shortcut: 'u')] ?string $url = null,
         #[Option(description: 'The MeSH descriptors file path.', name: 'path', shortcut: 'p')] ?string $path = null,

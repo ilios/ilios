@@ -10,7 +10,6 @@ use Exception;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use DateTime;
 
@@ -34,7 +33,6 @@ class InvalidateUserTokenCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Argument(description: 'A valid user id.', name: 'userId')] string $userId,
     ): int {

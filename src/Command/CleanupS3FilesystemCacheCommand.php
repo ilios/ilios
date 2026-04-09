@@ -11,7 +11,6 @@ use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -35,7 +34,7 @@ class CleanupS3FilesystemCacheCommand extends Command
         $this->localCacheDirectory = $filesystemFactory->getLocalS3CacheDirectory();
     }
 
-    public function __invoke(InputInterface $input, OutputInterface $output): int
+    public function __invoke(OutputInterface $output): int
     {
         $output->writeln('<info>Checking for available disk space.</info>');
         $percentageFree = $this->getFreeSpace();

@@ -9,7 +9,6 @@ use App\Repository\ServiceTokenRepository;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -27,7 +26,6 @@ class EnableServiceTokenCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Argument(description: 'The token ID.')] string $id,
     ): int {

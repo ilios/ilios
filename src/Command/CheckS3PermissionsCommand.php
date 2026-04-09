@@ -9,7 +9,6 @@ use App\Service\Config;
 use App\Service\IliosFileSystem;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -30,7 +29,7 @@ class CheckS3PermissionsCommand extends Command
         parent::__construct();
     }
 
-    public function __invoke(InputInterface $input, OutputInterface $output): int
+    public function __invoke(OutputInterface $output): int
     {
         $s3Url = $this->config->get('storage_s3_url');
 

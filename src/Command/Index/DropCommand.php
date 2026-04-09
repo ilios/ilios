@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -33,7 +32,6 @@ class DropCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Option(name: 'force', description: 'Set this parameter to execute this action')] bool $force = false,
     ): int {

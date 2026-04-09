@@ -13,7 +13,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use App\Service\Filesystem;
@@ -72,7 +71,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Option(
             description: 'Pull a staging build of the frontend',

@@ -13,7 +13,6 @@ use ReflectionProperty;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Twig\Environment;
 
@@ -39,7 +38,6 @@ class GenerateEndpointTestCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Argument(
             description: 'The name of an entity e.g. App\Entity\Session.',

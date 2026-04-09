@@ -15,7 +15,6 @@ use App\Repository\UserRepository;
 use App\Service\Config;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -39,7 +38,7 @@ class UpdateCommand extends Command
         parent::__construct();
     }
 
-    public function __invoke(InputInterface $input, OutputInterface $output): int
+    public function __invoke(OutputInterface $output): int
     {
         $this->queueUsers($output);
         $this->queueLearningMaterials($output);

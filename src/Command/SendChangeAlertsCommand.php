@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\AlertInterface;
-use App\Entity\AuditLogInterface;
 use App\Entity\SchoolInterface;
 use App\Repository\AlertRepository;
 use App\Repository\AuditLogRepository;
@@ -14,7 +13,6 @@ use App\Service\Config;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
@@ -49,7 +47,6 @@ class SendChangeAlertsCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Option(
             description: 'Print out alerts instead of emailing them. Useful for testing/debugging purposes.',

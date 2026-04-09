@@ -13,7 +13,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -32,7 +31,6 @@ class ListServiceTokensCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
         OutputInterface $output,
         #[Option(description: 'Exclude disabled tokens.', name: 'exclude-disabled')] bool $excludeDisabled = false,
         #[Option(description: 'Exclude expired tokens.', name: 'exclude-expired')] bool $excludeExpired = false,
