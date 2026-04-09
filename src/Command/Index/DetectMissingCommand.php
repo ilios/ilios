@@ -13,7 +13,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -33,13 +32,12 @@ class DetectMissingCommand extends Command
         parent::__construct();
     }
 
-    public function __invoke(InputInterface $input, OutputInterface $output): int
+    public function __invoke(SymfonyStyle $io, OutputInterface $output): int
     {
         if (!$this->materialIndex->isEnabled()) {
             $output->writeln("<comment>Indexing is not currently configured.</comment>");
             return Command::FAILURE;
         }
-        $io = new SymfonyStyle($input, $output);
         $missingMaterials = $this->checkMaterials();
         $missingSessions = $this->checkSessions();
 
