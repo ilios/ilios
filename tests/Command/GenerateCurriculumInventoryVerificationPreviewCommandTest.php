@@ -56,28 +56,9 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         $report = m::mock(CurriculumInventoryReportInterface::class);
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
 
-        $preview = [
-            'program_expectations_mapped_to_pcrs' => [],
-            'primary_instructional_methods_by_non_clerkship_sequence_blocks' => [
-                'methods' => [],
-                'rows' => [],
-            ],
-            'non_clerkship_sequence_block_instructional_time' => [],
-            'clerkship_sequence_block_instructional_time' => [],
-            'instructional_method_counts' => [],
-            'non_clerkship_sequence_block_assessment_methods' => [
-                'methods' => ['Internal exams'],
-                'rows' => [],
-            ],
-            'clerkship_sequence_block_assessment_methods' => [
-                'methods' => ['NBME subject exams'],
-                'rows' => [],
-            ],
-            'all_events_with_assessments_tagged_as_formative_or_summative' => [],
-            'all_resource_types' => [],
-        ];
+        $data = $this->getEmptyData();
 
-        $this->builder->shouldReceive('build')->with($report)->andReturn($preview);
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
 
         $this->commandTester->execute(['reportId' => '1']);
 
@@ -127,5 +108,29 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
     {
         $this->expectException(RuntimeException::class);
         $this->commandTester->execute([]);
+    }
+
+    protected function getEmptyData(): array
+    {
+        return [
+            'program_expectations_mapped_to_pcrs' => [],
+            'primary_instructional_methods_by_non_clerkship_sequence_blocks' => [
+                'methods' => [],
+                'rows' => [],
+            ],
+            'non_clerkship_sequence_block_instructional_time' => [],
+            'clerkship_sequence_block_instructional_time' => [],
+            'instructional_method_counts' => [],
+            'non_clerkship_sequence_block_assessment_methods' => [
+                'methods' => ['Internal exams'],
+                'rows' => [],
+            ],
+            'clerkship_sequence_block_assessment_methods' => [
+                'methods' => ['NBME subject exams'],
+                'rows' => [],
+            ],
+            'all_events_with_assessments_tagged_as_formative_or_summative' => [],
+            'all_resource_types' => [],
+        ];
     }
 }
