@@ -93,6 +93,66 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
     }
 
+    public function testExecuteVerificationPreviewTable1(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['program_expectations_mapped_to_pcrs'] = [
+            [
+                'title' => 'foo',
+                'pcrs' => [
+                    'bar',
+                    'baz',
+                ],
+            ],
+            [
+                'title' => 'bat',
+                'pcrs' => [],
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression('/Table 1: Program Expectations Mapped to PCRS/', $output);
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Program Expectations ID',
+                'Program Expectations',
+                'Physician Competency Reference Set (PCRS)',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'n/a',
+                'bat',
+                '',
+            ]),
+            $output,
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'n/a',
+                'foo',
+                'bar',
+            ]),
+            $output,
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                '',
+                '',
+                'baz',
+            ]),
+            $output,
+        );
+    }
+
     public function testReportNotFound(): void
     {
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn(null);
@@ -132,5 +192,19 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
             'all_events_with_assessments_tagged_as_formative_or_summative' => [],
             'all_resource_types' => [],
         ];
+    }
+
+    protected function buildTableRowRegex(array $parts): string
+    {
+        $rhett = '/';
+        foreach ($parts as $part) {
+            if ('' === $part) {
+                $rhett .= '\|\s+';
+            } else {
+                $rhett .= '\|\s+' . preg_quote($part, '/') . '\s+';
+            }
+        }
+        $rhett .= '\|/';
+        return $rhett;
     }
 }
