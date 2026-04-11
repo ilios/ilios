@@ -221,7 +221,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             $total = round($clerkship['total'] / 60, 2);
             $table->addRow(
                 array_merge(
-                    [$clerkship['title'], $clerkship['level']],
+                    [$clerkship['title'], $clerkship['starting_level'] . ' - ' . $clerkship['ending_level']],
                     $hours,
                     ["<options=bold>$total</>"]
                 )
@@ -301,7 +301,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         foreach ($data['rows'] as $row) {
             $table->addRow(array_merge([
                 $row['title'],
-                $row['level'],
+                $row['starting_level'] . ' - ' . $row['ending_level'],
                 $row['has_formative_assessments'] ? 'Y' : '',
                 $row['has_narrative_assessments'] ? 'Y' : '',
                 $row['num_exams'] ?: '',
@@ -331,7 +331,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         foreach ($data['rows'] as $row) {
             $table->addRow(array_merge([
                 $row['title'],
-                $row['level'],
+                $row['starting_level'] . ' - ' . $row['ending_level'],
                 $row['has_formative_assessments'] ? 'Y' : '',
                 $row['has_narrative_assessments'] ? 'Y' : '',
             ], array_map(fn($method) => $method ? 'X' : '', $row['methods'])));
