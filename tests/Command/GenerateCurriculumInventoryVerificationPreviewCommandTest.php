@@ -153,6 +153,115 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         );
     }
 
+    public function testExecuteVerificationPreviewTable2(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['primary_instructional_methods_by_non_clerkship_sequence_blocks'] = [
+            'methods' => [
+                [
+                    'title' => 'Lab',
+                    'total' => 60,
+                ],
+                [
+                    'title' => 'Lecture',
+                    'total' => 180,
+                ],
+                [
+                    'title' => 'Other',
+                    'total' => 630,
+                ],
+            ],
+            'rows' => [
+                [
+                    'title' => 'Block 1',
+                    'starting_level' => 1,
+                    'ending_level' => 3,
+                    'instructional_methods' => [
+                        'Lab' => 30,
+                        'Lecture' => 60,
+                        'Other' => 600,
+                    ],
+                    'total' => 690,
+                ],
+                [
+                    'title' => 'Block 2',
+                    'starting_level' => 2,
+                    'ending_level' => 4,
+                    'instructional_methods' => [
+                        'Lab' => 30,
+                        'Lecture' => 120,
+                        'Other' => 30,
+                    ],
+                    'total' => 180,
+                ],
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 2: Primary Instructional Method by Non-Clerkship Sequence Block/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Non-clerkship Sequence Blocks',
+                'Academic Level',
+                'Number of Formal Instructional Hours Per Course',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                '',
+                'Lab',
+                'Lecture',
+                'Other',
+                'Total',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 1',
+                '1 - 3',
+                '0.5',
+                '1',
+                '10',
+                '11.5',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 2',
+                '2 - 4',
+                '0.5',
+                '2',
+                '0.5',
+                '3',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'TOTAL',
+                '',
+                '1',
+                '3',
+                '10.5',
+                '14.5',
+            ]),
+            $output
+        );
+    }
+
     public function testReportNotFound(): void
     {
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn(null);
