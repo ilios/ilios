@@ -473,6 +473,245 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
             $output
         );
     }
+    public function testExecuteVerificationPreviewTable5(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['non_clerkship_sequence_block_assessment_methods'] = [
+            'methods' => [
+                'Faculty / resident rating',
+                'Internal exams',
+                'Lab or practical exams',
+                'NBME subject exams',
+                'OSCE / SP exam',
+                'Other',
+                'Paper or oral pres.',
+            ],
+            'rows' => [
+                [
+                    'title' => 'Block 1',
+                    'starting_level' => 1,
+                    'ending_level' => 3,
+                    'methods' => [
+                        'Faculty /resident rating' => true,
+                        'Internal exams' => false,
+                        'Lab or practical exams' => true,
+                        'NBME subject exams' => false,
+                        'OSCE / SP exam' => true,
+                        'Other' => false,
+                        'Paper or oral pres.' => true,
+                    ],
+                    'num_exams' => 5,
+                    'has_formative_assessments' => true,
+                    'has_narrative_assessments' => false,
+                ],
+                [
+                    'title' => 'Block 2',
+                    'starting_level' => 2,
+                    'ending_level' => 4,
+                    'methods' => [
+                        'Faculty /resident rating' => false,
+                        'Internal exams' => true,
+                        'Lab or practical exams' => false,
+                        'NBME subject exams' => true,
+                        'OSCE / SP exam' => false,
+                        'Other' => true,
+                        'Paper or oral pres.' => false,
+                    ],
+                    'num_exams' => 6,
+                    'has_formative_assessments' => false,
+                    'has_narrative_assessments' => true,
+                ],
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 5: Non-Clerkship Sequence Block Assessment Methods/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Non-Clerkship Sequence Blocks',
+                'Phases (Start - End)',
+                'Included in Grade',
+                'Assessments',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                '',
+                '',
+                'Number of Exams',
+                'Faculty / resident rating',
+                'Internal exams',
+                'Lab or practical exams',
+                'NBME subject exams',
+                'OSCE / SP exam',
+                'Other',
+                'Paper or oral pres.',
+                'Formative',
+                'Narrative',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 1',
+                '1 - 3',
+                '5',
+                'X',
+                '',
+                'X',
+                '',
+                'X',
+                '',
+                'X',
+                'Y',
+                '',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 2',
+                '2 - 4',
+                '6',
+                '',
+                'X',
+                '',
+                'X',
+                '',
+                'X',
+                '',
+                '',
+                'Y',
+            ]),
+            $output
+        );
+    }
+    public function testExecuteVerificationPreviewTable6(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['clerkship_sequence_block_assessment_methods'] = [
+            'methods' => [
+                'Faculty / resident rating',
+                'Internal written exams',
+                'NBME subject exams',
+                'OSCE / SP exam',
+                'Oral Exam or Pres.',
+                'Other',
+            ],
+            'rows' => [
+                [
+                    'title' => 'Block 1',
+                    'starting_level' => 1,
+                    'ending_level' => 3,
+                    'methods' => [
+                        'Faculty /resident rating' => true,
+                        'Internal written exams' => false,
+                        'NBME subject exams' => true,
+                        'OSCE / SP exam' => false,
+                        'Oral Exam or Pres.' => true,
+                        'Other' => false,
+                    ],
+                    'num_exams' => 5,
+                    'has_formative_assessments' => true,
+                    'has_narrative_assessments' => true,
+                ],
+                [
+                    'title' => 'Block 2',
+                    'starting_level' => 2,
+                    'ending_level' => 4,
+                    'methods' => [
+                        'Faculty /resident rating' => false,
+                        'Internal written exams' => true,
+                        'NBME subject exams' => false,
+                        'OSCE / SP exam' => true,
+                        'Oral Exam or Pres.' => false,
+                        'Other' => true,
+                    ],
+                    'num_exams' => 5,
+                    'has_formative_assessments' => false,
+                    'has_narrative_assessments' => false,
+                ],
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 6: Clerkship Sequence Block Assessment Methods/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Clerkship Sequence Blocks',
+                'Phases (Start - End)',
+                'Included in Grade',
+                'Assessments',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                '',
+                '',
+                'Faculty / resident rating',
+                'Internal written exams',
+                'NBME subject exams',
+                'OSCE / SP exam',
+                'Oral Exam or Pres.',
+                'Other',
+                'Formative',
+                'Narrative',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 1',
+                '1 - 3',
+                'X',
+                '',
+                'X',
+                '',
+                'X',
+                '',
+                'Y',
+                'Y',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 2',
+                '2 - 4',
+                '',
+                'X',
+                '',
+                'X',
+                '',
+                'X',
+                '',
+                '',
+            ]),
+            $output
+        );
+    }
 
     public function testReportNotFound(): void
     {

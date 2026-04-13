@@ -300,26 +300,29 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $this->printTableHeadline($output, 'Table 5: Non-Clerkship Sequence Block Assessment Methods');
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 50);
-        $table->setColumnMaxWidth(1, 15);
         $table->setHeaders([
             [
-                new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
-                new TableCell('Academic Level', ['rowspan' => 2]),
-                new TableCell('Formative Asmt.', ['rowspan' => 2]),
-                new TableCell('Narrative Asmt.', ['rowspan' => 2]),
+                new TableCell('Non-Clerkship Sequence Blocks', ['rowspan' => 2]),
+                new TableCell('Phases (Start - End)', ['rowspan' => 2]),
                 new TableCell('Included in Grade', ['colspan' => count($data['methods']) + 1 ]),
+                new TableCell('Assessments', ['colspan' => 2]),
             ],
-            array_merge(['Number of Exams'], $data['methods']),
+            array_merge(['Number of Exams'], $data['methods'], ['Formative', 'Narrative']),
         ]);
 
         foreach ($data['rows'] as $row) {
-            $table->addRow(array_merge([
-                $row['title'],
-                $row['starting_level'] . ' - ' . $row['ending_level'],
-                $row['has_formative_assessments'] ? 'Y' : '',
-                $row['has_narrative_assessments'] ? 'Y' : '',
-                $row['num_exams'] ?: '',
-            ], array_map(fn($method) => $method ? 'X' : '', $row['methods'])));
+            $table->addRow(array_merge(
+                [
+                    $row['title'],
+                    $row['starting_level'] . ' - ' . $row['ending_level'],
+                   $row['num_exams'] ?: '',
+                ],
+                array_map(fn($method) => $method ? 'X' : '', $row['methods']),
+                [
+                    $row['has_formative_assessments'] ? 'Y' : '',
+                    $row['has_narrative_assessments'] ? 'Y' : '',
+                ],
+            ));
         }
 
         $table->render();
@@ -330,25 +333,28 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $this->printTableHeadline($output, 'Table 6: Clerkship Sequence Block Assessment Methods');
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 50);
-        $table->setColumnMaxWidth(1, 15);
         $table->setHeaders([
             [
-                new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
-                new TableCell('Academic Level', ['rowspan' => 2]),
-                new TableCell('Formative Asmt.', ['rowspan' => 2]),
-                new TableCell('Narrative Asmt.', ['rowspan' => 2]),
-                new TableCell('Included in Grade', ['colspan' => count($data['methods']) ]),
+                new TableCell('Clerkship Sequence Blocks', ['rowspan' => 2]),
+                new TableCell('Phases (Start - End)', ['rowspan' => 2]),
+                new TableCell('Included in Grade', ['colspan' => count($data['methods'])]),
+                new TableCell('Assessments', ['colspan' => 2]),
             ],
-            $data['methods'],
+            array_merge($data['methods'], ['Formative', 'Narrative']),
         ]);
 
         foreach ($data['rows'] as $row) {
-            $table->addRow(array_merge([
-                $row['title'],
-                $row['starting_level'] . ' - ' . $row['ending_level'],
-                $row['has_formative_assessments'] ? 'Y' : '',
-                $row['has_narrative_assessments'] ? 'Y' : '',
-            ], array_map(fn($method) => $method ? 'X' : '', $row['methods'])));
+            $table->addRow(array_merge(
+                [
+                    $row['title'],
+                    $row['starting_level'] . ' - ' . $row['ending_level'],
+                ],
+                array_map(fn($method) => $method ? 'X' : '', $row['methods']),
+                [
+                    $row['has_formative_assessments'] ? 'Y' : '',
+                    $row['has_narrative_assessments'] ? 'Y' : '',
+                ],
+            ));
         }
 
         $table->render();
