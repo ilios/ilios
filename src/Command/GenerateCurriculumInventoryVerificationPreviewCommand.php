@@ -133,7 +133,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table = new Table($output);
         $table->setHeaders([
             'Item Code',
-            'Assessment Method(s)',
+            'Assessment Methods',
             'Number of Summative Assessments',
             'Number of Formative Assessments',
         ]);

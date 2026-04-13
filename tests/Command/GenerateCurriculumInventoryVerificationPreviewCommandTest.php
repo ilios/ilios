@@ -713,6 +713,74 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         );
     }
 
+    public function testExecuteVerificationPreviewTable7(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['all_events_with_assessments_tagged_as_formative_or_summative'] = [
+            [
+                'id' => 'AM001',
+                'title' => 'Clinical Documentation Review',
+                'num_summative_assessments' => 12,
+                'num_formative_assessments' => 0,
+            ],
+            [
+                'id' => 'AM002',
+                'title' => 'Clinical Performance Rating/Checklist',
+                'num_summative_assessments' => 8,
+                'num_formative_assessments' => 10,
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 7: All Events with Assessments Tagged as Formative or Summative/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Item Code',
+                'Assessment Methods',
+                'Number of Summative Assessments',
+                'Number of Formative Assessments',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'AM001',
+                'Clinical Documentation Review',
+                '12',
+                '0',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'AM002',
+                'Clinical Performance Rating/Checklist',
+                '8',
+                '10',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                '',
+                'TOTAL',
+                '20',
+                '10',
+            ]),
+            $output
+        );
+    }
+
     public function testReportNotFound(): void
     {
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn(null);
