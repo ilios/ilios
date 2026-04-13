@@ -387,6 +387,93 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         );
     }
 
+    public function testExecuteVerificationPreviewTable4(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['instructional_method_counts'] = [
+            [
+                'id' => 'IM001',
+                'title' => 'Case-Based Instruction/Learning',
+                'num_events_primary_method' => 12,
+                'num_events_non_primary_method' => 0,
+            ],
+            [
+                'id' => 'IM002',
+                'title' => 'Clinical Expertise - Ambulatory',
+                'num_events_primary_method' => 0,
+                'num_events_non_primary_method' => 10,
+            ],
+            [
+                'id' => 'IM003',
+                'title' => 'Clinical Expertise - Inpatient',
+                'num_events_primary_method' => 4,
+                'num_events_non_primary_method' => 9,
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 4: Instructional Method Counts/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Item Code',
+                'Instructional Method',
+                'Number of Events Featuring This as the Primary Method',
+                'Number of Non-Primary Occurrences of This Method',
+            ]),
+            $output
+        );
+
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'IM001',
+                'Case-Based Instruction/Learning',
+                '12',
+                '0',
+            ]),
+            $output
+        );
+
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'IM002',
+                'Clinical Expertise - Ambulatory',
+                '0',
+                '10',
+            ]),
+            $output
+        );
+
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'IM003',
+                'Clinical Expertise - Inpatient',
+                '4',
+                '9',
+            ]),
+            $output
+        );
+
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                '',
+                'TOTAL',
+                '16',
+                '19',
+            ]),
+            $output
+        );
+    }
+
     public function testReportNotFound(): void
     {
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn(null);

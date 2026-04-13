@@ -107,7 +107,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             'Item Code',
             'Instructional Method',
             'Number of Events Featuring This as the Primary Method',
-            'Number of Non-Primary Occurrences if This Method',
+            'Number of Non-Primary Occurrences of This Method',
             ]);
         $table->addRows($data);
         $table->addRow(new TableSeparator());
