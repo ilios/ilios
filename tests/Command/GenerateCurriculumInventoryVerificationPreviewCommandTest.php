@@ -153,6 +153,7 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         );
     }
 
+
     public function testExecuteVerificationPreviewTable2(): void
     {
         $report = m::mock(CurriculumInventoryReportInterface::class);
@@ -257,6 +258,130 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
                 '3',
                 '10.5',
                 '14.5',
+            ]),
+            $output
+        );
+    }
+
+    public function testExecuteVerificationPreviewTable3a(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['non_clerkship_sequence_block_instructional_time'] = [
+            [
+                'title' => 'Block 1',
+                'starting_level' => 1,
+                'ending_level' => 2,
+                'weeks' => 15,
+                'avg' => 5.55,
+            ],
+            [
+                'title' => 'Block 2',
+                'starting_level' => 2,
+                'ending_level' => 3,
+                'weeks' => 2,
+                'avg' => 7,
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 3-A: Non-Clerkship Sequence Block Instructional Time/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Non-Clerkship Sequence Blocks',
+                'Phases (Start - End)',
+                'Total Weeks',
+                'Average Hours of Instruction Per Week',
+            ]),
+            $output
+        );
+
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 1',
+                '1 - 2',
+                '15',
+                '5.55',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 2',
+                '2 - 3',
+                '2',
+                '7',
+            ]),
+            $output
+        );
+    }
+
+    public function testExecuteVerificationPreviewTable3b(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['clerkship_sequence_block_instructional_time'] = [
+            [
+                'title' => 'Block 1',
+                'starting_level' => 1,
+                'ending_level' => 2,
+                'weeks' => 15,
+                'avg' => 5.55,
+            ],
+            [
+                'title' => 'Block 2',
+                'starting_level' => 2,
+                'ending_level' => 3,
+                'weeks' => 2,
+                'avg' => 7,
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 3-B: Clerkship Sequence Block Instructional Time/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Clerkship Sequence Blocks',
+                'Phases (Start - End)',
+                'Total Weeks',
+                'Average Hours of Instruction Per Week',
+            ]),
+            $output
+        );
+
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 1',
+                '1 - 2',
+                '15',
+                '5.55',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Block 2',
+                '2 - 3',
+                '2',
+                '7',
             ]),
             $output
         );

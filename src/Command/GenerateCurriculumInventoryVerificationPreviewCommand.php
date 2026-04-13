@@ -257,11 +257,19 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->setColumnMaxWidth(0, 60);
         $table->setHeaders([
             'Non-Clerkship Sequence Blocks',
-            'Academic Level',
+            'Phases (Start - End)',
             'Total Weeks',
             'Average Hours of Instruction Per Week',
             ]);
-        $table->setRows($data);
+
+        foreach ($data as $row) {
+            $table->addRow([
+                $row['title'],
+                "{$row['starting_level']} - {$row['ending_level']}",
+                $row['weeks'],
+                $row['avg'],
+            ]);
+        }
         $table->render();
     }
 
@@ -272,11 +280,18 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->setColumnMaxWidth(0, 60);
         $table->setHeaders([
                 'Clerkship Sequence Blocks',
-                'Academic Level',
+                'Phases (Start - End)',
                 'Total Weeks',
                 'Average Hours of Instruction Per Week',
             ]);
-        $table->setRows($data);
+        foreach ($data as $row) {
+            $table->addRow([
+                $row['title'],
+                "{$row['starting_level']} - {$row['ending_level']}",
+                $row['weeks'],
+                $row['avg'],
+            ]);
+        }
         $table->render();
     }
 
