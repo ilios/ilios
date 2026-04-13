@@ -781,6 +781,60 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         );
     }
 
+    public function testExecuteVerificationPreviewTable8(): void
+    {
+        $report = m::mock(CurriculumInventoryReportInterface::class);
+        $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn($report);
+
+        $data = $this->getEmptyData();
+        $data['all_resource_types'] = [
+            [
+                'id' => 'RE002',
+                'title' => 'Audience Response System',
+                'count' => 24,
+            ],
+            [
+                'id' => 'RE003',
+                'title' => 'Audio',
+                'count' => 2,
+            ],
+        ];
+
+        $this->builder->shouldReceive('build')->with($report)->andReturn($data);
+
+        $this->commandTester->execute(['reportId' => '1']);
+
+        $output = $this->commandTester->getDisplay();
+        $this->assertMatchesRegularExpression(
+            '/Table 7: All Events with Assessments Tagged as Formative or Summative/',
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'Item Code',
+                'Resource Types',
+                'Number of Events',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'RE002',
+                'Audience Response System',
+                '24',
+            ]),
+            $output
+        );
+        $this->assertMatchesRegularExpression(
+            $this->buildTableRowRegex([
+                'RE003',
+                'Audio',
+                '2',
+            ]),
+            $output
+        );
+    }
+
     public function testReportNotFound(): void
     {
         $this->reportRepository->shouldReceive('findOneBy')->with(['id' => '1'])->andReturn(null);
