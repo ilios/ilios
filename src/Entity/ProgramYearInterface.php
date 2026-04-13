@@ -15,7 +15,6 @@ use App\Traits\LockableEntityInterface;
 interface ProgramYearInterface extends
     IdentifiableEntityInterface,
     LockableEntityInterface,
-    ArchivableEntityInterface,
     LoggableEntityInterface,
     ProgramYearObjectivesEntityInterface,
     CategorizableEntityInterface,

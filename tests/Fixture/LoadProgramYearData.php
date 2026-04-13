@@ -28,7 +28,6 @@ final class LoadProgramYearData extends AbstractFixture implements ORMFixtureInt
             $entity->setId($arr['id']);
             $entity->setStartYear($arr['startYear']);
             $entity->setLocked($arr['locked']);
-            $entity->setArchived($arr['archived']);
             $entity->setProgram($this->getReference('programs' . $arr['program'], Program::class));
             foreach ($arr['terms'] as $id) {
                 $entity->addTerm($this->getReference('terms' . $id, Term::class));

@@ -475,7 +475,7 @@ class SessionUserPermissionChecker
 
     public function canUpdateProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isLocked() || $programYear->isArchived()) {
+        if ($programYear->isLocked()) {
             return false;
         }
         if ($sessionUser->isRoot()) {
@@ -517,7 +517,7 @@ class SessionUserPermissionChecker
 
     public function canDeleteProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isLocked() || $programYear->isArchived()) {
+        if ($programYear->isLocked()) {
             return false;
         }
         if ($sessionUser->isRoot()) {
@@ -581,9 +581,6 @@ class SessionUserPermissionChecker
 
     public function canUnlockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isArchived()) {
-            return false;
-        }
         if ($sessionUser->isRoot()) {
             return true;
         }
@@ -623,9 +620,6 @@ class SessionUserPermissionChecker
 
     public function canLockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isArchived()) {
-            return false;
-        }
         if ($sessionUser->isRoot()) {
             return true;
         }
@@ -650,44 +644,6 @@ class SessionUserPermissionChecker
             $this->matrix->hasPermission(
                 $schoolId,
                 Capabilities::CAN_LOCK_THEIR_PROGRAM_YEARS,
-                $rolesInProgramYear
-            )
-        ) {
-            return true;
-        }
-
-        return $this->canUpdateProgram(
-            $sessionUser,
-            $programYear->getProgram()->getId(),
-            $schoolId
-        );
-    }
-
-    public function canArchiveProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
-    {
-        if ($sessionUser->isRoot()) {
-            return true;
-        }
-        $schoolId = $programYear->getSchool()->getId();
-
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS);
-        $rolesInSchool = $sessionUser->rolesInSchool($schoolId, $permittedRoles);
-        if (
-            $this->matrix->hasPermission(
-                $schoolId,
-                Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS,
-                $rolesInSchool
-            )
-        ) {
-            return true;
-        }
-
-        $permittedRoles = $this->matrix->getPermittedRoles($schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS);
-        $rolesInProgramYear = $sessionUser->rolesInProgramYear($programYear->getId(), $permittedRoles);
-        if (
-            $this->matrix->hasPermission(
-                $schoolId,
-                Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS,
                 $rolesInProgramYear
             )
         ) {

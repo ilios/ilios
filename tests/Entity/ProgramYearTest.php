@@ -78,11 +78,6 @@ final class ProgramYearTest extends EntityBase
         $this->booleanSetTest('locked');
     }
 
-    public function testSetArchived(): void
-    {
-        $this->booleanSetTest('archived');
-    }
-
     public function testSetProgram(): void
     {
         $this->entitySetTest('program', 'Program');

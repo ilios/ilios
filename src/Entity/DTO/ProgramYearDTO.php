@@ -29,11 +29,6 @@ use Symfony\Component\Serializer\Attribute\Ignore;
             type: "boolean"
         ),
         new OA\Property(
-            "archived",
-            description: "Is archived",
-            type: "boolean"
-        ),
-        new OA\Property(
             "program",
             description: "Program",
             type: "integer"
@@ -89,10 +84,6 @@ class ProgramYearDTO
     public bool $locked;
 
     #[IA\Expose]
-    #[IA\Type('boolean')]
-    public bool $archived;
-
-    #[IA\Expose]
     #[IA\Related('programs')]
     #[IA\Type('integer')]
     public int $program;
@@ -144,11 +135,9 @@ class ProgramYearDTO
         int $id,
         int $startYear,
         bool $locked,
-        bool $archived
     ) {
         $this->id = $id;
         $this->startYear = $startYear;
         $this->locked = $locked;
-        $this->archived = $archived;
     }
 }

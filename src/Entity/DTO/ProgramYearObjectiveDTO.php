@@ -147,13 +147,6 @@ class ProgramYearObjectiveDTO
     #[Ignore]
     public bool $programYearIsLocked;
 
-    /**
-     * Needed for Voting, not exposed in the API
-     */
-    #[IA\Type('boolean')]
-    #[Ignore]
-    public bool $programYearIsArchived;
-
     public function __construct(int $id, string $title, int $position, bool $active)
     {
         $this->id = $id;

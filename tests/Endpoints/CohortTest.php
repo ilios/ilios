@@ -144,7 +144,6 @@ final class CohortTest extends AbstractReadEndpoint implements PutEndpointTestIn
 
             $programYear = $this->getProgramYear($programYearId);
             $programYear['locked'] = false;
-            $programYear['archived'] = false;
             $this->putOne('programyears', 'programYear', $programYearId, $programYear, $jwt);
             $cohort[$changeKey] = $changeValue;
             $this->putTest($cohort, $cohort, $cohort['id'], $jwt);

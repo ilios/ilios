@@ -26,7 +26,6 @@ class ProgramYear implements ProgramYearInterface
 {
     use IdentifiableEntity;
     use LockableEntity;
-    use ArchivableEntity;
     use ProgramYearObjectivesEntity;
     use CategorizableEntity;
     use StringableIdEntity;
@@ -55,13 +54,6 @@ class ProgramYear implements ProgramYearInterface
     #[Assert\NotNull]
     #[Assert\Type(type: 'bool')]
     protected bool $locked;
-
-    #[ORM\Column(name: 'archived', type: 'boolean')]
-    #[IA\Expose]
-    #[IA\Type('boolean')]
-    #[Assert\NotNull]
-    #[Assert\Type(type: 'bool')]
-    protected bool $archived;
 
     #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'programYears')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
@@ -110,7 +102,6 @@ class ProgramYear implements ProgramYearInterface
 
     public function __construct()
     {
-        $this->archived = false;
         $this->locked = false;
         $this->directors = new ArrayCollection();
         $this->competencies = new ArrayCollection();

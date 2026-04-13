@@ -51,8 +51,7 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select(
                 'x.id AS xId, ' .
-                'programYear.id AS programYearId, programYear.locked AS programYearIsLocked, ' .
-                'programYear.archived AS programYearIsArchived'
+                'programYear.id AS programYearId, programYear.locked AS programYearIsLocked'
             )
             ->from(ProgramYearObjective::class, 'x')
             ->join('x.programYear', 'programYear')
@@ -61,7 +60,6 @@ class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $dtos[$arr['xId']]->programYearIsLocked = (bool) $arr['programYearIsLocked'];
-            $dtos[$arr['xId']]->programYearIsArchived = (bool) $arr['programYearIsArchived'];
             $dtos[$arr['xId']]->programYear = (int) $arr['programYearId'];
         }
 

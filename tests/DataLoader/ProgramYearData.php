@@ -16,7 +16,6 @@ final class ProgramYearData extends AbstractDataLoader
             'id' => 1,
             'startYear' => 2013,
             'locked' => false,
-            'archived' => false,
             'program' => "1",
             'cohort' => "1",
             'directors' => ['1'],
@@ -28,7 +27,6 @@ final class ProgramYearData extends AbstractDataLoader
             'id' => 2,
             'startYear' => 2014,
             'locked' => false,
-            'archived' => false,
             'program' => "1",
             'cohort' => "2",
             'directors' => [],
@@ -40,7 +38,6 @@ final class ProgramYearData extends AbstractDataLoader
             'id' => 3,
             'startYear' => 2015,
             'locked' => false,
-            'archived' => true,
             'program' => "2",
             'cohort' => "3",
             'directors' => [],
@@ -52,7 +49,6 @@ final class ProgramYearData extends AbstractDataLoader
             'id' => 4,
             'startYear' => 2016,
             'locked' => true,
-            'archived' => false,
             'program' => "3",
             'cohort' => "4",
             'directors' => [],
@@ -64,7 +60,6 @@ final class ProgramYearData extends AbstractDataLoader
             'id' => 5,
             'startYear' => 2017,
             'locked' => false,
-            'archived' => false,
             'program' => "1",
             'cohort' => "5",
             'directors' => [],
@@ -87,7 +82,6 @@ final class ProgramYearData extends AbstractDataLoader
             'terms' => [],
             'programYearObjectives' => [],
             'locked' => false,
-            'archived' => false,
         ];
     }
 

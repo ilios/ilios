@@ -1702,7 +1702,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
@@ -1750,19 +1749,7 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $programYear = m::mock(ProgramYearInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
 
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(true);
-
-        $this->assertFalse($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanNotUpdateArchivedProgramYears(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
 
         $this->assertFalse($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
@@ -1779,7 +1766,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
@@ -1809,7 +1795,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
@@ -1852,7 +1837,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
@@ -1905,7 +1889,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
@@ -1953,19 +1936,7 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $programYear = m::mock(ProgramYearInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
 
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(true);
-
-        $this->assertFalse($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanNotDeleteArchivedProgramYears(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
 
         $this->assertFalse($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
@@ -2090,7 +2061,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
@@ -2119,7 +2089,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
@@ -2161,7 +2130,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
@@ -2194,16 +2162,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
     }
 
-    public function testCanNotLockProgramYearIfProgramYearIsArchived(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-
-        $this->assertFalse($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
-    }
-
     public function testCanUnlockAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -2216,7 +2174,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
 
@@ -2245,7 +2202,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $school->shouldReceive('getId')->andReturn($schoolId);
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
@@ -2287,7 +2243,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $programYear->shouldReceive('getSchool')->andReturn($school);
         $programYear->shouldReceive('getProgram')->andReturn($program);
         $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $programYear->shouldReceive('isArchived')->andReturn(false);
         $sessionUser->shouldReceive('isRoot')->andReturn(false);
         $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
         $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
@@ -2318,129 +2273,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
             ->andReturn(true);
 
         $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanNotUnlockProgramYearIfProgramYearIsArchived(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-
-        $this->assertFalse($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanArchiveAllProgramYears(): void
-    {
-        $rolesInSchool = ['foo'];
-        $programYearId = 10;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $programYear->shouldReceive('getSchool')->andReturn($school);
-        $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $sessionUser->shouldReceive('isRoot')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-
-        $this->permissionMatrix
-            ->shouldReceive('getPermittedRoles')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS])
-            ->andReturn([]);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS, $rolesInSchool])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanArchiveTheirProgramYears(): void
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInProgramYear = ['bar'];
-        $programYearId = 10;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $programYear->shouldReceive('getSchool')->andReturn($school);
-        $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $sessionUser->shouldReceive('isRoot')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
-
-        $this->permissionMatrix
-            ->shouldReceive('getPermittedRoles')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS])
-            ->andReturn([]);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS, $rolesInSchool])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('getPermittedRoles')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS])
-            ->andReturn([]);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanArchiveProgramYearsIfUserCanUpdateProgram(): void
-    {
-        $rolesInSchool  = ['foo'];
-        $rolesInProgramYear = ['bar'];
-        $programYearId = 10;
-        $programId = 15;
-        $schoolId = 20;
-        $school = m::mock(SchoolInterface::class);
-        $programYear = m::mock(ProgramYearInterface::class);
-        $program = m::mock(ProgramInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $school->shouldReceive('getId')->andReturn($schoolId);
-        $program->shouldReceive('getId')->andReturn($programId);
-        $programYear->shouldReceive('getSchool')->andReturn($school);
-        $programYear->shouldReceive('getProgram')->andReturn($program);
-        $programYear->shouldReceive('getId')->andReturn($programYearId);
-        $sessionUser->shouldReceive('isRoot')->andReturn(false);
-        $sessionUser->shouldReceive('rolesInSchool')->andReturn($rolesInSchool);
-        $sessionUser->shouldReceive('rolesInProgramYear')->andReturn($rolesInProgramYear);
-
-        $this->permissionMatrix
-            ->shouldReceive('getPermittedRoles')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS])
-            ->andReturn([]);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS, $rolesInSchool])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('getPermittedRoles')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS])
-            ->andReturn([]);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS, $rolesInProgramYear])
-            ->andReturn(false);
-        $this->permissionMatrix
-            ->shouldReceive('getPermittedRoles')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS])
-            ->andReturn([]);
-        $this->permissionMatrix
-            ->shouldReceive('hasPermission')
-            ->withArgs([$schoolId, Capabilities::CAN_UPDATE_ALL_PROGRAMS, $rolesInSchool])
-            ->andReturn(true);
-
-        $this->assertTrue($this->permissionChecker->canArchiveProgramYear($sessionUser, $programYear));
     }
 
     public function testCanUpdateSchoolConfig(): void

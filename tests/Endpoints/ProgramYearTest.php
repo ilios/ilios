@@ -51,7 +51,6 @@ final class ProgramYearTest extends AbstractReadWriteEndpoint
         return [
             'startYear' => ['startYear', 2012],
             'locked' => ['locked', true],
-            'archived' => ['archived', true],
             'program' => ['program', 2],
             // 'cohort' => ['cohort', 2], // skipped
             'directors' => ['directors', [2]],
@@ -76,8 +75,6 @@ final class ProgramYearTest extends AbstractReadWriteEndpoint
             'missingIds' => [[], ['id' => [99]]],
             'locked' => [[3], ['locked' => true]],
             'notLocked' => [[0, 1, 2, 4], ['locked' => false]],
-            'archived' => [[2], ['archived' => true]],
-            'notArchived' => [[0, 1, 3, 4], ['archived' => false]],
             'program' => [[3], ['program' => 3]],
             // 'cohort' => [[1], ['cohort' => 2]], // skipped
             // 'directors' => [[0], ['directors' => [1]]], // skipped

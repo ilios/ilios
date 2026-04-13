@@ -166,22 +166,6 @@ class DefaultPermissionMatrix extends PermissionMatrix
             );
             $this->setPermission(
                 $schoolId,
-                Capabilities::CAN_ARCHIVE_ALL_PROGRAM_YEARS,
-                [
-                    UserRoles::SCHOOL_ADMINISTRATOR,
-                    UserRoles::SCHOOL_DIRECTOR,
-                    UserRoles::PROGRAM_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
-                Capabilities::CAN_ARCHIVE_THEIR_PROGRAM_YEARS,
-                [
-                    UserRoles::PROGRAM_DIRECTOR,
-                ]
-            );
-            $this->setPermission(
-                $schoolId,
                 Capabilities::CAN_CREATE_COURSES,
                 [
                     UserRoles::SCHOOL_ADMINISTRATOR,

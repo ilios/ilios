@@ -301,9 +301,6 @@ class ProgramYears extends AbstractApiController
             $code = Response::HTTP_OK;
             $permission = VoterPermissions::EDIT;
             $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
-            if (!$entity->isArchived() && $data->archived) {
-                return $this->archiveProgramYear($entity, $builder, $authorizationChecker, $request);
-            }
             if ($entity->isLocked() && !$data->locked) {
                 return $this->unlockProgramYear($entity, $builder, $authorizationChecker, $request);
             }
@@ -463,21 +460,6 @@ class ProgramYears extends AbstractApiController
         $programYear->setCohort($cohort);
 
         $this->cohortRepository->update($cohort, false, false);
-    }
-
-    protected function archiveProgramYear(
-        ProgramYearInterface $entity,
-        ApiResponseBuilder $builder,
-        AuthorizationCheckerInterface $authorizationChecker,
-        Request $request
-    ): Response {
-        if (!$authorizationChecker->isGranted(VoterPermissions::ARCHIVE, $entity)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
-        $entity->setArchived(true);
-        $this->repository->update($entity, true, false);
-
-        return $builder->buildResponseForPutRequest($this->endpoint, $entity, Response::HTTP_OK, $request);
     }
 
     protected function lockProgramYear(

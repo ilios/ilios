@@ -49,7 +49,6 @@ class ProgramYear extends AbstractVoter
             VoterPermissions::CREATE => $this->permissionChecker->canCreateProgramYear($user, $subject->getProgram()),
             VoterPermissions::DELETE => $this->permissionChecker->canDeleteProgramYear($user, $subject),
             VoterPermissions::UNLOCK => $this->permissionChecker->canUnlockProgramYear($user, $subject),
-            VoterPermissions::ARCHIVE => $this->permissionChecker->canArchiveProgramYear($user, $subject),
             VoterPermissions::LOCK => $this->permissionChecker->canLockProgramYear($user, $subject),
             default => false,
         };

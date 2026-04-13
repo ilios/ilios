@@ -66,8 +66,6 @@ interface Capabilities
     /** @var string */
     public const string CAN_LOCK_ALL_PROGRAM_YEARS = 'canLockAllProgramYears';
     /** @var string */
-    public const string CAN_ARCHIVE_ALL_PROGRAM_YEARS = 'canArchiveAllProgramYears';
-    /** @var string */
     public const string CAN_CREATE_PROGRAM_YEARS = 'canCreateProgramYears';
     /** @var string */
     public const string CAN_UPDATE_THEIR_PROGRAM_YEARS = 'canUpdateTheirProgramYears';
@@ -75,8 +73,6 @@ interface Capabilities
     public const string CAN_DELETE_THEIR_PROGRAM_YEARS = 'canDeleteTheirProgramYears';
     /** @var string */
     public const string CAN_LOCK_THEIR_PROGRAM_YEARS = 'canLockTheirProgramYears';
-    /** @var string */
-    public const string CAN_ARCHIVE_THEIR_PROGRAM_YEARS = 'canArchiveTheirProgramYears';
     /** @var string */
     public const string CAN_UNLOCK_THEIR_PROGRAM_YEARS = 'canUnlockTheirProgramYears';
     /** @var string */

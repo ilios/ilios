@@ -41,7 +41,6 @@ class ProgramYearRepository extends ServiceEntityRepository implements
                 $arr['id'],
                 $arr['startYear'],
                 $arr['locked'],
-                $arr['archived']
             );
         }
 
