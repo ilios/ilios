@@ -199,11 +199,10 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
 
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 60);
-        $table->setColumnMaxWidth(1, 15);
         $table->setHeaders([
             [
                 new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
-                new TableCell('Academic Level', ['rowspan' => 2]),
+                new TableCell('Phases (Start - End)', ['rowspan' => 2]),
                 new TableCell('Number of Formal Instructional Hours Per Course', ['colspan' => count($titles) + 1]),
             ],
             array_merge($titles, ['Total']),

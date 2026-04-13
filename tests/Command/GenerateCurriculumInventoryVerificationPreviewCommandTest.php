@@ -212,7 +212,7 @@ final class GenerateCurriculumInventoryVerificationPreviewCommandTest extends Ke
         $this->assertMatchesRegularExpression(
             $this->buildTableRowRegex([
                 'Non-clerkship Sequence Blocks',
-                'Academic Level',
+                'Phases (Start - End)',
                 'Number of Formal Instructional Hours Per Course',
             ]),
             $output
