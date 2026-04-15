@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\ApplicationConfig;
 use App\Repository\ApplicationConfigRepository;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Set an application configuration value in the DB
@@ -35,40 +33,19 @@ class SetConfigValueCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            //required arguments
-            ->addArgument(
-                'name',
-                InputArgument::REQUIRED,
-                'The name of the configuration we are setting'
-            )
-            ->addOption(
-                'remove',
-                'r',
-                InputOption::VALUE_NONE,
-                'Remove the value instead of setting it'
-            )
-            ->addArgument(
-                'value',
-                InputArgument::OPTIONAL,
-                'The value of the configuration we are setting'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $name = $input->getArgument('name');
-        $value = $input->getArgument('value');
-        $isRemoving = $input->getOption('remove');
-        if (!$isRemoving && !$value) {
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'The name of the configuration we are setting')] string $name,
+        #[Argument(description: 'The value of the configuration we are setting')] ?string $value,
+        #[Option(description: 'Remove the value instead of setting it', shortcut: 'r')] bool $remove = false,
+    ): int {
+        if (!$remove && !$value) {
             throw new RuntimeException("'value' is required");
         }
 
         $config = $this->applicationConfigRepository->findOneBy(['name' => $name]);
 
-        if ($isRemoving) {
+        if ($remove) {
             if ($config) {
                 $this->applicationConfigRepository->delete($config);
                 $output->writeln("{$name} removed.");

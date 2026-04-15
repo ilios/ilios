@@ -34,7 +34,7 @@ class FixLearningMaterialMimeTypesCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(InputInterface $input, OutputInterface $output): int
     {
         $totalLearningMaterialsCount = $this->learningMaterialRepository->getTotalLearningMaterialCount();
 

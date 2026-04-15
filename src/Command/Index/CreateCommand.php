@@ -7,7 +7,6 @@ namespace App\Command\Index;
 use App\Service\Index\Manager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -25,7 +24,7 @@ class CreateCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(OutputInterface $output): int
     {
         $output->writeln("<info>Creating the search index.</info>");
         if (!$this->indexManager->isEnabled()) {

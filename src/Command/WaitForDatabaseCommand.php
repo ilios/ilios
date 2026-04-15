@@ -29,7 +29,7 @@ class WaitForDatabaseCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(InputInterface $input, OutputInterface $output): int
     {
         //start an infinite loop for checking the connection every second
         while (true) {

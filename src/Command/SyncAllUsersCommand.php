@@ -8,11 +8,9 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\PendingUserUpdateRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\Directory;
 
@@ -38,7 +36,7 @@ class SyncAllUsersCommand extends Command
         parent::__construct();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    public function __invoke(OutputInterface $output): int
     {
         $output->writeln('<info>Starting User Sync Process.</info>');
         $this->userRepository->resetExaminedFlagForAllUsers();

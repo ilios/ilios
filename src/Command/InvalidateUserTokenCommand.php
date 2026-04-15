@@ -7,10 +7,9 @@ namespace App\Command;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use DateTime;
 
@@ -33,15 +32,11 @@ class InvalidateUserTokenCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this->addArgument('userId', InputArgument::REQUIRED, 'A valid user id.');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'A valid user id.', name: 'userId')] string $userId,
+    ): int {
         $now = new DateTime();
-        $userId = $input->getArgument('userId');
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception(

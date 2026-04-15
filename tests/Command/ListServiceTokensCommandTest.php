@@ -101,7 +101,7 @@ final class ListServiceTokensCommandTest extends KernelTestCase
     {
         $this->serviceTokenRepository->shouldReceive('findBy')->withArgs([['enabled' => true]])->andReturn([]);
         $this->commandTester->execute([
-            '--' . ListServiceTokensCommand::EXCLUDE_DISABLED_KEY => true,
+            '--exclude-disabled' => true,
         ]);
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
         $output = trim($this->commandTester->getDisplay());
@@ -129,7 +129,7 @@ final class ListServiceTokensCommandTest extends KernelTestCase
             ->shouldReceive('findBy')
             ->andReturn([$serviceToken1, $serviceToken2]);
         $this->commandTester->execute([
-            '--' . ListServiceTokensCommand::EXCLUDE_EXPIRED_KEY => true,
+            '--exclude-expired' => true,
         ]);
         $output = trim($this->commandTester->getDisplay());
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
@@ -163,7 +163,7 @@ final class ListServiceTokensCommandTest extends KernelTestCase
             ->shouldReceive('findBy')
             ->andReturn([$serviceToken1, $serviceToken2]);
         $this->commandTester->execute([
-            '--' . ListServiceTokensCommand::EXPIRES_WITHIN_KEY => $expiresWithin,
+            '--expires-within' => $expiresWithin,
         ]);
         $output = trim($this->commandTester->getDisplay());
         $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -28,26 +27,11 @@ class SendTestEmailCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'from',
-                InputArgument::REQUIRED,
-                'The email address to send from'
-            )
-            ->addArgument(
-                'to',
-                InputArgument::REQUIRED,
-                'The email address to send to'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $to = $input->getArgument('to');
-        $from = $input->getArgument('from');
-
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'The email address to send from')] string $from,
+        #[Argument(description: 'The email address to send to')] string $to,
+    ): int {
         $message = (new Email())
             ->to($to)
             ->from($from)

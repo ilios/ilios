@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Classes\SessionUser;
-use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\JsonWebTokenManager;
 
@@ -35,33 +32,18 @@ class CreateUserTokenCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'userId',
-                InputArgument::REQUIRED,
-                'A valid user id.'
-            )
-            ->addOption(
-                'ttl',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'What is the interval before the token expires?',
-                'PT8H'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $userId = $input->getArgument('userId');
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'A valid user id.', name: 'userId')] int $userId,
+        #[Option(description: 'What is the interval before the token expires?')] string $ttl = 'PT8H'
+    ): int {
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new Exception(
                 "No user with id #{$userId} was found."
             );
         }
-        $jwt = $this->jwtManager->createJwtFromUserId($user->getId(), $input->getOption('ttl'));
+        $jwt = $this->jwtManager->createJwtFromUserId($user->getId(), $ttl);
 
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);

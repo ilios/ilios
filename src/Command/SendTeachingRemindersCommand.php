@@ -10,11 +10,10 @@ use App\Entity\UserInterface;
 use App\Repository\OfferingRepository;
 use App\Repository\SchoolRepository;
 use App\Service\Config;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
@@ -34,6 +33,8 @@ use Twig\Environment;
 )]
 class SendTeachingRemindersCommand extends Command
 {
+    public const int DEFAULT_DAYS_IN_ADVANCE = 7;
+
     public const string DEFAULT_TEMPLATE_NAME = 'teachingreminder.text.twig';
 
     public const string DEFAULT_MESSAGE_SUBJECT = 'Upcoming Teaching Session';
@@ -50,57 +51,27 @@ class SendTeachingRemindersCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument(
-                'sender',
-                InputArgument::REQUIRED,
-                'Email address to send reminders from.'
-            )
-            ->addArgument(
-                'base_url',
-                InputArgument::REQUIRED,
-                'The base URL of your Ilios instance.'
-            )
-            ->addOption(
-                'days',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'How many days in advance of teaching events reminders should be sent.',
-                7
-            )
-            ->addOption(
-                'subject',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'The subject line of reminder emails.',
-                self::DEFAULT_MESSAGE_SUBJECT
-            )
-            ->addOption(
-                'sender_name',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                "The name of the reminder's sender."
-            )
-            ->addOption(
-                'schools',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                "Only Send Reminders for this comma seperated list of school ids."
-            )
-            ->addOption(
-                'dry-run',
-                null,
-                InputOption::VALUE_NONE,
-                'Prints out notification instead of emailing it. Useful for testing/debugging purposes.'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'Email address to send reminders from.')] string $sender,
+        #[Argument(description: 'The base URL of your Ilios instance.', name: 'base_url')] string $baseUrl,
+        #[Option(description: "The name of the reminder's sender.", name: 'sender_name')] ?string $senderName = null,
+        #[Option(
+            description: 'Only Send Reminders for this comma separated list of school ids.'
+        )] ?string $schools = null,
+        #[Option(
+            description: 'Prints out notification instead of emailing it. Useful for testing/debugging purposes.',
+            name: 'dry-run'
+        )] bool $isDryRun = false,
+        #[Option(
+            description: 'How many days in advance of teaching events reminders should be sent.'
+        )] int $days = self::DEFAULT_DAYS_IN_ADVANCE,
+        #[Option(
+            description: 'The subject line of the reminder emails.'
+        )] string $subject = self::DEFAULT_MESSAGE_SUBJECT,
+    ): int {
         // input validation
-        $errors = $this->validateInput($input);
+        $errors = $this->validateInput($days, $sender);
         if (! empty($errors)) {
             foreach ($errors as $error) {
                 $output->writeln("<error>{$error}</error>");
@@ -108,13 +79,7 @@ class SendTeachingRemindersCommand extends Command
             return Command::FAILURE;
         }
 
-        $daysInAdvance = (int) $input->getOption('days');
-        $sender = $input->getArgument('sender');
-        $baseUrl = rtrim($input->getArgument('base_url'), '/');
-        $subject = $input->getOption('subject');
-        $isDryRun = $input->getOption('dry-run');
-        $senderName = $input->getOption('sender_name');
-        $schools = $input->getOption('schools');
+        $baseUrl = rtrim($baseUrl);
         $from = $sender;
         if ($senderName) {
             $from = new Address($sender, $senderName);
@@ -126,7 +91,7 @@ class SendTeachingRemindersCommand extends Command
         }
 
         // get all applicable offerings.
-        $offerings = $this->offeringRepository->getOfferingsForTeachingReminders($daysInAdvance, $schoolIds);
+        $offerings = $this->offeringRepository->getOfferingsForTeachingReminders($days, $schoolIds);
 
         if ($offerings === []) {
             $output->writeln('<info>No offerings with pending teaching reminders found.</info>');
@@ -201,15 +166,13 @@ class SendTeachingRemindersCommand extends Command
     /**
      * Validates user input.
      */
-    protected function validateInput(InputInterface $input): array
+    protected function validateInput(int $days, string $sender): array
     {
         $errors = [];
 
-        $daysInAdvance = intval($input->getOption('days'), 10);
-        if (0 > $daysInAdvance) {
-            $errors[] = "Invalid value '{$daysInAdvance}' for '--days' option. Must be greater or equal to 0.";
+        if (0 > $days) {
+            $errors[] = "Invalid value '{$days}' for '--days' option. Must be greater or equal to 0.";
         }
-        $sender = $input->getArgument('sender');
         if (! filter_var($sender, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Invalid value '{$sender}' for '--sender' option. Must be a valid email address.";
         }

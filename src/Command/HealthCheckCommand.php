@@ -26,7 +26,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -60,7 +59,7 @@ class HealthCheckCommand extends Command
     }
 
     public function __invoke(
-        InputInterface $input,
+        SymfonyStyle $io,
         OutputInterface $output,
         #[Option(description: 'Run a minimal subset of checks only.')]bool $minimal = false
     ): int {
@@ -70,7 +69,6 @@ class HealthCheckCommand extends Command
         $summaryStatus = $data['summary_status'];
         $rhett = HealthCheckRunner::STATUS_OK === $summaryStatus ? Command::SUCCESS : Command::FAILURE;
 
-        $io = new SymfonyStyle($input, $output);
         $io->title('Health Checks (' . count($results) . ')');
         $table = new Table($output);
         $table->setHeaders(['Check', 'Status', 'Message']);

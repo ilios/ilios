@@ -8,12 +8,11 @@ use App\Entity\CurriculumInventoryReportInterface;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
 use Exception;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Rolls over (copies) a given curriculum inventory report.
@@ -32,43 +31,13 @@ class RolloverCurriculumInventoryReportCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            //required arguments
-            ->addArgument(
-                'reportId',
-                InputArgument::REQUIRED,
-                'The id of the report to roll over.'
-            )
-            ->addOption(
-                'name',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Name override for the rolled-over report.'
-            )
-            //optional flags
-            ->addOption(
-                'description',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Description override for the rolled-over report.'
-            )
-            ->addOption(
-                'year',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Academic-year override for the rolled-over report (YYYY).'
-            );
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $reportId = $input->getArgument('reportId');
-        $name = $input->getOption('name');
-        $description = $input->getOption('description');
-        $year = $input->getOption('year');
-
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument(description: 'The id of the report to roll over', name: 'reportId')] int $reportId,
+        #[Option(description: 'Name override for the rolled-over report.')] ?string $name = null,
+        #[Option(description: 'Description override for the rolled-over report.')] ?string $description = null,
+        #[Option(description: 'Academic-year override for the rolled-over report (YYYY).')] ?int $year = null,
+    ): int {
         /** @var ?CurriculumInventoryReportInterface $report */
         $report = $this->reportRepository->findOneBy(['id' => $reportId]);
         if (! $report) {
