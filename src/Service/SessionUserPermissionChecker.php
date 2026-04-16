@@ -475,7 +475,7 @@ class SessionUserPermissionChecker
 
     public function canUpdateProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isLocked() || $programYear->isArchived()) {
+        if ($programYear->isLocked()) {
             return false;
         }
         if ($sessionUser->isRoot()) {
@@ -517,7 +517,7 @@ class SessionUserPermissionChecker
 
     public function canDeleteProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isLocked() || $programYear->isArchived()) {
+        if ($programYear->isLocked()) {
             return false;
         }
         if ($sessionUser->isRoot()) {
@@ -581,9 +581,6 @@ class SessionUserPermissionChecker
 
     public function canUnlockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isArchived()) {
-            return false;
-        }
         if ($sessionUser->isRoot()) {
             return true;
         }
@@ -623,9 +620,6 @@ class SessionUserPermissionChecker
 
     public function canLockProgramYear(SessionUserInterface $sessionUser, ProgramYearInterface $programYear): bool
     {
-        if ($programYear->isArchived()) {
-            return false;
-        }
         if ($sessionUser->isRoot()) {
             return true;
         }
