@@ -56,6 +56,7 @@ class ProgramYear implements ProgramYearInterface
     #[Assert\Type(type: 'bool')]
     protected bool $locked;
 
+    /** @deprecated */
     #[ORM\Column(name: 'archived', type: 'boolean')]
     #[IA\Expose]
     #[IA\Type('boolean')]
