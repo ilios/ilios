@@ -99,7 +99,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             'Item Code',
             'Instructional Method',
             'Number of Events Featuring This as the Primary Method',
-            'Number of Non-Primary Occurrences if This Method',
+            'Number of Non-Primary Occurrences of This Method',
             ]);
         $table->addRows($data);
         $table->addRow(new TableSeparator());
@@ -125,7 +125,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table = new Table($output);
         $table->setHeaders([
             'Item Code',
-            'Assessment Method(s)',
+            'Assessment Methods',
             'Number of Summative Assessments',
             'Number of Formative Assessments',
         ]);
@@ -191,11 +191,10 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
 
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 60);
-        $table->setColumnMaxWidth(1, 15);
         $table->setHeaders([
             [
                 new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
-                new TableCell('Academic Level', ['rowspan' => 2]),
+                new TableCell('Phases (Start - End)', ['rowspan' => 2]),
                 new TableCell('Number of Formal Instructional Hours Per Course', ['colspan' => count($titles) + 1]),
             ],
             array_merge($titles, ['Total']),
@@ -213,7 +212,7 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
             $total = round($clerkship['total'] / 60, 2);
             $table->addRow(
                 array_merge(
-                    [$clerkship['title'], $clerkship['level']],
+                    [$clerkship['title'], $clerkship['starting_level'] . ' - ' . $clerkship['ending_level']],
                     $hours,
                     ["<options=bold>$total</>"]
                 )
@@ -250,11 +249,19 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->setColumnMaxWidth(0, 60);
         $table->setHeaders([
             'Non-Clerkship Sequence Blocks',
-            'Academic Level',
+            'Phases (Start - End)',
             'Total Weeks',
             'Average Hours of Instruction Per Week',
             ]);
-        $table->setRows($data);
+
+        foreach ($data as $row) {
+            $table->addRow([
+                $row['title'],
+                "{$row['starting_level']} - {$row['ending_level']}",
+                $row['weeks'],
+                $row['avg'],
+            ]);
+        }
         $table->render();
     }
 
@@ -265,11 +272,18 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $table->setColumnMaxWidth(0, 60);
         $table->setHeaders([
                 'Clerkship Sequence Blocks',
-                'Academic Level',
+                'Phases (Start - End)',
                 'Total Weeks',
                 'Average Hours of Instruction Per Week',
             ]);
-        $table->setRows($data);
+        foreach ($data as $row) {
+            $table->addRow([
+                $row['title'],
+                "{$row['starting_level']} - {$row['ending_level']}",
+                $row['weeks'],
+                $row['avg'],
+            ]);
+        }
         $table->render();
     }
 
@@ -278,26 +292,29 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $this->printTableHeadline($output, 'Table 5: Non-Clerkship Sequence Block Assessment Methods');
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 50);
-        $table->setColumnMaxWidth(1, 15);
         $table->setHeaders([
             [
-                new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
-                new TableCell('Academic Level', ['rowspan' => 2]),
-                new TableCell('Formative Asmt.', ['rowspan' => 2]),
-                new TableCell('Narrative Asmt.', ['rowspan' => 2]),
+                new TableCell('Non-Clerkship Sequence Blocks', ['rowspan' => 2]),
+                new TableCell('Phases (Start - End)', ['rowspan' => 2]),
                 new TableCell('Included in Grade', ['colspan' => count($data['methods']) + 1 ]),
+                new TableCell('Assessments', ['colspan' => 2]),
             ],
-            array_merge(['Number of Exams'], $data['methods']),
+            array_merge(['Number of Exams'], $data['methods'], ['Formative', 'Narrative']),
         ]);
 
         foreach ($data['rows'] as $row) {
-            $table->addRow(array_merge([
-                $row['title'],
-                $row['level'],
-                $row['has_formative_assessments'] ? 'Y' : '',
-                $row['has_narrative_assessments'] ? 'Y' : '',
-                $row['num_exams'] ?: '',
-            ], array_map(fn($method) => $method ? 'X' : '', $row['methods'])));
+            $table->addRow(array_merge(
+                [
+                    $row['title'],
+                    $row['starting_level'] . ' - ' . $row['ending_level'],
+                   $row['num_exams'] ?: '',
+                ],
+                array_map(fn($method) => $method ? 'X' : '', $row['methods']),
+                [
+                    $row['has_formative_assessments'] ? 'Y' : '',
+                    $row['has_narrative_assessments'] ? 'Y' : '',
+                ],
+            ));
         }
 
         $table->render();
@@ -308,25 +325,28 @@ class GenerateCurriculumInventoryVerificationPreviewCommand extends Command
         $this->printTableHeadline($output, 'Table 6: Clerkship Sequence Block Assessment Methods');
         $table = new Table($output);
         $table->setColumnMaxWidth(0, 50);
-        $table->setColumnMaxWidth(1, 15);
         $table->setHeaders([
             [
-                new TableCell('Non-clerkship Sequence Blocks', ['rowspan' => 2]),
-                new TableCell('Academic Level', ['rowspan' => 2]),
-                new TableCell('Formative Asmt.', ['rowspan' => 2]),
-                new TableCell('Narrative Asmt.', ['rowspan' => 2]),
-                new TableCell('Included in Grade', ['colspan' => count($data['methods']) ]),
+                new TableCell('Clerkship Sequence Blocks', ['rowspan' => 2]),
+                new TableCell('Phases (Start - End)', ['rowspan' => 2]),
+                new TableCell('Included in Grade', ['colspan' => count($data['methods'])]),
+                new TableCell('Assessments', ['colspan' => 2]),
             ],
-            $data['methods'],
+            array_merge($data['methods'], ['Formative', 'Narrative']),
         ]);
 
         foreach ($data['rows'] as $row) {
-            $table->addRow(array_merge([
-                $row['title'],
-                $row['level'],
-                $row['has_formative_assessments'] ? 'Y' : '',
-                $row['has_narrative_assessments'] ? 'Y' : '',
-            ], array_map(fn($method) => $method ? 'X' : '', $row['methods'])));
+            $table->addRow(array_merge(
+                [
+                    $row['title'],
+                    $row['starting_level'] . ' - ' . $row['ending_level'],
+                ],
+                array_map(fn($method) => $method ? 'X' : '', $row['methods']),
+                [
+                    $row['has_formative_assessments'] ? 'Y' : '',
+                    $row['has_narrative_assessments'] ? 'Y' : '',
+                ],
+            ));
         }
 
         $table->render();
