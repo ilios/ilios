@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "async-aws/core",
-            "version": "1.28.1",
+            "version": "1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/async-aws/core.git",
-                "reference": "e8b02ac30b17afaf1352cbd352dceb789d792d39"
+                "reference": "70899695fcc7b23a9247926ff8b581668583b993"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/async-aws/core/zipball/e8b02ac30b17afaf1352cbd352dceb789d792d39",
-                "reference": "e8b02ac30b17afaf1352cbd352dceb789d792d39",
+                "url": "https://api.github.com/repos/async-aws/core/zipball/70899695fcc7b23a9247926ff8b581668583b993",
+                "reference": "70899695fcc7b23a9247926ff8b581668583b993",
                 "shasum": ""
             },
             "require": {
@@ -43,7 +43,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.28-dev"
+                    "dev-master": "1.29-dev"
                 }
             },
             "autoload": {
@@ -64,7 +64,7 @@
                 "sts"
             ],
             "support": {
-                "source": "https://github.com/async-aws/core/tree/1.28.1"
+                "source": "https://github.com/async-aws/core/tree/1.29.0"
             },
             "funding": [
                 {
@@ -76,20 +76,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-16T10:24:54+00:00"
+            "time": "2026-04-18T17:06:10+00:00"
         },
         {
             "name": "async-aws/ses",
-            "version": "1.14.1",
+            "version": "1.14.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/async-aws/ses.git",
-                "reference": "8ba4c7f5bbb4d1055f3ebedcf0ea1b8b79393e5b"
+                "reference": "ab3bceb3380e971a5619fbd27d921a5352e644f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/async-aws/ses/zipball/8ba4c7f5bbb4d1055f3ebedcf0ea1b8b79393e5b",
-                "reference": "8ba4c7f5bbb4d1055f3ebedcf0ea1b8b79393e5b",
+                "url": "https://api.github.com/repos/async-aws/ses/zipball/ab3bceb3380e971a5619fbd27d921a5352e644f4",
+                "reference": "ab3bceb3380e971a5619fbd27d921a5352e644f4",
                 "shasum": ""
             },
             "require": {
@@ -125,7 +125,7 @@
                 "ses"
             ],
             "support": {
-                "source": "https://github.com/async-aws/ses/tree/1.14.1"
+                "source": "https://github.com/async-aws/ses/tree/1.14.2"
             },
             "funding": [
                 {
@@ -137,7 +137,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-16T10:24:54+00:00"
+            "time": "2026-04-18T17:06:10+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -195,16 +195,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.378.2",
+            "version": "3.379.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "df2a6c362ddce2ede3ac3a8286f5788847e614b4"
+                "reference": "45c385619d43e54ede8daca211960c345d3ff3b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/df2a6c362ddce2ede3ac3a8286f5788847e614b4",
-                "reference": "df2a6c362ddce2ede3ac3a8286f5788847e614b4",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/45c385619d43e54ede8daca211960c345d3ff3b7",
+                "reference": "45c385619d43e54ede8daca211960c345d3ff3b7",
                 "shasum": ""
             },
             "require": {
@@ -286,9 +286,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.378.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.379.2"
             },
-            "time": "2026-04-10T18:13:27+00:00"
+            "time": "2026-04-17T18:05:27+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -8698,7 +8698,7 @@
         },
         {
             "name": "symfony/polyfill-intl-grapheme",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
@@ -8756,7 +8756,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-intl-grapheme/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -8780,7 +8780,7 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.34.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
@@ -8843,7 +8843,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.34.0"
+                "source": "https://github.com/symfony/polyfill-intl-idn/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -8867,7 +8867,7 @@
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
@@ -8928,7 +8928,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-intl-normalizer/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -8952,7 +8952,7 @@
         },
         {
             "name": "symfony/polyfill-php84",
-            "version": "v1.35.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php84.git",
@@ -9008,7 +9008,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php84/tree/v1.35.0"
+                "source": "https://github.com/symfony/polyfill-php84/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -9032,7 +9032,7 @@
         },
         {
             "name": "symfony/polyfill-php85",
-            "version": "v1.34.0",
+            "version": "v1.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php85.git",
@@ -9088,7 +9088,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.34.0"
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.36.0"
             },
             "funding": [
                 {
@@ -11585,16 +11585,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "6.1.0",
+            "version": "6.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "6e60677567b684645048c908151c72047abef403"
+                "reference": "2cc71771759d9fdfecd5fbb72bcb00e307f43ecb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/6e60677567b684645048c908151c72047abef403",
-                "reference": "6e60677567b684645048c908151c72047abef403",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/2cc71771759d9fdfecd5fbb72bcb00e307f43ecb",
+                "reference": "2cc71771759d9fdfecd5fbb72bcb00e307f43ecb",
                 "shasum": ""
             },
             "require": {
@@ -11616,7 +11616,7 @@
                 "doctrine/annotations": "^2.0",
                 "friendsofphp/php-cs-fixer": "^3.62.0",
                 "phpstan/phpstan": "^2.0",
-                "phpunit/phpunit": "^11.5",
+                "phpunit/phpunit": "^11.5 || >=12.5.22",
                 "rector/rector": "^2.3.1"
             },
             "bin": [
@@ -11663,7 +11663,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/6.1.0"
+                "source": "https://github.com/zircote/swagger-php/tree/6.1.1"
             },
             "funding": [
                 {
@@ -11671,7 +11671,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-06T21:46:06+00:00"
+            "time": "2026-04-19T21:47:30+00:00"
         }
     ],
     "packages-dev": [
@@ -12813,11 +12813,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.49",
+            "version": "2.1.50",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d0082955396e7f5ba19cf298224b85e1099f0ed8",
-                "reference": "d0082955396e7f5ba19cf298224b85e1099f0ed8",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d452086fb4cf648c6b2d8cf3b639351f79e4f3e2",
+                "reference": "d452086fb4cf648c6b2d8cf3b639351f79e4f3e2",
                 "shasum": ""
             },
             "require": {
@@ -12862,7 +12862,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-16T21:10:58+00:00"
+            "time": "2026-04-17T13:10:32+00:00"
         },
         {
             "name": "phpstan/phpstan-mockery",
@@ -12989,16 +12989,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "12.5.5",
+            "version": "12.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "a25bde1f8f83849f441ef5713c6466e470872a71"
+                "reference": "876099a072646c7745f673d7aeab5382c4439691"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/a25bde1f8f83849f441ef5713c6466e470872a71",
-                "reference": "a25bde1f8f83849f441ef5713c6466e470872a71",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/876099a072646c7745f673d7aeab5382c4439691",
+                "reference": "876099a072646c7745f673d7aeab5382c4439691",
                 "shasum": ""
             },
             "require": {
@@ -13053,7 +13053,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.5"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.6"
             },
             "funding": [
                 {
@@ -13073,7 +13073,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-13T04:53:32+00:00"
+            "time": "2026-04-15T08:23:17+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -13334,16 +13334,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.19",
+            "version": "12.5.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "92f7744ca5f5701c9e4b4a60d9e143f2d84956da"
+                "reference": "c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/92f7744ca5f5701c9e4b4a60d9e143f2d84956da",
-                "reference": "92f7744ca5f5701c9e4b4a60d9e143f2d84956da",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969",
+                "reference": "c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969",
                 "shasum": ""
             },
             "require": {
@@ -13357,15 +13357,15 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.3",
-                "phpunit/php-code-coverage": "^12.5.5",
+                "phpunit/php-code-coverage": "^12.5.6",
                 "phpunit/php-file-iterator": "^6.0.1",
                 "phpunit/php-invoker": "^6.0.0",
                 "phpunit/php-text-template": "^5.0.0",
                 "phpunit/php-timer": "^8.0.0",
                 "sebastian/cli-parser": "^4.2.0",
-                "sebastian/comparator": "^7.1.5",
+                "sebastian/comparator": "^7.1.6",
                 "sebastian/diff": "^7.0.0",
-                "sebastian/environment": "^8.0.4",
+                "sebastian/environment": "^8.1.0",
                 "sebastian/exporter": "^7.0.2",
                 "sebastian/global-state": "^8.0.2",
                 "sebastian/object-enumerator": "^7.0.0",
@@ -13412,7 +13412,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.19"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.23"
             },
             "funding": [
                 {
@@ -13420,7 +13420,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-04-13T05:38:19+00:00"
+            "time": "2026-04-18T06:12:49+00:00"
         },
         {
             "name": "sanmai/di-container",
@@ -13767,16 +13767,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "7.1.5",
+            "version": "7.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "c284f55811f43d555e51e8e5c166ac40d3e33c63"
+                "reference": "c769009dee98f494e0edc3fd4f4087501688f11e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/c284f55811f43d555e51e8e5c166ac40d3e33c63",
-                "reference": "c284f55811f43d555e51e8e5c166ac40d3e33c63",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/c769009dee98f494e0edc3fd4f4087501688f11e",
+                "reference": "c769009dee98f494e0edc3fd4f4087501688f11e",
                 "shasum": ""
             },
             "require": {
@@ -13835,7 +13835,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
                 "security": "https://github.com/sebastianbergmann/comparator/security/policy",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/7.1.5"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/7.1.6"
             },
             "funding": [
                 {
@@ -13855,7 +13855,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-08T04:43:00+00:00"
+            "time": "2026-04-14T08:23:15+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -13984,16 +13984,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "8.0.4",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "7b8842c2d8e85d0c3a5831236bf5869af6ab2a11"
+                "reference": "b121608b28a13f721e76ffbbd386d08eff58f3f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/7b8842c2d8e85d0c3a5831236bf5869af6ab2a11",
-                "reference": "7b8842c2d8e85d0c3a5831236bf5869af6ab2a11",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/b121608b28a13f721e76ffbbd386d08eff58f3f6",
+                "reference": "b121608b28a13f721e76ffbbd386d08eff58f3f6",
                 "shasum": ""
             },
             "require": {
@@ -14008,7 +14008,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "8.0-dev"
+                    "dev-main": "8.1-dev"
                 }
             },
             "autoload": {
@@ -14036,7 +14036,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
                 "security": "https://github.com/sebastianbergmann/environment/security/policy",
-                "source": "https://github.com/sebastianbergmann/environment/tree/8.0.4"
+                "source": "https://github.com/sebastianbergmann/environment/tree/8.1.0"
             },
             "funding": [
                 {
@@ -14056,7 +14056,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-15T07:05:40+00:00"
+            "time": "2026-04-15T12:13:01+00:00"
         },
         {
             "name": "sebastian/exporter",
