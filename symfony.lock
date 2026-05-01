@@ -805,12 +805,12 @@
         "version": "v5.2.0"
     },
     "symfony/sendgrid-mailer": {
-        "version": "6.3",
+        "version": "8.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "4.4",
-            "ref": "224aedffb66812dc2b0965dabc14d5f800941da6"
+            "ref": "1caff9467bfc5c7f68503aa9eba9dc762a30ae21"
         }
     },
     "symfony/serializer": {
