@@ -1,4 +1,6 @@
 parameters:
+    excludePaths:
+    - config/reference.php (?)
     symfony:
         containerXmlPath: var/cache/test/App_KernelTestDebugContainer.xml
         consoleApplicationLoader: tests/phpstan-console-application.php
