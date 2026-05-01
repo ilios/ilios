@@ -728,12 +728,12 @@
         "version": "v1.20.0"
     },
     "symfony/postmark-mailer": {
-        "version": "6.3",
+        "version": "8.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "4.4",
-            "ref": "631f81f2fbf58126ae699a04b1d0984442613a19"
+            "ref": "a5924b4e3d78962df013d8434f463c090594ae79"
         }
     },
     "symfony/process": {
