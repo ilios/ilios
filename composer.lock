@@ -3136,16 +3136,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.3.9",
+            "version": "v1.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "5edf2e43d9f42e5baa6f844826213257c247b309"
+                "reference": "484792759de89fe94ea6a192065ea7cd99f1eaa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/5edf2e43d9f42e5baa6f844826213257c247b309",
-                "reference": "5edf2e43d9f42e5baa6f844826213257c247b309",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/484792759de89fe94ea6a192065ea7cd99f1eaa2",
+                "reference": "484792759de89fe94ea6a192065ea7cd99f1eaa2",
                 "shasum": ""
             },
             "require": {
@@ -3182,9 +3182,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.3.9"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.3.11"
             },
-            "time": "2026-04-14T19:32:41+00:00"
+            "time": "2026-05-10T14:08:06+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -15411,7 +15411,8 @@
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
-        "symfony/web-profiler-bundle": 0
+        "symfony/web-profiler-bundle": 0,
+        "symfony/yaml": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
