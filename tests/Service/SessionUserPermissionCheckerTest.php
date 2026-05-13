@@ -1756,17 +1756,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $this->assertFalse($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
     }
 
-    public function testCanNotUpdateArchivedProgramYears(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
-
-        $this->assertFalse($this->permissionChecker->canUpdateProgramYear($sessionUser, $programYear));
-    }
-
     public function testCanDeleteAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -1955,17 +1944,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
 
         $programYear->shouldReceive('isArchived')->andReturn(false);
         $programYear->shouldReceive('isLocked')->andReturn(true);
-
-        $this->assertFalse($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanNotDeleteArchivedProgramYears(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $programYear->shouldReceive('isLocked')->andReturn(false);
 
         $this->assertFalse($this->permissionChecker->canDeleteProgramYear($sessionUser, $programYear));
     }
@@ -2194,16 +2172,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
         $this->assertTrue($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
     }
 
-    public function testCanNotLockProgramYearIfProgramYearIsArchived(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-
-        $this->assertFalse($this->permissionChecker->canLockProgramYear($sessionUser, $programYear));
-    }
-
     public function testCanUnlockAllProgramYears(): void
     {
         $rolesInSchool = ['foo'];
@@ -2318,16 +2286,6 @@ final class SessionUserPermissionCheckerTest extends TestCase
             ->andReturn(true);
 
         $this->assertTrue($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
-    }
-
-    public function testCanNotUnlockProgramYearIfProgramYearIsArchived(): void
-    {
-        $programYear = m::mock(ProgramYearInterface::class);
-        $programYear->shouldReceive('isArchived')->andReturn(true);
-        $sessionUser = m::mock(SessionUserInterface::class);
-
-
-        $this->assertFalse($this->permissionChecker->canUnlockProgramYear($sessionUser, $programYear));
     }
 
     public function testCanArchiveAllProgramYears(): void
