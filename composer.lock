@@ -11464,16 +11464,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "eb0d790f735ba6cff25c683a85a1da0eadeff9e4"
+                "reference": "9007ea6f45ecf352a9422b36644e4bfc039b9155"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/eb0d790f735ba6cff25c683a85a1da0eadeff9e4",
-                "reference": "eb0d790f735ba6cff25c683a85a1da0eadeff9e4",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9007ea6f45ecf352a9422b36644e4bfc039b9155",
+                "reference": "9007ea6f45ecf352a9422b36644e4bfc039b9155",
                 "shasum": ""
             },
             "require": {
@@ -11489,7 +11489,11 @@
             },
             "type": "library",
             "extra": {
+                "psalm": {
+                    "pluginClass": "Webmozart\\Assert\\PsalmPlugin"
+                },
                 "branch-alias": {
+                    "dev-master": "2.0-dev",
                     "dev-feature/2-0": "2.0-dev"
                 }
             },
@@ -11520,9 +11524,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/2.3.0"
+                "source": "https://github.com/webmozarts/assert/tree/2.4.0"
             },
-            "time": "2026-04-11T10:33:05+00:00"
+            "time": "2026-05-20T13:07:01+00:00"
         },
         {
             "name": "webonyx/graphql-php",
@@ -12171,16 +12175,16 @@
         },
         {
             "name": "infection/infection",
-            "version": "0.33.1",
+            "version": "0.33.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/infection/infection.git",
-                "reference": "afa08ff0feb21fac9f8351c9c6a6856f0ef58fdb"
+                "reference": "c0250ea5c1082e26798a236b05d1cb319175ab3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/infection/infection/zipball/afa08ff0feb21fac9f8351c9c6a6856f0ef58fdb",
-                "reference": "afa08ff0feb21fac9f8351c9c6a6856f0ef58fdb",
+                "url": "https://api.github.com/repos/infection/infection/zipball/c0250ea5c1082e26798a236b05d1cb319175ab3e",
+                "reference": "c0250ea5c1082e26798a236b05d1cb319175ab3e",
                 "shasum": ""
             },
             "require": {
@@ -12293,7 +12297,7 @@
             ],
             "support": {
                 "issues": "https://github.com/infection/infection/issues",
-                "source": "https://github.com/infection/infection/tree/0.33.1"
+                "source": "https://github.com/infection/infection/tree/0.33.2"
             },
             "funding": [
                 {
@@ -12305,7 +12309,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-05-17T17:44:47+00:00"
+            "time": "2026-05-20T07:03:50+00:00"
         },
         {
             "name": "infection/mutator",
