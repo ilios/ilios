@@ -204,6 +204,23 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->getWriteableSchoolIdsFromToken($jwt), $schoolIds);
     }
 
+    public static function getCanCreateUserTokensFromTokenProvider(): array
+    {
+        return [
+            [self::buildJwt(), false],
+            [self::buildUserJwt(), false],
+            [self::buildUserJwt([JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY => true]), false],
+            [self::buildServiceTokenJwt(), false],
+            [self::buildServiceTokenJwt([JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY => true]), true],
+        ];
+    }
+
+    #[DataProvider('getCanCreateUserTokensFromTokenProvider')]
+    public function testGetCanCreateUserTokensFromToken(string $jwt, bool $canCreate): void
+    {
+        $this->assertEquals($canCreate, $this->obj->getCanCreateUserTokensFromToken($jwt));
+    }
+
     public static function isUserTokenProvider(): array
     {
         return [
