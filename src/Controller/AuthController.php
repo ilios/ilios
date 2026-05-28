@@ -89,23 +89,25 @@ class AuthController extends AbstractController
         int $userId,
         TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
-        ServiceTokenRepository $serviceTokenRepository,
         JsonWebTokenManager $jwtManager
     ): JsonResponse {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
-        // check authentication
+
+        // only allow service tokens to perform this action.
         if (!$sessionUser instanceof ServiceTokenUserInterface) {
-            throw $this->createAccessDeniedException('Cannot create user token without a service token');
+            throw $this->createAccessDeniedException('Cannot create user token without a service token.');
         }
-        $serviceTokenId = $sessionUser->getUserIdentifier();
-        $serviceToken = $serviceTokenRepository->findOneBy(['id' => $serviceTokenId]);
-        // TODO: check authorization on the given service token. how? [ST 2026/05/28]
+        // authorization
+        if (!$token->getAttribute(JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY)) {
+            throw $this->createAccessDeniedException('Insufficient permissions for creating user tokens.');
+        }
 
         // look up the requested user account, make sure it's active.
         $user = $userRepository->findOneBy(['id' => $userId, 'enabled' => true]);
         if (! $user) {
-            throw $this->createNotFoundException("Could not find the requested user.");
+            // let's keep this error message somewhat ambiguous on purpose, for security reasons.
+            throw $this->createNotFoundException('Could not find the requested user.');
         }
 
         $jwt = $jwtManager->createJwtFromUserId($userId);
