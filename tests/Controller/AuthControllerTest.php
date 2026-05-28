@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\DataLoader\UserData;
+use DateInterval;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\AuthController;
@@ -352,6 +354,128 @@ final class AuthControllerTest extends WebTestCase
         );
         $response = $this->kernelBrowser->getResponse();
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+    }
+
+    public function testCreateUserTokenWithServiceToken(): void
+    {
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser, canCreateUserTokens: true);
+
+        $container = $this->kernelBrowser->getContainer();
+        $user = $container->get(UserData::class)->getOne();
+        $this->assertTrue($user['enabled']);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_usertoken', ['userId' => $user['id']]),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $data = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('jwt', $data);
+        $jwt = $this->decode($data['jwt']);
+        $this->assertEquals('ilios', $jwt['iss']);
+        $this->assertEquals('ilios', $jwt['aud']);
+        $this->assertEquals(
+            (int) $jwt['exp'],
+            DateTime::createFromTimestamp((int) $jwt['iat'])->add(new DateInterval('PT8H'))->getTimestamp()
+        );
+        $this->assertEquals($jwt['firstCreatedAt'], $jwt['iat']);
+        $this->assertEquals(0, $jwt['refreshCount']);
+        $this->assertEquals('user', $jwt['permissions']);
+        $this->assertEquals($user['id'], $jwt['user_id']);
+    }
+
+    public function testCreateUserTokenWithServiceTokenFailsIfServiceTokenIsNotAServiceToken(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+
+        $container = $this->kernelBrowser->getContainer();
+        $user = $container->get(UserData::class)->getOne();
+        $this->assertTrue($user['enabled']);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_usertoken', ['userId' => $user['id']]),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    public function testCreateUserTokenWithServiceTokenFailsIfServiceTokenLacksPermissions(): void
+    {
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser);
+
+        $container = $this->kernelBrowser->getContainer();
+        $user = $container->get(UserData::class)->getOne();
+        $this->assertTrue($user['enabled']);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_usertoken', ['userId' => $user['id']]),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
+    }
+
+    public function testCreateUserTokenWithServiceTokenFailsIfUserDoesNotExist(): void
+    {
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser, canCreateUserTokens: true);
+
+        $unmatchedUserId = 99999;
+
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_usertoken', ['userId' => $unmatchedUserId]),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    public function testCreateUserTokenWithServiceTokenFailsIfUserIsInactive(): void
+    {
+
+        // post a new, inactive user account first.
+        $container = $this->kernelBrowser->getContainer();
+        $postData = $container->get(UserData::class)->createEmpty();
+        $postData['enabled'] = false;
+
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'POST',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_users_post",
+                ['version' => $this->apiVersion]
+            ),
+            json_encode(['users' => [$postData]]),
+            $this->createJwtForRootUser($this->kernelBrowser)
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_CREATED);
+        $newUser = json_decode($response->getContent(), true)['users'][0];
+        $this->assertFalse($newUser['enabled']);
+
+        // now attempt to create a new user token for that new, inactive user account.
+        $jwt = $this->createJwtForEnabledServiceToken($this->kernelBrowser);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'get',
+            $this->getUrl($this->kernelBrowser, 'app_auth_usertoken', ['userId' => $newUser['id']]),
+            null,
+            $jwt
+        );
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertEquals(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 
     protected function getExpiredToken(int $userId): string

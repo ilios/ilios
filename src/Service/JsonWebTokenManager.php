@@ -234,10 +234,13 @@ class JsonWebTokenManager
         return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
     }
 
-    public function createJwtFromServiceTokenId(int $tokenId, ?array $writeableSchoolIds = []): string
-    {
+    public function createJwtFromServiceTokenId(
+        int $tokenId,
+        ?array $writeableSchoolIds = [],
+        bool $canCreateUserTokens = false
+    ): string {
         $tokenUser = $this->serviceAccountUserProvider->createServiceTokenUserFromTokenId($tokenId);
-        return $this->createJwtFromServiceTokenUser($tokenUser, $writeableSchoolIds);
+        return $this->createJwtFromServiceTokenUser($tokenUser, $writeableSchoolIds, $canCreateUserTokens);
     }
 
     protected function getUserTokenDetails(
