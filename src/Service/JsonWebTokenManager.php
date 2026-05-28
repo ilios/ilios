@@ -26,6 +26,8 @@ class JsonWebTokenManager
     public const string USER_ID_KEY = 'user_id';
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
 
+    public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
+
     protected string $jwtKey;
 
     public function __construct(
@@ -130,6 +132,18 @@ class JsonWebTokenManager
         return $arr[self::WRITEABLE_SCHOOLS_KEY];
     }
 
+    public function getCanCreateUserTokensFromToken(string $jwt): bool
+    {
+        if (!$this->isServiceToken($jwt)) {
+            return false;
+        }
+        $arr = $this->decode($jwt);
+        if (!array_key_exists(self::CAN_GENERATE_USER_TOKENS_KEY, $arr)) {
+            return false;
+        }
+        return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
+    }
+
     protected function decode(string $jwt): array
     {
         try {
@@ -162,8 +176,9 @@ class JsonWebTokenManager
     public function createJwtFromServiceTokenUser(
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
+        bool $canGenerateUserTokens = false,
     ): string {
-        $arr = $this->getServiceTokenDetails($tokenUser, $writeableSchoolIds);
+        $arr = $this->getServiceTokenDetails($tokenUser, $writeableSchoolIds, $canGenerateUserTokens);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -230,6 +245,7 @@ class JsonWebTokenManager
     protected function getServiceTokenDetails(
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
+        bool $canGenerateUserTokens = false,
     ): array {
         $rhett = [
             'iss' => self::TOKEN_ISS,
@@ -240,6 +256,9 @@ class JsonWebTokenManager
         ];
         if (is_array($writeableSchoolIds) && !empty($writeableSchoolIds)) {
             $rhett[self::WRITEABLE_SCHOOLS_KEY] = $writeableSchoolIds;
+        }
+        if ($canGenerateUserTokens) {
+            $rhett[self::CAN_GENERATE_USER_TOKENS_KEY] = true;
         }
         return $rhett;
     }
