@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use App\Entity\ServiceTokenInterface;
 use App\Repository\AuthenticationRepository;
+use App\Repository\ServiceTokenRepository;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\JsonWebTokenManager;
@@ -68,6 +71,44 @@ class AuthController extends AbstractController
         $ttl = $request->query->get('ttl') ?: 'PT8H';
         $jwt = $jwtManager->refreshToken($token->getAttribute('jwt'), $ttl);
 
+        return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
+    }
+
+    /**
+     * Get a new user token for the given user.
+     * Requires authn with a service token carrying the proper permissions.
+     */
+    #[Route(
+        '/auth/token/{userId}',
+        requirements: [
+            'userId' => '\d+',
+        ],
+        methods: ['GET'],
+    )]
+    public function userToken(
+        int $userId,
+        TokenStorageInterface $tokenStorage,
+        UserRepository $userRepository,
+        ServiceTokenRepository $serviceTokenRepository,
+        JsonWebTokenManager $jwtManager
+    ): JsonResponse {
+        $token = $tokenStorage->getToken();
+        $sessionUser = $token?->getUser();
+        // check authentication
+        if (!$sessionUser instanceof ServiceTokenUserInterface) {
+            throw $this->createAccessDeniedException('Cannot create user token without a service token');
+        }
+        $serviceTokenId = $sessionUser->getUserIdentifier();
+        $serviceToken = $serviceTokenRepository->findOneBy(['id' => $serviceTokenId]);
+        // TODO: check authorization on the given service token. how? [ST 2026/05/28]
+
+        // look up the requested user account, make sure it's active.
+        $user = $userRepository->findOneBy(['id' => $userId, 'enabled' => true]);
+        if (! $user) {
+            throw $this->createNotFoundException("Could not find the requested user.");
+        }
+
+        $jwt = $jwtManager->createJwtFromUserId($userId);
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 
