@@ -305,4 +305,52 @@ final class SessionTest extends AbstractReadWriteEndpoint
         $filters = ['q' => 'sess', 'offset' => 3, 'limit' => 2];
         $this->jsonApiFilterTest($filters, [$all[4], $all[5]], $jwt);
     }
+
+    public function testGraphQLIncludedData(): void
+    {
+        $loader = $this->getDataLoader();
+        $data = $loader->getAll()[1];
+
+        $this->createGraphQLRequest(
+            json_encode([
+                'query' =>
+                    "query { sessions(id: {$data['id']}) " .
+                    '{ id, administrators { id }, course { id }, ' .
+                    'learningMaterials { id, learningMaterial { id, absoluteFileUri }}}}',
+            ]),
+            $this->createJwtForRootUser($this->kernelBrowser)
+        );
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertGraphQLResponse($response);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertIsObject($content->data);
+        $this->assertIsArray($content->data->sessions);
+
+        $result = $content->data->sessions;
+        $this->assertCount(1, $result);
+
+        $session = $result[0];
+        $this->assertTrue(property_exists($session, 'id'));
+        $this->assertEquals($data['id'], $session->id);
+        $this->assertTrue(property_exists($session, 'course'));
+        $this->assertTrue(property_exists($session->course, 'id'));
+        $this->assertEquals($data['course'], $session->course->id);
+
+        $this->assertCount(1, $session->learningMaterials);
+        $this->assertTrue(property_exists($session->learningMaterials[0], 'id'));
+        $this->assertEquals(9, $session->learningMaterials[0]->id);
+
+        $this->assertTrue(property_exists($session->learningMaterials[0], 'learningMaterial'));
+        $lm = $session->learningMaterials[0]->learningMaterial;
+        $this->assertTrue(property_exists($lm, 'id'));
+        $this->assertEquals(10, $lm->id);
+        $this->assertTrue(property_exists($lm, 'absoluteFileUri'));
+        $this->assertStringStartsWith('http://localhost', $lm->absoluteFileUri);
+
+        $this->assertTrue(property_exists($session, 'administrators'));
+        $this->assertCount(0, $session->administrators);
+    }
 }

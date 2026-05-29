@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\GraphQL;
 
-use App\Entity\DTO\SchoolDTO;
-use App\Repository\SchoolRepository;
 use ArrayAccess;
 use Closure;
 use GraphQL\Type\Definition\ResolveInfo;

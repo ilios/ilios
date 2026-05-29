@@ -26,6 +26,8 @@ class TypeRegistry
         protected DTOInfo $dtoInfo,
         protected TypeResolver $typeResolver,
         protected FieldResolver $fieldResolver,
+        protected LearningMaterialFieldResolver $learningMaterialFieldResolver,
+        protected CurriculumInventoryReportFieldResolver $curriculumInventoryReportFieldResolver,
         protected Inflector $inflector,
     ) {
     }
@@ -107,7 +109,7 @@ class TypeRegistry
                     IA\Type::DTOS, IA\Type::STRINGS, 'array' => Type::listOf(Type::string()),
                     default => throw new Exception("Unhandled property type $type encountered."),
                 },
-                'resolve' => $this->fieldResolver,
+                'resolve' => $this->getResolverForField($property),
             ];
         }
     }
@@ -163,5 +165,17 @@ class TypeRegistry
     {
         $id = $property->getAttributes(IA\Id::class);
         return $id !== [];
+    }
+
+    protected function getResolverForField(ReflectionProperty $property): callable
+    {
+        $typeRef = $property->getDeclaringClass();
+        $customResolver = $this->dtoInfo->getCustomResolverForType($typeRef);
+        return match ($customResolver) {
+            null => $this->fieldResolver,
+            LearningMaterialFieldResolver::class => $this->learningMaterialFieldResolver,
+            CurriculumInventoryReportFieldResolver::class => $this->curriculumInventoryReportFieldResolver,
+            default => throw new Exception("{$customResolver} resolver for {$typeRef->getName()} not implemented yet."),
+        };
     }
 }

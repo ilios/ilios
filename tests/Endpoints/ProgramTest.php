@@ -13,6 +13,8 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadTermData;
 
+use function PHPUnit\Framework\assertCount;
+
 /**
  * Program API endpoint Test.
  */
@@ -167,7 +169,9 @@ final class ProgramTest extends AbstractReadWriteEndpoint
 
         $this->createGraphQLRequest(
             json_encode([
-                'query' => "query { programs(id: {$data['id']}) { id, school { id } }}",
+                'query' => "query { programs(id: {$data['id']}) {" .
+                'id, school { id }, curriculumInventoryReports { id, absoluteFileUri } ' .
+                '}}',
             ]),
             $this->createJwtForRootUser($this->kernelBrowser)
         );
@@ -183,6 +187,24 @@ final class ProgramTest extends AbstractReadWriteEndpoint
         $this->assertTrue(property_exists($program, 'school'));
         $this->assertTrue(property_exists($program->school, 'id'));
         $this->assertEquals($data['school'], $program->school->id);
+
+        $this->assertTrue(property_exists($program, 'curriculumInventoryReports'));
+        $reports = $program->curriculumInventoryReports;
+        assertCount(3, $reports);
+        $this->assertSame('1', $reports[0]->id);
+        $this->assertTrue(property_exists($reports[0], 'absoluteFileUri'));
+        $this->assertStringContainsString('ci-report-dl', $reports[0]->absoluteFileUri);
+        $this->assertGreaterThan(40, strlen($reports[0]->absoluteFileUri));
+
+        $this->assertSame('2', $reports[1]->id);
+        $this->assertTrue(property_exists($reports[1], 'absoluteFileUri'));
+        $this->assertStringContainsString('ci-report-dl', $reports[1]->absoluteFileUri);
+        $this->assertGreaterThan(40, strlen($reports[1]->absoluteFileUri));
+
+        $this->assertSame('3', $reports[2]->id);
+        $this->assertTrue(property_exists($reports[2], 'absoluteFileUri'));
+        $this->assertStringContainsString('ci-report-dl', $reports[2]->absoluteFileUri);
+        $this->assertGreaterThan(40, strlen($reports[2]->absoluteFileUri));
     }
 
     /**

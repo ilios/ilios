@@ -17,12 +17,19 @@ class CurriculumInventoryReportDecoratorFactory
 
     public function create(CurriculumInventoryReportDTO $report): CurriculumInventoryReportDTO
     {
-        $report->absoluteFileUri = $this->router->generate(
+        $report->absoluteFileUri = $this->getAbsoluteFileUriForDTO($report);
+
+        return $report;
+    }
+
+
+
+    public function getAbsoluteFileUriForDTO(CurriculumInventoryReportDTO $report): ?string
+    {
+        return $this->router->generate(
             'app_curriculuminventorydownload_get',
             ['token' => $report->token],
             UrlGenerator::ABSOLUTE_URL
         );
-
-        return $report;
     }
 }

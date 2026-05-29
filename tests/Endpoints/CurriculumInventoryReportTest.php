@@ -101,6 +101,10 @@ final class CurriculumInventoryReportTest extends AbstractReadWriteEndpoint
 
     protected function compareGraphQLData(array $expected, object $result): void
     {
+        $this->assertObjectHasProperty('absoluteFileUri', $result);
+        $this->assertNotNull($result->absoluteFileUri);
+        $this->assertStringContainsString('/ci-report-dl/', $result->absoluteFileUri);
+        $this->assertGreaterThan(40, strlen($result->absoluteFileUri));
         unset($result->absoluteFileUri);
         parent::compareGraphQLData($expected, $result);
     }

@@ -65,15 +65,20 @@ class LearningMaterialDecoratorFactory
 
     protected function decorateDto(LearningMaterialDTO $learningMaterialDTO): LearningMaterialDTO
     {
+        $learningMaterialDTO->absoluteFileUri = $this->getAbsoluteFileUriForDTO($learningMaterialDTO);
+
+        return $learningMaterialDTO;
+    }
+
+    public function getAbsoluteFileUriForDTO(LearningMaterialDTO $learningMaterialDTO): ?string
+    {
         if ($learningMaterialDTO->filename) {
-            $link = $this->router->generate(
+            return $this->router->generate(
                 'app_download_downloadmaterials',
                 ['token' => $learningMaterialDTO->token],
                 UrlGenerator::ABSOLUTE_URL
             );
-            $learningMaterialDTO->absoluteFileUri = $link;
         }
-
-        return $learningMaterialDTO;
+        return null;
     }
 }
