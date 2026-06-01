@@ -167,6 +167,20 @@ final class LearningMaterialTest extends AbstractReadWriteEndpoint
         parent::compareData($expected, $result);
     }
 
+    protected function compareGraphQLData(array $expected, object $result): void
+    {
+        $this->assertObjectHasProperty('absoluteFileUri', $result);
+        if ($expected['filename']) {
+            $this->assertNotNull($result->absoluteFileUri);
+            $this->assertStringContainsString('/lm/', $result->absoluteFileUri);
+            $this->assertGreaterThan(40, strlen($result->absoluteFileUri));
+        } else {
+            $this->assertNull($result->absoluteFileUri);
+        }
+        unset($result->absoluteFileUri);
+        parent::compareGraphQLData($expected, $result);
+    }
+
     /**
      * Ensure offset and limit work
      */

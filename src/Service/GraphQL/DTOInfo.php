@@ -56,6 +56,16 @@ class DTOInfo
         return $graphQL !== [];
     }
 
+    public function getCustomResolverForType(ReflectionClass $class): ?string
+    {
+        $graphQL = $class->getAttributes(ExposeGraphQL::class);
+        if (!count($graphQL)) {
+            throw new Exception("{$class->getName()} is not enabled for GraphQL");
+        }
+        $arguments = $graphQL[0]->getArguments();
+        return $arguments['customResolver'] ?? null;
+    }
+
     public function getGraphQLExposedPropertiesForType(string $type): array
     {
         $ref = $this->getRefForType($type);

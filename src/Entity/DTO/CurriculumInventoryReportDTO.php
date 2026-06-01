@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attributes as IA;
+use App\Service\GraphQL\CurriculumInventoryReportFieldResolver;
 use DateTime;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Ignore;
 
 #[IA\DTO('curriculumInventoryReports')]
-#[IA\ExposeGraphQL]
+#[IA\ExposeGraphQL(customResolver: CurriculumInventoryReportFieldResolver::class)]
 #[OA\Schema(
     title: "CurriculumInventoryReport",
     properties: [

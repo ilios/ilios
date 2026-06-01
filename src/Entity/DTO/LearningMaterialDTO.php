@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\DTO;
 
 use App\Attributes as IA;
+use App\Service\GraphQL\LearningMaterialFieldResolver;
 use DateTime;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Attribute\Ignore;
@@ -14,7 +15,7 @@ use Symfony\Component\Serializer\Attribute\Ignore;
  * Data transfer object for a learning materials
  */
 #[IA\DTO('learningMaterials')]
-#[IA\ExposeGraphQL]
+#[IA\ExposeGraphQL(customResolver: LearningMaterialFieldResolver::class)]
 #[OA\Schema(
     title: "LearningMaterial",
     properties: [

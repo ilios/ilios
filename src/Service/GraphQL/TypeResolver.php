@@ -67,6 +67,7 @@ class TypeResolver
             $args[$idPropertyName] = $ids;
         }
 
+
         //we can pass $ars directly because our GraphQL library will reject
         //any args that aren't part of our schema
         return $this->filterValues($repository->findDTOsBy($args));
