@@ -24,6 +24,9 @@ class JsonWebTokenManager
 
     public const string TOKEN_ID_KEY = 'token_id';
     public const string USER_ID_KEY = 'user_id';
+
+    public const string ISSUED_WITH_KEY = 'issued_with';
+
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
     public const int DEFAULT_REFRESH_LIMIT = 12;
     public const string MAX_TIME_TO_LIVE = 'P90D';
@@ -94,6 +97,15 @@ class JsonWebTokenManager
     {
         $arr = $this->decode($jwt);
         return $arr['can_create_or_update_user_in_any_school'];
+    }
+
+    public function getIssuedWithFromToken(string $jwt): ?int
+    {
+        $arr = $this->decode($jwt);
+        if (array_key_exists(self::ISSUED_WITH_KEY, $arr)) {
+            return $arr[self::ISSUED_WITH_KEY];
+        }
+        return null;
     }
 
     public function getFirstCreatedAt(string $jwt): DateTimeImmutable
@@ -170,11 +182,17 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a user
+     *
+     * @param SessionUserInterface $sessionUser The current session user.
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
+     * @param int|null $issuedWith The ID of the service token used to create this user token.
      */
-    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, string $timeToLive = 'PT8H'): string
-    {
-        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null);
+    public function createJwtFromSessionUser(
+        SessionUserInterface $sessionUser,
+        string $timeToLive = 'PT8H',
+        ?int $issuedWith = null
+    ): string {
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null, $issuedWith);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -227,11 +245,12 @@ class JsonWebTokenManager
     /**
      * Build a token from a userId
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
+     * @param int|null $issuedWith The ID of the service token used to create this user token.
      */
-    public function createJwtFromUserId(int $userId, string $timeToLive = 'PT8H'): string
+    public function createJwtFromUserId(int $userId, string $timeToLive = 'PT8H', ?int $issuedWith = null): string
     {
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
-        return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
+        return $this->createJwtFromSessionUser($sessionUser, $timeToLive, $issuedWith);
     }
 
     public function createJwtFromServiceTokenId(
@@ -246,7 +265,8 @@ class JsonWebTokenManager
     protected function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
-        ?string $refreshToken
+        ?string $refreshToken,
+        ?int $issuedWith = null,
     ): array {
         $now = new DateTimeImmutable();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
@@ -260,7 +280,7 @@ class JsonWebTokenManager
             $refreshCount = 0;
         }
 
-        return [
+        $rhett = [
             'iss' => self::TOKEN_ISS,
             'aud' => self::TOKEN_AUD,
             'iat' => $now->format('U'),
@@ -272,8 +292,11 @@ class JsonWebTokenManager
             'refreshCount' => $refreshCount,
             'permissions' => 'user', //all tokens are user tokens right now and get permissions from the user
             self::USER_ID_KEY => $sessionUser->getId(),
-
         ];
+        if (!is_null($issuedWith)) {
+            $rhett[self::ISSUED_WITH_KEY] = $issuedWith;
+        }
+        return $rhett;
     }
 
     protected function getServiceTokenDetails(
