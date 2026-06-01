@@ -168,6 +168,7 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
     {
         $jwt = 'abcde';
         $schoolIds = [1, 2, 3];
+        $applicationScope = 'lti-micro-manager';
         $canCreateUsers = true;
         $userMock = m::mock(ServiceTokenUser::class);
         $userMock->shouldReceive('getRoles')->andReturn([]);
@@ -183,11 +184,19 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
             ->shouldReceive('getCanCreateUserTokensFromToken')
             ->with($jwt)
             ->andReturn($canCreateUsers);
+        $this->jsonWebTokenManagerMock
+            ->shouldReceive('getUserTokensApplicationScopeFromToken')
+            ->with($jwt)
+            ->andReturn($applicationScope);
         $token = $this->authenticator->createToken($passportMock, 'main');
 
         $this->assertEquals($jwt, $token->getAttribute('jwt'));
         $this->assertEquals($schoolIds, $token->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY));
         $this->assertEquals($canCreateUsers, $token->getAttribute(JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY));
         $this->assertEquals($userMock, $token->getUser());
+        $this->assertEquals(
+            $applicationScope,
+            $token->getAttribute(JsonWebTokenManager::USER_TOKENS_APPLICATION_SCOPE_KEY)
+        );
     }
 }

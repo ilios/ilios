@@ -33,6 +33,10 @@ class JsonWebTokenManager
 
     public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
 
+    public const string USER_TOKENS_APPLICATION_SCOPE_KEY = 'user_tokens_application_scope';
+
+    public const string APPLICATION_SCOPE_KEY = 'application_scope';
+
     protected string $jwtKey;
 
     public function __construct(
@@ -164,6 +168,18 @@ class JsonWebTokenManager
         return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
     }
 
+    public function getUserTokensApplicationScopeFromToken(string $jwt): string
+    {
+        if (!$this->isServiceToken($jwt)) {
+            return '';
+        }
+        $arr = $this->decode($jwt);
+        if (!array_key_exists(self::USER_TOKENS_APPLICATION_SCOPE_KEY, $arr)) {
+            return '';
+        }
+        return $arr[self::USER_TOKENS_APPLICATION_SCOPE_KEY];
+    }
+
     protected function decode(string $jwt): array
     {
         try {
@@ -186,13 +202,15 @@ class JsonWebTokenManager
      * @param SessionUserInterface $sessionUser The current session user.
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
      * @param int|null $issuedWith The ID of the service token used to create this user token.
+     * @param string|null $applicationScope The name of the client application that this token is scoped to.
      */
     public function createJwtFromSessionUser(
         SessionUserInterface $sessionUser,
         string $timeToLive = 'PT8H',
-        ?int $issuedWith = null
+        ?int $issuedWith = null,
+        ?string $applicationScope = '',
     ): string {
-        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null, $issuedWith);
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null, $issuedWith, $applicationScope);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -203,8 +221,14 @@ class JsonWebTokenManager
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
         bool $canGenerateUserTokens = false,
+        ?string $userTokensApplicationScope = '',
     ): string {
-        $arr = $this->getServiceTokenDetails($tokenUser, $writeableSchoolIds, $canGenerateUserTokens);
+        $arr = $this->getServiceTokenDetails(
+            $tokenUser,
+            $writeableSchoolIds,
+            $canGenerateUserTokens,
+            $userTokensApplicationScope
+        );
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -244,22 +268,34 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a userId
+     *
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
      * @param int|null $issuedWith The ID of the service token used to create this user token.
+     * @param string|null $applicationScope The name of the client application that this token is scoped to.
      */
-    public function createJwtFromUserId(int $userId, string $timeToLive = 'PT8H', ?int $issuedWith = null): string
-    {
+    public function createJwtFromUserId(
+        int $userId,
+        string $timeToLive = 'PT8H',
+        ?int $issuedWith = null,
+        ?string $applicationScope = ''
+    ): string {
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
-        return $this->createJwtFromSessionUser($sessionUser, $timeToLive, $issuedWith);
+        return $this->createJwtFromSessionUser($sessionUser, $timeToLive, $issuedWith, $applicationScope);
     }
 
     public function createJwtFromServiceTokenId(
         int $tokenId,
         ?array $writeableSchoolIds = [],
-        bool $canCreateUserTokens = false
+        bool $canCreateUserTokens = false,
+        ?string $userTokensApplicationScope = ''
     ): string {
         $tokenUser = $this->serviceAccountUserProvider->createServiceTokenUserFromTokenId($tokenId);
-        return $this->createJwtFromServiceTokenUser($tokenUser, $writeableSchoolIds, $canCreateUserTokens);
+        return $this->createJwtFromServiceTokenUser(
+            $tokenUser,
+            $writeableSchoolIds,
+            $canCreateUserTokens,
+            $userTokensApplicationScope
+        );
     }
 
     protected function getUserTokenDetails(
@@ -267,6 +303,7 @@ class JsonWebTokenManager
         string $timeToLive,
         ?string $refreshToken,
         ?int $issuedWith = null,
+        ?string $applicationScope = ''
     ): array {
         $now = new DateTimeImmutable();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
@@ -296,6 +333,9 @@ class JsonWebTokenManager
         if (!is_null($issuedWith)) {
             $rhett[self::ISSUED_WITH_KEY] = $issuedWith;
         }
+        if ('' !== $applicationScope) {
+            $rhett[self::APPLICATION_SCOPE_KEY] = $applicationScope;
+        }
         return $rhett;
     }
 
@@ -303,6 +343,7 @@ class JsonWebTokenManager
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
         bool $canGenerateUserTokens = false,
+        ?string $userTokensApplicationScope = '',
     ): array {
         $rhett = [
             'iss' => self::TOKEN_ISS,
@@ -316,6 +357,9 @@ class JsonWebTokenManager
         }
         if ($canGenerateUserTokens) {
             $rhett[self::CAN_GENERATE_USER_TOKENS_KEY] = true;
+        }
+        if ('' !== $userTokensApplicationScope) {
+            $rhett[self::USER_TOKENS_APPLICATION_SCOPE_KEY] = $userTokensApplicationScope;
         }
         return $rhett;
     }
