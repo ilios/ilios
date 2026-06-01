@@ -43,6 +43,8 @@ class CreateServiceTokenCommand extends Command
         #[Argument(description: "The token's description.")] string $description,
         #[Argument(description: "Can this service token be used to generate user tokens?")]
         bool $canGenerateUserTokens = false,
+        #[Option(description: 'The application scope for generated user tokens.')]
+        string $userTokensApplicationScope = '',
         #[Option(
             description: 'Schools that the token has write access to, provided as a comma-separated list of ids.',
             name: 'writeable-schools'
@@ -76,7 +78,8 @@ class CreateServiceTokenCommand extends Command
         $jwt = $this->jwtManager->createJwtFromServiceTokenUser(
             $serviceTokenUser,
             $schoolIds,
-            $canGenerateUserTokens
+            $canGenerateUserTokens,
+            $userTokensApplicationScope
         );
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
