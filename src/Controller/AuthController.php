@@ -6,9 +6,7 @@ namespace App\Controller;
 
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
-use App\Entity\ServiceTokenInterface;
 use App\Repository\AuthenticationRepository;
-use App\Repository\ServiceTokenRepository;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\JsonWebTokenManager;
@@ -110,7 +108,7 @@ class AuthController extends AbstractController
             throw $this->createNotFoundException('Could not find the requested user.');
         }
 
-        $jwt = $jwtManager->createJwtFromUserId($userId);
+        $jwt = $jwtManager->createJwtFromUserId($userId, issuedWith: (int) $token->getUserIdentifier());
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 
