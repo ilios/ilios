@@ -258,13 +258,15 @@ trait TestableJsonController
     protected function createJwtForEnabledServiceToken(
         KernelBrowser $browser,
         ?array $writeableSchoolIds = [],
-        bool $canCreateUserTokens = false
+        bool $canCreateUserTokens = false,
+        ?string $userTokensApplicationScope = '',
     ): string {
         return $this->createJwtFromServiceTokenId(
             $browser,
             ServiceTokenData::ENABLED_SERVICE_TOKEN_ID,
             $writeableSchoolIds,
-            $canCreateUserTokens
+            $canCreateUserTokens,
+            $userTokensApplicationScope,
         );
     }
 
@@ -274,6 +276,7 @@ trait TestableJsonController
      * @param int $serviceTokenId the service token id
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
+     * @param string|null $userTokensApplicationScope The name of the client application that this token is scoped to.
      * @return string the generated JWT
      */
     protected function createJwtFromServiceTokenId(
@@ -281,11 +284,17 @@ trait TestableJsonController
         int $serviceTokenId,
         ?array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
+        ?string $userTokensApplicationScope = ''
     ): string {
         $container = $browser->getContainer();
         /** @var JsonWebTokenManager $jwtManager */
         $jwtManager = $container->get(JsonWebTokenManager::class);
-        return $jwtManager->createJwtFromServiceTokenId($serviceTokenId, $writeableSchoolIds, $canCreateUserTokens);
+        return $jwtManager->createJwtFromServiceTokenId(
+            $serviceTokenId,
+            $writeableSchoolIds,
+            $canCreateUserTokens,
+            $userTokensApplicationScope
+        );
     }
 
     /**
