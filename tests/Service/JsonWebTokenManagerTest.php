@@ -113,6 +113,22 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(true, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
         $this->assertSame(true, $this->obj->getIsRootFromToken($jwt));
         $this->assertSame(true, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
+        $this->assertSame(null, $this->obj->getIssuedWithFromToken($jwt));
+    }
+
+    public function testCreateJwtFromSessionUserWithIssuedWithInfo(): void
+    {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('getId')->andReturn(42);
+
+        $sessionUser->shouldReceive('isRoot')->once()->andReturn(false);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(false);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUser)->once()->andReturn(false);
+
+        $issuedWith = 100;
+        $jwt = $this->obj->createJwtFromSessionUser($sessionUser, issuedWith: $issuedWith);
+        $this->assertSame($issuedWith, $this->obj->getIssuedWithFromToken($jwt));
     }
 
     public function testCreateJwtFromSessionUserWhichExpiresNextWeek(): void

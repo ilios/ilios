@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Tests\DataLoader\ServiceTokenData;
 use App\Tests\DataLoader\UserData;
 use DateInterval;
 use PHPUnit\Framework\Attributes\Group;
@@ -385,6 +386,7 @@ final class AuthControllerTest extends WebTestCase
         $this->assertEquals(0, $jwt['refreshCount']);
         $this->assertEquals('user', $jwt['permissions']);
         $this->assertEquals($user['id'], $jwt['user_id']);
+        $this->assertEquals(ServiceTokenData::ENABLED_SERVICE_TOKEN_ID, $jwt[JsonWebTokenManager::ISSUED_WITH_KEY]);
     }
 
     public function testCreateUserTokenWithServiceTokenFailsIfServiceTokenIsNotAServiceToken(): void
