@@ -35,7 +35,8 @@ class CreateUserTokenCommand extends Command
     public function __invoke(
         OutputInterface $output,
         #[Argument(description: 'A valid user id.', name: 'userId')] int $userId,
-        #[Option(description: 'What is the interval before the token expires?')] string $ttl = 'PT8H'
+        #[Option(description: 'What is the interval before the token expires?')]
+        string $ttl = JsonWebTokenManager::USER_TOKEN_DEFAULT_TTL
     ): int {
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
