@@ -66,7 +66,7 @@ class AuthController extends AbstractController
             throw new Exception('Attempted to access token with no valid user');
         }
 
-        $ttl = $request->query->get('ttl') ?: 'PT8H';
+        $ttl = $request->query->get('ttl') ?: JsonWebTokenManager::USER_TOKEN_DEFAULT_TTL;
         $jwt = $jwtManager->refreshToken($token->getAttribute('jwt'), $ttl);
 
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
