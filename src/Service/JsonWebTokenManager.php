@@ -22,6 +22,8 @@ class JsonWebTokenManager
     private const string TOKEN_AUD = 'ilios';
     public const string SIGNING_ALGORITHM = 'HS256';
 
+    public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
+
     public const string TOKEN_ID_KEY = 'token_id';
     public const string USER_ID_KEY = 'user_id';
 
@@ -198,7 +200,7 @@ class JsonWebTokenManager
      */
     public function createJwtFromSessionUser(
         SessionUserInterface $sessionUser,
-        string $timeToLive = 'PT8H',
+        string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
         ?int $issuedWith = null,
         ?string $applicationScope = '',
     ): string {
@@ -227,7 +229,7 @@ class JsonWebTokenManager
     /**
      * Refresh a token
      */
-    public function refreshToken(string $token, string $timeToLive = 'PT8H'): string
+    public function refreshToken(string $token, string $timeToLive = self::USER_TOKEN_DEFAULT_TTL): string
     {
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
@@ -244,7 +246,7 @@ class JsonWebTokenManager
      */
     public function createJwtFromUserId(
         int $userId,
-        string $timeToLive = 'PT8H',
+        string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
         ?int $issuedWith = null,
         ?string $applicationScope = ''
     ): string {
