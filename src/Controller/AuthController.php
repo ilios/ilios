@@ -107,10 +107,11 @@ class AuthController extends AbstractController
             // let's keep this error message somewhat ambiguous on purpose, for security reasons.
             throw $this->createNotFoundException('Could not find the requested user.');
         }
-        $jwt = $jwtManager->createJwtFromUserId(
-            $userId,
-            issuedWith: (int) $token->getUserIdentifier(),
-            applicationScope: $token->getAttribute(JsonWebTokenManager::USER_TOKENS_APPLICATION_SCOPE_KEY),
+        $applicationScope = $token->getAttribute(JsonWebTokenManager::USER_TOKENS_APPLICATION_SCOPE_KEY);
+        $jwt = $jwtManager->createUserTokenFromServiceToken(
+            $user,
+            (int) $token->getUserIdentifier(),
+            $applicationScope
         );
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }

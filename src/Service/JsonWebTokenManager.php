@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
+use App\Entity\UserInterface;
 use DateInterval;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
@@ -203,16 +204,12 @@ class JsonWebTokenManager
      *
      * @param SessionUserInterface $sessionUser The current session user.
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
-     * @param int|null $issuedWith The ID of the service token used to create this user token.
-     * @param string|null $applicationScope The name of the client application that this token is scoped to.
      */
     public function createJwtFromSessionUser(
         SessionUserInterface $sessionUser,
         string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
-        ?int $issuedWith = null,
-        ?string $applicationScope = '',
     ): string {
-        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null, $issuedWith, $applicationScope);
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -272,17 +269,13 @@ class JsonWebTokenManager
      * Build a token from a userId
      *
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
-     * @param int|null $issuedWith The ID of the service token used to create this user token.
-     * @param string|null $applicationScope The name of the client application that this token is scoped to.
      */
     public function createJwtFromUserId(
         int $userId,
         string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
-        ?int $issuedWith = null,
-        ?string $applicationScope = ''
     ): string {
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
-        return $this->createJwtFromSessionUser($sessionUser, $timeToLive, $issuedWith, $applicationScope);
+        return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
     }
 
     public function createJwtFromServiceTokenId(
@@ -300,12 +293,37 @@ class JsonWebTokenManager
         );
     }
 
+    /**
+     * Creates a new user token for a given user with additional properties relayed
+     * from the service token that's being used to create this user token.
+     *
+     * @param UserInterface $user The user that this token is created for.
+     * @param int $serviceTokenId The ID of the service token that's used to create this user token.
+     * @param string $applicationScope The application scope of this user token.
+     * @return string The user token as JWT.
+     */
+    public function createUserTokenFromServiceToken(
+        UserInterface $user,
+        int $serviceTokenId,
+        string $applicationScope
+    ): string {
+        // collect the data needed to create a user token for the given user.
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, null);
+
+        // bolt on the issued-with and application scope data points.
+        $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
+        if ('' !== $applicationScope) {
+            $arr[self::APPLICATION_SCOPE_KEY] = $applicationScope;
+        }
+        // create and return the JWT
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
+    }
+
     protected function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
         ?string $refreshToken,
-        ?int $issuedWith = null,
-        ?string $applicationScope = ''
     ): array {
         $now = new DateTimeImmutable();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
@@ -319,7 +337,7 @@ class JsonWebTokenManager
             $refreshCount = 0;
         }
 
-        $rhett = [
+        return [
             'iss' => self::TOKEN_ISS,
             'aud' => self::TOKEN_AUD,
             'iat' => $now->format('U'),
@@ -332,13 +350,6 @@ class JsonWebTokenManager
             'permissions' => 'user', //all tokens are user tokens right now and get permissions from the user
             self::USER_ID_KEY => $sessionUser->getId(),
         ];
-        if (!is_null($issuedWith)) {
-            $rhett[self::ISSUED_WITH_KEY] = $issuedWith;
-        }
-        if ('' !== $applicationScope) {
-            $rhett[self::APPLICATION_SCOPE_KEY] = $applicationScope;
-        }
-        return $rhett;
     }
 
     protected function getServiceTokenDetails(
