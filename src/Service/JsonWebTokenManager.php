@@ -34,8 +34,6 @@ class JsonWebTokenManager
 
     public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
 
-    public const string USER_TOKENS_APPLICATION_SCOPE_KEY = 'user_tokens_application_scope';
-
     public const string APPLICATION_SCOPE_KEY = 'application_scope';
 
     protected string $jwtKey;
@@ -169,10 +167,10 @@ class JsonWebTokenManager
             return '';
         }
         $arr = $this->decode($jwt);
-        if (!array_key_exists(self::USER_TOKENS_APPLICATION_SCOPE_KEY, $arr)) {
+        if (!array_key_exists('aud', $arr)) {
             return '';
         }
-        return $arr[self::USER_TOKENS_APPLICATION_SCOPE_KEY];
+        return $arr['aud'];
     }
 
     protected function decode(string $jwt): array
@@ -268,7 +266,7 @@ class JsonWebTokenManager
      *
      * @param UserInterface $user The user that this token is created for.
      * @param int $serviceTokenId The ID of the service token that's used to create this user token.
-     * @param string $applicationScope The application scope of this user token.
+     * @param string $applicationScope The application scope ("audience") of this user token.
      * @return string The user token as JWT.
      */
     public function createUserTokenFromServiceToken(
@@ -278,14 +276,10 @@ class JsonWebTokenManager
     ): string {
         // collect the data needed to create a user token for the given user.
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
-        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, null);
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, null, $applicationScope);
 
-        // bolt on the issued-with and application scope data points.
+        // bolt on the issued-with data point.
         $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
-        if ('' !== $applicationScope) {
-            $arr[self::APPLICATION_SCOPE_KEY] = $applicationScope;
-        }
-        // create and return the JWT
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -293,6 +287,7 @@ class JsonWebTokenManager
         SessionUserInterface $sessionUser,
         string $timeToLive,
         ?string $refreshToken,
+        string $audience = self::TOKEN_AUD
     ): array {
         $now = new DateTime();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
@@ -308,7 +303,7 @@ class JsonWebTokenManager
 
         return [
             'iss' => self::TOKEN_ISS,
-            'aud' => self::TOKEN_AUD,
+            'aud' => $audience,
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
             'is_root' => $sessionUser->isRoot(),
@@ -329,7 +324,7 @@ class JsonWebTokenManager
     ): array {
         $rhett = [
             'iss' => self::TOKEN_ISS,
-            'aud' => self::TOKEN_AUD,
+            'aud' => $userTokensApplicationScope ?: self::TOKEN_AUD,
             'iat' => $tokenUser->getCreatedAt()->format('U'),
             'exp' => $tokenUser->getExpiresAt()->format('U'),
              self::TOKEN_ID_KEY => $tokenUser->getId(),
@@ -339,9 +334,6 @@ class JsonWebTokenManager
         }
         if ($canGenerateUserTokens) {
             $rhett[self::CAN_GENERATE_USER_TOKENS_KEY] = true;
-        }
-        if ('' !== $userTokensApplicationScope) {
-            $rhett[self::USER_TOKENS_APPLICATION_SCOPE_KEY] = $userTokensApplicationScope;
         }
         return $rhett;
     }

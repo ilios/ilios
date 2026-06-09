@@ -382,7 +382,7 @@ final class AuthControllerTest extends WebTestCase
         $this->assertArrayHasKey('jwt', $data);
         $jwt = $this->decode($data['jwt']);
         $this->assertEquals('ilios', $jwt['iss']);
-        $this->assertEquals('ilios', $jwt['aud']);
+        $this->assertEquals($applicationScope, $jwt['aud']);
         $this->assertEquals(
             (int) $jwt['exp'],
             DateTime::createFromTimestamp((int) $jwt['iat'])
@@ -393,7 +393,6 @@ final class AuthControllerTest extends WebTestCase
         $this->assertEquals('user', $jwt['permissions']);
         $this->assertEquals($user['id'], $jwt['user_id']);
         $this->assertEquals(ServiceTokenData::ENABLED_SERVICE_TOKEN_ID, $jwt[JsonWebTokenManager::ISSUED_WITH_KEY]);
-        $this->assertEquals($applicationScope, $jwt[JsonWebTokenManager::APPLICATION_SCOPE_KEY]);
     }
 
     public function testCreateUserTokenWithServiceTokenFailsIfServiceTokenIsNotAServiceToken(): void

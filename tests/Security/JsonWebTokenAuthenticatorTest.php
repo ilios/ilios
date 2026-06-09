@@ -196,7 +196,7 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
         $this->assertEquals($userMock, $token->getUser());
         $this->assertEquals(
             $applicationScope,
-            $token->getAttribute(JsonWebTokenManager::USER_TOKENS_APPLICATION_SCOPE_KEY)
+            $token->getAttribute('aud')
         );
     }
 }
