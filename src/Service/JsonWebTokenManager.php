@@ -20,7 +20,7 @@ class JsonWebTokenManager
 {
     public const string PREPEND_KEY = 'ilios.jwt.key.';
     private const string TOKEN_ISS = 'ilios';
-    private const string TOKEN_AUD = 'ilios';
+    public const string TOKEN_AUD = 'ilios';
     public const string SIGNING_ALGORITHM = 'HS256';
 
     public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
@@ -301,9 +301,12 @@ class JsonWebTokenManager
             $refreshCount = 0;
         }
 
+        // Ensure that the default audience is always part audiences.
+        $audiences = $audience === self::TOKEN_AUD ? [self::TOKEN_AUD] : [self::TOKEN_AUD, $audience];
+
         return [
             'iss' => self::TOKEN_ISS,
-            'aud' => $audience,
+            'aud' => $audiences,
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
             'is_root' => $sessionUser->isRoot(),

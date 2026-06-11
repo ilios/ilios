@@ -327,7 +327,8 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUserId')->andReturn($mockSessionUser);
         $jwt = $this->obj->createUserTokenFromServiceToken($mockUser, $issuedWith, $applicationScope);
         $decoded = (array) JWT::decode($jwt, new Key(self::DEFAULT_SECRET_KEY, JsonWebTokenManager::SIGNING_ALGORITHM));
-        $this->assertEquals($applicationScope, $decoded['aud']);
+        $this->assertTrue(in_array(JsonWebTokenManager::TOKEN_AUD, $decoded['aud']));
+        $this->assertTrue(in_array($applicationScope, $decoded['aud']));
         $this->assertEquals($issuedWith, $decoded[JsonWebTokenManager::ISSUED_WITH_KEY]);
     }
 }
