@@ -34,8 +34,6 @@ class JsonWebTokenManager
 
     public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
 
-    public const string APPLICATION_SCOPE_KEY = 'application_scope';
-
     protected string $jwtKey;
 
     public function __construct(
@@ -181,18 +179,6 @@ class JsonWebTokenManager
             return false;
         }
         return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
-    }
-
-    public function getUserTokensApplicationScopeFromToken(string $jwt): string
-    {
-        if (!$this->isServiceToken($jwt)) {
-            return '';
-        }
-        $arr = $this->decode($jwt);
-        if (!array_key_exists('aud', $arr)) {
-            return '';
-        }
-        return $arr['aud'];
     }
 
     protected function decode(string $jwt): array
