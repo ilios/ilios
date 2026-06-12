@@ -14,8 +14,8 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use DateTime;
 use Firebase\JWT\SignatureInvalidException;
-
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
 use function array_key_exists;
 
 class JsonWebTokenManager
