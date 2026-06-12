@@ -331,4 +331,23 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $this->assertTrue(in_array($applicationScope, $decoded['aud']));
         $this->assertEquals($issuedWith, $decoded[JsonWebTokenManager::ISSUED_WITH_KEY]);
     }
+
+    public static function getAudiencesFromTokenProvider(): array
+    {
+        return [
+            [null, []],
+            [123, []],
+            ['', []],
+            [[], []],
+            [['a', 'b'], ['a', 'b']],
+            ['123', ['123']],
+        ];
+    }
+
+    #[DataProvider('getAudiencesFromTokenProvider')]
+    public function testGetAudiencesFromToken(mixed $aud, array $expected): void
+    {
+        $jwt = $this->buildUserJwt(['aud' => $aud]);
+        $this->assertSame($expected, $this->obj->getAudiencesFromToken($jwt));
+    }
 }

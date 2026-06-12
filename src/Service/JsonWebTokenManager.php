@@ -78,6 +78,28 @@ class JsonWebTokenManager
         return DateTime::createFromFormat('U', (string) $arr['iat']);
     }
 
+    public function getAudiencesFromToken(string $jwt): array
+    {
+        $arr = $this->decode($jwt);
+        if (!array_key_exists('aud', $arr)) {
+            return [];
+        }
+        $aud = $arr['aud'];
+
+        // According to the JWT spec, the optional 'aud' attribute
+        // can either be a string or an array of string.
+        // To keep things consistent downstream,
+        // we're standardizing on array of strings.
+        if (is_array($aud)) {
+            return $aud;
+        }
+        if (is_string($aud) && '' !== $aud) {
+            return [$aud];
+        }
+
+        return [];
+    }
+
     public function getExpiresAtFromToken(string $jwt): DateTimeInterface
     {
         $arr = $this->decode($jwt);
