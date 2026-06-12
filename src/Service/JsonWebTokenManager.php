@@ -274,17 +274,17 @@ class JsonWebTokenManager
      *
      * @param UserInterface $user The user that this token is created for.
      * @param int $serviceTokenId The ID of the service token that's used to create this user token.
-     * @param string $applicationScope The application scope ("audience") of this user token.
+     * @param array $applicationScopes The application scope ("audience") of this user token.
      * @return string The user token as JWT.
      */
     public function createUserTokenFromServiceToken(
         UserInterface $user,
         int $serviceTokenId,
-        string $applicationScope
+        array $applicationScopes
     ): string {
         // collect the data needed to create a user token for the given user.
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
-        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, null, $applicationScope);
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, null, $applicationScopes);
 
         // bolt on the issued-with data point.
         $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
@@ -295,7 +295,7 @@ class JsonWebTokenManager
         SessionUserInterface $sessionUser,
         string $timeToLive,
         ?string $refreshToken,
-        string $audience = self::TOKEN_AUD
+        array $audiences = [self::TOKEN_AUD]
     ): array {
         $now = new DateTime();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
@@ -310,7 +310,9 @@ class JsonWebTokenManager
         }
 
         // Ensure that the default audience is always part audiences.
-        $audiences = $audience === self::TOKEN_AUD ? [self::TOKEN_AUD] : [self::TOKEN_AUD, $audience];
+        if (!in_array(self::TOKEN_AUD, $audiences)) {
+            array_unshift($audiences, self::TOKEN_AUD);
+        }
 
         return [
             'iss' => self::TOKEN_ISS,
