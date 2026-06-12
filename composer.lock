@@ -3142,23 +3142,23 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.3.11",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "484792759de89fe94ea6a192065ea7cd99f1eaa2"
+                "reference": "20d7bd4a6ee68444693fe75bc5c6f12f65ad512d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/484792759de89fe94ea6a192065ea7cd99f1eaa2",
-                "reference": "484792759de89fe94ea6a192065ea7cd99f1eaa2",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/20d7bd4a6ee68444693fe75bc5c6f12f65ad512d",
+                "reference": "20d7bd4a6ee68444693fe75bc5c6f12f65ad512d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.0"
+                "php": ">=7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|^5.5|^6.5|^7.5|^8.5.52|^9.4"
+                "phpunit/phpunit": "^8.5.52|^9.4"
             },
             "type": "library",
             "autoload": {
@@ -3188,9 +3188,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.3.11"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.4.0"
             },
-            "time": "2026-05-10T14:08:06+00:00"
+            "time": "2026-06-11T18:29:41+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
