@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface;
+use Aws\imagebuilder\imagebuilderClient;
 use DateInterval;
 use DateTimeInterface;
 use Firebase\JWT\JWT;
@@ -14,6 +15,7 @@ use Firebase\JWT\Key;
 use DateTime;
 use Firebase\JWT\SignatureInvalidException;
 
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use function array_key_exists;
 
 class JsonWebTokenManager
@@ -273,21 +275,23 @@ class JsonWebTokenManager
      * from the service token that's being used to create this user token.
      *
      * @param UserInterface $user The user that this token is created for.
-     * @param int $serviceTokenId The ID of the service token that's used to create this user token.
-     * @param array $applicationScopes The application scope ("audience") of this user token.
+     * @param TokenInterface $serviceToken The service token used to create this user token.
      * @return string The user token as JWT.
      */
     public function createUserTokenFromServiceToken(
         UserInterface $user,
-        int $serviceTokenId,
-        array $applicationScopes
+        TokenInterface $serviceToken,
     ): string {
+        // this value should always be an array.
+        $applicationScopes = $serviceToken->getAttribute('aud');
+        assert(is_array($applicationScopes), 'Expected to always be an array');
+
         // collect the data needed to create a user token for the given user.
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
         $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, null, $applicationScopes);
 
         // bolt on the issued-with data point.
-        $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
+        $arr[self::ISSUED_WITH_KEY] = (int) $serviceToken->getUserIdentifier();
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
