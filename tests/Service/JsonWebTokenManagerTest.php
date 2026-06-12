@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Entity\UserInterface;
 use App\Service\SecretManager;
+use App\Tests\DataLoader\UserData;
+use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUserInterface;
@@ -13,16 +17,19 @@ use App\Classes\SessionUserInterface;
 use App\Service\ServiceTokenUserProvider;
 use App\Service\SessionUserPermissionChecker;
 use App\Service\SessionUserProvider;
-use App\Tests\TestCase;
 use DateInterval;
 use Firebase\JWT\JWT;
 use DateTime;
 use Mockery as m;
 use App\Service\JsonWebTokenManager;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 #[CoversClass(JsonWebTokenManager::class)]
-final class JsonWebTokenManagerTest extends TestCase
+final class JsonWebTokenManagerTest extends KernelTestCase
 {
+    use MockeryPHPUnitIntegration;
+
     protected const string SECRET = 'LongEnoughTestSecret';
     protected const string DEFAULT_SECRET_KEY = JsonWebTokenManager::PREPEND_KEY . self::SECRET;
     protected JsonWebTokenManager $obj;
@@ -113,6 +120,7 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(true, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
         $this->assertSame(true, $this->obj->getIsRootFromToken($jwt));
         $this->assertSame(true, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
+        $this->assertSame(null, $this->obj->getIssuedWithFromToken($jwt));
     }
 
     public function testCreateJwtFromSessionUserWhichExpiresNextWeek(): void
@@ -204,6 +212,23 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertEquals($this->obj->getWriteableSchoolIdsFromToken($jwt), $schoolIds);
     }
 
+    public static function getCanCreateUserTokensFromTokenProvider(): array
+    {
+        return [
+            [self::buildJwt(), false],
+            [self::buildUserJwt(), false],
+            [self::buildUserJwt([JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY => true]), false],
+            [self::buildServiceTokenJwt(), false],
+            [self::buildServiceTokenJwt([JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY => true]), true],
+        ];
+    }
+
+    #[DataProvider('getCanCreateUserTokensFromTokenProvider')]
+    public function testGetCanCreateUserTokensFromToken(string $jwt, bool $canCreate): void
+    {
+        $this->assertEquals($canCreate, $this->obj->getCanCreateUserTokensFromToken($jwt));
+    }
+
     public static function isUserTokenProvider(): array
     {
         return [
@@ -285,5 +310,48 @@ final class JsonWebTokenManagerTest extends TestCase
         $merged = array_merge($default, $values);
 
         return JWT::encode($merged, $secretKey, JsonWebTokenManager::SIGNING_ALGORITHM);
+    }
+    public function testCreateUserTokenFromServiceToken(): void
+    {
+        $issuedWith = 100;
+        $applicationScope = 'lti-schnitzelfest';
+        $user = $this->getContainer()->get(UserData::class)->getOne();
+        $mockToken = m::mock(TokenInterface::class);
+        $mockToken->shouldReceive('getUserIdentifier')->andReturn($issuedWith);
+        $mockToken->shouldReceive('getAttribute')->with('aud')->andReturn([$applicationScope]);
+        $mockUser = m::mock(UserInterface::class);
+        $mockUser->shouldReceive('getId')->andReturn($user['id']);
+        $mockSessionUser = m::mock(SessionUserInterface::class);
+        $mockSessionUser->shouldReceive('getId')->andReturn($user['id']);
+
+        $mockSessionUser->shouldReceive('isRoot')->once()->andReturn(true);
+        $mockSessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($mockSessionUser)->once()->andReturn(true);
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUserId')->andReturn($mockSessionUser);
+        $jwt = $this->obj->createUserTokenFromServiceToken($mockUser, $mockToken);
+        $decoded = (array) JWT::decode($jwt, new Key(self::DEFAULT_SECRET_KEY, JsonWebTokenManager::SIGNING_ALGORITHM));
+        $this->assertTrue(in_array(JsonWebTokenManager::TOKEN_AUD, $decoded['aud']));
+        $this->assertTrue(in_array($applicationScope, $decoded['aud']));
+        $this->assertEquals($issuedWith, $decoded[JsonWebTokenManager::ISSUED_WITH_KEY]);
+    }
+
+    public static function getAudiencesFromTokenProvider(): array
+    {
+        return [
+            [null, []],
+            [123, []],
+            ['', []],
+            [[], []],
+            [['a', 'b'], ['a', 'b']],
+            ['123', ['123']],
+        ];
+    }
+
+    #[DataProvider('getAudiencesFromTokenProvider')]
+    public function testGetAudiencesFromToken(mixed $aud, array $expected): void
+    {
+        $jwt = $this->buildUserJwt(['aud' => $aud]);
+        $this->assertSame($expected, $this->obj->getAudiencesFromToken($jwt));
     }
 }
