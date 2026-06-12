@@ -141,6 +141,22 @@ RUN set -eux; \
 COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
 
 ###############################################################################
+# FrankenPHP container for development
+###############################################################################
+FROM dunglas/frankenphp AS frankenphp
+LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+
+# install additional PHP extensions
+RUN install-php-extension \
+    apcu \
+    intl \
+    ldap \
+    pdo_mysql \
+    redis \
+    zip \
+    xdebug
+
+###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
 ###############################################################################
 FROM php-base AS admin
