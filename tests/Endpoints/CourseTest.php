@@ -304,8 +304,11 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $offerings = self::getContainer()->get(OfferingData::class)->getAll();
         $lastOfferingId = array_pop($offerings)['id'];
 
-        $firstSessionOfferings = array_map('strval', [$lastOfferingId + 1, $lastOfferingId + 2]);
-        $secondSessionOfferings = array_map('strval', [$lastOfferingId + 3, $lastOfferingId + 4, $lastOfferingId + 5]);
+        $firstSessionOfferings = array_map(strval(...), [$lastOfferingId + 1, $lastOfferingId + 2]);
+        $secondSessionOfferings = array_map(
+            strval(...),
+            [$lastOfferingId + 3, $lastOfferingId + 4, $lastOfferingId + 5]
+        );
 
         $this->assertEquals($firstSessionOfferings, $newSessionsData[0]['offerings']);
         $this->assertEquals($secondSessionOfferings, $newSessionsData[1]['offerings']);

@@ -153,7 +153,7 @@ class ApiResponseBuilder
         };
         return array_reduce(
             array_map($dotToTree, $fields),
-            'array_merge_recursive',
+            array_merge_recursive(...),
             []
         );
     }

@@ -66,7 +66,7 @@ class DTONormalizer implements NormalizerInterface
         }
 
         if ($type === IA\Type::STRINGS || $type === IA\Type::INTEGERS) {
-            $stringValues = array_map('strval', $value);
+            $stringValues = array_map(strval(...), $value);
             return array_values($stringValues);
         }
 

@@ -104,7 +104,7 @@ class SendChangeAlertsCommand extends Command
                 );
                 continue;
             }
-            $recipients = array_map('trim', explode(',', $recipients));
+            $recipients = array_map(trim(...), explode(',', $recipients));
 
             // get change alert history from audit logs
             $history = $this->auditLogRepository->findBy([

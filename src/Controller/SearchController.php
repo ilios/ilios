@@ -82,11 +82,11 @@ class SearchController extends AbstractController
 
         $schools = explode('-', $schools);
         $schools = array_filter($schools); //remove any blanks, or if an empt string is passed return and empty array
-        $schools = array_map('intval', $schools);
+        $schools = array_map(intval(...), $schools);
 
         $years = explode('-', $years);
         $years = array_filter($years); //remove any blanks, or if an empt string is passed return and empty array
-        $years = array_map('intval', $years);
+        $years = array_map(intval(...), $years);
 
         $result = $this->curriculumIndex->search($q, $size, $from, $schools, $years);
 

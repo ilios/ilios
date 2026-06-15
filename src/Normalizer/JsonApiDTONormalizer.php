@@ -70,7 +70,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
 
         if ($type === IA\Type::STRINGS || $type === IA\Type::INTEGERS) {
             $values = $object->{$property->name};
-            $stringValues = array_map('strval', $values);
+            $stringValues = array_map(strval(...), $values);
 
             return array_values($stringValues);
         }
