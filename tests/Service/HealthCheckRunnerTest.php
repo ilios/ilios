@@ -48,23 +48,23 @@ final class HealthCheckRunnerTest extends TestCase
 
         $data = $this->runner->run([$mockCheck1]);
         $this->assertCount(1, $data['results']);
-        $this->assertEquals(get_class($mockCheck1), $data['results'][0]['check']);
+        $this->assertEquals($mockCheck1::class, $data['results'][0]['check']);
         $this->assertEquals('Success', $data['results'][0]['status']);
         $this->assertEquals('that went well.', $data['results'][0]['message']);
         $this->assertEquals(HealthCheckRunner::STATUS_OK, $data['summary_status']);
 
         $data = $this->runner->run([$mockCheck1, $mockCheck2, $mockCheck3, $mockCheck4]);
         $this->assertCount(4, $data['results']);
-        $this->assertEquals(get_class($mockCheck1), $data['results'][0]['check']);
+        $this->assertEquals($mockCheck1::class, $data['results'][0]['check']);
         $this->assertEquals('Success', $data['results'][0]['status']);
         $this->assertEquals('that went well.', $data['results'][0]['message']);
-        $this->assertEquals(get_class($mockCheck2), $data['results'][1]['check']);
+        $this->assertEquals($mockCheck2::class, $data['results'][1]['check']);
         $this->assertEquals('Failure', $data['results'][1]['status']);
         $this->assertEquals('that did not go well.', $data['results'][1]['message']);
-        $this->assertEquals(get_class($mockCheck2), $data['results'][2]['check']);
+        $this->assertEquals($mockCheck2::class, $data['results'][2]['check']);
         $this->assertEquals('Warning', $data['results'][2]['status']);
         $this->assertEquals('achtung!', $data['results'][2]['message']);
-        $this->assertEquals(get_class($mockCheck3), $data['results'][3]['check']);
+        $this->assertEquals($mockCheck3::class, $data['results'][3]['check']);
         $this->assertEquals('Skip', $data['results'][3]['status']);
         $this->assertEquals('not today.', $data['results'][3]['message']);
         $this->assertEquals(HealthCheckRunner::STATUS_NOT_OK, $data['summary_status']);
