@@ -6,6 +6,7 @@ namespace App\Controller\API;
 
 use App\Service\GraphQL\TypeResolver;
 use App\Service\GraphQL\TypeRegistry;
+use GraphQL\GraphQL as GQL;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +35,7 @@ class GraphQL
         ]);
         $input = json_decode($request->getContent() ?: '', true);
         $variableValues = array_key_exists('variables', $input) ? $input['variables'] : null;
-        $result = \GraphQL\GraphQL::executeQuery(
+        $result = GQL::executeQuery(
             $schema,
             $input['query'] ?? null,
             null,

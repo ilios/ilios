@@ -14,6 +14,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
+use ReflectionClass;
 
 /**
  * Drop Search Index
@@ -59,7 +60,7 @@ class DropCommand extends Command
     protected function clearIndexQueue(OutputInterface $output): void
     {
         $shortNames = array_map(
-            fn(string $class) => new \ReflectionClass($class)->getShortName(),
+            fn(string $class) => new ReflectionClass($class)->getShortName(),
             [
                 CourseIndexRequest::class,
                 LearningMaterialIndexRequest::class,

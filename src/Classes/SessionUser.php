@@ -10,6 +10,7 @@ use Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\UserInterface as IliosUserInterface;
 use DateTime;
+use Deprecated;
 
 /**
  * Class SessionUser
@@ -148,7 +149,7 @@ class SessionUser implements SessionUserInterface
     /**
      * This method is deprecated. See __serialize() instead.
      */
-    #[\Deprecated]
+    #[Deprecated]
     public function eraseCredentials(): void
     {
         // not implemented.
