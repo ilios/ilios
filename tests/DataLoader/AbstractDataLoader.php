@@ -90,7 +90,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     public function createBulkJsonApi(array $arr): object
     {
         $class = $this->getDtoClass();
-        $builder = Closure::fromCallable([$this, 'buildJsonApiObject']);
+        $builder = $this->buildJsonApiObject(...);
         $data = array_map(fn(array $item) => $builder($item, $class), $arr);
 
         return json_decode(json_encode(['data' => $data]), false);
