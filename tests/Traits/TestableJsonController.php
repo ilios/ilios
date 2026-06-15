@@ -253,20 +253,21 @@ trait TestableJsonController
      *
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
+     * @param array $audiences A list of audiences/application-scopes that the created token will carry.
      * @return string the generated JWT
      */
     protected function createJwtForEnabledServiceToken(
         KernelBrowser $browser,
         ?array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
-        ?string $userTokensApplicationScope = '',
+        array $audiences = [],
     ): string {
         return $this->createJwtFromServiceTokenId(
             $browser,
             ServiceTokenData::ENABLED_SERVICE_TOKEN_ID,
             $writeableSchoolIds,
             $canCreateUserTokens,
-            $userTokensApplicationScope,
+            $audiences
         );
     }
 
@@ -276,7 +277,7 @@ trait TestableJsonController
      * @param int $serviceTokenId the service token id
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
-     * @param string|null $userTokensApplicationScope The name of the client application that this token is scoped to.
+     * @param array $audiences A list of audiences/application-scopes that the created token will carry.
      * @return string the generated JWT
      */
     protected function createJwtFromServiceTokenId(
@@ -284,7 +285,7 @@ trait TestableJsonController
         int $serviceTokenId,
         ?array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
-        ?string $userTokensApplicationScope = ''
+        array $audiences = [],
     ): string {
         $container = $browser->getContainer();
         /** @var JsonWebTokenManager $jwtManager */
@@ -293,7 +294,7 @@ trait TestableJsonController
             $serviceTokenId,
             $writeableSchoolIds,
             $canCreateUserTokens,
-            $userTokensApplicationScope
+            $audiences
         );
     }
 

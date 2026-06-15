@@ -204,9 +204,9 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
                     ServiceTokenUser $tokenUser,
                     array $schoolIds,
                     bool $canCreateUserTokens,
-                    string $userTokensApplicationScope,
+                    array $audiences,
                 ) use ($applicationScope) {
-                    $this->assertEquals($userTokensApplicationScope, $applicationScope);
+                    $this->assertEquals($audiences, [ $applicationScope ]);
                     return true;
                 }
             )->andReturn('abcde');

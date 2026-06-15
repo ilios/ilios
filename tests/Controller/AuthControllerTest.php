@@ -363,7 +363,7 @@ final class AuthControllerTest extends WebTestCase
         $jwt = $this->createJwtForEnabledServiceToken(
             $this->kernelBrowser,
             canCreateUserTokens: true,
-            userTokensApplicationScope: $applicationScope,
+            audiences: [$applicationScope],
         );
 
         $container = $this->kernelBrowser->getContainer();

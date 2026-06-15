@@ -220,13 +220,13 @@ class JsonWebTokenManager
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
         bool $canGenerateUserTokens = false,
-        ?string $userTokensApplicationScope = '',
+        array $audiences = [],
     ): string {
         $arr = $this->getServiceTokenDetails(
             $tokenUser,
             $writeableSchoolIds,
             $canGenerateUserTokens,
-            $userTokensApplicationScope
+            $audiences
         );
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
@@ -259,14 +259,14 @@ class JsonWebTokenManager
         int $tokenId,
         ?array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
-        ?string $userTokensApplicationScope = ''
+        array $audiences = [],
     ): string {
         $tokenUser = $this->serviceAccountUserProvider->createServiceTokenUserFromTokenId($tokenId);
         return $this->createJwtFromServiceTokenUser(
             $tokenUser,
             $writeableSchoolIds,
             $canCreateUserTokens,
-            $userTokensApplicationScope
+            $audiences,
         );
     }
 
@@ -337,11 +337,16 @@ class JsonWebTokenManager
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
         bool $canGenerateUserTokens = false,
-        ?string $userTokensApplicationScope = '',
+        array $audiences = [self::TOKEN_AUD]
     ): array {
+        // Ensure that the default audience is always part audiences.
+        if (!in_array(self::TOKEN_AUD, $audiences)) {
+            array_unshift($audiences, self::TOKEN_AUD);
+        }
+
         $rhett = [
             'iss' => self::TOKEN_ISS,
-            'aud' => $userTokensApplicationScope ?: self::TOKEN_AUD,
+            'aud' => $audiences,
             'iat' => $tokenUser->getCreatedAt()->format('U'),
             'exp' => $tokenUser->getExpiresAt()->format('U'),
              self::TOKEN_ID_KEY => $tokenUser->getId(),

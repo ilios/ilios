@@ -75,11 +75,15 @@ class CreateServiceTokenCommand extends Command
 
         $serviceTokenUser = $this->userProvider->loadUserByIdentifier((string) $token->getId());
 
+        $audiences = [];
+        if ('' !== $userTokensApplicationScope) {
+            $audiences[] = $userTokensApplicationScope;
+        }
         $jwt = $this->jwtManager->createJwtFromServiceTokenUser(
             $serviceTokenUser,
             $schoolIds,
             $canGenerateUserTokens,
-            $userTokensApplicationScope
+            $audiences
         );
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
