@@ -125,6 +125,9 @@ HEALTHCHECK --timeout=1s --retries=10 CMD ["docker-healthcheck"]
 FROM dunglas/frankenphp:1.12.4-php8.5-alpine AS frankenphp
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
 ENV SERVER_NAME=:80
+# see https://symfony.com/blog/new-in-symfony-8-1-misc-improvements-part-1#reset-the-kernel-between-frankenphp-requests
+ENV FRANKENPHP_RESET_KERNEL=1
+
 ENV APP_ENV=dev
 ENV APP_DEBUG=true
 COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
