@@ -49,7 +49,6 @@ jobs:
           - php-apache
           - nginx
           - fpm
-          - fpm-dev
           - admin
           - update-frontend
           - consume-messages
