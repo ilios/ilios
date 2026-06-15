@@ -28,7 +28,7 @@ class NoDefaultSecret implements CheckInterface
             return new Warning("'ILIOS_SECRET' is not set");
         }
 
-        $badSecrets = array_map('strtolower', [
+        $badSecrets = array_map(strtolower(...), [
             'NotSecretChangeMe',
             'ThisTokenIsNotSoSecretChangeIt',
             'ST@G1nGS3CRET12345',

@@ -59,7 +59,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
         $qb->leftJoin('x.authentication', 'auth');
 
         $terms = explode(' ', $q);
-        $terms = array_filter($terms, 'strlen');
+        $terms = array_filter($terms, strlen(...));
         if (empty($terms)) {
             return [];
         }

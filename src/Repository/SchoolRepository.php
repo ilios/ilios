@@ -260,7 +260,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->addSelect('x.id')->from(School::class, 'x');
         $results = $qb->getQuery()->getScalarResult();
-        return array_map('intval', array_column($results, 'id'));
+        return array_map(intval(...), array_column($results, 'id'));
     }
 
     /**

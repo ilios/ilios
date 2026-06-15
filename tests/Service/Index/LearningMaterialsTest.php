@@ -409,7 +409,7 @@ final class LearningMaterialsTest extends TestCase
         $this->assertEquals(['headers' => ['Content-Encoding' => 'gzip']], $data['options']);
         $body = gzdecode($data['body']);
         $arr = array_map(fn ($item) => json_decode($item, true), explode("\n", $body));
-        $filtered = array_filter($arr, 'is_array');
+        $filtered = array_filter($arr, is_array(...));
         $this->assertCount(count($expected), $filtered);
         $this->assertEquals($expected, $filtered);
     }

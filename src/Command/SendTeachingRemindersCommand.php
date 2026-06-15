@@ -85,7 +85,7 @@ class SendTeachingRemindersCommand extends Command
             $from = new Address($sender, $senderName);
         }
         if ($schools) {
-            $schoolIds = array_map('intval', str_getcsv($schools, escape: "\\"));
+            $schoolIds = array_map(intval(...), str_getcsv($schools, escape: "\\"));
         } else {
             $schoolIds = $this->schoolRepository->getIds();
         }

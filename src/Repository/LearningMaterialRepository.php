@@ -61,7 +61,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('DISTINCT x')->from(LearningMaterial::class, 'x');
         $terms = explode(' ', $q);
-        $terms = array_filter($terms, 'strlen');
+        $terms = array_filter($terms, strlen(...));
         if (empty($terms)) {
             return [];
         }
@@ -333,7 +333,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         $dql = 'SELECT l.id FROM App\Entity\LearningMaterial l WHERE l.relativePath IS NOT NULL';
         $results = $this->getEntityManager()->createQuery($dql)->getScalarResult();
         $ids = array_column($results, 'id');
-        return array_map('intval', $ids);
+        return array_map(intval(...), $ids);
     }
 
     /**

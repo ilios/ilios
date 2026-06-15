@@ -80,7 +80,7 @@ class Curriculum extends OpenSearchBase
         if (!$this->enabled) {
             throw new Exception("Search is not configured, isEnabled() should be called before calling this method");
         }
-        array_walk($courseIds, 'intval');
+        array_walk($courseIds, intval(...));
 
         $skipCourseIds = $this->findSkippableCourseIds($courseIds, $requestCreatedAt);
         $idsToIndex = array_filter(
@@ -138,7 +138,7 @@ class Curriculum extends OpenSearchBase
         ];
         $results = $this->doSearch($params);
         $courseIds =  array_column($results['aggregations']['courseId']['buckets'], 'key');
-        $coursesModifiedSinceStamp = array_map('intval', $courseIds);
+        $coursesModifiedSinceStamp = array_map(intval(...), $courseIds);
 
         return array_intersect($ids, $coursesModifiedSinceStamp);
     }
@@ -556,7 +556,7 @@ class Curriculum extends OpenSearchBase
         $results = $this->doSearch($params);
         $courseIds = array_column($results['aggregations']['courseId']['buckets'], 'key');
 
-        return array_map('intval', $courseIds);
+        return array_map(intval(...), $courseIds);
     }
 
     public function getAllSessionIds(): array

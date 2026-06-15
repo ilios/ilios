@@ -158,7 +158,7 @@ final class HealthCheckCommandTest extends KernelTestCase
         $this->assertMatchesRegularExpression('/\sCheck\s|\sStatus\s\s/', $output, 'check table headers');
         $this->assertMatchesRegularExpression('/Summary Status: (OK|KO)/', $output, 'check summary status');
         foreach ($this->allChecks as $check) {
-            $this->assertStringContainsString(get_class($check), $output);
+            $this->assertStringContainsString($check::class, $output);
         }
     }
 
@@ -168,7 +168,7 @@ final class HealthCheckCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('Health Checks (9)', $output);
         foreach ($this->minimalChecks as $check) {
-            $this->assertStringContainsString(get_class($check), $output);
+            $this->assertStringContainsString($check::class, $output);
         }
     }
 }

@@ -81,7 +81,7 @@ final class UsersTest extends TestCase
             $this->assertEquals(['headers' => ['Content-Encoding' => 'gzip']], $data['options']);
             $body = gzdecode($data['body']);
             $arr = array_map(fn ($item) => json_decode($item, true), explode("\n", $body));
-            $filtered = array_filter($arr, 'is_array');
+            $filtered = array_filter($arr, is_array(...));
             $this->assertCount(4, $filtered);
 
             $this->assertEquals($user1->id, $filtered[1]['id']);
