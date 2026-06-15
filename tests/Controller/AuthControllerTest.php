@@ -381,7 +381,7 @@ final class AuthControllerTest extends WebTestCase
         $data = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('jwt', $data);
         $jwt = $this->decode($data['jwt']);
-        $this->assertEquals('ilios', $jwt['iss']);
+        $this->assertEquals(JsonWebTokenManager::TOKEN_ISS, $jwt['iss']);
         $this->assertEquals([JsonWebTokenManager::TOKEN_AUD, $applicationScope], $jwt['aud']);
         $this->assertEquals(
             (int) $jwt['exp'],

@@ -301,8 +301,8 @@ final class JsonWebTokenManagerTest extends KernelTestCase
     {
         $now = new DateTime();
         $default = [
-            'iss' => 'ilios',
-            'aud' => 'ilios',
+            'iss' => JsonWebTokenManager::TOKEN_ISS,
+            'aud' => JsonWebTokenManager::TOKEN_AUD,
             'iat' => $now->format('U'),
             'exp' => $now->modify('+1 year')->format('U'),
         ];
