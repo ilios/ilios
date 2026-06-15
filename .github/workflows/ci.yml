@@ -158,7 +158,6 @@ jobs:
           - php-apache
           - nginx
           - fpm
-          - fpm-dev
           - admin
           - update-frontend
           - consume-messages
@@ -266,17 +265,6 @@ jobs:
         docker stop ilios-fpm
         docker rm --volumes ilios-fpm
         docker image rm fpm:${{ matrix.arch }}-testing
-    - name: FPM Dev
-      if: ${{ always() }}
-      run: |
-        docker image load --input /tmp/fpm-dev-${{ matrix.arch }}.tar
-        docker run -d --name ilios-fpm-dev -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH fpm-dev:${{ matrix.arch }}-testing
-        docker ps
-        docker ps | grep -q ilios-fpm-dev
-        docker exec ilios-fpm-dev php bin/console ilios:health-check --minimal
-        docker stop ilios-fpm-dev
-        docker rm --volumes ilios-fpm-dev
-        docker image rm fpm-dev:${{ matrix.arch }}-testing
     - name: Admin
       if: ${{ always() }}
       run: |
@@ -343,7 +331,6 @@ jobs:
         docker logs ilios-php-apache
         docker logs ilios-nginx
         docker logs ilios-fpm
-        docker logs ilios-fpm-dev
         docker logs ilios-admin
         docker logs ilios-consume-messages
         docker logs ilios-console-command
