@@ -100,7 +100,7 @@ class LdapAuthentication implements AuthenticationInterface
      */
     public function checkLdapPassword(string $username, string $password): bool
     {
-        $ldapConn = @ldap_connect($this->ldapHost, $this->ldapPort);
+        $ldapConn = @ldap_connect("{$this->ldapHost}:{$this->ldapPort}");
         if ($ldapConn) {
             $ldapRdn = sprintf($this->ldapBindTemplate, $username);
             $ldapBind = @ldap_bind($ldapConn, $ldapRdn, $password);
