@@ -172,7 +172,7 @@ services:
 
     Laminas\Diagnostics\Check\PhpVersion:
       arguments:
-        $expectedVersion: "8.4"
+        $expectedVersion: "8.5"
         $operator: ">="
 
     League\Flysystem\FilesystemOperator:

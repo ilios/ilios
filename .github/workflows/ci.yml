@@ -15,7 +15,7 @@ env:
   ILIOS_FILE_SYSTEM_STORAGE_PATH: /tmp
   SYMFONY_DEPRECATIONS_HELPER: disabled=1
   MESSENGER_TRANSPORT_DSN: doctrine://default
-  minimum_php_version: 8.4
+  minimum_php_version: 8.5
   DOCKER_BUILDKIT: 1
 
   #token is tied to Stefan's account on UCSF's SonarQube (type: project, name: ilios)
@@ -70,7 +70,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [8.4, 8.5]
+        php-version: [8.5]
 
     steps:
     - uses: actions/checkout@v6
@@ -124,7 +124,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [8.4, 8.5]
+        php-version: [8.5]
 
     steps:
     - uses: actions/checkout@v6
@@ -356,7 +356,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.4, 8.5]
+        php-version: [8.5]
 
     steps:
       - uses: actions/checkout@v6
@@ -375,7 +375,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [8.4, 8.5]
+        php-version: [8.5]
 
     steps:
       - uses: actions/checkout@v6

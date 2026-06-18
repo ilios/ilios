@@ -8,7 +8,7 @@ on:
         required: true
 
 env:
-  minimum_php_version: 8.4
+  minimum_php_version: 8.5
 
 jobs:
   tag:
