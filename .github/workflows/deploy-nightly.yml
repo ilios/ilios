@@ -1,5 +1,8 @@
 name: Build and Tag Nightly
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   schedule:

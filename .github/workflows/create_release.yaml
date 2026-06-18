@@ -1,5 +1,8 @@
 name: Create Release
 
+permissions:
+  contents: read
+
 on:
   push:
     tags:

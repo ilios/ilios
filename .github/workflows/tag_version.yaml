@@ -1,5 +1,8 @@
 name: Tag Version
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:

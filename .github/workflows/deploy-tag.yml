@@ -1,4 +1,8 @@
 name: Deploy Tagged Version
+
+permissions:
+  contents: read
+
 on:
   push:
     tags:
