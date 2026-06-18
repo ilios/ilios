@@ -89,9 +89,7 @@ class Config
     {
         try {
             return $this->applicationConfigRepository->getValue($name);
-        } catch (ServerException) {
-            return null;
-        } catch (ConnectionException) {
+        } catch (ServerException | ConnectionException) {
             return null;
         }
     }

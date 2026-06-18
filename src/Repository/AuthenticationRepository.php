@@ -45,9 +45,7 @@ class AuthenticationRepository extends ServiceEntityRepository implements DTORep
         $result = null;
         try {
             $result = $qb->getQuery()->getSingleResult();
-        } catch (NoResultException) {
-            // do nothing.
-        } catch (NonUniqueResultException) {
+        } catch (NoResultException | NonUniqueResultException) {
             // do nothing.
         }
         return $result;
