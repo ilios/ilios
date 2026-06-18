@@ -134,7 +134,7 @@ class AcademicYears
         ApiResponseBuilder $builder,
         AcademicYearFactory $academicYearFactory
     ): Response {
-        $years = array_map(fn($year) => $academicYearFactory->create($year), $courseRepository->getYears());
+        $years = array_map($academicYearFactory->create(...), $courseRepository->getYears());
         $contentTypes = $request->getAcceptableContentTypes();
         if (in_array('application/vnd.api+json', $contentTypes)) {
             $json = $serializer->serialize($years, 'json-api', [

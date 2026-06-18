@@ -418,11 +418,11 @@ trait CalendarEventRepository
 
         $sessionMaterials = $this->getSessionLearningMaterials($sessionIds, $em);
 
-        $sessionUserMaterials = array_map(fn(array $arr) => $factory->create($arr), $sessionMaterials);
+        $sessionUserMaterials = array_map($factory->create(...), $sessionMaterials);
 
         $courseMaterials = $this->getCourseLearningMaterials($sessionIds, $em);
 
-        $courseUserMaterials = array_map(fn(array $arr) => $factory->create($arr), $courseMaterials);
+        $courseUserMaterials = array_map($factory->create(...), $courseMaterials);
 
 
 

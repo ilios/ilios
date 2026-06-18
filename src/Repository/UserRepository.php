@@ -1199,7 +1199,7 @@ class UserRepository extends ServiceEntityRepository implements DTORepositoryInt
             $this->getEntityManager()
         );
 
-        $courseUserMaterials = array_map(fn(array $arr) => $factory->create($arr), $courseMaterials);
+        $courseUserMaterials = array_map($factory->create(...), $courseMaterials);
 
 
         $userMaterials = array_merge($sessionUserMaterials, $courseUserMaterials);

@@ -284,7 +284,7 @@ class EntityMetadata
 
         return array_filter(
             $exposedProperties,
-            fn(ReflectionProperty $property) => $this->isPropertyOnlyReadable($property)
+            $this->isPropertyOnlyReadable(...)
         );
     }
 
