@@ -118,7 +118,7 @@ class TypeRegistry
     {
         $filters = [];
         $exposedProperties = $this->dtoInfo->getGraphQLExposedPropertiesForType($name);
-        $idProperties = array_filter($exposedProperties, [$this, 'isId']);
+        $idProperties = array_filter($exposedProperties, $this->isId(...));
 
         $idProperty = array_values($idProperties)[0];
         $type = $this->entityMetadata->getTypeOfProperty($idProperty);

@@ -117,7 +117,7 @@ class SchoolRepository extends ServiceEntityRepository implements
         $events = [...$events, ...$uniqueIlmEvents];
 
         //cast calendar events into school events
-        $schoolEvents = array_map(fn(CalendarEvent $event) => SchoolEvent::createFromCalendarEvent($event), $events);
+        $schoolEvents = array_map(SchoolEvent::createFromCalendarEvent(...), $events);
 
         //sort events by startDate and endDate for consistency
         usort($schoolEvents, function ($a, $b) {

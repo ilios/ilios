@@ -276,7 +276,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         $paths = array_map(fn(string $fileName) => $archiveDir . DIRECTORY_SEPARATOR . $fileName, $files);
         $arr = array_filter(
             $paths,
-            fn(string $path) => is_dir($path)
+            is_dir(...)
         );
         return array_values($arr);
     }

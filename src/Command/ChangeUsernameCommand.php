@@ -48,7 +48,7 @@ class ChangeUsernameCommand extends Command
             );
         }
         $allUsernames = array_map(
-            fn(string $username) => strtolower($username),
+            strtolower(...),
             $this->authenticationRepository->getUsernames()
         );
 

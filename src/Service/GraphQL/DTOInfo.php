@@ -73,7 +73,7 @@ class DTOInfo
         $relatedProperties = array_filter($exposedProperties, $this->isRelated(...));
         $regularProperties = array_diff($exposedProperties, $relatedProperties);
 
-        $graphQlRelated = array_filter($relatedProperties, [$this, 'isGraphQlRelated']);
+        $graphQlRelated = array_filter($relatedProperties, $this->isGraphQlRelated(...));
 
         return array_merge($regularProperties, $graphQlRelated);
     }

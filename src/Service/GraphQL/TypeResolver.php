@@ -46,12 +46,12 @@ class TypeResolver
             if (is_array($value)) {// one-to-many and many-to-many relationships are arrays
                 $this->buffer->bufferRequest($type, $value);
                 return new Deferred(
-                    fn() => call_user_func([$this, 'filterValues'], $this->buffer->getValuesForType($type, $value))
+                    fn() => call_user_func($this->filterValues(...), $this->buffer->getValuesForType($type, $value))
                 );
             } else {// one-to-one and many-to-one relationships are a single value
                 $this->buffer->bufferRequest($type, [$value]);
                 return new Deferred(
-                    fn() => call_user_func([$this, 'authorizeValue'], $this->buffer->getValueForType($type, $value))
+                    fn() => call_user_func($this->authorizeValue(...), $this->buffer->getValueForType($type, $value))
                 );
             }
         }
