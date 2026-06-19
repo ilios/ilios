@@ -8,13 +8,13 @@ At any given time, the Ilios application will only be supported on the very late
 
 ### Policy Example
 
-For example, the current minimum version of PHP is v8.4. When PHP v8.5 is released, we will continue to ensure the Ilios code will work on PHP 8.4 for at least 90 days, and then, after that time has passed, we will only offer support for Ilios applications running on PHP 8.5 going forward.
+For example, the current minimum version of PHP is v8.5. When PHP v8.6 is released, we will continue to ensure the Ilios code will work on PHP 8.5 for at least 90 days, and then, after that time has passed, we will only offer support for Ilios applications running on PHP 8.6 going forward.
 
 ## Currently Supported Versions of PHP
 
 Based on the policy above, Ilios is currently compatible with the following versions of PHP:
 
-* PHP 8.4
+* PHP 8.5
 
 ## Up-To-Date PHP Repositories for CentOS and RHEL
 
