@@ -58,13 +58,10 @@ class Manager extends OpenSearchBase
         if (!$this->enabled) {
             return false;
         }
-        foreach ($this->listCurrentIndexes() as $index) {
-            if (!$this->client->indices()->exists(['index' => $index])) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all(
+            $this->listCurrentIndexes(),
+            fn($index) => $this->client->indices()->exists(['index' => $index])
+        );
     }
 
     protected function listCurrentIndexes(): array
