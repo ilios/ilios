@@ -1,5 +1,8 @@
 name: Tag Version
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
@@ -12,6 +15,8 @@ env:
 
 jobs:
   tag:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7

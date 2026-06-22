@@ -1,5 +1,8 @@
 name: Future PHP Versions
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
   schedule:

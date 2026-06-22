@@ -1,4 +1,8 @@
 name: Deploy Latest Containers
+
+permissions:
+  contents: read
+
 on:
   push:
     branches:
