@@ -8,7 +8,7 @@ The following steps specifically outline the process for changing the color of t
 
 ## BEFORE YOU BEGIN
 
-For this excercise, you will need to know what color you would like your main header "banner" to be and you will need a custom logo graphic sized the same as the default Ilios logo graphic. You should also be somewhat familiar with CSS, but it's not super important if you are just following these instructions to update the banner color and its logo.
+For this exercise, you will need to know what color you would like your main header "banner" to be and you will need a custom logo graphic sized the same as the default Ilios logo graphic. You should also be somewhat familiar with CSS, but it's not super important if you are just following these instructions to update the banner color and its logo.
 
 ### The Main Header Color
 

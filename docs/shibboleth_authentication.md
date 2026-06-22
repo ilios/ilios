@@ -1,8 +1,8 @@
 # Shibboleth Authentication
 
-Ilios includes support for institutions using [Shibboleth](https://www.internet2.edu/products-services/trust-identity/shibboleth/) for their SAML-based Single Sign-On authenticaton solution.
+Ilios includes support for institutions using [Shibboleth](https://www.internet2.edu/products-services/trust-identity/shibboleth/) for their SAML-based Single Sign-On authentication solution.
 
-If you would like to enable Shibboleth authentication in Ilios, you should first follow the steps provided by your institution for setting up your Ilios host system as a Shibboleth Service Provider, or "SP". When You have completed the steps they outline as required, you will need to make several configuration changes to your webserver (Apache) configuration, as well as within the Ilios configuratrion settings in order to activate it.
+If you would like to enable Shibboleth authentication in Ilios, you should first follow the steps provided by your institution for setting up your Ilios host system as a Shibboleth Service Provider, or "SP". When You have completed the steps they outline as required, you will need to make several configuration changes to your webserver (Apache) configuration, as well as within the Ilios configuration settings in order to activate it.
 
 ## Web Server Settings
 
