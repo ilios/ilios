@@ -73,7 +73,7 @@ bin/console messenger:consume async_priority_high async_priority_normal async_pr
 
 ### Upgrading to Ilios 3.123.0
 
-The `ILIOS_SEARCH_HOSTS` has been renamed to `ILIOS_SEARCH_HOST` and will no longer accept a semi-colon seeperated list of hosts. Replace this is your configuration with a single host if you have search and indexing enabled.
+The `ILIOS_SEARCH_HOSTS` has been renamed to `ILIOS_SEARCH_HOST` and will no longer accept a semi-colon separated list of hosts. Replace this is your configuration with a single host if you have search and indexing enabled.
 
 ### Upgrading to Ilios 3.105.0
 

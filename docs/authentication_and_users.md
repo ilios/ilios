@@ -4,7 +4,7 @@ Ilios provides several methods for populating and authenticating users within th
 
 ## Authentication Types
 
-Ilios supports several different authentcation types to choose from, depending on your needs: Form, LDAP, CAS, Shibboleth.
+Ilios supports several different authentication types to choose from, depending on your needs: Form, LDAP, CAS, Shibboleth.
 
 **Form:** Username and password are stored in the Ilios database, users login with a simple form - this is the default authentication type for a new Ilios installation.
 

@@ -18,7 +18,7 @@ Ilios 3 uses a Symfony (PHP/SQL) backend to serve its API, so these tools and th
 * MySQL using the InnoDB database engine (v5.7 or later required, 8+ recommended)
 * PHP v8.5+ REQUIRED - In order to ensure the best security and performance of the application overall, we have adopted a policy of requiring the latest version of PHP for running Ilios. Please see [ilios_php_version_policy.md](docs/ilios_php_version_policy.md) for the latest information about the PHP version requirements for Ilios.
 
-NOTE: Several institutions have successfully deployed Ilios using Microsoft IIS on Windows as their webserver, but we do not recommend it as we do not have alot of experience with it ourselves and we've only ever support Ilios on Linux systems. That being said, if you MUST use IIS for Windows and are having trouble getting Ilios running properly, please contact the [Ilios Project Support Team](https://iliosproject.org) at [support@iliosproject.org](mailto:support@iliosproject.org) if you have any problems and we might be able to help you out!
+NOTE: Several institutions have successfully deployed Ilios using Microsoft IIS on Windows as their webserver, but we do not recommend it as we do not have a lot of experience with it ourselves and we've only ever support Ilios on Linux systems. That being said, if you MUST use IIS for Windows and are having trouble getting Ilios running properly, please contact the [Ilios Project Support Team](https://iliosproject.org) at [support@iliosproject.org](mailto:support@iliosproject.org) if you have any problems and we might be able to help you out!
 
 PHP should configured with a `memory_limit` setting of at least 386MB and have the following required packages/modules/extensions enabled:
 
@@ -100,7 +100,7 @@ These values will need to be adjusted to your environment and setup.
 
 ### Upgrading from previous versions of Ilios
 
-If you are already running a 2.x version of Ilios, you can upgrade your current database by following the intructions at [Upgrading From Ilios 2.x](docs/upgrade_ilios_2_to_3.md).
+If you are already running a 2.x version of Ilios, you can upgrade your current database by following the instructions at [Upgrading From Ilios 2.x](docs/upgrade_ilios_2_to_3.md).
 
 ### Creating a new database for Ilios
 
@@ -140,7 +140,7 @@ To get started with your new version of Ilios, you are going to have to create t
 
 To add the first user, we need to return to the the Ilios application root folder (`/web/ilios3/ilios`) and get ready to run the following console command. Before running the command, however, you'll want to gather this information about the user you intend to add:
 
-* The user's email address (eg, [ilios_admin@example.edu](maito:ilios_admin@example.edu))
+* The user's email address (eg, [ilios_admin@example.edu](mailto:ilios_admin@example.edu))
 * The id of the school that user will be part of; this will most likely be '1' (School of Medicine)
 
 You will be prompted for the email address and school id info when you run the following command (And don't worry, you can change this info after you login!):
