@@ -11,7 +11,6 @@ use App\Entity\Session;
 use App\Service\DTOCacheManager;
 use App\Traits\ManagerRepository;
 use DateTime;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;

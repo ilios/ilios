@@ -7,7 +7,6 @@ namespace App\Service;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Entity\UserInterface;
 
 interface AuthenticationInterface
 {

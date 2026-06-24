@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Command\Index;
 
-use App\Classes\IndexableCourse;
 use App\Command\Index\DetectMissingCommand;
 use App\Entity\DTO\LearningMaterialDTO;
-use App\Repository\CourseRepository;
 use App\Repository\LearningMaterialRepository;
 use App\Repository\SessionRepository;
 use App\Service\Index\Curriculum;

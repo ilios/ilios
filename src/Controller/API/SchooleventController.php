@@ -7,7 +7,6 @@ namespace App\Controller\API;
 use App\Classes\SchoolEvent;
 use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
-use App\Entity\SessionInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Repository\SchoolRepository;
 use App\Repository\SessionRepository;

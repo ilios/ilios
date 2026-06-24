@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Repository\DataImportRepositoryInterface;
-use DateTime;
-use Exception;
-
 /**
  * A service for loading default application data from file.
  *

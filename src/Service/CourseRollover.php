@@ -6,13 +6,11 @@ namespace App\Service;
 
 use App\Entity\CohortInterface;
 use App\Entity\CourseInterface;
-use App\Entity\CourseLearningMaterialInterface;
 use App\Entity\CourseObjectiveInterface;
 use App\Entity\IlmSessionInterface;
 use App\Entity\OfferingInterface;
 use App\Entity\ProgramYearObjectiveInterface;
 use App\Entity\SessionInterface;
-use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\SessionObjectiveInterface;
 use App\Repository\CohortRepository;
 use App\Repository\CourseLearningMaterialRepository;

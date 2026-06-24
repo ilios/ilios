@@ -9,7 +9,6 @@ use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
 use App\Entity\DTO\OfferingDTO;
 use App\Entity\OfferingInterface;
-use App\Entity\UserInterface;
 use App\Repository\OfferingRepository;
 use App\Repository\ServiceTokenRepository;
 use App\Repository\UserRepository;

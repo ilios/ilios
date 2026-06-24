@@ -7,7 +7,6 @@ namespace App\Command\Index;
 use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
-use Composer\Console\Input\InputArgument;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

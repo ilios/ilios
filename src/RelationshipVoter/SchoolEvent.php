@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\RelationshipVoter;
 
-use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent as Event;
 use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;

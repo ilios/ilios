@@ -8,7 +8,6 @@ use App\Classes\VoterPermissions;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;

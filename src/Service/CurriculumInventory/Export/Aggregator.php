@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\CurriculumInventory\Export;
 
-use App\Entity\CurriculumInventoryInstitutionInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Repository\CurriculumInventoryInstitutionRepository;
 use App\Service\Config;

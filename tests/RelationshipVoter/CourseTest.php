@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\RelationshipVoter;
 
 use App\Classes\VoterPermissions;
-use App\Entity\CompetencyInterface;
 use App\Entity\CourseInterface;
 use App\Entity\SchoolInterface;
 use App\RelationshipVoter\Course as Voter;

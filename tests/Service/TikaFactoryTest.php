@@ -8,7 +8,6 @@ use App\Service\Config;
 use App\Service\TikaFactory;
 use App\Tests\TestCase;
 use Mockery as m;
-use Vaites\ApacheTika\Client;
 use Vaites\ApacheTika\Clients\WebClient;
 
 final class TikaFactoryTest extends TestCase

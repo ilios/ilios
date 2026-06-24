@@ -10,8 +10,6 @@ use App\Tests\TestCase;
 use Composer\InstalledVersions;
 use Mockery as m;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[CoversClass(PrefixSeedCompilerPass::class)]
 final class PrefixSeedCompilerPassTest extends TestCase

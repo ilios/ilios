@@ -6,7 +6,6 @@ namespace App\RelationshipVoter;
 
 use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
-use App\Entity\SessionInterface;
 use App\Entity\SessionObjectiveInterface;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

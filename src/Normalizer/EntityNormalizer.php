@@ -12,7 +12,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use HTMLPurifier;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use ReflectionClass;
 use ReflectionProperty;

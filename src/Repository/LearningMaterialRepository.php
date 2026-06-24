@@ -12,9 +12,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\LearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\LearningMaterialInterface;
 
-use function array_keys;
 use function array_values;
 
 class LearningMaterialRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface

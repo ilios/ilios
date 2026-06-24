@@ -6,8 +6,6 @@ namespace App\Controller\API;
 
 use App\Classes\UserEvent;
 use App\Classes\VoterPermissions;
-use App\Entity\SessionInterface;
-use App\Entity\UserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;

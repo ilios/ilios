@@ -8,7 +8,6 @@ use App\Attributes\Id;
 use App\Attributes\Related;
 use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
-use Closure;
 use DateTime;
 use ReflectionClass;
 use ReflectionProperty;

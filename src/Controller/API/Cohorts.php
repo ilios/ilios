@@ -6,7 +6,6 @@ namespace App\Controller\API;
 
 use App\Classes\VoterPermissions;
 use App\Entity\DTO\CohortDTO;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\CohortRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;

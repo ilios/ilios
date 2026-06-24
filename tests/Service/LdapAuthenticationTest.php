@@ -12,7 +12,6 @@ use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use App\Service\Config;
 use App\Tests\TestCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 use App\Service\LdapAuthentication;
 use Symfony\Component\HttpFoundation\Request;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\RelationshipVoter\AbstractVoter;
 use App\Service\EntityRepositoryLookup;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\CurriculumInventoryExportDTO;
-use Exception;
 
 final class CurriculumInventoryExportData extends AbstractDataLoader
 {

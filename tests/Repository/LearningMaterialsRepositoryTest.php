@@ -10,7 +10,6 @@ use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
-use Doctrine\Persistence\ObjectRepository;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

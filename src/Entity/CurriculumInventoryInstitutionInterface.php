@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Traits\NameableEntityInterface;
 use App\Traits\IdentifiableEntityInterface;
-use App\Entity\SchoolInterface;
 use App\Traits\SchoolEntityInterface;
 
 interface CurriculumInventoryInstitutionInterface extends
