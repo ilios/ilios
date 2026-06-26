@@ -333,6 +333,7 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $decoded = (array) JWT::decode($jwt, new Key(self::DEFAULT_SECRET_KEY, JsonWebTokenManager::SIGNING_ALGORITHM));
         $this->assertTrue(in_array(JsonWebTokenManager::TOKEN_AUD, $decoded['aud']));
         $this->assertTrue(in_array($applicationScope, $decoded['aud']));
+        $this->assertEquals(30, $decoded['exp'] - $decoded['iat']);
         $this->assertEquals($issuedWith, $decoded[JsonWebTokenManager::ISSUED_WITH_KEY]);
     }
 
