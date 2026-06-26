@@ -8,7 +8,6 @@ use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialInterface;
-use App\RelationshipVoter\AbstractVoter;
 use App\Repository\LearningMaterialRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;

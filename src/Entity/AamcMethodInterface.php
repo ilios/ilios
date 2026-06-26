@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Traits\ActivatableEntityInterface;
 use App\Traits\IdentifiableStringEntityInterface;
 use App\Traits\SessionTypesEntityInterface;
-use Stringable;
 
 interface AamcMethodInterface extends
     IdentifiableStringEntityInterface,

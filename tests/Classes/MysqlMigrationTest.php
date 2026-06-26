@@ -13,7 +13,6 @@ use Symfony\Component\Finder\SplFileInfo;
 use function array_filter;
 use function array_map;
 use function array_values;
-use function implode;
 use function iterator_to_array;
 use function str_starts_with;
 use function var_export;

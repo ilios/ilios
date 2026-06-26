@@ -6,7 +6,6 @@ namespace App\Tests\DataLoader;
 
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Entity\LearningMaterialStatusInterface;
-use Exception;
 
 final class LearningMaterialData extends AbstractDataLoader
 {

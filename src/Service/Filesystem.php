@@ -6,7 +6,6 @@ namespace App\Service;
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-use scandir;
 
 /**
  * Extends Symfonys built in file system to add methods useful for test mocks that symfony

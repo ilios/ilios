@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\RelationshipVoter;
 
 use App\Classes\VoterPermissions;
-use App\Entity\AamcMethod;
 use App\Entity\AamcMethodInterface;
 use App\RelationshipVoter\AamcMethod as Voter;
 use App\Service\SessionUserPermissionChecker;

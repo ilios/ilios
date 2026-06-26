@@ -16,7 +16,6 @@ use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use HTMLPurifier;
 use TypeError;

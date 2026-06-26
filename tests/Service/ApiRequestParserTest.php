@@ -11,7 +11,6 @@ use App\Entity\AamcMethodInterface;
 use App\Entity\SessionType;
 use App\Service\ApiRequestParser;
 use App\Tests\Fixture\LoadAamcMethodData;
-use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionTypeData;
 use Closure;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;

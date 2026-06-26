@@ -7,14 +7,12 @@ namespace App\Command;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\VerificationPreviewBuilder;
 use App\Entity\CurriculumInventoryReportInterface;
-use Exception;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**

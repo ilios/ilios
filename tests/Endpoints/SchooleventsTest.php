@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\Group;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Tests\DataLoader\CourseData;
-use App\Tests\DataLoader\DataLoaderInterface;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SchoolData;

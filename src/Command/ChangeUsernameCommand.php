@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\UserInterface;
 use App\Entity\AuthenticationInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;

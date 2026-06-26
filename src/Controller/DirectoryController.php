@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Repository\UserRepository;
 use App\Service\Directory;

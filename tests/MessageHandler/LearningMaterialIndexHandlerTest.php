@@ -10,7 +10,6 @@ use App\MessageHandler\LearningMaterialIndexHandler;
 use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
-use App\Service\NonCachingIliosFileSystem;
 use App\Tests\TestCase;
 use Mockery as m;
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\User;
 use App\Repository\AuthenticationRepository;
 use App\Repository\PendingUserUpdateRepository;
 use App\Repository\UserRepository;

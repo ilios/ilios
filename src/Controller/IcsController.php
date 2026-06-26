@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Classes\UserEvent;
 use App\Entity\SessionInterface;
-use App\Entity\User;
 use App\Repository\IlmSessionRepository;
 use App\Repository\OfferingRepository;
 use App\Repository\UserRepository;

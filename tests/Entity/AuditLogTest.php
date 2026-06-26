@@ -8,8 +8,6 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\AuditLog;
 
-use function method_exists;
-
 /**
  * Tests for Entity AuditLog
  */

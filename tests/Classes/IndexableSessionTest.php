@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
-use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
-use App\Entity\DTO\CourseDTO;
-use DateTime;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Repository\ApplicationConfigRepository;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
-use Exception;
 
 use function preg_replace;
 use function strtoupper;

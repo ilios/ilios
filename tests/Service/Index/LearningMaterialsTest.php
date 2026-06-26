@@ -7,7 +7,6 @@ namespace App\Tests\Service\Index;
 use App\Classes\OpenSearchBase;
 use App\Entity\DTO\CourseDTO;
 use App\Entity\DTO\LearningMaterialDTO;
-use App\Message\CourseIndexRequest;
 use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\RelationshipVoter;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
 use App\Entity\DTO\UserDTO;
 use App\RelationshipVoter\UserDTOVoter;

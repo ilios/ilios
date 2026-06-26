@@ -8,7 +8,6 @@ use App\Classes\VoterPermissions;
 use App\Entity\Authentication;
 use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
-use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\ApiRequestParser;

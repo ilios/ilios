@@ -6,7 +6,6 @@ namespace App\Service\Index;
 
 use App\Classes\OpenSearchBase;
 use App\Entity\DTO\UserDTO;
-use DateTime;
 use InvalidArgumentException;
 use Exception;
 

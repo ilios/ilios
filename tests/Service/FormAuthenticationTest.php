@@ -12,7 +12,6 @@ use App\Service\JsonWebTokenManager;
 use App\Service\SessionUserProvider;
 use App\Entity\UserInterface;
 use App\Tests\TestCase;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Mockery as m;
 use App\Service\FormAuthentication;
 use Symfony\Component\HttpFoundation\Request;

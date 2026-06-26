@@ -6,7 +6,6 @@ namespace App\Tests\Service\CurriculumInventory\Export;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReport;
-use App\Entity\Program;
 use App\Repository\CurriculumInventoryInstitutionRepository;
 use App\Service\Config;
 use App\Service\CurriculumInventory\Export\Aggregator;
