@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface;
-use Aws\imagebuilder\imagebuilderClient;
 use DateInterval;
 use DateTimeInterface;
 use Firebase\JWT\JWT;
