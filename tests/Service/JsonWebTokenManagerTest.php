@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Service\SecretManager;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\SignatureInvalidException;
@@ -101,6 +102,15 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(13, $this->obj->getRefreshCount($jwt));
     }
 
+    public function testGetRefreshLimitFromToken(): void
+    {
+        $jwt = $this->buildUserJwt();
+        $this->assertSame(JsonWebTokenManager::DEFAULT_REFRESH_LIMIT, $this->obj->getRefreshLimit($jwt));
+
+        $jwt = $this->buildUserJwt(['refreshLimit' => 13]);
+        $this->assertSame(13, $this->obj->getRefreshLimit($jwt));
+    }
+
     public function testUserTokensGetUserPermissions(): void
     {
         $jwt = $this->buildUserJwt();
@@ -179,6 +189,24 @@ final class JsonWebTokenManagerTest extends TestCase
         $stamp = $yesterday->format('U');
         $token = $this->buildUserJwt(['exp' => $stamp]);
         $this->expectException(ExpiredException::class);
+        $this->obj->refreshToken($token);
+    }
+
+    public function testRefreshTokenOverLimitFails(): void
+    {
+        $sessionUser = $this->getMockSessionUser(42, false, false, false);
+        $token = $this->obj->createJwtFromSessionUser($sessionUser);
+        $this->assertSame(0, $this->obj->getRefreshCount($token));
+        $this->assertSame(JsonWebTokenManager::DEFAULT_REFRESH_LIMIT, $this->obj->getRefreshLimit($token));
+
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUserId')
+            ->with(42)->andReturn($sessionUser);
+
+        for ($i = 0; $i < JsonWebTokenManager::DEFAULT_REFRESH_LIMIT; $i++) {
+            $token = $this->obj->refreshToken($token);
+            $this->assertSame($i + 1, $this->obj->getRefreshCount($token));
+        }
+        $this->expectException(InvalidInputWithSafeUserMessageException::class);
         $this->obj->refreshToken($token);
     }
 

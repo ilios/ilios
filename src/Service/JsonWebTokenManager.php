@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use App\Exception\InvalidInputWithSafeUserMessageException;
 use DateInterval;
 use DateTimeInterface;
 use Firebase\JWT\JWT;
@@ -25,6 +26,7 @@ class JsonWebTokenManager
     public const string TOKEN_ID_KEY = 'token_id';
     public const string USER_ID_KEY = 'user_id';
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
+    public const int DEFAULT_REFRESH_LIMIT = 10;
 
     protected string $jwtKey;
 
@@ -109,6 +111,12 @@ class JsonWebTokenManager
         return $arr['refreshCount'] ?? 0;
     }
 
+    public function getRefreshLimit(string $jwt): int
+    {
+        $arr = $this->decode($jwt);
+        return $arr['refreshLimit'] ?? self::DEFAULT_REFRESH_LIMIT;
+    }
+
     public function getPermissionsFromToken(string $jwt): string
     {
         $arr = $this->decode($jwt);
@@ -172,6 +180,12 @@ class JsonWebTokenManager
      */
     public function refreshToken(string $token, string $timeToLive = 'PT8H'): string
     {
+        $refreshCount = $this->getRefreshCount($token);
+        $refreshLimit = $this->getRefreshLimit($token);
+        if ($refreshCount >= $refreshLimit) {
+            throw new InvalidInputWithSafeUserMessageException("Refresh limit {$refreshLimit} exceeded");
+        }
+
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
         $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, $token);
