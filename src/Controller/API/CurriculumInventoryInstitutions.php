@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Curriculum inventory institutions')]
+#[OA\Tag(name: 'Curriculum inventory institutions')]
 #[Route('/api/{version<v3>}/curriculuminventoryinstitutions')]
 class CurriculumInventoryInstitutions extends AbstractApiController
 {
@@ -30,6 +30,7 @@ class CurriculumInventoryInstitutions extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryinstitutions/{id}',
         summary: 'Fetch a single curriculum inventory institution.',
         parameters: [
@@ -70,6 +71,7 @@ class CurriculumInventoryInstitutions extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: "/api/{version}/curriculuminventoryinstitutions",
         summary: "Fetch all curriculum inventory institutions.",
         parameters: [
@@ -141,6 +143,7 @@ class CurriculumInventoryInstitutions extends AbstractApiController
 
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryinstitutions',
         summary: "Create curriculum inventory institutions.",
         requestBody: new OA\RequestBody(
@@ -198,6 +201,7 @@ class CurriculumInventoryInstitutions extends AbstractApiController
         methods: ['PUT']
     )]
     #[OA\Put(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryinstitutions/{id}',
         summary: 'Update or create a curriculum inventory institution.',
         requestBody: new OA\RequestBody(
@@ -282,6 +286,7 @@ class CurriculumInventoryInstitutions extends AbstractApiController
         methods: ['DELETE']
     )]
     #[OA\Delete(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryinstitutions/{id}',
         summary: 'Delete a curriculum inventory institution.',
         parameters: [

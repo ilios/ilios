@@ -28,7 +28,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Curriculum inventory reports')]
+#[OA\Tag(name: 'Curriculum inventory reports')]
 #[Route('/api/{version<v3>}/curriculuminventoryreports')]
 class CurriculumInventoryReports extends AbstractApiController
 {
@@ -46,6 +46,7 @@ class CurriculumInventoryReports extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryreports/{id}',
         summary: 'Fetch a single curriculum inventory report.',
         parameters: [
@@ -86,6 +87,7 @@ class CurriculumInventoryReports extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: "/api/{version}/curriculuminventoryreports",
         summary: "Fetch all curriculum inventory reports.",
         parameters: [
@@ -162,6 +164,7 @@ class CurriculumInventoryReports extends AbstractApiController
      */
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryreports',
         summary: "Create curriculum inventory reports.",
         requestBody: new OA\RequestBody(
@@ -252,6 +255,7 @@ class CurriculumInventoryReports extends AbstractApiController
         methods: ['PUT']
     )]
     #[OA\Put(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryreports/{id}',
         summary: 'Update or create a curriculum inventory report.',
         requestBody: new OA\RequestBody(
@@ -336,6 +340,7 @@ class CurriculumInventoryReports extends AbstractApiController
         methods: ['DELETE']
     )]
     #[OA\Delete(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryreports/{id}',
         summary: 'Delete a curriculum inventory report.',
         parameters: [
@@ -368,6 +373,7 @@ class CurriculumInventoryReports extends AbstractApiController
         methods: ['POST']
     )]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryreports/{id}/rollover',
         summary: 'Rollover a report by ID.',
         requestBody: new OA\RequestBody(
@@ -485,6 +491,7 @@ class CurriculumInventoryReports extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryreports/{id}/verificationpreview',
         summary: 'Fetch verification preview data for a given report.',
         parameters: [

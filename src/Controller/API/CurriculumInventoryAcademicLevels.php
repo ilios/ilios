@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Curriculum inventory academic levels')]
+#[OA\Tag(name: 'Curriculum inventory academic levels')]
 #[Route('/api/{version<v3>}/curriculuminventoryacademiclevels')]
 class CurriculumInventoryAcademicLevels extends AbstractApiController
 {
@@ -30,6 +30,7 @@ class CurriculumInventoryAcademicLevels extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryacademiclevels/{id}',
         summary: 'Fetch a single curriculum inventory academic level.',
         parameters: [
@@ -70,6 +71,7 @@ class CurriculumInventoryAcademicLevels extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: "/api/{version}/curriculuminventoryacademiclevels",
         summary: "Fetch all curriculum inventory academic levels.",
         parameters: [
@@ -141,6 +143,7 @@ class CurriculumInventoryAcademicLevels extends AbstractApiController
 
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryacademiclevels',
         summary: "Create curriculum inventory academic levels.",
         requestBody: new OA\RequestBody(
@@ -198,6 +201,7 @@ class CurriculumInventoryAcademicLevels extends AbstractApiController
         methods: ['PUT']
     )]
     #[OA\Put(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryacademiclevels/{id}',
         summary: 'Update or create a curriculum inventory academic level.',
         requestBody: new OA\RequestBody(
@@ -282,6 +286,7 @@ class CurriculumInventoryAcademicLevels extends AbstractApiController
         methods: ['DELETE']
     )]
     #[OA\Delete(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryacademiclevels/{id}',
         summary: 'Delete a curriculum inventory academic level.',
         parameters: [

@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Curriculum inventory exports')]
+#[OA\Tag(name: 'Curriculum inventory exports')]
 #[Route('/api/{version<v3>}/curriculuminventoryexports')]
 class CurriculumInventoryExports extends AbstractApiController
 {
@@ -45,6 +45,7 @@ class CurriculumInventoryExports extends AbstractApiController
      */
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/curriculuminventoryexports',
         summary: "Create curriculum inventory exports.",
         requestBody: new OA\RequestBody(
