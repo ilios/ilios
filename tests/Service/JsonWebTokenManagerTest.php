@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Service\SecretManager;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\SignatureInvalidException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -91,6 +92,15 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertSame($stamp, $this->obj->getExpiresAtFromToken($jwt)->format('U'));
     }
 
+    public function testGetRefreshCountFromToken(): void
+    {
+        $jwt = $this->buildUserJwt();
+        $this->assertSame(0, $this->obj->getRefreshCount($jwt));
+
+        $jwt = $this->buildUserJwt(['refreshCount' => 13]);
+        $this->assertSame(13, $this->obj->getRefreshCount($jwt));
+    }
+
     public function testUserTokensGetUserPermissions(): void
     {
         $jwt = $this->buildUserJwt();
@@ -99,14 +109,7 @@ final class JsonWebTokenManagerTest extends TestCase
 
     public function testCreateJwtFromSessionUser(): void
     {
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('getId')->andReturn(42);
-
-        $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
-        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
-            ->with($sessionUser)->once()->andReturn(true);
-
+        $sessionUser = $this->getMockSessionUser(42, true, true, true);
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser);
 
         $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
@@ -117,13 +120,7 @@ final class JsonWebTokenManagerTest extends TestCase
 
     public function testCreateJwtFromSessionUserWhichExpiresNextWeek(): void
     {
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('getId')->andReturn(42);
-
-        $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
-        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
-            ->with($sessionUser)->once()->andReturn(true);
+        $sessionUser = $this->getMockSessionUser(42, true, true, true);
 
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P1W');
         $now = new DateTime();
@@ -134,13 +131,7 @@ final class JsonWebTokenManagerTest extends TestCase
 
     public function testCreateJwtFromSessionUserWhichExpiresAfterMaximumTime(): void
     {
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('getId')->andReturn(42);
-
-        $sessionUser->shouldReceive('isRoot')->once()->andReturn(true);
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(true);
-        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
-            ->with($sessionUser)->once()->andReturn(true);
+        $sessionUser = $this->getMockSessionUser(42, true, true, true);
 
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser, 'P400D');
         $now = new DateTime();
@@ -151,13 +142,7 @@ final class JsonWebTokenManagerTest extends TestCase
 
     public function testCreateJwtFromSessionUserWithLessPrivileges(): void
     {
-        $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('getId')->andReturn(42);
-
-        $sessionUser->shouldReceive('isRoot')->once()->andReturn(false);
-        $sessionUser->shouldReceive('performsNonLearnerFunction')->once()->andReturn(false);
-        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
-            ->with($sessionUser)->once()->andReturn(false);
+        $sessionUser = $this->getMockSessionUser(42, false, false, false);
 
         $jwt = $this->obj->createJwtFromSessionUser($sessionUser);
 
@@ -165,6 +150,36 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->assertSame(false, $this->obj->getIsRootFromToken($jwt));
         $this->assertSame(false, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
         $this->assertSame(false, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
+    }
+
+    public function testRefreshSessionUserToken(): void
+    {
+        $sessionUser = $this->getMockSessionUser(42, true, true, true);
+        $token = $this->obj->createJwtFromSessionUser($sessionUser);
+        $this->assertSame(0, $this->obj->getRefreshCount($token));
+
+        $this->sessionUserProvider->shouldReceive('createSessionUserFromUserId')
+            ->with(42)->times(2)->andReturn($sessionUser);
+
+        $jwt = $this->obj->refreshToken($token);
+
+        $this->assertSame(42, $this->obj->getUserIdFromToken($jwt));
+        $this->assertSame(true, $this->obj->getPerformsNonLearnerFunctionFromToken($jwt));
+        $this->assertSame(true, $this->obj->getIsRootFromToken($jwt));
+        $this->assertSame(true, $this->obj->getCanCreateOrUpdateUserInAnySchoolFromToken($jwt));
+        $this->assertSame(1, $this->obj->getRefreshCount($jwt));
+
+        $jwt2 = $this->obj->refreshToken($jwt);
+        $this->assertSame(2, $this->obj->getRefreshCount($jwt2));
+    }
+
+    public function testRefreshExpiredTokenFails(): void
+    {
+        $yesterday = new DateTime('yesterday');
+        $stamp = $yesterday->format('U');
+        $token = $this->buildUserJwt(['exp' => $stamp]);
+        $this->expectException(ExpiredException::class);
+        $this->obj->refreshToken($token);
     }
 
     public function testCreateJwtFromServiceTokenUser(): void
@@ -285,5 +300,23 @@ final class JsonWebTokenManagerTest extends TestCase
         $merged = array_merge($default, $values);
 
         return JWT::encode($merged, $secretKey, JsonWebTokenManager::SIGNING_ALGORITHM);
+    }
+
+    protected function getMockSessionUser(
+        int $id,
+        bool $isRoot,
+        bool $performsNonLearnerFunction,
+        bool $canCreateOrUpdateUsersInAnySchool
+    ): SessionUserInterface {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('getId')->andReturn($id);
+
+        $sessionUser->shouldReceive('isRoot')->atLeast()->once()->andReturn($isRoot);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->atLeast()->once()
+            ->andReturn($performsNonLearnerFunction);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUser)->atLeast()->once()->andReturn($canCreateOrUpdateUsersInAnySchool);
+
+        return $sessionUser;
     }
 }
