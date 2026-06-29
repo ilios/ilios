@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name: 'AAMC PCRSes')]
+#[OA\Tag(name: 'AAMC PCRSes (deprecated)')]
 #[Route('/api/{version<v3>}/aamcpcrses')]
 class AamcPcrses extends AbstractApiController
 {

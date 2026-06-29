@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name: 'Curriculum inventory academic levels')]
+#[OA\Tag(name: 'Curriculum inventory academic levels (deprecated)')]
 #[Route('/api/{version<v3>}/curriculuminventoryacademiclevels')]
 class CurriculumInventoryAcademicLevels extends AbstractApiController
 {

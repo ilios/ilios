@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name: 'AAMC resource types')]
+#[OA\Tag(name: 'AAMC resource types (deprecated)')]
 #[Route('/api/{version<v3>}/aamcresourcetypes')]
 class AamcResourceTypes extends AbstractApiController
 {

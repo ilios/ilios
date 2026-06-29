@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name: 'Curriculum inventory exports')]
+#[OA\Tag(name: 'Curriculum inventory exports (deprecated)')]
 #[Route('/api/{version<v3>}/curriculuminventoryexports')]
 class CurriculumInventoryExports extends AbstractApiController
 {

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name: 'AAMC methods')]
+#[OA\Tag(name: 'AAMC methods (deprecated)')]
 #[Route('/api/{version<v3>}/aamcmethods', defaults: ['version' => 'v3'])]
 class AamcMethods extends AbstractApiController
 {

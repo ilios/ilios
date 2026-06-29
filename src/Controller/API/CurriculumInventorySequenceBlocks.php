@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Exception;
 use RuntimeException;
 
-#[OA\Tag(name: 'Curriculum inventory sequence blocks')]
+#[OA\Tag(name: 'Curriculum inventory sequence blocks (deprecated)')]
 #[Route('/api/{version<v3>}/curriculuminventorysequenceblocks')]
 class CurriculumInventorySequenceBlocks extends AbstractApiController
 {
