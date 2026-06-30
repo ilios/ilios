@@ -26,6 +26,7 @@ class JsonWebTokenManager
     public const string USER_ID_KEY = 'user_id';
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
     public const int DEFAULT_REFRESH_LIMIT = 10;
+    public const string MAX_TIME_TO_LIVE = 'P364D';
 
     protected string $jwtKey;
 
@@ -185,6 +186,13 @@ class JsonWebTokenManager
             throw new InvalidInputWithSafeUserMessageException("Refresh limit {$refreshLimit} exceeded");
         }
 
+        $issuedAt = $this->getIssuedAtFromToken($token);
+        $maximumInterval = new DateInterval(self::MAX_TIME_TO_LIVE);
+        $maximumAge = new DateTimeImmutable()->sub($maximumInterval);
+        if ($issuedAt <= $maximumAge) {
+            throw new InvalidInputWithSafeUserMessageException("Token is too old to refresh");
+        }
+
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
         $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, $token);
@@ -260,7 +268,7 @@ class JsonWebTokenManager
     protected function getTokenExpirationDate(DateTimeImmutable $now, string $timeToLive): DateTimeImmutable
     {
         $requestedInterval = new DateInterval($timeToLive);
-        $maximumInterval = new DateInterval('P364D');
+        $maximumInterval = new DateInterval(self::MAX_TIME_TO_LIVE);
 
         //DateIntervals are not comparable, so we have to create DateTimes first which are
         $requestedFromToday = $now->add($requestedInterval);

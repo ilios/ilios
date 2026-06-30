@@ -210,6 +210,15 @@ final class JsonWebTokenManagerTest extends TestCase
         $this->obj->refreshToken($token);
     }
 
+    public function testRefreshTokenThatIsTooOld(): void
+    {
+        $lastYear = new DateTime('-365 days');
+        $stamp = $lastYear->format('U');
+        $token = $this->buildUserJwt(['iat' => $stamp]);
+        $this->expectException(InvalidInputWithSafeUserMessageException::class);
+        $this->obj->refreshToken($token);
+    }
+
     public function testCreateJwtFromServiceTokenUser(): void
     {
         $schoolIds = [1, 3];
