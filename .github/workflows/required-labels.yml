@@ -9,8 +9,6 @@ on:
 jobs:
   prevent-donotmerge-label:
     runs-on: ubuntu-latest
-    permissions:
-        pull-reqests: read
     steps:
     - uses: mheap/github-action-required-labels@v5
       with:
