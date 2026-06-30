@@ -26,7 +26,7 @@ class JsonWebTokenManager
     public const string USER_ID_KEY = 'user_id';
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
     public const int DEFAULT_REFRESH_LIMIT = 12;
-    public const string MAX_TIME_TO_LIVE = 'P364D';
+    public const string MAX_TIME_TO_LIVE = 'P90D';
 
     protected string $jwtKey;
 
