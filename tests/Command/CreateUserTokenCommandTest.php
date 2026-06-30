@@ -59,7 +59,10 @@ final class CreateUserTokenCommandTest extends KernelTestCase
     {
         $user = m::mock(UserInterface::class)->shouldReceive('getId')->andReturn(1)->getMock();
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => 1])->andReturn($user);
-        $this->jwtManager->shouldReceive('createJwtFromUserId')->with(1, 'PT8H')->andReturn('123JWT');
+        $this->jwtManager
+            ->shouldReceive('createJwtFromUserId')
+            ->with(1, JsonWebTokenManager::USER_TOKEN_DEFAULT_TTL)
+            ->andReturn('123JWT');
 
         $this->commandTester->execute([
             'userId' => '1',

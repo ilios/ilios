@@ -151,23 +151,34 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
     public function testCreateTokenForUser(): void
     {
         $jwt = 'abcde';
+        $applicationScopes = ['lti-micro-manager'];
         $userMock = m::mock(SessionUserInterface::class);
         $userMock->shouldReceive('getRoles')->andReturn([]);
         $passportMock = m::mock(Passport::class);
         $passportMock->shouldReceive('getAttribute')->with('jwt')->andReturn($jwt);
         $passportMock->shouldReceive('getUser')->andReturn($userMock);
         $this->jsonWebTokenManagerMock->shouldReceive('isServiceToken')->andReturn(false);
+        $this->jsonWebTokenManagerMock
+            ->shouldReceive('getAudiencesFromToken')
+            ->with($jwt)
+            ->andReturn($applicationScopes);
 
         $token = $this->authenticator->createToken($passportMock, 'main');
 
         $this->assertEquals($jwt, $token->getAttribute('jwt'));
         $this->assertEquals($userMock, $token->getUser());
+        $this->assertEquals(
+            $applicationScopes,
+            $token->getAttribute('aud')
+        );
     }
 
     public function testCreateTokenForServiceToken(): void
     {
         $jwt = 'abcde';
         $schoolIds = [1, 2, 3];
+        $applicationScopes = ['lti-micro-manager'];
+        $canCreateUsers = true;
         $userMock = m::mock(ServiceTokenUser::class);
         $userMock->shouldReceive('getRoles')->andReturn([]);
         $passportMock = m::mock(Passport::class);
@@ -178,10 +189,23 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
             ->shouldReceive('getWriteableSchoolIdsFromToken')
             ->with($jwt)
             ->andReturn($schoolIds);
+        $this->jsonWebTokenManagerMock
+            ->shouldReceive('getCanCreateUserTokensFromToken')
+            ->with($jwt)
+            ->andReturn($canCreateUsers);
+        $this->jsonWebTokenManagerMock
+            ->shouldReceive('getAudiencesFromToken')
+            ->with($jwt)
+            ->andReturn($applicationScopes);
         $token = $this->authenticator->createToken($passportMock, 'main');
 
         $this->assertEquals($jwt, $token->getAttribute('jwt'));
         $this->assertEquals($schoolIds, $token->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY));
+        $this->assertEquals($canCreateUsers, $token->getAttribute(JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY));
         $this->assertEquals($userMock, $token->getUser());
+        $this->assertEquals(
+            $applicationScopes,
+            $token->getAttribute('aud')
+        );
     }
 }

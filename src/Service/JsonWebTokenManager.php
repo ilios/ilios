@@ -6,25 +6,36 @@ namespace App\Service;
 
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use App\Entity\UserInterface;
 use DateInterval;
 use DateTimeInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use DateTime;
 use Firebase\JWT\SignatureInvalidException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use function array_key_exists;
 
 class JsonWebTokenManager
 {
     public const string PREPEND_KEY = 'ilios.jwt.key.';
-    private const string TOKEN_ISS = 'ilios';
-    private const string TOKEN_AUD = 'ilios';
+    public const string TOKEN_ISS = 'ilios';
+    public const string TOKEN_AUD = 'ilios';
     public const string SIGNING_ALGORITHM = 'HS256';
+
+    public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
+
+    public const string USER_TOKEN_SHORT_LIVED_TTL = 'PT30S';
 
     public const string TOKEN_ID_KEY = 'token_id';
     public const string USER_ID_KEY = 'user_id';
+
+    public const string ISSUED_WITH_KEY = 'issued_with';
+
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
+
+    public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
 
     protected string $jwtKey;
 
@@ -68,6 +79,28 @@ class JsonWebTokenManager
         return DateTime::createFromFormat('U', (string) $arr['iat']);
     }
 
+    public function getAudiencesFromToken(string $jwt): array
+    {
+        $arr = $this->decode($jwt);
+        if (!array_key_exists('aud', $arr)) {
+            return [];
+        }
+        $aud = $arr['aud'];
+
+        // According to the JWT spec, the optional 'aud' attribute
+        // can either be a string or an array of string.
+        // To keep things consistent downstream,
+        // we're standardizing on array of strings.
+        if (is_array($aud)) {
+            return $aud;
+        }
+        if (is_string($aud) && '' !== $aud) {
+            return [$aud];
+        }
+
+        return [];
+    }
+
     public function getExpiresAtFromToken(string $jwt): DateTimeInterface
     {
         $arr = $this->decode($jwt);
@@ -90,6 +123,15 @@ class JsonWebTokenManager
     {
         $arr = $this->decode($jwt);
         return $arr['can_create_or_update_user_in_any_school'];
+    }
+
+    public function getIssuedWithFromToken(string $jwt): ?int
+    {
+        $arr = $this->decode($jwt);
+        if (array_key_exists(self::ISSUED_WITH_KEY, $arr)) {
+            return $arr[self::ISSUED_WITH_KEY];
+        }
+        return null;
     }
 
     public function getFirstCreatedAt(string $jwt): DateTimeInterface
@@ -130,6 +172,18 @@ class JsonWebTokenManager
         return $arr[self::WRITEABLE_SCHOOLS_KEY];
     }
 
+    public function getCanCreateUserTokensFromToken(string $jwt): bool
+    {
+        if (!$this->isServiceToken($jwt)) {
+            return false;
+        }
+        $arr = $this->decode($jwt);
+        if (!array_key_exists(self::CAN_GENERATE_USER_TOKENS_KEY, $arr)) {
+            return false;
+        }
+        return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
+    }
+
     protected function decode(string $jwt): array
     {
         try {
@@ -148,10 +202,14 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a user
+     *
+     * @param SessionUserInterface $sessionUser The current session user.
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
      */
-    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, string $timeToLive = 'PT8H'): string
-    {
+    public function createJwtFromSessionUser(
+        SessionUserInterface $sessionUser,
+        string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
+    ): string {
         $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
@@ -162,15 +220,22 @@ class JsonWebTokenManager
     public function createJwtFromServiceTokenUser(
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
+        bool $canGenerateUserTokens = false,
+        array $audiences = [],
     ): string {
-        $arr = $this->getServiceTokenDetails($tokenUser, $writeableSchoolIds);
+        $arr = $this->getServiceTokenDetails(
+            $tokenUser,
+            $writeableSchoolIds,
+            $canGenerateUserTokens,
+            $audiences
+        );
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     /**
      * Refresh a token
      */
-    public function refreshToken(string $token, string $timeToLive = 'PT8H'): string
+    public function refreshToken(string $token, string $timeToLive = self::USER_TOKEN_DEFAULT_TTL): string
     {
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
@@ -180,24 +245,62 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a userId
+     *
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
      */
-    public function createJwtFromUserId(int $userId, string $timeToLive = 'PT8H'): string
-    {
+    public function createJwtFromUserId(
+        int $userId,
+        string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
+    ): string {
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
         return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
     }
 
-    public function createJwtFromServiceTokenId(int $tokenId, ?array $writeableSchoolIds = []): string
-    {
+    public function createJwtFromServiceTokenId(
+        int $tokenId,
+        ?array $writeableSchoolIds = [],
+        bool $canCreateUserTokens = false,
+        array $audiences = [],
+    ): string {
         $tokenUser = $this->serviceAccountUserProvider->createServiceTokenUserFromTokenId($tokenId);
-        return $this->createJwtFromServiceTokenUser($tokenUser, $writeableSchoolIds);
+        return $this->createJwtFromServiceTokenUser(
+            $tokenUser,
+            $writeableSchoolIds,
+            $canCreateUserTokens,
+            $audiences,
+        );
+    }
+
+    /**
+     * Creates a new user token for a given user with additional properties relayed
+     * from the service token that's being used to create this user token.
+     *
+     * @param UserInterface $user The user that this token is created for.
+     * @param TokenInterface $serviceToken The service token used to create this user token.
+     * @return string The user token as JWT.
+     */
+    public function createUserTokenFromServiceToken(
+        UserInterface $user,
+        TokenInterface $serviceToken,
+    ): string {
+        // this value should always be an array.
+        $applicationScopes = $serviceToken->getAttribute('aud');
+        assert(is_array($applicationScopes), 'Expected to always be an array');
+
+        // collect the data needed to create a user token for the given user.
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_SHORT_LIVED_TTL, null, $applicationScopes);
+
+        // bolt on the issued-with data point.
+        $arr[self::ISSUED_WITH_KEY] = (int) $serviceToken->getUserIdentifier();
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     protected function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
-        ?string $refreshToken
+        ?string $refreshToken,
+        array $audiences = [self::TOKEN_AUD]
     ): array {
         $now = new DateTime();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
@@ -211,9 +314,14 @@ class JsonWebTokenManager
             $refreshCount = 0;
         }
 
+        // Ensure that the default audience is always part audiences.
+        if (!in_array(self::TOKEN_AUD, $audiences)) {
+            array_unshift($audiences, self::TOKEN_AUD);
+        }
+
         return [
             'iss' => self::TOKEN_ISS,
-            'aud' => self::TOKEN_AUD,
+            'aud' => $audiences,
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
             'is_root' => $sessionUser->isRoot(),
@@ -223,23 +331,32 @@ class JsonWebTokenManager
             'refreshCount' => $refreshCount,
             'permissions' => 'user', //all tokens are user tokens right now and get permissions from the user
             self::USER_ID_KEY => $sessionUser->getId(),
-
         ];
     }
 
     protected function getServiceTokenDetails(
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
+        bool $canGenerateUserTokens = false,
+        array $audiences = [self::TOKEN_AUD]
     ): array {
+        // Ensure that the default audience is always part audiences.
+        if (!in_array(self::TOKEN_AUD, $audiences)) {
+            array_unshift($audiences, self::TOKEN_AUD);
+        }
+
         $rhett = [
             'iss' => self::TOKEN_ISS,
-            'aud' => self::TOKEN_AUD,
+            'aud' => $audiences,
             'iat' => $tokenUser->getCreatedAt()->format('U'),
             'exp' => $tokenUser->getExpiresAt()->format('U'),
              self::TOKEN_ID_KEY => $tokenUser->getId(),
         ];
         if (is_array($writeableSchoolIds) && !empty($writeableSchoolIds)) {
             $rhett[self::WRITEABLE_SCHOOLS_KEY] = $writeableSchoolIds;
+        }
+        if ($canGenerateUserTokens) {
+            $rhett[self::CAN_GENERATE_USER_TOKENS_KEY] = true;
         }
         return $rhett;
     }

@@ -252,14 +252,22 @@ trait TestableJsonController
      * optionally with write permissions to given schools.
      *
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
+     * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
+     * @param array $audiences A list of audiences/application-scopes that the created token will carry.
      * @return string the generated JWT
      */
-    protected function createJwtForEnabledServiceToken(KernelBrowser $browser, ?array $writeableSchoolIds = []): string
-    {
+    protected function createJwtForEnabledServiceToken(
+        KernelBrowser $browser,
+        ?array $writeableSchoolIds = [],
+        bool $canCreateUserTokens = false,
+        array $audiences = [],
+    ): string {
         return $this->createJwtFromServiceTokenId(
             $browser,
             ServiceTokenData::ENABLED_SERVICE_TOKEN_ID,
-            $writeableSchoolIds
+            $writeableSchoolIds,
+            $canCreateUserTokens,
+            $audiences
         );
     }
 
@@ -268,17 +276,26 @@ trait TestableJsonController
      *
      * @param int $serviceTokenId the service token id
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
+     * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
+     * @param array $audiences A list of audiences/application-scopes that the created token will carry.
      * @return string the generated JWT
      */
     protected function createJwtFromServiceTokenId(
         KernelBrowser $browser,
         int $serviceTokenId,
         ?array $writeableSchoolIds = [],
+        bool $canCreateUserTokens = false,
+        array $audiences = [],
     ): string {
         $container = $browser->getContainer();
         /** @var JsonWebTokenManager $jwtManager */
         $jwtManager = $container->get(JsonWebTokenManager::class);
-        return $jwtManager->createJwtFromServiceTokenId($serviceTokenId, $writeableSchoolIds);
+        return $jwtManager->createJwtFromServiceTokenId(
+            $serviceTokenId,
+            $writeableSchoolIds,
+            $canCreateUserTokens,
+            $audiences
+        );
     }
 
     /**
