@@ -147,7 +147,8 @@
     ],
     "post-install-cmd": [
       "@auto-scripts",
-      "@ilios-scripts"
+      "@ilios-scripts",
+      "App\\Composer\\InstallPreCommitHook::install"
     ],
     "post-update-cmd": [
       "@auto-scripts",
