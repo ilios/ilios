@@ -187,9 +187,10 @@ class JsonWebTokenManager
         }
 
         $issuedAt = $this->getIssuedAtFromToken($token);
+        $firstCreatedAt = $this->getFirstCreatedAt($token);
         $maximumInterval = new DateInterval(self::MAX_TIME_TO_LIVE);
         $maximumAge = new DateTimeImmutable()->sub($maximumInterval);
-        if ($issuedAt <= $maximumAge) {
+        if ($issuedAt <= $maximumAge || $firstCreatedAt <= $maximumAge) {
             throw new InvalidInputWithSafeUserMessageException("Token is too old to refresh");
         }
 
