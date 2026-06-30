@@ -179,7 +179,10 @@ class Manager
             $sequenceBlockId = $row['id'];
             $courseObjectiveId = $row['course_objective_id'];
             $programObjectiveId = $row['program_objective_id'];
-            if (array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)) {
+            if (
+                isset($programObjectiveId)
+                && array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)
+            ) {
                 $programObjectiveId = $consolidatedProgramObjectivesMap[$programObjectiveId];
             }
             if (! array_key_exists($sequenceBlockId, $rhett)) {
@@ -243,7 +246,10 @@ class Manager
             $sessionObjectiveId = $row['session_objective_id'];
             $courseObjectiveId = $row['course_objective_id'];
             $programObjectiveId = $row['program_objective_id'];
-            if (array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)) {
+            if (
+                isset($programObjectiveId)
+                && array_key_exists($programObjectiveId, $consolidatedProgramObjectivesMap)
+            ) {
                 $programObjectiveId = $consolidatedProgramObjectivesMap[$programObjectiveId];
             }
             if (! array_key_exists($eventId, $rhett)) {
