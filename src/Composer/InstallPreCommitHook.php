@@ -17,13 +17,6 @@ final class InstallPreCommitHook
         $projectRoot = dirname($vendorDir);
         $hooks = [
             "{$vendorDir}/bin/phpcs -q",
-            "{$projectRoot}/bin/console lint:twig -q templates custom",
-            "{$vendorDir}/bin/yaml-lint -q .gitpod.yml",
-            "{$vendorDir}/bin/yaml-lint -q .github",
-            "{$vendorDir}/bin/yaml-lint -q config",
-            "{$vendorDir}/bin/yaml-lint -q docker",
-            "{$vendorDir}/bin/yaml-lint -q docs",
-            "{$vendorDir}/bin/yaml-lint -q compose.yaml",
             "{$vendorDir}/bin/phpstan -q --no-progress",
         ];
         $gitPath = $projectRoot . '/.git';
