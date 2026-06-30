@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'AAMC methods')]
+#[OA\Tag(name: 'AAMC methods (deprecated)')]
 #[Route('/api/{version<v3>}/aamcmethods', defaults: ['version' => 'v3'])]
 class AamcMethods extends AbstractApiController
 {
@@ -34,6 +34,7 @@ class AamcMethods extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/aamcmethods/{id}',
         summary: 'Fetch a single AAMC method.',
         parameters: [
@@ -74,6 +75,7 @@ class AamcMethods extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: "/api/{version}/aamcmethods",
         summary: "Fetch all AAMC methods.",
         parameters: [
@@ -145,6 +147,7 @@ class AamcMethods extends AbstractApiController
 
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/aamcmethods',
         summary: "Create AAMC methods.",
         requestBody: new OA\RequestBody(
@@ -203,6 +206,7 @@ class AamcMethods extends AbstractApiController
         methods: ['PUT']
     )]
     #[OA\Put(
+        deprecated: true,
         path: '/api/{version}/aamcmethods/{id}',
         summary: 'Update or create an AAMC method.',
         requestBody: new OA\RequestBody(
@@ -289,6 +293,7 @@ class AamcMethods extends AbstractApiController
         methods: ['DELETE']
     )]
     #[OA\Delete(
+        deprecated: true,
         path: '/api/{version}/aamcmethods/{id}',
         summary: 'Delete an AAMC method.',
         parameters: [

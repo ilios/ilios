@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Curriculum inventory sequences')]
+#[OA\Tag(name: 'Curriculum inventory sequences (deprecated)')]
 #[Route('/api/{version<v3>}/curriculuminventorysequences')]
 class CurriculumInventorySequences extends AbstractApiController
 {
@@ -30,6 +30,7 @@ class CurriculumInventorySequences extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/curriculuminventorysequences/{id}',
         summary: 'Fetch a single curriculum inventory sequence.',
         parameters: [
@@ -70,6 +71,7 @@ class CurriculumInventorySequences extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: "/api/{version}/curriculuminventorysequences",
         summary: "Fetch all curriculum inventory sequences.",
         parameters: [
@@ -141,6 +143,7 @@ class CurriculumInventorySequences extends AbstractApiController
 
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/curriculuminventorysequences',
         summary: "Create curriculum inventory sequences.",
         requestBody: new OA\RequestBody(
@@ -198,6 +201,7 @@ class CurriculumInventorySequences extends AbstractApiController
         methods: ['PUT']
     )]
     #[OA\Put(
+        deprecated: true,
         path: '/api/{version}/curriculuminventorysequences/{id}',
         summary: 'Update or create a curriculum inventory sequence.',
         requestBody: new OA\RequestBody(
@@ -282,6 +286,7 @@ class CurriculumInventorySequences extends AbstractApiController
         methods: ['DELETE']
     )]
     #[OA\Delete(
+        deprecated: true,
         path: '/api/{version}/curriculuminventorysequences/{id}',
         summary: 'Delete a curriculum inventory sequence.',
         parameters: [

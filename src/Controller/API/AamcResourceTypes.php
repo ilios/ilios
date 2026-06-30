@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'AAMC resource types')]
+#[OA\Tag(name: 'AAMC resource types (deprecated)')]
 #[Route('/api/{version<v3>}/aamcresourcetypes')]
 class AamcResourceTypes extends AbstractApiController
 {
@@ -34,6 +34,7 @@ class AamcResourceTypes extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/aamcresourcetypes/{id}',
         summary: 'Fetch a single AAMC resource type.',
         parameters: [
@@ -74,6 +75,7 @@ class AamcResourceTypes extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: "/api/{version}/aamcresourcetypes",
         summary: "Fetch all AAMC resource types.",
         parameters: [
@@ -145,6 +147,7 @@ class AamcResourceTypes extends AbstractApiController
 
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/aamcresourcetypes',
         summary: "Create AAMC resource types.",
         requestBody: new OA\RequestBody(
@@ -203,6 +206,7 @@ class AamcResourceTypes extends AbstractApiController
         methods: ['PUT']
     )]
     #[OA\Put(
+        deprecated: true,
         path: '/api/{version}/aamcresourcetypes/{id}',
         summary: 'Update or create an AAMC resource type.',
         requestBody: new OA\RequestBody(
@@ -289,6 +293,7 @@ class AamcResourceTypes extends AbstractApiController
         methods: ['DELETE']
     )]
     #[OA\Delete(
+        deprecated: true,
         path: '/api/{version}/aamcresourcetypes/{id}',
         summary: 'Delete an AAMC resource type.',
         parameters: [

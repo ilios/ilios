@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'AAMC PCRSes')]
+#[OA\Tag(name: 'AAMC PCRSes (deprecated)')]
 #[Route('/api/{version<v3>}/aamcpcrses')]
 class AamcPcrses extends AbstractApiController
 {
@@ -33,6 +33,7 @@ class AamcPcrses extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: '/api/{version}/aamcpcrses/{id}',
         summary: 'Fetch a single AAMC PCRS.',
         parameters: [
@@ -74,6 +75,7 @@ class AamcPcrses extends AbstractApiController
         methods: ['GET']
     )]
     #[OA\Get(
+        deprecated: true,
         path: "/api/{version}/aamcpcrses",
         summary: "Fetch all AAMC PCRSes.",
         parameters: [
@@ -145,6 +147,7 @@ class AamcPcrses extends AbstractApiController
 
     #[Route(methods: ['POST'])]
     #[OA\Post(
+        deprecated: true,
         path: '/api/{version}/aamcpcrses',
         summary: "Create AAMC PCRSes.",
         requestBody: new OA\RequestBody(
@@ -203,6 +206,7 @@ class AamcPcrses extends AbstractApiController
         methods: ['PUT']
     )]
     #[OA\Put(
+        deprecated: true,
         path: '/api/{version}/aamcpcrses/{id}',
         summary: 'Update or create an AAMC PCRS.',
         requestBody: new OA\RequestBody(
@@ -289,6 +293,7 @@ class AamcPcrses extends AbstractApiController
         methods: ['DELETE']
     )]
     #[OA\Delete(
+        deprecated: true,
         path: '/api/{version}/aamcpcrses/{id}',
         summary: 'Delete an AAMC PCRS.',
         parameters: [
