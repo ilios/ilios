@@ -1,62 +1,62 @@
 doctrine:
-    dbal:
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+  dbal:
+    charset: utf8mb4
+    default_table_options:
+      charset: utf8mb4
+      collate: utf8mb4_unicode_ci
 
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '16'
+    # IMPORTANT: You MUST configure your server version,
+    # either here or in the DATABASE_URL env var (see .env file)
+    #server_version: '16'
 
-        profiling_collect_backtrace: '%kernel.debug%'
-    orm:
-        controller_resolver:
-        naming_strategy: doctrine.orm.naming_strategy.default
-        validate_xml_mapping: true
-        mappings:
-            App:
-                type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+    profiling_collect_backtrace: '%kernel.debug%'
+  orm:
+    controller_resolver:
+    naming_strategy: doctrine.orm.naming_strategy.default
+    validate_xml_mapping: true
+    mappings:
+      App:
+        type: attribute
+        is_bundle: false
+        dir: '%kernel.project_dir%/src/Entity'
+        prefix: 'App\Entity'
+        alias: App
 
 when@dev:
-    doctrine:
-        dbal:
-            url: '%env(resolve:ILIOS_DATABASE_URL)%'
-            driver: 'pdo_mysql'
+  doctrine:
+    dbal:
+      url: '%env(resolve:ILIOS_DATABASE_URL)%'
+      driver: 'pdo_mysql'
 
 when@test:
-    doctrine:
-        dbal:
-            default_connection: default
-            connections:
-                default:
-                    driver: pdo_sqlite
-                    # "TEST_TOKEN" is typically set by ParaTest
-                    path: "%kernel.cache_dir%/test_%env(default::TEST_TOKEN)%.db"
-                    logging: false
-                    profiling: false
+  doctrine:
+    dbal:
+      default_connection: default
+      connections:
+        default:
+          driver: pdo_sqlite
+          # "TEST_TOKEN" is typically set by ParaTest
+          path: "%kernel.cache_dir%/test_%env(default::TEST_TOKEN)%.db"
+          logging: false
+          profiling: false
 
 when@prod:
-    doctrine:
-        dbal:
-            url: '%env(resolve:ILIOS_DATABASE_URL)%'
-            driver: pdo_mysql
-        orm:
-            query_cache_driver:
-                type: pool
-                pool: doctrine.system_cache_pool
-            result_cache_driver:
-                type: pool
-                pool: doctrine.result_cache_pool
+  doctrine:
+    dbal:
+      url: '%env(resolve:ILIOS_DATABASE_URL)%'
+      driver: pdo_mysql
+    orm:
+      query_cache_driver:
+        type: pool
+        pool: doctrine.system_cache_pool
+      result_cache_driver:
+        type: pool
+        pool: doctrine.result_cache_pool
 
-    framework:
-        cache:
-            pools:
-                doctrine.result_cache_pool:
-                    adapter: cache.app
-                doctrine.system_cache_pool:
-                    adapter: cache.system
+  framework:
+    cache:
+      pools:
+        doctrine.result_cache_pool:
+          adapter: cache.app
+        doctrine.system_cache_pool:
+          adapter: cache.system

@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     tags:
-    - '*'
+      - '*'
 
 jobs:
   notes:
@@ -14,9 +14,9 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v7
-    - uses: ncipollo/release-action@v1
-      with:
-        name: Ilios ${{github.ref_name}}
-        token: ${{ secrets.ZORGBORT_TOKEN }}
-        generateReleaseNotes: true
+      - uses: actions/checkout@v7
+      - uses: ncipollo/release-action@v1
+        with:
+          name: Ilios ${{github.ref_name}}
+          token: ${{ secrets.ZORGBORT_TOKEN }}
+          generateReleaseNotes: true

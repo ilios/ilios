@@ -1,8 +1,8 @@
 twig:
-    paths:
-        '%kernel.project_dir%/custom/templates': ~
-    file_name_pattern: '*.twig'
+  paths:
+    '%kernel.project_dir%/custom/templates': ~
+  file_name_pattern: '*.twig'
 
 when@test:
-    twig:
-        strict_variables: true
+  twig:
+    strict_variables: true

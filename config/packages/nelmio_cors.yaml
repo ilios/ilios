@@ -1,13 +1,13 @@
 nelmio_cors:
-    defaults:
-        allow_credentials: true
-        allow_origin: ['*']
-        allow_headers: ['*']
-        allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'PATCH']
-        expose_headers: [
-            'Content-Disposition',
-            'X-JWT-TOKEN',
-        ]
-        max_age: 3600
-    paths:
-        '^/': ~
+  defaults:
+    allow_credentials: true
+    allow_origin: [ '*' ]
+    allow_headers: [ '*' ]
+    allow_methods: [ 'POST', 'PUT', 'GET', 'DELETE', 'PATCH' ]
+    expose_headers: [
+      'Content-Disposition',
+      'X-JWT-TOKEN',
+    ]
+    max_age: 3600
+  paths:
+    '^/': ~

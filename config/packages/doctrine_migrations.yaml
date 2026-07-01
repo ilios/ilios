@@ -1,9 +1,9 @@
 doctrine_migrations:
-    migrations_paths:
-        # namespace is arbitrary but should be different from App\Migrations
-        # as migrations classes should NOT be autoloaded
-        'Ilios\Migrations': '%kernel.project_dir%/migrations'
-    storage:
-        table_storage:
-            table_name: 'migration_versions'
-    enable_profiler: false
+  migrations_paths:
+    # namespace is arbitrary but should be different from App\Migrations
+    # as migrations classes should NOT be autoloaded
+    'Ilios\Migrations': '%kernel.project_dir%/migrations'
+  storage:
+    table_storage:
+      table_name: 'migration_versions'
+  enable_profiler: false

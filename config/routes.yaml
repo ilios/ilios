@@ -13,8 +13,8 @@ ilios_apiinfo:
   path: /api
   controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
   defaults:
-    template:    'apiinfo.html.twig'
-    _format:     'html'
+    template: "apiinfo.html.twig"
+    _format: "html"
 
 ilios_swagger_redirect_docs:
   path: /api/docs/
