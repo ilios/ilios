@@ -20,32 +20,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v7
-    - name: Use PHP ${{ env.minimum_php_version }}
-      uses: shivammathur/setup-php@v2
-      with:
-        coverage: none
-        php-version: ${{ env.minimum_php_version }}
-        extensions: apcu
-    - name: install composer-lock-diff
-      run: composer global require davidrjonas/composer-lock-diff
-    - name: update dependencies
-      run: composer update
-    - name: Prepare Messages
-      id: vars
-      run: |
-        lockDiff="$(composer-lock-diff --md)"
-        # We have to manually escape new lines
-        lockDiff="${lockDiff//$'\n'/'%0A'}"
-        echo ::set-output name=pr_title::"Update Dependencies"
-        echo ::set-output name=commit_message::"Update Dependencies \
+      - uses: actions/checkout@v7
+      - name: Use PHP ${{ env.minimum_php_version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ env.minimum_php_version }}
+          extensions: apcu
+      - name: install composer-lock-diff
+        run: composer global require davidrjonas/composer-lock-diff
+      - name: update dependencies
+        run: composer update
+      - name: Prepare Messages
+        id: vars
+        run: |
+          lockDiff="$(composer-lock-diff --md)"
+          # We have to manually escape new lines
+          lockDiff="${lockDiff//$'\n'/'%0A'}"
+          echo ::set-output name=pr_title::"Update Dependencies"
+          echo ::set-output name=commit_message::"Update Dependencies \
 
 
-        ${lockDiff}."
-        echo ::set-output name=pr_body::"${lockDiff}"
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v8
-      with:
+          ${lockDiff}."
+          echo ::set-output name=pr_body::"${lockDiff}"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        with:
           token: ${{ secrets.ZORGBORT_TOKEN }}
           title: ${{ steps.vars.outputs.pr_title }}
           body: ${{ steps.vars.outputs.pr_body }}
@@ -54,8 +54,8 @@ jobs:
           committer: Zorgbort <info@iliosproject.org>
           author: Zorgbort <info@iliosproject.org>
           labels: dependencies
-    - uses: act10ns/slack@v2.1.0
-      with:
-        status: ${{ job.status }}
-        message: Update Dependency Job Failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
-      if: failure()
+      - uses: act10ns/slack@v2.1.0
+        with:
+          status: ${{ job.status }}
+          message: Update Dependency Job Failed {{ env.GITHUB_SERVER_URL }}/{{ env.GITHUB_REPOSITORY }}/actions/runs/{{ env.GITHUB_RUN_ID }}
+        if: failure()

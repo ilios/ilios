@@ -1,22 +1,22 @@
 when@prod:
-    parameters:
-        env(SENTRY_DSN): 'https://c70286fb157048be9ebc6e918e8c2b79@o200403.ingest.sentry.io/1323198'
-    sentry:
-        dsn: '%env(SENTRY_DSN)%'
-        options:
-            # Add request headers, cookies, IP address and the authenticated user
-            # see https://docs.sentry.io/platforms/php/data-management/data-collected/ for more info
-            # send_default_pii: true
-            before_send: 'App\Service\SentryBeforeSend'
-            send_default_pii: true
-            traces_sampler: 'sentry.callback.traces_sampler'
-            ignore_exceptions:
-                - Symfony\Component\Security\Core\Exception\AccessDeniedException
-                - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-                - Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
-                - Symfony\Component\ErrorHandler\Error\FatalError
-                - Symfony\Component\Debug\Exception\FatalErrorException
-                - Symfony\Component\Debug\Exception\CommandNotFoundException
+  parameters:
+    env(SENTRY_DSN): 'https://c70286fb157048be9ebc6e918e8c2b79@o200403.ingest.sentry.io/1323198'
+  sentry:
+    dsn: '%env(SENTRY_DSN)%'
+    options:
+      # Add request headers, cookies, IP address and the authenticated user
+      # see https://docs.sentry.io/platforms/php/data-management/data-collected/ for more info
+      # send_default_pii: true
+      before_send: 'App\Service\SentryBeforeSend'
+      send_default_pii: true
+      traces_sampler: 'sentry.callback.traces_sampler'
+      ignore_exceptions:
+        - Symfony\Component\Security\Core\Exception\AccessDeniedException
+        - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+        - Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
+        - Symfony\Component\ErrorHandler\Error\FatalError
+        - Symfony\Component\Debug\Exception\FatalErrorException
+        - Symfony\Component\Debug\Exception\CommandNotFoundException
 
 #        # If you are using Monolog, you also need this additional configuration to log the errors correctly:
 #        # https://docs.sentry.io/platforms/php/guides/symfony/integrations/monolog/

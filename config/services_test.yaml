@@ -1,5 +1,5 @@
 parameters:
-  locale: 'en'
+  locale: "en"
 
 services:
   # default configuration for services in *this* file
@@ -10,10 +10,10 @@ services:
 
   App\Tests\DataLoader\:
     public: true
-    resource: '%kernel.project_dir%/tests/DataLoader'
+    resource: "%kernel.project_dir%/tests/DataLoader"
 
   App\Tests\Fixture\:
-    resource: '%kernel.project_dir%/tests/Fixture'
+    resource: "%kernel.project_dir%/tests/Fixture"
 
   # public in tests only for JsonControllerTest access
   App\Service\JsonWebTokenManager:

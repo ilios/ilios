@@ -35,7 +35,7 @@ services:
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/tmp
       - ILIOS_TIKA_URL=http://tika:9998
     depends_on:
-        - db
+      - db
   opensearch:
     image: ilios/opensearch:v3
     environment:
