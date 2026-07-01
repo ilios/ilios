@@ -18,7 +18,6 @@ use App\Service\ShibbolethAuthentication;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ServerBag;
 
 final class ShibbolethAuthenticationTest extends TestCase
 {
@@ -64,12 +63,7 @@ final class ShibbolethAuthenticationTest extends TestCase
 
     public function testNotAuthenticated(): void
     {
-        $serverBag = m::mock(ServerBag::class);
-        $serverBag->shouldReceive('get')->with('Shib-Application-ID')->andReturn(false);
-
-        $request = m::mock(Request::class);
-        $request->server = $serverBag;
-
+        $request = new Request(server: ['Shib-Application-ID' => false]);
         $result = $this->obj->login($request);
 
         $content = $result->getContent();
@@ -79,18 +73,17 @@ final class ShibbolethAuthenticationTest extends TestCase
 
     public function testNoEppn(): void
     {
-        $serverBag = m::mock(ServerBag::class);
-        $serverBag->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('Shib-Session-ID')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('Shib-Authentication-Instant')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('Shib-Authentication-Method')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('Shib-Session-Index')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('HTTP_REFERER')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('REMOTE_ADDR')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('eppn')->andReturn(false);
+        $request = new Request(server: [
+            'Shib-Application-ID' => true,
+            'Shib-Session-ID' => true,
+            'Shib-Authentication-Instant' => true,
+            'Shib-Authentication-Method' => true,
+            'Shib-Session-Index' => true,
+            'HTTP_REFERER' => true,
+            'REMOTE_ADDRESS' => false,
+            'eppn' => false,
+        ]);
 
-        $request = m::mock(Request::class);
-        $request->server = $serverBag;
         $this->logger->shouldReceive('info')->once();
 
         $result = $this->obj->login($request);
@@ -102,12 +95,7 @@ final class ShibbolethAuthenticationTest extends TestCase
 
     public function testNoUserWithEppn(): void
     {
-        $serverBag = m::mock(ServerBag::class);
-        $serverBag->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('eppn')->andReturn('userid1');
-
-        $request = m::mock(Request::class);
-        $request->server = $serverBag;
+        $request = new Request(server: ['Shib-Application-ID' => true, 'eppn' => 'userid1']);
         $this->authenticationRepository->shouldReceive('findOneBy')
             ->with(['username' => 'userid1'])->andReturn(null);
 
@@ -121,13 +109,7 @@ final class ShibbolethAuthenticationTest extends TestCase
 
     public function testDisabledUser(): void
     {
-        $serverBag = m::mock(ServerBag::class);
-        $serverBag->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('eppn')->andReturn('userid1');
-
-        $request = m::mock(Request::class);
-        $request->server = $serverBag;
-
+        $request = new Request(server: ['Shib-Application-ID' => true, 'eppn' => 'userid1']);
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isEnabled')->andReturn(true);
@@ -148,13 +130,7 @@ final class ShibbolethAuthenticationTest extends TestCase
 
     public function testSuccess(): void
     {
-        $serverBag = m::mock(ServerBag::class);
-        $serverBag->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true);
-        $serverBag->shouldReceive('get')->with('eppn')->andReturn('userid1');
-
-        $request = m::mock(Request::class);
-        $request->server = $serverBag;
-
+        $request = new Request(server: ['Shib-Application-ID' => true, 'eppn' => 'userid1']);
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isEnabled')->andReturn(true);
@@ -175,12 +151,7 @@ final class ShibbolethAuthenticationTest extends TestCase
 
     public function testCreateAuthenticationResponseAuthenticated(): void
     {
-        $serverBag = m::mock(ServerBag::class);
-        $serverBag->shouldReceive('get')->with('Shib-Application-ID')->andReturn(true);
-
-        $request = m::mock(Request::class);
-        $request->server = $serverBag;
-
+        $request = new Request(server: ['Shib-Application-ID' => true]);
         $result = $this->obj->createAuthenticationResponse($request);
         $this->assertInstanceOf(Response::class, $result);
         $this->assertNotInstanceOf(RedirectResponse::class, $result);
@@ -188,14 +159,11 @@ final class ShibbolethAuthenticationTest extends TestCase
 
     public function testCreateAuthenticationResponseNotAuthenticated(): void
     {
-        $serverBag = m::mock(ServerBag::class);
-        $serverBag->shouldReceive('get')->with('Shib-Application-ID')->andReturn(false);
-
-        $request = m::mock(Request::class);
-        $request->shouldReceive('getSchemeAndHttpHost')->andReturn('http://testhost');
-        $request->shouldReceive('getRequestUri')->andReturn('something.html');
-
-        $request->server = $serverBag;
+        $request = new Request(server: [
+            'HTTPS' => false,
+            'SERVER_NAME' => 'testhost',
+            'REQUEST_URI' => 'something.html',
+        ]);
 
         $result = $this->obj->createAuthenticationResponse($request);
         $this->assertInstanceOf(RedirectResponse::class, $result);
