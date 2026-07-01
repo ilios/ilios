@@ -212,19 +212,43 @@ final class JsonWebTokenManagerTest extends TestCase
 
     public function testRefreshTokenThatIsTooOld(): void
     {
-        $lastYear = new DateTime('-365 days');
-        $stamp = $lastYear->format('U');
+        $before = new DateTime('-90 days');
+        $stamp = $before->format('U');
         $token = $this->buildUserJwt(['iat' => $stamp]);
         $this->expectException(InvalidInputWithSafeUserMessageException::class);
         $this->obj->refreshToken($token);
     }
     public function testRefreshTokenThatOriginatedTooLongAgo(): void
     {
-        $lastYear = new DateTime('-365 days');
-        $stamp = $lastYear->format('U');
+        $before = new DateTime('-90 days');
+        $stamp = $before->format('U');
         $token = $this->buildUserJwt(['firstCreatedAt' => $stamp]);
         $this->expectException(InvalidInputWithSafeUserMessageException::class);
         $this->obj->refreshToken($token);
+    }
+    public function testRefreshTokenForTooLong(): void
+    {
+        $token = $this->buildUserJwt();
+        $this->expectException(InvalidInputWithSafeUserMessageException::class);
+        $this->obj->refreshToken($token, 'P92D');
+    }
+
+    public function testRefreshOldTokenForTooLong(): void
+    {
+        $before = new DateTime('-89 days');
+        $stamp = $before->format('U');
+        $token = $this->buildUserJwt(['iat' => $stamp]);
+        $this->expectException(InvalidInputWithSafeUserMessageException::class);
+        $this->obj->refreshToken($token, 'P3D');
+    }
+
+    public function testRefreshOriginalOldTokenForTooLong(): void
+    {
+        $before = new DateTime('-89 days');
+        $stamp = $before->format('U');
+        $token = $this->buildUserJwt(['firstCreatedAt' => $stamp]);
+        $this->expectException(InvalidInputWithSafeUserMessageException::class);
+        $this->obj->refreshToken($token, 'P2D');
     }
 
     public function testCreateJwtFromServiceTokenUser(): void

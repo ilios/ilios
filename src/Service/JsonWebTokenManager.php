@@ -100,7 +100,7 @@ class JsonWebTokenManager
         if (array_key_exists('firstCreatedAt', $arr)) {
             $rhett = DateTimeImmutable::createFromFormat('U', (string) $arr['firstCreatedAt']);
         } else {
-            $rhett = new DateTimeImmutable();
+            $rhett = $this->getIssuedAtFromToken($jwt);
         }
         return $rhett;
     }
@@ -192,6 +192,15 @@ class JsonWebTokenManager
         $maximumAge = new DateTimeImmutable()->sub($maximumInterval);
         if ($issuedAt <= $maximumAge || $firstCreatedAt <= $maximumAge) {
             throw new InvalidInputWithSafeUserMessageException("Token is too old to refresh");
+        }
+
+        $proposedExpiration = new DateTimeImmutable()->add(new DateInterval($timeToLive));
+        $maximumExpiration = $firstCreatedAt->add(new DateInterval(self::MAX_TIME_TO_LIVE));
+
+        if ($maximumExpiration < $proposedExpiration) {
+            throw new InvalidInputWithSafeUserMessageException(
+                "Invalid TTL value, maximum expiration date is \n{$maximumExpiration->format('c')}"
+            );
         }
 
         $userId = $this->getUserIdFromToken($token);
