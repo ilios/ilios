@@ -1,8 +1,0 @@
-# experimentalNetwork: true
-
-image:
-  file: .gitpod.Dockerfile
-
-tasks:
-  - init: composer install -n && docker compose build
-  - command: chmod o+rx . && docker compose up -d

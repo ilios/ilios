@@ -55,7 +55,6 @@ jobs:
             docs/*.md
       - name: lint yaml
         run: |
-          vendor/bin/yaml-lint .gitpod.yml
           vendor/bin/yaml-lint .github
           vendor/bin/yaml-lint config
           vendor/bin/yaml-lint docker
