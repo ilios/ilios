@@ -4,20 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-<<<<<<< HEAD
 use App\Exception\InvalidInputWithSafeUserMessageException;
-||||||| parent of 0e518fb9d (use a dedicated method for creating user tokens from session token.)
-=======
 use App\Entity\UserInterface;
->>>>>>> 0e518fb9d (use a dedicated method for creating user tokens from session token.)
 use App\Service\SecretManager;
-<<<<<<< HEAD
 use Firebase\JWT\ExpiredException;
-||||||| parent of 0e518fb9d (use a dedicated method for creating user tokens from session token.)
-=======
 use App\Tests\DataLoader\UserData;
 use Firebase\JWT\Key;
->>>>>>> 0e518fb9d (use a dedicated method for creating user tokens from session token.)
 use Firebase\JWT\SignatureInvalidException;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -402,7 +394,6 @@ final class JsonWebTokenManagerTest extends KernelTestCase
 
         return JWT::encode($merged, $secretKey, JsonWebTokenManager::SIGNING_ALGORITHM);
     }
-<<<<<<< HEAD
 
     protected function getMockSessionUser(
         int $id,
@@ -420,8 +411,8 @@ final class JsonWebTokenManagerTest extends KernelTestCase
             ->with($sessionUser)->atLeast()->once()->andReturn($canCreateOrUpdateUsersInAnySchool);
 
         return $sessionUser;
-||||||| parent of 0e518fb9d (use a dedicated method for creating user tokens from session token.)
-=======
+    }
+
     public function testCreateUserTokenFromServiceToken(): void
     {
         $issuedWith = 100;
@@ -441,6 +432,5 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $decoded = (array) JWT::decode($jwt, new Key(self::DEFAULT_SECRET_KEY, JsonWebTokenManager::SIGNING_ALGORITHM));
         $this->assertEquals($applicationScope, $decoded['aud']);
         $this->assertEquals($issuedWith, $decoded[JsonWebTokenManager::ISSUED_WITH_KEY]);
->>>>>>> 0e518fb9d (use a dedicated method for creating user tokens from session token.)
     }
 }
