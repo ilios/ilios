@@ -6,11 +6,11 @@ namespace App\Service;
 
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use App\Exception\InvalidInputWithSafeUserMessageException;
 use DateInterval;
-use DateTimeInterface;
+use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use DateTime;
 use Firebase\JWT\SignatureInvalidException;
 
 use function array_key_exists;
@@ -25,6 +25,8 @@ class JsonWebTokenManager
     public const string TOKEN_ID_KEY = 'token_id';
     public const string USER_ID_KEY = 'user_id';
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
+    public const int DEFAULT_REFRESH_LIMIT = 12;
+    public const string MAX_TIME_TO_LIVE = 'P90D';
 
     protected string $jwtKey;
 
@@ -62,16 +64,16 @@ class JsonWebTokenManager
         return array_key_exists(self::TOKEN_ID_KEY, $arr);
     }
 
-    public function getIssuedAtFromToken(string $jwt): DateTimeInterface
+    public function getIssuedAtFromToken(string $jwt): DateTimeImmutable
     {
         $arr = $this->decode($jwt);
-        return DateTime::createFromFormat('U', (string) $arr['iat']);
+        return DateTimeImmutable::createFromFormat('U', (string) $arr['iat']);
     }
 
-    public function getExpiresAtFromToken(string $jwt): DateTimeInterface
+    public function getExpiresAtFromToken(string $jwt): DateTimeImmutable
     {
         $arr = $this->decode($jwt);
-        return DateTime::createFromFormat('U', (string) $arr['exp']);
+        return DateTimeImmutable::createFromFormat('U', (string) $arr['exp']);
     }
 
     public function getIsRootFromToken(string $jwt): bool
@@ -92,13 +94,13 @@ class JsonWebTokenManager
         return $arr['can_create_or_update_user_in_any_school'];
     }
 
-    public function getFirstCreatedAt(string $jwt): DateTimeInterface
+    public function getFirstCreatedAt(string $jwt): DateTimeImmutable
     {
         $arr = $this->decode($jwt);
         if (array_key_exists('firstCreatedAt', $arr)) {
-            $rhett = DateTime::createFromFormat('U', (string) $arr['firstCreatedAt']);
+            $rhett = DateTimeImmutable::createFromFormat('U', (string) $arr['firstCreatedAt']);
         } else {
-            $rhett = new DateTime();
+            $rhett = $this->getIssuedAtFromToken($jwt);
         }
         return $rhett;
     }
@@ -107,6 +109,12 @@ class JsonWebTokenManager
     {
         $arr = $this->decode($jwt);
         return $arr['refreshCount'] ?? 0;
+    }
+
+    public function getRefreshLimit(string $jwt): int
+    {
+        $arr = $this->decode($jwt);
+        return $arr['refreshLimit'] ?? self::DEFAULT_REFRESH_LIMIT;
     }
 
     public function getPermissionsFromToken(string $jwt): string
@@ -172,6 +180,29 @@ class JsonWebTokenManager
      */
     public function refreshToken(string $token, string $timeToLive = 'PT8H'): string
     {
+        $refreshCount = $this->getRefreshCount($token);
+        $refreshLimit = $this->getRefreshLimit($token);
+        if ($refreshCount >= $refreshLimit) {
+            throw new InvalidInputWithSafeUserMessageException("Refresh limit {$refreshLimit} exceeded");
+        }
+
+        $issuedAt = $this->getIssuedAtFromToken($token);
+        $firstCreatedAt = $this->getFirstCreatedAt($token);
+        $maximumInterval = new DateInterval(self::MAX_TIME_TO_LIVE);
+        $maximumAge = new DateTimeImmutable()->sub($maximumInterval);
+        if ($issuedAt <= $maximumAge || $firstCreatedAt <= $maximumAge) {
+            throw new InvalidInputWithSafeUserMessageException("Token is too old to refresh");
+        }
+
+        $proposedExpiration = new DateTimeImmutable()->add(new DateInterval($timeToLive));
+        $maximumExpiration = $firstCreatedAt->add(new DateInterval(self::MAX_TIME_TO_LIVE));
+
+        if ($maximumExpiration < $proposedExpiration) {
+            throw new InvalidInputWithSafeUserMessageException(
+                "Invalid TTL value, maximum expiration date is \n{$maximumExpiration->format('c')}"
+            );
+        }
+
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
         $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, $token);
@@ -199,7 +230,7 @@ class JsonWebTokenManager
         string $timeToLive,
         ?string $refreshToken
     ): array {
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
 
@@ -207,7 +238,7 @@ class JsonWebTokenManager
             $firstCreatedAt = $this->getFirstCreatedAt($refreshToken);
             $refreshCount = $this->getRefreshCount($refreshToken) + 1;
         } else {
-            $firstCreatedAt = clone $now;
+            $firstCreatedAt = $now;
             $refreshCount = 0;
         }
 
@@ -244,20 +275,17 @@ class JsonWebTokenManager
         return $rhett;
     }
 
-    protected function getTokenExpirationDate(DateTime $now, string $timeToLive): DateTime
+    protected function getTokenExpirationDate(DateTimeImmutable $now, string $timeToLive): DateTimeImmutable
     {
         $requestedInterval = new DateInterval($timeToLive);
-        $maximumInterval = new DateInterval('P364D');
+        $maximumInterval = new DateInterval(self::MAX_TIME_TO_LIVE);
 
         //DateIntervals are not comparable, so we have to create DateTimes first which are
-        $requestedFromToday = clone $now;
-        $requestedFromToday->add($requestedInterval);
-        $maximumFromToday = clone $now;
-        $maximumFromToday->add($maximumInterval);
+        $requestedFromToday = $now->add($requestedInterval);
+        $maximumFromToday = $now->add($maximumInterval);
 
         $interval = $requestedFromToday > $maximumFromToday ? $maximumInterval : $requestedInterval;
-        $expires = clone $now;
-        $expires->add($interval);
-        return $expires;
+
+        return $now->add($interval);
     }
 }
