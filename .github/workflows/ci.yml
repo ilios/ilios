@@ -157,6 +157,7 @@ jobs:
           - php-apache
           - nginx
           - fpm
+          - frankenphp
           - admin
           - update-frontend
           - consume-messages
@@ -264,6 +265,17 @@ jobs:
           docker stop ilios-fpm
           docker rm --volumes ilios-fpm
           docker image rm fpm:${{ matrix.arch }}-testing
+      - name: FrankenPHP
+        if: ${{ always() }}
+        run: |
+          docker image load --input /tmp/frankenphp-${{ matrix.arch }}.tar
+          docker run -d --name ilios-frankenphp -e ILIOS_SECRET -e ILIOS_DATABASE_URL -e ILIOS_FILE_SYSTEM_STORAGE_PATH frankenphp:${{ matrix.arch }}-testing
+          docker ps
+          docker ps | grep -q ilios-frankenphp
+          docker exec ilios-frankenphp php bin/console ilios:health-check --minimal
+          docker stop ilios-frankenphp
+          docker rm --volumes ilios-frankenphp
+          docker image rm frankenphp:${{ matrix.arch }}-testing
       - name: Admin
         if: ${{ always() }}
         run: |

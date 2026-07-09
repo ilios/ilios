@@ -49,6 +49,7 @@ jobs:
           - php-apache
           - nginx
           - fpm
+          - frankenphp
           - admin
           - update-frontend
           - consume-messages
