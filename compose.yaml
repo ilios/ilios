@@ -29,8 +29,7 @@ services:
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
       - ILIOS_TIKA_URL=http://tika:9998
     volumes:
-      # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/app:ro,cached
+      - ./:/app
       # Share storage between containers
       - shared-storage:/ilios-storage:rw
     # comment the following line in production, it provides nice human-readable logs in dev
