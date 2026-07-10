@@ -131,7 +131,6 @@ ENV FRANKENPHP_RESET_KERNEL=1
 
 ENV APP_ENV=dev
 ENV APP_DEBUG=true
-COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
 # install additional PHP extensions
 RUN install-php-extensions \
     apcu \
@@ -141,8 +140,9 @@ RUN install-php-extensions \
     redis \
     zip \
     xdebug
-
+COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
 COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
+
 ###############################################################################
 # Admin container, allows SSH access so it can be deployed as a bastion server
 ###############################################################################
