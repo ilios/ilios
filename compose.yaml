@@ -32,8 +32,6 @@ services:
       # The "cached" option has no effect on Linux but improves performance on Mac
       - ./:/app:ro,cached
       # Share storage between containers
-      - var:/app/var:rw
-      - public:/app/public:rw
       - shared-storage:/ilios-storage:rw
     # comment the following line in production, it provides nice human-readable logs in dev
     tty: true
