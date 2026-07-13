@@ -323,13 +323,14 @@ class JsonWebTokenManager
         $now = new DateTimeImmutable();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
+        $firstCreatedAt = $now;
+        $refreshCount = 0;
 
+        // If a refresh token was given, then some of its value should be "recycled"
+        // by re-applying them to its replacement token that we're creating here.
         if ($refreshToken) {
             $firstCreatedAt = $this->getFirstCreatedAt($refreshToken);
             $refreshCount = $this->getRefreshCount($refreshToken) + 1;
-        } else {
-            $firstCreatedAt = $now;
-            $refreshCount = 0;
         }
 
         return [
