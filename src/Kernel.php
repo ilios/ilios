@@ -31,4 +31,13 @@ class Kernel extends BaseKernel
     {
         $container->addCompilerPass(new PrefixSeedCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 64);
     }
+
+    /**
+     * @return list<string> An array of allowed values for APP_ENV
+     * @phpstan-ignore method.unused
+     */
+    private function getAllowedEnvs(): array
+    {
+        return ['prod', 'dev', 'test'];
+    }
 }
