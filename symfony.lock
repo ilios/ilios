@@ -467,24 +467,24 @@
         "version": "3.1.1"
     },
     "sentry/sentry-symfony": {
-        "version": "5.8",
+        "version": "5.10",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
             "version": "5.0",
-            "ref": "12f504985eb24e3b20a9e41e0ec7e398798d18f0"
+            "ref": "aac2bc5220e9ab5b9e3838a7a4da90e7f74e6148"
         },
         "files": [
             "config/packages/sentry.yaml"
         ]
     },
     "squizlabs/php_codesniffer": {
-        "version": "3.6",
+        "version": "4.0",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "3.6",
-            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
+            "ref": "3868461a63d8cc781a00c008baea09b6594871a6"
         },
         "files": [
             "phpcs.xml.dist"
@@ -671,12 +671,12 @@
         ]
     },
     "symfony/mailgun-mailer": {
-        "version": "4.4",
+        "version": "8.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "4.4",
-            "ref": "addcb559b32d9dbb4843826b063565e1b15a2a57"
+            "ref": "808e7052971863a6b94df61807f41a71d480885b"
         }
     },
     "symfony/messenger": {
@@ -866,12 +866,12 @@
         "version": "v5.2.0"
     },
     "symfony/web-profiler-bundle": {
-        "version": "7.3",
+        "version": "8.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "7.3",
-            "ref": "a363460c1b0b4a4d0242f2ce1a843ca0f6ac9026"
+            "version": "8.1",
+            "ref": "6bdd46f712bbed33a27130b6e055391cb1ab73d9"
         },
         "files": [
             "config/packages/web_profiler.yaml",
