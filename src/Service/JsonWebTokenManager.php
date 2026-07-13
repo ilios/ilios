@@ -331,6 +331,11 @@ class JsonWebTokenManager
         if ($refreshToken) {
             $firstCreatedAt = $this->getFirstCreatedAt($refreshToken);
             $refreshCount = $this->getRefreshCount($refreshToken) + 1;
+            // ACHTUNG!
+            // we're taking the 'audience' value straight from the given token instead of the given value.
+            // in other words, one input arg can override another one in the process. no ideal.
+            // TODO: clean this up [ST 2026/07/13]
+            $audience = $this->getUserTokensApplicationScopeFromToken($refreshToken);
         }
 
         return [
