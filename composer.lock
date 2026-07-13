@@ -2259,16 +2259,16 @@
         },
         {
             "name": "eluceo/ical",
-            "version": "2.16.0",
+            "version": "2.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/markuspoerschke/iCal.git",
-                "reference": "4bdc085e14d0a213d7b387a80793320e4f45d430"
+                "reference": "562c723163e19209cdf4ee018579f58b8ec8d78b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/4bdc085e14d0a213d7b387a80793320e4f45d430",
-                "reference": "4bdc085e14d0a213d7b387a80793320e4f45d430",
+                "url": "https://api.github.com/repos/markuspoerschke/iCal/zipball/562c723163e19209cdf4ee018579f58b8ec8d78b",
+                "reference": "562c723163e19209cdf4ee018579f58b8ec8d78b",
                 "shasum": ""
             },
             "require": {
@@ -2315,7 +2315,7 @@
                 "issues": "https://github.com/markuspoerschke/iCal/issues",
                 "source": "https://github.com/markuspoerschke/iCal"
             },
-            "time": "2026-01-07T21:34:08+00:00"
+            "time": "2026-07-12T22:10:28+00:00"
         },
         {
             "name": "exercise/htmlpurifier-bundle",
