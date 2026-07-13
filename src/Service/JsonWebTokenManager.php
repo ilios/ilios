@@ -207,7 +207,7 @@ class JsonWebTokenManager
         SessionUserInterface $sessionUser,
         string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
     ): string {
-        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null);
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -259,7 +259,7 @@ class JsonWebTokenManager
 
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
-        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, $token);
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, refreshToken: $token);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -307,7 +307,7 @@ class JsonWebTokenManager
     ): string {
         // collect the data needed to create a user token for the given user.
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
-        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, null, $applicationScope);
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, audience: $applicationScope);
 
         // bolt on the issued-with data point.
         $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
@@ -317,8 +317,8 @@ class JsonWebTokenManager
     protected function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
-        ?string $refreshToken,
-        string $audience = self::TOKEN_AUD
+        string $audience = self::TOKEN_AUD,
+        ?string $refreshToken = null,
     ): array {
         $now = new DateTimeImmutable();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
