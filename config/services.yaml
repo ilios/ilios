@@ -168,6 +168,11 @@ services:
           iconv,
         ]
 
+  App\Monitor\PhpVersion:
+    arguments:
+      $version: !php/const PHP_VERSION
+      $minimumSupportedVersion: "8.5"
+
   Laminas\Diagnostics\Check\ApcFragmentation:
     arguments:
       $warningThreshold: 70
@@ -186,10 +191,6 @@ services:
     arguments:
       $path: "%kernel.cache_dir%"
 
-  Laminas\Diagnostics\Check\PhpVersion:
-    arguments:
-      $expectedVersion: "8.5"
-      $operator: ">="
 
   League\Flysystem\FilesystemOperator:
     factory: [ '@App\Service\FilesystemFactory', getFilesystem ]
