@@ -7,6 +7,7 @@ namespace App\Tests\Service;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Entity\UserInterface;
 use App\Service\SecretManager;
+use DateTimeImmutable;
 use Firebase\JWT\ExpiredException;
 use App\Tests\DataLoader\UserData;
 use Firebase\JWT\Key;
@@ -432,5 +433,26 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $decoded = (array) JWT::decode($jwt, new Key(self::DEFAULT_SECRET_KEY, JsonWebTokenManager::SIGNING_ALGORITHM));
         $this->assertEquals($applicationScope, $decoded['aud']);
         $this->assertEquals($issuedWith, $decoded[JsonWebTokenManager::ISSUED_WITH_KEY]);
+    }
+
+    public function testGetUserDetailsWithRefreshToken(): void
+    {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('isRoot')->andReturn(false);
+        $sessionUser->shouldReceive('getId')->andReturn(12);
+        $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')->andReturn(false);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
+        $ttl = 'P90D';
+        $audience = 'ilios';
+        $tokenAudience = 'lti-wurstwasser';
+        $tokenRefreshCount = 42;
+        $tokenFirstCreatedAt = date_format(new DateTimeImmutable('2026-07-14 16:30:00'), 'U');
+        $refreshToken = $this->buildServiceTokenJwt(
+            ['aud' => $tokenAudience, 'firstCreatedAt' => $tokenFirstCreatedAt, 'refreshCount' => $tokenRefreshCount]
+        );
+        $token = $this->obj->getUserTokenDetails($sessionUser, $ttl, $audience, $refreshToken);
+        $this->assertEquals($tokenAudience, $token['aud']);
+        $this->assertEquals($tokenFirstCreatedAt, $token['firstCreatedAt']);
+        $this->assertEquals(++$tokenRefreshCount, $token['refreshCount']);
     }
 }

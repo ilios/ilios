@@ -171,9 +171,6 @@ class JsonWebTokenManager
 
     public function getUserTokensApplicationScopeFromToken(string $jwt): string
     {
-        if (!$this->isServiceToken($jwt)) {
-            return '';
-        }
         $arr = $this->decode($jwt);
         if (!array_key_exists('aud', $arr)) {
             return '';
@@ -314,7 +311,7 @@ class JsonWebTokenManager
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
-    protected function getUserTokenDetails(
+    public function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
         string $audience = self::TOKEN_AUD,
