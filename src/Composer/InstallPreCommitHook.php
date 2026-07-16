@@ -17,7 +17,7 @@ final class InstallPreCommitHook
         $projectRoot = dirname($vendorDir);
         $hooks = [
             "{$vendorDir}/bin/phpcs -q",
-            "{$vendorDir}/bin/phpstan -q --no-progress",
+            "{$vendorDir}/bin/phpstan -q --no-progress --memory-limit=1G",
         ];
         $gitPath = $projectRoot . '/.git';
         if (is_dir($gitPath)) {
@@ -28,6 +28,7 @@ final class InstallPreCommitHook
             chmod($preCommitHookPath, 0755);
         }
     }
+
     protected static function hookContents(array $hooks): string
     {
         $lines = [
