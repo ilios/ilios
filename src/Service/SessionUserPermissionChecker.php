@@ -1146,14 +1146,10 @@ class SessionUserPermissionChecker
         // limit this to schools that the user performs a non-student function in.
         // the assumption here is that a student will NEVER be able to create other users.
         $schoolIds = $sessionUser->getAssociatedSchoolIdsInNonLearnerFunction();
-        $can = false;
-        foreach ($schoolIds as $schoolId) {
-            if ($this->canCreateCurriculumInventoryReport($sessionUser, $schoolId)) {
-                $can = true;
-                break;
-            }
-        }
-        return $can;
+        return array_any(
+            $schoolIds,
+            fn($schoolId) => $this->canCreateCurriculumInventoryReport($sessionUser, $schoolId)
+        );
     }
 
     public function canUpdateCurriculumInventoryInstitution(SessionUserInterface $sessionUser, int $schoolId): bool
@@ -1356,14 +1352,7 @@ class SessionUserPermissionChecker
         // limit this to schools that the user performs a non-student function in.
         // the assumption here is that a student will NEVER be able to create other users.
         $schoolIds = $sessionUser->getAssociatedSchoolIdsInNonLearnerFunction();
-        $can = false;
-        foreach ($schoolIds as $schoolId) {
-            if ($this->canCreateUser($sessionUser, $schoolId)) {
-                $can = true;
-                break;
-            }
-        }
-        return $can;
+        return array_any($schoolIds, fn($schoolId) => $this->canCreateUser($sessionUser, $schoolId));
     }
 
     /**
