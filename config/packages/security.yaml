@@ -14,6 +14,12 @@ security:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
+    public:
+      pattern:
+        - ^/application/config$
+        - ^/api/doc$
+        - ^/api$
+      security: false
     main:
       stateless: true
       custom_authenticators:
@@ -22,9 +28,6 @@ security:
 
   # Note: Only the *first* matching rule is applied
   access_control:
-    - { path: '^/api/doc', roles: PUBLIC_ACCESS }
-    - { path: '^/api$', roles: PUBLIC_ACCESS }
-    - { path: '^/application/config', roles: PUBLIC_ACCESS }
     - { path: '^/auth/(login|logout)', roles: PUBLIC_ACCESS }
     - { path: '^/auth', roles: IS_AUTHENTICATED_FULLY }
     - { path: '^/api', roles: IS_AUTHENTICATED_FULLY }
