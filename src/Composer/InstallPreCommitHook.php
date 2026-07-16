@@ -16,8 +16,8 @@ final class InstallPreCommitHook
         $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
         $projectRoot = dirname($vendorDir);
         $hooks = [
-            "{$vendorDir}/bin/phpcs -q",
-            "{$vendorDir}/bin/phpstan -q --no-progress --memory-limit=1G",
+            "{$vendorDir}/bin/phpcs",
+            "{$vendorDir}/bin/phpstan --no-progress --memory-limit=1G",
         ];
         $gitPath = $projectRoot . '/.git';
         if (is_dir($gitPath)) {
