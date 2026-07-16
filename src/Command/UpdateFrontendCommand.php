@@ -106,7 +106,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                 if (empty($currentDistributionPathArr)) {
                     throw new Exception();
                 }
-                $currentDistributionPath = array_values($currentDistributionPathArr)[0];
+                $currentDistributionPath = array_first($currentDistributionPathArr);
                 //re-copy current version for non fingerprinted assets to be placed last
                 $this->copyAssetsIntoPublicDirectory($currentDistributionPath);
                 $this->activateVersion($currentDistributionPath);
@@ -141,7 +141,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
                     $distributions,
                     fn(string $p) => str_ends_with($p, $version)
                 );
-                $currentDistributionPath = array_values($currentDistributionPathArr)[0];
+                $currentDistributionPath = array_first($currentDistributionPathArr);
                 //re-copy current version for non fingerprinted assets to be placed last
                 $this->copyAssetsIntoPublicDirectory($currentDistributionPath);
                 $this->activateVersion($currentDistributionPath);
@@ -193,7 +193,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 
         $currentVersion = array_filter($distributions, fn(array $arr) => $arr['isCurrentVersion']);
         if (count($currentVersion)) {
-            $key = array_values($currentVersion)[0]['key'];
+            $key = array_first($currentVersion)['key'];
             return explode(':', $key)[1];
         }
         return null;

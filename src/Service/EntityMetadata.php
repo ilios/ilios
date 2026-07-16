@@ -189,7 +189,7 @@ class EntityMetadata
                 throw new Exception("{$className} has no property annotated with @Id");
             }
 
-            $this->idForClasses[$className] = array_values($ids)[0]->getName();
+            $this->idForClasses[$className] = array_first($ids)->getName();
         }
 
         return $this->idForClasses[$className];
