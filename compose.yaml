@@ -2,6 +2,9 @@ volumes:
   shared-storage:
   public:
   var:
+  app:
+  db:
+  redis:
 services:
   db:
     build:
@@ -9,6 +12,8 @@ services:
       target: mysql-demo
     ports:
       - "13306:3306"
+    volumes:
+      - db:/var/lib/mysql
   nginx:
     build:
       context: .
@@ -19,7 +24,7 @@ services:
       - "8000:80"
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:ro,cached
+      - app:/srv/app:ro,cached
       - public:/srv/app/public:ro
     depends_on:
       - php
@@ -39,7 +44,7 @@ services:
       - ILIOS_TIKA_URL=http://tika:9998
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:ro,cached
+      - app:/srv/app:ro,cached
       # Share storage between containers
       - var:/srv/app/var:rw
       - public:/srv/app/public:rw
@@ -68,7 +73,7 @@ services:
       - tika
     volumes:
       # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:ro,cached
+      - app:/srv/app:ro,cached
       # Share storage between containers
       - var:/srv/app/var:rw
       - public:/srv/app/public:rw
@@ -88,6 +93,8 @@ services:
       target: redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis:/data
   tika:
     build:
       context: .
