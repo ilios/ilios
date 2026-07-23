@@ -151,13 +151,13 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
     public static function createServiceTokenToCreateUserTokensProvider(): array
     {
         return [
-            [true, true],
-            [false, false],
+            [true],
+            [false],
         ];
     }
 
     #[DataProvider('createServiceTokenToCreateUserTokensProvider')]
-    public function testCreateServiceTokenToCreateUserTokens(bool $input, bool $expectedValue): void
+    public function testCreateServiceTokenToCreateUserTokens(bool $allowUserTokenGeneration): void
     {
         $serviceToken = new ServiceToken();
         $serviceToken->setId(1);
@@ -174,17 +174,21 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
                     ServiceTokenUser $tokenUser,
                     array $schoolIds,
                     bool $canCreateUserTokens
-                ) use ($expectedValue) {
-                    $this->assertEquals($canCreateUserTokens, $expectedValue);
+                ) use ($allowUserTokenGeneration) {
+                    $this->assertEquals($canCreateUserTokens, $allowUserTokenGeneration);
                     return true;
                 }
             )->andReturn('abcde');
 
-        $this->commandTester->execute([
+        $opts = [
             'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
             'description' => 'lorem ipsum',
-            'can-generate-user-tokens' => $input,
-        ]);
+        ];
+        if ($allowUserTokenGeneration) {
+            $opts['--allow-user-token-generation'] = true;
+        }
+
+        $this->commandTester->execute($opts);
     }
     public function testCreateServiceTokenWithUserTokensApplicationScope(): void
     {

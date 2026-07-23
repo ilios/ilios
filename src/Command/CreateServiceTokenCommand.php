@@ -41,8 +41,8 @@ class CreateServiceTokenCommand extends Command
         OutputInterface $output,
         #[Argument(description: "The token's time-to-live in ISO-8601 duration format, up to 180 days.")] string $ttl,
         #[Argument(description: "The token's description.")] string $description,
-        #[Argument(description: "Can this service token be used to generate user tokens?")]
-        bool $canGenerateUserTokens = false,
+        #[Option(description: "Can this service token be used to generate user tokens?")]
+        bool $allowUserTokenGeneration = false,
         #[Option(description: 'The application scope for generated user tokens.')]
         string $userTokensApplicationScope = '',
         #[Option(
@@ -78,7 +78,7 @@ class CreateServiceTokenCommand extends Command
         $jwt = $this->jwtManager->createJwtFromServiceTokenUser(
             $serviceTokenUser,
             $schoolIds,
-            $canGenerateUserTokens,
+            $allowUserTokenGeneration,
             $userTokensApplicationScope
         );
         $output->writeln('Success!');
