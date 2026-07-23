@@ -25,6 +25,8 @@ class JsonWebTokenManager
 
     public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
 
+    public const string USER_TOKEN_SHORT_TTL = 'PT30S';
+
     public const string TOKEN_ID_KEY = 'token_id';
     public const string USER_ID_KEY = 'user_id';
 
@@ -304,7 +306,7 @@ class JsonWebTokenManager
     ): string {
         // collect the data needed to create a user token for the given user.
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
-        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_DEFAULT_TTL, audience: $applicationScope);
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_SHORT_TTL, audience: $applicationScope);
 
         // bolt on the issued-with data point.
         $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
