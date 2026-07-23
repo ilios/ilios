@@ -46,7 +46,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
     public function getOne(): array
     {
         $this->setup();
-        return array_values($this->data)[0];
+        return array_first($this->data);
     }
 
     public function getAll(): array
@@ -181,6 +181,6 @@ abstract class AbstractDataLoader implements DataLoaderInterface
 
         $names = array_map(fn(ReflectionProperty $p) => $p->name, $scalarProperties);
 
-        return array_values($names)[0];
+        return array_first($names);
     }
 }

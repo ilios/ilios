@@ -106,7 +106,7 @@ class TypeResolver
         $properties = $class->getProperties();
         $ids = array_filter($properties, fn(ReflectionProperty $property) => $property->getAttributes(Id::class) != []);
         if ($ids != []) {
-            return array_values($ids)[0]->getName();
+            return array_first($ids)->getName();
         }
 
         return '';

@@ -120,7 +120,7 @@ class TypeRegistry
         $exposedProperties = $this->dtoInfo->getGraphQLExposedPropertiesForType($name);
         $idProperties = array_filter($exposedProperties, $this->isId(...));
 
-        $idProperty = array_values($idProperties)[0];
+        $idProperty = array_first($idProperties);
         $type = $this->entityMetadata->getTypeOfProperty($idProperty);
         $propertyName = $idProperty->getName();
         $filters[$propertyName] = ['type' => match ($type) {
