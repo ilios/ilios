@@ -8,11 +8,21 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SwaggerRouteTest extends WebTestCase
 {
-    public function testSomething(): void
+    public function testRouteWorksWithoutAuthentication(): void
     {
         $client = static::createClient();
 
         $client->request('GET', '/api/doc');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertRouteSame('app.swagger_ui');
+    }
+
+    public function testRouteWorksWithBadCredentials(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/api/doc', [], [], ['HTTP_X-JWT-Authorization' => 'Token empty']);
 
         $this->assertResponseIsSuccessful();
         $this->assertRouteSame('app.swagger_ui');

@@ -109,4 +109,14 @@ final class ConfigControllerTest extends WebTestCase
         unset($_SERVER['ILIOS_MATERIAL_STATUS_ENABLED']);
         unset($_SERVER['ILIOS_SHOW_CAMPUS_NAME_OF_RECORD']);
     }
+
+    public function testGetConfigLoadsWithBadCredentials(): void
+    {
+        $this->makeJsonRequest($this->kernelBrowser, 'GET', '/application/config', null, 'empty');
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('config', $content);
+    }
 }
