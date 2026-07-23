@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Exception\InvalidInputWithSafeUserMessageException;
+use App\Entity\UserInterface;
 use DateInterval;
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
@@ -22,11 +23,22 @@ class JsonWebTokenManager
     private const string TOKEN_AUD = 'ilios';
     public const string SIGNING_ALGORITHM = 'HS256';
 
+    public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
+
+    public const string USER_TOKEN_SHORT_TTL = 'PT30S';
+
     public const string TOKEN_ID_KEY = 'token_id';
     public const string USER_ID_KEY = 'user_id';
+
+    public const string ISSUED_WITH_KEY = 'issued_with';
+
     public const string WRITEABLE_SCHOOLS_KEY = 'writeable_schools';
     public const int DEFAULT_REFRESH_LIMIT = 12;
     public const string MAX_TIME_TO_LIVE = 'P90D';
+
+    public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
+
+    public const string APPLICATION_SCOPE_KEY = 'application_scope';
 
     protected string $jwtKey;
 
@@ -94,6 +106,15 @@ class JsonWebTokenManager
         return $arr['can_create_or_update_user_in_any_school'];
     }
 
+    public function getIssuedWithFromToken(string $jwt): ?int
+    {
+        $arr = $this->decode($jwt);
+        if (array_key_exists(self::ISSUED_WITH_KEY, $arr)) {
+            return $arr[self::ISSUED_WITH_KEY];
+        }
+        return null;
+    }
+
     public function getFirstCreatedAt(string $jwt): DateTimeImmutable
     {
         $arr = $this->decode($jwt);
@@ -138,6 +159,27 @@ class JsonWebTokenManager
         return $arr[self::WRITEABLE_SCHOOLS_KEY];
     }
 
+    public function getCanCreateUserTokensFromToken(string $jwt): bool
+    {
+        if (!$this->isServiceToken($jwt)) {
+            return false;
+        }
+        $arr = $this->decode($jwt);
+        if (!array_key_exists(self::CAN_GENERATE_USER_TOKENS_KEY, $arr)) {
+            return false;
+        }
+        return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
+    }
+
+    public function getUserTokensApplicationScopeFromToken(string $jwt): string
+    {
+        $arr = $this->decode($jwt);
+        if (!array_key_exists('aud', $arr)) {
+            return '';
+        }
+        return $arr['aud'];
+    }
+
     protected function decode(string $jwt): array
     {
         try {
@@ -156,11 +198,15 @@ class JsonWebTokenManager
 
     /**
      * Build a token from a user
+     *
+     * @param SessionUserInterface $sessionUser The current session user.
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
      */
-    public function createJwtFromSessionUser(SessionUserInterface $sessionUser, string $timeToLive = 'PT8H'): string
-    {
-        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, null);
+    public function createJwtFromSessionUser(
+        SessionUserInterface $sessionUser,
+        string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
+    ): string {
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
@@ -170,15 +216,22 @@ class JsonWebTokenManager
     public function createJwtFromServiceTokenUser(
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
+        bool $canGenerateUserTokens = false,
+        ?string $userTokensApplicationScope = '',
     ): string {
-        $arr = $this->getServiceTokenDetails($tokenUser, $writeableSchoolIds);
+        $arr = $this->getServiceTokenDetails(
+            $tokenUser,
+            $writeableSchoolIds,
+            $canGenerateUserTokens,
+            $userTokensApplicationScope
+        );
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     /**
      * Refresh a token
      */
-    public function refreshToken(string $token, string $timeToLive = 'PT8H'): string
+    public function refreshToken(string $token, string $timeToLive = self::USER_TOKEN_DEFAULT_TTL): string
     {
         $refreshCount = $this->getRefreshCount($token);
         $refreshLimit = $this->getRefreshLimit($token);
@@ -205,46 +258,88 @@ class JsonWebTokenManager
 
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
-        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, $token);
+        $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, refreshToken: $token);
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     /**
      * Build a token from a userId
+     *
      * @param string $timeToLive PHP DateInterval notation for the length of time the token should be valid
      */
-    public function createJwtFromUserId(int $userId, string $timeToLive = 'PT8H'): string
-    {
+    public function createJwtFromUserId(
+        int $userId,
+        string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
+    ): string {
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
         return $this->createJwtFromSessionUser($sessionUser, $timeToLive);
     }
 
-    public function createJwtFromServiceTokenId(int $tokenId, ?array $writeableSchoolIds = []): string
-    {
+    public function createJwtFromServiceTokenId(
+        int $tokenId,
+        ?array $writeableSchoolIds = [],
+        bool $canCreateUserTokens = false,
+        ?string $userTokensApplicationScope = ''
+    ): string {
         $tokenUser = $this->serviceAccountUserProvider->createServiceTokenUserFromTokenId($tokenId);
-        return $this->createJwtFromServiceTokenUser($tokenUser, $writeableSchoolIds);
+        return $this->createJwtFromServiceTokenUser(
+            $tokenUser,
+            $writeableSchoolIds,
+            $canCreateUserTokens,
+            $userTokensApplicationScope
+        );
     }
 
-    protected function getUserTokenDetails(
+    /**
+     * Creates a new user token for a given user with additional properties relayed
+     * from the service token that's being used to create this user token.
+     *
+     * @param UserInterface $user The user that this token is created for.
+     * @param int $serviceTokenId The ID of the service token that's used to create this user token.
+     * @param string $applicationScope The application scope ("audience") of this user token.
+     * @return string The user token as JWT.
+     */
+    public function createUserTokenFromServiceToken(
+        UserInterface $user,
+        int $serviceTokenId,
+        string $applicationScope
+    ): string {
+        // collect the data needed to create a user token for the given user.
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_SHORT_TTL, audience: $applicationScope);
+
+        // bolt on the issued-with data point.
+        $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
+    }
+
+    public function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
-        ?string $refreshToken
+        string $audience = self::TOKEN_AUD,
+        ?string $refreshToken = null,
     ): array {
         $now = new DateTimeImmutable();
         $expires = $this->getTokenExpirationDate($now, $timeToLive);
         $canCreateOrUpdateUserInAnySchool = $this->permissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser);
+        $firstCreatedAt = $now;
+        $refreshCount = 0;
 
+        // If a refresh token was given, then some of its value should be "recycled"
+        // by re-applying them to its replacement token that we're creating here.
         if ($refreshToken) {
             $firstCreatedAt = $this->getFirstCreatedAt($refreshToken);
             $refreshCount = $this->getRefreshCount($refreshToken) + 1;
-        } else {
-            $firstCreatedAt = $now;
-            $refreshCount = 0;
+            // ACHTUNG!
+            // we're taking the 'audience' value straight from the given token instead of the given value.
+            // in other words, one input arg can override another one in the process. no ideal.
+            // TODO: clean this up [ST 2026/07/13]
+            $audience = $this->getUserTokensApplicationScopeFromToken($refreshToken);
         }
 
         return [
             'iss' => self::TOKEN_ISS,
-            'aud' => self::TOKEN_AUD,
+            'aud' => $audience,
             'iat' => $now->format('U'),
             'exp' => $expires->format('U'),
             'is_root' => $sessionUser->isRoot(),
@@ -254,23 +349,27 @@ class JsonWebTokenManager
             'refreshCount' => $refreshCount,
             'permissions' => 'user', //all tokens are user tokens right now and get permissions from the user
             self::USER_ID_KEY => $sessionUser->getId(),
-
         ];
     }
 
     protected function getServiceTokenDetails(
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
+        bool $canGenerateUserTokens = false,
+        ?string $userTokensApplicationScope = '',
     ): array {
         $rhett = [
             'iss' => self::TOKEN_ISS,
-            'aud' => self::TOKEN_AUD,
+            'aud' => $userTokensApplicationScope ?: self::TOKEN_AUD,
             'iat' => $tokenUser->getCreatedAt()->format('U'),
             'exp' => $tokenUser->getExpiresAt()->format('U'),
              self::TOKEN_ID_KEY => $tokenUser->getId(),
         ];
         if (is_array($writeableSchoolIds) && !empty($writeableSchoolIds)) {
             $rhett[self::WRITEABLE_SCHOOLS_KEY] = $writeableSchoolIds;
+        }
+        if ($canGenerateUserTokens) {
+            $rhett[self::CAN_GENERATE_USER_TOKENS_KEY] = true;
         }
         return $rhett;
     }

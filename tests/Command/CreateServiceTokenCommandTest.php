@@ -148,6 +148,79 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
             ]);
     }
 
+    public static function createServiceTokenToCreateUserTokensProvider(): array
+    {
+        return [
+            [true],
+            [false],
+        ];
+    }
+
+    #[DataProvider('createServiceTokenToCreateUserTokensProvider')]
+    public function testCreateServiceTokenToCreateUserTokens(bool $allowUserTokenGeneration): void
+    {
+        $serviceToken = new ServiceToken();
+        $serviceToken->setId(1);
+        $this->serviceTokenRepository->shouldReceive('create')
+            ->andReturn($serviceToken);
+        $this->serviceTokenRepository->shouldReceive('update')->with($serviceToken);
+        $this->tokenProvider->shouldReceive('loadUserByIdentifier')->andReturn(
+            new ServiceTokenUser($serviceToken)
+        );
+        $this->jwtManager
+            ->shouldReceive('createJwtFromServiceTokenUser')
+            ->withArgs(
+                function (
+                    ServiceTokenUser $tokenUser,
+                    array $schoolIds,
+                    bool $canCreateUserTokens
+                ) use ($allowUserTokenGeneration) {
+                    $this->assertEquals($canCreateUserTokens, $allowUserTokenGeneration);
+                    return true;
+                }
+            )->andReturn('abcde');
+
+        $opts = [
+            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'description' => 'lorem ipsum',
+        ];
+        if ($allowUserTokenGeneration) {
+            $opts['--allow-user-token-generation'] = true;
+        }
+
+        $this->commandTester->execute($opts);
+    }
+    public function testCreateServiceTokenWithUserTokensApplicationScope(): void
+    {
+        $applicationScope = 'lti-dashboard';
+        $serviceToken = new ServiceToken();
+        $serviceToken->setId(1);
+        $this->serviceTokenRepository->shouldReceive('create')
+            ->andReturn($serviceToken);
+        $this->serviceTokenRepository->shouldReceive('update')->with($serviceToken);
+        $this->tokenProvider->shouldReceive('loadUserByIdentifier')->andReturn(
+            new ServiceTokenUser($serviceToken)
+        );
+        $this->jwtManager
+            ->shouldReceive('createJwtFromServiceTokenUser')
+            ->withArgs(
+                function (
+                    ServiceTokenUser $tokenUser,
+                    array $schoolIds,
+                    bool $canCreateUserTokens,
+                    string $userTokensApplicationScope,
+                ) use ($applicationScope) {
+                    $this->assertEquals($userTokensApplicationScope, $applicationScope);
+                    return true;
+                }
+            )->andReturn('abcde');
+
+        $this->commandTester->execute([
+            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'description' => 'lorem ipsum',
+            '--user-tokens-application-scope' => $applicationScope,
+        ]);
+    }
     public function testCreateTokenWithCustomTtl(): void
     {
         $ttl = 'P90D';
