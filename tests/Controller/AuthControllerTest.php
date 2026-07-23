@@ -386,7 +386,7 @@ final class AuthControllerTest extends WebTestCase
         $this->assertEquals(
             (int) $jwt['exp'],
             DateTime::createFromTimestamp((int) $jwt['iat'])
-            ->add(new DateInterval(JsonWebTokenManager::USER_TOKEN_DEFAULT_TTL))->getTimestamp()
+            ->add(new DateInterval(JsonWebTokenManager::USER_TOKEN_SHORT_TTL))->getTimestamp()
         );
         $this->assertEquals($jwt['firstCreatedAt'], $jwt['iat']);
         $this->assertEquals(0, $jwt['refreshCount']);
