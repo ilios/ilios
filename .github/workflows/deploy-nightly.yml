@@ -49,7 +49,7 @@ jobs:
           - php-apache
           - nginx
           - fpm
-          - fpm-dev
+          - frankenphp
           - admin
           - update-frontend
           - consume-messages

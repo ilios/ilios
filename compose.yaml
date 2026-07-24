@@ -2,6 +2,9 @@ volumes:
   shared-storage:
   public:
   var:
+  # Volumes needed for Caddy certificates and configuration
+  caddy_data:
+  caddy_config:
 services:
   db:
     build:
@@ -9,24 +12,12 @@ services:
       target: mysql-demo
     ports:
       - "13306:3306"
-  nginx:
+  frankenphp:
     build:
       context: .
-      target: nginx
-    environment:
-      - FPM_CONTAINERS=php:9000
+      target: frankenphp
     ports:
       - "8000:80"
-    volumes:
-      # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:ro,cached
-      - public:/srv/app/public:ro
-    depends_on:
-      - php
-  php:
-    build:
-      context: .
-      target: fpm-dev
     environment:
       - ILIOS_DATABASE_URL=mysql://ilios:ilios@db/ilios
       - ILIOS_REQUIRE_SECURE_CONNECTION=false
@@ -38,12 +29,11 @@ services:
       - ILIOS_FILE_SYSTEM_STORAGE_PATH=/ilios-storage
       - ILIOS_TIKA_URL=http://tika:9998
     volumes:
-      # The "cached" option has no effect on Linux but improves performance on Mac
-      - ./:/srv/app:ro,cached
+      - ./:/app
       # Share storage between containers
-      - var:/srv/app/var:rw
-      - public:/srv/app/public:rw
       - shared-storage:/ilios-storage:rw
+    # comment the following line in production, it provides nice human-readable logs in dev
+    tty: true
     depends_on:
       - db
       - redis

@@ -120,24 +120,27 @@ RUN chmod +x /usr/local/bin/docker-healthcheck
 HEALTHCHECK --timeout=1s --retries=10 CMD ["docker-healthcheck"]
 
 ###############################################################################
-# FPM configured for development
-# Runs a dev environment and composer dependencies
+# FrankenPHP container for development
 ###############################################################################
-FROM fpm AS fpm-dev
+FROM dunglas/frankenphp:1.12.4-php8.5-alpine AS frankenphp
 LABEL maintainer="Ilios Project Team <support@iliosproject.org>"
+ENV SERVER_NAME=:80
+WORKDIR /app
+# see https://symfony.com/blog/new-in-symfony-8-1-misc-improvements-part-1#reset-the-kernel-between-frankenphp-requests
+ENV FRANKENPHP_RESET_KERNEL=1
+
 ENV APP_ENV=dev
 ENV APP_DEBUG=true
+# install additional PHP extensions
+RUN install-php-extensions \
+    apcu \
+    intl \
+    ldap \
+    pdo_mysql \
+    redis \
+    zip \
+    xdebug
 COPY docker/fpm/symfony.dev.ini $PHP_INI_DIR/conf.d/symfony.ini
-RUN ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
-RUN set -eux; \
-    pecl install xdebug \
-    && docker-php-ext-enable xdebug; \
-    composer install --prefer-dist --no-progress --no-interaction; \
-    rm -f .env.local.php; \
-    composer run-script post-install-cmd; \
-    bin/console cache:warmup; \
-    sync
-
 COPY docker/fpm/xdebug-dev.ini $PHP_INI_DIR/conf.d/xdebug.ini
 
 ###############################################################################
