@@ -17,8 +17,8 @@ use Mockery as m;
 #[CoversClass(DefaultDataImporter::class)]
 final class DefaultDataImporterTest extends TestCase
 {
-    protected m\MockInterface $repository;
-    protected m\MockInterface $loader;
+    protected m\MockInterface | DataImportRepositoryInterface $repository;
+    protected m\MockInterface | DefaultDataLoader $loader;
     protected DefaultDataImporter $importer;
 
     protected function setUp(): void

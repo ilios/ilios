@@ -26,15 +26,15 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 #[CoversClass(SessionUser::class)]
 final class SessionUserTest extends TestCase
 {
-    protected m\MockInterface $iliosUser;
+    protected m\MockInterface | UserInterface $iliosUser;
 
-    protected m\MockInterface $userRepository;
+    protected m\MockInterface | UserRepository $userRepository;
 
     protected SessionUserInterface $sessionUser;
 
     protected int $userId;
 
-    protected m\MockInterface $school;
+    protected m\MockInterface | SchoolInterface $school;
 
     public function setUp(): void
     {
@@ -1216,7 +1216,7 @@ final class SessionUserTest extends TestCase
         bool $isRoot = false,
         bool $enabled = true,
         ?AuthenticationInterface $authentication = null
-    ): m\MockInterface {
+    ): m\MockInterface | UserInterface {
         $iliosUser = m::mock(UserInterface::class);
         $iliosUser->shouldReceive('getId')->andReturn($userId);
         $iliosUser->shouldReceive('getSchool')->andReturn($school);

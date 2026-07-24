@@ -14,8 +14,8 @@ use Mockery as m;
 
 final class MeshTest extends TestCase
 {
-    private m\MockInterface $client;
-    private m\MockInterface $config;
+    private m\MockInterface | Client $client;
+    private m\MockInterface | Config $config;
 
     public function setUp(): void
     {
