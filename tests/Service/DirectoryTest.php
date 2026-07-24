@@ -97,23 +97,26 @@ final class DirectoryTest extends TestCase
     {
         $this->setupConfigForSearch();
         $filter = '(&' .
-            '(|(mail=a*)(cid=a*)(dn=a*)(f=a*)(l=a*)(m=a*)(pfn=a*)(pmn=a*)(pln=a*))' .
-            '(|(mail=b*)(cid=b*)(dn=b*)(f=b*)(l=b*)(m=b*)(pfn=b*)(pmn=b*)(pln=b*))' .
-        ')';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
+            '(|(mail=a*)(cid=a*)(dn=a*)(f=a*)(l=a*)(m=a*)(pfn=a*)(pmn=a*)(pln=a*)(ofm=a*))' .
+            '(|(mail=b*)(cid=b*)(dn=b*)(f=b*)(l=b*)(m=b*)(pfn=b*)(pmn=b*)(pln=b*)(ofm=b*))' .
+            ')';
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1, 2]);
 
         $result = $this->obj->find(['a', 'b']);
-        $this->assertSame($result, [1,2]);
+        $this->assertSame($result, [1, 2]);
     }
 
     public function testFindOutputEscaping(): void
     {
         $this->setupConfigForSearch();
-        $filter = '(&(|(mail=a\2a*)(cid=a\2a*)(dn=a\2a*)(f=a\2a*)(l=a\2a*)(m=a\2a*)(pfn=a\2a*)(pmn=a\2a*)(pln=a\2a*)))';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
+        $filter = '(&' .
+            '(|(mail=a\2a*)(cid=a\2a*)(dn=a\2a*)(f=a\2a*)(l=a\2a*)' .
+            '(m=a\2a*)(pfn=a\2a*)(pmn=a\2a*)(pln=a\2a*)(ofm=a\2a*))' .
+            ')';
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1, 2]);
 
         $result = $this->obj->find(['a*']);
-        $this->assertSame($result, [1,2]);
+        $this->assertSame($result, [1, 2]);
     }
 
     public function testFindWithDefaultNameFields(): void
@@ -123,11 +126,11 @@ final class DirectoryTest extends TestCase
             'ldap_directory_middle_name_property' => null,
             'ldap_directory_last_name_property' => null,
         ]);
-        $filter = '(&(|(mail=jj*)(cid=jj*)(dn=jj*)(givenName=jj*)(sn=jj*)(pfn=jj*)(pmn=jj*)(pln=jj*)))';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
+        $filter = '(&(|(mail=jj*)(cid=jj*)(dn=jj*)(givenName=jj*)(sn=jj*)(pfn=jj*)(pmn=jj*)(pln=jj*)(ofm=jj*)))';
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1, 2]);
 
         $result = $this->obj->find(['jj']);
-        $this->assertSame($result, [1,2]);
+        $this->assertSame($result, [1, 2]);
     }
 
     public function testFindWithoutPreferredNameFields(): void
@@ -136,21 +139,22 @@ final class DirectoryTest extends TestCase
             'ldap_directory_preferred_first_name_property' => null,
             'ldap_directory_preferred_middle_name_property' => null,
             'ldap_directory_preferred_last_name_property' => null,
+            'ldap_directory_official_email_property' => null,
         ]);
         $filter = '(&(|(mail=jj*)(cid=jj*)(dn=jj*)(f=jj*)(l=jj*)(m=jj*)))';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1, 2]);
 
         $result = $this->obj->find(['jj']);
-        $this->assertSame($result, [1,2]);
+        $this->assertSame($result, [1, 2]);
     }
 
     public function testFindByLdapFilter(): void
     {
         $filter = '(one)(two)';
-        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1,2]);
+        $this->ldapManager->shouldReceive('search')->with($filter)->andReturn([1, 2]);
 
         $result = $this->obj->findByLdapFilter($filter);
-        $this->assertSame($result, [1,2]);
+        $this->assertSame($result, [1, 2]);
     }
 
     protected function setupConfigForSearch(array $overrides = []): void
@@ -164,6 +168,7 @@ final class DirectoryTest extends TestCase
             'ldap_directory_first_name_property' => 'f',
             'ldap_directory_middle_name_property' => 'm',
             'ldap_directory_last_name_property' => 'l',
+            'ldap_directory_official_email_property' => 'ofm',
         ];
         foreach (array_merge($defaults, $overrides) as $key => $value) {
             $this->config->shouldReceive('get')->once()

@@ -62,7 +62,7 @@ class Directory
     {
         $format = $this->getLdapFilterFormat();
         $filterTerms = array_map(
-            fn ($term) => sprintf($format, ldap_escape($term, "", LDAP_ESCAPE_FILTER)),
+            fn($term) => sprintf($format, ldap_escape($term, "", LDAP_ESCAPE_FILTER)),
             $searchTerms
         );
         $filterTermsString = implode('', $filterTerms);
@@ -99,6 +99,7 @@ class Directory
         $ldapMiddleNameProperty = $this->config->get('ldap_directory_middle_name_property');
         $ldapPreferredMiddleNameProperty = $this->config->get('ldap_directory_preferred_middle_name_property');
         $ldapPreferredLastNameProperty = $this->config->get('ldap_directory_preferred_last_name_property');
+        $ldapOfficialEmailProperty = $this->config->get('ldap_directory_official_email_property');
         $attributes = [
             'mail',
             $this->config->get('ldap_directory_campus_id_property'),
@@ -117,6 +118,9 @@ class Directory
         }
         if ($ldapPreferredLastNameProperty) {
             $attributes[] = $ldapPreferredLastNameProperty;
+        }
+        if ($ldapOfficialEmailProperty) {
+            $attributes[] = $ldapOfficialEmailProperty;
         }
         $filters = array_map(fn($term) => '(' . $term . '=%1$s*)', $attributes);
         return '(|' . implode('', $filters) . ')';
