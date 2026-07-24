@@ -56,6 +56,8 @@ jobs:
           push: true
           provenance: false #https://github.com/gabrieldemarmiesse/python-on-whales/issues/407
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha,scope=${{ matrix.image }}-${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}-${{ matrix.arch }}
   comment:
     permissions:
       issues: write
