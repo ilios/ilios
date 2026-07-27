@@ -41,6 +41,7 @@ class LdapManager
         $ldapPreferredFirstNameProperty = $this->config->get('ldap_directory_preferred_first_name_property');
         $ldapPreferredMiddleNameProperty = $this->config->get('ldap_directory_preferred_middle_name_property');
         $ldapPreferredLastNameProperty = $this->config->get('ldap_directory_preferred_last_name_property');
+        $ldapOfficialEmailProperty = $this->config->get('ldap_directory_official_email_property');
 
         $rhett = [];
         try {
@@ -68,6 +69,9 @@ class LdapManager
             }
             if ($ldapPreferredLastNameProperty) {
                 $attributes[$ldapPreferredLastNameProperty] = 'preferredLastName';
+            }
+            if ($ldapOfficialEmailProperty) {
+                $attributes[$ldapOfficialEmailProperty] = 'officialEmail';
             }
 
             foreach ($results as $userData) {
