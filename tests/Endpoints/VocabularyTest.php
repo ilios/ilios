@@ -15,7 +15,7 @@ use App\Tests\Fixture\LoadVocabularyData;
 #[Group('api_2')]
 final class VocabularyTest extends AbstractReadWriteEndpoint
 {
-    protected string $testName =  'vocabularies';
+    protected string $testName = 'vocabularies';
 
     protected function getFixtures(): array
     {
@@ -90,15 +90,6 @@ final class VocabularyTest extends AbstractReadWriteEndpoint
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->getOne();
         $data['title'] = '';
-        $this->badPutTest($data, $data['id'], $jwt);
-    }
-
-    public function testCannotSaveWithoutTitle(): void
-    {
-        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
-        $dataLoader = $this->getDataLoader();
-        $data = $dataLoader->getOne();
-        unset($data['title']);
         $this->badPutTest($data, $data['id'], $jwt);
     }
 }

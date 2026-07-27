@@ -210,7 +210,7 @@ abstract class AbstractEndpoint extends WebTestCase
             'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
         ];
 
-        if (! empty($jwt)) {
+        if (!empty($jwt)) {
             $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $jwt;
         }
 
@@ -245,7 +245,7 @@ abstract class AbstractEndpoint extends WebTestCase
     ): void {
         $headers = [];
 
-        if (! empty($jwt)) {
+        if (!empty($jwt)) {
             $headers['HTTP_X-JWT-Authorization'] = 'Token ' . $jwt;
         }
 
@@ -981,7 +981,7 @@ abstract class AbstractEndpoint extends WebTestCase
     protected function badPutTest(array $data, mixed $id, string $jwt, int $code = Response::HTTP_BAD_REQUEST): void
     {
         $endpoint = $this->getPluralName();
-        $responseKey = $this->getCamelCasedPluralName();
+        $responseKey = $this->getCamelCasedSingularName();
         $this->createJsonRequest(
             'PUT',
             $this->getUrl(
@@ -989,7 +989,7 @@ abstract class AbstractEndpoint extends WebTestCase
                 "app_api_{$endpoint}_put",
                 ['version' => $this->apiVersion, 'id' => $id]
             ),
-            json_encode([$responseKey => [$data]]),
+            json_encode([$responseKey => $data]),
             $jwt
         );
 
@@ -1586,6 +1586,6 @@ abstract class AbstractEndpoint extends WebTestCase
 
     protected function pruneData(array $data): array
     {
-        return array_filter($data, fn($v) => ! is_null($v));
+        return array_filter($data, fn($v) => !is_null($v));
     }
 }
