@@ -185,7 +185,7 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
             ->with($jwt)
             ->andReturn($canCreateUsers);
         $this->jsonWebTokenManagerMock
-            ->shouldReceive('getUserTokensApplicationScopeFromToken')
+            ->shouldReceive('getAudienceClaimsFromToken')
             ->with($jwt)
             ->andReturn($applicationScope);
         $token = $this->authenticator->createToken($passportMock, 'main');

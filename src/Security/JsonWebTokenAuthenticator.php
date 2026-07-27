@@ -87,7 +87,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
             );
             $token->setAttribute(
                 'aud',
-                $this->jwtManager->getUserTokensApplicationScopeFromToken($jwt)
+                $this->jwtManager->getAudienceClaimsFromToken($jwt)
             );
         }
         return $token;

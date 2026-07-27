@@ -174,7 +174,7 @@ class JsonWebTokenManager
         return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
     }
 
-    public function getUserTokensApplicationScopeFromToken(string $jwt): string
+    public function getAudienceClaimsFromToken(string $jwt): string
     {
         $arr = $this->decode($jwt);
         if (!array_key_exists('aud', $arr)) {
@@ -337,7 +337,7 @@ class JsonWebTokenManager
             // we're taking the 'audience' value straight from the given token instead of the given value.
             // in other words, one input arg can override another one in the process. no ideal.
             // TODO: clean this up [ST 2026/07/13]
-            $audience = $this->getUserTokensApplicationScopeFromToken($refreshToken);
+            $audience = $this->getAudienceClaimsFromToken($refreshToken);
         }
 
         return [
