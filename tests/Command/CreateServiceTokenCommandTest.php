@@ -192,7 +192,6 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
     }
     public function testCreateServiceTokenWithUserTokensApplicationScope(): void
     {
-        $applicationScope = 'lti-dashboard';
         $serviceToken = new ServiceToken();
         $serviceToken->setId(1);
         $this->serviceTokenRepository->shouldReceive('create')
@@ -208,9 +207,9 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
                     ServiceTokenUser $tokenUser,
                     array $schoolIds,
                     bool $canCreateUserTokens,
-                    string $userTokensApplicationScope,
-                ) use ($applicationScope) {
-                    $this->assertEquals($userTokensApplicationScope, $applicationScope);
+                    bool $grantLtiDashboardAudienceClaim
+                ) {
+                    $this->assertTrue($grantLtiDashboardAudienceClaim);
                     return true;
                 }
             )->andReturn('abcde');
@@ -218,7 +217,7 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
         $this->commandTester->execute([
             'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
             'description' => 'lorem ipsum',
-            '--user-tokens-application-scope' => $applicationScope,
+            '--grant-lti-dashboard-audience-claim' => true,
         ]);
     }
     public function testCreateTokenWithCustomTtl(): void

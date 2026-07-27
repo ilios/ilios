@@ -359,11 +359,10 @@ final class AuthControllerTest extends WebTestCase
 
     public function testCreateUserTokenWithServiceToken(): void
     {
-        $applicationScope = 'lti-shmorgasboard';
         $jwt = $this->createJwtForEnabledServiceToken(
             $this->kernelBrowser,
             canCreateUserTokens: true,
-            userTokensApplicationScope: $applicationScope,
+            grantLtiDashboardAudienceClaim: true,
         );
 
         $container = $this->kernelBrowser->getContainer();
@@ -382,7 +381,7 @@ final class AuthControllerTest extends WebTestCase
         $this->assertArrayHasKey('jwt', $data);
         $jwt = $this->decode($data['jwt']);
         $this->assertEquals('ilios', $jwt['iss']);
-        $this->assertEquals($applicationScope, $jwt['aud']);
+        $this->assertEquals(JsonWebTokenManager::TOKEN_AUD_LTI_DASHBOARD, $jwt['aud']);
         $this->assertEquals(
             (int) $jwt['exp'],
             DateTime::createFromTimestamp((int) $jwt['iat'])

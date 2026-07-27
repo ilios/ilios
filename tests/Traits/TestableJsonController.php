@@ -253,20 +253,21 @@ trait TestableJsonController
      *
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
+     * @param bool $grantLtiDashboardAudienceClaim TRUE if the service token is granted the LTI-dashboard audience claim
      * @return string the generated JWT
      */
     protected function createJwtForEnabledServiceToken(
         KernelBrowser $browser,
         ?array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
-        ?string $userTokensApplicationScope = '',
+        bool $grantLtiDashboardAudienceClaim = false,
     ): string {
         return $this->createJwtFromServiceTokenId(
             $browser,
             ServiceTokenData::ENABLED_SERVICE_TOKEN_ID,
             $writeableSchoolIds,
             $canCreateUserTokens,
-            $userTokensApplicationScope,
+            $grantLtiDashboardAudienceClaim
         );
     }
 
@@ -276,7 +277,7 @@ trait TestableJsonController
      * @param int $serviceTokenId the service token id
      * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
-     * @param string|null $userTokensApplicationScope The name of the client application that this token is scoped to.
+     * @param bool $grantLtiDashboardAudienceClaim TRUE if the service token is granted the LTI-dashboard audience claim
      * @return string the generated JWT
      */
     protected function createJwtFromServiceTokenId(
@@ -284,7 +285,7 @@ trait TestableJsonController
         int $serviceTokenId,
         ?array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
-        ?string $userTokensApplicationScope = ''
+        bool $grantLtiDashboardAudienceClaim = false,
     ): string {
         $container = $browser->getContainer();
         /** @var JsonWebTokenManager $jwtManager */
@@ -293,7 +294,7 @@ trait TestableJsonController
             $serviceTokenId,
             $writeableSchoolIds,
             $canCreateUserTokens,
-            $userTokensApplicationScope
+            $grantLtiDashboardAudienceClaim
         );
     }
 

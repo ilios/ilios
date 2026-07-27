@@ -21,6 +21,9 @@ class JsonWebTokenManager
     public const string PREPEND_KEY = 'ilios.jwt.key.';
     private const string TOKEN_ISS = 'ilios';
     private const string TOKEN_AUD = 'ilios';
+
+    public const string TOKEN_AUD_LTI_DASHBOARD = 'lti-dashboard';
+
     public const string SIGNING_ALGORITHM = 'HS256';
 
     public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
@@ -217,13 +220,13 @@ class JsonWebTokenManager
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
         bool $canGenerateUserTokens = false,
-        ?string $userTokensApplicationScope = '',
+        bool $grantLtiDashboardAudienceClaim = false,
     ): string {
         $arr = $this->getServiceTokenDetails(
             $tokenUser,
             $writeableSchoolIds,
             $canGenerateUserTokens,
-            $userTokensApplicationScope
+            $grantLtiDashboardAudienceClaim ? self::TOKEN_AUD_LTI_DASHBOARD : self::TOKEN_AUD
         );
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
@@ -279,14 +282,14 @@ class JsonWebTokenManager
         int $tokenId,
         ?array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
-        ?string $userTokensApplicationScope = ''
+        bool $grantLtiDashboardAudienceClaim = false,
     ): string {
         $tokenUser = $this->serviceAccountUserProvider->createServiceTokenUserFromTokenId($tokenId);
         return $this->createJwtFromServiceTokenUser(
             $tokenUser,
             $writeableSchoolIds,
             $canCreateUserTokens,
-            $userTokensApplicationScope
+            $grantLtiDashboardAudienceClaim
         );
     }
 
@@ -356,11 +359,11 @@ class JsonWebTokenManager
         ServiceTokenUserInterface $tokenUser,
         ?array $writeableSchoolIds = null,
         bool $canGenerateUserTokens = false,
-        ?string $userTokensApplicationScope = '',
+        string $audience = self::TOKEN_AUD,
     ): array {
         $rhett = [
             'iss' => self::TOKEN_ISS,
-            'aud' => $userTokensApplicationScope ?: self::TOKEN_AUD,
+            'aud' => $audience,
             'iat' => $tokenUser->getCreatedAt()->format('U'),
             'exp' => $tokenUser->getExpiresAt()->format('U'),
              self::TOKEN_ID_KEY => $tokenUser->getId(),

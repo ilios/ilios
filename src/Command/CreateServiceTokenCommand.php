@@ -43,8 +43,8 @@ class CreateServiceTokenCommand extends Command
         #[Argument(description: "The token's description.")] string $description,
         #[Option(description: "Can this service token be used to generate user tokens?")]
         bool $allowUserTokenGeneration = false,
-        #[Option(description: 'The application scope for generated user tokens.')]
-        string $userTokensApplicationScope = '',
+        #[Option(description: 'Grant this token the LTI-dashboard audience claim?')]
+        bool $grantLtiDashboardAudienceClaim = false,
         #[Option(
             description: 'Schools that the token has write access to, provided as a comma-separated list of ids.',
             name: 'writeable-schools'
@@ -79,7 +79,7 @@ class CreateServiceTokenCommand extends Command
             $serviceTokenUser,
             $schoolIds,
             $allowUserTokenGeneration,
-            $userTokensApplicationScope
+            $grantLtiDashboardAudienceClaim
         );
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
