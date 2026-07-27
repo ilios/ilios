@@ -15,6 +15,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
@@ -94,7 +95,8 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         $passport = new Passport(
             new UserBadge((string) $userId),
             new CustomCredentials(
-                function ($token, SessionUserInterface $user) {
+                function ($token, UserInterface $user): bool {
+                    assert($user instanceof SessionUserInterface);
                     if (!$user->isEnabled()) {
                         throw new CustomUserMessageAuthenticationException(
                             'Invalid JSON Web Token: user is disabled'
@@ -130,7 +132,8 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                 fn(string $identifier) => $this->tokenUserProvider->loadUserByIdentifier($identifier)
             ),
             new CustomCredentials(
-                function ($token, ServiceTokenUserInterface $user) {
+                function ($token, UserInterface $user): bool {
+                    assert($user instanceof ServiceTokenUserInterface);
                     if (!$user->isEnabled()) {
                         throw new CustomUserMessageAuthenticationException(
                             'Invalid JSON Web Token: service token is disabled'
