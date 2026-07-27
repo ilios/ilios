@@ -14,7 +14,7 @@ class Archive
 {
     public static function extract(string $source, string $destination): void
     {
-        $tar = new Archive_Tar($source, true);
+        $tar = new Archive_Tar($source, 'gz');
         $tar->extract($destination);
     }
 }
