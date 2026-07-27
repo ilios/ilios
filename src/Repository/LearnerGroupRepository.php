@@ -54,8 +54,8 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
 
         foreach ($qb->getQuery()->getResult() as $arr) {
             $dtos[$arr['learnerGroupId']]->cohort = (int) $arr['cohortId'];
-            $dtos[$arr['learnerGroupId']]->parent = $arr['parentId'] ? (int)$arr['parentId'] : null;
-            $dtos[$arr['learnerGroupId']]->ancestor = $arr['ancestorId'] ? (int)$arr['ancestorId'] : null;
+            $dtos[$arr['learnerGroupId']]->parent = $arr['parentId'] ? (int) $arr['parentId'] : null;
+            $dtos[$arr['learnerGroupId']]->ancestor = $arr['ancestorId'] ? (int) $arr['ancestorId'] : null;
         }
 
         $dtos = $this->attachRelatedToDtos(
@@ -139,5 +139,40 @@ class LearnerGroupRepository extends ServiceEntityRepository implements DTORepos
         unset($criteria['terms']);
 
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
+    }
+
+    public function findErrorsInGroupTrees(): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('x.id')
+            ->addSelect('IDENTITY(x.parent) AS parentId')
+            ->where($qb->expr()->isNotNull('x.parent'))
+            ->from(LearnerGroup::class, 'x');
+
+        $groups = $qb->getQuery()->getArrayResult();
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('x.id AS id, u.id AS userId')
+            ->from(LearnerGroup::class, 'x')
+            ->join('x.users', 'u');
+
+        $groupMembership = [];
+        foreach ($qb->getQuery()->getArrayResult() as ['id' => $id, 'userId' => $userId]) {
+            $groupMembership[$id][] = $userId;
+        }
+
+        $errors = [];
+        foreach ($groups as ['id' => $id, 'parentId' => $parentId]) {
+            $diff = array_diff($groupMembership[$id] ?? [], $groupMembership[$parentId] ?? []);
+            if ($diff !== []) {
+                $errors[] = [
+                    'id' => $id,
+                    'parentId' => $parentId,
+                    'missingFromParent' => $diff,
+                ];
+            }
+        }
+
+        return $errors;
     }
 }
