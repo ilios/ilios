@@ -168,7 +168,7 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
     {
         $jwt = 'abcde';
         $schoolIds = [1, 2, 3];
-        $applicationScope = 'lti-micro-manager';
+        $applicationScope = ['lti-micro-manager'];
         $canCreateUsers = true;
         $userMock = m::mock(ServiceTokenUser::class);
         $userMock->shouldReceive('getRoles')->andReturn([]);

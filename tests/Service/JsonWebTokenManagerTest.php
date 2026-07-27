@@ -451,8 +451,26 @@ final class JsonWebTokenManagerTest extends KernelTestCase
             ['aud' => $tokenAudience, 'firstCreatedAt' => $tokenFirstCreatedAt, 'refreshCount' => $tokenRefreshCount]
         );
         $token = $this->obj->getUserTokenDetails($sessionUser, $ttl, $audience, $refreshToken);
-        $this->assertEquals($tokenAudience, $token['aud']);
+        $this->assertEquals([$tokenAudience], $token['aud']);
         $this->assertEquals($tokenFirstCreatedAt, $token['firstCreatedAt']);
         $this->assertEquals(++$tokenRefreshCount, $token['refreshCount']);
+    }
+
+    #[DataProvider('getAudienceClaimsFromTokenProvider')]
+    public function testGetAudienceClaimsFromToken(mixed $aud, array $expectedAud): void
+    {
+        $jwt = $this->buildJwt(['aud' => $aud]);
+        $this->assertEquals($expectedAud, $this->obj->getAudienceClaimsFromToken($jwt));
+    }
+
+    public static function getAudienceClaimsFromTokenProvider(): array
+    {
+        return [
+            [null, []],
+            [[], []],
+            ['', []],
+            [['ilios'], ['ilios']],
+            ['ilios', ['ilios']],
+        ];
     }
 }

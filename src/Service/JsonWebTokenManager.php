@@ -174,13 +174,27 @@ class JsonWebTokenManager
         return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
     }
 
-    public function getAudienceClaimsFromToken(string $jwt): string
+    public function getAudienceClaimsFromToken(string $jwt): array
     {
         $arr = $this->decode($jwt);
         if (!array_key_exists('aud', $arr)) {
-            return '';
+            return [];
         }
-        return $arr['aud'];
+        $aud = $arr['aud'];
+
+        if (empty($aud)) {
+            return [];
+        }
+
+        if (is_array($aud)) {
+            return $aud;
+        }
+
+        if (is_string($aud)) {
+            return [$aud];
+        }
+
+        return [];
     }
 
     protected function decode(string $jwt): array
